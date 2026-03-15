@@ -1,0 +1,36 @@
+{
+  "@@locale": "ko",
+  "appTitle": "노리고",
+  "homeTitle": "여행에 최적인 호텔을 찾아보세요",
+  "homeSubtitle": "가고 싶은 관광지를 입력하면 최적의 호텔을 추천",
+  "searchPlaceholder": "관광지 검색...",
+  "searchButton": "호텔 검색",
+  "tokyoTitle": "도쿄 / 간토",
+  "osakaTitle": "오사카 / 간사이",
+  "seoulTitle": "서울",
+  "busanTitle": "부산",
+  "quickPlanTitle": "인기 여행 플랜",
+  "quickPlanDesc": "원탭으로 여행을 시작하세요",
+  "quickPlanCta": "검색",
+  "staySearchTitle": "호텔 검색",
+  "tripTitle": "내 여행",
+  "guidesTitle": "여행 가이드",
+  "addToTrip": "여행에 추가",
+  "addToSearch": "검색에 추가",
+  "findHotels": "호텔 찾기",
+  "minutesAway": "{minutes}분",
+  "@minutesAway": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "perNight": "/ 박",
+  "viewOnMap": "지도에서 보기",
+  "popularSpots": "인기 관광지",
+  "moreInfo": "자세히 보기",
+  "bookNow": "예약하기",
+  "tabHome": "홈",
+  "tabSearch": "검색",
+  "tabTrip": "여행",
+  "tabGuide": "가이드"
+}

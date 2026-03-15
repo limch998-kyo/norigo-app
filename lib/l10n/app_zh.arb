@@ -1,0 +1,36 @@
+{
+  "@@locale": "zh",
+  "appTitle": "Norigo",
+  "homeTitle": "找到最适合你旅行的酒店",
+  "homeSubtitle": "输入景点，自动推荐最佳住宿区域",
+  "searchPlaceholder": "搜索景点...",
+  "searchButton": "搜索酒店",
+  "tokyoTitle": "东京 / 关东",
+  "osakaTitle": "大阪 / 关西",
+  "seoulTitle": "首尔",
+  "busanTitle": "釜山",
+  "quickPlanTitle": "热门旅行方案",
+  "quickPlanDesc": "一键开启旅行",
+  "quickPlanCta": "搜索",
+  "staySearchTitle": "酒店搜索",
+  "tripTitle": "我的行程",
+  "guidesTitle": "旅行指南",
+  "addToTrip": "添加到行程",
+  "addToSearch": "添加到搜索",
+  "findHotels": "查找酒店",
+  "minutesAway": "{minutes}分钟",
+  "@minutesAway": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "perNight": "/ 晚",
+  "viewOnMap": "在地图上查看",
+  "popularSpots": "热门景点",
+  "moreInfo": "了解更多",
+  "bookNow": "立即预订",
+  "tabHome": "首页",
+  "tabSearch": "搜索",
+  "tabTrip": "行程",
+  "tabGuide": "指南"
+}

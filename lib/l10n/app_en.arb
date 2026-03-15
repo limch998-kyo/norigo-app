@@ -1,0 +1,36 @@
+{
+  "@@locale": "en",
+  "appTitle": "Norigo",
+  "homeTitle": "Find the best hotel for your trip",
+  "homeSubtitle": "Enter tourist spots and we find the optimal hotel area",
+  "searchPlaceholder": "Search landmarks...",
+  "searchButton": "Search Hotels",
+  "tokyoTitle": "Tokyo / Kanto",
+  "osakaTitle": "Osaka / Kansai",
+  "seoulTitle": "Seoul",
+  "busanTitle": "Busan",
+  "quickPlanTitle": "Popular Travel Plans",
+  "quickPlanDesc": "Start your trip with one tap",
+  "quickPlanCta": "Search",
+  "staySearchTitle": "Hotel Search",
+  "tripTitle": "My Trip",
+  "guidesTitle": "Travel Guides",
+  "addToTrip": "Add to trip",
+  "addToSearch": "Add to search",
+  "findHotels": "Find Hotels",
+  "minutesAway": "{minutes} min",
+  "@minutesAway": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "perNight": "/ night",
+  "viewOnMap": "View on Map",
+  "popularSpots": "Popular Spots",
+  "moreInfo": "More info",
+  "bookNow": "Book Now",
+  "tabHome": "Home",
+  "tabSearch": "Search",
+  "tabTrip": "Trip",
+  "tabGuide": "Guide"
+}

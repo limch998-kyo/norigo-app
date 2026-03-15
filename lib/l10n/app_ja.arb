@@ -1,0 +1,36 @@
+{
+  "@@locale": "ja",
+  "appTitle": "Norigo",
+  "homeTitle": "旅行に最適なホテルを見つけよう",
+  "homeSubtitle": "観光地を入力すると最適なホテルエリアを提案",
+  "searchPlaceholder": "ランドマークを検索...",
+  "searchButton": "ホテルを検索",
+  "tokyoTitle": "東京・関東",
+  "osakaTitle": "大阪・関西",
+  "seoulTitle": "ソウル",
+  "busanTitle": "釜山",
+  "quickPlanTitle": "人気の旅行プラン",
+  "quickPlanDesc": "ワンタップで旅行を始めよう",
+  "quickPlanCta": "検索",
+  "staySearchTitle": "ホテル検索",
+  "tripTitle": "旅行プラン",
+  "guidesTitle": "旅行ガイド",
+  "addToTrip": "旅行に追加",
+  "addToSearch": "検索に追加",
+  "findHotels": "ホテルを探す",
+  "minutesAway": "{minutes}分",
+  "@minutesAway": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "perNight": "/ 泊",
+  "viewOnMap": "地図で見る",
+  "popularSpots": "人気スポット",
+  "moreInfo": "詳しく見る",
+  "bookNow": "予約する",
+  "tabHome": "ホーム",
+  "tabSearch": "検索",
+  "tabTrip": "旅行",
+  "tabGuide": "ガイド"
+}
