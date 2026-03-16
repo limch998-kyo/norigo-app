@@ -17,6 +17,8 @@ import '../../widgets/share_buttons.dart';
 import '../../widgets/skeleton_loader.dart';
 import '../../services/api_client.dart';
 import '../../providers/trip_provider.dart';
+import '../../providers/saved_searches_provider.dart';
+import 'package:uuid/uuid.dart';
 import '../../services/line_localize.dart';
 import '../../config/constants.dart';
 
@@ -30,42 +32,37 @@ class StayResultScreen extends ConsumerStatefulWidget {
 class _StayResultScreenState extends ConsumerState<StayResultScreen> {
   int _expandedIndex = 0;
 
-  void _saveSearchToTrip(BuildContext context, WidgetRef ref, StaySearchState state, String locale) {
-    final tripNotifier = ref.read(tripProvider.notifier);
+  void _saveSearch(BuildContext context, WidgetRef ref, StaySearchState state, String locale) {
+    final savedNotifier = ref.read(savedSearchesProvider.notifier);
+    final alreadySaved = ref.read(savedSearchesProvider.notifier).hasSearch(state.landmarks, state.region);
 
-    // Create or get active trip
-    final tripState = ref.read(tripProvider);
-    String tripId;
-    if (tripState.activeTrip != null) {
-      tripId = tripState.activeTrip!.id;
-    } else {
-      final country = AppConstants.koreaRegions.contains(state.region) ? 'korea' : 'japan';
-      tripId = tripNotifier.createTrip(
-        locale == 'ja' ? '旅行プラン' : locale == 'ko' ? '여행 플랜' : 'Trip Plan',
-        country: country,
-      );
+    if (alreadySaved) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(locale == 'ja' ? 'すでに保存済みです' : locale == 'ko' ? '이미 저장되어 있습니다' : 'Already saved'),
+      ));
+      return;
     }
 
-    // Add all landmarks to trip
-    int added = 0;
-    for (final landmark in state.landmarks) {
-      tripNotifier.addItem(landmark, tripId: tripId);
-      added++;
-    }
+    // Build descriptive title from landmark names
+    final title = state.landmarks.map((l) => l.name).join(' · ');
+
+    savedNotifier.add(SavedSearch(
+      id: const Uuid().v4(),
+      title: title,
+      landmarks: state.landmarks,
+      region: state.region,
+      mode: state.mode,
+      maxBudget: state.maxBudget,
+      checkIn: state.checkIn,
+      checkOut: state.checkOut,
+      savedAt: DateTime.now(),
+    ));
 
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(
-        locale == 'ja' ? '$added件のスポットを旅行に保存しました'
-            : locale == 'ko' ? '$added개 관광지를 여행에 저장했습니다'
-            : 'Saved $added spots to trip',
-      ),
+      content: Text(locale == 'ja' ? '検索を保存しました' : locale == 'ko' ? '검색을 저장했습니다' : 'Search saved'),
       action: SnackBarAction(
-        label: locale == 'ja' ? '確認' : locale == 'ko' ? '확인' : 'View',
-        onPressed: () {
-          // Switch to trip tab
-          final shell = context.findAncestorStateOfType<State>();
-          // Can't directly switch tab from here, but snackbar guides user
-        },
+        label: locale == 'ja' ? '旅行タブで確認' : locale == 'ko' ? '여행 탭에서 확인' : 'View in Trip',
+        onPressed: () {},
       ),
     ));
   }
@@ -117,12 +114,16 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
         title: Text(locale == 'ja' ? '推薦宿泊エリア' : locale == 'ko' ? '추천 숙박 지역' : 'Recommended Areas'),
         leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => notifier.clearResult()),
         actions: [
-          // Save to trip button
-          IconButton(
-            icon: const Icon(Icons.bookmark_outline, size: 20),
-            tooltip: locale == 'ja' ? '保存' : locale == 'ko' ? '저장' : 'Save',
-            onPressed: () => _saveSearchToTrip(context, ref, state, locale),
-          ),
+          // Save search button (changes icon when saved)
+          Builder(builder: (ctx) {
+            final isSaved = ref.watch(savedSearchesProvider.notifier).hasSearch(state.landmarks, state.region);
+            return IconButton(
+              icon: Icon(isSaved ? Icons.bookmark : Icons.bookmark_outline, size: 20,
+                color: isSaved ? AppTheme.primary : null),
+              tooltip: locale == 'ja' ? '保存' : locale == 'ko' ? '저장' : 'Save',
+              onPressed: isSaved ? null : () => _saveSearch(context, ref, state, locale),
+            );
+          }),
           // Edit search button
           Padding(
             padding: const EdgeInsets.only(right: 8),
