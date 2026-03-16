@@ -78,11 +78,12 @@ class StayRecommendResult {
   });
 
   factory StayRecommendResult.fromJson(Map<String, dynamic> json) {
+    // API returns 'results' not 'areas'
+    final areaList = json['results'] as List<dynamic>? ?? json['areas'] as List<dynamic>? ?? [];
     return StayRecommendResult(
-      areas: (json['areas'] as List<dynamic>?)
-              ?.map((e) => StayArea.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
+      areas: areaList
+              .map((e) => StayArea.fromJson(e as Map<String, dynamic>))
+              .toList(),
       split: json['split'] as bool? ?? false,
       splitAreas: (json['splitAreas'] as List<dynamic>?)
           ?.map((e) => StayArea.fromJson(e as Map<String, dynamic>))

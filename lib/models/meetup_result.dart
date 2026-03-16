@@ -151,12 +151,13 @@ class MeetupResult {
   const MeetupResult({required this.stations});
 
   factory MeetupResult.fromJson(Map<String, dynamic> json) {
+    // API returns 'results' not 'stations'
+    final list = json['results'] as List<dynamic>? ?? json['stations'] as List<dynamic>? ?? [];
     return MeetupResult(
-      stations: (json['stations'] as List<dynamic>?)
-              ?.map((e) =>
+      stations: list
+              .map((e) =>
                   RecommendedStation.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
+              .toList(),
     );
   }
 }

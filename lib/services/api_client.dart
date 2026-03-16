@@ -44,7 +44,16 @@ class ApiClient {
       AppConstants.stationSearchEndpoint,
       queryParameters: params,
     );
-    final list = response.data as List;
+    final data = response.data;
+    // API returns {results: [...]} or flat array
+    final List list;
+    if (data is Map<String, dynamic> && data.containsKey('results')) {
+      list = data['results'] as List;
+    } else if (data is List) {
+      list = data;
+    } else {
+      return [];
+    }
     return list.map((e) => Station.fromJson(e as Map<String, dynamic>)).toList();
   }
 
