@@ -28,103 +28,123 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
     super.initState();
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..addJavaScriptChannel('FlutterTrip', onMessageReceived: _onTripMessage)
+      ..addJavaScriptChannel('NorigoApp', onMessageReceived: _onMessage)
       ..setNavigationDelegate(NavigationDelegate(
         onPageStarted: (_) => setState(() => _loading = true),
         onPageFinished: (_) {
           setState(() => _loading = false);
-          // Inject JS to intercept "Add to trip" button clicks
-          _injectTripInterceptor();
+          _injectInterceptor();
         },
         onProgress: (p) => setState(() => _progress = p / 100),
+        // Intercept spot page navigation
+        onNavigationRequest: (request) {
+          final url = request.url;
+          // Let guide pages load normally
+          if (url.contains('/guide/')) return NavigationDecision.navigate;
+          // Open external links in browser
+          if (!url.contains('norigo.app')) return NavigationDecision.navigate;
+          return NavigationDecision.navigate;
+        },
       ))
       ..loadRequest(Uri.parse('https://norigo.app/${widget.locale}/guide/${widget.slug}'));
   }
 
-  /// Inject JavaScript that intercepts the trip provider's addItem calls
-  void _injectTripInterceptor() {
+  void _injectInterceptor() {
     _controller.runJavaScript('''
-      // Override the trip provider to send data to Flutter
-      (function() {
-        // Watch for "Add to trip" button clicks
-        document.addEventListener('click', function(e) {
-          const btn = e.target.closest('button');
-          if (!btn) return;
-
-          // Check if it's an "add to trip" button
-          const text = btn.textContent.trim();
+    (function() {
+      // MutationObserver to catch dynamically added buttons
+      function interceptButtons() {
+        document.querySelectorAll('button').forEach(function(btn) {
+          if (btn.dataset.norigoIntercepted) return;
+          var text = btn.textContent || '';
           if (text.includes('旅行に追加') || text.includes('여행에 추가') || text.includes('Add to trip') || text.includes('添加到行程')) {
-            // Find the spot card parent to get landmark data
-            const card = btn.closest('[class*="rounded"]');
-            if (!card) return;
+            btn.dataset.norigoIntercepted = '1';
 
-            // Try to extract data from the page
-            const link = card.querySelector('a[href*="/spot/"]');
-            const slug = link ? link.getAttribute('href').split('/spot/')[1] : '';
-            const nameEl = card.querySelector('h3');
-            const name = nameEl ? nameEl.textContent.trim() : '';
+            // Clone and replace to remove React event handlers
+            var newBtn = btn.cloneNode(true);
+            newBtn.addEventListener('click', function(e) {
+              e.preventDefault();
+              e.stopPropagation();
+              e.stopImmediatePropagation();
 
-            if (slug && name) {
-              // Send to Flutter
-              FlutterTrip.postMessage(JSON.stringify({
-                action: 'add',
-                slug: slug,
-                name: name,
-              }));
+              // Find parent card to extract data
+              var card = this.closest('.rounded-xl, .rounded-lg, [class*="rounded"]');
+              var link = card ? card.querySelector('a[href*="/spot/"]') : null;
+              var slug = link ? link.getAttribute('href').replace(/.*\\/spot\\//, '') : '';
+              var h3 = card ? card.querySelector('h3') : null;
+              var name = h3 ? h3.textContent.trim() : '';
 
-              // Visual feedback
-              btn.style.backgroundColor = '#22c55e';
-              btn.textContent = '✓ ' + (document.documentElement.lang === 'ko' ? '추가됨' : '追加済み');
-              setTimeout(() => {
-                btn.style.backgroundColor = '';
-              }, 2000);
+              if (slug || name) {
+                // Send to Flutter
+                NorigoApp.postMessage(JSON.stringify({
+                  action: 'addToTrip',
+                  slug: slug || name.toLowerCase().replace(/\\s+/g, '-'),
+                  name: name || slug
+                }));
+
+                // Visual feedback
+                this.style.backgroundColor = '#16a34a';
+                this.style.color = 'white';
+                this.style.borderColor = '#16a34a';
+                this.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:4px"><polyline points="20 6 9 17 4 12"></polyline></svg>' +
+                  (document.documentElement.lang === 'ko' ? '추가됨' : document.documentElement.lang === 'ja' ? '追加済み' : 'Added');
+              }
+            }, true);
+
+            if (btn.parentNode) {
+              btn.parentNode.replaceChild(newBtn, btn);
             }
           }
-        }, true);
-      })();
+        });
+      }
+
+      // Run immediately and observe DOM changes
+      interceptButtons();
+      var observer = new MutationObserver(function() { interceptButtons(); });
+      observer.observe(document.body, { childList: true, subtree: true });
+    })();
     ''');
   }
 
-  /// Handle messages from WebView JavaScript
-  void _onTripMessage(JavaScriptMessage message) {
+  void _onMessage(JavaScriptMessage message) {
     try {
       final data = jsonDecode(message.message) as Map<String, dynamic>;
-      if (data['action'] == 'add') {
-        final slug = data['slug'] as String;
-        final name = data['name'] as String;
-        final locale = widget.locale;
+      if (data['action'] == 'addToTrip') {
+        final slug = data['slug'] as String? ?? '';
+        final name = data['name'] as String? ?? '';
+        if (name.isEmpty) return;
 
-        // We don't have lat/lng from the page, but we can look up from guide data
-        // For now, add with region derived from guide slug
         final region = _guessRegion();
+        final locale = widget.locale;
 
         ref.read(tripProvider.notifier).addItem(
           Landmark(slug: slug, name: name, lat: 0, lng: 0, region: region),
           locale: locale,
         );
 
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Row(children: [
-            const Icon(Icons.check_circle, color: Colors.white, size: 16),
-            const SizedBox(width: 8),
-            Expanded(child: Text(locale == 'ja' ? '$name → 旅行プランに追加' : locale == 'ko' ? '$name → 여행 플랜에 추가됨' : '$name → Added to trip plan')),
-          ]),
-          duration: const Duration(seconds: 2),
-          action: SnackBarAction(
-            label: locale == 'ja' ? '確認' : locale == 'ko' ? '확인' : 'View',
-            textColor: Colors.white,
-            onPressed: () {}, // User can check trip tab
-          ),
-        ));
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Row(children: [
+              const Icon(Icons.check_circle, color: Colors.white, size: 16),
+              const SizedBox(width: 8),
+              Expanded(child: Text(
+                locale == 'ja' ? '$name → 旅行プランに追加'
+                    : locale == 'ko' ? '$name → 여행 플랜에 추가됨'
+                    : '$name → Added to trip plan',
+              )),
+            ]),
+            duration: const Duration(seconds: 2),
+          ));
+        }
       }
     } catch (_) {}
   }
 
   String _guessRegion() {
-    final slug = widget.slug;
-    if (slug.contains('seoul') || slug.contains('myeongdong') || slug.contains('hongdae') || slug.contains('gangnam') || slug.contains('insadong') || slug.contains('itaewon') || slug.contains('gyeongbok') || slug.contains('bukchon')) return 'seoul';
-    if (slug.contains('busan') || slug.contains('haeundae') || slug.contains('gwangalli') || slug.contains('gamcheon') || slug.contains('nampo') || slug.contains('haedong') || slug.contains('taejong')) return 'busan';
-    if (slug.contains('osaka') || slug.contains('dotonbori') || slug.contains('kiyomizu') || slug.contains('fushimi') || slug.contains('arashiyama') || slug.contains('nara') || slug.contains('kinkaku') || slug.contains('nijo')) return 'kansai';
+    final s = widget.slug;
+    if (s.contains('seoul') || s.contains('myeongdong') || s.contains('hongdae') || s.contains('gangnam') || s.contains('insadong') || s.contains('itaewon') || s.contains('gyeongbok') || s.contains('bukchon')) return 'seoul';
+    if (s.contains('busan') || s.contains('haeundae') || s.contains('gwangalli') || s.contains('gamcheon') || s.contains('nampo') || s.contains('haedong') || s.contains('taejong')) return 'busan';
+    if (s.contains('dotonbori') || s.contains('kiyomizu') || s.contains('fushimi') || s.contains('arashiyama') || s.contains('nara') || s.contains('kinkaku') || s.contains('nijo')) return 'kansai';
     return 'kanto';
   }
 
