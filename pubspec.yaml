@@ -47,6 +47,7 @@ dependencies:
 
   # SVG rendering
   flutter_svg: ^2.0.17
+  webview_flutter: ^4.13.1
 
 dev_dependencies:
   flutter_test:

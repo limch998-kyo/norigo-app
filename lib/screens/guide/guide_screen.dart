@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../config/theme.dart';
 import '../../providers/app_providers.dart';
+import 'guide_detail_screen.dart';
 
 class GuideScreen extends ConsumerStatefulWidget {
   const GuideScreen({super.key});
@@ -105,12 +105,10 @@ class _GuideScreenState extends ConsumerState<GuideScreen> {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 12),
                         child: GestureDetector(
-                          onTap: () async {
-                            // Open guide in browser
-                            final url = 'https://norigo.app/$locale/guide/$slug';
-                            try {
-                              await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-                            } catch (_) {}
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => GuideDetailScreen(slug: slug, title: title, locale: locale),
+                            ));
                           },
                           child: Container(
                             decoration: BoxDecoration(

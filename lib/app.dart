@@ -11,6 +11,7 @@ import 'screens/meetup/meetup_result_screen.dart';
 import 'screens/trip/trip_screen.dart';
 import 'screens/settings/settings_screen.dart';
 import 'screens/guide/guide_screen.dart';
+import 'widgets/trip_basket.dart';
 import 'providers/stay_provider.dart';
 import 'providers/meetup_provider.dart';
 
@@ -60,7 +61,8 @@ class _MainShellState extends ConsumerState<MainShell> {
 
     return Scaffold(
       body: SafeArea(
-        child: IndexedStack(
+        child: Stack(children: [
+          IndexedStack(
           index: _currentIndex,
           children: [
             // 0: Home (always built)
@@ -87,6 +89,9 @@ class _MainShellState extends ConsumerState<MainShell> {
               const SizedBox.shrink(),
           ],
         ),
+        // Floating trip basket button
+        TripBasketButton(onSwitchTab: switchToTab),
+      ]),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
