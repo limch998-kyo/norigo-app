@@ -514,24 +514,30 @@ class _VoteButtonState extends State<_VoteButton> {
   @override
   Widget build(BuildContext context) {
     if (_pollUrl != null) {
-      return OutlinedButton.icon(
-        onPressed: () async {
-          await Clipboard.setData(ClipboardData(text: _pollUrl!));
-          if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('リンクをコピーしました')));
-        },
-        icon: const Icon(Icons.how_to_vote, size: 16),
-        label: const Text('投票リンクをコピー', style: TextStyle(fontSize: 12)),
-        style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 10)),
+      return SizedBox(
+        width: double.infinity,
+        child: OutlinedButton.icon(
+          onPressed: () async {
+            await Clipboard.setData(ClipboardData(text: _pollUrl!));
+            if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('リンクをコピーしました')));
+          },
+          icon: const Icon(Icons.how_to_vote, size: 14),
+          label: const FittedBox(child: Text('投票リンクをコピー', style: TextStyle(fontSize: 12))),
+          style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12)),
+        ),
       );
     }
 
-    return OutlinedButton.icon(
-      onPressed: _creating ? null : _createPoll,
-      icon: _creating
-          ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
-          : const Icon(Icons.how_to_vote, size: 16),
-      label: Text(_creating ? '作成中...' : 'お店の投票を作成', style: const TextStyle(fontSize: 12)),
-      style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 10)),
+    return SizedBox(
+      width: double.infinity,
+      child: OutlinedButton.icon(
+        onPressed: _creating ? null : _createPoll,
+        icon: _creating
+            ? const SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2))
+            : const Icon(Icons.how_to_vote, size: 14),
+        label: FittedBox(child: Text(_creating ? '作成中...' : 'お店の投票を作成', style: const TextStyle(fontSize: 12))),
+        style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12)),
+      ),
     );
   }
 }
