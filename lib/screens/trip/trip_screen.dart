@@ -57,6 +57,9 @@ class TripScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          // ── My Spots (active trip items) ──
+          _MySpotsSection(locale: locale, state: state, notifier: notifier, onSwitchTab: onSwitchTab, ref: ref),
+
           // ── Saved Searches ──
           _SavedSearchesSection(locale: locale, ref: ref, onSwitchTab: onSwitchTab),
 
@@ -79,12 +82,19 @@ class TripScreen extends ConsumerWidget {
                 onTap: () => notifier.setActiveTrip(trip.id),
                 onRename: () => _showRenameDialog(context, notifier, trip, locale),
                 onDelete: () => _showDeleteDialog(context, notifier, trip, locale),
-                onFindHotels: items.length >= 2 ? () { notifier.getItemsAsLandmarks(trip.id); } : null,
+                onFindHotels: items.length >= 2 ? () {
+                  final landmarks = notifier.getItemsAsLandmarks(trip.id);
+                  final stayNotifier = ref.read(staySearchProvider.notifier);
+                  stayNotifier.reset();
+                  for (final l in landmarks) { stayNotifier.addLandmark(l); }
+                  stayNotifier.setBudget('under30000');
+                  onSwitchTab?.call(1);
+                } : null,
               );
             }),
           ],
 
-          if (trips.isEmpty)
+          if (trips.isEmpty && state.items.isEmpty)
             _EmptyState(locale: locale),
         ],
       ),
@@ -328,6 +338,117 @@ class _TripCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _MySpotsSection extends StatelessWidget {
+  final String locale;
+  final TripState state;
+  final TripNotifier notifier;
+  final void Function(int)? onSwitchTab;
+  final WidgetRef ref;
+
+  const _MySpotsSection({required this.locale, required this.state, required this.notifier, this.onSwitchTab, required this.ref});
+
+  @override
+  Widget build(BuildContext context) {
+    final items = state.activeItems;
+    if (items.isEmpty) return const SizedBox.shrink();
+
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(children: [
+          Icon(Icons.luggage, size: 18, color: AppTheme.primary),
+          const SizedBox(width: 6),
+          Text(
+            locale == 'ja' ? 'マイスポット' : locale == 'ko' ? '내 관광지' : 'My Spots',
+            style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          const Spacer(),
+          Text('${items.length}${locale == 'ja' ? '件' : locale == 'ko' ? '개' : ''}',
+            style: TextStyle(fontSize: 13, color: AppTheme.mutedForeground)),
+        ]),
+        const SizedBox(height: 8),
+
+        // Spot list
+        ...items.asMap().entries.map((e) {
+          final i = e.key;
+          final item = e.value;
+          return Container(
+            margin: const EdgeInsets.only(bottom: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: AppTheme.border),
+            ),
+            child: Row(children: [
+              CircleAvatar(
+                radius: 14,
+                backgroundColor: AppTheme.primaryBg,
+                child: Text('${i + 1}', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.primary)),
+              ),
+              const SizedBox(width: 10),
+              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(item.name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                Text(
+                  _regionLabel(item.region),
+                  style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground),
+                ),
+              ])),
+              IconButton(
+                icon: Icon(Icons.close, size: 16, color: AppTheme.mutedForeground),
+                visualDensity: VisualDensity.compact,
+                onPressed: () => notifier.removeItem(item.slug, item.tripId),
+              ),
+            ]),
+          );
+        }),
+
+        // Action buttons
+        if (items.length >= 2)
+          Padding(
+            padding: const EdgeInsets.only(top: 6),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  final landmarks = notifier.getItemsAsLandmarks(state.activeTripId!);
+                  final stayNotifier = ref.read(staySearchProvider.notifier);
+                  stayNotifier.reset();
+                  for (final l in landmarks) { stayNotifier.addLandmark(l); }
+                  final budget = locale == 'ja' ? 'under20000' : locale == 'ko' ? 'under30000' : 'under50000';
+                  stayNotifier.setBudget(budget);
+                  final checkIn = DateTime.now().add(const Duration(days: 30));
+                  stayNotifier.setDates(checkIn.toIso8601String().substring(0, 10),
+                    checkIn.add(const Duration(days: 3)).toIso8601String().substring(0, 10));
+                  onSwitchTab?.call(1);
+                },
+                icon: const Icon(Icons.hotel, size: 16),
+                label: Text(
+                  locale == 'ja' ? 'この${items.length}スポットでホテル検索'
+                      : locale == 'ko' ? '이 ${items.length}개로 호텔 검색'
+                      : 'Search hotels for ${items.length} spots',
+                  style: const TextStyle(fontSize: 13),
+                ),
+              ),
+            ),
+          ),
+        const SizedBox(height: 16),
+      ],
+    );
+  }
+
+  String _regionLabel(String region) {
+    const labels = {
+      'kanto': {'ja': '東京・関東', 'ko': '도쿄/간토', 'en': 'Tokyo'},
+      'kansai': {'ja': '大阪・関西', 'ko': '오사카/간사이', 'en': 'Osaka'},
+      'seoul': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul'},
+      'busan': {'ja': '釜山', 'ko': '부산', 'en': 'Busan'},
+    };
+    return labels[region]?[locale] ?? region;
   }
 }
 
