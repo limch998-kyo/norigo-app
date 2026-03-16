@@ -10,6 +10,7 @@ import 'screens/meetup/meetup_search_screen.dart';
 import 'screens/meetup/meetup_result_screen.dart';
 import 'screens/trip/trip_screen.dart';
 import 'screens/settings/settings_screen.dart';
+import 'screens/guide/guide_screen.dart';
 import 'providers/stay_provider.dart';
 import 'providers/meetup_provider.dart';
 
@@ -79,9 +80,9 @@ class _MainShellState extends ConsumerState<MainShell> {
               TripScreen(onSwitchTab: switchToTab)
             else
               const SizedBox.shrink(),
-            // 4: Settings (lazy)
+            // 4: Guide (lazy)
             if (_visitedTabs.contains(4))
-              const SettingsScreen()
+              const GuideScreen()
             else
               const SizedBox.shrink(),
           ],
@@ -100,8 +101,8 @@ class _MainShellState extends ConsumerState<MainShell> {
             label: locale == 'ja' ? '集合' : locale == 'ko' ? '만남' : 'Meetup'),
           BottomNavigationBarItem(icon: const Icon(Icons.luggage_outlined), activeIcon: const Icon(Icons.luggage),
             label: locale == 'ja' ? '旅行' : locale == 'ko' ? '여행' : 'Trip'),
-          BottomNavigationBarItem(icon: const Icon(Icons.settings_outlined), activeIcon: const Icon(Icons.settings),
-            label: locale == 'ja' ? '設定' : locale == 'ko' ? '설정' : 'Settings'),
+          BottomNavigationBarItem(icon: const Icon(Icons.menu_book_outlined), activeIcon: const Icon(Icons.menu_book),
+            label: locale == 'ja' ? 'ガイド' : locale == 'ko' ? '가이드' : 'Guide'),
         ],
       ),
     );

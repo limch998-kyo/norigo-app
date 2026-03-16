@@ -143,31 +143,31 @@ class HomeScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 32),
 
-          // ── Quick Plans (hotel-focused, not shown for ja meetup users) ──
-          if (locale != 'ja') ...[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: QuickPlanCards(
-                onPlanSelected: (planId, region, landmarks) {
-                  final notifier = ref.read(staySearchProvider.notifier);
-                  notifier.reset();
-                  for (final l in landmarks) {
-                    notifier.addLandmark(l);
-                  }
-                  notifier.setRegion(region);
-                  notifier.setBudget('under30000');
-                  final checkIn = DateTime.now().add(const Duration(days: 30));
-                  final checkOut = checkIn.add(const Duration(days: 3));
-                  notifier.setDates(
-                    checkIn.toIso8601String().substring(0, 10),
-                    checkOut.toIso8601String().substring(0, 10),
+          // ── Quick Plans (all locales, budget varies by locale) ──
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: QuickPlanCards(
+              onPlanSelected: (planId, region, landmarks) {
+                final notifier = ref.read(staySearchProvider.notifier);
+                notifier.reset();
+                for (final l in landmarks) {
+                  notifier.addLandmark(l);
+                }
+                notifier.setRegion(region);
+                // Budget by locale: ja=under20000, ko=under30000, others=under50000
+                final budget = locale == 'ja' ? 'under20000' : locale == 'ko' ? 'under30000' : 'under50000';
+                notifier.setBudget(budget);
+                final checkIn = DateTime.now().add(const Duration(days: 30));
+                final checkOut = checkIn.add(const Duration(days: 3));
+                notifier.setDates(
+                  checkIn.toIso8601String().substring(0, 10),
+                  checkOut.toIso8601String().substring(0, 10),
                   );
                   onSwitchTab?.call(1);
                 },
               ),
-            ),
-            const SizedBox(height: 32),
-          ],
+          ),
+          const SizedBox(height: 32),
 
           // ── Popular Spots ──
           Padding(
@@ -183,7 +183,13 @@ class HomeScreen extends ConsumerWidget {
           // ── Korea Banner ──
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: _KoreaBanner(locale: locale, onTap: () => onSwitchTab?.call(1)),
+            child: _KoreaBanner(locale: locale, onTap: () {
+              // Switch to stay tab with Seoul region
+              final notifier = ref.read(staySearchProvider.notifier);
+              notifier.reset();
+              notifier.setRegion('seoul');
+              onSwitchTab?.call(1);
+            }),
           ),
           const SizedBox(height: 32),
 
