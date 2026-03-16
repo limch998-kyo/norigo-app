@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../l10n/app_localizations.dart';
-import '../../models/landmark.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/stay_provider.dart';
 import '../../widgets/landmark_input_list.dart';
@@ -73,11 +72,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
         ? ['seoul', 'busan', 'kanto', 'kansai']
         : AppConstants.allRegions;
 
-    // Build landmark slots (min 2 empty)
-    final landmarkSlots = List<Landmark?>.from(state.landmarks);
-    while (landmarkSlots.length < 2) {
-      landmarkSlots.add(null);
-    }
+    final landmarkSlots = state.slots;
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.staySearchTitle)),
@@ -116,15 +111,9 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
             LandmarkInputList(
               landmarks: landmarkSlots,
               onSearch: (q) => api.searchLandmarks(q, region: state.region, locale: locale),
-              onSelect: (index, landmark) => notifier.addLandmark(landmark),
-              onRemove: (index) {
-                if (index < state.landmarks.length) {
-                  notifier.removeLandmark(state.landmarks[index].slug);
-                }
-              },
-              onAdd: () {
-                // Expand by adding null slot (handled by parent state)
-              },
+              onSelect: (index, landmark) => notifier.setLandmark(index, landmark),
+              onRemove: (index) => notifier.removeSlot(index),
+              onAdd: () => notifier.addSlot(),
               locale: locale,
             ),
             const SizedBox(height: 20),

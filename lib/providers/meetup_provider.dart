@@ -4,7 +4,8 @@ import '../models/meetup_result.dart';
 import 'app_providers.dart';
 
 class MeetupSearchState {
-  final List<Station> stations;
+  /// Nullable slots — null means empty input field
+  final List<Station?> slots;
   final String region;
   final String mode;
   final String? category;
@@ -15,7 +16,7 @@ class MeetupSearchState {
   final String? error;
 
   const MeetupSearchState({
-    this.stations = const [],
+    this.slots = const [null, null],
     this.region = 'kanto',
     this.mode = 'centroid',
     this.category,
@@ -26,8 +27,11 @@ class MeetupSearchState {
     this.error,
   });
 
+  /// Only filled (non-null) stations
+  List<Station> get filledStations => slots.whereType<Station>().toList();
+
   MeetupSearchState copyWith({
-    List<Station>? stations,
+    List<Station?>? slots,
     String? region,
     String? mode,
     String? category,
@@ -42,7 +46,7 @@ class MeetupSearchState {
     bool clearResult = false,
   }) {
     return MeetupSearchState(
-      stations: stations ?? this.stations,
+      slots: slots ?? this.slots,
       region: region ?? this.region,
       mode: mode ?? this.mode,
       category: clearCategory ? null : (category ?? this.category),
@@ -60,17 +64,25 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
 
   MeetupSearchNotifier(this._ref) : super(const MeetupSearchState());
 
-  void addStation(Station station) {
-    if (state.stations.any((s) => s.id == station.id)) return;
-    if (state.stations.length >= 5) return;
-    state = state.copyWith(stations: [...state.stations, station]);
+  void setStation(int index, Station station) {
+    final newSlots = List<Station?>.from(state.slots);
+    if (index < newSlots.length) {
+      newSlots[index] = station;
+    }
+    state = state.copyWith(slots: newSlots);
     _autoDetectRegion();
   }
 
-  void removeStation(String stationId) {
-    state = state.copyWith(
-      stations: state.stations.where((s) => s.id != stationId).toList(),
-    );
+  void removeSlot(int index) {
+    if (state.slots.length <= 2) return; // min 2
+    final newSlots = List<Station?>.from(state.slots);
+    newSlots.removeAt(index);
+    state = state.copyWith(slots: newSlots);
+  }
+
+  void addSlot() {
+    if (state.slots.length >= 10) return; // max 10
+    state = state.copyWith(slots: [...state.slots, null]);
   }
 
   void setRegion(String region) {
@@ -100,20 +112,21 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
   }
 
   void _autoDetectRegion() {
-    if (state.stations.isEmpty) return;
-    final firstRegion = state.stations.first.region;
-    state = state.copyWith(region: firstRegion);
+    final filled = state.filledStations;
+    if (filled.isEmpty) return;
+    state = state.copyWith(region: filled.first.region);
   }
 
   Future<void> search() async {
-    if (state.stations.length < 2) return;
+    final filled = state.filledStations;
+    if (filled.length < 2) return;
 
     state = state.copyWith(isLoading: true, clearError: true, clearResult: true);
 
     try {
       final api = _ref.read(apiClientProvider);
       final result = await api.getMeetupRecommendation(
-        stationIds: state.stations.map((s) => s.id).toList(),
+        stationIds: filled.map((s) => s.id).toList(),
         mode: state.mode,
         region: state.region,
         category: state.category,

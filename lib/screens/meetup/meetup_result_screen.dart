@@ -131,7 +131,7 @@ class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
             child: _showMap
                 ? _MeetupMapView(
                     recommended: result.stations,
-                    participants: state.stations,
+                    participants: state.filledStations,
                   )
                 : ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../models/station.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/meetup_provider.dart';
 import '../../widgets/station_input_list.dart';
@@ -18,20 +17,12 @@ class MeetupSearchScreen extends ConsumerWidget {
     final api = ref.read(apiClientProvider);
     final theme = Theme.of(context);
 
-    // Convert stations list to nullable list for input component
-    final stationSlots = List<Station?>.from(state.stations);
-    while (stationSlots.length < 2) {
-      stationSlots.add(null);
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          locale == 'ja'
-              ? '集合場所を探す'
-              : locale == 'ko'
-                  ? '만남역 찾기'
-                  : 'Find Meetup Station',
+          locale == 'ja' ? '集合場所を探す'
+              : locale == 'ko' ? '만남역 찾기'
+              : 'Find Meetup Station',
         ),
       ),
       body: SingleChildScrollView(
@@ -39,7 +30,7 @@ class MeetupSearchScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Region (Japan only)
+            // Region
             Row(
               children: ['kanto', 'kansai'].map((region) {
                 final isSelected = state.region == region;
@@ -50,10 +41,7 @@ class MeetupSearchScreen extends ConsumerWidget {
                   child: Padding(
                     padding: EdgeInsets.only(right: region == 'kanto' ? 8 : 0),
                     child: ChoiceChip(
-                      label: SizedBox(
-                        width: double.infinity,
-                        child: Text(label, textAlign: TextAlign.center),
-                      ),
+                      label: SizedBox(width: double.infinity, child: Text(label, textAlign: TextAlign.center)),
                       selected: isSelected,
                       onSelected: (_) => notifier.setRegion(region),
                     ),
@@ -63,31 +51,20 @@ class MeetupSearchScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 20),
 
-            // Station input list (2 empty fields by default)
+            // Station input
             Text(
-              locale == 'ja'
-                  ? '出発駅を入力 (2〜10人)'
-                  : locale == 'ko'
-                      ? '출발역 입력 (2~10명)'
-                      : 'Enter departure stations (2-10)',
+              locale == 'ja' ? '出発駅を入力 (2〜10人)'
+                  : locale == 'ko' ? '출발역 입력 (2~10명)'
+                  : 'Enter departure stations (2-10)',
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
             StationInputList(
-              stations: stationSlots,
+              stations: state.slots,
               onSearch: (q) => api.searchStations(q, region: state.region),
-              onSelect: (index, station) => notifier.addStation(station),
-              onRemove: (index) {
-                if (index < state.stations.length) {
-                  notifier.removeStation(state.stations[index].id);
-                }
-              },
-              onAdd: () {
-                // Just expand the list, user will fill in
-                notifier.addStation(Station(
-                  id: '', name: '', lat: 0, lng: 0, region: state.region,
-                ));
-              },
+              onSelect: (index, station) => notifier.setStation(index, station),
+              onRemove: (index) => notifier.removeSlot(index),
+              onAdd: () => notifier.addSlot(),
               locale: locale,
             ),
             const SizedBox(height: 20),
@@ -98,49 +75,41 @@ class MeetupSearchScreen extends ConsumerWidget {
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
-            ModeSelector(
-              selected: state.mode,
-              onChanged: (m) => notifier.setMode(m),
-              locale: locale,
-            ),
+            ModeSelector(selected: state.mode, onChanged: notifier.setMode, locale: locale),
             const SizedBox(height: 20),
 
-            // Category filter
+            // Category
             Text(
               locale == 'ja' ? 'ジャンル（任意）' : locale == 'ko' ? '장르 (선택)' : 'Category (optional)',
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
             Wrap(
-              spacing: 8,
-              runSpacing: 8,
+              spacing: 8, runSpacing: 8,
               children: AppConstants.categories.entries.map((entry) {
-                final isSelected = state.category == entry.key;
                 return ChoiceChip(
                   label: Text(entry.value[locale] ?? entry.value['en']!, style: const TextStyle(fontSize: 12)),
-                  selected: isSelected,
-                  onSelected: (selected) => notifier.setCategory(selected ? entry.key : null),
+                  selected: state.category == entry.key,
+                  onSelected: (s) => notifier.setCategory(s ? entry.key : null),
                   visualDensity: VisualDensity.compact,
                 );
               }).toList(),
             ),
             const SizedBox(height: 20),
 
-            // Budget filter
+            // Budget
             Text(
               locale == 'ja' ? '予算（任意）' : locale == 'ko' ? '예산 (선택)' : 'Budget (optional)',
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
             Wrap(
-              spacing: 8,
-              runSpacing: 8,
+              spacing: 8, runSpacing: 8,
               children: AppConstants.budgets.entries.map((entry) {
-                final isSelected = state.budget == entry.key;
                 return ChoiceChip(
                   label: Text(entry.value[locale] ?? entry.value['en']!, style: const TextStyle(fontSize: 12)),
-                  selected: isSelected,
-                  onSelected: (selected) => notifier.setBudget(selected ? entry.key : null),
+                  selected: state.budget == entry.key,
+                  onSelected: (s) => notifier.setBudget(s ? entry.key : null),
                   visualDensity: VisualDensity.compact,
                 );
               }).toList(),
@@ -154,13 +123,11 @@ class MeetupSearchScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 8),
             Wrap(
-              spacing: 8,
-              runSpacing: 8,
+              spacing: 8, runSpacing: 8,
               children: AppConstants.filterOptions.entries.map((entry) {
-                final isSelected = state.options.contains(entry.key);
                 return FilterChip(
                   label: Text(entry.value[locale] ?? entry.value['en']!, style: const TextStyle(fontSize: 12)),
-                  selected: isSelected,
+                  selected: state.options.contains(entry.key),
                   onSelected: (_) => notifier.toggleOption(entry.key),
                   visualDensity: VisualDensity.compact,
                 );
@@ -172,7 +139,7 @@ class MeetupSearchScreen extends ConsumerWidget {
             SizedBox(
               height: 52,
               child: ElevatedButton(
-                onPressed: state.stations.length < 2 || state.isLoading
+                onPressed: state.filledStations.length < 2 || state.isLoading
                     ? null
                     : () => notifier.search(),
                 child: state.isLoading

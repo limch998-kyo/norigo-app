@@ -4,7 +4,8 @@ import '../models/stay_area.dart';
 import 'app_providers.dart';
 
 class StaySearchState {
-  final List<Landmark> landmarks;
+  /// Nullable slots — null means empty input field
+  final List<Landmark?> slots;
   final String region;
   final String mode;
   final String? maxBudget;
@@ -16,7 +17,7 @@ class StaySearchState {
   final bool showSplit;
 
   const StaySearchState({
-    this.landmarks = const [],
+    this.slots = const [null, null],
     this.region = 'kanto',
     this.mode = 'centroid',
     this.maxBudget,
@@ -28,8 +29,11 @@ class StaySearchState {
     this.showSplit = false,
   });
 
+  /// Only filled (non-null) landmarks
+  List<Landmark> get landmarks => slots.whereType<Landmark>().toList();
+
   StaySearchState copyWith({
-    List<Landmark>? landmarks,
+    List<Landmark?>? slots,
     String? region,
     String? mode,
     String? maxBudget,
@@ -44,7 +48,7 @@ class StaySearchState {
     bool clearResult = false,
   }) {
     return StaySearchState(
-      landmarks: landmarks ?? this.landmarks,
+      slots: slots ?? this.slots,
       region: region ?? this.region,
       mode: mode ?? this.mode,
       maxBudget: clearBudget ? null : (maxBudget ?? this.maxBudget),
@@ -63,16 +67,59 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
 
   StaySearchNotifier(this._ref) : super(const StaySearchState());
 
-  void addLandmark(Landmark landmark) {
-    if (state.landmarks.any((l) => l.slug == landmark.slug)) return;
-    state = state.copyWith(landmarks: [...state.landmarks, landmark]);
+  void setLandmark(int index, Landmark landmark) {
+    final newSlots = List<Landmark?>.from(state.slots);
+    if (index < newSlots.length) {
+      newSlots[index] = landmark;
+    } else {
+      newSlots.add(landmark);
+    }
+    state = state.copyWith(slots: newSlots);
     _autoDetectRegion();
   }
 
+  void addLandmark(Landmark landmark) {
+    // Find first empty slot
+    final newSlots = List<Landmark?>.from(state.slots);
+    final emptyIndex = newSlots.indexWhere((s) => s == null);
+    if (emptyIndex >= 0) {
+      newSlots[emptyIndex] = landmark;
+    } else if (newSlots.length < 10) {
+      newSlots.add(landmark);
+    }
+    state = state.copyWith(slots: newSlots);
+    _autoDetectRegion();
+  }
+
+  void removeSlot(int index) {
+    if (state.slots.length <= 2) {
+      // Don't remove, just clear
+      final newSlots = List<Landmark?>.from(state.slots);
+      newSlots[index] = null;
+      state = state.copyWith(slots: newSlots);
+      return;
+    }
+    final newSlots = List<Landmark?>.from(state.slots);
+    newSlots.removeAt(index);
+    state = state.copyWith(slots: newSlots);
+  }
+
   void removeLandmark(String slug) {
-    state = state.copyWith(
-      landmarks: state.landmarks.where((l) => l.slug != slug).toList(),
-    );
+    final newSlots = List<Landmark?>.from(state.slots);
+    final idx = newSlots.indexWhere((l) => l?.slug == slug);
+    if (idx >= 0) {
+      if (newSlots.length <= 2) {
+        newSlots[idx] = null;
+      } else {
+        newSlots.removeAt(idx);
+      }
+    }
+    state = state.copyWith(slots: newSlots);
+  }
+
+  void addSlot() {
+    if (state.slots.length >= 10) return;
+    state = state.copyWith(slots: [...state.slots, null]);
   }
 
   void setRegion(String region) {
@@ -95,19 +142,15 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
     state = state.copyWith(showSplit: !state.showSplit);
   }
 
-  void setLandmarks(List<Landmark> landmarks) {
-    state = state.copyWith(landmarks: landmarks);
-    _autoDetectRegion();
-  }
-
   void _autoDetectRegion() {
-    if (state.landmarks.isEmpty) return;
-    final firstRegion = state.landmarks.first.region;
-    state = state.copyWith(region: firstRegion);
+    final filled = state.landmarks;
+    if (filled.isEmpty) return;
+    state = state.copyWith(region: filled.first.region);
   }
 
   Future<void> search() async {
-    if (state.landmarks.isEmpty) return;
+    final filled = state.landmarks;
+    if (filled.isEmpty) return;
 
     state = state.copyWith(isLoading: true, clearError: true, clearResult: true);
 
@@ -115,7 +158,7 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
       final api = _ref.read(apiClientProvider);
       final locale = _ref.read(localeProvider);
       final result = await api.getStayRecommendation(
-        landmarks: state.landmarks,
+        landmarks: filled,
         region: state.region,
         mode: state.mode,
         stayStyle: 'auto',
