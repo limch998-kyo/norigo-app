@@ -98,30 +98,34 @@ class HomeScreen extends ConsumerWidget {
             ],
           ),
 
-          // ── Service Cards with illustrations ──
+          // ── Service Cards — ja: meetup left, others: stay left ──
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
             child: Row(
               children: [
                 Expanded(
                   child: _ServiceCard(
-                    svgAsset: 'assets/images/illustrations/service-stay.svg',
-                    label: l10n.staySearchTitle,
+                    svgAsset: locale == 'ja'
+                        ? 'assets/images/illustrations/service-meetup.svg'
+                        : 'assets/images/illustrations/service-stay.svg',
+                    label: locale == 'ja' ? l10n.meetupTitle : l10n.staySearchTitle,
                     subtitle: locale == 'ja'
-                        ? '観光地からホテルを探す'
+                        ? 'みんなの中間地点'
                         : locale == 'ko'
                             ? '관광지에서 호텔 찾기'
                             : 'Find hotels near landmarks',
-                    onTap: () => onSwitchTab?.call(1),
+                    onTap: () => onSwitchTab?.call(locale == 'ja' ? 2 : 1),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: _ServiceCard(
-                    svgAsset: 'assets/images/illustrations/service-meetup.svg',
-                    label: l10n.meetupTitle,
+                    svgAsset: locale == 'ja'
+                        ? 'assets/images/illustrations/service-stay.svg'
+                        : 'assets/images/illustrations/service-meetup.svg',
+                    label: locale == 'ja' ? l10n.staySearchTitle : l10n.meetupTitle,
                     subtitle: locale == 'ja'
-                        ? 'みんなの中間地点'
+                        ? '観光地からホテルを探す'
                         : locale == 'ko'
                             ? '모두의 중간 지점'
                             : 'Find the middle point',
@@ -241,11 +245,15 @@ class _ServiceCard extends StatelessWidget {
           color: theme.colorScheme.surface,
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              height: 64,
-              child: SvgPicture.asset(svgAsset, fit: BoxFit.contain),
+              height: 72,
+              width: double.infinity,
+              child: SvgPicture.asset(
+                svgAsset,
+                fit: BoxFit.contain,
+              ),
             ),
             const SizedBox(height: 12),
             Text(
@@ -296,13 +304,17 @@ class _HowItWorks extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Step SVG illustration
+                // Step SVG illustration (centered in box)
                 SizedBox(
                   width: 48,
                   height: 48,
-                  child: SvgPicture.asset(
-                    step['illustration']!,
-                    fit: BoxFit.contain,
+                  child: Center(
+                    child: SvgPicture.asset(
+                      step['illustration']!,
+                      width: 44,
+                      height: 44,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 14),
