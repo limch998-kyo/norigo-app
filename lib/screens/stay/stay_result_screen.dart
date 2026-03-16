@@ -15,6 +15,7 @@ import '../../widgets/mode_tabs.dart';
 import '../../widgets/share_buttons.dart';
 import '../../widgets/skeleton_loader.dart';
 import '../../services/api_client.dart';
+import '../../services/line_localize.dart';
 
 class StayResultScreen extends ConsumerStatefulWidget {
   const StayResultScreen({super.key});
@@ -208,21 +209,23 @@ class _AreaCard extends StatelessWidget {
               padding: const EdgeInsets.only(top: 6),
               child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 _LegendDot(color: AppTheme.orange, label: locale == 'ja' ? 'ホテル推薦駅' : '호텔 추천역'),
-                const SizedBox(width: 12),
+                const SizedBox(width: 10),
                 _LegendDot(color: Colors.indigo, label: locale == 'ja' ? '観光地' : '관광지'),
+                const SizedBox(width: 10),
+                _LegendDot(color: AppTheme.green, label: locale == 'ja' ? '周辺ホテル' : '주변 호텔'),
               ]),
             ),
 
             // ── Station lines ──
             if (area.station.lines.isNotEmpty) ...[
               const SizedBox(height: 10),
-              Text(locale == 'ja' ? 'ノ선' : 'Lines', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground)),
+              Text(locale == 'ja' ? '路線' : locale == 'ko' ? '노선' : 'Lines', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground)),
               const SizedBox(height: 4),
               Wrap(spacing: 4, runSpacing: 4, children: area.station.lines.take(4).map((l) =>
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: AppTheme.primaryBg),
-                  child: Text(l, style: TextStyle(fontSize: 10, color: AppTheme.primary)),
+                  child: Text(LineLocalizer.localizeSync(l, locale), style: TextStyle(fontSize: 10, color: AppTheme.primary)),
                 ),
               ).toList()),
             ],
@@ -246,7 +249,7 @@ class _AreaCard extends StatelessWidget {
             // ── Reachable destinations ──
             if (isExpanded && area.reachableDestinations.isNotEmpty) ...[
               const SizedBox(height: 12),
-              Text(locale == 'ja' ? '周辺の便利施設 (500m以内)' : locale == 'ko' ? '주변 편의시설 (500m 이내)' : 'Nearby (500m)',
+              Text(locale == 'ja' ? '周辺スポット' : locale == 'ko' ? '주변 명소' : 'Nearby Spots',
                 style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground)),
               const SizedBox(height: 6),
               Wrap(spacing: 6, runSpacing: 6, children: area.reachableDestinations.take(6).map((rd) =>

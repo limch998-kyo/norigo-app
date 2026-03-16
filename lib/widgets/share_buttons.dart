@@ -41,8 +41,21 @@ class _ShareButtonsState extends State<ShareButtons> {
   }
 
   Future<void> _shareKakao() async {
-    final encoded = Uri.encodeComponent('${widget.text}\n${widget.url}');
-    try { await launchUrl(Uri.parse('https://story.kakao.com/share?url=$encoded'), mode: LaunchMode.externalApplication); } catch (_) {}
+    // Use KakaoTalk share via sharer URL (not KakaoStory)
+    // This opens KakaoTalk app's share dialog
+    final encodedUrl = Uri.encodeComponent(widget.url);
+    final encodedText = Uri.encodeComponent(widget.text);
+    try {
+      await launchUrl(
+        Uri.parse('https://sharer.kakao.com/talk/friends/picker/link?app_key=ef83068e8071507be6a45e8af10706ee&ka=sdk%2F2.7.4&url=$encodedUrl&text=$encodedText'),
+        mode: LaunchMode.externalApplication,
+      );
+    } catch (_) {
+      // Fallback to kakaolink scheme
+      try {
+        await launchUrl(Uri.parse('https://sharer.kakao.com/talk/friends/picker/link?url=$encodedUrl'), mode: LaunchMode.externalApplication);
+      } catch (_) {}
+    }
   }
 
   @override

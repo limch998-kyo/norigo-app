@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app.dart';
 import 'providers/app_providers.dart';
+import 'services/line_localize.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,7 +15,8 @@ void main() {
   final supportedLocales = ['ja', 'ko', 'en', 'zh'];
   final initialLocale = supportedLocales.contains(langCode) ? langCode : 'en';
 
-  debugPrint('Device locale: $platformLocale, languageCode: $langCode, using: $initialLocale');
+  // Preload line translations for non-blocking localization
+  LineLocalizer.preload();
 
   runApp(
     ProviderScope(

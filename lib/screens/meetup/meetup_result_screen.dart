@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
 import '../../config/theme.dart';
 import '../../services/api_client.dart';
+import '../../services/line_localize.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/meetup_provider.dart';
 import '../../models/meetup_result.dart';
@@ -162,7 +163,7 @@ class _StationCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(4),
                             border: Border.all(color: AppTheme.border),
                           ),
-                          child: Text(l, style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
+                          child: Text(LineLocalizer.localizeSync(l, locale), style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
                         ),
                       ).toList()),
                     ),
