@@ -41,7 +41,22 @@ class _StationInputListState extends State<StationInputList> {
   }
 
   FocusNode _getFocusNode(int index) {
-    return _focusNodes.putIfAbsent(index, () => FocusNode());
+    final node = _focusNodes.putIfAbsent(index, () => FocusNode());
+    // Auto-select first result on blur (matching web handleBlur)
+    node.addListener(() {
+      if (!node.hasFocus && _activeIndex == index && _suggestions.isNotEmpty) {
+        // If field lost focus and no selection was made, auto-select first
+        final station = widget.stations[index];
+        if (station == null && _suggestions.isNotEmpty) {
+          Future.delayed(const Duration(milliseconds: 200), () {
+            if (mounted && widget.stations.length > index && widget.stations[index] == null) {
+              _onSelect(index, _suggestions.first);
+            }
+          });
+        }
+      }
+    });
+    return node;
   }
 
   @override

@@ -41,7 +41,21 @@ class _LandmarkInputListState extends State<LandmarkInputList> {
   }
 
   FocusNode _getFocusNode(int index) {
-    return _focusNodes.putIfAbsent(index, () => FocusNode());
+    final node = _focusNodes.putIfAbsent(index, () => FocusNode());
+    // Auto-select first result on blur (matching web handleBlur)
+    node.addListener(() {
+      if (!node.hasFocus && _activeIndex == index && _suggestions.isNotEmpty) {
+        final landmark = widget.landmarks[index];
+        if (landmark == null && _suggestions.isNotEmpty) {
+          Future.delayed(const Duration(milliseconds: 200), () {
+            if (mounted && widget.landmarks.length > index && widget.landmarks[index] == null) {
+              _onSelect(index, _suggestions.first);
+            }
+          });
+        }
+      }
+    });
+    return node;
   }
 
   @override
