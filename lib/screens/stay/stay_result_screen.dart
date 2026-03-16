@@ -617,7 +617,7 @@ class _AreaCardState extends State<_AreaCard> {
 
             // ── Landmark distances with routes ──
             const SizedBox(height: 12),
-            Text(locale == 'ja' ? '観光地까지の距離' : locale == 'ko' ? '관광지까지 거리' : 'Distance to landmarks',
+            Text(locale == 'ja' ? '観光地までの距離' : locale == 'ko' ? '관광지까지 거리' : 'Distance to landmarks',
               style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground)),
             const SizedBox(height: 6),
             ...area.landmarkDistances.map((ld) => _LandmarkDistanceTile(ld: ld, locale: locale, isExpanded: isExpanded, localNames: localNames)),
