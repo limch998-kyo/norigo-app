@@ -460,7 +460,7 @@ class _AreaCardState extends State<_AreaCard> {
             Text(locale == 'ja' ? '観光地까지の距離' : locale == 'ko' ? '관광지까지 거리' : 'Distance to landmarks',
               style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground)),
             const SizedBox(height: 6),
-            ...area.landmarkDistances.map((ld) => _LandmarkDistanceTile(ld: ld, locale: locale, isExpanded: isExpanded)),
+            ...area.landmarkDistances.map((ld) => _LandmarkDistanceTile(ld: ld, locale: locale, isExpanded: isExpanded, localNames: localNames)),
 
             // Stats
             Padding(
@@ -500,8 +500,9 @@ class _LandmarkDistanceTile extends StatelessWidget {
   final LandmarkDistance ld;
   final String locale;
   final bool isExpanded;
+  final Map<String, String> localNames;
 
-  const _LandmarkDistanceTile({required this.ld, required this.locale, required this.isExpanded});
+  const _LandmarkDistanceTile({required this.ld, required this.locale, required this.isExpanded, this.localNames = const {}});
 
   @override
   Widget build(BuildContext context) {
@@ -536,7 +537,7 @@ class _LandmarkDistanceTile extends StatelessWidget {
           else if (ld.route.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(left: 20, top: 4),
-              child: _RouteBar(segments: ld.route),
+              child: _RouteBar(segments: ld.route, localNames: localNames),
             ),
         ],
       ]),
@@ -553,7 +554,8 @@ class _LandmarkDistanceTile extends StatelessWidget {
 
 class _RouteBar extends StatelessWidget {
   final List<RouteSegment> segments;
-  const _RouteBar({required this.segments});
+  final Map<String, String> localNames;
+  const _RouteBar({required this.segments, this.localNames = const {}});
 
   @override
   Widget build(BuildContext context) {
@@ -569,13 +571,13 @@ class _RouteBar extends StatelessWidget {
             flex: (frac * 100).round().clamp(1, 100),
             child: Column(children: [
               // From station name
-              Text(seg.fromStationName ?? '', style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground), overflow: TextOverflow.ellipsis),
+              Text(localNames[seg.fromStationId] ?? seg.fromStationName ?? '', style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground), overflow: TextOverflow.ellipsis),
               const SizedBox(height: 2),
               // Color bar
               Container(height: 6, decoration: BoxDecoration(color: _parseColor(seg.color), borderRadius: BorderRadius.circular(3))),
               const SizedBox(height: 2),
               // Line name + time
-              Text('${seg.line}', style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground), overflow: TextOverflow.ellipsis),
+              Text(LineLocalizer.localizeSync(seg.line, 'ko'), style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground), overflow: TextOverflow.ellipsis),
               Text('${seg.minutes}${seg.minutes > 0 ? "分" : ""}', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w600, color: _parseColor(seg.color))),
             ]),
           ),

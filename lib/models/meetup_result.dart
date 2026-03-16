@@ -168,8 +168,9 @@ class RecommendedStation {
 
 class MeetupResult {
   final List<RecommendedStation> stations;
+  final Map<String, String> localNames;
 
-  const MeetupResult({required this.stations});
+  const MeetupResult({required this.stations, this.localNames = const {}});
 
   factory MeetupResult.fromJson(Map<String, dynamic> json) {
     final list = json['results'] as List<dynamic>? ?? json['stations'] as List<dynamic>? ?? [];
@@ -177,6 +178,8 @@ class MeetupResult {
       stations: list
               .map((e) => RecommendedStation.fromJson(e as Map<String, dynamic>))
               .toList(),
+      localNames: (json['localNames'] as Map<String, dynamic>?)
+          ?.map((k, v) => MapEntry(k, v.toString())) ?? {},
     );
   }
 }

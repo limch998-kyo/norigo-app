@@ -121,6 +121,7 @@ class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
                         onTap: () => setState(() => _expandedIndex = _expandedIndex == index ? -1 : index),
                         locale: locale,
                         participants: state.filledStations,
+                        localNames: result.localNames,
                       );
                     },
                   ),
@@ -139,12 +140,13 @@ class _StationCard extends StatelessWidget {
   final String locale;
   final List<Station> participants;
 
-  const _StationCard({required this.rec, required this.rank, required this.isExpanded, required this.onTap, required this.locale, this.participants = const []});
+  final Map<String, String> localNames;
+  const _StationCard({required this.rec, required this.rank, required this.isExpanded, required this.onTap, required this.locale, this.participants = const [], this.localNames = const {}});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final name = rec.station.localizedName(locale);
+    final name = localNames[rec.station.id] ?? rec.station.localizedName(locale);
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
@@ -190,15 +192,30 @@ class _StationCard extends StatelessWidget {
               ]),
 
               // ── Inline map (always visible per card like web) ──
-              const SizedBox(height: 12),
-              SizedBox(
+              // ── Inline map (auto-zoom to fit all markers) ──
+              Builder(builder: (context) {
+                final allMapPoints = [
+                  LatLng(rec.station.lat, rec.station.lng),
+                  ...participants.where((p) => p.lat != 0).map((p) => LatLng(p.lat, p.lng)),
+                  ...rec.venues.where((v) => v.lat != null).take(5).map((v) => LatLng(v.lat!, v.lng!)),
+                ];
+                final mapCenter = LatLng(
+                  allMapPoints.map((p) => p.latitude).reduce((a, b) => a + b) / allMapPoints.length,
+                  allMapPoints.map((p) => p.longitude).reduce((a, b) => a + b) / allMapPoints.length,
+                );
+                final latSpan = allMapPoints.map((p) => p.latitude).reduce((a, b) => a > b ? a : b) - allMapPoints.map((p) => p.latitude).reduce((a, b) => a < b ? a : b);
+                final lngSpan = allMapPoints.map((p) => p.longitude).reduce((a, b) => a > b ? a : b) - allMapPoints.map((p) => p.longitude).reduce((a, b) => a < b ? a : b);
+                final span = latSpan > lngSpan ? latSpan : lngSpan;
+                final autoZoom = span < 0.005 ? 15.0 : span < 0.01 ? 14.5 : span < 0.03 ? 14.0 : span < 0.05 ? 13.0 : span < 0.1 ? 12.0 : span < 0.3 ? 11.0 : span < 1.0 ? 9.0 : 7.0;
+
+                return SizedBox(
                 height: 160,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: FlutterMap(
                     options: MapOptions(
-                      initialCenter: LatLng(rec.station.lat, rec.station.lng),
-                      initialZoom: 13,
+                      initialCenter: mapCenter,
+                      initialZoom: autoZoom,
                       interactionOptions: const InteractionOptions(flags: InteractiveFlag.pinchZoom | InteractiveFlag.drag),
                     ),
                     children: [
@@ -234,7 +251,8 @@ class _StationCard extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
+              );
+              }),
 
               // Map legend
               Padding(
@@ -260,7 +278,7 @@ class _StationCard extends StatelessWidget {
                     Row(children: [
                       Icon(Icons.person_outline, size: 16, color: AppTheme.mutedForeground),
                       const SizedBox(width: 8),
-                      Expanded(child: Text(d.participantStationName, style: const TextStyle(fontSize: 13))),
+                      Expanded(child: Text(localNames[d.participantStationId] ?? d.participantStationName, style: const TextStyle(fontSize: 13))),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                         decoration: BoxDecoration(color: _timeColor(d.estimatedMinutes).withValues(alpha: 0.1), borderRadius: BorderRadius.circular(4)),
@@ -274,7 +292,7 @@ class _StationCard extends StatelessWidget {
                       const SizedBox(height: 4),
                       Padding(
                         padding: const EdgeInsets.only(left: 24),
-                        child: _RouteBar(segments: d.route),
+                        child: _RouteBar(segments: d.route, localNames: localNames),
                       ),
                     ],
                   ],
@@ -442,7 +460,8 @@ class _RankBadge extends StatelessWidget {
 
 class _RouteBar extends StatelessWidget {
   final List<RouteSegment> segments;
-  const _RouteBar({required this.segments});
+  final Map<String, String> localNames;
+  const _RouteBar({required this.segments, this.localNames = const {}});
 
   @override
   Widget build(BuildContext context) {
@@ -465,12 +484,16 @@ class _RouteBar extends StatelessWidget {
         ),
       ),
       const SizedBox(height: 4),
-      // Legend
-      Wrap(spacing: 8, runSpacing: 2, children: segments.map((seg) => Row(mainAxisSize: MainAxisSize.min, children: [
-        Container(width: 8, height: 8, decoration: BoxDecoration(color: _parseColor(seg.color), borderRadius: BorderRadius.circular(2))),
-        const SizedBox(width: 4),
-        Text('${seg.line} ${seg.minutes}min', style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
-      ])).toList()),
+      // Legend with localized names
+      Wrap(spacing: 8, runSpacing: 2, children: segments.map((seg) {
+        final localLine = LineLocalizer.localizeSync(seg.line, 'ko'); // Use localizer
+        final fromName = localNames[seg.fromStationId] ?? seg.fromStationName ?? '';
+        return Row(mainAxisSize: MainAxisSize.min, children: [
+          Container(width: 8, height: 8, decoration: BoxDecoration(color: _parseColor(seg.color), borderRadius: BorderRadius.circular(2))),
+          const SizedBox(width: 4),
+          Text('$fromName→ $localLine ${seg.minutes}min', style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
+        ]);
+      }).toList()),
     ]);
   }
 
