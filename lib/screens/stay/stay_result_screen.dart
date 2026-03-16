@@ -96,7 +96,8 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
     }
 
     final result = state.result;
-    if (result == null || result.areas.isEmpty) {
+    final hasResults = result != null && (result.areas.isNotEmpty || result.clusters.any((c) => c.areas.isNotEmpty));
+    if (!hasResults) {
       return Scaffold(
         appBar: AppBar(title: Text(l10n.staySearchTitle), leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => notifier.clearResult())),
         body: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
