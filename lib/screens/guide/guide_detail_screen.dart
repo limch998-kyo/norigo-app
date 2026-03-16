@@ -22,6 +22,7 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
   late final WebViewController _controller;
   bool _loading = true;
   double _progress = 0;
+  bool _shownAddSnackbar = false;
 
   @override
   void initState() {
@@ -100,18 +101,19 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
           locale: widget.locale,
         );
 
-        if (mounted) {
+        if (mounted && !_shownAddSnackbar) {
+          _shownAddSnackbar = true;
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Row(children: [
               const Icon(Icons.check_circle, color: Colors.white, size: 16),
               const SizedBox(width: 8),
               Expanded(child: Text(
-                widget.locale == 'ja' ? '$name → 旅行プランに追加'
-                    : widget.locale == 'ko' ? '$name → 여행 플랜에 추가됨'
-                    : '$name → Added to trip plan',
+                widget.locale == 'ja' ? '旅行プランに追加しました（旅行タブで確認）'
+                    : widget.locale == 'ko' ? '여행 플랜에 추가했습니다 (여행 탭에서 확인)'
+                    : 'Added to trip plan (check Trip tab)',
               )),
             ]),
-            duration: const Duration(seconds: 2),
+            duration: const Duration(seconds: 3),
           ));
         }
       }

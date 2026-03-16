@@ -109,42 +109,48 @@ class TripScreen extends ConsumerWidget {
 
   void _showCreateDialog(
       BuildContext context, TripNotifier notifier, String locale) {
-    final controller = TextEditingController();
+    final regions = [
+      {'id': 'kanto', 'country': 'japan', 'label': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto'}},
+      {'id': 'kansai', 'country': 'japan', 'label': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai'}},
+      {'id': 'seoul', 'country': 'korea', 'label': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul'}},
+      {'id': 'busan', 'country': 'korea', 'label': {'ja': '釜山', 'ko': '부산', 'en': 'Busan'}},
+    ];
+
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(
-          locale == 'ja'
-              ? '新しい旅行'
-              : locale == 'ko'
-                  ? '새 여행'
-                  : 'New Trip',
-        ),
-        content: TextField(
-          controller: controller,
-          autofocus: true,
-          decoration: InputDecoration(
-            hintText: locale == 'ja'
-                ? '旅行名を入力'
-                : locale == 'ko'
-                    ? '여행 이름 입력'
-                    : 'Enter trip name',
-          ),
+        title: Text(locale == 'ja' ? '新しい旅行プラン' : locale == 'ko' ? '새 여행 플랜' : 'New Trip Plan'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              locale == 'ja' ? '地域を選択してください' : locale == 'ko' ? '지역을 선택해주세요' : 'Select region',
+              style: TextStyle(fontSize: 13, color: AppTheme.mutedForeground),
+            ),
+            const SizedBox(height: 12),
+            ...regions.map((r) {
+              final label = (r['label'] as Map<String, String>)[locale] ?? (r['label'] as Map<String, String>)['en']!;
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      notifier.createTrip(label, country: r['country'] as String);
+                      Navigator.pop(ctx);
+                    },
+                    style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 12)),
+                    child: Text(label),
+                  ),
+                ),
+              );
+            }),
+          ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
             child: Text(locale == 'ja' ? 'キャンセル' : locale == 'ko' ? '취소' : 'Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              final name = controller.text.trim();
-              if (name.isNotEmpty) {
-                notifier.createTrip(name);
-                Navigator.pop(ctx);
-              }
-            },
-            child: Text(locale == 'ja' ? '作成' : locale == 'ko' ? '생성' : 'Create'),
           ),
         ],
       ),
