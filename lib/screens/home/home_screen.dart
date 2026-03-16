@@ -25,19 +25,20 @@ class HomeScreen extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // ── Hero Section ──
-          Container(
-            padding: const EdgeInsets.fromLTRB(24, 56, 24, 40),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  AppTheme.primaryBg,
-                  theme.colorScheme.surface,
-                ],
+          // ── Hero Section with illustration background ──
+          Stack(
+            children: [
+              Positioned.fill(
+                child: Opacity(
+                  opacity: 0.15,
+                  child: SvgPicture.asset(
+                    'assets/images/illustrations/hero-bg.svg',
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
-            ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(24, 56, 24, 40),
                 child: Column(
                   children: [
                     Text(
@@ -81,6 +82,8 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   ],
                 ),
+              ),
+            ],
           ),
 
           // ── Service Cards with illustrations ──
