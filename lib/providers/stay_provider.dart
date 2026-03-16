@@ -69,6 +69,11 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
   StaySearchNotifier(this._ref) : super(const StaySearchState());
 
   void setLandmark(int index, Landmark landmark) {
+    // Prevent duplicates (allow replacing same slot)
+    final filled = state.landmarks;
+    final existingIndex = state.slots.indexWhere((l) => l != null && (l.name == landmark.name || l.slug == landmark.slug));
+    if (existingIndex >= 0 && existingIndex != index) return;
+
     final newSlots = List<Landmark?>.from(state.slots);
     if (index < newSlots.length) {
       newSlots[index] = landmark;
@@ -80,6 +85,10 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
   }
 
   void addLandmark(Landmark landmark) {
+    // Prevent duplicates
+    final filled = state.landmarks;
+    if (filled.any((l) => l.name == landmark.name || l.slug == landmark.slug)) return;
+
     // Find first empty slot
     final newSlots = List<Landmark?>.from(state.slots);
     final emptyIndex = newSlots.indexWhere((s) => s == null);
