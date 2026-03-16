@@ -67,14 +67,14 @@ class _MainShellState extends ConsumerState<MainShell> {
           children: [
             // 0: Home (always built)
             HomeScreen(onSwitchTab: switchToTab),
-            // 1: Stay (lazy)
+            // 1: Stay (lazy) — keep result screen during re-search (isLoading)
             if (_visitedTabs.contains(1))
-              stayState.result != null ? const StayResultScreen() : const StaySearchScreen()
+              (stayState.result != null || stayState.isLoading) ? const StayResultScreen() : const StaySearchScreen()
             else
               const SizedBox.shrink(),
-            // 2: Meetup (lazy)
+            // 2: Meetup (lazy) — keep result screen during re-search
             if (_visitedTabs.contains(2))
-              meetupState.result != null ? const MeetupResultScreen() : const MeetupSearchScreen()
+              (meetupState.result != null || meetupState.isLoading) ? const MeetupResultScreen() : const MeetupSearchScreen()
             else
               const SizedBox.shrink(),
             // 3: Trip (lazy)

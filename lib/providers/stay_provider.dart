@@ -175,7 +175,7 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
     try {
       final api = _ref.read(apiClientProvider);
       final locale = _ref.read(localeProvider);
-      debugPrint('Stay search: ${filled.length} landmarks, region=${state.region}, mode=${state.mode}');
+      debugPrint('Stay search: ${filled.length} landmarks, region=${state.region}, mode=${state.mode}, stayStyle=${state.stayStyle}');
       for (final l in filled) {
         debugPrint('  Landmark: ${l.name} (${l.lat}, ${l.lng}) region=${l.region}');
       }
@@ -189,6 +189,7 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
         checkOut: state.checkOut,
         locale: locale,
       );
+      debugPrint('Stay result: areas=${result.areas.length}, split=${result.split}, clusters=${result.clusters.length}');
       state = state.copyWith(result: result, isLoading: false);
     } catch (e) {
       state = state.copyWith(error: e.toString(), isLoading: false);
