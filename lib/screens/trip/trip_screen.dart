@@ -57,9 +57,6 @@ class TripScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // ── My Spots (active trip items) ──
-          _MySpotsSection(locale: locale, state: state, notifier: notifier, onSwitchTab: onSwitchTab, ref: ref),
-
           // ── Saved Searches ──
           _SavedSearchesSection(locale: locale, ref: ref, onSwitchTab: onSwitchTab),
 
@@ -76,18 +73,23 @@ class TripScreen extends ConsumerWidget {
               final isActive = state.activeTripId == trip.id;
               return _TripCard(
                 trip: trip,
-                itemCount: items.length,
+                items: items,
                 isActive: isActive,
                 locale: locale,
                 onTap: () => notifier.setActiveTrip(trip.id),
                 onRename: () => _showRenameDialog(context, notifier, trip, locale),
                 onDelete: () => _showDeleteDialog(context, notifier, trip, locale),
+                onRemoveItem: (slug, tripId) => notifier.removeItem(slug, tripId),
                 onFindHotels: items.length >= 2 ? () {
                   final landmarks = notifier.getItemsAsLandmarks(trip.id);
                   final stayNotifier = ref.read(staySearchProvider.notifier);
                   stayNotifier.reset();
                   for (final l in landmarks) { stayNotifier.addLandmark(l); }
-                  stayNotifier.setBudget('under30000');
+                  final budget = locale == 'ja' ? 'under20000' : locale == 'ko' ? 'under30000' : 'under50000';
+                  stayNotifier.setBudget(budget);
+                  final checkIn = DateTime.now().add(const Duration(days: 30));
+                  stayNotifier.setDates(checkIn.toIso8601String().substring(0, 10),
+                    checkIn.add(const Duration(days: 3)).toIso8601String().substring(0, 10));
                   onSwitchTab?.call(1);
                 } : null,
               );
@@ -215,23 +217,25 @@ class TripScreen extends ConsumerWidget {
 
 class _TripCard extends StatelessWidget {
   final Trip trip;
-  final int itemCount;
+  final List<TripItem> items;
   final bool isActive;
   final String locale;
   final VoidCallback onTap;
   final VoidCallback onRename;
   final VoidCallback onDelete;
   final VoidCallback? onFindHotels;
+  final void Function(String slug, String tripId)? onRemoveItem;
 
   const _TripCard({
     required this.trip,
-    required this.itemCount,
+    required this.items,
     required this.isActive,
     required this.locale,
     required this.onTap,
     required this.onRename,
     required this.onDelete,
     this.onFindHotels,
+    this.onRemoveItem,
   });
 
   @override
@@ -302,16 +306,38 @@ class _TripCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
+              // Show items inline
+              if (items.isNotEmpty) ...[
+                ...items.asMap().entries.map((e) {
+                  final i = e.key;
+                  final item = e.value;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 4),
+                    child: Row(children: [
+                      CircleAvatar(radius: 12, backgroundColor: AppTheme.primaryBg,
+                        child: Text('${i + 1}', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.primary))),
+                      const SizedBox(width: 8),
+                      Expanded(child: Text(item.name, style: const TextStyle(fontSize: 13))),
+                      if (isActive)
+                        GestureDetector(
+                          onTap: () => onRemoveItem?.call(item.slug, item.tripId),
+                          child: Icon(Icons.close, size: 14, color: AppTheme.mutedForeground),
+                        ),
+                    ]),
+                  );
+                }),
+                const SizedBox(height: 4),
+              ],
               Row(
                 children: [
                   Icon(Icons.place, size: 16, color: theme.colorScheme.onSurface.withValues(alpha: 0.5)),
                   const SizedBox(width: 4),
                   Text(
                     locale == 'ja'
-                        ? '$itemCount件のスポット'
+                        ? '${items.length}件のスポット'
                         : locale == 'ko'
-                            ? '$itemCount개 관광지'
-                            : '$itemCount spots',
+                            ? '${items.length}개 관광지'
+                            : '${items.length} spots',
                     style: TextStyle(
                       fontSize: 13,
                       color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
