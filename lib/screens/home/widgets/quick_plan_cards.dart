@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../l10n/app_localizations.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import '../../../config/constants.dart';
 import '../../../models/landmark.dart';
 
 class QuickPlan {
@@ -218,7 +216,8 @@ class _QuickPlanCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final labels = plan.labels[locale] ?? plan.labels['en']!;
-    final imageUrl = '${AppConstants.apiBaseUrl}${plan.image}';
+    // Map web path to local asset: /images/landmarks/foo.webp -> assets/images/landmarks/foo.webp
+    final assetPath = 'assets${plan.image}';
 
     return GestureDetector(
       onTap: () {
@@ -249,11 +248,10 @@ class _QuickPlanCard extends StatelessWidget {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: imageUrl,
+                  Image.asset(
+                    assetPath,
                     fit: BoxFit.cover,
-                    placeholder: (_, url) => Container(color: Theme.of(context).colorScheme.surfaceContainerHighest),
-                    errorWidget: (_, url, error) => Container(
+                    errorBuilder: (_, __, ___) => Container(
                       color: Theme.of(context).colorScheme.surfaceContainerHighest,
                       child: const Icon(Icons.image_not_supported),
                     ),

@@ -52,22 +52,31 @@ class _MainShellState extends ConsumerState<MainShell> {
     final stayState = ref.watch(staySearchProvider);
     final meetupState = ref.watch(meetupSearchProvider);
 
+    // Lazy build — only build the active tab (not all 5 at once)
+    Widget buildTab() {
+      switch (_currentIndex) {
+        case 0:
+          return HomeScreen(onSwitchTab: switchToTab);
+        case 1:
+          return stayState.result != null
+              ? const StayResultScreen()
+              : const StaySearchScreen();
+        case 2:
+          return meetupState.result != null
+              ? const MeetupResultScreen()
+              : const MeetupSearchScreen();
+        case 3:
+          return const TripScreen();
+        case 4:
+          return const SettingsScreen();
+        default:
+          return HomeScreen(onSwitchTab: switchToTab);
+      }
+    }
+
     return Scaffold(
       body: SafeArea(
-        child: IndexedStack(
-          index: _currentIndex,
-          children: [
-            HomeScreen(onSwitchTab: switchToTab),
-            stayState.result != null
-                ? const StayResultScreen()
-                : const StaySearchScreen(),
-            meetupState.result != null
-                ? const MeetupResultScreen()
-                : const MeetupSearchScreen(),
-            const TripScreen(),
-            const SettingsScreen(),
-          ],
-        ),
+        child: buildTab(),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
