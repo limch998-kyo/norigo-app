@@ -378,24 +378,34 @@ class _SplitResultsListState extends State<_SplitResultsList> {
                 ]),
               ),
             ),
-            // Visible cluster areas
-            ...visibleAreas.asMap().entries.map((areaEntry) {
-              final idx = startGlobalIndex + areaEntry.key;
-              globalIndex = startGlobalIndex + areaEntry.key + 1;
-              return _AreaCard(
-                area: areaEntry.value,
-                rank: idx + 1,
-                isExpanded: widget.expandedIndex == idx,
-                onTap: () => widget.onTap(idx),
-                locale: widget.locale,
-                l10n: widget.l10n,
-                landmarks: widget.landmarks,
-                localNames: cluster.localNames,
-                maxBudget: widget.maxBudget,
-                checkIn: widget.checkIn,
-                checkOut: widget.checkOut,
-              );
-            }),
+            // Filter landmarks to only those in this cluster
+            ...(() {
+              final clusterLandmarkNames = cluster.landmarks.map((n) => n.toLowerCase()).toSet();
+              final clusterLandmarks = widget.landmarks.where((l) =>
+                clusterLandmarkNames.contains(l.name.toLowerCase()) ||
+                clusterLandmarkNames.contains(l.slug.toLowerCase())
+              ).toList();
+              // Fallback: if no match (name mismatch), use all landmarks
+              final effectiveLandmarks = clusterLandmarks.isNotEmpty ? clusterLandmarks : widget.landmarks;
+
+              return visibleAreas.asMap().entries.map((areaEntry) {
+                final idx = startGlobalIndex + areaEntry.key;
+                globalIndex = startGlobalIndex + areaEntry.key + 1;
+                return _AreaCard(
+                  area: areaEntry.value,
+                  rank: idx + 1,
+                  isExpanded: widget.expandedIndex == idx,
+                  onTap: () => widget.onTap(idx),
+                  locale: widget.locale,
+                  l10n: widget.l10n,
+                  landmarks: effectiveLandmarks,
+                  localNames: cluster.localNames,
+                  maxBudget: widget.maxBudget,
+                  checkIn: widget.checkIn,
+                  checkOut: widget.checkOut,
+                );
+              });
+            })(),
             // Adjust globalIndex for hidden areas
             if (!isClusterExpanded)
               ...(() { globalIndex = startGlobalIndex + cluster.areas.length; return <Widget>[]; })(),
