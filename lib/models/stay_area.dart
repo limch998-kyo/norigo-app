@@ -93,31 +93,64 @@ class StayArea {
   }
 }
 
+class StayCluster {
+  final List<String> landmarks;
+  final List<StayArea> areas;
+  final Map<String, String> localNames;
+
+  const StayCluster({required this.landmarks, required this.areas, this.localNames = const {}});
+
+  factory StayCluster.fromJson(Map<String, dynamic> json) {
+    final resultList = json['results'] as List<dynamic>? ?? [];
+    return StayCluster(
+      landmarks: (json['landmarks'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [],
+      areas: resultList.map((e) => StayArea.fromJson(e as Map<String, dynamic>)).toList(),
+      localNames: (json['localNames'] as Map<String, dynamic>?)?.map((k, v) => MapEntry(k, v.toString())) ?? {},
+    );
+  }
+}
+
 class StayRecommendResult {
   final List<StayArea> areas;
   final bool split;
-  final List<StayArea>? splitAreas;
+  final List<StayCluster> clusters;
   final Map<String, String> localNames;
 
   const StayRecommendResult({
     required this.areas,
     required this.split,
-    this.splitAreas,
+    this.clusters = const [],
     this.localNames = const {},
   });
 
   factory StayRecommendResult.fromJson(Map<String, dynamic> json) {
+    final style = json['style'] as String?;
+    final isSplit = style == 'split';
+
+    if (isSplit) {
+      // Split response: {style:'split', clusters:[{landmarks, results, localNames}]}
+      final clusterList = (json['clusters'] as List<dynamic>?)
+          ?.map((e) => StayCluster.fromJson(e as Map<String, dynamic>))
+          .toList() ?? [];
+      // Merge all cluster localNames
+      final mergedNames = <String, String>{};
+      for (final c in clusterList) {
+        mergedNames.addAll(c.localNames);
+      }
+      return StayRecommendResult(
+        areas: clusterList.expand((c) => c.areas).toList(),
+        split: true,
+        clusters: clusterList,
+        localNames: mergedNames,
+      );
+    }
+
+    // Normal response: {results:[...], localNames:{...}}
     final areaList = json['results'] as List<dynamic>? ?? json['areas'] as List<dynamic>? ?? [];
     return StayRecommendResult(
-      areas: areaList
-              .map((e) => StayArea.fromJson(e as Map<String, dynamic>))
-              .toList(),
-      split: json['split'] as bool? ?? false,
-      splitAreas: (json['splitAreas'] as List<dynamic>?)
-          ?.map((e) => StayArea.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      localNames: (json['localNames'] as Map<String, dynamic>?)
-          ?.map((k, v) => MapEntry(k, v.toString())) ?? {},
+      areas: areaList.map((e) => StayArea.fromJson(e as Map<String, dynamic>)).toList(),
+      split: false,
+      localNames: (json['localNames'] as Map<String, dynamic>?)?.map((k, v) => MapEntry(k, v.toString())) ?? {},
     );
   }
 }

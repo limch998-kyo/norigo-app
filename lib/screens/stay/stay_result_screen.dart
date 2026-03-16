@@ -107,7 +107,8 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
       );
     }
 
-    final displayAreas = state.showSplit && result.splitAreas != null ? result.splitAreas! : result.areas;
+    // For split results, show clusters grouped
+    final isSplit = result.split;
 
     return Scaffold(
       appBar: AppBar(
@@ -146,15 +147,29 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
             child: ModeTabs(selected: state.mode, onChanged: (m) { notifier.setMode(m); notifier.search(); }, locale: locale),
           ),
-          // Split toggle
-          if (result.split && result.splitAreas != null)
+          // Split indicator
+          if (isSplit)
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-              child: Row(children: [
-                _ToggleChip(label: locale == 'ja' ? '1箇所 宿泊' : '1곳 숙박', selected: !state.showSplit, onTap: () { if (state.showSplit) notifier.toggleSplit(); }),
-                const SizedBox(width: 8),
-                _ToggleChip(label: locale == 'ja' ? '分散 宿泊' : '분산 숙박', selected: state.showSplit, onTap: () { if (!state.showSplit) notifier.toggleSplit(); }),
-              ]),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: AppTheme.primaryBg,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: AppTheme.primary.withValues(alpha: 0.3)),
+                ),
+                child: Row(children: [
+                  Icon(Icons.swap_horiz, size: 16, color: AppTheme.primary),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text(
+                    locale == 'ja' ? '観光地が離れているため、分散宿泊をおすすめします（${result.clusters.length}エリア）'
+                        : locale == 'ko' ? '관광지가 떨어져 있어 분산 숙박을 추천합니다 (${result.clusters.length}개 지역)'
+                        : 'Split stay recommended (${result.clusters.length} areas)',
+                    style: TextStyle(fontSize: 12, color: AppTheme.primary),
+                  )),
+                ]),
+              ),
             ),
           // Share at top (matching web)
           Padding(
@@ -200,12 +215,24 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
           }),
           // Results list
           Expanded(
-            child: ListView.builder(
+            child: isSplit
+                ? _SplitResultsList(
+                    clusters: result.clusters,
+                    expandedIndex: _expandedIndex,
+                    onTap: (i) => setState(() => _expandedIndex = _expandedIndex == i ? -1 : i),
+                    locale: locale,
+                    l10n: l10n,
+                    landmarks: state.landmarks,
+                    maxBudget: state.maxBudget,
+                    checkIn: state.checkIn,
+                    checkOut: state.checkOut,
+                  )
+                : ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: displayAreas.length,
+              itemCount: result.areas.length,
               itemBuilder: (context, index) {
                 return _AreaCard(
-                  area: displayAreas[index],
+                  area: result.areas[index],
                   rank: index + 1,
                   isExpanded: _expandedIndex == index,
                   onTap: () => setState(() => _expandedIndex = _expandedIndex == index ? -1 : index),
@@ -222,6 +249,93 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _SplitResultsList extends StatelessWidget {
+  final List<StayCluster> clusters;
+  final int expandedIndex;
+  final void Function(int) onTap;
+  final String locale;
+  final AppLocalizations l10n;
+  final List<Landmark> landmarks;
+  final String? maxBudget;
+  final String? checkIn;
+  final String? checkOut;
+
+  const _SplitResultsList({
+    required this.clusters, required this.expandedIndex, required this.onTap,
+    required this.locale, required this.l10n, required this.landmarks,
+    this.maxBudget, this.checkIn, this.checkOut,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    int globalIndex = 0;
+
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      children: [
+        ...clusters.asMap().entries.expand((clusterEntry) {
+          final ci = clusterEntry.key;
+          final cluster = clusterEntry.value;
+
+          return [
+            // Cluster header
+            Padding(
+              padding: const EdgeInsets.only(top: 8, bottom: 8),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: ci == 0 ? AppTheme.primaryBg : const Color(0xFFFFF7ED), // blue vs orange bg
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(children: [
+                  Container(
+                    width: 24, height: 24,
+                    decoration: BoxDecoration(
+                      color: ci == 0 ? AppTheme.primary : AppTheme.orange,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(child: Text('${ci + 1}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12))),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text(
+                    '${locale == 'ja' ? 'エリア' : locale == 'ko' ? '지역' : 'Area'} ${ci + 1}: ${cluster.landmarks.join(' · ')}',
+                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                  )),
+                ]),
+              ),
+            ),
+            // Cluster areas
+            ...cluster.areas.map((area) {
+              final idx = globalIndex++;
+              return _AreaCard(
+                area: area,
+                rank: idx + 1,
+                isExpanded: expandedIndex == idx,
+                onTap: () => onTap(idx),
+                locale: locale,
+                l10n: l10n,
+                landmarks: landmarks,
+                localNames: cluster.localNames,
+                maxBudget: maxBudget,
+                checkIn: checkIn,
+                checkOut: checkOut,
+              );
+            }),
+            if (cluster.areas.isEmpty)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Text(
+                  locale == 'ja' ? 'このエリアの推薦結果がありません' : locale == 'ko' ? '이 지역의 추천 결과가 없습니다' : 'No results for this area',
+                  style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground),
+                ),
+              ),
+          ];
+        }),
+      ],
     );
   }
 }
