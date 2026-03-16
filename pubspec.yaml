@@ -63,6 +63,5 @@ flutter:
         - asset: assets/fonts/Inter.ttf
 
   assets:
-    - assets/images/illustrations/
     - assets/images/landmarks/
-    - assets/images/icons/
+    - assets/images/illustrations/
