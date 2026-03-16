@@ -94,4 +94,118 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tabGuide => 'Guide';
+
+  @override
+  String get meetupTitle => 'Find Meetup Station';
+
+  @override
+  String get meetupSearchButton => 'Find Meetup Station';
+
+  @override
+  String get stationPlaceholder => 'Enter station name...';
+
+  @override
+  String get addStations => 'Add departure stations (2-5)';
+
+  @override
+  String get searchMode => 'Search mode';
+
+  @override
+  String get category => 'Category (optional)';
+
+  @override
+  String get budget => 'Budget (optional)';
+
+  @override
+  String get options => 'Options';
+
+  @override
+  String get dates => 'Dates';
+
+  @override
+  String get addLandmarks => 'Add landmarks';
+
+  @override
+  String get results => 'Results';
+
+  @override
+  String get noResults => 'No results found';
+
+  @override
+  String get recommendedHotels => 'Recommended Hotels';
+
+  @override
+  String get nearbyVenues => 'Nearby Venues';
+
+  @override
+  String get route => 'Route';
+
+  @override
+  String avgTime(int minutes) {
+    return 'Avg $minutes min';
+  }
+
+  @override
+  String get splitStay => 'Split Stay';
+
+  @override
+  String get singleStay => 'Single Stay';
+
+  @override
+  String get newTrip => 'New Trip';
+
+  @override
+  String get tripName => 'Enter trip name';
+
+  @override
+  String get create => 'Create';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get rename => 'Rename';
+
+  @override
+  String deleteConfirm(String name) {
+    return 'Delete \"$name\"?';
+  }
+
+  @override
+  String spots(int count) {
+    return '$count spots';
+  }
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get about => 'About';
+
+  @override
+  String get website => 'Website';
+
+  @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get termsOfService => 'Terms of Service';
+
+  @override
+  String get active => 'Active';
+
+  @override
+  String get noTripsYet => 'No trips yet';
+
+  @override
+  String get tapToCreate => 'Tap + to create a new trip';
 }

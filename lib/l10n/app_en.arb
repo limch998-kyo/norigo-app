@@ -32,5 +32,56 @@
   "tabHome": "Home",
   "tabSearch": "Search",
   "tabTrip": "Trip",
-  "tabGuide": "Guide"
+  "tabGuide": "Guide",
+  "meetupTitle": "Find Meetup Station",
+  "meetupSearchButton": "Find Meetup Station",
+  "stationPlaceholder": "Enter station name...",
+  "addStations": "Add departure stations (2-5)",
+  "searchMode": "Search mode",
+  "category": "Category (optional)",
+  "budget": "Budget (optional)",
+  "options": "Options",
+  "dates": "Dates",
+  "addLandmarks": "Add landmarks",
+  "results": "Results",
+  "noResults": "No results found",
+  "recommendedHotels": "Recommended Hotels",
+  "nearbyVenues": "Nearby Venues",
+  "route": "Route",
+  "avgTime": "Avg {minutes} min",
+  "@avgTime": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "splitStay": "Split Stay",
+  "singleStay": "Single Stay",
+  "newTrip": "New Trip",
+  "tripName": "Enter trip name",
+  "create": "Create",
+  "cancel": "Cancel",
+  "save": "Save",
+  "delete": "Delete",
+  "rename": "Rename",
+  "deleteConfirm": "Delete \"{name}\"?",
+  "@deleteConfirm": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "spots": "{count} spots",
+  "@spots": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settings": "Settings",
+  "language": "Language",
+  "about": "About",
+  "website": "Website",
+  "privacyPolicy": "Privacy Policy",
+  "termsOfService": "Terms of Service",
+  "active": "Active",
+  "noTripsYet": "No trips yet",
+  "tapToCreate": "Tap + to create a new trip"
 }

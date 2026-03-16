@@ -32,5 +32,56 @@
   "tabHome": "首页",
   "tabSearch": "搜索",
   "tabTrip": "行程",
-  "tabGuide": "指南"
+  "tabGuide": "指南",
+  "meetupTitle": "寻找集合站",
+  "meetupSearchButton": "搜索集合站",
+  "stationPlaceholder": "输入车站名...",
+  "addStations": "添加出发站 (2-5人)",
+  "searchMode": "搜索模式",
+  "category": "分类（可选）",
+  "budget": "预算（可选）",
+  "options": "选项",
+  "dates": "日期",
+  "addLandmarks": "添加景点",
+  "results": "搜索结果",
+  "noResults": "未找到结果",
+  "recommendedHotels": "推荐酒店",
+  "nearbyVenues": "附近餐厅",
+  "route": "路线",
+  "avgTime": "平均 {minutes}分钟",
+  "@avgTime": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "splitStay": "分住",
+  "singleStay": "单住",
+  "newTrip": "新行程",
+  "tripName": "输入行程名称",
+  "create": "创建",
+  "cancel": "取消",
+  "save": "保存",
+  "delete": "删除",
+  "rename": "重命名",
+  "deleteConfirm": "删除「{name}」？",
+  "@deleteConfirm": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "spots": "{count}个景点",
+  "@spots": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settings": "设置",
+  "language": "语言",
+  "about": "关于",
+  "website": "网站",
+  "privacyPolicy": "隐私政策",
+  "termsOfService": "服务条款",
+  "active": "活跃",
+  "noTripsYet": "还没有行程",
+  "tapToCreate": "点击+创建新行程"
 }

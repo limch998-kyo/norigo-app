@@ -93,4 +93,118 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get tabGuide => 'ガイド';
+
+  @override
+  String get meetupTitle => '集合駅を探す';
+
+  @override
+  String get meetupSearchButton => '集合駅を検索';
+
+  @override
+  String get stationPlaceholder => '駅名を入力...';
+
+  @override
+  String get addStations => '出発駅を追加 (2〜5人)';
+
+  @override
+  String get searchMode => '検索モード';
+
+  @override
+  String get category => 'ジャンル（任意）';
+
+  @override
+  String get budget => '予算（任意）';
+
+  @override
+  String get options => 'オプション';
+
+  @override
+  String get dates => '日程';
+
+  @override
+  String get addLandmarks => '観光スポットを追加';
+
+  @override
+  String get results => '検索結果';
+
+  @override
+  String get noResults => '結果が見つかりませんでした';
+
+  @override
+  String get recommendedHotels => 'おすすめホテル';
+
+  @override
+  String get nearbyVenues => '周辺のお店';
+
+  @override
+  String get route => 'ルート';
+
+  @override
+  String avgTime(int minutes) {
+    return '平均 $minutes分';
+  }
+
+  @override
+  String get splitStay => '分泊';
+
+  @override
+  String get singleStay => '通常';
+
+  @override
+  String get newTrip => '新しい旅行';
+
+  @override
+  String get tripName => '旅行名を入力';
+
+  @override
+  String get create => '作成';
+
+  @override
+  String get cancel => 'キャンセル';
+
+  @override
+  String get save => '保存';
+
+  @override
+  String get delete => '削除';
+
+  @override
+  String get rename => '名前変更';
+
+  @override
+  String deleteConfirm(String name) {
+    return '「$name」を削除しますか？';
+  }
+
+  @override
+  String spots(int count) {
+    return '$count件のスポット';
+  }
+
+  @override
+  String get settings => '設定';
+
+  @override
+  String get language => '言語';
+
+  @override
+  String get about => 'アプリについて';
+
+  @override
+  String get website => 'ウェブサイト';
+
+  @override
+  String get privacyPolicy => 'プライバシーポリシー';
+
+  @override
+  String get termsOfService => '利用規約';
+
+  @override
+  String get active => 'アクティブ';
+
+  @override
+  String get noTripsYet => 'まだ旅行がありません';
+
+  @override
+  String get tapToCreate => '＋ボタンから新しい旅行を作成';
 }

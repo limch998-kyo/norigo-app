@@ -93,4 +93,118 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get tabGuide => '가이드';
+
+  @override
+  String get meetupTitle => '만남역 찾기';
+
+  @override
+  String get meetupSearchButton => '만남역 검색';
+
+  @override
+  String get stationPlaceholder => '역 이름 입력...';
+
+  @override
+  String get addStations => '출발역 추가 (2~5명)';
+
+  @override
+  String get searchMode => '검색 모드';
+
+  @override
+  String get category => '장르 (선택)';
+
+  @override
+  String get budget => '예산 (선택)';
+
+  @override
+  String get options => '옵션';
+
+  @override
+  String get dates => '일정';
+
+  @override
+  String get addLandmarks => '관광지 추가';
+
+  @override
+  String get results => '검색 결과';
+
+  @override
+  String get noResults => '결과를 찾을 수 없습니다';
+
+  @override
+  String get recommendedHotels => '추천 호텔';
+
+  @override
+  String get nearbyVenues => '주변 맛집';
+
+  @override
+  String get route => '경로';
+
+  @override
+  String avgTime(int minutes) {
+    return '평균 $minutes분';
+  }
+
+  @override
+  String get splitStay => '분할 숙박';
+
+  @override
+  String get singleStay => '통합';
+
+  @override
+  String get newTrip => '새 여행';
+
+  @override
+  String get tripName => '여행 이름 입력';
+
+  @override
+  String get create => '생성';
+
+  @override
+  String get cancel => '취소';
+
+  @override
+  String get save => '저장';
+
+  @override
+  String get delete => '삭제';
+
+  @override
+  String get rename => '이름변경';
+
+  @override
+  String deleteConfirm(String name) {
+    return '\"$name\"을 삭제하시겠습니까?';
+  }
+
+  @override
+  String spots(int count) {
+    return '$count개 관광지';
+  }
+
+  @override
+  String get settings => '설정';
+
+  @override
+  String get language => '언어';
+
+  @override
+  String get about => '앱 정보';
+
+  @override
+  String get website => '웹사이트';
+
+  @override
+  String get privacyPolicy => '개인정보 처리방침';
+
+  @override
+  String get termsOfService => '이용약관';
+
+  @override
+  String get active => '활성';
+
+  @override
+  String get noTripsYet => '아직 여행이 없습니다';
+
+  @override
+  String get tapToCreate => '+ 버튼으로 새 여행 생성';
 }

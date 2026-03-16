@@ -32,5 +32,56 @@
   "tabHome": "ホーム",
   "tabSearch": "検索",
   "tabTrip": "旅行",
-  "tabGuide": "ガイド"
+  "tabGuide": "ガイド",
+  "meetupTitle": "集合駅を探す",
+  "meetupSearchButton": "集合駅を検索",
+  "stationPlaceholder": "駅名を入力...",
+  "addStations": "出発駅を追加 (2〜5人)",
+  "searchMode": "検索モード",
+  "category": "ジャンル（任意）",
+  "budget": "予算（任意）",
+  "options": "オプション",
+  "dates": "日程",
+  "addLandmarks": "観光スポットを追加",
+  "results": "検索結果",
+  "noResults": "結果が見つかりませんでした",
+  "recommendedHotels": "おすすめホテル",
+  "nearbyVenues": "周辺のお店",
+  "route": "ルート",
+  "avgTime": "平均 {minutes}分",
+  "@avgTime": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "splitStay": "分泊",
+  "singleStay": "通常",
+  "newTrip": "新しい旅行",
+  "tripName": "旅行名を入力",
+  "create": "作成",
+  "cancel": "キャンセル",
+  "save": "保存",
+  "delete": "削除",
+  "rename": "名前変更",
+  "deleteConfirm": "「{name}」を削除しますか？",
+  "@deleteConfirm": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "spots": "{count}件のスポット",
+  "@spots": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settings": "設定",
+  "language": "言語",
+  "about": "アプリについて",
+  "website": "ウェブサイト",
+  "privacyPolicy": "プライバシーポリシー",
+  "termsOfService": "利用規約",
+  "active": "アクティブ",
+  "noTripsYet": "まだ旅行がありません",
+  "tapToCreate": "＋ボタンから新しい旅行を作成"
 }
