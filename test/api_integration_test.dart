@@ -133,6 +133,38 @@ void main() {
       print('✓ Meetup with izakaya filter: ${result.stations.length} results');
     });
 
+    test('venues (Hot Pepper) are parsed with izakaya filter', () async {
+      final result = await api.getMeetupRecommendation(
+        stationIds: [shibuyaId, shinjukuId],
+        mode: 'centroid',
+        region: 'kanto',
+        category: 'izakaya',
+      );
+      final first = result.stations.first;
+      expect(first.venues, isNotEmpty, reason: 'Izakaya filter should return venues');
+      final venue = first.venues.first;
+      expect(venue.name, isNotEmpty);
+      expect(venue.imageUrl, isNotNull, reason: 'Venue should have photoUrl parsed as imageUrl');
+      expect(venue.genre, isNotNull);
+      print('✓ Venues: ${first.venues.length} venues, first="${venue.name}" genre=${venue.genre} photo=${venue.imageUrl != null}');
+    });
+
+    test('routes are inside distances', () async {
+      final result = await api.getMeetupRecommendation(
+        stationIds: [shibuyaId, shinjukuId],
+        mode: 'centroid',
+        region: 'kanto',
+      );
+      final first = result.stations.first;
+      final hasRoutes = first.distances.any((d) => d.route.isNotEmpty);
+      expect(hasRoutes, isTrue, reason: 'At least one distance should have route segments');
+      final routeDist = first.distances.firstWhere((d) => d.route.isNotEmpty);
+      final seg = routeDist.route.first;
+      expect(seg.line, isNotEmpty);
+      expect(seg.color, startsWith('#'));
+      print('✓ Routes: ${routeDist.participantStationName} -> ${seg.line} (${seg.minutes}min, color=${seg.color})');
+    });
+
     test('distances match participant count', () async {
       final result = await api.getMeetupRecommendation(
         stationIds: [shibuyaId, shinjukuId],

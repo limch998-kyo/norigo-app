@@ -323,14 +323,28 @@ class _MeetupStationCard extends StatelessWidget {
                   )),
 
               // Route Bar (expanded)
-              if (isExpanded && rec.route != null && rec.route!.isNotEmpty) ...[
+              if (isExpanded && rec.allRoutes.isNotEmpty) ...[
                 const Divider(height: 20),
                 Text(
                   locale == 'ja' ? 'ルート' : locale == 'ko' ? '경로' : 'Route',
                   style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 8),
-                _RouteBar(segments: rec.route!),
+                // Show route per participant
+                ...rec.distances.where((d) => d.route.isNotEmpty).map((d) => Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${d.participantStationName} →',
+                        style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5)),
+                      ),
+                      const SizedBox(height: 4),
+                      _RouteBar(segments: d.route),
+                    ],
+                  ),
+                )),
               ],
 
               // Venues (expanded)

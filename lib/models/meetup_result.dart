@@ -5,20 +5,28 @@ class StationDistance {
   final String participantStationName;
   final double distanceKm;
   final int estimatedMinutes;
+  final List<RouteSegment> route;
 
   const StationDistance({
     required this.participantStationId,
     required this.participantStationName,
     required this.distanceKm,
     required this.estimatedMinutes,
+    this.route = const [],
   });
 
   factory StationDistance.fromJson(Map<String, dynamic> json) {
     return StationDistance(
-      participantStationId: json['participantStationId'] as String? ?? '',
-      participantStationName: json['participantStationName'] as String? ?? '',
+      // API uses stationId/stationName, not participantStationId
+      participantStationId: json['stationId'] as String? ?? json['participantStationId'] as String? ?? '',
+      participantStationName: json['stationName'] as String? ?? json['participantStationName'] as String? ?? '',
       distanceKm: (json['distanceKm'] as num?)?.toDouble() ?? 0,
       estimatedMinutes: json['estimatedMinutes'] as int? ?? 0,
+      // Route is inside each distance, not at top level
+      route: (json['route'] as List<dynamic>?)
+              ?.map((e) => RouteSegment.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
   }
 }
@@ -30,6 +38,8 @@ class RouteSegment {
   final String color;
   final String fromStationId;
   final String toStationId;
+  final String? fromStationName;
+  final String? toStationName;
   final int? transferMinutes;
 
   const RouteSegment({
@@ -39,6 +49,8 @@ class RouteSegment {
     required this.color,
     required this.fromStationId,
     required this.toStationId,
+    this.fromStationName,
+    this.toStationName,
     this.transferMinutes,
   });
 
@@ -50,6 +62,8 @@ class RouteSegment {
       color: json['color'] as String? ?? '#888888',
       fromStationId: json['fromStationId'] as String? ?? '',
       toStationId: json['toStationId'] as String? ?? '',
+      fromStationName: json['fromStationName'] as String?,
+      toStationName: json['toStationName'] as String?,
       transferMinutes: json['transferMinutes'] as int?,
     );
   }
@@ -64,6 +78,8 @@ class Venue {
   final String? url;
   final double? lat;
   final double? lng;
+  final String? access;
+  final String? catchText;
 
   const Venue({
     required this.name,
@@ -74,6 +90,8 @@ class Venue {
     this.url,
     this.lat,
     this.lng,
+    this.access,
+    this.catchText,
   });
 
   factory Venue.fromJson(Map<String, dynamic> json) {
@@ -82,10 +100,13 @@ class Venue {
       genre: json['genre'] as String?,
       budget: json['budget'] as String?,
       address: json['address'] as String?,
-      imageUrl: json['imageUrl'] as String? ?? json['photo'] as String?,
+      // API uses 'photoUrl', not 'imageUrl'
+      imageUrl: json['photoUrl'] as String? ?? json['imageUrl'] as String? ?? json['photo'] as String?,
       url: json['url'] as String?,
       lat: (json['lat'] as num?)?.toDouble(),
       lng: (json['lng'] as num?)?.toDouble(),
+      access: json['access'] as String?,
+      catchText: json['catch'] as String? ?? json['genreCatch'] as String?,
     );
   }
 }
@@ -102,7 +123,6 @@ class RecommendedStation {
   final double funScore;
   final double finalScore;
   final List<Venue> venues;
-  final List<RouteSegment>? route;
 
   const RecommendedStation({
     required this.station,
@@ -116,8 +136,12 @@ class RecommendedStation {
     required this.funScore,
     required this.finalScore,
     required this.venues,
-    this.route,
   });
+
+  /// Get all route segments from all distances
+  List<RouteSegment> get allRoutes {
+    return distances.expand((d) => d.route).toList();
+  }
 
   factory RecommendedStation.fromJson(Map<String, dynamic> json) {
     return RecommendedStation(
@@ -138,9 +162,6 @@ class RecommendedStation {
               ?.map((e) => Venue.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      route: (json['route'] as List<dynamic>?)
-          ?.map((e) => RouteSegment.fromJson(e as Map<String, dynamic>))
-          .toList(),
     );
   }
 }
@@ -151,12 +172,10 @@ class MeetupResult {
   const MeetupResult({required this.stations});
 
   factory MeetupResult.fromJson(Map<String, dynamic> json) {
-    // API returns 'results' not 'stations'
     final list = json['results'] as List<dynamic>? ?? json['stations'] as List<dynamic>? ?? [];
     return MeetupResult(
       stations: list
-              .map((e) =>
-                  RecommendedStation.fromJson(e as Map<String, dynamic>))
+              .map((e) => RecommendedStation.fromJson(e as Map<String, dynamic>))
               .toList(),
     );
   }
