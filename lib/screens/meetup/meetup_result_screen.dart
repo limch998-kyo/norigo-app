@@ -461,9 +461,15 @@ class _VoteButtonState extends State<_VoteButton> {
       final url = 'https://norigo.app/vote/$pollId';
       setState(() { _pollUrl = url; _creating = false; });
       // Open vote page in browser (like web app)
-      final uri = Uri.parse(url);
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      // Don't use canLaunchUrl — it requires LSApplicationQueriesSchemes on iOS
+      try {
+        await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+      } catch (_) {
+        // Fallback: copy to clipboard
+        if (mounted) {
+          await Clipboard.setData(ClipboardData(text: url));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('投票リンク: $url')));
+        }
       }
     } else {
       if (mounted) setState(() => _creating = false);
