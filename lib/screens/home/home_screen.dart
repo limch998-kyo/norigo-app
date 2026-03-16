@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/stay_provider.dart';
@@ -25,22 +24,19 @@ class HomeScreen extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // ── Hero Section with SVG background ──
-          Stack(
-            children: [
-              // Background illustration
-              Positioned.fill(
-                child: Opacity(
-                  opacity: 0.15,
-                  child: SvgPicture.asset(
-                    'assets/images/illustrations/hero-bg.svg',
-                    fit: BoxFit.cover,
-                  ),
-                ),
+          // ── Hero Section ──
+          Container(
+            padding: const EdgeInsets.fromLTRB(24, 56, 24, 40),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  AppTheme.primaryBg,
+                  theme.colorScheme.surface,
+                ],
               ),
-              // Content
-              Container(
-                padding: const EdgeInsets.fromLTRB(24, 56, 24, 40),
+            ),
                 child: Column(
                   children: [
                     Text(
@@ -84,8 +80,6 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   ],
                 ),
-              ),
-            ],
           ),
 
           // ── Service Cards with illustrations ──
@@ -95,7 +89,7 @@ class HomeScreen extends ConsumerWidget {
               children: [
                 Expanded(
                   child: _ServiceCard(
-                    illustration: 'assets/images/illustrations/service-stay.svg',
+                    icon: Icons.hotel_rounded,
                     label: l10n.staySearchTitle,
                     subtitle: locale == 'ja'
                         ? '観光地からホテルを探す'
@@ -108,7 +102,7 @@ class HomeScreen extends ConsumerWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: _ServiceCard(
-                    illustration: 'assets/images/illustrations/service-meetup.svg',
+                    icon: Icons.groups_rounded,
                     label: l10n.meetupTitle,
                     subtitle: locale == 'ja'
                         ? 'みんなの中間地点'
@@ -203,13 +197,13 @@ class HomeScreen extends ConsumerWidget {
 }
 
 class _ServiceCard extends StatelessWidget {
-  final String illustration;
+  final IconData icon;
   final String label;
   final String subtitle;
   final VoidCallback onTap;
 
   const _ServiceCard({
-    required this.illustration,
+    required this.icon,
     required this.label,
     required this.subtitle,
     required this.onTap,
@@ -231,13 +225,13 @@ class _ServiceCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Illustration
-            SizedBox(
-              height: 80,
-              child: SvgPicture.asset(
-                illustration,
-                fit: BoxFit.contain,
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: AppTheme.primaryBg,
+                borderRadius: BorderRadius.circular(12),
               ),
+              child: Icon(icon, size: 28, color: AppTheme.primary),
             ),
             const SizedBox(height: 12),
             Text(
@@ -288,16 +282,21 @@ class _HowItWorks extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Step illustration
-                SizedBox(
-                  width: 56,
-                  height: 56,
-                  child: SvgPicture.asset(
-                    step['illustration']!,
-                    fit: BoxFit.contain,
+                // Step number badge
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: AppTheme.primaryBg,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    [Icons.edit_location_alt, Icons.auto_awesome, Icons.hotel][i],
+                    size: 22,
+                    color: AppTheme.primary,
                   ),
                 ),
-                const SizedBox(width: 16),
+                const SizedBox(width: 14),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -349,21 +348,21 @@ class _HowItWorks extends StatelessWidget {
     switch (locale) {
       case 'ja':
         return [
-          {'title': '観光地を入力', 'desc': '行きたい観光スポットを2つ以上入力', 'illustration': 'assets/images/illustrations/stay-step1.svg'},
-          {'title': 'AIが最適エリアを分析', 'desc': '全スポットへのアクセスが良いホテルエリアを算出', 'illustration': 'assets/images/illustrations/stay-step2.svg'},
-          {'title': 'ホテルを予約', 'desc': 'おすすめエリアからホテルを選んで予約', 'illustration': 'assets/images/illustrations/stay-step3.svg'},
+          {'title': '観光地を入力', 'desc': '行きたい観光スポットを2つ以上入力'},
+          {'title': 'AIが最適エリアを分析', 'desc': '全スポットへのアクセスが良いホテルエリアを算出'},
+          {'title': 'ホテルを予約', 'desc': 'おすすめエリアからホテルを選んで予約'},
         ];
       case 'ko':
         return [
-          {'title': '관광지 입력', 'desc': '가고 싶은 관광지를 2개 이상 입력', 'illustration': 'assets/images/illustrations/stay-step1.svg'},
-          {'title': 'AI가 최적 지역 분석', 'desc': '모든 관광지에 접근하기 좋은 호텔 지역 계산', 'illustration': 'assets/images/illustrations/stay-step2.svg'},
-          {'title': '호텔 예약', 'desc': '추천 지역에서 호텔을 골라 예약', 'illustration': 'assets/images/illustrations/stay-step3.svg'},
+          {'title': '관광지 입력', 'desc': '가고 싶은 관광지를 2개 이상 입력'},
+          {'title': 'AI가 최적 지역 분석', 'desc': '모든 관광지에 접근하기 좋은 호텔 지역 계산'},
+          {'title': '호텔 예약', 'desc': '추천 지역에서 호텔을 골라 예약'},
         ];
       default:
         return [
-          {'title': 'Enter Landmarks', 'desc': 'Add 2+ tourist spots you want to visit', 'illustration': 'assets/images/illustrations/stay-step1.svg'},
-          {'title': 'AI Finds Best Area', 'desc': 'We calculate the hotel area with best access to all spots', 'illustration': 'assets/images/illustrations/stay-step2.svg'},
-          {'title': 'Book Your Hotel', 'desc': 'Choose and book from recommended hotels', 'illustration': 'assets/images/illustrations/stay-step3.svg'},
+          {'title': 'Enter Landmarks', 'desc': 'Add 2+ tourist spots you want to visit'},
+          {'title': 'AI Finds Best Area', 'desc': 'We calculate the hotel area with best access to all spots'},
+          {'title': 'Book Your Hotel', 'desc': 'Choose and book from recommended hotels'},
         ];
     }
   }
