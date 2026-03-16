@@ -28,8 +28,8 @@ class Station {
       nameEn: json['nameEn'] as String?,
       nameKo: json['nameKo'] as String?,
       nameZh: json['nameZh'] as String?,
-      lat: (json['lat'] as num).toDouble(),
-      lng: (json['lng'] as num).toDouble(),
+      lat: (json['lat'] as num?)?.toDouble() ?? 0,
+      lng: (json['lng'] as num?)?.toDouble() ?? 0,
       region: json['region'] as String? ?? 'kanto',
       lines: (json['lines'] as List<dynamic>?)
               ?.map((e) => e as String)
