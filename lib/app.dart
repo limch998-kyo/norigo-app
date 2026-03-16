@@ -27,20 +27,24 @@ class NorigoApp extends ConsumerWidget {
       locale: Locale(locale),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const _MainShell(),
+      home: const MainShell(),
     );
   }
 }
 
-class _MainShell extends ConsumerStatefulWidget {
-  const _MainShell();
+class MainShell extends ConsumerStatefulWidget {
+  const MainShell({super.key});
 
   @override
-  ConsumerState<_MainShell> createState() => _MainShellState();
+  ConsumerState<MainShell> createState() => _MainShellState();
 }
 
-class _MainShellState extends ConsumerState<_MainShell> {
+class _MainShellState extends ConsumerState<MainShell> {
   int _currentIndex = 0;
+
+  void switchToTab(int index) {
+    setState(() => _currentIndex = index);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,102 +52,74 @@ class _MainShellState extends ConsumerState<_MainShell> {
     final stayState = ref.watch(staySearchProvider);
     final meetupState = ref.watch(meetupSearchProvider);
 
-    // Determine which screen to show for search tabs
-    Widget searchScreen;
-    if (_currentIndex == 1) {
-      searchScreen = stayState.result != null
-          ? const StayResultScreen()
-          : const StaySearchScreen();
-    } else if (_currentIndex == 2) {
-      searchScreen = meetupState.result != null
-          ? const MeetupResultScreen()
-          : const MeetupSearchScreen();
-    } else {
-      searchScreen = const SizedBox.shrink();
-    }
-
-    return DefaultTabController(
-      length: 5,
-      child: Builder(
-        builder: (context) {
-          // Listen for tab changes from Home screen buttons
-          final tabController = DefaultTabController.of(context);
-          tabController.addListener(() {
-            if (!tabController.indexIsChanging) {
-              setState(() => _currentIndex = tabController.index);
-            }
-          });
-
-          return Scaffold(
-            body: SafeArea(
-              child: IndexedStack(
-                index: _currentIndex,
-                children: [
-                  const HomeScreen(),
-                  searchScreen,
-                  _currentIndex == 2 ? searchScreen : const MeetupSearchScreen(),
-                  const TripScreen(),
-                  const SettingsScreen(),
-                ],
-              ),
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-              currentIndex: _currentIndex,
-              onTap: (index) {
-                setState(() => _currentIndex = index);
-                tabController.animateTo(index);
-              },
-              type: BottomNavigationBarType.fixed,
-              items: [
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.home_outlined),
-                  activeIcon: const Icon(Icons.home),
-                  label: locale == 'ja'
-                      ? 'ホーム'
-                      : locale == 'ko'
-                          ? '홈'
-                          : 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.hotel_outlined),
-                  activeIcon: const Icon(Icons.hotel),
-                  label: locale == 'ja'
-                      ? 'ホテル'
-                      : locale == 'ko'
-                          ? '호텔'
-                          : 'Hotel',
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.groups_outlined),
-                  activeIcon: const Icon(Icons.groups),
-                  label: locale == 'ja'
-                      ? '集合'
-                      : locale == 'ko'
-                          ? '만남'
-                          : 'Meetup',
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.luggage_outlined),
-                  activeIcon: const Icon(Icons.luggage),
-                  label: locale == 'ja'
-                      ? '旅行'
-                      : locale == 'ko'
-                          ? '여행'
-                          : 'Trip',
-                ),
-                BottomNavigationBarItem(
-                  icon: const Icon(Icons.settings_outlined),
-                  activeIcon: const Icon(Icons.settings),
-                  label: locale == 'ja'
-                      ? '設定'
-                      : locale == 'ko'
-                          ? '설정'
-                          : 'Settings',
-                ),
-              ],
-            ),
-          );
-        },
+    return Scaffold(
+      body: SafeArea(
+        child: IndexedStack(
+          index: _currentIndex,
+          children: [
+            HomeScreen(onSwitchTab: switchToTab),
+            stayState.result != null
+                ? const StayResultScreen()
+                : const StaySearchScreen(),
+            meetupState.result != null
+                ? const MeetupResultScreen()
+                : const MeetupSearchScreen(),
+            const TripScreen(),
+            const SettingsScreen(),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) => setState(() => _currentIndex = index),
+        type: BottomNavigationBarType.fixed,
+        items: [
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.home_outlined),
+            activeIcon: const Icon(Icons.home),
+            label: locale == 'ja'
+                ? 'ホーム'
+                : locale == 'ko'
+                    ? '홈'
+                    : 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.hotel_outlined),
+            activeIcon: const Icon(Icons.hotel),
+            label: locale == 'ja'
+                ? 'ホテル'
+                : locale == 'ko'
+                    ? '호텔'
+                    : 'Hotel',
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.groups_outlined),
+            activeIcon: const Icon(Icons.groups),
+            label: locale == 'ja'
+                ? '集合'
+                : locale == 'ko'
+                    ? '만남'
+                    : 'Meetup',
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.luggage_outlined),
+            activeIcon: const Icon(Icons.luggage),
+            label: locale == 'ja'
+                ? '旅行'
+                : locale == 'ko'
+                    ? '여행'
+                    : 'Trip',
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.settings_outlined),
+            activeIcon: const Icon(Icons.settings),
+            label: locale == 'ja'
+                ? '設定'
+                : locale == 'ko'
+                    ? '설정'
+                    : 'Settings',
+          ),
+        ],
       ),
     );
   }

@@ -8,6 +8,10 @@ import '../../providers/app_providers.dart';
 import '../../providers/stay_provider.dart';
 import '../../models/stay_area.dart';
 import '../../models/hotel.dart';
+import '../../models/landmark.dart';
+import '../../widgets/mode_tabs.dart';
+import '../../widgets/share_buttons.dart';
+import '../../widgets/skeleton_loader.dart';
 
 class StayResultScreen extends ConsumerStatefulWidget {
   const StayResultScreen({super.key});
@@ -25,32 +29,76 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
     final l10n = AppLocalizations.of(context)!;
     final locale = ref.watch(localeProvider);
     final state = ref.watch(staySearchProvider);
+    final notifier = ref.read(staySearchProvider.notifier);
     final theme = Theme.of(context);
 
+    // Loading state with skeleton
     if (state.isLoading) {
       return Scaffold(
         appBar: AppBar(title: Text(l10n.staySearchTitle)),
-        body: const Center(child: CircularProgressIndicator()),
+        body: const SkeletonLoader(count: 3),
+      );
+    }
+
+    // Error state
+    if (state.error != null) {
+      return Scaffold(
+        appBar: AppBar(title: Text(l10n.staySearchTitle)),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.error_outline, size: 64, color: Colors.red.shade300),
+                const SizedBox(height: 16),
+                Text(
+                  locale == 'ja'
+                      ? 'エラーが発生しました'
+                      : locale == 'ko'
+                          ? '오류가 발생했습니다'
+                          : 'An error occurred',
+                  style: theme.textTheme.titleMedium,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  state.error!,
+                  style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+                OutlinedButton(
+                  onPressed: () => notifier.search(),
+                  child: Text(locale == 'ja' ? '再試行' : locale == 'ko' ? '재시도' : 'Retry'),
+                ),
+              ],
+            ),
+          ),
+        ),
       );
     }
 
     final result = state.result;
     if (result == null || result.areas.isEmpty) {
       return Scaffold(
-        appBar: AppBar(title: Text(l10n.staySearchTitle)),
+        appBar: AppBar(
+          title: Text(l10n.staySearchTitle),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => notifier.reset(),
+          ),
+        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.search_off, size: 64, color: Colors.grey),
+              Icon(Icons.search_off, size: 64, color: Colors.grey.shade400),
               const SizedBox(height: 16),
-              Text(
-                locale == 'ja'
-                    ? '結果が見つかりませんでした'
-                    : locale == 'ko'
-                        ? '결과를 찾을 수 없습니다'
-                        : 'No results found',
-                style: theme.textTheme.titleMedium,
+              Text(l10n.noResults, style: theme.textTheme.titleMedium),
+              const SizedBox(height: 24),
+              OutlinedButton(
+                onPressed: () => notifier.reset(),
+                child: Text(locale == 'ja' ? '検索に戻る' : locale == 'ko' ? '검색으로 돌아가기' : 'Back to search'),
               ),
             ],
           ),
@@ -65,71 +113,169 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.staySearchTitle),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => notifier.reset(),
+        ),
         actions: [
-          if (result.split && result.splitAreas != null)
-            TextButton.icon(
-              onPressed: () => ref.read(staySearchProvider.notifier).toggleSplit(),
-              icon: Icon(
-                state.showSplit ? Icons.hotel : Icons.swap_horiz,
-                size: 18,
-              ),
-              label: Text(
-                state.showSplit
-                    ? (locale == 'ja' ? '通常' : locale == 'ko' ? '통합' : 'Single')
-                    : (locale == 'ja' ? '分泊' : locale == 'ko' ? '분할' : 'Split'),
-                style: const TextStyle(fontSize: 13),
-              ),
-            ),
+          // Edit search
           IconButton(
-            icon: Icon(_showMap ? Icons.list : Icons.map),
+            icon: const Icon(Icons.tune, size: 20),
+            tooltip: locale == 'ja' ? '検索を編集' : locale == 'ko' ? '검색 수정' : 'Edit search',
+            onPressed: () => notifier.reset(),
+          ),
+          // Map/list toggle
+          IconButton(
+            icon: Icon(_showMap ? Icons.list : Icons.map, size: 20),
             onPressed: () => setState(() => _showMap = !_showMap),
           ),
         ],
       ),
-      body: _showMap
-          ? _MapView(areas: displayAreas, landmarks: state.landmarks)
-          : _ListView(
-              areas: displayAreas,
-              selectedIndex: _selectedAreaIndex,
-              onSelect: (i) => setState(() => _selectedAreaIndex = i),
+      body: Column(
+        children: [
+          // ── Mode Tabs ──
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+            child: ModeTabs(
+              selected: state.mode,
+              onChanged: (mode) {
+                notifier.setMode(mode);
+                notifier.search();
+              },
               locale: locale,
-              l10n: l10n,
             ),
+          ),
+
+          // ── Split/Single Toggle ──
+          if (result.split && result.splitAreas != null)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: _ToggleButton(
+                      label: locale == 'ja' ? '通常（1ホテル）' : locale == 'ko' ? '통합 (1호텔)' : 'Single Hotel',
+                      isSelected: !state.showSplit,
+                      onTap: () {
+                        if (state.showSplit) notifier.toggleSplit();
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: _ToggleButton(
+                      label: locale == 'ja' ? '分泊（2ホテル）' : locale == 'ko' ? '분할 (2호텔)' : 'Split Stay',
+                      isSelected: state.showSplit,
+                      badge: locale == 'ja' ? 'おすすめ' : locale == 'ko' ? '추천' : 'Recommended',
+                      onTap: () {
+                        if (!state.showSplit) notifier.toggleSplit();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+          const SizedBox(height: 8),
+
+          // ── Content ──
+          Expanded(
+            child: _showMap
+                ? _MapView(areas: displayAreas, landmarks: state.landmarks)
+                : ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: displayAreas.length + 1, // +1 for share buttons
+                    itemBuilder: (context, index) {
+                      if (index == displayAreas.length) {
+                        // Share buttons at bottom
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 24),
+                          child: ShareButtons(
+                            title: 'Norigo',
+                            text: locale == 'ja'
+                                ? '${state.landmarks.map((l) => l.name).join('・')}への旅行にぴったりのホテルエリア'
+                                : locale == 'ko'
+                                    ? '${state.landmarks.map((l) => l.name).join('・')} 여행에 최적의 호텔 지역'
+                                    : 'Best hotel area for ${state.landmarks.map((l) => l.name).join(', ')}',
+                            url: 'https://norigo.app/stay/result',
+                            locale: locale,
+                          ),
+                        );
+                      }
+
+                      final area = displayAreas[index];
+                      return _AreaCard(
+                        area: area,
+                        rank: index + 1,
+                        isExpanded: _selectedAreaIndex == index,
+                        onTap: () => setState(() => _selectedAreaIndex = index),
+                        locale: locale,
+                        l10n: l10n,
+                      );
+                    },
+                  ),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class _ListView extends StatelessWidget {
-  final List<StayArea> areas;
-  final int selectedIndex;
-  final ValueChanged<int> onSelect;
-  final String locale;
-  final AppLocalizations l10n;
+class _ToggleButton extends StatelessWidget {
+  final String label;
+  final bool isSelected;
+  final String? badge;
+  final VoidCallback onTap;
 
-  const _ListView({
-    required this.areas,
-    required this.selectedIndex,
-    required this.onSelect,
-    required this.locale,
-    required this.l10n,
+  const _ToggleButton({
+    required this.label,
+    required this.isSelected,
+    this.badge,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: areas.length,
-      itemBuilder: (context, index) {
-        final area = areas[index];
-        return _AreaCard(
-          area: area,
-          rank: index + 1,
-          isExpanded: selectedIndex == index,
-          onTap: () => onSelect(index),
-          locale: locale,
-          l10n: l10n,
-        );
-      },
+    final theme = Theme.of(context);
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        decoration: BoxDecoration(
+          color: isSelected ? theme.colorScheme.primary.withValues(alpha: 0.1) : Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: isSelected ? theme.colorScheme.primary : theme.colorScheme.outline,
+          ),
+        ),
+        child: Column(
+          children: [
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                color: isSelected ? theme.colorScheme.primary : theme.colorScheme.onSurface,
+              ),
+            ),
+            if (badge != null) ...[
+              const SizedBox(height: 2),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
+                decoration: BoxDecoration(
+                  color: Colors.orange,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  badge!,
+                  style: const TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.w600),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
     );
   }
 }
@@ -169,26 +315,7 @@ class _AreaCard extends StatelessWidget {
               // Header
               Row(
                 children: [
-                  Container(
-                    width: 28,
-                    height: 28,
-                    decoration: BoxDecoration(
-                      color: rank <= 3
-                          ? theme.colorScheme.primary
-                          : theme.colorScheme.outline,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Text(
-                        '$rank',
-                        style: TextStyle(
-                          color: rank <= 3 ? Colors.white : Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ),
-                  ),
+                  _RankBadge(rank: rank),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -196,15 +323,29 @@ class _AreaCard extends StatelessWidget {
                       children: [
                         Text(
                           stationName,
-                          style: theme.textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
+                          style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
                         ),
-                        Text(
-                          l10n.minutesAway(area.avgEstimatedMinutes),
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.primary,
-                            fontWeight: FontWeight.w600,
-                          ),
+                        Row(
+                          children: [
+                            Icon(Icons.access_time, size: 14, color: theme.colorScheme.primary),
+                            const SizedBox(width: 4),
+                            Text(
+                              l10n.minutesAway(area.avgEstimatedMinutes),
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: theme.colorScheme.primary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              'max ${area.maxEstimatedMinutes}min',
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -223,43 +364,124 @@ class _AreaCard extends StatelessWidget {
                           Icon(Icons.place, size: 14, color: theme.colorScheme.primary),
                           const SizedBox(width: 6),
                           Expanded(
-                            child: Text(
-                              ld.landmarkName,
-                              style: const TextStyle(fontSize: 13),
-                            ),
+                            child: Text(ld.landmarkName, style: const TextStyle(fontSize: 13)),
                           ),
                           Text(
                             '${ld.estimatedMinutes}min',
                             style: TextStyle(
                               fontSize: 12,
-                              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                              fontWeight: FontWeight.w500,
+                              color: ld.estimatedMinutes <= 30
+                                  ? Colors.green.shade700
+                                  : ld.estimatedMinutes <= 60
+                                      ? Colors.orange.shade700
+                                      : Colors.red.shade700,
                             ),
                           ),
+                          if (ld.distanceKm > 0) ...[
+                            const SizedBox(width: 6),
+                            Text(
+                              '${ld.distanceKm.toStringAsFixed(1)}km',
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
+                              ),
+                            ),
+                          ],
                         ],
                       ),
                     )),
               ],
 
+              // Area description
+              if (isExpanded && area.areaDescription != null) ...[
+                const SizedBox(height: 12),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.primary.withValues(alpha: 0.05),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    area.areaDescription!,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
+                      height: 1.5,
+                    ),
+                  ),
+                ),
+              ],
+
               // Hotels (expanded)
               if (isExpanded && area.hotels.isNotEmpty) ...[
                 const Divider(height: 24),
-                Text(
-                  locale == 'ja'
-                      ? 'おすすめホテル'
-                      : locale == 'ko'
-                          ? '추천 호텔'
-                          : 'Recommended Hotels',
-                  style: theme.textTheme.titleSmall
-                      ?.copyWith(fontWeight: FontWeight.w600),
+                Row(
+                  children: [
+                    Icon(Icons.hotel, size: 16, color: theme.colorScheme.primary),
+                    const SizedBox(width: 6),
+                    Text(
+                      l10n.recommendedHotels,
+                      style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 8),
-                ...area.hotels.take(5).map((hotel) => _HotelTile(
-                      hotel: hotel,
-                      l10n: l10n,
-                    )),
+                ...area.hotels.take(5).map((hotel) => _HotelTile(hotel: hotel, l10n: l10n)),
               ],
+
+              // Expand indicator
+              if (!isExpanded && area.hotels.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Center(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.expand_more, size: 16, color: theme.colorScheme.onSurface.withValues(alpha: 0.4)),
+                        Text(
+                          locale == 'ja'
+                              ? 'ホテル ${area.hotels.length}件を表示'
+                              : locale == 'ko'
+                                  ? '호텔 ${area.hotels.length}개 보기'
+                                  : 'Show ${area.hotels.length} hotels',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _RankBadge extends StatelessWidget {
+  final int rank;
+
+  const _RankBadge({required this.rank});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = [Colors.amber.shade700, Colors.grey.shade500, Colors.brown.shade400];
+    final color = rank <= 3
+        ? colors[rank - 1]
+        : Theme.of(context).colorScheme.outline;
+
+    return Container(
+      width: 28,
+      height: 28,
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+      child: Center(
+        child: Text(
+          '$rank',
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 13),
         ),
       ),
     );
@@ -311,32 +533,18 @@ class _HotelTile extends StatelessWidget {
       child: Row(
         children: [
           // Hotel image
-          if (hotel.imageUrl != null)
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.network(
-                hotel.imageUrl!,
-                width: 64,
-                height: 64,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => Container(
-                  width: 64,
-                  height: 64,
-                  color: theme.colorScheme.surfaceContainerHighest,
-                  child: const Icon(Icons.hotel, size: 24),
-                ),
-              ),
-            )
-          else
-            Container(
-              width: 64,
-              height: 64,
-              decoration: BoxDecoration(
-                color: theme.colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const Icon(Icons.hotel, size: 24),
-            ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: hotel.imageUrl != null
+                ? Image.network(
+                    hotel.imageUrl!,
+                    width: 72,
+                    height: 72,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => _ImagePlaceholder(),
+                  )
+                : _ImagePlaceholder(),
+          ),
           const SizedBox(width: 12),
 
           // Hotel info
@@ -354,18 +562,17 @@ class _HotelTile extends StatelessWidget {
                 Row(
                   children: [
                     if (hotel.starRating != null) ...[
-                      Icon(Icons.star, size: 14, color: Colors.amber.shade700),
-                      Text(
-                        hotel.starRating!.toStringAsFixed(1),
-                        style: const TextStyle(fontSize: 12),
+                      ...List.generate(
+                        hotel.starRating!.round().clamp(0, 5),
+                        (_) => Icon(Icons.star, size: 12, color: Colors.amber.shade700),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                     ],
                     if (hotel.reviewScore != null)
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: Colors.blue.shade50,
+                          color: _scoreColor(hotel.reviewScore!).withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
@@ -373,10 +580,17 @@ class _HotelTile extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.bold,
-                            color: Colors.blue.shade700,
+                            color: _scoreColor(hotel.reviewScore!),
                           ),
                         ),
                       ),
+                    if (hotel.reviewCount != null) ...[
+                      const SizedBox(width: 4),
+                      Text(
+                        '(${hotel.reviewCount})',
+                        style: TextStyle(fontSize: 10, color: theme.colorScheme.onSurface.withValues(alpha: 0.4)),
+                      ),
+                    ],
                   ],
                 ),
               ],
@@ -391,7 +605,7 @@ class _HotelTile extends StatelessWidget {
                 Text(
                   hotel.formattedPrice,
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: theme.colorScheme.primary,
                   ),
@@ -404,7 +618,7 @@ class _HotelTile extends StatelessWidget {
                   ),
                 ),
               ],
-              const SizedBox(height: 4),
+              const SizedBox(height: 6),
               if (hotel.bookingUrl != null)
                 GestureDetector(
                   onTap: () async {
@@ -414,18 +628,14 @@ class _HotelTile extends StatelessWidget {
                     }
                   },
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
                       color: theme.colorScheme.primary,
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
                       l10n.bookNow,
-                      style: const TextStyle(
-                        fontSize: 11,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: const TextStyle(fontSize: 11, color: Colors.white, fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),
@@ -435,11 +645,33 @@ class _HotelTile extends StatelessWidget {
       ),
     );
   }
+
+  Color _scoreColor(double score) {
+    if (score >= 8.5) return Colors.green.shade700;
+    if (score >= 7.0) return Colors.blue.shade700;
+    if (score >= 5.0) return Colors.orange.shade700;
+    return Colors.red.shade700;
+  }
+}
+
+class _ImagePlaceholder extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 72,
+      height: 72,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: const Icon(Icons.hotel, size: 24),
+    );
+  }
 }
 
 class _MapView extends StatelessWidget {
   final List<StayArea> areas;
-  final List<dynamic> landmarks;
+  final List<Landmark> landmarks;
 
   const _MapView({required this.areas, required this.landmarks});
 
@@ -447,13 +679,18 @@ class _MapView extends StatelessWidget {
   Widget build(BuildContext context) {
     if (areas.isEmpty) return const SizedBox.shrink();
 
-    final center = LatLng(areas.first.station.lat, areas.first.station.lng);
+    final allPoints = [
+      ...areas.map((a) => LatLng(a.station.lat, a.station.lng)),
+      ...landmarks.map((l) => LatLng(l.lat, l.lng)),
+    ];
+
+    final center = LatLng(
+      allPoints.map((p) => p.latitude).reduce((a, b) => a + b) / allPoints.length,
+      allPoints.map((p) => p.longitude).reduce((a, b) => a + b) / allPoints.length,
+    );
 
     return FlutterMap(
-      options: MapOptions(
-        initialCenter: center,
-        initialZoom: 12,
-      ),
+      options: MapOptions(initialCenter: center, initialZoom: 11),
       children: [
         TileLayer(
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -461,7 +698,21 @@ class _MapView extends StatelessWidget {
         ),
         MarkerLayer(
           markers: [
-            // Area markers
+            // Landmark markers (blue)
+            ...landmarks.map((l) => Marker(
+                  point: LatLng(l.lat, l.lng),
+                  width: 28,
+                  height: 28,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white, width: 2),
+                    ),
+                    child: const Icon(Icons.place, size: 16, color: Colors.white),
+                  ),
+                )),
+            // Area markers (coral)
             ...areas.asMap().entries.map((entry) {
               final area = entry.value;
               final rank = entry.key + 1;
@@ -474,21 +725,12 @@ class _MapView extends StatelessWidget {
                     color: Theme.of(context).colorScheme.primary,
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.white, width: 2),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.2),
-                        blurRadius: 4,
-                      ),
-                    ],
+                    boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 4)],
                   ),
                   child: Center(
                     child: Text(
                       '$rank',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
+                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
                     ),
                   ),
                 ),

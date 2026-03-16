@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import '../../../l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../../config/constants.dart';
+import '../../../models/landmark.dart';
 
 class QuickPlan {
   final String id;
   final String region;
   final String image;
   final Map<String, Map<String, String>> labels;
+  final List<Map<String, dynamic>> landmarks;
 
   const QuickPlan({
     required this.id,
     required this.region,
     required this.image,
     required this.labels,
+    required this.landmarks,
   });
 }
 
@@ -28,6 +31,11 @@ const _plans = [
       'ko': {'title': '시부야・하라주쿠・신주쿠', 'subtitle': '도쿄 핵심 코스'},
       'zh': {'title': '涩谷・原宿・新宿', 'subtitle': '东京经典路线'},
     },
+    landmarks: [
+      {'slug': 'shibuya-crossing', 'name': '渋谷スクランブル交差点', 'nameEn': 'Shibuya Crossing', 'lat': 35.6595, 'lng': 139.7004, 'region': 'kanto'},
+      {'slug': 'harajuku-takeshita', 'name': '原宿竹下通り', 'nameEn': 'Harajuku Takeshita', 'lat': 35.6702, 'lng': 139.7026, 'region': 'kanto'},
+      {'slug': 'shinjuku-gyoen', 'name': '新宿御苑', 'nameEn': 'Shinjuku Gyoen', 'lat': 35.6852, 'lng': 139.7100, 'region': 'kanto'},
+    ],
   ),
   QuickPlan(
     id: 'tokyo-traditional',
@@ -39,6 +47,27 @@ const _plans = [
       'ko': {'title': '아사쿠사・우에노・도쿄역', 'subtitle': '전통과 쇼핑을 한번에'},
       'zh': {'title': '浅草・上野・东京站', 'subtitle': '传统与购物一次搞定'},
     },
+    landmarks: [
+      {'slug': 'sensoji-temple', 'name': '浅草寺', 'nameEn': 'Sensoji Temple', 'lat': 35.7148, 'lng': 139.7967, 'region': 'kanto'},
+      {'slug': 'ueno-park', 'name': '上野恩賜公園', 'nameEn': 'Ueno Park', 'lat': 35.7146, 'lng': 139.7714, 'region': 'kanto'},
+      {'slug': 'tokyo-station', 'name': '東京駅', 'nameEn': 'Tokyo Station', 'lat': 35.6812, 'lng': 139.7671, 'region': 'kanto'},
+    ],
+  ),
+  QuickPlan(
+    id: 'tokyo-family',
+    region: 'kanto',
+    image: '/images/landmarks/odaiba.webp',
+    labels: {
+      'en': {'title': 'Odaiba · Akihabara · Ikebukuro', 'subtitle': 'Family & pop culture'},
+      'ja': {'title': 'お台場・秋葉原・池袋', 'subtitle': 'ファミリー＆ポップカルチャー'},
+      'ko': {'title': '오다이바・아키하바라・이케부쿠로', 'subtitle': '가족 & 팝컬처'},
+      'zh': {'title': '台场・秋叶原・池袋', 'subtitle': '家庭与流行文化'},
+    },
+    landmarks: [
+      {'slug': 'odaiba', 'name': 'お台場', 'nameEn': 'Odaiba', 'lat': 35.6268, 'lng': 139.7753, 'region': 'kanto'},
+      {'slug': 'akihabara', 'name': '秋葉原', 'nameEn': 'Akihabara', 'lat': 35.6984, 'lng': 139.7731, 'region': 'kanto'},
+      {'slug': 'ikebukuro-sunshine', 'name': '池袋サンシャインシティ', 'nameEn': 'Ikebukuro Sunshine City', 'lat': 35.7295, 'lng': 139.7186, 'region': 'kanto'},
+    ],
   ),
   QuickPlan(
     id: 'osaka-gourmet',
@@ -50,6 +79,11 @@ const _plans = [
       'ko': {'title': '도톤보리・난바・신사이바시', 'subtitle': '오사카 먹방 여행'},
       'zh': {'title': '道顿堀・难波・心斋桥', 'subtitle': '大阪美食之旅'},
     },
+    landmarks: [
+      {'slug': 'dotonbori', 'name': '道頓堀', 'nameEn': 'Dotonbori', 'lat': 34.6687, 'lng': 135.5013, 'region': 'kansai'},
+      {'slug': 'namba', 'name': 'なんば', 'nameEn': 'Namba', 'lat': 34.6659, 'lng': 135.5013, 'region': 'kansai'},
+      {'slug': 'shinsaibashi', 'name': '心斎橋', 'nameEn': 'Shinsaibashi', 'lat': 34.6748, 'lng': 135.5016, 'region': 'kansai'},
+    ],
   ),
   QuickPlan(
     id: 'kyoto-daytrip',
@@ -61,11 +95,18 @@ const _plans = [
       'ko': {'title': '기요미즈데라・후시미이나리・아라시야마', 'subtitle': '교토 당일치기'},
       'zh': {'title': '清水寺・伏见稻荷・岚山', 'subtitle': '京都一日游'},
     },
+    landmarks: [
+      {'slug': 'kiyomizu-dera', 'name': '清水寺', 'nameEn': 'Kiyomizu-dera', 'lat': 34.9949, 'lng': 135.7850, 'region': 'kansai'},
+      {'slug': 'fushimi-inari', 'name': '伏見稲荷大社', 'nameEn': 'Fushimi Inari Shrine', 'lat': 34.9671, 'lng': 135.7727, 'region': 'kansai'},
+      {'slug': 'arashiyama', 'name': '嵐山', 'nameEn': 'Arashiyama', 'lat': 35.0094, 'lng': 135.6672, 'region': 'kansai'},
+    ],
   ),
 ];
 
 class QuickPlanCards extends StatelessWidget {
-  const QuickPlanCards({super.key});
+  final void Function(String planId, String region, List<Landmark> landmarks)? onPlanSelected;
+
+  const QuickPlanCards({super.key, this.onPlanSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +124,6 @@ class QuickPlanCards extends StatelessWidget {
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
           ),
-          textAlign: TextAlign.center,
         ),
         const SizedBox(height: 4),
         Text(
@@ -91,7 +131,6 @@ class QuickPlanCards extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
           ),
-          textAlign: TextAlign.center,
         ),
         const SizedBox(height: 16),
 
@@ -101,6 +140,7 @@ class QuickPlanCards extends StatelessWidget {
           plans: kantoPlans,
           locale: locale,
           ctaText: l10n.quickPlanCta,
+          onPlanSelected: onPlanSelected,
         ),
         const SizedBox(height: 16),
 
@@ -110,6 +150,7 @@ class QuickPlanCards extends StatelessWidget {
           plans: kansaiPlans,
           locale: locale,
           ctaText: l10n.quickPlanCta,
+          onPlanSelected: onPlanSelected,
         ),
       ],
     );
@@ -121,12 +162,14 @@ class _RegionSection extends StatelessWidget {
   final List<QuickPlan> plans;
   final String locale;
   final String ctaText;
+  final void Function(String, String, List<Landmark>)? onPlanSelected;
 
   const _RegionSection({
     required this.title,
     required this.plans,
     required this.locale,
     required this.ctaText,
+    this.onPlanSelected,
   });
 
   @override
@@ -142,10 +185,25 @@ class _RegionSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 12),
-        ...plans.map((plan) => Padding(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: _QuickPlanCard(plan: plan, locale: locale, ctaText: ctaText),
-        )),
+        SizedBox(
+          height: 180,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: plans.length,
+            separatorBuilder: (_, __) => const SizedBox(width: 12),
+            itemBuilder: (context, index) {
+              return SizedBox(
+                width: 260,
+                child: _QuickPlanCard(
+                  plan: plans[index],
+                  locale: locale,
+                  ctaText: ctaText,
+                  onPlanSelected: onPlanSelected,
+                ),
+              );
+            },
+          ),
+        ),
       ],
     );
   }
@@ -155,11 +213,13 @@ class _QuickPlanCard extends StatelessWidget {
   final QuickPlan plan;
   final String locale;
   final String ctaText;
+  final void Function(String, String, List<Landmark>)? onPlanSelected;
 
   const _QuickPlanCard({
     required this.plan,
     required this.locale,
     required this.ctaText,
+    this.onPlanSelected,
   });
 
   @override
@@ -169,7 +229,17 @@ class _QuickPlanCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        // TODO: Navigate to stay search with pre-filled landmarks
+        if (onPlanSelected != null) {
+          final landmarks = plan.landmarks.map((l) => Landmark(
+            slug: l['slug'] as String,
+            name: l['name'] as String,
+            nameEn: l['nameEn'] as String?,
+            lat: l['lat'] as double,
+            lng: l['lng'] as double,
+            region: l['region'] as String,
+          )).toList();
+          onPlanSelected!(plan.id, plan.region, landmarks);
+        }
       },
       child: Container(
         decoration: BoxDecoration(
@@ -181,8 +251,7 @@ class _QuickPlanCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Image
-            AspectRatio(
-              aspectRatio: 16 / 9,
+            Expanded(
               child: Stack(
                 fit: StackFit.expand,
                 children: [
@@ -195,7 +264,6 @@ class _QuickPlanCard extends StatelessWidget {
                       child: const Icon(Icons.image_not_supported),
                     ),
                   ),
-                  // Gradient overlay
                   Container(
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
@@ -205,16 +273,15 @@ class _QuickPlanCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // Title on image
                   Positioned(
-                    bottom: 12,
-                    left: 12,
-                    right: 12,
+                    bottom: 10,
+                    left: 10,
+                    right: 10,
                     child: Text(
                       labels['title']!,
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                         shadows: [Shadow(blurRadius: 4, color: Colors.black45)],
                       ),
@@ -225,7 +292,7 @@ class _QuickPlanCard extends StatelessWidget {
             ),
             // Bottom bar
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -234,27 +301,24 @@ class _QuickPlanCard extends StatelessWidget {
                       labels['subtitle']!,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                        fontSize: 11,
                       ),
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.primary,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(6),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.search, size: 14, color: Colors.white),
-                        const SizedBox(width: 4),
+                        const Icon(Icons.search, size: 12, color: Colors.white),
+                        const SizedBox(width: 3),
                         Text(
                           ctaText,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600),
                         ),
                       ],
                     ),
