@@ -128,8 +128,11 @@ class _LandmarkInputListState extends State<LandmarkInputList> {
           final landmark = entry.value;
           final controller = _getController(i);
 
+          // Sync controller text with landmark data (handles region switch + locale change)
           if (landmark != null && controller.text != landmark.name) {
             controller.text = landmark.name;
+          } else if (landmark == null && controller.text.isNotEmpty) {
+            controller.text = '';
           }
 
           return Padding(

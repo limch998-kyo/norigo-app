@@ -149,9 +149,11 @@ class _StationInputListState extends State<StationInputList> {
           final station = entry.value;
           final controller = _getController(i);
 
-          // Sync controller text if station was set externally
+          // Sync controller text with station data (handles region switch)
           if (station != null && controller.text != station.name) {
             controller.text = station.name;
+          } else if (station == null && controller.text.isNotEmpty) {
+            controller.text = '';
           }
 
           return Padding(

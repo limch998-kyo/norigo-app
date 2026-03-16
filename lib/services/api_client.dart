@@ -224,6 +224,35 @@ class ApiClient {
     return response.data as Map<String, dynamic>;
   }
 
+  // ── Trip Resolve (get locale-specific names for landmarks) ──
+
+  Future<List<Landmark>> resolveLandmarks(List<String> slugs, {String? locale}) async {
+    try {
+      final response = await _dio.post(
+        AppConstants.tripResolveEndpoint,
+        data: {
+          'slugs': slugs,
+          if (locale != null) 'locale': locale,
+        },
+      );
+      final data = response.data;
+      final List list = data is List ? data : (data is Map ? data['results'] as List? ?? [] : []);
+      return list.map((e) {
+        final json = e as Map<String, dynamic>;
+        return Landmark(
+          slug: json['slug'] as String? ?? '',
+          name: json['name'] as String? ?? json['displayName'] as String? ?? '',
+          nameEn: json['nameEn'] as String?,
+          lat: (json['lat'] as num?)?.toDouble() ?? 0,
+          lng: (json['lng'] as num?)?.toDouble() ?? 0,
+          region: json['region'] as String? ?? 'kanto',
+        );
+      }).toList();
+    } catch (_) {
+      return [];
+    }
+  }
+
   // ── Event Logging ──
 
   Future<void> logEvent({

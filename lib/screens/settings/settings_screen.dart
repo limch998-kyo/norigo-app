@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/app_providers.dart';
+import '../../providers/stay_provider.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -53,6 +54,8 @@ class SettingsScreen extends ConsumerWidget {
                   : null,
               onTap: () {
                 ref.read(localeProvider.notifier).state = entry.key;
+                // Re-resolve landmark names in the new locale
+                ref.read(staySearchProvider.notifier).refreshLandmarkNames();
               },
             );
           }),

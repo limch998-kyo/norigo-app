@@ -214,6 +214,59 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
     }
   }
 
+  /// Re-resolve landmark names in the current locale (called after locale change)
+  Future<void> refreshLandmarkNames() async {
+    final filled = state.landmarks;
+    if (filled.isEmpty) return;
+
+    final slugs = filled.map((l) => l.slug).toList();
+    final api = _ref.read(apiClientProvider);
+    final locale = _ref.read(localeProvider);
+
+    final resolved = await api.resolveLandmarks(slugs, locale: locale);
+    if (resolved.isEmpty) return;
+
+    // Build slug → resolved name map
+    final nameMap = <String, Landmark>{};
+    for (final r in resolved) {
+      nameMap[r.slug] = r;
+    }
+
+    // Update slots with resolved names (keep lat/lng from original)
+    final newSlots = state.slots.map((slot) {
+      if (slot == null) return slot;
+      final resolved = nameMap[slot.slug];
+      if (resolved != null) {
+        return Landmark(
+          slug: slot.slug,
+          name: resolved.name,
+          nameEn: resolved.nameEn ?? slot.nameEn,
+          lat: slot.lat,
+          lng: slot.lng,
+          region: slot.region,
+        );
+      }
+      return slot;
+    }).toList();
+
+    state = state.copyWith(slots: newSlots);
+    _regionSlots[state.region] = List.from(newSlots);
+
+    // Also update other cached regions
+    for (final region in _regionSlots.keys.toList()) {
+      if (region == state.region) continue;
+      final cachedSlots = _regionSlots[region]!;
+      _regionSlots[region] = cachedSlots.map((slot) {
+        if (slot == null) return slot;
+        final resolved = nameMap[slot.slug];
+        if (resolved != null) {
+          return Landmark(slug: slot.slug, name: resolved.name, nameEn: resolved.nameEn ?? slot.nameEn, lat: slot.lat, lng: slot.lng, region: slot.region);
+        }
+        return slot;
+      }).toList();
+    }
+  }
+
   /// Clear result only (go back to search with inputs preserved)
   void clearResult() {
     state = state.copyWith(clearResult: true, clearError: true);
