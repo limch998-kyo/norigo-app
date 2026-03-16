@@ -254,6 +254,15 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
                 child: Text(state.error!, style: TextStyle(color: Colors.red.shade700, fontSize: 13)),
               ),
             ],
+
+            // Popular spot cards (always visible below search)
+            const SizedBox(height: 24),
+            _PopularSpotCards(
+              region: state.region,
+              locale: locale,
+              onSelect: (landmark) => notifier.addLandmark(landmark),
+            ),
+            const SizedBox(height: 24),
           ],
         ),
       ),
@@ -268,6 +277,116 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
       'busan': {'ja': '釜山', 'en': 'Busan', 'ko': '부산', 'zh': '釜山'},
     };
     return labels[region]?[locale] ?? labels[region]?['en'] ?? region;
+  }
+}
+
+class _PopularSpotCards extends StatelessWidget {
+  final String region;
+  final String locale;
+  final void Function(Landmark) onSelect;
+
+  const _PopularSpotCards({required this.region, required this.locale, required this.onSelect});
+
+  static const _spots = {
+    'kanto': [
+      {'slug': 'shibuya', 'name': '渋谷スクランブル交差点', 'nameKo': '시부야 스크램블 교차로', 'nameEn': 'Shibuya Crossing', 'lat': 35.6595, 'lng': 139.7004, 'image': 'shibuya-crossing'},
+      {'slug': 'asakusa', 'name': '浅草寺', 'nameKo': '센소지', 'nameEn': 'Sensoji Temple', 'lat': 35.7148, 'lng': 139.7967, 'image': 'asakusa-senso-ji'},
+      {'slug': 'odaiba', 'name': 'お台場', 'nameKo': '오다이바', 'nameEn': 'Odaiba', 'lat': 35.6268, 'lng': 139.7753, 'image': 'odaiba'},
+    ],
+    'kansai': [
+      {'slug': 'dotonbori', 'name': '道頓堀', 'nameKo': '도톤보리', 'nameEn': 'Dotonbori', 'lat': 34.6687, 'lng': 135.5013, 'image': 'dotonbori'},
+      {'slug': 'fushimi', 'name': '伏見稲荷大社', 'nameKo': '후시미이나리 신사', 'nameEn': 'Fushimi Inari', 'lat': 34.9671, 'lng': 135.7727, 'image': 'fushimi-inari-taisha'},
+    ],
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    final spots = _spots[region];
+    if (spots == null || spots.isEmpty) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          locale == 'ja' ? '人気スポット' : locale == 'ko' ? '인기 관광지' : 'Popular Spots',
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+        ),
+        const SizedBox(height: 8),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            childAspectRatio: 1.4,
+          ),
+          itemCount: spots.length,
+          itemBuilder: (context, index) {
+            final spot = spots[index];
+            final name = locale == 'ko' ? spot['nameKo'] as String
+                : locale == 'en' ? spot['nameEn'] as String
+                : spot['name'] as String;
+            final imageFile = spot['image'] as String;
+
+            return GestureDetector(
+              onTap: () => onSelect(Landmark(
+                slug: spot['slug'] as String,
+                name: name,
+                lat: spot['lat'] as double,
+                lng: spot['lng'] as double,
+                region: region,
+              )),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppTheme.border),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.asset(
+                      'assets/images/landmarks/$imageFile.webp',
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => Container(color: AppTheme.muted, child: const Icon(Icons.place, size: 32)),
+                    ),
+                    Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.center,
+                          colors: [Colors.black54, Colors.transparent],
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 8,
+                      left: 8,
+                      right: 8,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(name, style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600,
+                            shadows: [Shadow(blurRadius: 4, color: Colors.black45)]), maxLines: 1, overflow: TextOverflow.ellipsis),
+                          const SizedBox(height: 2),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(color: AppTheme.primary.withValues(alpha: 0.9), borderRadius: BorderRadius.circular(4)),
+                            child: Text('+ ${locale == 'ja' ? '追加' : locale == 'ko' ? '추가' : 'Add'}',
+                              style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.w600)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
   }
 }
 
