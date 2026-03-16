@@ -35,6 +35,7 @@ class _StationInputListState extends State<StationInputList> {
   Timer? _debounce;
   final Map<int, TextEditingController> _controllers = {};
   final Map<int, FocusNode> _focusNodes = {};
+  List<Station?>? _prevStations;
 
   TextEditingController _getController(int index) {
     return _controllers.putIfAbsent(index, () => TextEditingController());
@@ -141,6 +142,10 @@ class _StationInputListState extends State<StationInputList> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _prevStations = List.from(widget.stations);
+    });
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -149,11 +154,15 @@ class _StationInputListState extends State<StationInputList> {
           final station = entry.value;
           final controller = _getController(i);
 
-          // Sync controller text with station data (handles region switch)
-          if (station != null && controller.text != station.name) {
-            controller.text = station.name;
-          } else if (station == null && controller.text.isNotEmpty) {
-            controller.text = '';
+          // Sync controller text only when stations actually changed (region switch)
+          final prevStation = (_prevStations != null && i < _prevStations!.length) ? _prevStations![i] : null;
+          final stationChanged = (prevStation?.id != station?.id) || (prevStation?.name != station?.name);
+          if (stationChanged) {
+            if (station != null) {
+              controller.text = station.name;
+            } else {
+              controller.text = '';
+            }
           }
 
           return Padding(

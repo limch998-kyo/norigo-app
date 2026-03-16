@@ -35,6 +35,7 @@ class _LandmarkInputListState extends State<LandmarkInputList> {
   Timer? _debounce;
   final Map<int, TextEditingController> _controllers = {};
   final Map<int, FocusNode> _focusNodes = {};
+  List<Landmark?>? _prevLandmarks;
 
   TextEditingController _getController(int index) {
     return _controllers.putIfAbsent(index, () => TextEditingController());
@@ -120,6 +121,11 @@ class _LandmarkInputListState extends State<LandmarkInputList> {
 
   @override
   Widget build(BuildContext context) {
+    // Schedule prevLandmarks update after build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _prevLandmarks = List.from(widget.landmarks);
+    });
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -128,11 +134,16 @@ class _LandmarkInputListState extends State<LandmarkInputList> {
           final landmark = entry.value;
           final controller = _getController(i);
 
-          // Sync controller text with landmark data (handles region switch + locale change)
-          if (landmark != null && controller.text != landmark.name) {
-            controller.text = landmark.name;
-          } else if (landmark == null && controller.text.isNotEmpty) {
-            controller.text = '';
+          // Sync controller text only when landmarks actually changed (region switch / locale)
+          // NOT during every build — that would kill IME input
+          final prevLandmark = (_prevLandmarks != null && i < _prevLandmarks!.length) ? _prevLandmarks![i] : null;
+          final landmarkChanged = (prevLandmark?.slug != landmark?.slug) || (prevLandmark?.name != landmark?.name);
+          if (landmarkChanged) {
+            if (landmark != null) {
+              controller.text = landmark.name;
+            } else {
+              controller.text = '';
+            }
           }
 
           return Padding(
