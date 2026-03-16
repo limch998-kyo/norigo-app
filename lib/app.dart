@@ -41,9 +41,14 @@ class MainShell extends ConsumerStatefulWidget {
 
 class _MainShellState extends ConsumerState<MainShell> {
   int _currentIndex = 0;
+  // Track which tabs have been visited (for lazy init)
+  final Set<int> _visitedTabs = {0};
 
   void switchToTab(int index) {
-    setState(() => _currentIndex = index);
+    setState(() {
+      _currentIndex = index;
+      _visitedTabs.add(index);
+    });
   }
 
   @override
@@ -52,82 +57,51 @@ class _MainShellState extends ConsumerState<MainShell> {
     final stayState = ref.watch(staySearchProvider);
     final meetupState = ref.watch(meetupSearchProvider);
 
-    // Lazy build — only build the active tab (not all 5 at once)
-    Widget buildTab() {
-      switch (_currentIndex) {
-        case 0:
-          return HomeScreen(onSwitchTab: switchToTab);
-        case 1:
-          return stayState.result != null
-              ? const StayResultScreen()
-              : const StaySearchScreen();
-        case 2:
-          return meetupState.result != null
-              ? const MeetupResultScreen()
-              : const MeetupSearchScreen();
-        case 3:
-          return const TripScreen();
-        case 4:
-          return const SettingsScreen();
-        default:
-          return HomeScreen(onSwitchTab: switchToTab);
-      }
-    }
-
     return Scaffold(
       body: SafeArea(
-        child: buildTab(),
+        child: IndexedStack(
+          index: _currentIndex,
+          children: [
+            // 0: Home (always built)
+            HomeScreen(onSwitchTab: switchToTab),
+            // 1: Stay (lazy)
+            if (_visitedTabs.contains(1))
+              stayState.result != null ? const StayResultScreen() : const StaySearchScreen()
+            else
+              const SizedBox.shrink(),
+            // 2: Meetup (lazy)
+            if (_visitedTabs.contains(2))
+              meetupState.result != null ? const MeetupResultScreen() : const MeetupSearchScreen()
+            else
+              const SizedBox.shrink(),
+            // 3: Trip (lazy)
+            if (_visitedTabs.contains(3))
+              const TripScreen()
+            else
+              const SizedBox.shrink(),
+            // 4: Settings (lazy)
+            if (_visitedTabs.contains(4))
+              const SettingsScreen()
+            else
+              const SizedBox.shrink(),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        onTap: (index) => setState(() => _currentIndex = index),
+        onTap: switchToTab,
         type: BottomNavigationBarType.fixed,
         items: [
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.home_outlined),
-            activeIcon: const Icon(Icons.home),
-            label: locale == 'ja'
-                ? 'ホーム'
-                : locale == 'ko'
-                    ? '홈'
-                    : 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.hotel_outlined),
-            activeIcon: const Icon(Icons.hotel),
-            label: locale == 'ja'
-                ? 'ホテル'
-                : locale == 'ko'
-                    ? '호텔'
-                    : 'Hotel',
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.groups_outlined),
-            activeIcon: const Icon(Icons.groups),
-            label: locale == 'ja'
-                ? '集合'
-                : locale == 'ko'
-                    ? '만남'
-                    : 'Meetup',
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.luggage_outlined),
-            activeIcon: const Icon(Icons.luggage),
-            label: locale == 'ja'
-                ? '旅行'
-                : locale == 'ko'
-                    ? '여행'
-                    : 'Trip',
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.settings_outlined),
-            activeIcon: const Icon(Icons.settings),
-            label: locale == 'ja'
-                ? '設定'
-                : locale == 'ko'
-                    ? '설정'
-                    : 'Settings',
-          ),
+          BottomNavigationBarItem(icon: const Icon(Icons.home_outlined), activeIcon: const Icon(Icons.home),
+            label: locale == 'ja' ? 'ホーム' : locale == 'ko' ? '홈' : 'Home'),
+          BottomNavigationBarItem(icon: const Icon(Icons.hotel_outlined), activeIcon: const Icon(Icons.hotel),
+            label: locale == 'ja' ? 'ホテル' : locale == 'ko' ? '호텔' : 'Hotel'),
+          BottomNavigationBarItem(icon: const Icon(Icons.groups_outlined), activeIcon: const Icon(Icons.groups),
+            label: locale == 'ja' ? '集合' : locale == 'ko' ? '만남' : 'Meetup'),
+          BottomNavigationBarItem(icon: const Icon(Icons.luggage_outlined), activeIcon: const Icon(Icons.luggage),
+            label: locale == 'ja' ? '旅行' : locale == 'ko' ? '여행' : 'Trip'),
+          BottomNavigationBarItem(icon: const Icon(Icons.settings_outlined), activeIcon: const Icon(Icons.settings),
+            label: locale == 'ja' ? '設定' : locale == 'ko' ? '설정' : 'Settings'),
         ],
       ),
     );

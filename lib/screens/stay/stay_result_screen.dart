@@ -483,7 +483,10 @@ class _HotelSectionState extends State<_HotelSection> {
       Row(children: [
         Text(widget.locale == 'ja' ? '周辺ホテル' : widget.locale == 'ko' ? '주변 호텔' : 'Nearby Hotels', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
         const SizedBox(width: 6),
-        Text('1泊2人基準', style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
+        Text(
+          widget.locale == 'ja' ? '1泊2人基準' : widget.locale == 'ko' ? '1박 2인 기준' : 'Per night, 2 guests',
+          style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground),
+        ),
       ]),
       const SizedBox(height: 8),
 
@@ -558,6 +561,7 @@ class _HotelCard extends StatelessWidget {
               const SizedBox(width: 4),
             ],
             Text(hotel.formattedPrice, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.primary)),
+            Text(l10n.perNight, style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
           ]),
 
           const SizedBox(height: 4),
