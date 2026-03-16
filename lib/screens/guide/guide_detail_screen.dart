@@ -36,72 +36,52 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
           _injectInterceptor();
         },
         onProgress: (p) => setState(() => _progress = p / 100),
-        // Intercept spot page navigation
-        onNavigationRequest: (request) {
-          final url = request.url;
-          // Let guide pages load normally
-          if (url.contains('/guide/')) return NavigationDecision.navigate;
-          // Open external links in browser
-          if (!url.contains('norigo.app')) return NavigationDecision.navigate;
-          return NavigationDecision.navigate;
-        },
       ))
       ..loadRequest(Uri.parse('https://norigo.app/${widget.locale}/guide/${widget.slug}'));
   }
 
   void _injectInterceptor() {
+    // Capture phase listener — fires BEFORE React's handler
+    // Does NOT prevent default or stop propagation — React button still works normally
     _controller.runJavaScript('''
     (function() {
-      // MutationObserver to catch dynamically added buttons
-      function interceptButtons() {
-        document.querySelectorAll('button').forEach(function(btn) {
-          if (btn.dataset.norigoIntercepted) return;
-          var text = btn.textContent || '';
-          if (text.includes('旅行に追加') || text.includes('여행에 추가') || text.includes('Add to trip') || text.includes('添加到行程')) {
-            btn.dataset.norigoIntercepted = '1';
+      if (window._norigoIntercepted) return;
+      window._norigoIntercepted = true;
 
-            // Clone and replace to remove React event handlers
-            var newBtn = btn.cloneNode(true);
-            newBtn.addEventListener('click', function(e) {
-              e.preventDefault();
-              e.stopPropagation();
-              e.stopImmediatePropagation();
+      document.addEventListener('click', function(e) {
+        // Find closest button
+        var btn = e.target.closest('button');
+        if (!btn) return;
 
-              // Find parent card to extract data
-              var card = this.closest('.rounded-xl, .rounded-lg, [class*="rounded"]');
-              var link = card ? card.querySelector('a[href*="/spot/"]') : null;
-              var slug = link ? link.getAttribute('href').replace(/.*\\/spot\\//, '') : '';
-              var h3 = card ? card.querySelector('h3') : null;
-              var name = h3 ? h3.textContent.trim() : '';
+        var text = btn.textContent || '';
+        // Check if this is "Add to trip" button
+        if (text.indexOf('旅行に追加') >= 0 || text.indexOf('여행에 추가') >= 0 || text.indexOf('Add to trip') >= 0 || text.indexOf('添加到行程') >= 0) {
+          // Extract spot data from parent card
+          var card = btn.closest('.my-6, [class*="my-6"]');
+          if (!card) card = btn.parentElement && btn.parentElement.parentElement;
 
-              if (slug || name) {
-                // Send to Flutter
-                NorigoApp.postMessage(JSON.stringify({
-                  action: 'addToTrip',
-                  slug: slug || name.toLowerCase().replace(/\\s+/g, '-'),
-                  name: name || slug
-                }));
+          var slug = '';
+          var name = '';
 
-                // Visual feedback
-                this.style.backgroundColor = '#16a34a';
-                this.style.color = 'white';
-                this.style.borderColor = '#16a34a';
-                this.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:4px"><polyline points="20 6 9 17 4 12"></polyline></svg>' +
-                  (document.documentElement.lang === 'ko' ? '추가됨' : document.documentElement.lang === 'ja' ? '追加済み' : 'Added');
-              }
-            }, true);
-
-            if (btn.parentNode) {
-              btn.parentNode.replaceChild(newBtn, btn);
-            }
+          if (card) {
+            var link = card.querySelector('a[href*="/spot/"]');
+            if (link) slug = link.getAttribute('href').replace(/.*\\/spot\\//, '');
+            var h3 = card.querySelector('h3');
+            if (h3) name = h3.textContent.trim();
           }
-        });
-      }
 
-      // Run immediately and observe DOM changes
-      interceptButtons();
-      var observer = new MutationObserver(function() { interceptButtons(); });
-      observer.observe(document.body, { childList: true, subtree: true });
+          if (name) {
+            // Send to Flutter — does NOT block the original React click
+            try {
+              NorigoApp.postMessage(JSON.stringify({
+                action: 'addToTrip',
+                slug: slug || name,
+                name: name
+              }));
+            } catch(e) {}
+          }
+        }
+      }, true);  // true = capture phase = fires BEFORE React
     })();
     ''');
   }
@@ -115,11 +95,9 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
         if (name.isEmpty) return;
 
         final region = _guessRegion();
-        final locale = widget.locale;
-
         ref.read(tripProvider.notifier).addItem(
           Landmark(slug: slug, name: name, lat: 0, lng: 0, region: region),
-          locale: locale,
+          locale: widget.locale,
         );
 
         if (mounted) {
@@ -128,8 +106,8 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
               const Icon(Icons.check_circle, color: Colors.white, size: 16),
               const SizedBox(width: 8),
               Expanded(child: Text(
-                locale == 'ja' ? '$name → 旅行プランに追加'
-                    : locale == 'ko' ? '$name → 여행 플랜에 추가됨'
+                widget.locale == 'ja' ? '$name → 旅行プランに追加'
+                    : widget.locale == 'ko' ? '$name → 여행 플랜에 추가됨'
                     : '$name → Added to trip plan',
               )),
             ]),
