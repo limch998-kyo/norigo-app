@@ -6,6 +6,7 @@ import '../providers/app_providers.dart';
 import '../providers/trip_provider.dart';
 import '../providers/stay_provider.dart';
 import '../models/landmark.dart';
+import '../screens/trip/trip_screen.dart' show localizedTripName;
 
 /// Floating basket button + bottom sheet for managing trip items
 class TripBasketButton extends ConsumerWidget {
@@ -87,7 +88,7 @@ class _BasketSheet extends ConsumerWidget {
                 Icon(Icons.luggage, size: 20, color: AppTheme.primary),
                 const SizedBox(width: 8),
                 Expanded(child: Text(
-                  trip?.name ?? (locale == 'ja' ? '旅行プラン' : locale == 'ko' ? '여행 플랜' : 'Trip Plan'),
+                  trip != null ? localizedTripName(trip.name, locale) : (locale == 'ja' ? '旅行プラン' : locale == 'ko' ? '여행 플랜' : 'Trip Plan'),
                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 )),
                 Text('${items.length} ${locale == 'ja' ? 'スポット' : locale == 'ko' ? '관광지' : 'spots'}',

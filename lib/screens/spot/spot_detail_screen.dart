@@ -7,6 +7,7 @@ import '../../providers/app_providers.dart';
 import '../../providers/trip_provider.dart';
 import '../../providers/stay_provider.dart';
 import '../../models/landmark.dart';
+import '../../app.dart';
 
 class SpotDetailScreen extends ConsumerWidget {
   final Landmark landmark;
@@ -125,6 +126,14 @@ class SpotDetailScreen extends ConsumerWidget {
                                   locale == 'ja' ? '旅行に追加しました'
                                     : locale == 'ko' ? '여행에 추가했습니다'
                                     : 'Added to trip',
+                                ),
+                                duration: const Duration(seconds: 4),
+                                action: SnackBarAction(
+                                  label: locale == 'ja' ? '旅行タブへ' : locale == 'ko' ? '여행 탭으로' : 'Go to Trip',
+                                  onPressed: () {
+                                    Navigator.of(context).popUntil((route) => route.isFirst);
+                                    MainShell.globalSwitchTab?.call(3);
+                                  },
                                 ),
                               ));
                             },

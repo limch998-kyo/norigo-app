@@ -199,10 +199,10 @@ class TripScreen extends ConsumerWidget {
         ),
         content: Text(
           locale == 'ja'
-              ? '「${trip.name}」を削除しますか？'
+              ? '「${localizedTripName(trip.name, locale)}」を削除しますか？'
               : locale == 'ko'
-                  ? '"${trip.name}"을 삭제하시겠습니까?'
-                  : 'Delete "${trip.name}"?',
+                  ? '"${localizedTripName(trip.name, locale)}"을 삭제하시겠습니까?'
+                  : 'Delete "${localizedTripName(trip.name, locale)}"?',
         ),
         actions: [
           TextButton(
@@ -287,7 +287,7 @@ class _TripCard extends StatelessWidget {
                     ),
                   Expanded(
                     child: Text(
-                      trip.name,
+                      localizedTripName(trip.name, locale),
                       style: theme.textTheme.titleMedium
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
@@ -552,99 +552,114 @@ class _SavedSearchesSection extends StatelessWidget {
               ? (AppConstants.stayBudgetLabels[search.maxBudget]?[locale] ?? search.maxBudget!)
               : '';
 
-          return Card(
-            margin: const EdgeInsets.only(bottom: 10),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(16),
-              onTap: () {
-                // Restore search and switch to hotel tab
-                final notifier = ref.read(staySearchProvider.notifier);
-                notifier.reset();
-                for (final l in search.landmarks) {
-                  notifier.addLandmark(l);
-                }
-                notifier.setRegion(search.region);
-                notifier.setMode(search.mode);
-                if (search.maxBudget != null) notifier.setBudget(search.maxBudget!);
-                if (search.checkIn != null && search.checkOut != null) {
-                  notifier.setDates(search.checkIn, search.checkOut);
-                }
-                // Switch to stay tab and search
-                notifier.search();
-                // Find MainShell to switch tab
-                final scaffold = Scaffold.maybeOf(context);
-                if (scaffold != null) {
-                  // Navigate via bottom nav
-                  final nav = context.findAncestorWidgetOfExactType<BottomNavigationBar>();
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(14),
-                child: Row(children: [
-                  // Info
-                  Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(search.title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600), maxLines: 2, overflow: TextOverflow.ellipsis),
-                    const SizedBox(height: 4),
-                    Row(children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                        decoration: BoxDecoration(color: AppTheme.primaryBg, borderRadius: BorderRadius.circular(4)),
-                        child: Text(regionLabel, style: TextStyle(fontSize: 10, color: AppTheme.primary)),
+          return Dismissible(
+            key: ValueKey(search.id),
+            direction: DismissDirection.endToStart,
+            background: Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.only(right: 16),
+              margin: const EdgeInsets.only(bottom: 10),
+              decoration: BoxDecoration(
+                color: Colors.red.shade50,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Icon(Icons.delete, color: Colors.red.shade400),
+            ),
+            confirmDismiss: (direction) async {
+              return true;
+            },
+            onDismissed: (direction) {
+              ref.read(savedSearchesProvider.notifier).remove(search.id);
+            },
+            child: Card(
+              margin: const EdgeInsets.only(bottom: 10),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(16),
+                onTap: () {
+                  // Restore search and switch to hotel tab
+                  final notifier = ref.read(staySearchProvider.notifier);
+                  notifier.reset();
+                  for (final l in search.landmarks) {
+                    notifier.addLandmark(l);
+                  }
+                  notifier.setRegion(search.region);
+                  notifier.setMode(search.mode);
+                  if (search.maxBudget != null) notifier.setBudget(search.maxBudget!);
+                  if (search.checkIn != null && search.checkOut != null) {
+                    notifier.setDates(search.checkIn, search.checkOut);
+                  }
+                  // Switch to stay tab and search
+                  notifier.search();
+                  onSwitchTab?.call(1);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Row(children: [
+                    // Info
+                    Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Text(search.title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600), maxLines: 2, overflow: TextOverflow.ellipsis),
+                      const SizedBox(height: 4),
+                      Row(children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(color: AppTheme.primaryBg, borderRadius: BorderRadius.circular(4)),
+                          child: Text(regionLabel, style: TextStyle(fontSize: 10, color: AppTheme.primary)),
+                        ),
+                        if (budgetLabel.isNotEmpty) ...[
+                          const SizedBox(width: 4),
+                          Text(budgetLabel, style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
+                        ],
+                      ]),
+                      const SizedBox(height: 2),
+                      Text(
+                        '${search.landmarks.length} ${locale == 'ja' ? 'スポット' : locale == 'ko' ? '관광지' : 'spots'}',
+                        style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground),
                       ),
-                      if (budgetLabel.isNotEmpty) ...[
-                        const SizedBox(width: 4),
-                        Text(budgetLabel, style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
-                      ],
-                    ]),
-                    const SizedBox(height: 2),
-                    Text(
-                      '${search.landmarks.length} ${locale == 'ja' ? 'スポット' : locale == 'ko' ? '관광지' : 'spots'}',
-                      style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground),
-                    ),
-                  ])),
+                    ])),
 
-                  // Actions
-                  Column(children: [
-                    // Re-search button
-                    ElevatedButton.icon(
-                      onPressed: () {
-                        final notifier = ref.read(staySearchProvider.notifier);
-                        notifier.reset();
-                        for (final l in search.landmarks) {
-                          notifier.addLandmark(l);
-                        }
-                        notifier.setRegion(search.region);
-                        notifier.setMode(search.mode);
-                        if (search.maxBudget != null) notifier.setBudget(search.maxBudget!);
-                        if (search.checkIn != null) notifier.setDates(search.checkIn, search.checkOut);
-                        notifier.search();
-                        // Switch to stay tab
-                        onSwitchTab?.call(1);
-                      },
-                      icon: const Icon(Icons.search, size: 14),
-                      label: Text(locale == 'ja' ? '再検索' : locale == 'ko' ? '재검색' : 'Search', style: const TextStyle(fontSize: 11)),
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                        visualDensity: VisualDensity.compact,
+                    // Actions
+                    Column(children: [
+                      // Re-search button
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          final notifier = ref.read(staySearchProvider.notifier);
+                          notifier.reset();
+                          for (final l in search.landmarks) {
+                            notifier.addLandmark(l);
+                          }
+                          notifier.setRegion(search.region);
+                          notifier.setMode(search.mode);
+                          if (search.maxBudget != null) notifier.setBudget(search.maxBudget!);
+                          if (search.checkIn != null) notifier.setDates(search.checkIn, search.checkOut);
+                          notifier.search();
+                          // Switch to stay tab
+                          onSwitchTab?.call(1);
+                        },
+                        icon: const Icon(Icons.search, size: 14),
+                        label: Text(locale == 'ja' ? '再検索' : locale == 'ko' ? '재검색' : 'Search', style: const TextStyle(fontSize: 11)),
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          visualDensity: VisualDensity.compact,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 6),
-                    // Rename + Delete
-                    Row(mainAxisSize: MainAxisSize.min, children: [
-                      GestureDetector(
-                        onTap: () => _showRenameSearchDialog(context, ref, search, locale),
-                        child: Text(locale == 'ja' ? '名前変更' : locale == 'ko' ? '이름변경' : 'Rename',
-                          style: TextStyle(fontSize: 10, color: AppTheme.primary)),
-                      ),
-                      Text(' · ', style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
-                      GestureDetector(
-                        onTap: () => ref.read(savedSearchesProvider.notifier).remove(search.id),
-                        child: Text(locale == 'ja' ? '削除' : locale == 'ko' ? '삭제' : 'Delete',
-                          style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
-                      ),
+                      const SizedBox(height: 6),
+                      // Rename + Delete
+                      Row(mainAxisSize: MainAxisSize.min, children: [
+                        GestureDetector(
+                          onTap: () => _showRenameSearchDialog(context, ref, search, locale),
+                          child: Text(locale == 'ja' ? '名前変更' : locale == 'ko' ? '이름변경' : 'Rename',
+                            style: TextStyle(fontSize: 10, color: AppTheme.primary)),
+                        ),
+                        Text(' · ', style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
+                        GestureDetector(
+                          onTap: () => ref.read(savedSearchesProvider.notifier).remove(search.id),
+                          child: Text(locale == 'ja' ? '削除' : locale == 'ko' ? '삭제' : 'Delete',
+                            style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
+                        ),
+                      ]),
                     ]),
                   ]),
-                ]),
+                ),
               ),
             ),
           );
@@ -679,6 +694,32 @@ class _SavedSearchesSection extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Translates known region-based trip names to the current locale.
+/// If the stored name doesn't match a known entry, returns it as-is.
+String localizedTripName(String storedName, String locale) {
+  const tripNameMap = {
+    // Korean stored names
+    '도쿄·간토': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto'},
+    '오사카·간사이': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai'},
+    '서울': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul'},
+    '부산': {'ja': '釜山', 'ko': '부산', 'en': 'Busan'},
+    // Japanese stored names
+    '東京・関東': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto'},
+    '大阪・関西': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai'},
+    'ソウル': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul'},
+    '釜山': {'ja': '釜山', 'ko': '부산', 'en': 'Busan'},
+    // English stored names
+    'Tokyo / Kanto': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto'},
+    'Osaka / Kansai': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai'},
+    'Seoul': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul'},
+    'Busan': {'ja': '釜山', 'ko': '부산', 'en': 'Busan'},
+  };
+
+  final mapped = tripNameMap[storedName];
+  if (mapped != null) return mapped[locale] ?? mapped['en'] ?? storedName;
+  return storedName;
 }
 
 class _EmptyState extends StatelessWidget {

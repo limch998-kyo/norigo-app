@@ -11,7 +11,6 @@ import 'screens/meetup/meetup_result_screen.dart';
 import 'screens/trip/trip_screen.dart';
 import 'screens/settings/settings_screen.dart';
 import 'screens/guide/guide_screen.dart';
-import 'widgets/trip_basket.dart';
 import 'providers/stay_provider.dart';
 import 'providers/meetup_provider.dart';
 
@@ -40,6 +39,9 @@ class NorigoApp extends ConsumerWidget {
 class MainShell extends ConsumerStatefulWidget {
   const MainShell({super.key});
 
+  /// Global callback for tab switching from anywhere (e.g. snackbar actions).
+  static void Function(int)? globalSwitchTab;
+
   @override
   ConsumerState<MainShell> createState() => _MainShellState();
 }
@@ -48,6 +50,18 @@ class _MainShellState extends ConsumerState<MainShell> {
   int _currentIndex = 0;
   // Track which tabs have been visited (for lazy init)
   final Set<int> _visitedTabs = {0};
+
+  @override
+  void initState() {
+    super.initState();
+    MainShell.globalSwitchTab = switchToTab;
+  }
+
+  @override
+  void dispose() {
+    MainShell.globalSwitchTab = null;
+    super.dispose();
+  }
 
   void switchToTab(int index) {
     setState(() {
@@ -64,8 +78,7 @@ class _MainShellState extends ConsumerState<MainShell> {
 
     return Scaffold(
       body: SafeArea(
-        child: Stack(children: [
-          IndexedStack(
+        child: IndexedStack(
           index: _currentIndex,
           children: [
             // 0: Home (always built)
@@ -92,9 +105,6 @@ class _MainShellState extends ConsumerState<MainShell> {
               const SizedBox.shrink(),
           ],
         ),
-        // Floating trip basket button
-        TripBasketButton(onSwitchTab: switchToTab),
-      ]),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,

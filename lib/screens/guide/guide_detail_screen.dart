@@ -6,6 +6,7 @@ import '../../config/theme.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/trip_provider.dart';
 import '../../models/landmark.dart';
+import '../../app.dart';
 
 class GuideDetailScreen extends ConsumerStatefulWidget {
   final String slug;
@@ -108,12 +109,20 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
               const Icon(Icons.check_circle, color: Colors.white, size: 16),
               const SizedBox(width: 8),
               Expanded(child: Text(
-                widget.locale == 'ja' ? '旅行プランに追加しました（旅行タブで確認）'
-                    : widget.locale == 'ko' ? '여행 플랜에 추가했습니다 (여행 탭에서 확인)'
-                    : 'Added to trip plan (check Trip tab)',
+                widget.locale == 'ja' ? '旅行プランに追加しました'
+                    : widget.locale == 'ko' ? '여행 플랜에 추가했습니다'
+                    : 'Added to trip plan',
               )),
             ]),
-            duration: const Duration(seconds: 3),
+            duration: const Duration(seconds: 4),
+            action: SnackBarAction(
+              label: widget.locale == 'ja' ? '旅行タブへ' : widget.locale == 'ko' ? '여행 탭으로' : 'Go to Trip',
+              textColor: Colors.white,
+              onPressed: () {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+                MainShell.globalSwitchTab?.call(3);
+              },
+            ),
           ));
         }
       }

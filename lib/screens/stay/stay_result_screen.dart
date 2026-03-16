@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -732,7 +733,7 @@ class _LandmarkDistanceTile extends StatelessWidget {
           else if (ld.route.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(left: 20, top: 4),
-              child: _RouteBar(segments: ld.route, localNames: localNames),
+              child: _RouteBar(segments: ld.route, localNames: localNames, locale: locale),
             ),
         ],
       ]),
@@ -750,39 +751,79 @@ class _LandmarkDistanceTile extends StatelessWidget {
 class _RouteBar extends StatelessWidget {
   final List<RouteSegment> segments;
   final Map<String, String> localNames;
-  const _RouteBar({required this.segments, this.localNames = const {}});
+  final String locale;
+  const _RouteBar({required this.segments, this.localNames = const {}, this.locale = 'ja'});
 
   @override
   Widget build(BuildContext context) {
     if (segments.isEmpty) return const SizedBox.shrink();
-    final totalMin = segments.fold<int>(0, (s, seg) => s + seg.minutes);
+    final totalSqrt = segments.fold<double>(0, (s, seg) => s + sqrt(seg.minutes.clamp(1, 999).toDouble()));
 
-    return Column(children: [
-      // Station names + dots + colored bars
-      Row(children: segments.expand((seg) {
-        final frac = totalMin > 0 ? seg.minutes / totalMin : 1.0 / segments.length;
-        return [
-          Expanded(
-            flex: (frac * 100).round().clamp(1, 100),
-            child: Column(children: [
-              // From station name
-              Text(localNames[seg.fromStationId] ?? seg.fromStationName ?? '', style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground), overflow: TextOverflow.ellipsis),
-              const SizedBox(height: 2),
-              // Color bar
-              Container(height: 6, decoration: BoxDecoration(color: _parseColor(seg.color), borderRadius: BorderRadius.circular(3))),
-              const SizedBox(height: 2),
-              // Line name + time
-              Text(LineLocalizer.localizeSync(seg.line, 'ko'), style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground), overflow: TextOverflow.ellipsis),
-              Text('${seg.minutes}${seg.minutes > 0 ? "分" : ""}', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w600, color: _parseColor(seg.color))),
-            ]),
-          ),
-        ];
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      // Station dots + bars
+      SizedBox(
+        height: 28,
+        child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          _StationDot(color: _parseColor(segments.first.color)),
+          ...segments.asMap().entries.expand((e) {
+            final seg = e.value;
+            final isLast = e.key == segments.length - 1;
+            final frac = totalSqrt > 0 ? sqrt(seg.minutes.clamp(1, 999).toDouble()) / totalSqrt : 1.0 / segments.length;
+            return [
+              Expanded(
+                flex: (frac * 100).round().clamp(1, 100),
+                child: Container(height: 5, margin: const EdgeInsets.symmetric(horizontal: 1),
+                  decoration: BoxDecoration(color: _parseColor(seg.color), borderRadius: BorderRadius.circular(3))),
+              ),
+              if (isLast)
+                _StationDot(color: _parseColor(seg.color))
+              else
+                _TransferDot(
+                  leftColor: _parseColor(seg.color),
+                  rightColor: _parseColor(segments[e.key + 1].color),
+                ),
+            ];
+          }),
+        ]),
+      ),
+      const SizedBox(height: 4),
+      // Line names + durations
+      Row(children: segments.map((seg) {
+        final localLine = LineLocalizer.localizeSync(seg.line, locale);
+        final unit = locale == 'ja' ? '分' : locale == 'ko' ? '분' : 'min';
+        return Expanded(child: Center(child: Text(
+          '$localLine ${seg.minutes}$unit',
+          style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground),
+          overflow: TextOverflow.ellipsis,
+        )));
       }).toList()),
     ]);
   }
 
   Color _parseColor(String hex) {
     try { return Color(int.parse(hex.replaceFirst('#', '0xFF'))); } catch (_) { return Colors.grey; }
+  }
+}
+
+class _StationDot extends StatelessWidget {
+  final Color color;
+  const _StationDot({required this.color});
+  @override
+  Widget build(BuildContext context) {
+    return Container(width: 10, height: 10, decoration: BoxDecoration(color: color, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 1.5)));
+  }
+}
+
+class _TransferDot extends StatelessWidget {
+  final Color leftColor;
+  final Color rightColor;
+  const _TransferDot({required this.leftColor, required this.rightColor});
+  @override
+  Widget build(BuildContext context) {
+    return Container(width: 12, height: 12, decoration: BoxDecoration(
+      shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 1.5),
+      gradient: SweepGradient(colors: [rightColor, rightColor, leftColor, leftColor], stops: const [0.0, 0.5, 0.5, 1.0]),
+    ));
   }
 }
 

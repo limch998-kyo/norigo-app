@@ -765,69 +765,26 @@ class _StayStyleToggle extends StatelessWidget {
     final recommendSplit = zoneCount >= 2;
 
     return Column(children: [
-      Row(children: [
-        // Single hotel
-        Expanded(child: GestureDetector(
-          onTap: () => onChanged(false),
-          child: Stack(clipBehavior: Clip.none, children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              decoration: BoxDecoration(
-                color: !isSplit ? AppTheme.primary.withValues(alpha: 0.1) : Colors.transparent,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: !isSplit ? AppTheme.primary : AppTheme.border),
-              ),
-              child: Column(children: [
-                Icon(Icons.hotel, size: 18, color: !isSplit ? AppTheme.primary : AppTheme.mutedForeground),
-                const SizedBox(height: 4),
-                Text(locale == 'ja' ? '1箇所に宿泊' : locale == 'ko' ? '한 곳에 숙박' : 'Single hotel',
-                  style: TextStyle(fontSize: 12, fontWeight: !isSplit ? FontWeight.w600 : FontWeight.normal,
-                    color: !isSplit ? AppTheme.primary : AppTheme.foreground)),
-              ]),
-            ),
-            if (!recommendSplit && landmarks.length >= 3)
-              Positioned(right: -4, top: -8,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                  decoration: BoxDecoration(color: AppTheme.primary, borderRadius: BorderRadius.circular(8)),
-                  child: Text(locale == 'ja' ? 'おすすめ' : locale == 'ko' ? '추천' : 'Rec',
-                    style: const TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.w600)),
-                ),
-              ),
-          ]),
-        )),
-        const SizedBox(width: 8),
-        // Split stay
-        Expanded(child: GestureDetector(
-          onTap: () => onChanged(true),
-          child: Stack(clipBehavior: Clip.none, children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              decoration: BoxDecoration(
-                color: isSplit ? AppTheme.primary.withValues(alpha: 0.1) : Colors.transparent,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: isSplit ? AppTheme.primary : AppTheme.border),
-              ),
-              child: Column(children: [
-                Icon(Icons.swap_horiz, size: 18, color: isSplit ? AppTheme.primary : AppTheme.mutedForeground),
-                const SizedBox(height: 4),
-                Text(locale == 'ja' ? '分散して宿泊' : locale == 'ko' ? '분산 숙박' : 'Split stay',
-                  style: TextStyle(fontSize: 12, fontWeight: isSplit ? FontWeight.w600 : FontWeight.normal,
-                    color: isSplit ? AppTheme.primary : AppTheme.foreground)),
-              ]),
-            ),
-            if (recommendSplit)
-              Positioned(right: -4, top: -8,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                  decoration: BoxDecoration(color: AppTheme.primary, borderRadius: BorderRadius.circular(8)),
-                  child: Text(locale == 'ja' ? 'おすすめ' : locale == 'ko' ? '추천' : 'Rec',
-                    style: const TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.w600)),
-                ),
-              ),
-          ]),
-        )),
-      ]),
+      Padding(
+        padding: const EdgeInsets.only(top: 6),
+        child: Row(children: [
+          _buildOption(
+            selected: !isSplit,
+            icon: Icons.hotel,
+            label: locale == 'ja' ? '1箇所に宿泊' : locale == 'ko' ? '한 곳에 숙박' : 'Single hotel',
+            showRecommended: !recommendSplit && landmarks.length >= 3,
+            onTap: () => onChanged(false),
+          ),
+          const SizedBox(width: 8),
+          _buildOption(
+            selected: isSplit,
+            icon: Icons.swap_horiz,
+            label: locale == 'ja' ? '分散して宿泊' : locale == 'ko' ? '분산 숙박' : 'Split stay',
+            showRecommended: recommendSplit,
+            onTap: () => onChanged(true),
+          ),
+        ]),
+      ),
       // Explanation text (matching web)
       if (landmarks.length >= 3) ...[
         const SizedBox(height: 8),
@@ -844,5 +801,41 @@ class _StayStyleToggle extends StatelessWidget {
         ),
       ],
     ]);
+  }
+
+  Widget _buildOption({
+    required bool selected,
+    required IconData icon,
+    required String label,
+    required bool showRecommended,
+    required VoidCallback onTap,
+  }) {
+    return Expanded(child: GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+        decoration: BoxDecoration(
+          color: selected ? AppTheme.primary.withValues(alpha: 0.1) : Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: selected ? AppTheme.primary : AppTheme.border),
+        ),
+        child: Column(children: [
+          if (showRecommended)
+            Container(
+              margin: const EdgeInsets.only(bottom: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(color: AppTheme.primary, borderRadius: BorderRadius.circular(8)),
+              child: Text(locale == 'ja' ? 'おすすめ' : locale == 'ko' ? '추천' : 'Rec',
+                style: const TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.w600)),
+            ),
+          Icon(icon, size: 18, color: selected ? AppTheme.primary : AppTheme.mutedForeground),
+          const SizedBox(height: 4),
+          Text(label,
+            style: TextStyle(fontSize: 12, fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
+              color: selected ? AppTheme.primary : AppTheme.foreground),
+            textAlign: TextAlign.center),
+        ]),
+      ),
+    ));
   }
 }
