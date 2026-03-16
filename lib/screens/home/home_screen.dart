@@ -685,14 +685,14 @@ class _KoreaHowItWorks extends StatelessWidget {
     final theme = Theme.of(context);
     final steps = [
       {'title': locale == 'ja' ? '韓国の観光地を入力' : locale == 'ko' ? '한국 관광지 입력' : 'Enter Korea landmarks',
-       'desc': locale == 'ja' ? 'ソウル・釜山の行きたいスポットを入力' : locale == 'ko' ? '서울·부산의 가고 싶은 관광지를 입력' : 'Add Seoul/Busan spots you want to visit',
-       'icon': Icons.edit_location_alt},
+       'desc': locale == 'ja' ? 'ソウル・釜山の行きたいスポットを入力' : locale == 'ko' ? '서울·부산의 가고 싶은 관광지를 입력' : 'Add Seoul/Busan spots',
+       'illustration': 'assets/images/illustrations/korea-stay-step1.svg'},
       {'title': locale == 'ja' ? 'ベストなエリアを提案' : locale == 'ko' ? '최적 지역 추천' : 'Best area recommended',
-       'desc': locale == 'ja' ? 'すべての観光地にアクセスしやすいホテルエリアを算出' : locale == 'ko' ? '모든 관광지에 접근하기 좋은 호텔 지역을 계산' : 'We find the hotel area closest to all spots',
-       'icon': Icons.auto_awesome},
+       'desc': locale == 'ja' ? 'すべての観光地にアクセスしやすいホテルエリアを算出' : locale == 'ko' ? '모든 관광지에 접근하기 좋은 호텔 지역을 계산' : 'Hotel area closest to all spots',
+       'illustration': 'assets/images/illustrations/korea-stay-step2.svg'},
       {'title': locale == 'ja' ? 'ホテルを予約' : locale == 'ko' ? '호텔 예약' : 'Book hotel',
-       'desc': locale == 'ja' ? 'Agodaでそのまま予約。韓国ウォンで表示。' : locale == 'ko' ? 'Agoda에서 바로 예약. 원화로 표시.' : 'Book on Agoda with local currency.',
-       'icon': Icons.hotel},
+       'desc': locale == 'ja' ? 'Agodaでそのまま予約' : locale == 'ko' ? 'Agoda에서 바로 예약' : 'Book on Agoda',
+       'illustration': 'assets/images/illustrations/stay-step3.svg'},
     ];
 
     return Column(
@@ -705,11 +705,10 @@ class _KoreaHowItWorks extends StatelessWidget {
           final i = e.key;
           final step = e.value;
           return Padding(
-            padding: const EdgeInsets.only(bottom: 16),
+            padding: const EdgeInsets.only(bottom: 20),
             child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Container(width: 40, height: 40,
-                decoration: BoxDecoration(color: const Color(0xFFEFF6FF), borderRadius: BorderRadius.circular(12)),
-                child: Icon(step['icon'] as IconData, size: 22, color: AppTheme.primary)),
+              SizedBox(width: 48, height: 48,
+                child: Center(child: SvgPicture.asset(step['illustration']!, width: 44, height: 44, fit: BoxFit.contain))),
               const SizedBox(width: 14),
               Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Row(children: [
@@ -717,11 +716,11 @@ class _KoreaHowItWorks extends StatelessWidget {
                     decoration: BoxDecoration(color: AppTheme.primary, shape: BoxShape.circle),
                     child: Center(child: Text('${i + 1}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)))),
                   const SizedBox(width: 8),
-                  Text(step['title'] as String, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+                  Flexible(child: Text(step['title']!, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600))),
                 ]),
                 const SizedBox(height: 4),
                 Padding(padding: const EdgeInsets.only(left: 32),
-                  child: Text(step['desc'] as String, style: theme.textTheme.bodySmall?.copyWith(color: AppTheme.mutedForeground))),
+                  child: Text(step['desc']!, style: theme.textTheme.bodySmall?.copyWith(color: AppTheme.mutedForeground))),
               ])),
             ]),
           );
