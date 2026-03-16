@@ -147,6 +147,20 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
               filledNames: state.landmarks.map((l) => l.name).toSet(),
               onSelect: (landmark) => notifier.addLandmark(landmark),
             ),
+            // Quick Plans (shown when no landmarks selected)
+            if (state.landmarks.isEmpty) ...[
+              const SizedBox(height: 16),
+              _QuickSearchPlans(
+                region: state.region,
+                locale: locale,
+                onSelect: (landmarks, region) {
+                  for (final l in landmarks) {
+                    notifier.addLandmark(l);
+                  }
+                  notifier.setRegion(region);
+                },
+              ),
+            ],
             const SizedBox(height: 20),
 
             // Mode selector
@@ -254,6 +268,112 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
       'busan': {'ja': '釜山', 'en': 'Busan', 'ko': '부산', 'zh': '釜山'},
     };
     return labels[region]?[locale] ?? labels[region]?['en'] ?? region;
+  }
+}
+
+class _QuickSearchPlans extends StatelessWidget {
+  final String region;
+  final String locale;
+  final void Function(List<Landmark> landmarks, String region) onSelect;
+
+  const _QuickSearchPlans({required this.region, required this.locale, required this.onSelect});
+
+  static const _plans = {
+    'kanto': [
+      {'title': {'ja': '渋谷・原宿・新宿', 'ko': '시부야・하라주쿠・신주쿠', 'en': 'Shibuya · Harajuku · Shinjuku'},
+       'landmarks': [
+         {'name': '渋谷', 'nameKo': '시부야', 'lat': 35.6595, 'lng': 139.7004},
+         {'name': '原宿', 'nameKo': '하라주쿠', 'lat': 35.6702, 'lng': 139.7026},
+         {'name': '新宿', 'nameKo': '신주쿠', 'lat': 35.6938, 'lng': 139.7034},
+       ]},
+      {'title': {'ja': '浅草・上野・東京駅', 'ko': '아사쿠사・우에노・도쿄역', 'en': 'Asakusa · Ueno · Tokyo'},
+       'landmarks': [
+         {'name': '浅草', 'nameKo': '아사쿠사', 'lat': 35.7148, 'lng': 139.7967},
+         {'name': '上野', 'nameKo': '우에노', 'lat': 35.7146, 'lng': 139.7714},
+         {'name': '東京駅', 'nameKo': '도쿄역', 'lat': 35.6812, 'lng': 139.7671},
+       ]},
+    ],
+    'kansai': [
+      {'title': {'ja': '道頓堀・なんば・心斎橋', 'ko': '도톤보리・난바・신사이바시', 'en': 'Dotonbori · Namba'},
+       'landmarks': [
+         {'name': '道頓堀', 'nameKo': '도톤보리', 'lat': 34.6687, 'lng': 135.5013},
+         {'name': 'なんば', 'nameKo': '난바', 'lat': 34.6659, 'lng': 135.5013},
+         {'name': '心斎橋', 'nameKo': '신사이바시', 'lat': 34.6748, 'lng': 135.5016},
+       ]},
+    ],
+    'seoul': [
+      {'title': {'ja': '明洞・弘大・江南', 'ko': '명동・홍대・강남', 'en': 'Myeongdong · Hongdae · Gangnam'},
+       'landmarks': [
+         {'name': '明洞', 'nameKo': '명동', 'lat': 37.5636, 'lng': 126.9869},
+         {'name': '弘大', 'nameKo': '홍대', 'lat': 37.5563, 'lng': 126.9237},
+         {'name': '江南', 'nameKo': '강남', 'lat': 37.4979, 'lng': 127.0276},
+       ]},
+    ],
+    'busan': [
+      {'title': {'ja': '海雲台・広安里・南浦', 'ko': '해운대・광안리・남포동', 'en': 'Haeundae · Gwangalli'},
+       'landmarks': [
+         {'name': '海雲台', 'nameKo': '해운대', 'lat': 35.1586, 'lng': 129.1604},
+         {'name': '広安里', 'nameKo': '광안리', 'lat': 35.1532, 'lng': 129.1187},
+         {'name': '南浦', 'nameKo': '남포동', 'lat': 35.0975, 'lng': 129.0326},
+       ]},
+    ],
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    final plans = _plans[region];
+    if (plans == null || plans.isEmpty) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          locale == 'ja' ? '人気プランで検索' : locale == 'ko' ? '인기 플랜으로 검색' : 'Quick search plans',
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground),
+        ),
+        const SizedBox(height: 8),
+        ...plans.map((plan) {
+          final titleMap = plan['title'] as Map<String, String>;
+          final title = titleMap[locale] ?? titleMap['en'] ?? '';
+          final landmarkData = plan['landmarks'] as List<Map<String, Object>>;
+
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: GestureDetector(
+              onTap: () {
+                final landmarks = landmarkData.map((l) {
+                  final name = locale == 'ko' ? (l['nameKo'] as String? ?? l['name'] as String) : l['name'] as String;
+                  return Landmark(
+                    slug: name,
+                    name: name,
+                    lat: l['lat'] as double,
+                    lng: l['lng'] as double,
+                    region: region,
+                  );
+                }).toList();
+                onSelect(landmarks, region);
+              },
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: AppTheme.border),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.bolt, size: 16, color: AppTheme.primary),
+                    const SizedBox(width: 8),
+                    Expanded(child: Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500))),
+                    Icon(Icons.arrow_forward_ios, size: 12, color: AppTheme.mutedForeground),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }),
+      ],
+    );
   }
 }
 
