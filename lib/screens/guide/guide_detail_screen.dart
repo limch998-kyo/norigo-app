@@ -104,8 +104,17 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
         );
 
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(locale == 'ja' ? '$nameを旅行に追加しました' : locale == 'ko' ? '$name을(를) 여행에 추가했습니다' : 'Added $name to trip'),
+          content: Row(children: [
+            const Icon(Icons.check_circle, color: Colors.white, size: 16),
+            const SizedBox(width: 8),
+            Expanded(child: Text(locale == 'ja' ? '$name → 旅行プランに追加' : locale == 'ko' ? '$name → 여행 플랜에 추가됨' : '$name → Added to trip plan')),
+          ]),
           duration: const Duration(seconds: 2),
+          action: SnackBarAction(
+            label: locale == 'ja' ? '確認' : locale == 'ko' ? '확인' : 'View',
+            textColor: Colors.white,
+            onPressed: () {}, // User can check trip tab
+          ),
         ));
       }
     } catch (_) {}
