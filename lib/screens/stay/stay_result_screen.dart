@@ -21,6 +21,7 @@ import '../../providers/saved_searches_provider.dart';
 import 'package:uuid/uuid.dart';
 import '../../services/line_localize.dart';
 import '../../config/constants.dart';
+import '../../config/booking_provider.dart';
 
 class StayResultScreen extends ConsumerStatefulWidget {
   const StayResultScreen({super.key});
@@ -504,6 +505,57 @@ class _AreaCardState extends State<_AreaCard> {
               ).toList()),
             ],
 
+            // ── Area tags ──
+            if (area.areaTags.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Wrap(spacing: 6, runSpacing: 4, children: area.areaTags.map((tag) {
+                final tagInfo = _areaTagInfo(tag, locale);
+                return Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: tagInfo.color.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: tagInfo.color.withValues(alpha: 0.3)),
+                  ),
+                  child: Row(mainAxisSize: MainAxisSize.min, children: [
+                    Icon(tagInfo.icon, size: 12, color: tagInfo.color),
+                    const SizedBox(width: 4),
+                    Text(tagInfo.label, style: TextStyle(fontSize: 11, color: tagInfo.color, fontWeight: FontWeight.w500)),
+                  ]),
+                );
+              }).toList()),
+            ],
+
+            // ── POI counts ──
+            if (area.poiCounts.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Row(children: [
+                if ((area.poiCounts['convenience'] ?? 0) > 0)
+                  _PoiCount(icon: Icons.store, count: area.poiCounts['convenience']!, label: locale == 'ja' ? 'コンビニ' : locale == 'ko' ? '편의점' : 'Convenience'),
+                if ((area.poiCounts['restaurant'] ?? 0) > 0) ...[
+                  const SizedBox(width: 12),
+                  _PoiCount(icon: Icons.restaurant, count: area.poiCounts['restaurant']!, label: locale == 'ja' ? '飲食店' : locale == 'ko' ? '음식점' : 'Restaurant'),
+                ],
+                if ((area.poiCounts['cafe'] ?? 0) > 0) ...[
+                  const SizedBox(width: 12),
+                  _PoiCount(icon: Icons.coffee, count: area.poiCounts['cafe']!, label: locale == 'ja' ? 'カフェ' : locale == 'ko' ? '카페' : 'Cafe'),
+                ],
+              ]),
+            ],
+
+            // ── Area description ──
+            if (area.areaDescription != null && area.areaDescription!.isNotEmpty) ...[
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: AppTheme.muted,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(area.areaDescription!, style: TextStyle(fontSize: 12, color: AppTheme.foreground, height: 1.5)),
+              ),
+            ],
+
             // ── Landmark distances with routes ──
             const SizedBox(height: 12),
             Text(locale == 'ja' ? '観光地까지の距離' : locale == 'ko' ? '관광지까지 거리' : 'Distance to landmarks',
@@ -537,11 +589,57 @@ class _AreaCardState extends State<_AreaCard> {
 
             // ── Hotels (always loaded, matching web) ──
             const Divider(height: 24),
-            _HotelSection(stationId: area.station.id, locale: locale, l10n: l10n, checkIn: widget.checkIn, checkOut: widget.checkOut, initialBudget: widget.maxBudget, onLoaded: _onHotelsLoaded),
+            _HotelSection(stationId: area.station.id, locale: locale, region: area.station.region, stationName: name, l10n: l10n, checkIn: widget.checkIn, checkOut: widget.checkOut, initialBudget: widget.maxBudget, lat: area.station.lat, lng: area.station.lng, onLoaded: _onHotelsLoaded),
           ]),
         ),
       ),
     );
+  }
+}
+
+class _TagInfo {
+  final String label;
+  final IconData icon;
+  final Color color;
+  const _TagInfo(this.label, this.icon, this.color);
+}
+
+_TagInfo _areaTagInfo(String tag, String locale) {
+  switch (tag) {
+    case 'transit_hub': return _TagInfo(
+      locale == 'ja' ? '交通の要所' : locale == 'ko' ? '교통 요충지' : 'Transit Hub',
+      Icons.train, Colors.blue);
+    case 'nightlife': return _TagInfo(
+      locale == 'ja' ? 'ナイトライフ' : locale == 'ko' ? '나이트라이프' : 'Nightlife',
+      Icons.nightlife, Colors.purple);
+    case 'shopping': return _TagInfo(
+      locale == 'ja' ? 'ショッピング' : locale == 'ko' ? '쇼핑' : 'Shopping',
+      Icons.shopping_bag, Colors.pink);
+    case 'quiet_residential': return _TagInfo(
+      locale == 'ja' ? '閑静な住宅街' : locale == 'ko' ? '조용한 주거지' : 'Quiet Area',
+      Icons.park, Colors.green);
+    case 'tourist_area': return _TagInfo(
+      locale == 'ja' ? '観光エリア' : locale == 'ko' ? '관광 지역' : 'Tourist Area',
+      Icons.camera_alt, Colors.orange);
+    case 'airport_access': return _TagInfo(
+      locale == 'ja' ? '空港アクセス' : locale == 'ko' ? '공항 접근' : 'Airport Access',
+      Icons.flight, Colors.teal);
+    default: return _TagInfo(tag, Icons.label, Colors.grey);
+  }
+}
+
+class _PoiCount extends StatelessWidget {
+  final IconData icon;
+  final int count;
+  final String label;
+  const _PoiCount({required this.icon, required this.count, required this.label});
+  @override
+  Widget build(BuildContext context) {
+    return Row(mainAxisSize: MainAxisSize.min, children: [
+      Icon(icon, size: 14, color: AppTheme.mutedForeground),
+      const SizedBox(width: 4),
+      Text('$label $count', style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground)),
+    ]);
   }
 }
 
@@ -720,13 +818,17 @@ class _InlineMap extends StatelessWidget {
 class _HotelSection extends StatefulWidget {
   final String stationId;
   final String locale;
+  final String region;
+  final String stationName;
   final AppLocalizations l10n;
   final String? checkIn;
   final String? checkOut;
   final String? initialBudget;
+  final double? lat;
+  final double? lng;
   final void Function(List<Hotel>)? onLoaded;
 
-  const _HotelSection({required this.stationId, required this.locale, required this.l10n, this.checkIn, this.checkOut, this.initialBudget, this.onLoaded});
+  const _HotelSection({required this.stationId, required this.locale, required this.region, required this.stationName, required this.l10n, this.checkIn, this.checkOut, this.initialBudget, this.lat, this.lng, this.onLoaded});
 
   @override
   State<_HotelSection> createState() => _HotelSectionState();
@@ -875,12 +977,32 @@ class _HotelSectionState extends State<_HotelSection> {
           ]),
         ),
 
-      // Powered by Agoda
+      // Provider attribution + search link
       Padding(
-        padding: const EdgeInsets.only(top: 4),
-        child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          Text('Powered by ', style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
-          Text('Agoda', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground)),
+        padding: const EdgeInsets.only(top: 8),
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Row(children: [
+            Text('Powered by ', style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
+            Text(BookingProvider.providerName(widget.locale, widget.region), style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground)),
+          ]),
+          GestureDetector(
+            onTap: () {
+              final url = BookingProvider.buildSearchUrl(
+                locale: widget.locale,
+                region: widget.region,
+                stationName: widget.stationName,
+                lat: widget.lat,
+                lng: widget.lng,
+                checkIn: widget.checkIn,
+                checkOut: widget.checkOut,
+              );
+              launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+            },
+            child: Text(
+              '${widget.locale == 'ja' ? '' : 'Search on '}${BookingProvider.providerName(widget.locale, widget.region)}${widget.locale == 'ja' ? 'で検索' : ''} →',
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: AppTheme.primary),
+            ),
+          ),
         ]),
       ),
     ]);

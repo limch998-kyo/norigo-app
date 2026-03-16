@@ -8,6 +8,8 @@ import '../../providers/trip_provider.dart';
 import '../../providers/stay_provider.dart';
 import '../../providers/saved_searches_provider.dart';
 import '../../models/trip.dart';
+import '../../models/landmark.dart';
+import 'trip_itinerary_screen.dart';
 
 class TripScreen extends ConsumerWidget {
   final void Function(int)? onSwitchTab;
@@ -363,6 +365,32 @@ class _TripCard extends StatelessWidget {
                         style: const TextStyle(fontSize: 12),
                       ),
                     ),
+                  if (items.length >= 2) ...[
+                    const SizedBox(width: 8),
+                    TextButton.icon(
+                      onPressed: () {
+                        final landmarks = items.map((i) => Landmark(
+                          slug: i.slug, name: i.name, lat: i.lat, lng: i.lng, region: i.region,
+                        )).toList();
+                        final region = items.first.region;
+                        final checkIn = DateTime.now().add(const Duration(days: 30)).toIso8601String().substring(0, 10);
+                        final checkOut = DateTime.now().add(const Duration(days: 33)).toIso8601String().substring(0, 10);
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => TripItineraryScreen(
+                            landmarks: landmarks,
+                            region: region,
+                            checkIn: checkIn,
+                            checkOut: checkOut,
+                          ),
+                        ));
+                      },
+                      icon: const Icon(Icons.route, size: 16),
+                      label: Text(
+                        locale == 'ja' ? '日程最適化' : locale == 'ko' ? '일정 최적화' : 'Optimize',
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ],

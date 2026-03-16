@@ -67,6 +67,32 @@ class MeetupSearchScreen extends ConsumerWidget {
               onAdd: () => notifier.addSlot(),
               locale: locale,
             ),
+            // Cross-region warning
+            Builder(builder: (ctx) {
+              final filled = state.filledStations;
+              if (filled.length < 2) return const SizedBox.shrink();
+              final regions = filled.map((s) => s.region).toSet();
+              if (regions.length <= 1) return const SizedBox.shrink();
+              return Container(
+                margin: const EdgeInsets.only(top: 8),
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.amber.shade50,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.amber.shade300),
+                ),
+                child: Row(children: [
+                  Icon(Icons.warning_amber, size: 18, color: Colors.amber.shade700),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text(
+                    locale == 'ja' ? '異なる地域の駅は混在できません'
+                      : locale == 'ko' ? '다른 지역의 역은 함께 검색할 수 없습니다'
+                      : 'Cannot mix stations from different regions',
+                    style: TextStyle(fontSize: 12, color: Colors.amber.shade800),
+                  )),
+                ]),
+              );
+            }),
             const SizedBox(height: 20),
 
             // Mode
@@ -139,7 +165,7 @@ class MeetupSearchScreen extends ConsumerWidget {
             SizedBox(
               height: 52,
               child: ElevatedButton(
-                onPressed: state.filledStations.length < 2 || state.isLoading
+                onPressed: (state.filledStations.length < 2 || state.isLoading || state.filledStations.map((s) => s.region).toSet().length > 1)
                     ? null
                     : () => notifier.search(),
                 child: state.isLoading

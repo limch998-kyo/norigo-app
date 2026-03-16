@@ -8,6 +8,7 @@ import '../../models/landmark.dart';
 import '../../config/theme.dart';
 import 'widgets/quick_plan_cards.dart';
 import '../settings/settings_screen.dart';
+import '../spot/spot_detail_screen.dart';
 
 typedef TabSwitcher = void Function(int index);
 
@@ -239,10 +240,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: _PopularSpots(locale: locale, onSpotTap: (landmark) {
-              final notifier = ref.read(staySearchProvider.notifier);
-              notifier.addLandmark(landmark);
-              if (_koreaMode) notifier.setRegion(landmark.region);
-              onSwitchTab?.call(1);
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => SpotDetailScreen(landmark: landmark),
+              ));
             }),
           ),
           const SizedBox(height: 24),

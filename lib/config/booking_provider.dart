@@ -29,6 +29,8 @@ class BookingProvider {
     required String locale,
     required String region,
     required String stationName,
+    double? lat,
+    double? lng,
     String? checkIn,
     String? checkOut,
   }) {
@@ -38,7 +40,49 @@ class BookingProvider {
     if (_koreaRegions.contains(region) || locale == 'ko') {
       return _buildAgodaUrl(stationName, locale, checkIn, checkOut);
     }
-    return _buildBookingUrl(stationName, locale, checkIn, checkOut);
+    return _buildBookingUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
+  }
+
+  /// Build a hotel-specific URL for the booking provider
+  static String buildHotelUrl({
+    required String locale,
+    required String region,
+    required String stationName,
+    double? lat,
+    double? lng,
+    String? checkIn,
+    String? checkOut,
+    int? hotelId,
+  }) {
+    if (_japanRegions.contains(region) && locale == 'ja') {
+      if (hotelId != null) {
+        final jalanUrl = '$_jalanBaseUrl/yad/stay/$hotelId.html';
+        return 'https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3693387&pid=889792382&vc_url=${Uri.encodeComponent(jalanUrl)}';
+      }
+      return _buildJalanUrl(stationName, checkIn, checkOut);
+    }
+    if (_koreaRegions.contains(region) || locale == 'ko') {
+      if (hotelId != null) {
+        return '$_agodaBaseUrl/hotel/$hotelId.html?cid=1922458';
+      }
+      return _buildAgodaUrl(stationName, locale, checkIn, checkOut);
+    }
+    if (hotelId != null) {
+      return '$_bookingBaseUrl/hotel/$hotelId.html?aid=2432111';
+    }
+    return _buildBookingUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
+  }
+
+  /// Build a Tabelog URL for restaurant search
+  static String buildTabelogUrl(String stationName, String locale) {
+    final domain = locale == 'ko' ? 'kr.tabelog.com' : locale == 'ja' ? 'tabelog.com' : 'en.tabelog.com';
+    final encoded = Uri.encodeComponent(stationName);
+    final tabelogUrl = 'https://$domain/rstLst/?vs=1&sk=$encoded';
+    // Wrap with ValueCommerce for non-ja
+    if (locale != 'ja') {
+      return 'https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3693387&pid=889792383&vc_url=${Uri.encodeComponent(tabelogUrl)}';
+    }
+    return tabelogUrl;
   }
 
   static String _buildJalanUrl(String query, String? checkIn, String? checkOut) {
@@ -47,7 +91,9 @@ class BookingProvider {
       'keyword': query,
     };
     if (checkIn != null) params['dateUndecided'] = '0';
-    return '$_jalanBaseUrl/yad/list.html?${_encodeParams(params)}';
+    final jalanUrl = '$_jalanBaseUrl/yad/list.html?${_encodeParams(params)}';
+    // Wrap with ValueCommerce affiliate redirect
+    return 'https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3693387&pid=889792382&vc_url=${Uri.encodeComponent(jalanUrl)}';
   }
 
   static String _buildAgodaUrl(String query, String locale, String? checkIn, String? checkOut) {
@@ -60,13 +106,14 @@ class BookingProvider {
     final params = <String, String>{
       'textToSearch': query,
       'locale': langCode,
+      'cid': '1922458',
     };
     if (checkIn != null) params['checkIn'] = checkIn;
     if (checkOut != null) params['checkOut'] = checkOut;
     return '$_agodaBaseUrl/search?${_encodeParams(params)}';
   }
 
-  static String _buildBookingUrl(String query, String locale, String? checkIn, String? checkOut) {
+  static String _buildBookingUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng}) {
     final langCode = switch (locale) {
       'ko' => 'ko',
       'zh' => 'zh-cn',
@@ -76,7 +123,10 @@ class BookingProvider {
     final params = <String, String>{
       'ss': query,
       'lang': langCode,
+      'aid': '2432111',
     };
+    if (lat != null) params['latitude'] = lat.toString();
+    if (lng != null) params['longitude'] = lng.toString();
     if (checkIn != null) params['checkin'] = checkIn;
     if (checkOut != null) params['checkout'] = checkOut;
     return '$_bookingBaseUrl/searchresults.html?${_encodeParams(params)}';

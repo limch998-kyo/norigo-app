@@ -53,6 +53,8 @@ class StayArea {
   final List<Hotel> hotels;
   final String? areaDescription;
   final List<ReachableDestination> reachableDestinations;
+  final List<String> areaTags;
+  final Map<String, int> poiCounts;
 
   const StayArea({
     required this.station,
@@ -65,6 +67,8 @@ class StayArea {
     required this.hotels,
     this.areaDescription,
     this.reachableDestinations = const [],
+    this.areaTags = const [],
+    this.poiCounts = const {},
   });
 
   factory StayArea.fromJson(Map<String, dynamic> json) {
@@ -89,6 +93,18 @@ class StayArea {
               ?.map((e) => ReachableDestination.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
+      areaTags: ((json['areaProfile'] as Map<String, dynamic>?)?['tags'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          (json['tags'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
+      poiCounts: (json['nearbyPOIs'] as Map<String, dynamic>?)
+              ?.map((k, v) => MapEntry(k, (v as num).toInt())) ??
+          (json['poiCounts'] as Map<String, dynamic>?)
+              ?.map((k, v) => MapEntry(k, (v as num).toInt())) ??
+          {},
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../services/api_client.dart';
 import '../services/tracking_service.dart';
@@ -12,3 +13,5 @@ final trackingServiceProvider = Provider<TrackingService>((ref) {
 });
 
 final localeProvider = StateProvider<String>((ref) => 'ja');
+
+final themeModeProvider = StateProvider<ThemeMode>((ref) => ThemeMode.system);

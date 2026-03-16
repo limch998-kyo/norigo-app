@@ -80,6 +80,10 @@ class Venue {
   final double? lng;
   final String? access;
   final String? catchText;
+  final bool privateRoom;
+  final bool noSmoking;
+  final bool freeDrink;
+  final bool wifi;
 
   const Venue({
     required this.name,
@@ -92,6 +96,10 @@ class Venue {
     this.lng,
     this.access,
     this.catchText,
+    this.privateRoom = false,
+    this.noSmoking = false,
+    this.freeDrink = false,
+    this.wifi = false,
   });
 
   factory Venue.fromJson(Map<String, dynamic> json) {
@@ -107,6 +115,17 @@ class Venue {
       lng: (json['lng'] as num?)?.toDouble(),
       access: json['access'] as String?,
       catchText: json['catch'] as String? ?? json['genreCatch'] as String?,
+      privateRoom: (json['features'] as Map<String, dynamic>?)?['privateRoom'] == true ||
+          json['privateRoom'] == true ||
+          json['private_room'] == true,
+      noSmoking: (json['features'] as Map<String, dynamic>?)?['noSmoking'] == true ||
+          json['noSmoking'] == true ||
+          json['no_smoking'] == true,
+      freeDrink: (json['features'] as Map<String, dynamic>?)?['freeDrink'] == true ||
+          json['freeDrink'] == true ||
+          json['free_drink'] == true,
+      wifi: (json['features'] as Map<String, dynamic>?)?['wifi'] == true ||
+          json['wifi'] == true,
     );
   }
 }

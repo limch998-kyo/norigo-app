@@ -8,6 +8,7 @@ import '../../providers/stay_provider.dart';
 import '../../widgets/landmark_input_list.dart';
 import '../../widgets/mode_selector.dart';
 import '../../config/constants.dart';
+import '../spot/spot_detail_screen.dart';
 
 class StaySearchScreen extends ConsumerStatefulWidget {
   const StaySearchScreen({super.key});
@@ -419,26 +420,45 @@ class _PopularSpotCardsState extends State<_PopularSpotCards> {
               ),
               clipBehavior: Clip.antiAlias,
               child: Column(children: [
-                // Image + title (tap to expand)
+                // Image (tap to navigate to detail)
+                GestureDetector(
+                  onTap: () {
+                    final nameEn = spot['nameEn'] as String?;
+                    final descMap = spot['desc'] as Map<String, String>?;
+                    final spotDesc = descMap?[widget.locale] ?? descMap?['en'] ?? '';
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => SpotDetailScreen(
+                        landmark: Landmark(
+                          slug: spot['slug'] as String,
+                          name: name,
+                          nameEn: nameEn,
+                          lat: spot['lat'] as double,
+                          lng: spot['lng'] as double,
+                          region: widget.region,
+                          description: spotDesc.isNotEmpty ? spotDesc : null,
+                        ),
+                      ),
+                    ));
+                  },
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Image.network(
+                      'https://norigo.app/images/landmarks/$imageFile.webp',
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => Container(color: AppTheme.muted, child: Center(child: Icon(Icons.place, size: 32, color: AppTheme.mutedForeground))),
+                    ),
+                  ),
+                ),
+                // Title + expand toggle
                 GestureDetector(
                   onTap: () => setState(() => _expandedSlug = isExpanded ? null : spot['slug'] as String),
-                  child: Column(children: [
-                    AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: Image.network(
-                        'https://norigo.app/images/landmarks/$imageFile.webp',
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => Container(color: AppTheme.muted, child: Center(child: Icon(Icons.place, size: 32, color: AppTheme.mutedForeground))),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                      child: Row(children: [
-                        Expanded(child: Text(name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500))),
-                        Icon(isExpanded ? Icons.expand_less : Icons.expand_more, size: 18, color: AppTheme.mutedForeground),
-                      ]),
-                    ),
-                  ]),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    child: Row(children: [
+                      Expanded(child: Text(name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500))),
+                      Icon(isExpanded ? Icons.expand_less : Icons.expand_more, size: 18, color: AppTheme.mutedForeground),
+                    ]),
+                  ),
                 ),
 
                 // Expanded: description + buttons

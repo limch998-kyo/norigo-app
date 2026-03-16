@@ -396,6 +396,16 @@ class _VenueCard extends StatelessWidget {
                 _Badge(text: venue.budget!, color: AppTheme.primary),
               ],
             ]),
+            // Venue features
+            if (venue.privateRoom || venue.noSmoking || venue.freeDrink || venue.wifi) ...[
+              const SizedBox(height: 4),
+              Wrap(spacing: 4, runSpacing: 4, children: [
+                if (venue.privateRoom) _FeatureBadge(icon: Icons.meeting_room, label: locale == 'ja' ? '個室' : locale == 'ko' ? '개인실' : 'Private'),
+                if (venue.noSmoking) _FeatureBadge(icon: Icons.smoke_free, label: locale == 'ja' ? '禁煙' : locale == 'ko' ? '금연' : 'No smoking'),
+                if (venue.freeDrink) _FeatureBadge(icon: Icons.local_bar, label: locale == 'ja' ? '飲み放題' : locale == 'ko' ? '무한리필' : 'Free drink'),
+                if (venue.wifi) _FeatureBadge(icon: Icons.wifi, label: 'WiFi'),
+              ]),
+            ],
             if (venue.access != null)
               Padding(
                 padding: const EdgeInsets.only(top: 4),
@@ -438,6 +448,24 @@ class _Badge extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: c.withValues(alpha: 0.1)),
       child: Text(text, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w500, color: c)),
+    );
+  }
+}
+
+class _FeatureBadge extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  const _FeatureBadge({required this.icon, required this.label});
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+      decoration: BoxDecoration(color: AppTheme.green.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(4)),
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
+        Icon(icon, size: 10, color: AppTheme.green),
+        const SizedBox(width: 3),
+        Text(label, style: TextStyle(fontSize: 9, color: AppTheme.green, fontWeight: FontWeight.w500)),
+      ]),
     );
   }
 }
