@@ -76,7 +76,16 @@ class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
         title: Text(title),
         leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => notifier.clearResult()),
         actions: [
-          IconButton(icon: const Icon(Icons.tune, size: 20), onPressed: () => notifier.clearResult()),
+          // Edit search
+          Padding(
+            padding: const EdgeInsets.only(right: 4),
+            child: OutlinedButton.icon(
+              onPressed: () => notifier.clearResult(),
+              icon: const Icon(Icons.tune, size: 14),
+              label: Text(locale == 'ja' ? '検索修正' : locale == 'ko' ? '검색 수정' : 'Edit', style: const TextStyle(fontSize: 12)),
+              style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4), visualDensity: VisualDensity.compact),
+            ),
+          ),
           IconButton(icon: Icon(_showMap ? Icons.list : Icons.map, size: 20), onPressed: () => setState(() => _showMap = !_showMap)),
         ],
       ),

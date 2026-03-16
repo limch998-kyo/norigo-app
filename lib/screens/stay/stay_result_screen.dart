@@ -16,6 +16,7 @@ import '../../widgets/mode_tabs.dart';
 import '../../widgets/share_buttons.dart';
 import '../../widgets/skeleton_loader.dart';
 import '../../services/api_client.dart';
+import '../../providers/trip_provider.dart';
 import '../../services/line_localize.dart';
 import '../../config/constants.dart';
 
@@ -28,6 +29,46 @@ class StayResultScreen extends ConsumerStatefulWidget {
 
 class _StayResultScreenState extends ConsumerState<StayResultScreen> {
   int _expandedIndex = 0;
+
+  void _saveSearchToTrip(BuildContext context, WidgetRef ref, StaySearchState state, String locale) {
+    final tripNotifier = ref.read(tripProvider.notifier);
+
+    // Create or get active trip
+    final tripState = ref.read(tripProvider);
+    String tripId;
+    if (tripState.activeTrip != null) {
+      tripId = tripState.activeTrip!.id;
+    } else {
+      final country = AppConstants.koreaRegions.contains(state.region) ? 'korea' : 'japan';
+      tripId = tripNotifier.createTrip(
+        locale == 'ja' ? '旅行プラン' : locale == 'ko' ? '여행 플랜' : 'Trip Plan',
+        country: country,
+      );
+    }
+
+    // Add all landmarks to trip
+    int added = 0;
+    for (final landmark in state.landmarks) {
+      tripNotifier.addItem(landmark, tripId: tripId);
+      added++;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(
+        locale == 'ja' ? '$added件のスポットを旅行に保存しました'
+            : locale == 'ko' ? '$added개 관광지를 여행에 저장했습니다'
+            : 'Saved $added spots to trip',
+      ),
+      action: SnackBarAction(
+        label: locale == 'ja' ? '確認' : locale == 'ko' ? '확인' : 'View',
+        onPressed: () {
+          // Switch to trip tab
+          final shell = context.findAncestorStateOfType<State>();
+          // Can't directly switch tab from here, but snackbar guides user
+        },
+      ),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,18 +117,25 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
         title: Text(locale == 'ja' ? '推薦宿泊エリア' : locale == 'ko' ? '추천 숙박 지역' : 'Recommended Areas'),
         leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => notifier.clearResult()),
         actions: [
-          // Save/bookmark button
+          // Save to trip button
           IconButton(
             icon: const Icon(Icons.bookmark_outline, size: 20),
-            onPressed: () {
-              final url = 'https://norigo.app/stay/result?l=${Uri.encodeComponent(state.landmarks.map((l) => '${l.name},${l.lat},${l.lng}').join('|'))}&r=${state.region}&m=${state.mode}';
-              Clipboard.setData(ClipboardData(text: url));
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(locale == 'ja' ? '検索結果のリンクをコピーしました' : locale == 'ko' ? '검색 결과 링크가 복사되었습니다' : 'Result link copied!'),
-              ));
-            },
+            tooltip: locale == 'ja' ? '保存' : locale == 'ko' ? '저장' : 'Save',
+            onPressed: () => _saveSearchToTrip(context, ref, state, locale),
           ),
-          IconButton(icon: const Icon(Icons.tune, size: 20), onPressed: () => notifier.clearResult()),
+          // Edit search button
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: OutlinedButton.icon(
+              onPressed: () => notifier.clearResult(),
+              icon: const Icon(Icons.tune, size: 14),
+              label: Text(locale == 'ja' ? '検索修正' : locale == 'ko' ? '검색 수정' : 'Edit', style: const TextStyle(fontSize: 12)),
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                visualDensity: VisualDensity.compact,
+              ),
+            ),
+          ),
         ],
       ),
       body: Column(
