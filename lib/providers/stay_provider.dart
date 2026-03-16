@@ -16,6 +16,7 @@ class StaySearchState {
   final bool isLoading;
   final String? error;
   final bool showSplit;
+  final String stayStyle;
 
   const StaySearchState({
     this.slots = const [null, null],
@@ -28,6 +29,7 @@ class StaySearchState {
     this.isLoading = false,
     this.error,
     this.showSplit = false,
+    this.stayStyle = 'auto',
   });
 
   /// Only filled (non-null) landmarks
@@ -44,6 +46,7 @@ class StaySearchState {
     bool? isLoading,
     String? error,
     bool? showSplit,
+    String? stayStyle,
     bool clearBudget = false,
     bool clearError = false,
     bool clearResult = false,
@@ -59,6 +62,7 @@ class StaySearchState {
       isLoading: isLoading ?? this.isLoading,
       error: clearError ? null : (error ?? this.error),
       showSplit: showSplit ?? this.showSplit,
+      stayStyle: stayStyle ?? this.stayStyle,
     );
   }
 }
@@ -152,6 +156,10 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
     state = state.copyWith(showSplit: !state.showSplit);
   }
 
+  void setStayStyle(String style) {
+    state = state.copyWith(stayStyle: style);
+  }
+
   void _autoDetectRegion() {
     final filled = state.landmarks;
     if (filled.isEmpty) return;
@@ -175,7 +183,7 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
         landmarks: filled,
         region: state.region,
         mode: state.mode,
-        stayStyle: 'auto',
+        stayStyle: state.stayStyle,
         maxBudget: state.maxBudget != 'any' ? state.maxBudget : null,
         checkIn: state.checkIn,
         checkOut: state.checkOut,

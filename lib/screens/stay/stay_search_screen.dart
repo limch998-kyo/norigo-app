@@ -19,6 +19,7 @@ class StaySearchScreen extends ConsumerStatefulWidget {
 class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
   late DateTime _checkIn;
   late DateTime _checkOut;
+  String _stayStyle = 'auto';
 
   @override
   void initState() {
@@ -211,6 +212,20 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
                 ),
               ],
             ),
+            // Stay style toggle (3+ landmarks)
+            if (state.landmarks.length >= 3) ...[
+              const SizedBox(height: 20),
+              Text(
+                locale == 'ja' ? '宿泊スタイル' : locale == 'ko' ? '숙박 스타일' : 'Stay style',
+                style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 8),
+              _StayStyleToggle(
+                locale: locale,
+                isSplit: _stayStyle == 'split',
+                onChanged: (split) => setState(() => _stayStyle = split ? 'split' : 'single'),
+              ),
+            ],
             const SizedBox(height: 20),
 
             // Budget selector
@@ -242,7 +257,10 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
               child: ElevatedButton(
                 onPressed: state.landmarks.length < 2 || state.isLoading
                     ? null
-                    : () => notifier.search(),
+                    : () {
+                        notifier.setStayStyle(_stayStyle);
+                        notifier.search();
+                      },
                 child: state.isLoading
                     ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
                     : Text(l10n.searchButton),
@@ -679,5 +697,56 @@ class _SuggestionChips extends StatelessWidget {
       case 'en': return spot['nameEn'] as String? ?? spot['name'] as String;
       default: return spot['name'] as String;
     }
+  }
+}
+
+class _StayStyleToggle extends StatelessWidget {
+  final String locale;
+  final bool isSplit;
+  final ValueChanged<bool> onChanged;
+
+  const _StayStyleToggle({required this.locale, required this.isSplit, required this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(children: [
+      Expanded(child: GestureDetector(
+        onTap: () => onChanged(false),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+            color: !isSplit ? AppTheme.primary.withValues(alpha: 0.1) : Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: !isSplit ? AppTheme.primary : AppTheme.border),
+          ),
+          child: Column(children: [
+            Icon(Icons.hotel, size: 18, color: !isSplit ? AppTheme.primary : AppTheme.mutedForeground),
+            const SizedBox(height: 4),
+            Text(locale == 'ja' ? '1箇所に宿泊' : locale == 'ko' ? '한 곳에 숙박' : 'Single hotel',
+              style: TextStyle(fontSize: 12, fontWeight: !isSplit ? FontWeight.w600 : FontWeight.normal,
+                color: !isSplit ? AppTheme.primary : AppTheme.foreground)),
+          ]),
+        ),
+      )),
+      const SizedBox(width: 8),
+      Expanded(child: GestureDetector(
+        onTap: () => onChanged(true),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+            color: isSplit ? AppTheme.primary.withValues(alpha: 0.1) : Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: isSplit ? AppTheme.primary : AppTheme.border),
+          ),
+          child: Column(children: [
+            Icon(Icons.swap_horiz, size: 18, color: isSplit ? AppTheme.primary : AppTheme.mutedForeground),
+            const SizedBox(height: 4),
+            Text(locale == 'ja' ? '分散して宿泊' : locale == 'ko' ? '분산 숙박' : 'Split stay',
+              style: TextStyle(fontSize: 12, fontWeight: isSplit ? FontWeight.w600 : FontWeight.normal,
+                color: isSplit ? AppTheme.primary : AppTheme.foreground)),
+          ]),
+        ),
+      )),
+    ]);
   }
 }

@@ -148,29 +148,58 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
             child: ModeTabs(selected: state.mode, onChanged: (m) { notifier.setMode(m); notifier.search(); }, locale: locale),
           ),
-          // Split indicator
-          if (isSplit)
+          // Stay style toggle (single ↔ split)
+          if (state.landmarks.length >= 3)
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: AppTheme.primaryBg,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: AppTheme.primary.withValues(alpha: 0.3)),
-                ),
-                child: Row(children: [
-                  Icon(Icons.swap_horiz, size: 16, color: AppTheme.primary),
-                  const SizedBox(width: 8),
-                  Expanded(child: Text(
-                    locale == 'ja' ? '観光地が離れているため、分散宿泊をおすすめします（${result.clusters.length}エリア）'
-                        : locale == 'ko' ? '관광지가 떨어져 있어 분산 숙박을 추천합니다 (${result.clusters.length}개 지역)'
-                        : 'Split stay recommended (${result.clusters.length} areas)',
-                    style: TextStyle(fontSize: 12, color: AppTheme.primary),
-                  )),
-                ]),
-              ),
+              child: Row(children: [
+                Expanded(child: GestureDetector(
+                  onTap: () {
+                    if (isSplit) { notifier.setStayStyle('single'); notifier.search(); }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    decoration: BoxDecoration(
+                      color: !isSplit ? AppTheme.primary.withValues(alpha: 0.1) : Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: !isSplit ? AppTheme.primary : AppTheme.border),
+                    ),
+                    child: Center(child: Text(
+                      locale == 'ja' ? '1箇所 宿泊' : locale == 'ko' ? '한 곳 숙박' : 'Single',
+                      style: TextStyle(fontSize: 12, fontWeight: !isSplit ? FontWeight.w600 : FontWeight.normal, color: !isSplit ? AppTheme.primary : AppTheme.foreground),
+                    )),
+                  ),
+                )),
+                const SizedBox(width: 8),
+                Expanded(child: GestureDetector(
+                  onTap: () {
+                    if (!isSplit) { notifier.setStayStyle('split'); notifier.search(); }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    decoration: BoxDecoration(
+                      color: isSplit ? AppTheme.primary.withValues(alpha: 0.1) : Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: isSplit ? AppTheme.primary : AppTheme.border),
+                    ),
+                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Text(
+                        locale == 'ja' ? '分散 宿泊' : locale == 'ko' ? '분산 숙박' : 'Split',
+                        style: TextStyle(fontSize: 12, fontWeight: isSplit ? FontWeight.w600 : FontWeight.normal, color: isSplit ? AppTheme.primary : AppTheme.foreground),
+                      ),
+                      if (isSplit) ...[
+                        const SizedBox(width: 4),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                          decoration: BoxDecoration(color: AppTheme.orange, borderRadius: BorderRadius.circular(4)),
+                          child: Text(locale == 'ja' ? 'おすすめ' : locale == 'ko' ? '추천' : 'Rec',
+                            style: const TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.w600)),
+                        ),
+                      ],
+                    ]),
+                  ),
+                )),
+              ]),
             ),
           // Share at top (matching web)
           Padding(
