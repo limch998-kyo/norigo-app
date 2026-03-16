@@ -40,10 +40,9 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
         _checkIn = DateTime.parse(state.checkIn!);
         _checkOut = DateTime.parse(state.checkOut!);
       }
-      // Set default budget if not set
+      // Set default budget if not set (matching web default)
       if (state.maxBudget == null) {
-        final isKorea = ['seoul', 'busan'].contains(state.region);
-        notifier.setBudget(isKorea ? '120000' : '20000');
+        notifier.setBudget('any');
       }
     });
   }
@@ -88,10 +87,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
     final api = ref.read(apiClientProvider);
     final theme = Theme.of(context);
 
-    final isKorea = AppConstants.koreaRegions.contains(state.region);
-    final budgets = isKorea
-        ? AppConstants.hotelBudgetsKorea
-        : AppConstants.hotelBudgetsJapan;
+    final stayBudgets = AppConstants.getStayBudgets(state.region);
 
     // ja locale: show Korea regions first (since ja users are tourists visiting Korea)
     // others: show Japan regions first
@@ -224,14 +220,16 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
             ),
             const SizedBox(height: 8),
             Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: budgets.entries.map((entry) {
-                final isSelected = state.maxBudget == entry.key;
+              spacing: 6,
+              runSpacing: 6,
+              children: stayBudgets.map((budget) {
+                final isSelected = state.maxBudget == budget;
+                final label = AppConstants.stayBudgetLabels[budget]?[locale]
+                    ?? AppConstants.stayBudgetLabels[budget]?['en'] ?? budget;
                 return ChoiceChip(
-                  label: Text(entry.value[locale] ?? entry.value['en']!, style: const TextStyle(fontSize: 12)),
+                  label: Text(label, style: const TextStyle(fontSize: 11)),
                   selected: isSelected,
-                  onSelected: (selected) => notifier.setBudget(selected ? entry.key : null),
+                  onSelected: (selected) => notifier.setBudget(selected ? budget : 'any'),
                   visualDensity: VisualDensity.compact,
                 );
               }).toList(),

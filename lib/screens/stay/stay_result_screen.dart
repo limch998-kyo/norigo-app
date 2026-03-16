@@ -17,6 +17,7 @@ import '../../widgets/share_buttons.dart';
 import '../../widgets/skeleton_loader.dart';
 import '../../services/api_client.dart';
 import '../../services/line_localize.dart';
+import '../../config/constants.dart';
 
 class StayResultScreen extends ConsumerStatefulWidget {
   const StayResultScreen({super.key});
@@ -290,18 +291,9 @@ class _AreaCardState extends State<_AreaCard> {
               ).toList()),
             ],
 
-            // ── Hotels (lazy loaded) ──
-            if (isExpanded) ...[
-              const Divider(height: 24),
-              _HotelSection(stationId: area.station.id, locale: locale, l10n: l10n, checkIn: widget.checkIn, checkOut: widget.checkOut, onLoaded: _onHotelsLoaded),
-            ],
-
-            // Expand hint
-            if (!isExpanded)
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Center(child: Icon(Icons.expand_more, size: 20, color: AppTheme.mutedForeground.withValues(alpha: 0.5))),
-              ),
+            // ── Hotels (always loaded, matching web) ──
+            const Divider(height: 24),
+            _HotelSection(stationId: area.station.id, locale: locale, l10n: l10n, checkIn: widget.checkIn, checkOut: widget.checkOut, onLoaded: _onHotelsLoaded),
           ]),
         ),
       ),
@@ -491,7 +483,40 @@ class _HotelSectionState extends State<_HotelSection> {
   List<Hotel>? _hotels;
   bool _loading = true;
   bool _expanded = false;
+  String _budgetFilter = 'any';
   static const _defaultVisible = 3;
+
+  // JPY conversion rates (matching web)
+  static const _jpyRates = {'JPY': 1.0, 'KRW': 9.0, 'USD': 0.007};
+
+  List<Hotel> _filterByBudget(List<Hotel> hotels) {
+    if (_budgetFilter == 'any') return hotels;
+    final overMatch = RegExp(r'^over(\d+)$').firstMatch(_budgetFilter);
+    final underMatch = RegExp(r'^under(\d+)$').firstMatch(_budgetFilter);
+    if (underMatch != null) {
+      final jpyLimit = int.parse(underMatch.group(1)!);
+      return hotels.where((h) {
+        if (h.dailyRate == null) return true;
+        final rate = _jpyRates[h.currency] ?? 1.0;
+        return h.dailyRate! <= jpyLimit * rate;
+      }).toList();
+    }
+    if (overMatch != null) {
+      final jpyLimit = int.parse(overMatch.group(1)!);
+      return hotels.where((h) {
+        if (h.dailyRate == null) return false;
+        final rate = _jpyRates[h.currency] ?? 1.0;
+        return h.dailyRate! > jpyLimit * rate;
+      }).toList();
+    }
+    return hotels;
+  }
+
+  int _countForBudget(String budget) {
+    if (_hotels == null) return 0;
+    if (budget == 'any') return _hotels!.length;
+    return _filterByBudget(_hotels!).length;
+  }
 
   @override
   void initState() {
@@ -523,10 +548,53 @@ class _HotelSectionState extends State<_HotelSection> {
         child: Text(widget.locale == 'ja' ? 'ホテル情報を取得できませんでした' : 'No hotel data', style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground)));
     }
 
-    final displayed = _expanded ? _hotels! : _hotels!.take(_defaultVisible).toList();
-    final hasMore = _hotels!.length > _defaultVisible;
+    final filtered = _filterByBudget(_hotels!);
+    final displayed = _expanded ? filtered : filtered.take(_defaultVisible).toList();
+    final hasMore = filtered.length > _defaultVisible;
+
+    // Get budget tiers for this region
+    final budgetTiers = AppConstants.getStayBudgets(widget.locale == 'ko' ? 'kanto' : 'kanto'); // Always show JP budgets for filtering
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      // Budget filter tabs (matching web)
+      if (_hotels!.length > 3) ...[
+        Text(
+          widget.locale == 'ja' ? '予算' : widget.locale == 'ko' ? '예산' : 'Budget',
+          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground),
+        ),
+        const SizedBox(height: 6),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(children: budgetTiers.map((b) {
+            final count = _countForBudget(b);
+            if (count == 0 && b != 'any') return const SizedBox.shrink();
+            final isSelected = _budgetFilter == b;
+            final label = AppConstants.stayBudgetLabels[b]?[widget.locale]
+                ?? AppConstants.stayBudgetLabels[b]?['en'] ?? b;
+            return Padding(
+              padding: const EdgeInsets.only(right: 6),
+              child: GestureDetector(
+                onTap: () => setState(() { _budgetFilter = b; _expanded = false; }),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: isSelected ? AppTheme.primary : Colors.transparent,
+                    border: Border.all(color: isSelected ? AppTheme.primary : AppTheme.border),
+                  ),
+                  child: Text(
+                    '$label${count > 0 ? "($count)" : ""}',
+                    style: TextStyle(fontSize: 10, fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                      color: isSelected ? Colors.white : AppTheme.foreground),
+                  ),
+                ),
+              ),
+            );
+          }).toList()),
+        ),
+        const SizedBox(height: 10),
+      ],
+
       // Header
       Row(children: [
         Text(widget.locale == 'ja' ? '周辺ホテル' : widget.locale == 'ko' ? '주변 호텔' : 'Nearby Hotels', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),

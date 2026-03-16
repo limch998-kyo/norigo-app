@@ -176,7 +176,7 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
         region: state.region,
         mode: state.mode,
         stayStyle: 'auto',
-        maxBudget: state.maxBudget,
+        maxBudget: state.maxBudget != 'any' ? state.maxBudget : null,
         checkIn: state.checkIn,
         checkOut: state.checkOut,
         locale: locale,
