@@ -10,7 +10,8 @@ import '../../providers/saved_searches_provider.dart';
 import '../../models/trip.dart';
 
 class TripScreen extends ConsumerWidget {
-  const TripScreen({super.key});
+  final void Function(int)? onSwitchTab;
+  const TripScreen({super.key, this.onSwitchTab});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -57,7 +58,7 @@ class TripScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         children: [
           // ── Saved Searches ──
-          _SavedSearchesSection(locale: locale, ref: ref),
+          _SavedSearchesSection(locale: locale, ref: ref, onSwitchTab: onSwitchTab),
 
           // ── Trips ──
           if (trips.isNotEmpty) ...[
@@ -333,8 +334,9 @@ class _TripCard extends StatelessWidget {
 class _SavedSearchesSection extends StatelessWidget {
   final String locale;
   final WidgetRef ref;
+  final void Function(int)? onSwitchTab;
 
-  const _SavedSearchesSection({required this.locale, required this.ref});
+  const _SavedSearchesSection({required this.locale, required this.ref, this.onSwitchTab});
 
   @override
   Widget build(BuildContext context) {
@@ -433,6 +435,8 @@ class _SavedSearchesSection extends StatelessWidget {
                         if (search.maxBudget != null) notifier.setBudget(search.maxBudget!);
                         if (search.checkIn != null) notifier.setDates(search.checkIn, search.checkOut);
                         notifier.search();
+                        // Switch to stay tab
+                        onSwitchTab?.call(1);
                       },
                       icon: const Icon(Icons.search, size: 14),
                       label: Text(locale == 'ja' ? '再検索' : locale == 'ko' ? '재검색' : 'Search', style: const TextStyle(fontSize: 11)),

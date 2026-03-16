@@ -168,6 +168,36 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
               locale: locale,
             ),
           ),
+          // Save search prompt (visible, not just icon)
+          Builder(builder: (ctx) {
+            final isSaved = ref.watch(savedSearchesProvider.notifier).hasSearch(state.landmarks, state.region);
+            if (isSaved) {
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                child: Row(children: [
+                  Icon(Icons.bookmark, size: 16, color: AppTheme.primary),
+                  const SizedBox(width: 6),
+                  Text(locale == 'ja' ? '保存済み' : locale == 'ko' ? '저장됨' : 'Saved',
+                    style: TextStyle(fontSize: 12, color: AppTheme.primary, fontWeight: FontWeight.w500)),
+                ]),
+              );
+            }
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+              child: SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: () => _saveSearch(context, ref, state, locale),
+                  icon: const Icon(Icons.bookmark_outline, size: 16),
+                  label: Text(
+                    locale == 'ja' ? 'この検索を保存' : locale == 'ko' ? '이 검색 저장하기' : 'Save this search',
+                    style: const TextStyle(fontSize: 13),
+                  ),
+                  style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 10)),
+                ),
+              ),
+            );
+          }),
           // Results list
           Expanded(
             child: ListView.builder(

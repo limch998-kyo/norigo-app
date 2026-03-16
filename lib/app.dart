@@ -76,7 +76,7 @@ class _MainShellState extends ConsumerState<MainShell> {
               const SizedBox.shrink(),
             // 3: Trip (lazy)
             if (_visitedTabs.contains(3))
-              const TripScreen()
+              TripScreen(onSwitchTab: switchToTab)
             else
               const SizedBox.shrink(),
             // 4: Settings (lazy)
