@@ -186,7 +186,7 @@ class ApiClient {
         data: {
           'stationName': stationName,
           'stationId': stationId,
-          'type': 'station',
+          // Don't send type: 'station' — that hides venue photos on vote page
           'venues': venues.map((v) => {
             'id': v.url ?? v.name,
             'name': v.name,

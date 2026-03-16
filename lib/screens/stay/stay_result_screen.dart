@@ -88,31 +88,29 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
               child: Row(children: [
-                _ToggleChip(label: locale == 'ja' ? '1곳 숙박' : '1곳 숙박', selected: !state.showSplit, onTap: () { if (state.showSplit) notifier.toggleSplit(); }),
+                _ToggleChip(label: locale == 'ja' ? '1箇所 宿泊' : '1곳 숙박', selected: !state.showSplit, onTap: () { if (state.showSplit) notifier.toggleSplit(); }),
                 const SizedBox(width: 8),
-                _ToggleChip(label: locale == 'ja' ? '分散 숙박' : '분산 숙박', selected: state.showSplit, onTap: () { if (!state.showSplit) notifier.toggleSplit(); }),
+                _ToggleChip(label: locale == 'ja' ? '分散 宿泊' : '분산 숙박', selected: state.showSplit, onTap: () { if (!state.showSplit) notifier.toggleSplit(); }),
               ]),
             ),
-          const SizedBox(height: 8),
+          // Share at top (matching web)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: ShareButtons(
+              title: 'Norigo',
+              text: locale == 'ko'
+                  ? '${state.landmarks.map((l) => l.name).join('・')} 여행에 최적의 호텔 지역'
+                  : 'Best hotel area for ${state.landmarks.map((l) => l.name).join(', ')}',
+              url: 'https://norigo.app/stay/result',
+              locale: locale,
+            ),
+          ),
           // Results list
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: displayAreas.length + 1,
+              itemCount: displayAreas.length,
               itemBuilder: (context, index) {
-                if (index == displayAreas.length) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 24),
-                    child: ShareButtons(
-                      title: 'Norigo',
-                      text: locale == 'ko'
-                          ? '${state.landmarks.map((l) => l.name).join('・')} 여행에 최적의 호텔 지역'
-                          : 'Best hotel area for ${state.landmarks.map((l) => l.name).join(', ')}',
-                      url: 'https://norigo.app/stay/result',
-                      locale: locale,
-                    ),
-                  );
-                }
                 return _AreaCard(
                   area: displayAreas[index],
                   rank: index + 1,

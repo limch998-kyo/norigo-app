@@ -82,29 +82,28 @@ class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
             child: ModeTabs(selected: state.mode, onChanged: (mode) { notifier.setMode(mode); notifier.search(); }, locale: locale),
+          ),
+          // Share buttons at top (matching web)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: ShareButtons(
+              title: 'Norigo',
+              text: locale == 'ja'
+                  ? 'みんなの集合駅で検索したら「${result.stations.first.station.name}駅」がおすすめ！'
+                  : '${result.stations.first.station.name} is recommended!',
+              url: 'https://norigo.app/result',
+              locale: locale,
+            ),
           ),
           Expanded(
             child: _showMap
                 ? _MeetupMapView(recommended: result.stations, participants: state.filledStations)
                 : ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: result.stations.length + 1,
+                    itemCount: result.stations.length,
                     itemBuilder: (context, index) {
-                      if (index == result.stations.length) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 24),
-                          child: ShareButtons(
-                            title: 'Norigo',
-                            text: locale == 'ja'
-                                ? 'みんなの集合駅で検索したら「${result.stations.first.station.name}駅」がおすすめ！'
-                                : '${result.stations.first.station.name} is recommended!',
-                            url: 'https://norigo.app/result',
-                            locale: locale,
-                          ),
-                        );
-                      }
                       return _StationCard(
                         rec: result.stations[index],
                         rank: index + 1,
@@ -210,15 +209,35 @@ class _StationCard extends StatelessWidget {
                             child: Center(child: Text('$rank', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12))),
                           ),
                         ),
-                        // Venue markers (small green dots)
-                        ...rec.venues.where((v) => v.lat != null).take(5).map((v) => Marker(
-                          point: LatLng(v.lat!, v.lng!), width: 16, height: 16,
-                          child: Container(decoration: BoxDecoration(color: AppTheme.green, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 1))),
-                        )),
+                        // Venue markers (numbered green markers)
+                        ...rec.venues.where((v) => v.lat != null).take(5).toList().asMap().entries.map((e) {
+                          final v = e.value;
+                          return Marker(
+                            point: LatLng(v.lat!, v.lng!), width: 24, height: 24,
+                            child: Container(
+                              decoration: BoxDecoration(color: AppTheme.green, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 1.5)),
+                              child: Center(child: Text('${e.key + 1}', style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold))),
+                            ),
+                          );
+                        }),
                       ]),
                     ],
                   ),
                 ),
+              ),
+
+              // Map legend
+              Padding(
+                padding: const EdgeInsets.only(top: 6),
+                child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  _buildLegendDot(AppTheme.orange, locale == 'ja' ? '推薦駅' : '추천역'),
+                  const SizedBox(width: 10),
+                  _buildLegendDot(Colors.blue, locale == 'ja' ? '出発駅' : '출발역'),
+                  if (rec.venues.any((v) => v.lat != null)) ...[
+                    const SizedBox(width: 10),
+                    _buildLegendDot(AppTheme.green, locale == 'ja' ? 'お店' : '맛집'),
+                  ],
+                ]),
               ),
 
               // Participant distances
@@ -262,7 +281,7 @@ class _StationCard extends StatelessWidget {
                     style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
                 ]),
                 const SizedBox(height: 8),
-                ...rec.venues.take(5).map((v) => _VenueCard(venue: v, locale: locale)),
+                ...rec.venues.take(5).toList().asMap().entries.map((e) => _VenueCard(venue: e.value, locale: locale, index: e.key + 1)),
 
                 // Vote button (ja locale only, matching web)
                 if (locale == 'ja' && rec.venues.isNotEmpty) ...[
@@ -292,11 +311,20 @@ class _StationCard extends StatelessWidget {
   }
 }
 
+Widget _buildLegendDot(Color color, String label) {
+  return Row(mainAxisSize: MainAxisSize.min, children: [
+    Container(width: 10, height: 10, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+    const SizedBox(width: 4),
+    Text(label, style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
+  ]);
+}
+
 class _VenueCard extends StatelessWidget {
   final Venue venue;
   final String locale;
+  final int index;
 
-  const _VenueCard({required this.venue, required this.locale});
+  const _VenueCard({required this.venue, required this.locale, this.index = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -310,7 +338,13 @@ class _VenueCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Photo
+          // Index + Photo
+          Column(children: [
+            if (index > 0) Container(
+              width: 20, height: 20, margin: const EdgeInsets.only(bottom: 4),
+              decoration: BoxDecoration(color: AppTheme.green, borderRadius: BorderRadius.circular(4)),
+              child: Center(child: Text('$index', style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold))),
+            ),
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: venue.imageUrl != null
@@ -318,6 +352,7 @@ class _VenueCard extends StatelessWidget {
                     errorBuilder: (_, __, ___) => _placeholder())
                 : _placeholder(),
           ),
+          ]),
           const SizedBox(width: 12),
           // Info
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
