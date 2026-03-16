@@ -119,6 +119,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
                   locale: locale,
                   l10n: l10n,
                   landmarks: state.landmarks,
+                  localNames: result.localNames,
                   checkIn: state.checkIn,
                   checkOut: state.checkOut,
                 );
@@ -162,15 +163,17 @@ class _AreaCard extends StatelessWidget {
   final String locale;
   final AppLocalizations l10n;
   final List<Landmark> landmarks;
+  final Map<String, String> localNames;
   final String? checkIn;
   final String? checkOut;
 
-  const _AreaCard({required this.area, required this.rank, required this.isExpanded, required this.onTap, required this.locale, required this.l10n, required this.landmarks, this.checkIn, this.checkOut});
+  const _AreaCard({required this.area, required this.rank, required this.isExpanded, required this.onTap, required this.locale, required this.l10n, required this.landmarks, this.localNames = const {}, this.checkIn, this.checkOut});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final name = area.station.localizedName(locale);
+    // Use localNames from API (e.g. Korean station names) with fallback
+    final name = localNames[area.station.id] ?? area.station.localizedName(locale);
 
     return Card(
       margin: const EdgeInsets.only(bottom: 16),

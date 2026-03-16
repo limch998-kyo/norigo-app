@@ -97,11 +97,13 @@ class StayRecommendResult {
   final List<StayArea> areas;
   final bool split;
   final List<StayArea>? splitAreas;
+  final Map<String, String> localNames;
 
   const StayRecommendResult({
     required this.areas,
     required this.split,
     this.splitAreas,
+    this.localNames = const {},
   });
 
   factory StayRecommendResult.fromJson(Map<String, dynamic> json) {
@@ -114,6 +116,8 @@ class StayRecommendResult {
       splitAreas: (json['splitAreas'] as List<dynamic>?)
           ?.map((e) => StayArea.fromJson(e as Map<String, dynamic>))
           .toList(),
+      localNames: (json['localNames'] as Map<String, dynamic>?)
+          ?.map((k, v) => MapEntry(k, v.toString())) ?? {},
     );
   }
 }

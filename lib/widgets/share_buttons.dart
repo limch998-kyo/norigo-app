@@ -64,20 +64,29 @@ class _ShareButtonsState extends State<ShareButtons> {
         const SizedBox(height: 8),
         Row(
           children: [
-            // LINE (ja) / KakaoTalk (ko) — large primary button
+            // LINE (ja) / KakaoTalk (ko) — large primary button with official-style icon
             if (widget.locale == 'ja')
               Expanded(
                 child: SizedBox(
                   height: 44,
-                  child: ElevatedButton.icon(
+                  child: ElevatedButton(
                     onPressed: _shareLine,
-                    icon: const Icon(Icons.chat_bubble, size: 18),
-                    label: const Text('LINEで共有', style: TextStyle(fontSize: 14)),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF06C755),
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                     ),
+                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      // LINE icon (simplified official mark)
+                      Container(
+                        width: 24, height: 24,
+                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(6)),
+                        child: const Center(child: Text('L', style: TextStyle(color: Color(0xFF06C755), fontSize: 16, fontWeight: FontWeight.w900))),
+                      ),
+                      const SizedBox(width: 8),
+                      const Text('LINEで共有', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                    ]),
                   ),
                 ),
               ),
@@ -85,15 +94,24 @@ class _ShareButtonsState extends State<ShareButtons> {
               Expanded(
                 child: SizedBox(
                   height: 44,
-                  child: ElevatedButton.icon(
+                  child: ElevatedButton(
                     onPressed: _shareKakao,
-                    icon: const Icon(Icons.chat, size: 18),
-                    label: const Text('카카오톡으로 공유', style: TextStyle(fontSize: 14)),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFFEE500),
                       foregroundColor: const Color(0xFF191919),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                     ),
+                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      // KakaoTalk icon (speech bubble)
+                      Container(
+                        width: 24, height: 24,
+                        decoration: const BoxDecoration(color: Color(0xFF191919), shape: BoxShape.circle),
+                        child: const Center(child: Icon(Icons.chat_bubble, size: 14, color: Color(0xFFFEE500))),
+                      ),
+                      const SizedBox(width: 8),
+                      const Text('카카오톡으로 공유', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                    ]),
                   ),
                 ),
               ),
@@ -104,14 +122,17 @@ class _ShareButtonsState extends State<ShareButtons> {
             // X button
             SizedBox(
               height: 44,
-              child: OutlinedButton.icon(
+              child: OutlinedButton(
                 onPressed: _shareTwitter,
-                icon: const Text('𝕏', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                label: const Text('X'),
                 style: OutlinedButton.styleFrom(
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
                 ),
+                child: const Row(mainAxisSize: MainAxisSize.min, children: [
+                  Text('𝕏', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  SizedBox(width: 4),
+                  Text('X', style: TextStyle(fontSize: 13)),
+                ]),
               ),
             ),
             const SizedBox(width: 8),
