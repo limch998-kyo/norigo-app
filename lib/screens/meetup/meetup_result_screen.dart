@@ -111,6 +111,7 @@ class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
                         isExpanded: _expandedIndex == index,
                         onTap: () => setState(() => _expandedIndex = _expandedIndex == index ? -1 : index),
                         locale: locale,
+                        participants: state.filledStations,
                       );
                     },
                   ),
@@ -127,8 +128,9 @@ class _StationCard extends StatelessWidget {
   final bool isExpanded;
   final VoidCallback onTap;
   final String locale;
+  final List<Station> participants;
 
-  const _StationCard({required this.rec, required this.rank, required this.isExpanded, required this.onTap, required this.locale});
+  const _StationCard({required this.rec, required this.rank, required this.isExpanded, required this.onTap, required this.locale, this.participants = const []});
 
   @override
   Widget build(BuildContext context) {
@@ -177,6 +179,47 @@ class _StationCard extends StatelessWidget {
                     style: TextStyle(fontSize: 11, color: AppTheme.primary, fontWeight: FontWeight.w600)),
                 ]),
               ]),
+
+              // ── Inline map (always visible per card like web) ──
+              const SizedBox(height: 12),
+              SizedBox(
+                height: 160,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: FlutterMap(
+                    options: MapOptions(
+                      initialCenter: LatLng(rec.station.lat, rec.station.lng),
+                      initialZoom: 13,
+                      interactionOptions: const InteractionOptions(flags: InteractiveFlag.pinchZoom | InteractiveFlag.drag),
+                    ),
+                    children: [
+                      TileLayer(urlTemplate: 'https://basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}@2x.png', userAgentPackageName: 'app.norigo'),
+                      MarkerLayer(markers: [
+                        // Participant markers (blue)
+                        ...participants.where((p) => p.lat != 0).map((p) => Marker(
+                          point: LatLng(p.lat, p.lng), width: 24, height: 24,
+                          child: Container(decoration: BoxDecoration(color: Colors.blue, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 1.5)),
+                            child: const Icon(Icons.person, size: 12, color: Colors.white)),
+                        )),
+                        // Recommended station (orange)
+                        Marker(
+                          point: LatLng(rec.station.lat, rec.station.lng), width: 32, height: 32,
+                          child: Container(
+                            decoration: BoxDecoration(color: AppTheme.orange, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 2),
+                              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 4)]),
+                            child: Center(child: Text('$rank', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12))),
+                          ),
+                        ),
+                        // Venue markers (small green dots)
+                        ...rec.venues.where((v) => v.lat != null).take(5).map((v) => Marker(
+                          point: LatLng(v.lat!, v.lng!), width: 16, height: 16,
+                          child: Container(decoration: BoxDecoration(color: AppTheme.green, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 1))),
+                        )),
+                      ]),
+                    ],
+                  ),
+                ),
+              ),
 
               // Participant distances
               const SizedBox(height: 12),
@@ -417,11 +460,10 @@ class _VoteButtonState extends State<_VoteButton> {
     if (pollId != null && mounted) {
       final url = 'https://norigo.app/vote/$pollId';
       setState(() { _pollUrl = url; _creating = false; });
-      await Clipboard.setData(ClipboardData(text: url));
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('投票リンクをコピーしました: $url'), duration: const Duration(seconds: 3)),
-        );
+      // Open vote page in browser (like web app)
+      final uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
       }
     } else {
       if (mounted) setState(() => _creating = false);

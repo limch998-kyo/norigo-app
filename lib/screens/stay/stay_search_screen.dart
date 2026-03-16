@@ -15,16 +15,37 @@ class StaySearchScreen extends ConsumerStatefulWidget {
 }
 
 class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
-  DateTime? _checkIn;
-  DateTime? _checkOut;
+  late DateTime _checkIn;
+  late DateTime _checkOut;
+
+  @override
+  void initState() {
+    super.initState();
+    // Default: 1 month from now, 3 nights
+    _checkIn = DateTime.now().add(const Duration(days: 30));
+    _checkOut = _checkIn.add(const Duration(days: 3));
+
+    // Set dates in provider after build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final notifier = ref.read(staySearchProvider.notifier);
+      final state = ref.read(staySearchProvider);
+      if (state.checkIn == null) {
+        notifier.setDates(
+          _checkIn.toIso8601String().substring(0, 10),
+          _checkOut.toIso8601String().substring(0, 10),
+        );
+      } else {
+        _checkIn = DateTime.parse(state.checkIn!);
+        _checkOut = DateTime.parse(state.checkOut!);
+      }
+    });
+  }
 
   Future<void> _pickDate(BuildContext context, bool isCheckIn) async {
     final now = DateTime.now();
     final picked = await showDatePicker(
       context: context,
-      initialDate: isCheckIn
-          ? (_checkIn ?? now.add(const Duration(days: 7)))
-          : (_checkOut ?? (_checkIn ?? now).add(const Duration(days: 1))),
+      initialDate: isCheckIn ? _checkIn : _checkOut,
       firstDate: now,
       lastDate: now.add(const Duration(days: 365)),
     );
@@ -33,7 +54,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
     setState(() {
       if (isCheckIn) {
         _checkIn = picked;
-        if (_checkOut != null && _checkOut!.isBefore(picked)) {
+        if (_checkOut.isBefore(picked)) {
           _checkOut = picked.add(const Duration(days: 1));
         }
       } else {
@@ -42,13 +63,12 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
     });
 
     ref.read(staySearchProvider.notifier).setDates(
-      _checkIn?.toIso8601String().substring(0, 10),
-      _checkOut?.toIso8601String().substring(0, 10),
+      _checkIn.toIso8601String().substring(0, 10),
+      _checkOut.toIso8601String().substring(0, 10),
     );
   }
 
-  String _formatDate(DateTime? date) {
-    if (date == null) return '---';
+  String _formatDate(DateTime date) {
     return '${date.month}/${date.day}';
   }
 
@@ -144,7 +164,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
                     onPressed: () => _pickDate(context, true),
                     icon: const Icon(Icons.calendar_today, size: 16),
                     label: Text(
-                      _checkIn != null ? _formatDate(_checkIn) : 'Check-in',
+                      _formatDate(_checkIn),
                       style: const TextStyle(fontSize: 13),
                     ),
                   ),
@@ -158,7 +178,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
                     onPressed: () => _pickDate(context, false),
                     icon: const Icon(Icons.calendar_today, size: 16),
                     label: Text(
-                      _checkOut != null ? _formatDate(_checkOut) : 'Check-out',
+                      _formatDate(_checkOut),
                       style: const TextStyle(fontSize: 13),
                     ),
                   ),
