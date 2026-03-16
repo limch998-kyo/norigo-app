@@ -260,11 +260,12 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
               ),
             ],
 
-            // Popular spot cards (always visible below search)
+            // Popular spot cards (hide already-added, matching web)
             const SizedBox(height: 24),
             _PopularSpotCards(
               region: state.region,
               locale: locale,
+              filledNames: state.landmarks.map((l) => l.name).toSet(),
               onSelect: (landmark) => notifier.addLandmark(landmark),
             ),
             const SizedBox(height: 24),
@@ -285,113 +286,165 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
   }
 }
 
-class _PopularSpotCards extends StatelessWidget {
+class _PopularSpotCards extends StatefulWidget {
   final String region;
   final String locale;
+  final Set<String> filledNames;
   final void Function(Landmark) onSelect;
 
-  const _PopularSpotCards({required this.region, required this.locale, required this.onSelect});
+  const _PopularSpotCards({required this.region, required this.locale, required this.filledNames, required this.onSelect});
+
+  @override
+  State<_PopularSpotCards> createState() => _PopularSpotCardsState();
+}
+
+class _PopularSpotCardsState extends State<_PopularSpotCards> {
+  String? _expandedSlug;
 
   static const _spots = {
     'kanto': [
-      {'slug': 'shibuya', 'name': '渋谷スクランブル交差点', 'nameKo': '시부야 스크램블 교차로', 'nameEn': 'Shibuya Crossing', 'lat': 35.6595, 'lng': 139.7004, 'image': 'shibuya-crossing'},
-      {'slug': 'asakusa', 'name': '浅草寺', 'nameKo': '센소지', 'nameEn': 'Sensoji Temple', 'lat': 35.7148, 'lng': 139.7967, 'image': 'asakusa-senso-ji'},
-      {'slug': 'odaiba', 'name': 'お台場', 'nameKo': '오다이바', 'nameEn': 'Odaiba', 'lat': 35.6268, 'lng': 139.7753, 'image': 'odaiba'},
+      {'slug': 'shibuya', 'name': '渋谷スクランブル交差点', 'nameKo': '시부야 스크램블 교차로', 'nameEn': 'Shibuya Crossing', 'lat': 35.6595, 'lng': 139.7004, 'image': 'shibuya-crossing',
+       'desc': {'ja': '世界で最も有名な交差点。渋谷のシンボル。', 'ko': '세계에서 가장 유명한 교차로. 시부야의 상징.', 'en': 'The world\'s most famous crossing.'}},
+      {'slug': 'asakusa', 'name': '浅草寺', 'nameKo': '센소지', 'nameEn': 'Sensoji Temple', 'lat': 35.7148, 'lng': 139.7967, 'image': 'asakusa-senso-ji',
+       'desc': {'ja': '東京最古の寺院。雷門と仲見世通りが人気。', 'ko': '도쿄에서 가장 오래된 사찰. 가미나리몬이 유명.', 'en': 'Tokyo\'s oldest temple with iconic Thunder Gate.'}},
+      {'slug': 'odaiba', 'name': 'お台場', 'nameKo': '오다이바', 'nameEn': 'Odaiba', 'lat': 35.6268, 'lng': 139.7753, 'image': 'odaiba',
+       'desc': {'ja': 'お台場海浜公園やチームラボなど見どころ満載。', 'ko': '해변 공원과 팀랩 등 볼거리가 가득.', 'en': 'Waterfront area with teamLab and sea views.'}},
     ],
     'kansai': [
-      {'slug': 'dotonbori', 'name': '道頓堀', 'nameKo': '도톤보리', 'nameEn': 'Dotonbori', 'lat': 34.6687, 'lng': 135.5013, 'image': 'dotonbori'},
-      {'slug': 'fushimi', 'name': '伏見稲荷大社', 'nameKo': '후시미이나리 신사', 'nameEn': 'Fushimi Inari', 'lat': 34.9671, 'lng': 135.7727, 'image': 'fushimi-inari-taisha'},
+      {'slug': 'dotonbori', 'name': '道頓堀', 'nameKo': '도톤보리', 'nameEn': 'Dotonbori', 'lat': 34.6687, 'lng': 135.5013, 'image': 'dotonbori',
+       'desc': {'ja': '大阪グルメの中心地。グリコサインが有名。', 'ko': '오사카 먹거리의 중심. 글리코 사인이 유명.', 'en': 'Osaka\'s food capital. Famous Glico sign.'}},
+      {'slug': 'fushimi', 'name': '伏見稲荷大社', 'nameKo': '후시미이나리 신사', 'nameEn': 'Fushimi Inari', 'lat': 34.9671, 'lng': 135.7727, 'image': 'fushimi-inari-taisha',
+       'desc': {'ja': '千本鳥居で有名な京都の神社。', 'ko': '천개의 도리이로 유명한 교토의 신사.', 'en': 'Kyoto shrine famous for 1000 torii gates.'}},
     ],
   };
 
   @override
   Widget build(BuildContext context) {
-    final spots = _spots[region];
-    if (spots == null || spots.isEmpty) return const SizedBox.shrink();
+    final allSpots = _spots[widget.region] ?? [];
+    // Filter out already-added spots
+    final spots = allSpots.where((s) {
+      final name = _getName(s);
+      return !widget.filledNames.contains(name);
+    }).toList();
+
+    if (spots.isEmpty) return const SizedBox.shrink();
+
+    final addLabel = widget.locale == 'ja' ? '検索に追加' : widget.locale == 'ko' ? '검색에 추가' : 'Add to search';
+    final tripLabel = widget.locale == 'ja' ? '旅行に追加' : widget.locale == 'ko' ? '여행에 추가' : 'Add to trip';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          locale == 'ja' ? '人気スポット' : locale == 'ko' ? '인기 관광지' : 'Popular Spots',
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(height: 8),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            childAspectRatio: 1.4,
+        Row(children: [
+          Icon(Icons.place, size: 16, color: AppTheme.mutedForeground),
+          const SizedBox(width: 6),
+          Text(
+            widget.locale == 'ja' ? '人気スポット' : widget.locale == 'ko' ? '인기 관광지' : 'Popular Spots',
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: AppTheme.mutedForeground),
           ),
-          itemCount: spots.length,
-          itemBuilder: (context, index) {
-            final spot = spots[index];
-            final name = locale == 'ko' ? spot['nameKo'] as String
-                : locale == 'en' ? spot['nameEn'] as String
-                : spot['name'] as String;
-            final imageFile = spot['image'] as String;
+        ]),
+        const SizedBox(height: 10),
+        // Full-width vertical cards (matching web)
+        ...spots.map((spot) {
+          final name = _getName(spot);
+          final imageFile = spot['image'] as String;
+          final isExpanded = _expandedSlug == spot['slug'];
+          final descMap = spot['desc'] as Map<String, String>?;
+          final desc = descMap?[widget.locale] ?? descMap?['en'] ?? '';
 
-            return GestureDetector(
-              onTap: () => onSelect(Landmark(
-                slug: spot['slug'] as String,
-                name: name,
-                lat: spot['lat'] as double,
-                lng: spot['lng'] as double,
-                region: region,
-              )),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppTheme.border),
-                ),
-                clipBehavior: Clip.antiAlias,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Image.asset(
-                      'assets/images/landmarks/$imageFile.webp',
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => Container(color: AppTheme.muted, child: const Icon(Icons.place, size: 32)),
-                    ),
-                    Container(
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.center,
-                          colors: [Colors.black54, Colors.transparent],
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 8,
-                      left: 8,
-                      right: 8,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(name, style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w600,
-                            shadows: [Shadow(blurRadius: 4, color: Colors.black45)]), maxLines: 1, overflow: TextOverflow.ellipsis),
-                          const SizedBox(height: 2),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                            decoration: BoxDecoration(color: AppTheme.primary.withValues(alpha: 0.9), borderRadius: BorderRadius.circular(4)),
-                            child: Text('+ ${locale == 'ja' ? '追加' : locale == 'ko' ? '추가' : 'Add'}',
-                              style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.w600)),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppTheme.border),
               ),
-            );
-          },
-        ),
+              clipBehavior: Clip.antiAlias,
+              child: Column(children: [
+                // Image + title (tap to expand)
+                GestureDetector(
+                  onTap: () => setState(() => _expandedSlug = isExpanded ? null : spot['slug'] as String),
+                  child: Column(children: [
+                    AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: Image.asset(
+                        'assets/images/landmarks/$imageFile.webp',
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Container(color: AppTheme.muted, child: const Icon(Icons.place, size: 32)),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                      child: Row(children: [
+                        Expanded(child: Text(name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500))),
+                        Icon(isExpanded ? Icons.expand_less : Icons.expand_more, size: 18, color: AppTheme.mutedForeground),
+                      ]),
+                    ),
+                  ]),
+                ),
+
+                // Expanded: description + buttons
+                if (isExpanded)
+                  Container(
+                    decoration: BoxDecoration(border: Border(top: BorderSide(color: AppTheme.border))),
+                    padding: const EdgeInsets.all(12),
+                    child: Column(children: [
+                      if (desc.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Text(desc, style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground, height: 1.5)),
+                        ),
+                      Row(children: [
+                        Expanded(child: ElevatedButton.icon(
+                          onPressed: () => _addToSearch(spot),
+                          icon: const Icon(Icons.search, size: 14),
+                          label: Text(addLabel, style: const TextStyle(fontSize: 12)),
+                          style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 8)),
+                        )),
+                      ]),
+                    ]),
+                  ),
+
+                // Collapsed: quick add button
+                if (!isExpanded)
+                  Container(
+                    decoration: BoxDecoration(border: Border(top: BorderSide(color: AppTheme.border))),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        onPressed: () => _addToSearch(spot),
+                        icon: const Icon(Icons.add, size: 14),
+                        label: Text(addLabel, style: const TextStyle(fontSize: 12)),
+                        style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 6)),
+                      ),
+                    ),
+                  ),
+              ]),
+            ),
+          );
+        }),
       ],
     );
+  }
+
+  void _addToSearch(Map<String, Object> spot) {
+    final name = _getName(spot);
+    widget.onSelect(Landmark(
+      slug: spot['slug'] as String,
+      name: name,
+      lat: spot['lat'] as double,
+      lng: spot['lng'] as double,
+      region: widget.region,
+    ));
+  }
+
+  String _getName(Map<String, Object> spot) {
+    switch (widget.locale) {
+      case 'ko': return spot['nameKo'] as String? ?? spot['name'] as String;
+      case 'en': return spot['nameEn'] as String? ?? spot['name'] as String;
+      default: return spot['name'] as String;
+    }
   }
 }
 
