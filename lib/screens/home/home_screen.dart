@@ -154,14 +154,15 @@ class HomeScreen extends ConsumerWidget {
                   for (final l in landmarks) {
                     notifier.addLandmark(l);
                   }
+                  notifier.setRegion(region);
                   final checkIn = DateTime.now().add(const Duration(days: 30));
                   final checkOut = checkIn.add(const Duration(days: 2));
                   notifier.setDates(
                     checkIn.toIso8601String().substring(0, 10),
                     checkOut.toIso8601String().substring(0, 10),
                   );
+                  // Navigate to search screen (don't auto-search)
                   onSwitchTab?.call(1);
-                  notifier.search();
                 },
               ),
             ),

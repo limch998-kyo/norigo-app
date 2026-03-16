@@ -7,10 +7,14 @@ import 'providers/app_providers.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Detect device locale
-  final deviceLocale = ui.PlatformDispatcher.instance.locale.languageCode;
+  // Detect device locale — try multiple sources
+  final platformLocale = ui.PlatformDispatcher.instance.locale;
+  final langCode = platformLocale.languageCode; // e.g. 'ko', 'ja', 'en'
+
   final supportedLocales = ['ja', 'ko', 'en', 'zh'];
-  final initialLocale = supportedLocales.contains(deviceLocale) ? deviceLocale : 'en';
+  final initialLocale = supportedLocales.contains(langCode) ? langCode : 'en';
+
+  debugPrint('Device locale: $platformLocale, languageCode: $langCode, using: $initialLocale');
 
   runApp(
     ProviderScope(
