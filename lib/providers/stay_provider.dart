@@ -70,11 +70,14 @@ class StaySearchState {
 class StaySearchNotifier extends StateNotifier<StaySearchState> {
   final Ref _ref;
 
+  /// Per-region saved slots: when user switches region, we save current slots
+  /// and restore previously saved slots for the new region.
+  final Map<String, List<Landmark?>> _regionSlots = {};
+
   StaySearchNotifier(this._ref) : super(const StaySearchState());
 
   void setLandmark(int index, Landmark landmark) {
     // Prevent duplicates (allow replacing same slot)
-    final filled = state.landmarks;
     final existingIndex = state.slots.indexWhere((l) => l != null && (l.name == landmark.name || l.slug == landmark.slug));
     if (existingIndex >= 0 && existingIndex != index) return;
 
@@ -85,7 +88,8 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
       newSlots.add(landmark);
     }
     state = state.copyWith(slots: newSlots);
-    _autoDetectRegion();
+    // Save to region cache
+    _regionSlots[state.region] = List.from(newSlots);
   }
 
   void addLandmark(Landmark landmark) {
@@ -102,7 +106,8 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
       newSlots.add(landmark);
     }
     state = state.copyWith(slots: newSlots);
-    _autoDetectRegion();
+    // Save to region cache
+    _regionSlots[state.region] = List.from(newSlots);
   }
 
   void removeSlot(int index) {
@@ -111,11 +116,13 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
       final newSlots = List<Landmark?>.from(state.slots);
       newSlots[index] = null;
       state = state.copyWith(slots: newSlots);
+      _regionSlots[state.region] = List.from(newSlots);
       return;
     }
     final newSlots = List<Landmark?>.from(state.slots);
     newSlots.removeAt(index);
     state = state.copyWith(slots: newSlots);
+    _regionSlots[state.region] = List.from(newSlots);
   }
 
   void removeLandmark(String slug) {
@@ -129,15 +136,32 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
       }
     }
     state = state.copyWith(slots: newSlots);
+    _regionSlots[state.region] = List.from(newSlots);
   }
 
   void addSlot() {
     if (state.slots.length >= 10) return;
-    state = state.copyWith(slots: [...state.slots, null]);
+    final newSlots = [...state.slots, null];
+    state = state.copyWith(slots: newSlots);
+    _regionSlots[state.region] = List.from(newSlots);
   }
 
+  /// Switch region: save current slots, restore saved slots for new region
   void setRegion(String region) {
-    state = state.copyWith(region: region);
+    if (region == state.region) return;
+
+    // Save current region's slots
+    _regionSlots[state.region] = List.from(state.slots);
+
+    // Restore new region's slots (or default empty)
+    final savedSlots = _regionSlots[region] ?? const [null, null];
+
+    state = state.copyWith(
+      region: region,
+      slots: savedSlots,
+      clearResult: true,
+      clearError: true,
+    );
   }
 
   void setMode(String mode) {
@@ -158,12 +182,6 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
 
   void setStayStyle(String style) {
     state = state.copyWith(stayStyle: style);
-  }
-
-  void _autoDetectRegion() {
-    final filled = state.landmarks;
-    if (filled.isEmpty) return;
-    state = state.copyWith(region: filled.first.region);
   }
 
   Future<void> search() async {
@@ -203,6 +221,7 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
 
   /// Full reset (clear everything)
   void reset() {
+    _regionSlots.clear();
     state = const StaySearchState();
   }
 }

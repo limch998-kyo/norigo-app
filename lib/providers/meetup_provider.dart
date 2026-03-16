@@ -62,6 +62,9 @@ class MeetupSearchState {
 class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
   final Ref _ref;
 
+  /// Per-region saved slots: preserve stations when switching regions
+  final Map<String, List<Station?>> _regionSlots = {};
+
   MeetupSearchNotifier(this._ref) : super(const MeetupSearchState());
 
   void setStation(int index, Station station) {
@@ -70,7 +73,7 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
       newSlots[index] = station;
     }
     state = state.copyWith(slots: newSlots);
-    _autoDetectRegion();
+    _regionSlots[state.region] = List.from(newSlots);
   }
 
   void removeSlot(int index) {
@@ -78,15 +81,32 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
     final newSlots = List<Station?>.from(state.slots);
     newSlots.removeAt(index);
     state = state.copyWith(slots: newSlots);
+    _regionSlots[state.region] = List.from(newSlots);
   }
 
   void addSlot() {
     if (state.slots.length >= 10) return; // max 10
-    state = state.copyWith(slots: [...state.slots, null]);
+    final newSlots = [...state.slots, null];
+    state = state.copyWith(slots: newSlots);
+    _regionSlots[state.region] = List.from(newSlots);
   }
 
+  /// Switch region: save current slots, restore saved slots for new region
   void setRegion(String region) {
-    state = state.copyWith(region: region);
+    if (region == state.region) return;
+
+    // Save current region's slots
+    _regionSlots[state.region] = List.from(state.slots);
+
+    // Restore new region's slots (or default empty)
+    final savedSlots = _regionSlots[region] ?? const [null, null];
+
+    state = state.copyWith(
+      region: region,
+      slots: savedSlots,
+      clearResult: true,
+      clearError: true,
+    );
   }
 
   void setMode(String mode) {
@@ -109,12 +129,6 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
       opts.add(option);
     }
     state = state.copyWith(options: opts);
-  }
-
-  void _autoDetectRegion() {
-    final filled = state.filledStations;
-    if (filled.isEmpty) return;
-    state = state.copyWith(region: filled.first.region);
   }
 
   Future<void> search() async {
@@ -144,6 +158,7 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
   }
 
   void reset() {
+    _regionSlots.clear();
     state = const MeetupSearchState();
   }
 }
