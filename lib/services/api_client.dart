@@ -50,16 +50,37 @@ class ApiClient {
 
   // ── Landmark Search ──
 
-  Future<List<Landmark>> searchLandmarks(String query, {String? region}) async {
+  Future<List<Landmark>> searchLandmarks(String query, {String? region, String? locale}) async {
     final params = <String, dynamic>{'q': query};
     if (region != null) params['region'] = region;
+    if (locale != null) params['locale'] = locale;
 
     final response = await _dio.get(
       AppConstants.searchLandmarkEndpoint,
       queryParameters: params,
     );
-    final list = response.data as List;
-    return list.map((e) => Landmark.fromJson(e as Map<String, dynamic>)).toList();
+    final data = response.data;
+    // API returns {landmarks: [...]} or flat array
+    final List list;
+    if (data is Map<String, dynamic> && data.containsKey('landmarks')) {
+      list = data['landmarks'] as List;
+    } else if (data is List) {
+      list = data;
+    } else {
+      return [];
+    }
+    return list.map((e) {
+      final json = e as Map<String, dynamic>;
+      // API returns displayName/name, normalize to Landmark
+      return Landmark(
+        slug: json['slug'] as String? ?? json['name'] as String? ?? json['displayName'] as String? ?? '',
+        name: json['displayName'] as String? ?? json['name'] as String? ?? '',
+        nameEn: json['nameEn'] as String?,
+        lat: (json['lat'] as num).toDouble(),
+        lng: (json['lng'] as num).toDouble(),
+        region: json['region'] as String? ?? region ?? 'kanto',
+      );
+    }).toList();
   }
 
   // ── Stay Recommendation ──
@@ -68,19 +89,28 @@ class ApiClient {
     required List<Landmark> landmarks,
     required String region,
     String mode = 'centroid',
+    String stayStyle = 'auto',
     String? maxBudget,
     String? checkIn,
     String? checkOut,
+    String? locale,
   }) async {
     final response = await _dio.post(
       AppConstants.stayRecommendEndpoint,
       data: {
-        'landmarks': landmarks.map((l) => l.toJson()).toList(),
+        // API expects only name, lat, lng for each landmark
+        'landmarks': landmarks.map((l) => {
+          'name': l.name,
+          'lat': l.lat,
+          'lng': l.lng,
+        }).toList(),
         'region': region,
         'mode': mode,
+        'stayStyle': stayStyle,
         if (maxBudget != null) 'maxBudget': maxBudget,
         if (checkIn != null) 'checkIn': checkIn,
         if (checkOut != null) 'checkOut': checkOut,
+        if (locale != null) 'locale': locale,
       },
     );
     return StayRecommendResult.fromJson(response.data as Map<String, dynamic>);

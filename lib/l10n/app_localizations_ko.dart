@@ -12,10 +12,10 @@ class AppLocalizationsKo extends AppLocalizations {
   String get appTitle => '노리고';
 
   @override
-  String get homeTitle => '여행에 최적인 호텔을 찾아보세요';
+  String get homeTitle => '일본 여행, 딱 좋은 위치를 찾아줄게요.';
 
   @override
-  String get homeSubtitle => '가고 싶은 관광지를 입력하면 최적의 호텔을 추천';
+  String get homeSubtitle => '가고 싶은 관광지를 입력하면 호텔 위치와 맛집을 추천합니다.';
 
   @override
   String get searchPlaceholder => '관광지 검색...';
@@ -39,13 +39,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get quickPlanTitle => '인기 여행 플랜';
 
   @override
-  String get quickPlanDesc => '원탭으로 여행을 시작하세요';
+  String get quickPlanDesc => '탭하면 바로 최적의 호텔 지역을 찾아줍니다';
 
   @override
-  String get quickPlanCta => '검색';
+  String get quickPlanCta => '호텔 찾기';
 
   @override
-  String get staySearchTitle => '호텔 검색';
+  String get staySearchTitle => '숙박 지역 찾기';
 
   @override
   String get tripTitle => '내 여행';
@@ -95,7 +95,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get tabGuide => '가이드';
 
   @override
-  String get meetupTitle => '만남역 찾기';
+  String get meetupTitle => '모임 장소 찾기';
 
   @override
   String get meetupSearchButton => '만남역 검색';
@@ -122,7 +122,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get dates => '일정';
 
   @override
-  String get addLandmarks => '관광지 추가';
+  String get addLandmarks => '가고 싶은 관광지를 모두 입력';
 
   @override
   String get results => '검색 결과';

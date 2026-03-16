@@ -12,10 +12,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get appTitle => 'Norigo';
 
   @override
-  String get homeTitle => '找到最适合你旅行的酒店';
+  String get homeTitle => '日本旅行？帮你找到完美位置。';
 
   @override
-  String get homeSubtitle => '输入景点，自动推荐最佳住宿区域';
+  String get homeSubtitle => '输入想去的景点，自动推荐住宿区域和美食。';
 
   @override
   String get searchPlaceholder => '搜索景点...';
@@ -39,13 +39,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get quickPlanTitle => '热门旅行方案';
 
   @override
-  String get quickPlanDesc => '一键开启旅行';
+  String get quickPlanDesc => '点击即可找到最佳酒店区域';
 
   @override
-  String get quickPlanCta => '搜索';
+  String get quickPlanCta => '搜索酒店';
 
   @override
-  String get staySearchTitle => '酒店搜索';
+  String get staySearchTitle => '查找住宿区域';
 
   @override
   String get tripTitle => '我的行程';
@@ -95,7 +95,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get tabGuide => '指南';
 
   @override
-  String get meetupTitle => '寻找集合站';
+  String get meetupTitle => '查找聚会地点';
 
   @override
   String get meetupSearchButton => '搜索集合站';
@@ -122,7 +122,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get dates => '日期';
 
   @override
-  String get addLandmarks => '添加景点';
+  String get addLandmarks => '输入所有想去的景点';
 
   @override
   String get results => '搜索结果';

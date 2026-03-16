@@ -12,10 +12,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get appTitle => 'Norigo';
 
   @override
-  String get homeTitle => '旅行に最適なホテルを見つけよう';
+  String get homeTitle => '集まる場所、もう迷わない。';
 
   @override
-  String get homeSubtitle => '観光地を入力すると最適なホテルエリアを提案';
+  String get homeSubtitle =>
+      '出発駅をいくつか入力するだけで、みんなが集まりやすい駅とお店を提案。そのままお店の予約もできます。';
 
   @override
   String get searchPlaceholder => 'ランドマークを検索...';
@@ -24,10 +25,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get searchButton => 'ホテルを検索';
 
   @override
-  String get tokyoTitle => '東京・関東';
+  String get tokyoTitle => '東京の人気スポット';
 
   @override
-  String get osakaTitle => '大阪・関西';
+  String get osakaTitle => '大阪・京都の人気スポット';
 
   @override
   String get seoulTitle => 'ソウル';
@@ -36,16 +37,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get busanTitle => '釜山';
 
   @override
-  String get quickPlanTitle => '人気の旅行プラン';
+  String get quickPlanTitle => '人気プランですぐ検索';
 
   @override
-  String get quickPlanDesc => 'ワンタップで旅行を始めよう';
+  String get quickPlanDesc => 'タップするだけで最適なホテルエリアがわかります';
 
   @override
-  String get quickPlanCta => '検索';
+  String get quickPlanCta => 'ホテルを探す';
 
   @override
-  String get staySearchTitle => 'ホテル検索';
+  String get staySearchTitle => '宿泊エリアを探す';
 
   @override
   String get tripTitle => '旅行プラン';
@@ -95,7 +96,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tabGuide => 'ガイド';
 
   @override
-  String get meetupTitle => '集合駅を探す';
+  String get meetupTitle => '集合場所を探す';
 
   @override
   String get meetupSearchButton => '集合駅を検索';
@@ -122,7 +123,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get dates => '日程';
 
   @override
-  String get addLandmarks => '観光スポットを追加';
+  String get addLandmarks => '行きたい観光地をすべて入力';
 
   @override
   String get results => '検索結果';

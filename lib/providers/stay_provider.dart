@@ -113,13 +113,16 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
 
     try {
       final api = _ref.read(apiClientProvider);
+      final locale = _ref.read(localeProvider);
       final result = await api.getStayRecommendation(
         landmarks: state.landmarks,
         region: state.region,
         mode: state.mode,
+        stayStyle: 'auto',
         maxBudget: state.maxBudget,
         checkIn: state.checkIn,
         checkOut: state.checkOut,
+        locale: locale,
       );
       state = state.copyWith(result: result, isLoading: false);
     } catch (e) {

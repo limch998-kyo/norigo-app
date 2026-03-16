@@ -185,25 +185,18 @@ class _RegionSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 12),
-        SizedBox(
-          height: 180,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: plans.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 12),
-            itemBuilder: (context, index) {
-              return SizedBox(
-                width: 260,
-                child: _QuickPlanCard(
-                  plan: plans[index],
-                  locale: locale,
-                  ctaText: ctaText,
-                  onPlanSelected: onPlanSelected,
-                ),
-              );
-            },
-          ),
-        ),
+        // Full-width vertical cards (matching web layout)
+        ...plans.asMap().entries.map((entry) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: _QuickPlanCard(
+              plan: entry.value,
+              locale: locale,
+              ctaText: ctaText,
+              onPlanSelected: onPlanSelected,
+            ),
+          );
+        }),
       ],
     );
   }
@@ -250,8 +243,9 @@ class _QuickPlanCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image
-            Expanded(
+            // Image — full width with 16:9 aspect ratio
+            AspectRatio(
+              aspectRatio: 16 / 9,
               child: Stack(
                 fit: StackFit.expand,
                 children: [

@@ -111,13 +111,13 @@ abstract class AppLocalizations {
   /// No description provided for @homeTitle.
   ///
   /// In en, this message translates to:
-  /// **'Find the best hotel for your trip'**
+  /// **'Visiting Japan? We\'ll find the perfect spot.'**
   String get homeTitle;
 
   /// No description provided for @homeSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Enter tourist spots and we find the optimal hotel area'**
+  /// **'Enter a few places you want to visit — we\'ll find the best hotel area and restaurants.'**
   String get homeSubtitle;
 
   /// No description provided for @searchPlaceholder.
@@ -165,19 +165,19 @@ abstract class AppLocalizations {
   /// No description provided for @quickPlanDesc.
   ///
   /// In en, this message translates to:
-  /// **'Start your trip with one tap'**
+  /// **'Tap to instantly find the best hotel area'**
   String get quickPlanDesc;
 
   /// No description provided for @quickPlanCta.
   ///
   /// In en, this message translates to:
-  /// **'Search'**
+  /// **'Find Hotels'**
   String get quickPlanCta;
 
   /// No description provided for @staySearchTitle.
   ///
   /// In en, this message translates to:
-  /// **'Hotel Search'**
+  /// **'Find Hotel Area'**
   String get staySearchTitle;
 
   /// No description provided for @tripTitle.
@@ -273,7 +273,7 @@ abstract class AppLocalizations {
   /// No description provided for @meetupTitle.
   ///
   /// In en, this message translates to:
-  /// **'Find Meetup Station'**
+  /// **'Find Meetup Spot'**
   String get meetupTitle;
 
   /// No description provided for @meetupSearchButton.
@@ -327,7 +327,7 @@ abstract class AppLocalizations {
   /// No description provided for @addLandmarks.
   ///
   /// In en, this message translates to:
-  /// **'Add landmarks'**
+  /// **'Enter all places you want to visit'**
   String get addLandmarks;
 
   /// No description provided for @results.

@@ -12,11 +12,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Norigo';
 
   @override
-  String get homeTitle => 'Find the best hotel for your trip';
+  String get homeTitle => 'Visiting Japan? We\'ll find the perfect spot.';
 
   @override
   String get homeSubtitle =>
-      'Enter tourist spots and we find the optimal hotel area';
+      'Enter a few places you want to visit — we\'ll find the best hotel area and restaurants.';
 
   @override
   String get searchPlaceholder => 'Search landmarks...';
@@ -40,13 +40,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quickPlanTitle => 'Popular Travel Plans';
 
   @override
-  String get quickPlanDesc => 'Start your trip with one tap';
+  String get quickPlanDesc => 'Tap to instantly find the best hotel area';
 
   @override
-  String get quickPlanCta => 'Search';
+  String get quickPlanCta => 'Find Hotels';
 
   @override
-  String get staySearchTitle => 'Hotel Search';
+  String get staySearchTitle => 'Find Hotel Area';
 
   @override
   String get tripTitle => 'My Trip';
@@ -96,7 +96,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tabGuide => 'Guide';
 
   @override
-  String get meetupTitle => 'Find Meetup Station';
+  String get meetupTitle => 'Find Meetup Spot';
 
   @override
   String get meetupSearchButton => 'Find Meetup Station';
@@ -123,7 +123,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dates => 'Dates';
 
   @override
-  String get addLandmarks => 'Add landmarks';
+  String get addLandmarks => 'Enter all places you want to visit';
 
   @override
   String get results => 'Results';
