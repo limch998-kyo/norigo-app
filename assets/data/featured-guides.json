@@ -9,7 +9,11 @@
       "ko": "아사쿠사 · 센소지 완전 가이드",
       "zh": "浅草·浅草寺完全攻略"
     },
-    "description": {}
+    "description": {},
+    "lat": 35.7148,
+    "lng": 139.7967,
+    "landmarkName": "浅草寺",
+    "landmarkNameKo": "아사쿠사 센소지"
   },
   {
     "slug": "hakone-complete",
@@ -21,7 +25,11 @@
       "ko": "하코네 완전 가이드 — 온천, 후지산, 순환 코스",
       "zh": "箱根完全攻略 — 温泉·富士山·经典环线"
     },
-    "description": {}
+    "description": {},
+    "lat": 35.2328,
+    "lng": 139.107,
+    "landmarkName": "箱根",
+    "landmarkNameKo": "하코네"
   },
   {
     "slug": "shibuya-harajuku",
@@ -33,7 +41,11 @@
       "ko": "시부야 · 하라주쿠 에어리어 가이드",
       "zh": "涩谷·原宿区域攻略"
     },
-    "description": {}
+    "description": {},
+    "lat": 35.6595,
+    "lng": 139.7004,
+    "landmarkName": "渋谷スクランブル交差点",
+    "landmarkNameKo": "시부야스크램블교차점"
   },
   {
     "slug": "kamakura-day-trip",
@@ -45,7 +57,11 @@
       "ko": "가마쿠라 · 에노시마 당일치기 가이드",
       "zh": "镰仓·江之岛一日游攻略"
     },
-    "description": {}
+    "description": {},
+    "lat": 35.3167,
+    "lng": 139.5357,
+    "landmarkName": "鎌倉大仏",
+    "landmarkNameKo": "가마쿠라대불"
   },
   {
     "slug": "mount-takao-beginner",
@@ -57,7 +73,11 @@
       "ko": "다카오산 초보자 하이킹 가이드",
       "zh": "高尾山新手徒步指南"
     },
-    "description": {}
+    "description": {},
+    "lat": 35.3606,
+    "lng": 138.7274,
+    "landmarkName": "富士山",
+    "landmarkNameKo": "후지산"
   },
   {
     "slug": "akihabara-otaku",
@@ -69,7 +89,11 @@
       "ko": "아키하바라·오타쿠 문화 가이드",
       "zh": "秋叶原·御宅族文化攻略"
     },
-    "description": {}
+    "description": {},
+    "lat": 35.7023,
+    "lng": 139.7745,
+    "landmarkName": "秋葉原",
+    "landmarkNameKo": "아키하바라"
   },
   {
     "slug": "shinjuku-complete",
@@ -81,7 +105,11 @@
       "ko": "신주쿠 완전 가이드",
       "zh": "新宿完全攻略"
     },
-    "description": {}
+    "description": {},
+    "lat": 35.6852,
+    "lng": 139.71,
+    "landmarkName": "新宿御苑",
+    "landmarkNameKo": "신주쿠교엔"
   },
   {
     "slug": "tokyo-station-ginza",
@@ -93,7 +121,11 @@
       "ko": "도쿄역·마루노우치·긴자 가이드",
       "zh": "东京站·丸之内·银座攻略"
     },
-    "description": {}
+    "description": {},
+    "lat": 35.6586,
+    "lng": 139.7454,
+    "landmarkName": "東京タワー",
+    "landmarkNameKo": "도쿄타워"
   },
   {
     "slug": "ueno-yanaka",
@@ -105,7 +137,11 @@
       "ko": "우에노·아메요코·야나카 가이드",
       "zh": "上野·阿美横丁·谷中攻略"
     },
-    "description": {}
+    "description": {},
+    "lat": 35.7146,
+    "lng": 139.7732,
+    "landmarkName": "上野公園",
+    "landmarkNameKo": "우에노공원"
   },
   {
     "slug": "nikko-day-trip",
@@ -117,7 +153,11 @@
       "ko": "닛코 당일치기 가이드",
       "zh": "日光一日游攻略"
     },
-    "description": {}
+    "description": {},
+    "lat": 36.758,
+    "lng": 139.5988,
+    "landmarkName": "日光東照宮",
+    "landmarkNameKo": "닛코도쇼구"
   },
   {
     "slug": "tokyo-itinerary",
@@ -129,7 +169,11 @@
       "ko": "도쿄 1일·2일·3일 모델 코스",
       "zh": "东京1日·2日·3日模范行程"
     },
-    "description": {}
+    "description": {},
+    "lat": 35.6586,
+    "lng": 139.7454,
+    "landmarkName": "東京タワー",
+    "landmarkNameKo": "도쿄타워"
   },
   {
     "slug": "tokyo-cherry-blossom",
@@ -141,7 +185,11 @@
       "ko": "도쿄 벚꽃 명소 가이드",
       "zh": "东京赏樱名所指南"
     },
-    "description": {}
+    "description": {},
+    "lat": 35.6586,
+    "lng": 139.7454,
+    "landmarkName": "東京タワー",
+    "landmarkNameKo": "도쿄타워"
   },
   {
     "slug": "tokyo-shopping",
@@ -153,7 +201,11 @@
       "ko": "도쿄 쇼핑 가이드: 긴자·하라주쿠·아키하바라",
       "zh": "东京购物指南：银座·原宿·秋叶原"
     },
-    "description": {}
+    "description": {},
+    "lat": 35.6586,
+    "lng": 139.7454,
+    "landmarkName": "東京タワー",
+    "landmarkNameKo": "도쿄타워"
   },
   {
     "slug": "osaka-kyoto-nara-itinerary",
@@ -165,7 +217,11 @@
       "ko": "오사카·교토·나라 3일 코스",
       "zh": "大阪·京都·奈良3日行程"
     },
-    "description": {}
+    "description": {},
+    "lat": 34.6873,
+    "lng": 135.5262,
+    "landmarkName": "大阪城",
+    "landmarkNameKo": "오사카성"
   },
   {
     "slug": "fushimi-inari-kiyomizudera",
@@ -177,7 +233,11 @@
       "ko": "후시미이나리·기요미즈데라 완전 가이드",
       "zh": "伏见稻荷·清水寺完全攻略"
     },
-    "description": {}
+    "description": {},
+    "lat": 34.9671,
+    "lng": 135.7727,
+    "landmarkName": "伏見稲荷大社",
+    "landmarkNameKo": "후시미이나리타이샤"
   },
   {
     "slug": "arashiyama-complete",
@@ -189,7 +249,11 @@
       "ko": "아라시야마 완전 가이드",
       "zh": "岚山完全攻略"
     },
-    "description": {}
+    "description": {},
+    "lat": 35.0094,
+    "lng": 135.667,
+    "landmarkName": "嵐山",
+    "landmarkNameKo": "아라시야마"
   },
   {
     "slug": "dotonbori-shinsekai",
@@ -201,7 +265,11 @@
       "ko": "도톤보리·신세카이 먹방 가이드",
       "zh": "道顿堀·新世界美食攻略"
     },
-    "description": {}
+    "description": {},
+    "lat": 34.6687,
+    "lng": 135.5021,
+    "landmarkName": "道頓堀",
+    "landmarkNameKo": "도톤보리"
   },
   {
     "slug": "osaka-castle-nakanoshima",
@@ -213,7 +281,11 @@
       "ko": "오사카성·나카노시마 가이드",
       "zh": "大阪城·中之岛攻略"
     },
-    "description": {}
+    "description": {},
+    "lat": 34.6873,
+    "lng": 135.5262,
+    "landmarkName": "大阪城",
+    "landmarkNameKo": "오사카성"
   },
   {
     "slug": "nara-day-trip",
@@ -225,7 +297,11 @@
       "ko": "나라 당일치기 가이드",
       "zh": "奈良一日游攻略"
     },
-    "description": {}
+    "description": {},
+    "lat": 34.6849,
+    "lng": 135.8427,
+    "landmarkName": "奈良公園",
+    "landmarkNameKo": "나라공원"
   },
   {
     "slug": "gyeongbokgung-bukchon",
@@ -237,7 +313,11 @@
       "ko": "경복궁·북촌한옥마을 완전 가이드",
       "zh": "景福宫·北村韩屋村完全攻略"
     },
-    "description": {}
+    "description": {},
+    "lat": 37.5796,
+    "lng": 126.977,
+    "landmarkName": "景福宮（キョンボックン）",
+    "landmarkNameKo": "경복궁"
   },
   {
     "slug": "myeongdong-namdaemun",
@@ -249,7 +329,11 @@
       "ko": "명동·남대문 쇼핑·먹거리 가이드",
       "zh": "明洞·南大门购物美食攻略"
     },
-    "description": {}
+    "description": {},
+    "lat": 37.5609,
+    "lng": 126.9858,
+    "landmarkName": "明洞（ミョンドン）",
+    "landmarkNameKo": "명동"
   },
   {
     "slug": "hongdae-yeonnam",
@@ -261,7 +345,11 @@
       "ko": "홍대·연남동 카페·인디 문화·나이트라이프",
       "zh": "弘大·延南洞 咖啡馆·独立文化·夜生活"
     },
-    "description": {}
+    "description": {},
+    "lat": 37.5574,
+    "lng": 126.9248,
+    "landmarkName": "弘大（ホンデ）",
+    "landmarkNameKo": "홍대"
   },
   {
     "slug": "gangnam-garosu-gil",
@@ -273,7 +361,11 @@
       "ko": "강남·가로수길 K-POP·쇼핑·럭셔리",
       "zh": "江南·林荫路 K-POP·购物·奢华体验"
     },
-    "description": {}
+    "description": {},
+    "lat": 37.4979,
+    "lng": 127.0276,
+    "landmarkName": "江南（カンナム）",
+    "landmarkNameKo": "강남"
   },
   {
     "slug": "insadong-jongno",
@@ -285,7 +377,11 @@
       "ko": "인사동·종로 전통 찻집·갤러리·청계천",
       "zh": "仁寺洞·钟路 传统茶馆·画廊·清溪川"
     },
-    "description": {}
+    "description": {},
+    "lat": 37.5746,
+    "lng": 126.985,
+    "landmarkName": "仁寺洞（インサドン）",
+    "landmarkNameKo": "인사동"
   },
   {
     "slug": "itaewon-hannam",
@@ -297,7 +393,11 @@
       "ko": "이태원·한남 글로벌 맛집·루프탑 바·HYBE",
       "zh": "梨泰院·汉南 环球美食·天台酒吧·HYBE"
     },
-    "description": {}
+    "description": {},
+    "lat": 37.5344,
+    "lng": 126.9946,
+    "landmarkName": "梨泰院（イテウォン）",
+    "landmarkNameKo": "이태원"
   },
   {
     "slug": "seoul-itinerary",
@@ -309,7 +409,11 @@
       "ko": "서울 1일·2일·3일 모델 코스",
       "zh": "首尔1日·2日·3日模范行程"
     },
-    "description": {}
+    "description": {},
+    "lat": 37.5512,
+    "lng": 126.9882,
+    "landmarkName": "Nソウルタワー",
+    "landmarkNameKo": "N서울타워"
   },
   {
     "slug": "haeundae-gwangalli",
@@ -321,7 +425,11 @@
       "ko": "해운대·광안리 비치 완전 가이드",
       "zh": "海云台·广安里海滩完全攻略"
     },
-    "description": {}
+    "description": {},
+    "lat": 35.1588,
+    "lng": 129.1604,
+    "landmarkName": "海雲台（ヘウンデ）",
+    "landmarkNameKo": "해운대"
   },
   {
     "slug": "gamcheon-nampo",
@@ -333,7 +441,11 @@
       "ko": "감천문화마을·남포동·자갈치시장",
       "zh": "甘川文化村·南浦洞·札嘎其市场"
     },
-    "description": {}
+    "description": {},
+    "lat": 35.0966,
+    "lng": 129.0105,
+    "landmarkName": "甘川文化村（カムチョン）",
+    "landmarkNameKo": "감천문화마을"
   },
   {
     "slug": "haedong-taejongdae",
@@ -345,7 +457,11 @@
       "ko": "해동용궁사·태종대 바다 절경·절벽 코스",
       "zh": "海东龙宫寺·太宗台 海边寺庙与悬崖"
     },
-    "description": {}
+    "description": {},
+    "lat": 35.1884,
+    "lng": 129.2232,
+    "landmarkName": "海東龍宮寺（ヘドンヨングンサ）",
+    "landmarkNameKo": "해동용궁사"
   },
   {
     "slug": "busan-itinerary",
@@ -357,6 +473,10 @@
       "ko": "부산 1일·2일 모델 코스",
       "zh": "釜山1日·2日模范行程"
     },
-    "description": {}
+    "description": {},
+    "lat": 35.1146,
+    "lng": 129.0393,
+    "landmarkName": "釜山駅",
+    "landmarkNameKo": "부산역"
   }
 ]

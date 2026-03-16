@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../config/theme.dart';
 import '../../providers/app_providers.dart';
+import '../../providers/trip_provider.dart';
+import '../../models/landmark.dart';
 import 'guide_detail_screen.dart';
 
 class GuideScreen extends ConsumerStatefulWidget {
@@ -166,12 +168,48 @@ class _GuideScreenState extends ConsumerState<GuideScreen> {
                                       const SizedBox(height: 8),
                                       Row(
                                         children: [
-                                          Icon(Icons.menu_book, size: 14, color: AppTheme.primary),
-                                          const SizedBox(width: 4),
-                                          Text(
-                                            locale == 'ja' ? 'ガイドを読む' : locale == 'ko' ? '가이드 읽기' : 'Read Guide',
-                                            style: TextStyle(fontSize: 12, color: AppTheme.primary, fontWeight: FontWeight.w500),
-                                          ),
+                                          // Read guide
+                                          Expanded(child: Row(children: [
+                                            Icon(Icons.menu_book, size: 14, color: AppTheme.primary),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              locale == 'ja' ? 'ガイドを読む' : locale == 'ko' ? '가이드 읽기' : 'Read Guide',
+                                              style: TextStyle(fontSize: 12, color: AppTheme.primary, fontWeight: FontWeight.w500),
+                                            ),
+                                          ])),
+                                          // Add to trip
+                                          if (guide['lat'] != null)
+                                            GestureDetector(
+                                              onTap: () {
+                                                final lat = (guide['lat'] as num).toDouble();
+                                                final lng = (guide['lng'] as num).toDouble();
+                                                final region = guide['region'] as String;
+                                                final lmName = locale == 'ko'
+                                                    ? (guide['landmarkNameKo'] as String? ?? title)
+                                                    : (guide['landmarkName'] as String? ?? title);
+                                                ref.read(tripProvider.notifier).addItem(
+                                                  Landmark(slug: slug, name: lmName, lat: lat, lng: lng, region: region),
+                                                  locale: locale,
+                                                );
+                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                  content: Text(locale == 'ja' ? '$lmNameを旅行に追加しました' : locale == 'ko' ? '$lmName을(를) 여행에 추가했습니다' : 'Added $lmName to trip'),
+                                                  duration: const Duration(seconds: 2),
+                                                ));
+                                              },
+                                              child: Container(
+                                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(6),
+                                                  border: Border.all(color: AppTheme.border),
+                                                ),
+                                                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                                                  Icon(Icons.add, size: 12, color: AppTheme.foreground),
+                                                  const SizedBox(width: 3),
+                                                  Text(locale == 'ja' ? '旅行に追加' : locale == 'ko' ? '여행에 추가' : 'Add to trip',
+                                                    style: const TextStyle(fontSize: 11)),
+                                                ]),
+                                              ),
+                                            ),
                                         ],
                                       ),
                                     ],
