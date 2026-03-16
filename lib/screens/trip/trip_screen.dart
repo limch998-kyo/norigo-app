@@ -340,7 +340,9 @@ class _SavedSearchesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final saved = ref.watch(savedSearchesProvider);
+    // Filter by current country (japan/korea toggle)
+    final tripState = ref.watch(tripProvider);
+    final saved = ref.watch(savedSearchesProvider.notifier).byCountry(tripState.country);
     if (saved.isEmpty) return const SizedBox.shrink();
 
     final theme = Theme.of(context);
@@ -445,13 +447,21 @@ class _SavedSearchesSection extends StatelessWidget {
                         visualDensity: VisualDensity.compact,
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    // Delete
-                    GestureDetector(
-                      onTap: () => ref.read(savedSearchesProvider.notifier).remove(search.id),
-                      child: Text(locale == 'ja' ? '削除' : locale == 'ko' ? '삭제' : 'Delete',
-                        style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
-                    ),
+                    const SizedBox(height: 6),
+                    // Rename + Delete
+                    Row(mainAxisSize: MainAxisSize.min, children: [
+                      GestureDetector(
+                        onTap: () => _showRenameSearchDialog(context, ref, search, locale),
+                        child: Text(locale == 'ja' ? '名前変更' : locale == 'ko' ? '이름변경' : 'Rename',
+                          style: TextStyle(fontSize: 10, color: AppTheme.primary)),
+                      ),
+                      Text(' · ', style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
+                      GestureDetector(
+                        onTap: () => ref.read(savedSearchesProvider.notifier).remove(search.id),
+                        child: Text(locale == 'ja' ? '削除' : locale == 'ko' ? '삭제' : 'Delete',
+                          style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
+                      ),
+                    ]),
                   ]),
                 ]),
               ),
@@ -459,6 +469,33 @@ class _SavedSearchesSection extends StatelessWidget {
           );
         }),
       ],
+    );
+  }
+
+  void _showRenameSearchDialog(BuildContext context, WidgetRef ref, SavedSearch search, String locale) {
+    final controller = TextEditingController(text: search.title);
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(locale == 'ja' ? '名前を変更' : locale == 'ko' ? '이름 변경' : 'Rename'),
+        content: TextField(controller: controller, autofocus: true),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(locale == 'ja' ? 'キャンセル' : locale == 'ko' ? '취소' : 'Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              final name = controller.text.trim();
+              if (name.isNotEmpty) {
+                ref.read(savedSearchesProvider.notifier).rename(search.id, name);
+                Navigator.pop(ctx);
+              }
+            },
+            child: Text(locale == 'ja' ? '保存' : locale == 'ko' ? '저장' : 'Save'),
+          ),
+        ],
+      ),
     );
   }
 }

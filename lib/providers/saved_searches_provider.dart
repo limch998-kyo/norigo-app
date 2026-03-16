@@ -81,9 +81,32 @@ class SavedSearchesNotifier extends StateNotifier<List<SavedSearch>> {
     _save();
   }
 
+  void rename(String id, String newTitle) {
+    state = state.map((s) {
+      if (s.id == id) {
+        return SavedSearch(
+          id: s.id, title: newTitle, landmarks: s.landmarks,
+          region: s.region, mode: s.mode, maxBudget: s.maxBudget,
+          checkIn: s.checkIn, checkOut: s.checkOut, savedAt: s.savedAt,
+        );
+      }
+      return s;
+    }).toList();
+    _save();
+  }
+
   void remove(String id) {
     state = state.where((s) => s.id != id).toList();
     _save();
+  }
+
+  /// Get searches filtered by country
+  List<SavedSearch> byCountry(String country) {
+    const koreaRegions = ['seoul', 'busan'];
+    return state.where((s) {
+      final isKorea = koreaRegions.contains(s.region);
+      return country == 'korea' ? isKorea : !isKorea;
+    }).toList();
   }
 
   bool hasSearch(List<Landmark> landmarks, String region) {
