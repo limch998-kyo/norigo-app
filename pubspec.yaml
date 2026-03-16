@@ -45,6 +45,12 @@ dependencies:
   flutter_map: ^7.0.2
   latlong2: ^0.9.1
 
+  # Fonts
+  google_fonts: ^6.2.1
+
+  # SVG rendering
+  flutter_svg: ^2.0.17
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -53,3 +59,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+
+  assets:
+    - assets/images/illustrations/
+    - assets/images/landmarks/
+    - assets/images/icons/

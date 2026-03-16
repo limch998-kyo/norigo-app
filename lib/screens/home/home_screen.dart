@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/stay_provider.dart';
 import '../../models/landmark.dart';
+import '../../config/theme.dart';
 import 'widgets/quick_plan_cards.dart';
 
-/// Callback to switch tabs from home screen
 typedef TabSwitcher = void Function(int index);
 
 class HomeScreen extends ConsumerWidget {
@@ -24,74 +25,104 @@ class HomeScreen extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // ── Hero Section ──
-          Container(
-            padding: const EdgeInsets.fromLTRB(24, 48, 24, 32),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  theme.colorScheme.primary.withValues(alpha: 0.08),
-                  theme.colorScheme.surface,
-                ],
+          // ── Hero Section with SVG background ──
+          Stack(
+            children: [
+              // Background illustration
+              Positioned.fill(
+                child: Opacity(
+                  opacity: 0.15,
+                  child: SvgPicture.asset(
+                    'assets/images/illustrations/hero-bg.svg',
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
-            ),
-            child: Column(
-              children: [
-                Text(
-                  l10n.homeTitle,
-                  style: theme.textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    height: 1.3,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  l10n.homeSubtitle,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 24),
-
-                // Service buttons
-                Row(
+              // Content
+              Container(
+                padding: const EdgeInsets.fromLTRB(24, 56, 24, 40),
+                child: Column(
                   children: [
-                    Expanded(
-                      child: _ServiceButton(
-                        icon: Icons.hotel,
-                        label: l10n.staySearchTitle,
-                        subtitle: locale == 'ja'
-                            ? '観光地からホテルを探す'
-                            : locale == 'ko'
-                                ? '관광지에서 호텔 찾기'
-                                : 'Find hotels near landmarks',
-                        onTap: () => onSwitchTab?.call(1),
+                    Text(
+                      l10n.homeTitle,
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: -0.5,
+                        height: 1.3,
                       ),
+                      textAlign: TextAlign.center,
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _ServiceButton(
-                        icon: Icons.groups,
-                        label: l10n.meetupTitle,
-                        subtitle: locale == 'ja'
-                            ? 'みんなの中間地点'
-                            : locale == 'ko'
-                                ? '모두의 중간 지점'
-                                : 'Find the middle point',
-                        onTap: () => onSwitchTab?.call(2),
+                    const SizedBox(height: 10),
+                    Text(
+                      l10n.homeSubtitle,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: AppTheme.mutedForeground,
                       ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 28),
+
+                    // CTA Buttons (matching web flex-col sm:flex-row)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: () => onSwitchTab?.call(1),
+                            icon: const Icon(Icons.hotel, size: 18),
+                            label: Text(l10n.staySearchTitle),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: () => onSwitchTab?.call(2),
+                            icon: const Icon(Icons.groups, size: 18),
+                            label: Text(l10n.meetupTitle),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
+                ),
+              ),
+            ],
+          ),
+
+          // ── Service Cards with illustrations ──
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+            child: Row(
+              children: [
+                Expanded(
+                  child: _ServiceCard(
+                    illustration: 'assets/images/illustrations/service-stay.svg',
+                    label: l10n.staySearchTitle,
+                    subtitle: locale == 'ja'
+                        ? '観光地からホテルを探す'
+                        : locale == 'ko'
+                            ? '관광지에서 호텔 찾기'
+                            : 'Find hotels near landmarks',
+                    onTap: () => onSwitchTab?.call(1),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _ServiceCard(
+                    illustration: 'assets/images/illustrations/service-meetup.svg',
+                    label: l10n.meetupTitle,
+                    subtitle: locale == 'ja'
+                        ? 'みんなの中間地点'
+                        : locale == 'ko'
+                            ? '모두의 중간 지점'
+                            : 'Find the middle point',
+                    onTap: () => onSwitchTab?.call(2),
+                  ),
                 ),
               ],
             ),
           ),
 
-          // ── How It Works ──
+          // ── How It Works (with step illustrations) ──
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: _HowItWorks(locale: locale),
@@ -119,7 +150,7 @@ class HomeScreen extends ConsumerWidget {
               },
             ),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 32),
 
           // ── Popular Spots ──
           Padding(
@@ -130,21 +161,55 @@ class HomeScreen extends ConsumerWidget {
               onSwitchTab?.call(1);
             }),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 24),
+
+          // ── Korea Banner ──
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: _KoreaBanner(locale: locale, onTap: () => onSwitchTab?.call(1)),
+          ),
+          const SizedBox(height: 32),
+
+          // ── Footer ──
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 24),
+            decoration: BoxDecoration(
+              border: Border(top: BorderSide(color: AppTheme.border)),
+            ),
+            child: Column(
+              children: [
+                Text(
+                  'Norigo',
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: AppTheme.mutedForeground,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  '© 2024 Norigo. All rights reserved.',
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: AppTheme.mutedForeground,
+                    fontSize: 11,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
-class _ServiceButton extends StatelessWidget {
-  final IconData icon;
+class _ServiceCard extends StatelessWidget {
+  final String illustration;
   final String label;
   final String subtitle;
   final VoidCallback onTap;
 
-  const _ServiceButton({
-    required this.icon,
+  const _ServiceCard({
+    required this.illustration,
     required this.label,
     required this.subtitle,
     required this.onTap,
@@ -160,19 +225,19 @@ class _ServiceButton extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: theme.colorScheme.outline),
+          border: Border.all(color: AppTheme.border),
           color: theme.colorScheme.surface,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(10),
+            // Illustration
+            SizedBox(
+              height: 80,
+              child: SvgPicture.asset(
+                illustration,
+                fit: BoxFit.contain,
               ),
-              child: Icon(icon, size: 24, color: theme.colorScheme.primary),
             ),
             const SizedBox(height: 12),
             Text(
@@ -183,7 +248,7 @@ class _ServiceButton extends StatelessWidget {
             Text(
               subtitle,
               style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                color: AppTheme.mutedForeground,
                 fontSize: 11,
               ),
               maxLines: 2,
@@ -209,30 +274,66 @@ class _HowItWorks extends StatelessWidget {
       children: [
         Text(
           locale == 'ja' ? '使い方' : locale == 'ko' ? '이용 방법' : 'How It Works',
-          style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+            letterSpacing: -0.3,
+          ),
         ),
         const SizedBox(height: 16),
         ...steps.asMap().entries.map((entry) {
           final i = entry.key;
           final step = entry.value;
           return Padding(
-            padding: const EdgeInsets.only(bottom: 16),
+            padding: const EdgeInsets.only(bottom: 20),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: 32, height: 32,
-                  decoration: BoxDecoration(color: theme.colorScheme.primary, shape: BoxShape.circle),
-                  child: Center(child: Text('${i + 1}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14))),
+                // Step illustration
+                SizedBox(
+                  width: 56,
+                  height: 56,
+                  child: SvgPicture.asset(
+                    step['illustration']!,
+                    fit: BoxFit.contain,
+                  ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(step['title']!, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
-                      const SizedBox(height: 2),
-                      Text(step['desc']!, style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurface.withValues(alpha: 0.6))),
+                      Row(
+                        children: [
+                          Container(
+                            width: 24, height: 24,
+                            decoration: BoxDecoration(
+                              color: AppTheme.primary,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '${i + 1}',
+                                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            step['title']!,
+                            style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 32),
+                        child: Text(
+                          step['desc']!,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: AppTheme.mutedForeground,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -248,21 +349,21 @@ class _HowItWorks extends StatelessWidget {
     switch (locale) {
       case 'ja':
         return [
-          {'title': '観光地を入力', 'desc': '行きたい観光スポットを2つ以上入力'},
-          {'title': 'AIが最適エリアを分析', 'desc': '全スポットへのアクセスが良いホテルエリアを算出'},
-          {'title': 'ホテルを予約', 'desc': 'おすすめエリアからホテルを選んで予約'},
+          {'title': '観光地を入力', 'desc': '行きたい観光スポットを2つ以上入力', 'illustration': 'assets/images/illustrations/stay-step1.svg'},
+          {'title': 'AIが最適エリアを分析', 'desc': '全スポットへのアクセスが良いホテルエリアを算出', 'illustration': 'assets/images/illustrations/stay-step2.svg'},
+          {'title': 'ホテルを予約', 'desc': 'おすすめエリアからホテルを選んで予約', 'illustration': 'assets/images/illustrations/stay-step3.svg'},
         ];
       case 'ko':
         return [
-          {'title': '관광지 입력', 'desc': '가고 싶은 관광지를 2개 이상 입력'},
-          {'title': 'AI가 최적 지역 분석', 'desc': '모든 관광지에 접근하기 좋은 호텔 지역 계산'},
-          {'title': '호텔 예약', 'desc': '추천 지역에서 호텔을 골라 예약'},
+          {'title': '관광지 입력', 'desc': '가고 싶은 관광지를 2개 이상 입력', 'illustration': 'assets/images/illustrations/stay-step1.svg'},
+          {'title': 'AI가 최적 지역 분석', 'desc': '모든 관광지에 접근하기 좋은 호텔 지역 계산', 'illustration': 'assets/images/illustrations/stay-step2.svg'},
+          {'title': '호텔 예약', 'desc': '추천 지역에서 호텔을 골라 예약', 'illustration': 'assets/images/illustrations/stay-step3.svg'},
         ];
       default:
         return [
-          {'title': 'Enter Landmarks', 'desc': 'Add 2+ tourist spots you want to visit'},
-          {'title': 'AI Finds Best Area', 'desc': 'We calculate the hotel area with best access to all spots'},
-          {'title': 'Book Your Hotel', 'desc': 'Choose and book from recommended hotels'},
+          {'title': 'Enter Landmarks', 'desc': 'Add 2+ tourist spots you want to visit', 'illustration': 'assets/images/illustrations/stay-step1.svg'},
+          {'title': 'AI Finds Best Area', 'desc': 'We calculate the hotel area with best access to all spots', 'illustration': 'assets/images/illustrations/stay-step2.svg'},
+          {'title': 'Book Your Hotel', 'desc': 'Choose and book from recommended hotels', 'illustration': 'assets/images/illustrations/stay-step3.svg'},
         ];
     }
   }
@@ -275,12 +376,10 @@ class _PopularSpots extends StatelessWidget {
   const _PopularSpots({required this.locale, required this.onSpotTap});
 
   static const _spots = [
-    {'slug': 'shibuya-crossing', 'name': '渋谷スクランブル交差点', 'nameEn': 'Shibuya Crossing', 'nameKo': '시부야 스크램블 교차로', 'lat': 35.6595, 'lng': 139.7004, 'region': 'kanto'},
-    {'slug': 'sensoji-temple', 'name': '浅草寺', 'nameEn': 'Sensoji Temple', 'nameKo': '센소지', 'lat': 35.7148, 'lng': 139.7967, 'region': 'kanto'},
-    {'slug': 'tokyo-tower', 'name': '東京タワー', 'nameEn': 'Tokyo Tower', 'nameKo': '도쿄 타워', 'lat': 35.6586, 'lng': 139.7454, 'region': 'kanto'},
-    {'slug': 'dotonbori', 'name': '道頓堀', 'nameEn': 'Dotonbori', 'nameKo': '도톤보리', 'lat': 34.6687, 'lng': 135.5013, 'region': 'kansai'},
-    {'slug': 'fushimi-inari', 'name': '伏見稲荷大社', 'nameEn': 'Fushimi Inari Shrine', 'nameKo': '후시미이나리 신사', 'lat': 34.9671, 'lng': 135.7727, 'region': 'kansai'},
-    {'slug': 'myeongdong', 'name': '明洞', 'nameEn': 'Myeongdong', 'nameKo': '명동', 'lat': 37.5636, 'lng': 126.9869, 'region': 'seoul'},
+    {'slug': 'shibuya-crossing', 'name': '渋谷スクランブル交差点', 'nameEn': 'Shibuya Crossing', 'nameKo': '시부야 스크램블 교차로', 'lat': 35.6595, 'lng': 139.7004, 'region': 'kanto', 'image': 'shibuya-crossing'},
+    {'slug': 'sensoji-temple', 'name': '浅草寺', 'nameEn': 'Sensoji Temple', 'nameKo': '센소지', 'lat': 35.7148, 'lng': 139.7967, 'region': 'kanto', 'image': 'asakusa-senso-ji'},
+    {'slug': 'dotonbori', 'name': '道頓堀', 'nameEn': 'Dotonbori', 'nameKo': '도톤보리', 'lat': 34.6687, 'lng': 135.5013, 'region': 'kansai', 'image': 'dotonbori'},
+    {'slug': 'fushimi-inari', 'name': '伏見稲荷大社', 'nameEn': 'Fushimi Inari Shrine', 'nameKo': '후시미이나리 신사', 'lat': 34.9671, 'lng': 135.7727, 'region': 'kansai', 'image': 'fushimi-inari-taisha'},
   ];
 
   @override
@@ -291,18 +390,33 @@ class _PopularSpots extends StatelessWidget {
       children: [
         Text(
           locale == 'ja' ? '人気スポット' : locale == 'ko' ? '인기 관광지' : 'Popular Spots',
-          style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+            letterSpacing: -0.3,
+          ),
         ),
         const SizedBox(height: 12),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: _spots.map((spot) {
-            final name = locale == 'ko' ? spot['nameKo'] as String : locale == 'en' ? spot['nameEn'] as String : spot['name'] as String;
-            return ActionChip(
-              avatar: const Icon(Icons.place, size: 16),
-              label: Text(name, style: const TextStyle(fontSize: 13)),
-              onPressed: () => onSpotTap(Landmark(
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            childAspectRatio: 1.3,
+          ),
+          itemCount: _spots.length,
+          itemBuilder: (context, index) {
+            final spot = _spots[index];
+            final name = locale == 'ko'
+                ? spot['nameKo'] as String
+                : locale == 'en'
+                    ? spot['nameEn'] as String
+                    : spot['name'] as String;
+            final imageFile = spot['image'] as String;
+
+            return GestureDetector(
+              onTap: () => onSpotTap(Landmark(
                 slug: spot['slug'] as String,
                 name: spot['name'] as String,
                 nameEn: spot['nameEn'] as String,
@@ -310,10 +424,122 @@ class _PopularSpots extends StatelessWidget {
                 lng: spot['lng'] as double,
                 region: spot['region'] as String,
               )),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppTheme.border),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.asset(
+                      'assets/images/landmarks/$imageFile.webp',
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => Container(
+                        color: theme.colorScheme.surfaceContainerHighest,
+                        child: const Icon(Icons.place, size: 32),
+                      ),
+                    ),
+                    // Gradient overlay
+                    Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.center,
+                          colors: [Colors.black54, Colors.transparent],
+                        ),
+                      ),
+                    ),
+                    // Name
+                    Positioned(
+                      bottom: 8,
+                      left: 8,
+                      right: 8,
+                      child: Text(
+                        name,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          shadows: [Shadow(blurRadius: 4, color: Colors.black45)],
+                        ),
+                        maxLines: 2,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             );
-          }).toList(),
+          },
         ),
       ],
+    );
+  }
+}
+
+class _KoreaBanner extends StatelessWidget {
+  final String locale;
+  final VoidCallback onTap;
+
+  const _KoreaBanner({required this.locale, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    if (locale == 'ko') return const SizedBox.shrink(); // Don't show for Korean users
+
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppTheme.border),
+          gradient: const LinearGradient(
+            colors: [Color(0xFFEFF6FF), Color(0xFFEEF2FF)], // blue-50 to indigo-50
+          ),
+        ),
+        child: Row(
+          children: [
+            // Korea flag emoji replacement
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: AppTheme.primary.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Center(
+                child: Text('🇰🇷', style: TextStyle(fontSize: 24)),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    locale == 'ja' ? '韓国もサポート！' : 'Korea Now Available!',
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    locale == 'ja'
+                        ? 'ソウル・釜山のホテル検索ができます'
+                        : 'Search hotels in Seoul & Busan',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: AppTheme.mutedForeground,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.arrow_forward_ios, size: 16, color: AppTheme.mutedForeground),
+          ],
+        ),
+      ),
     );
   }
 }
