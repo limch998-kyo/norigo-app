@@ -66,16 +66,28 @@ class HomeScreen extends ConsumerWidget {
                         Expanded(
                           child: ElevatedButton.icon(
                             onPressed: () => onSwitchTab?.call(locale == 'ja' ? 2 : 1),
-                            icon: Icon(locale == 'ja' ? Icons.groups : Icons.hotel, size: 18),
-                            label: Text(locale == 'ja' ? l10n.meetupTitle : l10n.staySearchTitle),
+                            icon: Icon(locale == 'ja' ? Icons.groups : Icons.hotel, size: 16),
+                            label: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                locale == 'ja' ? l10n.meetupTitle : l10n.staySearchTitle,
+                                maxLines: 1,
+                              ),
+                            ),
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        const SizedBox(width: 10),
                         Expanded(
                           child: OutlinedButton.icon(
                             onPressed: () => onSwitchTab?.call(locale == 'ja' ? 1 : 2),
-                            icon: Icon(locale == 'ja' ? Icons.hotel : Icons.groups, size: 18),
-                            label: Text(locale == 'ja' ? l10n.staySearchTitle : l10n.meetupTitle),
+                            icon: Icon(locale == 'ja' ? Icons.hotel : Icons.groups, size: 16),
+                            label: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                locale == 'ja' ? l10n.staySearchTitle : l10n.meetupTitle,
+                                maxLines: 1,
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -127,28 +139,30 @@ class HomeScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 32),
 
-          // ── Quick Plans ──
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: QuickPlanCards(
-              onPlanSelected: (planId, region, landmarks) {
-                final notifier = ref.read(staySearchProvider.notifier);
-                notifier.reset();
-                for (final l in landmarks) {
-                  notifier.addLandmark(l);
-                }
-                final checkIn = DateTime.now().add(const Duration(days: 30));
-                final checkOut = checkIn.add(const Duration(days: 2));
-                notifier.setDates(
-                  checkIn.toIso8601String().substring(0, 10),
-                  checkOut.toIso8601String().substring(0, 10),
-                );
-                onSwitchTab?.call(1);
-                notifier.search();
-              },
+          // ── Quick Plans (hotel-focused, not shown for ja meetup users) ──
+          if (locale != 'ja') ...[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: QuickPlanCards(
+                onPlanSelected: (planId, region, landmarks) {
+                  final notifier = ref.read(staySearchProvider.notifier);
+                  notifier.reset();
+                  for (final l in landmarks) {
+                    notifier.addLandmark(l);
+                  }
+                  final checkIn = DateTime.now().add(const Duration(days: 30));
+                  final checkOut = checkIn.add(const Duration(days: 2));
+                  notifier.setDates(
+                    checkIn.toIso8601String().substring(0, 10),
+                    checkOut.toIso8601String().substring(0, 10),
+                  );
+                  onSwitchTab?.call(1);
+                  notifier.search();
+                },
+              ),
             ),
-          ),
-          const SizedBox(height: 32),
+            const SizedBox(height: 32),
+          ],
 
           // ── Popular Spots ──
           Padding(
@@ -343,9 +357,9 @@ class _HowItWorks extends StatelessWidget {
     switch (locale) {
       case 'ja':
         return [
-          {'title': '観光地を入力', 'desc': '行きたい観光スポットを2つ以上入力', 'illustration': 'assets/images/illustrations/stay-step1.svg'},
-          {'title': 'AIが最適エリアを分析', 'desc': '全スポットへのアクセスが良いホテルエリアを算出', 'illustration': 'assets/images/illustrations/stay-step2.svg'},
-          {'title': 'ホテルを予約', 'desc': 'おすすめエリアからホテルを選んで予約', 'illustration': 'assets/images/illustrations/stay-step3.svg'},
+          {'title': '出発駅を入力', 'desc': '友達の出発駅を入力するだけでOK', 'illustration': 'assets/images/illustrations/meetup-step1.svg'},
+          {'title': '最適な中間駅を提案', 'desc': 'みんなに公平な駅と周辺のお店を表示', 'illustration': 'assets/images/illustrations/meetup-step2.svg'},
+          {'title': '共有して決定', 'desc': 'LINEやリンクで友達にそのまま送信', 'illustration': 'assets/images/illustrations/meetup-step3.svg'},
         ];
       case 'ko':
         return [
