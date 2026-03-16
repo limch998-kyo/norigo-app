@@ -4,8 +4,7 @@ import '../../l10n/app_localizations.dart';
 import '../../models/landmark.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/stay_provider.dart';
-import '../../widgets/search_input.dart';
-import '../../widgets/chip_list.dart';
+import '../../widgets/landmark_input_list.dart';
 import '../../widgets/mode_selector.dart';
 import '../../config/constants.dart';
 
@@ -43,8 +42,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
       }
     });
 
-    final notifier = ref.read(staySearchProvider.notifier);
-    notifier.setDates(
+    ref.read(staySearchProvider.notifier).setDates(
       _checkIn?.toIso8601String().substring(0, 10),
       _checkOut?.toIso8601String().substring(0, 10),
     );
@@ -52,7 +50,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
 
   String _formatDate(DateTime? date) {
     if (date == null) return '---';
-    return '${date.year}/${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}';
+    return '${date.month}/${date.day}';
   }
 
   @override
@@ -69,63 +67,71 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
         ? AppConstants.hotelBudgetsKorea
         : AppConstants.hotelBudgetsJapan;
 
+    // ja locale: show Korea regions first (since ja users are tourists visiting Korea)
+    // others: show Japan regions first
+    final regionOrder = locale == 'ja'
+        ? ['seoul', 'busan', 'kanto', 'kansai']
+        : AppConstants.allRegions;
+
+    // Build landmark slots (min 2 empty)
+    final landmarkSlots = List<Landmark?>.from(state.landmarks);
+    while (landmarkSlots.length < 2) {
+      landmarkSlots.add(null);
+    }
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.staySearchTitle),
-      ),
+      appBar: AppBar(title: Text(l10n.staySearchTitle)),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Region selector
-            _RegionSelector(
-              selected: state.region,
-              onChanged: (r) => notifier.setRegion(r),
-              locale: locale,
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: regionOrder.map((region) {
+                  final isSelected = state.region == region;
+                  final label = _regionLabel(region, locale);
+
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: ChoiceChip(
+                      label: Text(label),
+                      selected: isSelected,
+                      onSelected: (_) => notifier.setRegion(region),
+                    ),
+                  );
+                }).toList(),
+              ),
             ),
             const SizedBox(height: 16),
 
-            // Landmark search
+            // Landmark input (2 empty fields by default)
             Text(
-              locale == 'ja'
-                  ? '観光スポットを追加'
-                  : locale == 'ko'
-                      ? '관광지 추가'
-                      : 'Add landmarks',
+              l10n.addLandmarks,
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
-            SearchInput<Landmark>(
-              hintText: l10n.searchPlaceholder,
-              onSearch: (q) => api.searchLandmarks(q, region: state.region),
-              displayText: (l) => l.name,
-              onSelect: (l) => notifier.addLandmark(l),
-              itemBuilder: (landmark) => ListTile(
-                dense: true,
-                leading: const Icon(Icons.place, size: 20),
-                title: Text(landmark.name, style: const TextStyle(fontSize: 14)),
-                subtitle: landmark.nameEn != null
-                    ? Text(landmark.nameEn!, style: const TextStyle(fontSize: 12))
-                    : null,
-              ),
-            ),
-            const SizedBox(height: 8),
-
-            // Selected landmarks
-            ChipList(
-              items: state.landmarks.map((l) => l.name).toList(),
-              onRemove: (i) => notifier.removeLandmark(state.landmarks[i].slug),
+            LandmarkInputList(
+              landmarks: landmarkSlots,
+              onSearch: (q) => api.searchLandmarks(q, region: state.region, locale: locale),
+              onSelect: (index, landmark) => notifier.addLandmark(landmark),
+              onRemove: (index) {
+                if (index < state.landmarks.length) {
+                  notifier.removeLandmark(state.landmarks[index].slug);
+                }
+              },
+              onAdd: () {
+                // Expand by adding null slot (handled by parent state)
+              },
+              locale: locale,
             ),
             const SizedBox(height: 20),
 
             // Mode selector
             Text(
-              locale == 'ja'
-                  ? '検索モード'
-                  : locale == 'ko'
-                      ? '검색 모드'
-                      : 'Search mode',
+              locale == 'ja' ? '検索モード' : locale == 'ko' ? '검색 모드' : 'Search mode',
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
@@ -138,11 +144,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
 
             // Date selection
             Text(
-              locale == 'ja'
-                  ? '日程'
-                  : locale == 'ko'
-                      ? '일정'
-                      : 'Dates',
+              locale == 'ja' ? '日程' : locale == 'ko' ? '일정' : 'Dates',
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
@@ -153,9 +155,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
                     onPressed: () => _pickDate(context, true),
                     icon: const Icon(Icons.calendar_today, size: 16),
                     label: Text(
-                      _checkIn != null
-                          ? _formatDate(_checkIn)
-                          : 'Check-in',
+                      _checkIn != null ? _formatDate(_checkIn) : 'Check-in',
                       style: const TextStyle(fontSize: 13),
                     ),
                   ),
@@ -169,9 +169,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
                     onPressed: () => _pickDate(context, false),
                     icon: const Icon(Icons.calendar_today, size: 16),
                     label: Text(
-                      _checkOut != null
-                          ? _formatDate(_checkOut)
-                          : 'Check-out',
+                      _checkOut != null ? _formatDate(_checkOut) : 'Check-out',
                       style: const TextStyle(fontSize: 13),
                     ),
                   ),
@@ -182,11 +180,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
 
             // Budget selector
             Text(
-              locale == 'ja'
-                  ? '予算'
-                  : locale == 'ko'
-                      ? '예산'
-                      : 'Budget',
+              locale == 'ja' ? '予算' : locale == 'ko' ? '예산' : 'Budget',
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
@@ -196,15 +190,9 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
               children: budgets.entries.map((entry) {
                 final isSelected = state.maxBudget == entry.key;
                 return ChoiceChip(
-                  label: Text(
-                    entry.value[locale] ?? entry.value['en']!,
-                    style: TextStyle(fontSize: 12, color: isSelected ? Colors.white : null),
-                  ),
+                  label: Text(entry.value[locale] ?? entry.value['en']!, style: const TextStyle(fontSize: 12)),
                   selected: isSelected,
-                  onSelected: (selected) {
-                    notifier.setBudget(selected ? entry.key : null);
-                  },
-                  selectedColor: theme.colorScheme.primary,
+                  onSelected: (selected) => notifier.setBudget(selected ? entry.key : null),
                   visualDensity: VisualDensity.compact,
                 );
               }).toList(),
@@ -219,14 +207,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
                     ? null
                     : () => notifier.search(),
                 child: state.isLoading
-                    ? const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: Colors.white,
-                        ),
-                      )
+                    ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
                     : Text(l10n.searchButton),
               ),
             ),
@@ -235,14 +216,8 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
               const SizedBox(height: 16),
               Container(
                 padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.red.shade50,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  state.error!,
-                  style: TextStyle(color: Colors.red.shade700, fontSize: 13),
-                ),
+                decoration: BoxDecoration(color: Colors.red.shade50, borderRadius: BorderRadius.circular(8)),
+                child: Text(state.error!, style: TextStyle(color: Colors.red.shade700, fontSize: 13)),
               ),
             ],
           ],
@@ -250,52 +225,14 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
       ),
     );
   }
-}
 
-class _RegionSelector extends StatelessWidget {
-  final String selected;
-  final ValueChanged<String> onChanged;
-  final String locale;
-
-  const _RegionSelector({
-    required this.selected,
-    required this.onChanged,
-    required this.locale,
-  });
-
-  static const _regionLabels = {
-    'kanto': {'ja': '東京・関東', 'en': 'Tokyo / Kanto', 'ko': '도쿄 / 간토', 'zh': '东京 / 关东'},
-    'kansai': {'ja': '大阪・関西', 'en': 'Osaka / Kansai', 'ko': '오사카 / 간사이', 'zh': '大阪 / 关西'},
-    'seoul': {'ja': 'ソウル', 'en': 'Seoul', 'ko': '서울', 'zh': '首尔'},
-    'busan': {'ja': '釜山', 'en': 'Busan', 'ko': '부산', 'zh': '釜山'},
-  };
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: AppConstants.allRegions.map((region) {
-          final isSelected = selected == region;
-          final label = _regionLabels[region]?[locale] ??
-              _regionLabels[region]?['en'] ??
-              region;
-
-          return Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: ChoiceChip(
-              label: Text(label),
-              selected: isSelected,
-              onSelected: (_) => onChanged(region),
-              selectedColor: Theme.of(context).colorScheme.primary,
-              labelStyle: TextStyle(
-                color: isSelected ? Colors.white : null,
-                fontWeight: isSelected ? FontWeight.w600 : null,
-              ),
-            ),
-          );
-        }).toList(),
-      ),
-    );
+  String _regionLabel(String region, String locale) {
+    const labels = {
+      'kanto': {'ja': '東京・関東', 'en': 'Tokyo / Kanto', 'ko': '도쿄 / 간토', 'zh': '东京 / 关东'},
+      'kansai': {'ja': '大阪・関西', 'en': 'Osaka / Kansai', 'ko': '오사카 / 간사이', 'zh': '大阪 / 关西'},
+      'seoul': {'ja': 'ソウル', 'en': 'Seoul', 'ko': '서울', 'zh': '首尔'},
+      'busan': {'ja': '釜山', 'en': 'Busan', 'ko': '부산', 'zh': '釜山'},
+    };
+    return labels[region]?[locale] ?? labels[region]?['en'] ?? region;
   }
 }
