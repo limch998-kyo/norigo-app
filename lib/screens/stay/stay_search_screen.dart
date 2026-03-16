@@ -40,6 +40,11 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
         _checkIn = DateTime.parse(state.checkIn!);
         _checkOut = DateTime.parse(state.checkOut!);
       }
+      // Set default budget if not set
+      if (state.maxBudget == null) {
+        final isKorea = ['seoul', 'busan'].contains(state.region);
+        notifier.setBudget(isKorea ? '120000' : '20000');
+      }
     });
   }
 
