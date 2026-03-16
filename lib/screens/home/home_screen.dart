@@ -145,7 +145,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ],
           ),
 
-          // ── Service Cards ──
+          // ── Service Cards (Japan only, Korea has no meetup) ──
           if (!_koreaMode)
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
@@ -738,7 +738,7 @@ class _KoreaQuickPlans extends StatelessWidget {
   const _KoreaQuickPlans({required this.locale, required this.onSelect});
 
   static const _plans = [
-    {'id': 'seoul-classic', 'region': 'seoul',
+    {'id': 'seoul-classic', 'region': 'seoul', 'image': '/images/landmarks/myeongdong.webp',
      'title': {'ja': '明洞・景福宮・弘大', 'ko': '명동·경복궁·홍대', 'en': 'Myeongdong · Gyeongbokgung · Hongdae'},
      'subtitle': {'ja': 'ソウル定番コース', 'ko': '서울 핵심 코스', 'en': 'Classic Seoul'},
      'landmarks': [
@@ -746,7 +746,7 @@ class _KoreaQuickPlans extends StatelessWidget {
        {'name': '景福宮', 'nameKo': '경복궁', 'lat': 37.5796, 'lng': 126.977, 'region': 'seoul'},
        {'name': '弘大', 'nameKo': '홍대', 'lat': 37.5574, 'lng': 126.9248, 'region': 'seoul'},
      ]},
-    {'id': 'seoul-trend', 'region': 'seoul',
+    {'id': 'seoul-trend', 'region': 'seoul', 'image': '/images/landmarks/lotte-world.webp',
      'title': {'ja': '江南・梨泰院・ロッテタワー', 'ko': '강남·이태원·롯데타워', 'en': 'Gangnam · Itaewon · Lotte Tower'},
      'subtitle': {'ja': 'トレンド＆ショッピング', 'ko': '트렌드 & 쇼핑', 'en': 'Trend & Shopping'},
      'landmarks': [
@@ -754,7 +754,7 @@ class _KoreaQuickPlans extends StatelessWidget {
        {'name': '梨泰院', 'nameKo': '이태원', 'lat': 37.5344, 'lng': 126.9946, 'region': 'seoul'},
        {'name': 'ロッテワールドタワー', 'nameKo': '롯데월드타워', 'lat': 37.5126, 'lng': 127.1025, 'region': 'seoul'},
      ]},
-    {'id': 'seoul-culture', 'region': 'seoul',
+    {'id': 'seoul-culture', 'region': 'seoul', 'image': '/images/landmarks/insadong.webp',
      'title': {'ja': '仁寺洞・北村・Nタワー', 'ko': '인사동·북촌·N타워', 'en': 'Insadong · Bukchon · N Tower'},
      'subtitle': {'ja': '歴史＆文化', 'ko': '역사 & 문화', 'en': 'History & Culture'},
      'landmarks': [
@@ -762,7 +762,7 @@ class _KoreaQuickPlans extends StatelessWidget {
        {'name': '北村韓屋村', 'nameKo': '북촌한옥마을', 'lat': 37.5826, 'lng': 126.9849, 'region': 'seoul'},
        {'name': 'Nソウルタワー', 'nameKo': 'N서울타워', 'lat': 37.5512, 'lng': 126.9882, 'region': 'seoul'},
      ]},
-    {'id': 'busan-classic', 'region': 'busan',
+    {'id': 'busan-classic', 'region': 'busan', 'image': '/images/landmarks/haeundae.webp',
      'title': {'ja': '海雲台・広安里・西面', 'ko': '해운대·광안리·서면', 'en': 'Haeundae · Gwangalli · Seomyeon'},
      'subtitle': {'ja': '釜山ビーチ＆グルメ', 'ko': '부산 해변 & 먹거리', 'en': 'Busan Beach & Food'},
      'landmarks': [
@@ -770,7 +770,7 @@ class _KoreaQuickPlans extends StatelessWidget {
        {'name': '広安里', 'nameKo': '광안리', 'lat': 35.1534, 'lng': 129.1187, 'region': 'busan'},
        {'name': '西面', 'nameKo': '서면', 'lat': 35.1579, 'lng': 129.0596, 'region': 'busan'},
      ]},
-    {'id': 'busan-culture', 'region': 'busan',
+    {'id': 'busan-culture', 'region': 'busan', 'image': '/images/landmarks/gamcheon-culture-village.webp',
      'title': {'ja': '甘川文化村・南浦洞', 'ko': '감천문화마을·남포동', 'en': 'Gamcheon · Nampo-dong'},
      'subtitle': {'ja': 'アート＆ローカル', 'ko': '예술 & 로컬', 'en': 'Art & Local'},
      'landmarks': [
@@ -824,9 +824,12 @@ class _KoreaQuickPlans extends StatelessWidget {
     final subtitle = subtitleMap[locale] ?? subtitleMap['en'] ?? '';
     final landmarkData = plan['landmarks'] as List<Map<String, Object>>;
     final region = plan['region'] as String;
+    final image = plan['image'] as String?;
+    final imageUrl = image != null ? 'https://norigo.app$image' : null;
+    final ctaLabel = locale == 'ja' ? 'ホテルを探す' : locale == 'ko' ? '호텔 찾기' : 'Find Hotels';
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 12),
       child: GestureDetector(
         onTap: () {
           final landmarks = landmarkData.map((l) {
@@ -836,17 +839,40 @@ class _KoreaQuickPlans extends StatelessWidget {
           onSelect(landmarks, region);
         },
         child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: AppTheme.border)),
-          child: Row(children: [
-            Icon(Icons.bolt, size: 16, color: AppTheme.primary),
-            const SizedBox(width: 8),
-            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-              Text(subtitle, style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground)),
-            ])),
-            Icon(Icons.arrow_forward_ios, size: 12, color: AppTheme.mutedForeground),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), border: Border.all(color: AppTheme.border)),
+          clipBehavior: Clip.antiAlias,
+          child: Column(children: [
+            // 16:9 image with gradient + title
+            if (imageUrl != null)
+              AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Stack(fit: StackFit.expand, children: [
+                  Image.network(imageUrl, fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => Container(color: AppTheme.muted, child: const Icon(Icons.place, size: 32))),
+                  Container(decoration: const BoxDecoration(gradient: LinearGradient(
+                    begin: Alignment.bottomCenter, end: Alignment.center,
+                    colors: [Colors.black54, Colors.transparent]))),
+                  Positioned(bottom: 12, left: 12, right: 12,
+                    child: Text(title, style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold,
+                      shadows: [Shadow(blurRadius: 4, color: Colors.black45)]))),
+                ]),
+              ),
+            // Bottom bar
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              child: Row(children: [
+                Expanded(child: Text(subtitle, style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground))),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(color: AppTheme.primary, borderRadius: BorderRadius.circular(6)),
+                  child: Row(mainAxisSize: MainAxisSize.min, children: [
+                    const Icon(Icons.search, size: 12, color: Colors.white),
+                    const SizedBox(width: 3),
+                    Text(ctaLabel, style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600)),
+                  ]),
+                ),
+              ]),
+            ),
           ]),
         ),
       ),

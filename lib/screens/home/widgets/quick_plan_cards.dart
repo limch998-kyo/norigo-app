@@ -216,8 +216,8 @@ class _QuickPlanCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final labels = plan.labels[locale] ?? plan.labels['en']!;
-    // Map web path to local asset: /images/landmarks/foo.webp -> assets/images/landmarks/foo.webp
-    final assetPath = 'assets${plan.image}';
+    // Load from web (all images available on norigo.app)
+    final imageUrl = 'https://norigo.app${plan.image}';
 
     return GestureDetector(
       onTap: () {
@@ -254,8 +254,8 @@ class _QuickPlanCard extends StatelessWidget {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.asset(
-                    assetPath,
+                  Image.network(
+                    imageUrl,
                     fit: BoxFit.cover,
                     errorBuilder: (_, __, ___) => Container(
                       color: Theme.of(context).colorScheme.surfaceContainerHighest,
