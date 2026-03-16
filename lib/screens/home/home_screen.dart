@@ -62,22 +62,22 @@ class HomeScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 28),
 
-                    // CTA Buttons (matching web flex-col sm:flex-row)
+                    // CTA Buttons — ja: meetup primary, others: stay primary
                     Row(
                       children: [
                         Expanded(
                           child: ElevatedButton.icon(
-                            onPressed: () => onSwitchTab?.call(1),
-                            icon: const Icon(Icons.hotel, size: 18),
-                            label: Text(l10n.staySearchTitle),
+                            onPressed: () => onSwitchTab?.call(locale == 'ja' ? 2 : 1),
+                            icon: Icon(locale == 'ja' ? Icons.groups : Icons.hotel, size: 18),
+                            label: Text(locale == 'ja' ? l10n.meetupTitle : l10n.staySearchTitle),
                           ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: OutlinedButton.icon(
-                            onPressed: () => onSwitchTab?.call(2),
-                            icon: const Icon(Icons.groups, size: 18),
-                            label: Text(l10n.meetupTitle),
+                            onPressed: () => onSwitchTab?.call(locale == 'ja' ? 1 : 2),
+                            icon: Icon(locale == 'ja' ? Icons.hotel : Icons.groups, size: 18),
+                            label: Text(locale == 'ja' ? l10n.staySearchTitle : l10n.meetupTitle),
                           ),
                         ),
                       ],

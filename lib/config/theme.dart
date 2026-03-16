@@ -22,8 +22,10 @@ class AppTheme {
   static const Color amber = Color(0xFFD97706);
 
   static TextTheme _textTheme(TextTheme base) {
-    // Use Inter as closest available match to Geist
-    return GoogleFonts.interTextTheme(base);
+    return GoogleFonts.interTextTheme(base).apply(
+      bodyColor: foreground,
+      displayColor: foreground,
+    );
   }
 
   static ThemeData get lightTheme {
@@ -61,7 +63,7 @@ class AppTheme {
         color: card,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16), // rounded-xl equivalent
+          borderRadius: BorderRadius.circular(16),
           side: const BorderSide(color: border),
         ),
         shadowColor: Colors.black.withValues(alpha: 0.05),
@@ -73,11 +75,12 @@ class AppTheme {
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10), // rounded-lg
+            borderRadius: BorderRadius.circular(10),
           ),
           textStyle: GoogleFonts.inter(
             fontSize: 15,
             fontWeight: FontWeight.w600,
+            color: primaryForeground,
           ),
         ),
       ),
@@ -92,6 +95,7 @@ class AppTheme {
           textStyle: GoogleFonts.inter(
             fontSize: 15,
             fontWeight: FontWeight.w500,
+            color: foreground,
           ),
         ),
       ),
@@ -128,12 +132,15 @@ class AppTheme {
       chipTheme: ChipThemeData(
         backgroundColor: muted,
         selectedColor: primary,
-        labelStyle: GoogleFonts.inter(fontSize: 13),
+        secondarySelectedColor: primary,
+        labelStyle: GoogleFonts.inter(fontSize: 13, color: foreground),
+        secondaryLabelStyle: GoogleFonts.inter(fontSize: 13, color: primaryForeground),
         side: const BorderSide(color: border),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20), // rounded-full
+          borderRadius: BorderRadius.circular(20),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
+        showCheckmark: false,
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: background,
