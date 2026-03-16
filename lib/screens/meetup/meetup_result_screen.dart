@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/services.dart';
 import '../../config/theme.dart';
+import '../../services/api_client.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/meetup_provider.dart';
 import '../../models/meetup_result.dart';
@@ -218,6 +220,12 @@ class _StationCard extends StatelessWidget {
                 ]),
                 const SizedBox(height: 8),
                 ...rec.venues.take(5).map((v) => _VenueCard(venue: v, locale: locale)),
+
+                // Vote button (ja locale only, matching web)
+                if (locale == 'ja' && rec.venues.isNotEmpty) ...[
+                  const SizedBox(height: 12),
+                  _VoteButton(stationName: rec.station.name, stationId: rec.station.id, venues: rec.venues),
+                ],
               ],
 
               // Expand hint
@@ -383,6 +391,68 @@ class _RouteBar extends StatelessWidget {
   }
 }
 
+class _VoteButton extends StatefulWidget {
+  final String stationName;
+  final String stationId;
+  final List<Venue> venues;
+
+  const _VoteButton({required this.stationName, required this.stationId, required this.venues});
+
+  @override
+  State<_VoteButton> createState() => _VoteButtonState();
+}
+
+class _VoteButtonState extends State<_VoteButton> {
+  bool _creating = false;
+  String? _pollUrl;
+
+  Future<void> _createPoll() async {
+    setState(() => _creating = true);
+    final api = ApiClient();
+    final pollId = await api.createVotePoll(
+      stationName: widget.stationName,
+      stationId: widget.stationId,
+      venues: widget.venues.take(10).toList(),
+    );
+    if (pollId != null && mounted) {
+      final url = 'https://norigo.app/vote/$pollId';
+      setState(() { _pollUrl = url; _creating = false; });
+      await Clipboard.setData(ClipboardData(text: url));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('投票リンクをコピーしました: $url'), duration: const Duration(seconds: 3)),
+        );
+      }
+    } else {
+      if (mounted) setState(() => _creating = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_pollUrl != null) {
+      return OutlinedButton.icon(
+        onPressed: () async {
+          await Clipboard.setData(ClipboardData(text: _pollUrl!));
+          if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('リンクをコピーしました')));
+        },
+        icon: const Icon(Icons.how_to_vote, size: 16),
+        label: const Text('投票リンクをコピー', style: TextStyle(fontSize: 12)),
+        style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 10)),
+      );
+    }
+
+    return OutlinedButton.icon(
+      onPressed: _creating ? null : _createPoll,
+      icon: _creating
+          ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+          : const Icon(Icons.how_to_vote, size: 16),
+      label: Text(_creating ? '作成中...' : 'お店の投票を作成', style: const TextStyle(fontSize: 12)),
+      style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 10)),
+    );
+  }
+}
+
 class _MeetupMapView extends StatelessWidget {
   final List<RecommendedStation> recommended;
   final List<Station> participants;
@@ -407,7 +477,7 @@ class _MeetupMapView extends StatelessWidget {
     return FlutterMap(
       options: MapOptions(initialCenter: center, initialZoom: 12),
       children: [
-        TileLayer(urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', userAgentPackageName: 'app.norigo'),
+        TileLayer(urlTemplate: 'https://basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}@2x.png', userAgentPackageName: 'app.norigo'),
         MarkerLayer(markers: [
           // Participant markers (blue)
           ...participants.where((p) => p.lat != 0).map((p) => Marker(

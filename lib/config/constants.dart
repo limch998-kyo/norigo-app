@@ -13,6 +13,13 @@ class AppConstants {
   static const String eventLogEndpoint = '/api/log';
   static const String stationSearchEndpoint = '/api/stations/search';
   static const String affiliateOutEndpoint = '/api/out';
+  static const String voteCreateEndpoint = '/api/vote/create';
+
+  /// CARTO tile URL with locale support
+  static String cartoTileUrl(String locale) {
+    final lang = locale == 'ja' ? 'ja' : locale == 'ko' ? 'ko' : locale == 'zh' ? 'zh' : 'en';
+    return 'https://basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}@2x.png';
+  }
 
   // Regions
   static const List<String> japanRegions = ['kanto', 'kansai'];

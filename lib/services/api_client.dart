@@ -5,6 +5,7 @@ import '../models/station.dart';
 import '../models/stay_area.dart';
 import '../models/meetup_result.dart';
 import '../models/hotel.dart';
+import '../models/meetup_result.dart' show Venue;
 
 class ApiClient {
   late final Dio _dio;
@@ -170,6 +171,37 @@ class ApiClient {
       },
     );
     return MeetupResult.fromJson(response.data as Map<String, dynamic>);
+  }
+
+  // ── Vote/Poll Creation ──
+
+  Future<String?> createVotePoll({
+    required String stationName,
+    required String stationId,
+    required List<Venue> venues,
+  }) async {
+    try {
+      final response = await _dio.post(
+        AppConstants.voteCreateEndpoint,
+        data: {
+          'stationName': stationName,
+          'stationId': stationId,
+          'type': 'station',
+          'venues': venues.map((v) => {
+            'id': v.url ?? v.name,
+            'name': v.name,
+            'url': v.url ?? '',
+            'genre': v.genre ?? '',
+            'budget': v.budget ?? '',
+            'photoUrl': v.imageUrl ?? '',
+          }).toList(),
+        },
+      );
+      final data = response.data as Map<String, dynamic>;
+      return data['pollId'] as String?;
+    } catch (_) {
+      return null;
+    }
   }
 
   // ── Trip Optimization ──

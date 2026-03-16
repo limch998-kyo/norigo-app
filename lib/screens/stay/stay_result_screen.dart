@@ -193,17 +193,24 @@ class _AreaCard extends StatelessWidget {
               ])),
             ]),
 
-            // ── Inline map ──
-            if (isExpanded) ...[
-              const SizedBox(height: 12),
-              SizedBox(
-                height: 180,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: _InlineMap(area: area, landmarks: landmarks),
-                ),
+            // ── Inline map (always visible like web) ──
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 180,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: _InlineMap(area: area, landmarks: landmarks, locale: locale),
               ),
-            ],
+            ),
+            // Map legend
+            Padding(
+              padding: const EdgeInsets.only(top: 6),
+              child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                _LegendDot(color: AppTheme.orange, label: locale == 'ja' ? 'ホテル推薦駅' : '호텔 추천역'),
+                const SizedBox(width: 12),
+                _LegendDot(color: Colors.indigo, label: locale == 'ja' ? '観光地' : '관광지'),
+              ]),
+            ),
 
             // ── Station lines ──
             if (area.station.lines.isNotEmpty) ...[
@@ -362,11 +369,27 @@ class _RouteBar extends StatelessWidget {
   }
 }
 
+class _LegendDot extends StatelessWidget {
+  final Color color;
+  final String label;
+  const _LegendDot({required this.color, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(mainAxisSize: MainAxisSize.min, children: [
+      Container(width: 10, height: 10, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+      const SizedBox(width: 4),
+      Text(label, style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
+    ]);
+  }
+}
+
 class _InlineMap extends StatelessWidget {
   final StayArea area;
   final List<Landmark> landmarks;
+  final String locale;
 
-  const _InlineMap({required this.area, required this.landmarks});
+  const _InlineMap({required this.area, required this.landmarks, this.locale = 'en'});
 
   @override
   Widget build(BuildContext context) {
@@ -382,7 +405,7 @@ class _InlineMap extends StatelessWidget {
     return FlutterMap(
       options: MapOptions(initialCenter: center, initialZoom: 13, interactionOptions: const InteractionOptions(flags: InteractiveFlag.pinchZoom | InteractiveFlag.drag)),
       children: [
-        TileLayer(urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', userAgentPackageName: 'app.norigo'),
+        TileLayer(urlTemplate: 'https://basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}@2x.png', userAgentPackageName: 'app.norigo'),
         MarkerLayer(markers: [
           // Landmarks (indigo)
           ...landmarks.map((l) => Marker(
