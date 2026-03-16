@@ -1,22 +1,43 @@
 import 'station.dart';
 import 'hotel.dart';
+import 'meetup_result.dart';
 
 class LandmarkDistance {
   final String landmarkName;
   final int estimatedMinutes;
   final double distanceKm;
+  final List<RouteSegment> route;
 
   const LandmarkDistance({
     required this.landmarkName,
     required this.estimatedMinutes,
     required this.distanceKm,
+    this.route = const [],
   });
 
   factory LandmarkDistance.fromJson(Map<String, dynamic> json) {
     return LandmarkDistance(
-      landmarkName: json['landmarkName'] as String? ?? json['name'] as String? ?? '',
+      landmarkName: json['name'] as String? ?? json['landmarkName'] as String? ?? '',
       estimatedMinutes: json['estimatedMinutes'] as int? ?? 0,
       distanceKm: (json['distanceKm'] as num?)?.toDouble() ?? 0,
+      route: (json['route'] as List<dynamic>?)
+              ?.map((e) => RouteSegment.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+  }
+}
+
+class ReachableDestination {
+  final String name;
+  final int minutes;
+
+  const ReachableDestination({required this.name, required this.minutes});
+
+  factory ReachableDestination.fromJson(Map<String, dynamic> json) {
+    return ReachableDestination(
+      name: json['name'] as String? ?? '',
+      minutes: json['minutes'] as int? ?? 0,
     );
   }
 }
@@ -31,6 +52,7 @@ class StayArea {
   final double finalScore;
   final List<Hotel> hotels;
   final String? areaDescription;
+  final List<ReachableDestination> reachableDestinations;
 
   const StayArea({
     required this.station,
@@ -42,6 +64,7 @@ class StayArea {
     required this.finalScore,
     required this.hotels,
     this.areaDescription,
+    this.reachableDestinations = const [],
   });
 
   factory StayArea.fromJson(Map<String, dynamic> json) {
@@ -62,6 +85,10 @@ class StayArea {
           [],
       areaDescription: json['areaDescription'] as String? ??
           (json['areaProfile'] as Map<String, dynamic>?)?['description'] as String?,
+      reachableDestinations: (json['reachableDestinations'] as List<dynamic>?)
+              ?.map((e) => ReachableDestination.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
     );
   }
 }
@@ -78,7 +105,6 @@ class StayRecommendResult {
   });
 
   factory StayRecommendResult.fromJson(Map<String, dynamic> json) {
-    // API returns 'results' not 'areas'
     final areaList = json['results'] as List<dynamic>? ?? json['areas'] as List<dynamic>? ?? [];
     return StayRecommendResult(
       areas: areaList

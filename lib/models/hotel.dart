@@ -6,11 +6,13 @@ class Hotel {
   final double? starRating;
   final double? reviewScore;
   final int? reviewCount;
-  final double? pricePerNight;
+  final double? dailyRate;
+  final double? crossedOutRate;
   final String? currency;
   final String? imageUrl;
   final String? bookingUrl;
-  final String? address;
+  final bool includeBreakfast;
+  final bool freeWifi;
 
   const Hotel({
     required this.hotelId,
@@ -20,44 +22,62 @@ class Hotel {
     this.starRating,
     this.reviewScore,
     this.reviewCount,
-    this.pricePerNight,
+    this.dailyRate,
+    this.crossedOutRate,
     this.currency,
     this.imageUrl,
     this.bookingUrl,
-    this.address,
+    this.includeBreakfast = false,
+    this.freeWifi = false,
   });
 
   factory Hotel.fromJson(Map<String, dynamic> json) {
     return Hotel(
       hotelId: json['hotelId'] as int? ?? json['id'] as int? ?? 0,
-      name: json['name'] as String? ?? json['hotelName'] as String? ?? '',
-      lat: (json['lat'] as num?)?.toDouble() ?? 0,
-      lng: (json['lng'] as num?)?.toDouble() ?? json['lon'] as double? ?? 0,
+      // API uses 'hotelName', web model uses 'name'
+      name: json['hotelName'] as String? ?? json['name'] as String? ?? '',
+      lat: (json['latitude'] as num?)?.toDouble() ?? (json['lat'] as num?)?.toDouble() ?? 0,
+      lng: (json['longitude'] as num?)?.toDouble() ?? (json['lng'] as num?)?.toDouble() ?? 0,
       starRating: (json['starRating'] as num?)?.toDouble(),
-      reviewScore: (json['reviewScore'] as num?)?.toDouble() ??
-          (json['score'] as num?)?.toDouble(),
-      reviewCount: json['reviewCount'] as int? ?? json['reviews'] as int?,
-      pricePerNight: (json['pricePerNight'] as num?)?.toDouble() ??
-          (json['price'] as num?)?.toDouble(),
+      reviewScore: (json['reviewScore'] as num?)?.toDouble(),
+      reviewCount: json['reviewCount'] as int?,
+      // API uses 'dailyRate', not 'pricePerNight'
+      dailyRate: (json['dailyRate'] as num?)?.toDouble() ?? (json['pricePerNight'] as num?)?.toDouble(),
+      crossedOutRate: (json['crossedOutRate'] as num?)?.toDouble(),
       currency: json['currency'] as String?,
-      imageUrl: json['imageUrl'] as String? ?? json['image'] as String?,
-      bookingUrl: json['bookingUrl'] as String? ?? json['url'] as String?,
-      address: json['address'] as String?,
+      // API uses 'imageURL', not 'imageUrl'
+      imageUrl: json['imageURL'] as String? ?? json['imageUrl'] as String?,
+      // API uses 'landingURL', not 'bookingUrl'
+      bookingUrl: json['landingURL'] as String? ?? json['bookingUrl'] as String?,
+      includeBreakfast: json['includeBreakfast'] as bool? ?? false,
+      freeWifi: json['freeWifi'] as bool? ?? false,
     );
   }
 
   String get formattedPrice {
-    if (pricePerNight == null) return '';
-    final symbol = currency == 'KRW'
-        ? '₩'
-        : currency == 'JPY'
-            ? '¥'
-            : '\$';
-    return '$symbol${pricePerNight!.round()}';
+    if (dailyRate == null) return '';
+    final symbol = currency == 'KRW' ? '₩'
+        : currency == 'JPY' ? '¥'
+        : '\$';
+    return '$symbol${dailyRate!.round()}';
+  }
+
+  String? get formattedCrossedOutPrice {
+    if (crossedOutRate == null || dailyRate == null) return null;
+    if (crossedOutRate! <= dailyRate!) return null;
+    final symbol = currency == 'KRW' ? '₩'
+        : currency == 'JPY' ? '¥'
+        : '\$';
+    return '$symbol${crossedOutRate!.round()}';
   }
 
   String get formattedRating {
     if (reviewScore == null) return '';
     return reviewScore!.toStringAsFixed(1);
+  }
+
+  int get discountPercent {
+    if (crossedOutRate == null || dailyRate == null || crossedOutRate! <= dailyRate!) return 0;
+    return ((1 - dailyRate! / crossedOutRate!) * 100).round();
   }
 }

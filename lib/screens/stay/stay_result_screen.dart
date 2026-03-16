@@ -12,6 +12,8 @@ import '../../models/landmark.dart';
 import '../../widgets/mode_tabs.dart';
 import '../../widgets/share_buttons.dart';
 import '../../widgets/skeleton_loader.dart';
+import '../../services/api_client.dart';
+import '../../config/theme.dart';
 
 class StayResultScreen extends ConsumerStatefulWidget {
   const StayResultScreen({super.key});
@@ -413,25 +415,35 @@ class _AreaCard extends StatelessWidget {
                 ),
               ],
 
-              // Hotels (expanded)
-              if (isExpanded && area.hotels.isNotEmpty) ...[
-                const Divider(height: 24),
-                Row(
-                  children: [
-                    Icon(Icons.hotel, size: 16, color: theme.colorScheme.primary),
-                    const SizedBox(width: 6),
-                    Text(
-                      l10n.recommendedHotels,
-                      style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
-                    ),
-                  ],
+              // Reachable destinations (expanded)
+              if (isExpanded && area.reachableDestinations.isNotEmpty) ...[
+                const SizedBox(height: 12),
+                Text(
+                  locale == 'ja' ? '周辺のスポット' : locale == 'ko' ? '주변 명소' : 'Nearby Spots',
+                  style: theme.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w600),
                 ),
-                const SizedBox(height: 8),
-                ...area.hotels.take(5).map((hotel) => _HotelTile(hotel: hotel, l10n: l10n)),
+                const SizedBox(height: 6),
+                Wrap(
+                  spacing: 6, runSpacing: 6,
+                  children: area.reachableDestinations.take(6).map((rd) => Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      color: theme.colorScheme.primary.withValues(alpha: 0.05),
+                    ),
+                    child: Text('${rd.name} ${rd.minutes}min', style: TextStyle(fontSize: 11, color: theme.colorScheme.primary)),
+                  )).toList(),
+                ),
               ],
 
-              // Expand indicator
-              if (!isExpanded && area.hotels.isNotEmpty)
+              // Hotels section (expanded) — loaded via separate API
+              if (isExpanded) ...[
+                const Divider(height: 24),
+                _HotelSection(stationId: area.station.id, locale: locale, l10n: l10n),
+              ],
+
+              // Expand hint
+              if (!isExpanded)
                 Padding(
                   padding: const EdgeInsets.only(top: 8),
                   child: Center(
@@ -440,15 +452,10 @@ class _AreaCard extends StatelessWidget {
                       children: [
                         Icon(Icons.expand_more, size: 16, color: theme.colorScheme.onSurface.withValues(alpha: 0.4)),
                         Text(
-                          locale == 'ja'
-                              ? 'ホテル ${area.hotels.length}件を表示'
-                              : locale == 'ko'
-                                  ? '호텔 ${area.hotels.length}개 보기'
-                                  : 'Show ${area.hotels.length} hotels',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
-                          ),
+                          locale == 'ja' ? 'ホテルを表示'
+                              : locale == 'ko' ? '호텔 보기'
+                              : 'Show hotels',
+                          style: TextStyle(fontSize: 12, color: theme.colorScheme.onSurface.withValues(alpha: 0.4)),
                         ),
                       ],
                     ),
@@ -509,6 +516,84 @@ class _ScoreBadge extends StatelessWidget {
           color: Theme.of(context).colorScheme.primary,
         ),
       ),
+    );
+  }
+}
+
+/// Lazy-loads hotels for a station when the card is expanded
+class _HotelSection extends StatefulWidget {
+  final String stationId;
+  final String locale;
+  final AppLocalizations l10n;
+
+  const _HotelSection({required this.stationId, required this.locale, required this.l10n});
+
+  @override
+  State<_HotelSection> createState() => _HotelSectionState();
+}
+
+class _HotelSectionState extends State<_HotelSection> {
+  List<Hotel>? _hotels;
+  bool _loading = true;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadHotels();
+  }
+
+  Future<void> _loadHotels() async {
+    try {
+      final api = ApiClient();
+      final checkIn = DateTime.now().add(const Duration(days: 30));
+      final checkOut = checkIn.add(const Duration(days: 2));
+      final hotels = await api.getHotels(
+        stationId: widget.stationId,
+        checkIn: checkIn.toIso8601String().substring(0, 10),
+        checkOut: checkOut.toIso8601String().substring(0, 10),
+      );
+      if (mounted) setState(() { _hotels = hotels; _loading = false; });
+    } catch (e) {
+      if (mounted) setState(() { _error = e.toString(); _loading = false; });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    if (_loading) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Center(child: SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: theme.colorScheme.primary))),
+      );
+    }
+
+    if (_error != null || _hotels == null || _hotels!.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Text(
+          widget.locale == 'ja' ? 'ホテル情報を取得できませんでした' : 'No hotel data available',
+          style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground),
+        ),
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(children: [
+          Icon(Icons.hotel, size: 16, color: theme.colorScheme.primary),
+          const SizedBox(width: 6),
+          Text(
+            '${widget.l10n.recommendedHotels} (${_hotels!.length})',
+            style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+          ),
+        ]),
+        const SizedBox(height: 8),
+        ..._hotels!.take(5).map((hotel) => _HotelTile(hotel: hotel, l10n: widget.l10n)),
+      ],
     );
   }
 }
@@ -593,6 +678,32 @@ class _HotelTile extends StatelessWidget {
                     ],
                   ],
                 ),
+                // Amenity badges
+                if (hotel.includeBreakfast || hotel.freeWifi) ...[
+                  const SizedBox(height: 4),
+                  Wrap(spacing: 4, children: [
+                    if (hotel.includeBreakfast)
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                        decoration: BoxDecoration(color: Colors.green.shade50, borderRadius: BorderRadius.circular(4)),
+                        child: Row(mainAxisSize: MainAxisSize.min, children: [
+                          Icon(Icons.restaurant, size: 10, color: Colors.green.shade700),
+                          const SizedBox(width: 3),
+                          Text('朝食付', style: TextStyle(fontSize: 9, color: Colors.green.shade700, fontWeight: FontWeight.w500)),
+                        ]),
+                      ),
+                    if (hotel.freeWifi)
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                        decoration: BoxDecoration(color: Colors.blue.shade50, borderRadius: BorderRadius.circular(4)),
+                        child: Row(mainAxisSize: MainAxisSize.min, children: [
+                          Icon(Icons.wifi, size: 10, color: Colors.blue.shade700),
+                          const SizedBox(width: 3),
+                          Text('WiFi', style: TextStyle(fontSize: 9, color: Colors.blue.shade700, fontWeight: FontWeight.w500)),
+                        ]),
+                      ),
+                  ]),
+                ],
               ],
             ),
           ),
@@ -601,7 +712,17 @@ class _HotelTile extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              if (hotel.pricePerNight != null) ...[
+              if (hotel.dailyRate != null) ...[
+                // Crossed out original price
+                if (hotel.formattedCrossedOutPrice != null)
+                  Text(
+                    hotel.formattedCrossedOutPrice!,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: theme.colorScheme.onSurface.withValues(alpha: 0.4),
+                      decoration: TextDecoration.lineThrough,
+                    ),
+                  ),
                 Text(
                   hotel.formattedPrice,
                   style: TextStyle(
@@ -617,6 +738,14 @@ class _HotelTile extends StatelessWidget {
                     color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
                   ),
                 ),
+                // Discount badge
+                if (hotel.discountPercent > 0)
+                  Container(
+                    margin: const EdgeInsets.only(top: 2),
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+                    decoration: BoxDecoration(color: Colors.red.shade50, borderRadius: BorderRadius.circular(4)),
+                    child: Text('-${hotel.discountPercent}%', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.red.shade700)),
+                  ),
               ],
               const SizedBox(height: 6),
               if (hotel.bookingUrl != null)

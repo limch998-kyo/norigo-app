@@ -140,7 +140,9 @@ class ApiClient {
         if (checkOut != null) 'checkOut': checkOut,
       },
     );
-    final list = (response.data as Map<String, dynamic>)['hotels'] as List? ?? [];
+    final data = response.data as Map<String, dynamic>;
+    // API returns {results: [...]} not {hotels: [...]}
+    final list = data['results'] as List? ?? data['hotels'] as List? ?? [];
     return list.map((e) => Hotel.fromJson(e as Map<String, dynamic>)).toList();
   }
 
