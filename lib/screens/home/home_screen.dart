@@ -7,6 +7,7 @@ import '../../providers/stay_provider.dart';
 import '../../models/landmark.dart';
 import '../../config/theme.dart';
 import 'widgets/quick_plan_cards.dart';
+import '../settings/settings_screen.dart';
 
 typedef TabSwitcher = void Function(int index);
 
@@ -25,6 +26,22 @@ class HomeScreen extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // Settings button top-right
+          Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 8, 16, 0),
+              child: IconButton(
+                icon: const Icon(Icons.settings_outlined, size: 22),
+                color: AppTheme.mutedForeground,
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => const SettingsScreen(),
+                  ));
+                },
+              ),
+            ),
+          ),
           // ── Hero Section with illustration background ──
           Stack(
             children: [
