@@ -40,9 +40,9 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
         _checkIn = DateTime.parse(state.checkIn!);
         _checkOut = DateTime.parse(state.checkOut!);
       }
-      // Set default budget if not set (matching web default)
+      // Set default budget: under30000 (¥30,000)
       if (state.maxBudget == null) {
-        notifier.setBudget('any');
+        notifier.setBudget('under30000');
       }
     });
   }

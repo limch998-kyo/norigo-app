@@ -489,10 +489,10 @@ class _HotelSectionState extends State<_HotelSection> {
   // JPY conversion rates (matching web)
   static const _jpyRates = {'JPY': 1.0, 'KRW': 9.0, 'USD': 0.007};
 
-  List<Hotel> _filterByBudget(List<Hotel> hotels) {
-    if (_budgetFilter == 'any') return hotels;
-    final overMatch = RegExp(r'^over(\d+)$').firstMatch(_budgetFilter);
-    final underMatch = RegExp(r'^under(\d+)$').firstMatch(_budgetFilter);
+  List<Hotel> _filterByBudgetKey(List<Hotel> hotels, String budget) {
+    if (budget == 'any') return hotels;
+    final overMatch = RegExp(r'^over(\d+)$').firstMatch(budget);
+    final underMatch = RegExp(r'^under(\d+)$').firstMatch(budget);
     if (underMatch != null) {
       final jpyLimit = int.parse(underMatch.group(1)!);
       return hotels.where((h) {
@@ -514,8 +514,7 @@ class _HotelSectionState extends State<_HotelSection> {
 
   int _countForBudget(String budget) {
     if (_hotels == null) return 0;
-    if (budget == 'any') return _hotels!.length;
-    return _filterByBudget(_hotels!).length;
+    return _filterByBudgetKey(_hotels!, budget).length;
   }
 
   @override
@@ -548,12 +547,12 @@ class _HotelSectionState extends State<_HotelSection> {
         child: Text(widget.locale == 'ja' ? 'ホテル情報を取得できませんでした' : 'No hotel data', style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground)));
     }
 
-    final filtered = _filterByBudget(_hotels!);
+    final filtered = _filterByBudgetKey(_hotels!, _budgetFilter);
     final displayed = _expanded ? filtered : filtered.take(_defaultVisible).toList();
     final hasMore = filtered.length > _defaultVisible;
 
-    // Get budget tiers for this region
-    final budgetTiers = AppConstants.getStayBudgets(widget.locale == 'ko' ? 'kanto' : 'kanto'); // Always show JP budgets for filtering
+    // Always show JP budget tiers for filtering (web uses JPY as base)
+    final budgetTiers = AppConstants.stayBudgetsJp;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       // Budget filter tabs (matching web)
