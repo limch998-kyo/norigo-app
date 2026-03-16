@@ -155,13 +155,13 @@ class HomeScreen extends ConsumerWidget {
                     notifier.addLandmark(l);
                   }
                   notifier.setRegion(region);
+                  notifier.setBudget('under30000');
                   final checkIn = DateTime.now().add(const Duration(days: 30));
-                  final checkOut = checkIn.add(const Duration(days: 2));
+                  final checkOut = checkIn.add(const Duration(days: 3));
                   notifier.setDates(
                     checkIn.toIso8601String().substring(0, 10),
                     checkOut.toIso8601String().substring(0, 10),
                   );
-                  // Navigate to search screen (don't auto-search)
                   onSwitchTab?.call(1);
                 },
               ),
