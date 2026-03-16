@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/landmark.dart';
 import '../models/stay_area.dart';
@@ -150,13 +151,17 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
 
   Future<void> search() async {
     final filled = state.landmarks;
-    if (filled.isEmpty) return;
+    if (filled.length < 2) return; // API requires minimum 2 landmarks
 
     state = state.copyWith(isLoading: true, clearError: true, clearResult: true);
 
     try {
       final api = _ref.read(apiClientProvider);
       final locale = _ref.read(localeProvider);
+      debugPrint('Stay search: ${filled.length} landmarks, region=${state.region}, mode=${state.mode}');
+      for (final l in filled) {
+        debugPrint('  Landmark: ${l.name} (${l.lat}, ${l.lng}) region=${l.region}');
+      }
       final result = await api.getStayRecommendation(
         landmarks: filled,
         region: state.region,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../l10n/app_localizations.dart';
+import '../../models/landmark.dart';
+import '../../config/theme.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/stay_provider.dart';
 import '../../widgets/landmark_input_list.dart';
@@ -136,6 +138,15 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
               onAdd: () => notifier.addSlot(),
               locale: locale,
             ),
+            const SizedBox(height: 8),
+
+            // Suggestion chips (popular landmarks per region)
+            _SuggestionChips(
+              region: state.region,
+              locale: locale,
+              filledNames: state.landmarks.map((l) => l.name).toSet(),
+              onSelect: (landmark) => notifier.addLandmark(landmark),
+            ),
             const SizedBox(height: 20),
 
             // Mode selector
@@ -212,7 +223,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
             SizedBox(
               height: 52,
               child: ElevatedButton(
-                onPressed: state.landmarks.isEmpty || state.isLoading
+                onPressed: state.landmarks.length < 2 || state.isLoading
                     ? null
                     : () => notifier.search(),
                 child: state.isLoading
@@ -243,5 +254,93 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
       'busan': {'ja': '釜山', 'en': 'Busan', 'ko': '부산', 'zh': '釜山'},
     };
     return labels[region]?[locale] ?? labels[region]?['en'] ?? region;
+  }
+}
+
+class _SuggestionChips extends StatelessWidget {
+  final String region;
+  final String locale;
+  final Set<String> filledNames;
+  final void Function(Landmark) onSelect;
+
+  const _SuggestionChips({required this.region, required this.locale, required this.filledNames, required this.onSelect});
+
+  static const _popularByRegion = {
+    'kanto': [
+      {'slug': 'shibuya-crossing', 'name': '渋谷', 'nameKo': '시부야', 'nameEn': 'Shibuya', 'lat': 35.6595, 'lng': 139.7004},
+      {'slug': 'shinjuku', 'name': '新宿', 'nameKo': '신주쿠', 'nameEn': 'Shinjuku', 'lat': 35.6938, 'lng': 139.7034},
+      {'slug': 'asakusa', 'name': '浅草', 'nameKo': '아사쿠사', 'nameEn': 'Asakusa', 'lat': 35.7148, 'lng': 139.7967},
+      {'slug': 'harajuku', 'name': '原宿', 'nameKo': '하라주쿠', 'nameEn': 'Harajuku', 'lat': 35.6702, 'lng': 139.7026},
+      {'slug': 'ikebukuro', 'name': '池袋', 'nameKo': '이케부쿠로', 'nameEn': 'Ikebukuro', 'lat': 35.7295, 'lng': 139.7109},
+      {'slug': 'tokyo-tower', 'name': '東京タワー', 'nameKo': '도쿄타워', 'nameEn': 'Tokyo Tower', 'lat': 35.6586, 'lng': 139.7454},
+      {'slug': 'akihabara', 'name': '秋葉原', 'nameKo': '아키하바라', 'nameEn': 'Akihabara', 'lat': 35.6984, 'lng': 139.7731},
+      {'slug': 'ueno', 'name': '上野', 'nameKo': '우에노', 'nameEn': 'Ueno', 'lat': 35.7146, 'lng': 139.7714},
+    ],
+    'kansai': [
+      {'slug': 'dotonbori', 'name': '道頓堀', 'nameKo': '도톤보리', 'nameEn': 'Dotonbori', 'lat': 34.6687, 'lng': 135.5013},
+      {'slug': 'kiyomizu', 'name': '清水寺', 'nameKo': '기요미즈데라', 'nameEn': 'Kiyomizu-dera', 'lat': 34.9949, 'lng': 135.7850},
+      {'slug': 'fushimi-inari', 'name': '伏見稲荷', 'nameKo': '후시미이나리', 'nameEn': 'Fushimi Inari', 'lat': 34.9671, 'lng': 135.7727},
+      {'slug': 'namba', 'name': 'なんば', 'nameKo': '난바', 'nameEn': 'Namba', 'lat': 34.6659, 'lng': 135.5013},
+      {'slug': 'umeda', 'name': '梅田', 'nameKo': '우메다', 'nameEn': 'Umeda', 'lat': 34.7024, 'lng': 135.4959},
+      {'slug': 'arashiyama', 'name': '嵐山', 'nameKo': '아라시야마', 'nameEn': 'Arashiyama', 'lat': 35.0094, 'lng': 135.6672},
+    ],
+    'seoul': [
+      {'slug': 'myeongdong', 'name': '明洞', 'nameKo': '명동', 'nameEn': 'Myeongdong', 'lat': 37.5636, 'lng': 126.9869},
+      {'slug': 'hongdae', 'name': '弘大', 'nameKo': '홍대', 'nameEn': 'Hongdae', 'lat': 37.5563, 'lng': 126.9237},
+      {'slug': 'gangnam', 'name': '江南', 'nameKo': '강남', 'nameEn': 'Gangnam', 'lat': 37.4979, 'lng': 127.0276},
+      {'slug': 'itaewon', 'name': '梨泰院', 'nameKo': '이태원', 'nameEn': 'Itaewon', 'lat': 37.5345, 'lng': 126.9946},
+      {'slug': 'insadong', 'name': '仁寺洞', 'nameKo': '인사동', 'nameEn': 'Insadong', 'lat': 37.5742, 'lng': 126.9857},
+      {'slug': 'dongdaemun', 'name': '東大門', 'nameKo': '동대문', 'nameEn': 'Dongdaemun', 'lat': 37.5712, 'lng': 127.0091},
+    ],
+    'busan': [
+      {'slug': 'haeundae', 'name': '海雲台', 'nameKo': '해운대', 'nameEn': 'Haeundae', 'lat': 35.1586, 'lng': 129.1604},
+      {'slug': 'gwangalli', 'name': '広安里', 'nameKo': '광안리', 'nameEn': 'Gwangalli', 'lat': 35.1532, 'lng': 129.1187},
+      {'slug': 'nampo', 'name': '南浦', 'nameKo': '남포동', 'nameEn': 'Nampo-dong', 'lat': 35.0975, 'lng': 129.0326},
+      {'slug': 'seomyeon', 'name': '西面', 'nameKo': '서면', 'nameEn': 'Seomyeon', 'lat': 35.1577, 'lng': 129.0596},
+    ],
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    final spots = _popularByRegion[region] ?? [];
+    final suggestions = spots.where((s) {
+      final name = _getName(s);
+      return !filledNames.contains(name);
+    }).take(8).toList();
+
+    if (suggestions.isEmpty) return const SizedBox.shrink();
+
+    return Wrap(
+      spacing: 6,
+      runSpacing: 6,
+      children: suggestions.map((s) {
+        final name = _getName(s);
+        return GestureDetector(
+          onTap: () => onSelect(Landmark(
+            slug: s['slug'] as String,
+            name: name,
+            lat: s['lat'] as double,
+            lng: s['lng'] as double,
+            region: region,
+          )),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: AppTheme.border),
+            ),
+            child: Text(name, style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground)),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  String _getName(Map<String, Object> spot) {
+    switch (locale) {
+      case 'ko': return spot['nameKo'] as String? ?? spot['name'] as String;
+      case 'en': return spot['nameEn'] as String? ?? spot['name'] as String;
+      default: return spot['name'] as String;
+    }
   }
 }
