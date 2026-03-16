@@ -148,56 +148,75 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
             child: ModeTabs(selected: state.mode, onChanged: (m) { notifier.setMode(m); notifier.search(); }, locale: locale),
           ),
-          // Stay style toggle (single ↔ split)
-          if (state.landmarks.length >= 3)
+          // Stay style toggle (single ↔ split) — like web
+          if (state.landmarks.length >= 2)
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
               child: Row(children: [
+                // Single stay option
                 Expanded(child: GestureDetector(
                   onTap: () {
                     if (isSplit) { notifier.setStayStyle('single'); notifier.search(); }
                   },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    decoration: BoxDecoration(
-                      color: !isSplit ? AppTheme.primary.withValues(alpha: 0.1) : Colors.transparent,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: !isSplit ? AppTheme.primary : AppTheme.border),
+                  child: Stack(clipBehavior: Clip.none, children: [
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                        color: !isSplit ? AppTheme.primary.withValues(alpha: 0.1) : Colors.transparent,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: !isSplit ? AppTheme.primary : AppTheme.border),
+                      ),
+                      child: Center(child: Text(
+                        locale == 'ja' ? '1箇所 宿泊' : locale == 'ko' ? '한 곳 숙박' : 'Single hotel',
+                        style: TextStyle(fontSize: 12, fontWeight: !isSplit ? FontWeight.w600 : FontWeight.normal,
+                          color: !isSplit ? AppTheme.primary : AppTheme.foreground),
+                      )),
                     ),
-                    child: Center(child: Text(
-                      locale == 'ja' ? '1箇所 宿泊' : locale == 'ko' ? '한 곳 숙박' : 'Single',
-                      style: TextStyle(fontSize: 12, fontWeight: !isSplit ? FontWeight.w600 : FontWeight.normal, color: !isSplit ? AppTheme.primary : AppTheme.foreground),
-                    )),
-                  ),
+                    // Recommended badge for single (when API chose single)
+                    if (!isSplit)
+                      Positioned(right: -4, top: -8,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                          decoration: BoxDecoration(color: AppTheme.primary, borderRadius: BorderRadius.circular(8)),
+                          child: Text(locale == 'ja' ? 'おすすめ' : locale == 'ko' ? '추천' : 'Rec',
+                            style: const TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.w600)),
+                        ),
+                      ),
+                  ]),
                 )),
                 const SizedBox(width: 8),
+                // Split stay option
                 Expanded(child: GestureDetector(
                   onTap: () {
                     if (!isSplit) { notifier.setStayStyle('split'); notifier.search(); }
                   },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    decoration: BoxDecoration(
-                      color: isSplit ? AppTheme.primary.withValues(alpha: 0.1) : Colors.transparent,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: isSplit ? AppTheme.primary : AppTheme.border),
-                    ),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Text(
-                        locale == 'ja' ? '分散 宿泊' : locale == 'ko' ? '분산 숙박' : 'Split',
-                        style: TextStyle(fontSize: 12, fontWeight: isSplit ? FontWeight.w600 : FontWeight.normal, color: isSplit ? AppTheme.primary : AppTheme.foreground),
+                  child: Stack(clipBehavior: Clip.none, children: [
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                        color: isSplit ? AppTheme.primary.withValues(alpha: 0.1) : Colors.transparent,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: isSplit ? AppTheme.primary : AppTheme.border),
                       ),
-                      if (isSplit) ...[
-                        const SizedBox(width: 4),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-                          decoration: BoxDecoration(color: AppTheme.orange, borderRadius: BorderRadius.circular(4)),
+                      child: Center(child: Text(
+                        locale == 'ja' ? '分散 宿泊' : locale == 'ko' ? '분산 숙박' : 'Split stay',
+                        style: TextStyle(fontSize: 12, fontWeight: isSplit ? FontWeight.w600 : FontWeight.normal,
+                          color: isSplit ? AppTheme.primary : AppTheme.foreground),
+                      )),
+                    ),
+                    // Recommended badge for split (when API chose split)
+                    if (isSplit)
+                      Positioned(right: -4, top: -8,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                          decoration: BoxDecoration(color: AppTheme.primary, borderRadius: BorderRadius.circular(8)),
                           child: Text(locale == 'ja' ? 'おすすめ' : locale == 'ko' ? '추천' : 'Rec',
                             style: const TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.w600)),
                         ),
-                      ],
-                    ]),
-                  ),
+                      ),
+                  ]),
                 )),
               ]),
             ),

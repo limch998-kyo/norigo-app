@@ -19,7 +19,7 @@ class StaySearchScreen extends ConsumerStatefulWidget {
 class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
   late DateTime _checkIn;
   late DateTime _checkOut;
-  String _stayStyle = 'auto';
+  String _stayStyle = 'auto'; // auto = let API decide
 
   @override
   void initState() {
