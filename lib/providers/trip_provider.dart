@@ -144,8 +144,34 @@ class TripNotifier extends StateNotifier<TripState> {
   }
 
   void addItem(Landmark landmark, {String? tripId}) {
-    final targetTripId = tripId ?? state.activeTripId;
-    if (targetTripId == null) return;
+    var targetTripId = tripId ?? state.activeTripId;
+
+    // Auto-create or find matching trip
+    if (targetTripId == null) {
+      final country = ['seoul', 'busan'].contains(landmark.region) ? 'korea' : 'japan';
+      final existingTrip = state.trips.where((t) => t.country == country).firstOrNull;
+      if (existingTrip != null) {
+        targetTripId = existingTrip.id;
+        state = state.copyWith(activeTripId: targetTripId);
+      } else {
+        final name = country == 'korea' ? 'Korea Trip' : 'Japan Trip';
+        targetTripId = createTrip(name, country: country);
+      }
+    } else {
+      // Check if active trip's country matches landmark region
+      final activeTrip = state.trips.where((t) => t.id == targetTripId).firstOrNull;
+      final landmarkCountry = ['seoul', 'busan'].contains(landmark.region) ? 'korea' : 'japan';
+      if (activeTrip != null && activeTrip.country != landmarkCountry) {
+        // Find or create trip for correct country
+        final existingTrip = state.trips.where((t) => t.country == landmarkCountry).firstOrNull;
+        if (existingTrip != null) {
+          targetTripId = existingTrip.id;
+        } else {
+          final name = landmarkCountry == 'korea' ? 'Korea Trip' : 'Japan Trip';
+          targetTripId = createTrip(name, country: landmarkCountry);
+        }
+      }
+    }
 
     // Don't add duplicates
     if (state.items.any(
