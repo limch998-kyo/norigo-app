@@ -11,16 +11,24 @@ import '../settings/settings_screen.dart';
 
 typedef TabSwitcher = void Function(int index);
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   final TabSwitcher? onSwitchTab;
 
   const HomeScreen({super.key, this.onSwitchTab});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  bool _koreaMode = false;
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final locale = ref.watch(localeProvider);
     final theme = Theme.of(context);
+    final onSwitchTab = widget.onSwitchTab;
 
     return SingleChildScrollView(
       child: Column(
@@ -49,7 +57,7 @@ class HomeScreen extends ConsumerWidget {
                 child: Opacity(
                   opacity: 0.15,
                   child: SvgPicture.asset(
-                    'assets/images/illustrations/hero-bg.svg',
+                    _koreaMode ? 'assets/images/illustrations/korea-hero-bg.svg' : 'assets/images/illustrations/hero-bg.svg',
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -59,7 +67,9 @@ class HomeScreen extends ConsumerWidget {
                 child: Column(
                   children: [
                     Text(
-                      l10n.homeTitle,
+                      _koreaMode
+                          ? (locale == 'ja' ? '韓国旅行、最適なホテルを見つけよう' : locale == 'ko' ? '한국 여행, 딱 좋은 호텔을 찾아줄게요' : 'Korea trip? Find the perfect hotel.')
+                          : l10n.homeTitle,
                       style: theme.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                         letterSpacing: -0.5,
@@ -69,7 +79,9 @@ class HomeScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      l10n.homeSubtitle,
+                      _koreaMode
+                          ? (locale == 'ja' ? 'ソウル・釜山の観光地を入力するだけで、すべてに近い最適なホテルエリアを提案。' : locale == 'ko' ? '서울·부산의 관광지를 입력하면 최적의 호텔 지역을 추천합니다.' : 'Enter Seoul/Busan landmarks, we find the best hotel area.')
+                          : l10n.homeSubtitle,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: AppTheme.mutedForeground,
                       ),
@@ -77,17 +89,26 @@ class HomeScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 28),
 
-                    // CTA Buttons — ja: meetup primary, others: stay primary
+                    // CTA Buttons
                     Row(
                       children: [
                         Expanded(
                           child: ElevatedButton.icon(
-                            onPressed: () => onSwitchTab?.call(locale == 'ja' ? 2 : 1),
-                            icon: Icon(locale == 'ja' ? Icons.groups : Icons.hotel, size: 16),
+                            onPressed: () {
+                              if (_koreaMode) {
+                                final n = ref.read(staySearchProvider.notifier);
+                                n.reset();
+                                n.setRegion('seoul');
+                              }
+                              onSwitchTab?.call(_koreaMode ? 1 : (locale == 'ja' ? 2 : 1));
+                            },
+                            icon: Icon(_koreaMode ? Icons.hotel : (locale == 'ja' ? Icons.groups : Icons.hotel), size: 16),
                             label: FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                locale == 'ja' ? l10n.meetupTitle : l10n.staySearchTitle,
+                                _koreaMode
+                                    ? (locale == 'ja' ? 'ソウルでホテルを探す' : locale == 'ko' ? '서울 호텔 찾기' : 'Seoul Hotels')
+                                    : (locale == 'ja' ? l10n.meetupTitle : l10n.staySearchTitle),
                                 maxLines: 1,
                               ),
                             ),
@@ -96,12 +117,21 @@ class HomeScreen extends ConsumerWidget {
                         const SizedBox(width: 10),
                         Expanded(
                           child: OutlinedButton.icon(
-                            onPressed: () => onSwitchTab?.call(locale == 'ja' ? 1 : 2),
-                            icon: Icon(locale == 'ja' ? Icons.hotel : Icons.groups, size: 16),
+                            onPressed: () {
+                              if (_koreaMode) {
+                                final n = ref.read(staySearchProvider.notifier);
+                                n.reset();
+                                n.setRegion('busan');
+                              }
+                              onSwitchTab?.call(_koreaMode ? 1 : (locale == 'ja' ? 1 : 2));
+                            },
+                            icon: Icon(_koreaMode ? Icons.hotel : (locale == 'ja' ? Icons.hotel : Icons.groups), size: 16),
                             label: FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
-                                locale == 'ja' ? l10n.staySearchTitle : l10n.meetupTitle,
+                                _koreaMode
+                                    ? (locale == 'ja' ? '釜山でホテルを探す' : locale == 'ko' ? '부산 호텔 찾기' : 'Busan Hotels')
+                                    : (locale == 'ja' ? l10n.staySearchTitle : l10n.meetupTitle),
                                 maxLines: 1,
                               ),
                             ),
@@ -197,17 +227,17 @@ class HomeScreen extends ConsumerWidget {
           ),
           const SizedBox(height: 24),
 
-          // ── Korea Banner ──
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: _KoreaBanner(locale: locale, onTap: () {
-              // Switch to stay tab with Seoul region
-              final notifier = ref.read(staySearchProvider.notifier);
-              notifier.reset();
-              notifier.setRegion('seoul');
-              onSwitchTab?.call(1);
-            }),
-          ),
+          // ── Korea/Japan toggle banner ──
+          if (!_koreaMode && locale != 'ko')
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: _KoreaBanner(locale: locale, onTap: () => setState(() => _koreaMode = true)),
+            ),
+          if (_koreaMode)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: _JapanBanner(locale: locale, onTap: () => setState(() => _koreaMode = false)),
+            ),
           const SizedBox(height: 32),
 
           // ── Footer ──
@@ -583,6 +613,44 @@ class _KoreaBanner extends StatelessWidget {
             Icon(Icons.arrow_forward_ios, size: 16, color: AppTheme.mutedForeground),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _JapanBanner extends StatelessWidget {
+  final String locale;
+  final VoidCallback onTap;
+
+  const _JapanBanner({required this.locale, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppTheme.border),
+          gradient: const LinearGradient(colors: [Color(0xFFFEF2F2), Color(0xFFFFF7ED)]),
+        ),
+        child: Row(children: [
+          Container(
+            width: 48, height: 48,
+            decoration: BoxDecoration(color: Colors.red.shade50, borderRadius: BorderRadius.circular(12)),
+            child: const Center(child: Text('🇯🇵', style: TextStyle(fontSize: 24))),
+          ),
+          const SizedBox(width: 16),
+          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(locale == 'ja' ? '日本の旅行に戻る' : locale == 'ko' ? '일본 여행으로 돌아가기' : 'Back to Japan',
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700)),
+            const SizedBox(height: 2),
+            Text(locale == 'ja' ? '東京・大阪のホテルと集合場所を探す' : locale == 'ko' ? '도쿄·오사카 호텔과 모임 장소' : 'Hotels in Tokyo & Osaka',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppTheme.mutedForeground)),
+          ])),
+          Icon(Icons.arrow_forward_ios, size: 16, color: AppTheme.mutedForeground),
+        ]),
       ),
     );
   }

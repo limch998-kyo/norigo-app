@@ -617,14 +617,20 @@ class _InlineMap extends StatelessWidget {
     final allPoints = [
       LatLng(area.station.lat, area.station.lng),
       ...landmarks.map((l) => LatLng(l.lat, l.lng)),
+      ...hotels.where((h) => h.lat != 0).map((h) => LatLng(h.lat, h.lng)),
     ];
     final center = LatLng(
       allPoints.map((p) => p.latitude).reduce((a, b) => a + b) / allPoints.length,
       allPoints.map((p) => p.longitude).reduce((a, b) => a + b) / allPoints.length,
     );
+    // Auto-zoom to fit all points
+    final latSpan = allPoints.map((p) => p.latitude).reduce((a, b) => a > b ? a : b) - allPoints.map((p) => p.latitude).reduce((a, b) => a < b ? a : b);
+    final lngSpan = allPoints.map((p) => p.longitude).reduce((a, b) => a > b ? a : b) - allPoints.map((p) => p.longitude).reduce((a, b) => a < b ? a : b);
+    final span = latSpan > lngSpan ? latSpan : lngSpan;
+    final zoom = span < 0.01 ? 15.0 : span < 0.05 ? 14.0 : span < 0.1 ? 13.0 : span < 0.3 ? 12.0 : span < 1.0 ? 10.0 : 8.0;
 
     return FlutterMap(
-      options: MapOptions(initialCenter: center, initialZoom: 13, interactionOptions: const InteractionOptions(flags: InteractiveFlag.pinchZoom | InteractiveFlag.drag)),
+      options: MapOptions(initialCenter: center, initialZoom: zoom, interactionOptions: const InteractionOptions(flags: InteractiveFlag.pinchZoom | InteractiveFlag.drag)),
       children: [
         TileLayer(urlTemplate: 'https://basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}@2x.png', userAgentPackageName: 'app.norigo'),
         MarkerLayer(markers: [
