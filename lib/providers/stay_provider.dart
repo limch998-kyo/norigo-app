@@ -216,35 +216,52 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
 
   /// Re-resolve landmark names in the current locale (called after locale change)
   Future<void> refreshLandmarkNames() async {
-    final filled = state.landmarks;
-    if (filled.isEmpty) return;
+    // Collect ALL filled landmarks from current state + all cached regions
+    final allFilled = <Landmark>[];
+    allFilled.addAll(state.landmarks);
+    for (final region in _regionSlots.keys) {
+      if (region == state.region) continue;
+      final cached = _regionSlots[region] ?? [];
+      allFilled.addAll(cached.whereType<Landmark>());
+    }
+    if (allFilled.isEmpty) return;
 
-    final slugs = filled.map((l) => l.slug).toList();
     final api = _ref.read(apiClientProvider);
     final locale = _ref.read(localeProvider);
 
-    final resolved = await api.resolveLandmarks(slugs, locale: locale);
-    if (resolved.isEmpty) return;
+    // Strategy: re-search each landmark by name in new locale
+    // This is more reliable than resolve (which needs proper slugs)
+    final nameMap = <String, String>{}; // oldSlug → newName
 
-    // Build slug → resolved name map
-    final nameMap = <String, Landmark>{};
-    for (final r in resolved) {
-      nameMap[r.slug] = r;
+    for (final lm in allFilled) {
+      if (nameMap.containsKey(lm.slug)) continue;
+      try {
+        // Search by English name first (more universal), fallback to current name
+        final query = lm.nameEn ?? lm.name;
+        final results = await api.searchLandmarks(query, region: lm.region, locale: locale);
+        if (results.isNotEmpty) {
+          // Find best match by coordinates (closest to original)
+          Landmark? best;
+          double bestDist = double.infinity;
+          for (final r in results) {
+            final d = (r.lat - lm.lat).abs() + (r.lng - lm.lng).abs();
+            if (d < bestDist) { bestDist = d; best = r; }
+          }
+          if (best != null && bestDist < 0.01) {
+            nameMap[lm.slug] = best.name;
+          }
+        }
+      } catch (_) {}
     }
 
-    // Update slots with resolved names (keep lat/lng from original)
+    if (nameMap.isEmpty) return;
+
+    // Update current state slots
     final newSlots = state.slots.map((slot) {
       if (slot == null) return slot;
-      final resolved = nameMap[slot.slug];
-      if (resolved != null) {
-        return Landmark(
-          slug: slot.slug,
-          name: resolved.name,
-          nameEn: resolved.nameEn ?? slot.nameEn,
-          lat: slot.lat,
-          lng: slot.lng,
-          region: slot.region,
-        );
+      final newName = nameMap[slot.slug];
+      if (newName != null && newName != slot.name) {
+        return Landmark(slug: slot.slug, name: newName, nameEn: slot.nameEn, lat: slot.lat, lng: slot.lng, region: slot.region);
       }
       return slot;
     }).toList();
@@ -252,15 +269,15 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
     state = state.copyWith(slots: newSlots);
     _regionSlots[state.region] = List.from(newSlots);
 
-    // Also update other cached regions
+    // Update cached regions too
     for (final region in _regionSlots.keys.toList()) {
       if (region == state.region) continue;
       final cachedSlots = _regionSlots[region]!;
       _regionSlots[region] = cachedSlots.map((slot) {
         if (slot == null) return slot;
-        final resolved = nameMap[slot.slug];
-        if (resolved != null) {
-          return Landmark(slug: slot.slug, name: resolved.name, nameEn: resolved.nameEn ?? slot.nameEn, lat: slot.lat, lng: slot.lng, region: slot.region);
+        final newName = nameMap[slot.slug];
+        if (newName != null && newName != slot.name) {
+          return Landmark(slug: slot.slug, name: newName, nameEn: slot.nameEn, lat: slot.lat, lng: slot.lng, region: slot.region);
         }
         return slot;
       }).toList();
