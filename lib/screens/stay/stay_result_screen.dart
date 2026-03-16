@@ -156,7 +156,7 @@ class _ToggleChip extends StatelessWidget {
   }
 }
 
-class _AreaCard extends StatelessWidget {
+class _AreaCard extends StatefulWidget {
   final StayArea area;
   final int rank;
   final bool isExpanded;
@@ -171,15 +171,32 @@ class _AreaCard extends StatelessWidget {
   const _AreaCard({required this.area, required this.rank, required this.isExpanded, required this.onTap, required this.locale, required this.l10n, required this.landmarks, this.localNames = const {}, this.checkIn, this.checkOut});
 
   @override
+  State<_AreaCard> createState() => _AreaCardState();
+}
+
+class _AreaCardState extends State<_AreaCard> {
+  List<Hotel> _hotelMarkers = [];
+
+  void _onHotelsLoaded(List<Hotel> hotels) {
+    if (mounted) setState(() => _hotelMarkers = hotels);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final area = widget.area;
+    final rank = widget.rank;
+    final isExpanded = widget.isExpanded;
+    final locale = widget.locale;
+    final l10n = widget.l10n;
+    final localNames = widget.localNames;
+    final landmarks = widget.landmarks;
     final theme = Theme.of(context);
-    // Use localNames from API (e.g. Korean station names) with fallback
     final name = localNames[area.station.id] ?? area.station.localizedName(locale);
 
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       child: InkWell(
-        onTap: onTap,
+        onTap: widget.onTap,
         borderRadius: BorderRadius.circular(16),
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -201,7 +218,7 @@ class _AreaCard extends StatelessWidget {
               height: 180,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: _InlineMap(area: area, landmarks: landmarks, locale: locale),
+                child: _InlineMap(area: area, landmarks: landmarks, locale: locale, hotels: _hotelMarkers),
               ),
             ),
             // Map legend
@@ -264,7 +281,7 @@ class _AreaCard extends StatelessWidget {
             // ── Hotels (lazy loaded) ──
             if (isExpanded) ...[
               const Divider(height: 24),
-              _HotelSection(stationId: area.station.id, locale: locale, l10n: l10n, checkIn: checkIn, checkOut: checkOut),
+              _HotelSection(stationId: area.station.id, locale: locale, l10n: l10n, checkIn: widget.checkIn, checkOut: widget.checkOut, onLoaded: _onHotelsLoaded),
             ],
 
             // Expand hint
@@ -392,8 +409,9 @@ class _InlineMap extends StatelessWidget {
   final StayArea area;
   final List<Landmark> landmarks;
   final String locale;
+  final List<Hotel> hotels;
 
-  const _InlineMap({required this.area, required this.landmarks, this.locale = 'en'});
+  const _InlineMap({required this.area, required this.landmarks, this.locale = 'en', this.hotels = const []});
 
   @override
   Widget build(BuildContext context) {
@@ -426,6 +444,17 @@ class _InlineMap extends StatelessWidget {
               child: Center(child: Text('${area.landmarkDistances.isEmpty ? 1 : 1}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12))),
             ),
           ),
+          // Hotel markers (green numbered)
+          ...hotels.where((h) => h.lat != 0 && h.lng != 0).take(5).toList().asMap().entries.map((e) {
+            final h = e.value;
+            return Marker(
+              point: LatLng(h.lat, h.lng), width: 22, height: 22,
+              child: Container(
+                decoration: BoxDecoration(color: AppTheme.green, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 1.5)),
+                child: Center(child: Text('${e.key + 1}', style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold))),
+              ),
+            );
+          }),
         ]),
       ],
     );
@@ -438,8 +467,9 @@ class _HotelSection extends StatefulWidget {
   final AppLocalizations l10n;
   final String? checkIn;
   final String? checkOut;
+  final void Function(List<Hotel>)? onLoaded;
 
-  const _HotelSection({required this.stationId, required this.locale, required this.l10n, this.checkIn, this.checkOut});
+  const _HotelSection({required this.stationId, required this.locale, required this.l10n, this.checkIn, this.checkOut, this.onLoaded});
 
   @override
   State<_HotelSection> createState() => _HotelSectionState();
@@ -463,7 +493,10 @@ class _HotelSectionState extends State<_HotelSection> {
       final checkIn = widget.checkIn ?? DateTime.now().add(const Duration(days: 30)).toIso8601String().substring(0, 10);
       final checkOut = widget.checkOut ?? DateTime.now().add(const Duration(days: 32)).toIso8601String().substring(0, 10);
       final hotels = await api.getHotels(stationId: widget.stationId, checkIn: checkIn, checkOut: checkOut, locale: widget.locale);
-      if (mounted) setState(() { _hotels = hotels; _loading = false; });
+      if (mounted) {
+        setState(() { _hotels = hotels; _loading = false; });
+        widget.onLoaded?.call(hotels);
+      }
     } catch (e) {
       if (mounted) setState(() { _loading = false; });
     }

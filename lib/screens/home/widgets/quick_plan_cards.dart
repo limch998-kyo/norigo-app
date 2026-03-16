@@ -30,9 +30,9 @@ const _plans = [
       'zh': {'title': '涩谷・原宿・新宿', 'subtitle': '东京经典路线'},
     },
     landmarks: [
-      {'slug': 'shibuya-crossing', 'name': '渋谷スクランブル交差点', 'nameEn': 'Shibuya Crossing', 'lat': 35.6595, 'lng': 139.7004, 'region': 'kanto'},
-      {'slug': 'harajuku-takeshita', 'name': '原宿竹下通り', 'nameEn': 'Harajuku Takeshita', 'lat': 35.6702, 'lng': 139.7026, 'region': 'kanto'},
-      {'slug': 'shinjuku-gyoen', 'name': '新宿御苑', 'nameEn': 'Shinjuku Gyoen', 'lat': 35.6852, 'lng': 139.7100, 'region': 'kanto'},
+      {'slug': 'shibuya-crossing', 'name': '渋谷スクランブル交差点', 'nameEn': 'Shibuya Crossing', 'nameKo': '시부야 스크램블 교차로', 'lat': 35.6595, 'lng': 139.7004, 'region': 'kanto'},
+      {'slug': 'harajuku-takeshita', 'name': '原宿竹下通り', 'nameEn': 'Harajuku Takeshita', 'nameKo': '하라주쿠 다케시타도리', 'lat': 35.6702, 'lng': 139.7026, 'region': 'kanto'},
+      {'slug': 'shinjuku-gyoen', 'name': '新宿御苑', 'nameEn': 'Shinjuku Gyoen', 'nameKo': '신주쿠교엔', 'lat': 35.6852, 'lng': 139.7100, 'region': 'kanto'},
     ],
   ),
   QuickPlan(
@@ -46,9 +46,9 @@ const _plans = [
       'zh': {'title': '浅草・上野・东京站', 'subtitle': '传统与购物一次搞定'},
     },
     landmarks: [
-      {'slug': 'sensoji-temple', 'name': '浅草寺', 'nameEn': 'Sensoji Temple', 'lat': 35.7148, 'lng': 139.7967, 'region': 'kanto'},
-      {'slug': 'ueno-park', 'name': '上野恩賜公園', 'nameEn': 'Ueno Park', 'lat': 35.7146, 'lng': 139.7714, 'region': 'kanto'},
-      {'slug': 'tokyo-station', 'name': '東京駅', 'nameEn': 'Tokyo Station', 'lat': 35.6812, 'lng': 139.7671, 'region': 'kanto'},
+      {'slug': 'sensoji-temple', 'name': '浅草寺', 'nameEn': 'Sensoji Temple', 'nameKo': '센소지', 'lat': 35.7148, 'lng': 139.7967, 'region': 'kanto'},
+      {'slug': 'ueno-park', 'name': '上野恩賜公園', 'nameEn': 'Ueno Park', 'nameKo': '우에노 공원', 'lat': 35.7146, 'lng': 139.7714, 'region': 'kanto'},
+      {'slug': 'tokyo-station', 'name': '東京駅', 'nameEn': 'Tokyo Station', 'nameKo': '도쿄역', 'lat': 35.6812, 'lng': 139.7671, 'region': 'kanto'},
     ],
   ),
   QuickPlan(
@@ -62,9 +62,9 @@ const _plans = [
       'zh': {'title': '台场・秋叶原・池袋', 'subtitle': '家庭与流行文化'},
     },
     landmarks: [
-      {'slug': 'odaiba', 'name': 'お台場', 'nameEn': 'Odaiba', 'lat': 35.6268, 'lng': 139.7753, 'region': 'kanto'},
-      {'slug': 'akihabara', 'name': '秋葉原', 'nameEn': 'Akihabara', 'lat': 35.6984, 'lng': 139.7731, 'region': 'kanto'},
-      {'slug': 'ikebukuro-sunshine', 'name': '池袋サンシャインシティ', 'nameEn': 'Ikebukuro Sunshine City', 'lat': 35.7295, 'lng': 139.7186, 'region': 'kanto'},
+      {'slug': 'odaiba', 'name': 'お台場', 'nameEn': 'Odaiba', 'nameKo': '오다이바', 'lat': 35.6268, 'lng': 139.7753, 'region': 'kanto'},
+      {'slug': 'akihabara', 'name': '秋葉原', 'nameEn': 'Akihabara', 'nameKo': '아키하바라', 'lat': 35.6984, 'lng': 139.7731, 'region': 'kanto'},
+      {'slug': 'ikebukuro-sunshine', 'name': '池袋サンシャインシティ', 'nameEn': 'Ikebukuro Sunshine City', 'nameKo': '이케부쿠로 선샤인시티', 'lat': 35.7295, 'lng': 139.7186, 'region': 'kanto'},
     ],
   ),
   QuickPlan(
@@ -78,9 +78,9 @@ const _plans = [
       'zh': {'title': '道顿堀・难波・心斋桥', 'subtitle': '大阪美食之旅'},
     },
     landmarks: [
-      {'slug': 'dotonbori', 'name': '道頓堀', 'nameEn': 'Dotonbori', 'lat': 34.6687, 'lng': 135.5013, 'region': 'kansai'},
-      {'slug': 'namba', 'name': 'なんば', 'nameEn': 'Namba', 'lat': 34.6659, 'lng': 135.5013, 'region': 'kansai'},
-      {'slug': 'shinsaibashi', 'name': '心斎橋', 'nameEn': 'Shinsaibashi', 'lat': 34.6748, 'lng': 135.5016, 'region': 'kansai'},
+      {'slug': 'dotonbori', 'name': '道頓堀', 'nameEn': 'Dotonbori', 'nameKo': '도톤보리', 'lat': 34.6687, 'lng': 135.5013, 'region': 'kansai'},
+      {'slug': 'namba', 'name': 'なんば', 'nameEn': 'Namba', 'nameKo': '난바', 'lat': 34.6659, 'lng': 135.5013, 'region': 'kansai'},
+      {'slug': 'shinsaibashi', 'name': '心斎橋', 'nameEn': 'Shinsaibashi', 'nameKo': '신사이바시', 'lat': 34.6748, 'lng': 135.5016, 'region': 'kansai'},
     ],
   ),
   QuickPlan(
@@ -94,9 +94,9 @@ const _plans = [
       'zh': {'title': '清水寺・伏见稻荷・岚山', 'subtitle': '京都一日游'},
     },
     landmarks: [
-      {'slug': 'kiyomizu-dera', 'name': '清水寺', 'nameEn': 'Kiyomizu-dera', 'lat': 34.9949, 'lng': 135.7850, 'region': 'kansai'},
-      {'slug': 'fushimi-inari', 'name': '伏見稲荷大社', 'nameEn': 'Fushimi Inari Shrine', 'lat': 34.9671, 'lng': 135.7727, 'region': 'kansai'},
-      {'slug': 'arashiyama', 'name': '嵐山', 'nameEn': 'Arashiyama', 'lat': 35.0094, 'lng': 135.6672, 'region': 'kansai'},
+      {'slug': 'kiyomizu-dera', 'name': '清水寺', 'nameEn': 'Kiyomizu-dera', 'nameKo': '기요미즈데라', 'lat': 34.9949, 'lng': 135.7850, 'region': 'kansai'},
+      {'slug': 'fushimi-inari', 'name': '伏見稲荷大社', 'nameEn': 'Fushimi Inari Shrine', 'nameKo': '후시미이나리', 'lat': 34.9671, 'lng': 135.7727, 'region': 'kansai'},
+      {'slug': 'arashiyama', 'name': '嵐山', 'nameEn': 'Arashiyama', 'nameKo': '아라시야마', 'lat': 35.0094, 'lng': 135.6672, 'region': 'kansai'},
     ],
   ),
 ];
@@ -222,14 +222,20 @@ class _QuickPlanCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (onPlanSelected != null) {
-          final landmarks = plan.landmarks.map((l) => Landmark(
-            slug: l['slug'] as String,
-            name: l['name'] as String,
-            nameEn: l['nameEn'] as String?,
-            lat: l['lat'] as double,
-            lng: l['lng'] as double,
-            region: l['region'] as String,
-          )).toList();
+          final landmarks = plan.landmarks.map((l) {
+            // Use localized name based on current locale
+            final name = locale == 'ko' ? (l['nameKo'] as String? ?? l['name'] as String)
+                : locale == 'en' ? (l['nameEn'] as String? ?? l['name'] as String)
+                : l['name'] as String;
+            return Landmark(
+              slug: l['slug'] as String,
+              name: name,
+              nameEn: l['nameEn'] as String?,
+              lat: l['lat'] as double,
+              lng: l['lng'] as double,
+              region: l['region'] as String,
+            );
+          }).toList();
           onPlanSelected!(plan.id, plan.region, landmarks);
         }
       },
