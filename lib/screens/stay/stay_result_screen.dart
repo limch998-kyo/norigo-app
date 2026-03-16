@@ -134,6 +134,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
                   l10n: l10n,
                   landmarks: state.landmarks,
                   localNames: result.localNames,
+                  maxBudget: state.maxBudget,
                   checkIn: state.checkIn,
                   checkOut: state.checkOut,
                 );
@@ -178,10 +179,11 @@ class _AreaCard extends StatefulWidget {
   final AppLocalizations l10n;
   final List<Landmark> landmarks;
   final Map<String, String> localNames;
+  final String? maxBudget;
   final String? checkIn;
   final String? checkOut;
 
-  const _AreaCard({required this.area, required this.rank, required this.isExpanded, required this.onTap, required this.locale, required this.l10n, required this.landmarks, this.localNames = const {}, this.checkIn, this.checkOut});
+  const _AreaCard({required this.area, required this.rank, required this.isExpanded, required this.onTap, required this.locale, required this.l10n, required this.landmarks, this.localNames = const {}, this.maxBudget, this.checkIn, this.checkOut});
 
   @override
   State<_AreaCard> createState() => _AreaCardState();
@@ -293,7 +295,7 @@ class _AreaCardState extends State<_AreaCard> {
 
             // ── Hotels (always loaded, matching web) ──
             const Divider(height: 24),
-            _HotelSection(stationId: area.station.id, locale: locale, l10n: l10n, checkIn: widget.checkIn, checkOut: widget.checkOut, onLoaded: _onHotelsLoaded),
+            _HotelSection(stationId: area.station.id, locale: locale, l10n: l10n, checkIn: widget.checkIn, checkOut: widget.checkOut, initialBudget: widget.maxBudget, onLoaded: _onHotelsLoaded),
           ]),
         ),
       ),
@@ -471,9 +473,10 @@ class _HotelSection extends StatefulWidget {
   final AppLocalizations l10n;
   final String? checkIn;
   final String? checkOut;
+  final String? initialBudget;
   final void Function(List<Hotel>)? onLoaded;
 
-  const _HotelSection({required this.stationId, required this.locale, required this.l10n, this.checkIn, this.checkOut, this.onLoaded});
+  const _HotelSection({required this.stationId, required this.locale, required this.l10n, this.checkIn, this.checkOut, this.initialBudget, this.onLoaded});
 
   @override
   State<_HotelSection> createState() => _HotelSectionState();
@@ -483,7 +486,14 @@ class _HotelSectionState extends State<_HotelSection> {
   List<Hotel>? _hotels;
   bool _loading = true;
   bool _expanded = false;
-  String _budgetFilter = 'any';
+  late String _budgetFilter;
+
+  @override
+  void initState() {
+    super.initState();
+    _budgetFilter = widget.initialBudget ?? 'any';
+    _loadHotels();
+  }
   static const _defaultVisible = 3;
 
   // JPY conversion rates (matching web)
@@ -515,12 +525,6 @@ class _HotelSectionState extends State<_HotelSection> {
   int _countForBudget(String budget) {
     if (_hotels == null) return 0;
     return _filterByBudgetKey(_hotels!, budget).length;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _loadHotels();
   }
 
   Future<void> _loadHotels() async {
