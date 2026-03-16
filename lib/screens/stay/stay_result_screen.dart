@@ -303,7 +303,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
   }
 }
 
-class _SplitResultsList extends StatelessWidget {
+class _SplitResultsList extends StatefulWidget {
   final List<StayCluster> clusters;
   final int expandedIndex;
   final void Function(int) onTap;
@@ -321,15 +321,30 @@ class _SplitResultsList extends StatelessWidget {
   });
 
   @override
+  State<_SplitResultsList> createState() => _SplitResultsListState();
+}
+
+class _SplitResultsListState extends State<_SplitResultsList> {
+  static const _defaultVisible = 2;
+  // Track which clusters are expanded to show all results
+  final Set<int> _expandedClusters = {};
+
+  @override
   Widget build(BuildContext context) {
     int globalIndex = 0;
 
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       children: [
-        ...clusters.asMap().entries.expand((clusterEntry) {
+        ...widget.clusters.asMap().entries.expand((clusterEntry) {
           final ci = clusterEntry.key;
           final cluster = clusterEntry.value;
+          final isClusterExpanded = _expandedClusters.contains(ci);
+          final visibleAreas = isClusterExpanded ? cluster.areas : cluster.areas.take(_defaultVisible).toList();
+          final hasMore = cluster.areas.length > _defaultVisible;
+
+          // Need to track globalIndex for all areas, not just visible ones
+          final startGlobalIndex = globalIndex;
 
           return [
             // Cluster header
@@ -338,7 +353,7 @@ class _SplitResultsList extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
-                  color: ci == 0 ? AppTheme.primaryBg : const Color(0xFFFFF7ED), // blue vs orange bg
+                  color: ci == 0 ? AppTheme.primaryBg : const Color(0xFFFFF7ED),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(children: [
@@ -352,34 +367,67 @@ class _SplitResultsList extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Expanded(child: Text(
-                    '${locale == 'ja' ? 'エリア' : locale == 'ko' ? '지역' : 'Area'} ${ci + 1}: ${cluster.landmarks.join(' · ')}',
+                    '${widget.locale == 'ja' ? 'エリア' : widget.locale == 'ko' ? '지역' : 'Area'} ${ci + 1}: ${cluster.landmarks.join(' · ')}',
                     style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
                   )),
+                  Text(
+                    '${cluster.areas.length}${widget.locale == 'ja' ? '件' : widget.locale == 'ko' ? '개' : ''}',
+                    style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground),
+                  ),
                 ]),
               ),
             ),
-            // Cluster areas
-            ...cluster.areas.map((area) {
-              final idx = globalIndex++;
+            // Visible cluster areas
+            ...visibleAreas.asMap().entries.map((areaEntry) {
+              final idx = startGlobalIndex + areaEntry.key;
+              globalIndex = startGlobalIndex + areaEntry.key + 1;
               return _AreaCard(
-                area: area,
+                area: areaEntry.value,
                 rank: idx + 1,
-                isExpanded: expandedIndex == idx,
-                onTap: () => onTap(idx),
-                locale: locale,
-                l10n: l10n,
-                landmarks: landmarks,
+                isExpanded: widget.expandedIndex == idx,
+                onTap: () => widget.onTap(idx),
+                locale: widget.locale,
+                l10n: widget.l10n,
+                landmarks: widget.landmarks,
                 localNames: cluster.localNames,
-                maxBudget: maxBudget,
-                checkIn: checkIn,
-                checkOut: checkOut,
+                maxBudget: widget.maxBudget,
+                checkIn: widget.checkIn,
+                checkOut: widget.checkOut,
               );
             }),
+            // Adjust globalIndex for hidden areas
+            if (!isClusterExpanded)
+              ...(() { globalIndex = startGlobalIndex + cluster.areas.length; return <Widget>[]; })(),
+            // Show more / show less button
+            if (hasMore)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Center(child: TextButton(
+                  onPressed: () => setState(() {
+                    if (isClusterExpanded) {
+                      _expandedClusters.remove(ci);
+                    } else {
+                      _expandedClusters.add(ci);
+                    }
+                  }),
+                  child: Row(mainAxisSize: MainAxisSize.min, children: [
+                    Text(
+                      isClusterExpanded
+                        ? (widget.locale == 'ja' ? '閉じる' : widget.locale == 'ko' ? '접기' : 'Show less')
+                        : (widget.locale == 'ja' ? '他${cluster.areas.length - _defaultVisible}件を表示'
+                          : widget.locale == 'ko' ? '${cluster.areas.length - _defaultVisible}개 더 보기'
+                          : 'Show ${cluster.areas.length - _defaultVisible} more'),
+                      style: TextStyle(fontSize: 12, color: AppTheme.primary),
+                    ),
+                    Icon(isClusterExpanded ? Icons.expand_less : Icons.expand_more, size: 16, color: AppTheme.primary),
+                  ]),
+                )),
+              ),
             if (cluster.areas.isEmpty)
               Padding(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: Text(
-                  locale == 'ja' ? 'このエリアの推薦結果がありません' : locale == 'ko' ? '이 지역의 추천 결과가 없습니다' : 'No results for this area',
+                  widget.locale == 'ja' ? 'このエリアの推薦結果がありません' : widget.locale == 'ko' ? '이 지역의 추천 결과가 없습니다' : 'No results for this area',
                   style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground),
                 ),
               ),

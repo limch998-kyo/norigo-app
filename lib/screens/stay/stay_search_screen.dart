@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../l10n/app_localizations.dart';
@@ -225,6 +226,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
                 locale: locale,
                 isSplit: _stayStyle == 'split',
                 onChanged: (split) => setState(() => _stayStyle = split ? 'split' : 'single'),
+                landmarks: state.landmarks,
               ),
             ],
             const SizedBox(height: 20),
@@ -724,49 +726,123 @@ class _StayStyleToggle extends StatelessWidget {
   final String locale;
   final bool isSplit;
   final ValueChanged<bool> onChanged;
+  final List<Landmark> landmarks;
 
-  const _StayStyleToggle({required this.locale, required this.isSplit, required this.onChanged});
+  const _StayStyleToggle({required this.locale, required this.isSplit, required this.onChanged, required this.landmarks});
+
+  /// Simple zone clustering: count how many 10km-apart groups exist
+  int _countZones() {
+    if (landmarks.length < 2) return 1;
+    // Greedy clustering with 10km radius
+    final assigned = <int>{};
+    int zones = 0;
+    for (var i = 0; i < landmarks.length; i++) {
+      if (assigned.contains(i)) continue;
+      zones++;
+      assigned.add(i);
+      for (var j = i + 1; j < landmarks.length; j++) {
+        if (assigned.contains(j)) continue;
+        final dist = _haversine(landmarks[i].lat, landmarks[i].lng, landmarks[j].lat, landmarks[j].lng);
+        if (dist < 10.0) assigned.add(j);
+      }
+    }
+    return zones;
+  }
+
+  double _haversine(double lat1, double lng1, double lat2, double lng2) {
+    const r = 6371.0;
+    final dLat = (lat2 - lat1) * 3.14159265 / 180;
+    final dLng = (lng2 - lng1) * 3.14159265 / 180;
+    final a = sin(dLat / 2) * sin(dLat / 2) +
+        cos(lat1 * 3.14159265 / 180) * cos(lat2 * 3.14159265 / 180) *
+        sin(dLng / 2) * sin(dLng / 2);
+    return r * 2 * atan2(sqrt(a), sqrt(1 - a));
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      Expanded(child: GestureDetector(
-        onTap: () => onChanged(false),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(
-            color: !isSplit ? AppTheme.primary.withValues(alpha: 0.1) : Colors.transparent,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: !isSplit ? AppTheme.primary : AppTheme.border),
-          ),
-          child: Column(children: [
-            Icon(Icons.hotel, size: 18, color: !isSplit ? AppTheme.primary : AppTheme.mutedForeground),
-            const SizedBox(height: 4),
-            Text(locale == 'ja' ? '1箇所に宿泊' : locale == 'ko' ? '한 곳에 숙박' : 'Single hotel',
-              style: TextStyle(fontSize: 12, fontWeight: !isSplit ? FontWeight.w600 : FontWeight.normal,
-                color: !isSplit ? AppTheme.primary : AppTheme.foreground)),
+    final zoneCount = _countZones();
+    final recommendSplit = zoneCount >= 2;
+
+    return Column(children: [
+      Row(children: [
+        // Single hotel
+        Expanded(child: GestureDetector(
+          onTap: () => onChanged(false),
+          child: Stack(clipBehavior: Clip.none, children: [
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              decoration: BoxDecoration(
+                color: !isSplit ? AppTheme.primary.withValues(alpha: 0.1) : Colors.transparent,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: !isSplit ? AppTheme.primary : AppTheme.border),
+              ),
+              child: Column(children: [
+                Icon(Icons.hotel, size: 18, color: !isSplit ? AppTheme.primary : AppTheme.mutedForeground),
+                const SizedBox(height: 4),
+                Text(locale == 'ja' ? '1箇所に宿泊' : locale == 'ko' ? '한 곳에 숙박' : 'Single hotel',
+                  style: TextStyle(fontSize: 12, fontWeight: !isSplit ? FontWeight.w600 : FontWeight.normal,
+                    color: !isSplit ? AppTheme.primary : AppTheme.foreground)),
+              ]),
+            ),
+            if (!recommendSplit && landmarks.length >= 3)
+              Positioned(right: -4, top: -8,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                  decoration: BoxDecoration(color: AppTheme.primary, borderRadius: BorderRadius.circular(8)),
+                  child: Text(locale == 'ja' ? 'おすすめ' : locale == 'ko' ? '추천' : 'Rec',
+                    style: const TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.w600)),
+                ),
+              ),
           ]),
-        ),
-      )),
-      const SizedBox(width: 8),
-      Expanded(child: GestureDetector(
-        onTap: () => onChanged(true),
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(
-            color: isSplit ? AppTheme.primary.withValues(alpha: 0.1) : Colors.transparent,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: isSplit ? AppTheme.primary : AppTheme.border),
-          ),
-          child: Column(children: [
-            Icon(Icons.swap_horiz, size: 18, color: isSplit ? AppTheme.primary : AppTheme.mutedForeground),
-            const SizedBox(height: 4),
-            Text(locale == 'ja' ? '分散して宿泊' : locale == 'ko' ? '분산 숙박' : 'Split stay',
-              style: TextStyle(fontSize: 12, fontWeight: isSplit ? FontWeight.w600 : FontWeight.normal,
-                color: isSplit ? AppTheme.primary : AppTheme.foreground)),
+        )),
+        const SizedBox(width: 8),
+        // Split stay
+        Expanded(child: GestureDetector(
+          onTap: () => onChanged(true),
+          child: Stack(clipBehavior: Clip.none, children: [
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              decoration: BoxDecoration(
+                color: isSplit ? AppTheme.primary.withValues(alpha: 0.1) : Colors.transparent,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: isSplit ? AppTheme.primary : AppTheme.border),
+              ),
+              child: Column(children: [
+                Icon(Icons.swap_horiz, size: 18, color: isSplit ? AppTheme.primary : AppTheme.mutedForeground),
+                const SizedBox(height: 4),
+                Text(locale == 'ja' ? '分散して宿泊' : locale == 'ko' ? '분산 숙박' : 'Split stay',
+                  style: TextStyle(fontSize: 12, fontWeight: isSplit ? FontWeight.w600 : FontWeight.normal,
+                    color: isSplit ? AppTheme.primary : AppTheme.foreground)),
+              ]),
+            ),
+            if (recommendSplit)
+              Positioned(right: -4, top: -8,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                  decoration: BoxDecoration(color: AppTheme.primary, borderRadius: BorderRadius.circular(8)),
+                  child: Text(locale == 'ja' ? 'おすすめ' : locale == 'ko' ? '추천' : 'Rec',
+                    style: const TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.w600)),
+                ),
+              ),
           ]),
+        )),
+      ]),
+      // Explanation text (matching web)
+      if (landmarks.length >= 3) ...[
+        const SizedBox(height: 8),
+        Text(
+          recommendSplit
+            ? (locale == 'ja' ? '観光地が離れているため、分散宿泊がおすすめです'
+              : locale == 'ko' ? '관광지가 떨어져 있어 분산 숙박을 추천합니다'
+              : 'Your spots are spread out — splitting into areas is recommended')
+            : (locale == 'ja' ? '観光地が近いため、1箇所の宿泊で十分です'
+              : locale == 'ko' ? '관광지가 가까워 한 곳 숙박으로 충분합니다'
+              : 'Your spots are close together — one hotel works great'),
+          style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground),
+          textAlign: TextAlign.center,
         ),
-      )),
+      ],
     ]);
   }
 }
