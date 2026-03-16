@@ -187,6 +187,12 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
     }
   }
 
+  /// Clear result only (go back to search with inputs preserved)
+  void clearResult() {
+    state = state.copyWith(clearResult: true, clearError: true);
+  }
+
+  /// Full reset (clear everything)
   void reset() {
     state = const StaySearchState();
   }

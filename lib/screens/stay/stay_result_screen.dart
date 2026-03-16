@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -58,7 +59,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
     final result = state.result;
     if (result == null || result.areas.isEmpty) {
       return Scaffold(
-        appBar: AppBar(title: Text(l10n.staySearchTitle), leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => notifier.reset())),
+        appBar: AppBar(title: Text(l10n.staySearchTitle), leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => notifier.clearResult())),
         body: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Icon(Icons.search_off, size: 64, color: Colors.grey.shade400),
           const SizedBox(height: 16),
@@ -72,9 +73,20 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(locale == 'ja' ? '推薦宿泊エリア' : locale == 'ko' ? '추천 숙박 지역' : 'Recommended Areas'),
-        leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => notifier.reset()),
+        leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => notifier.clearResult()),
         actions: [
-          IconButton(icon: const Icon(Icons.tune, size: 20), onPressed: () => notifier.reset()),
+          // Save/bookmark button
+          IconButton(
+            icon: const Icon(Icons.bookmark_outline, size: 20),
+            onPressed: () {
+              final url = 'https://norigo.app/stay/result?l=${Uri.encodeComponent(state.landmarks.map((l) => '${l.name},${l.lat},${l.lng}').join('|'))}&r=${state.region}&m=${state.mode}';
+              Clipboard.setData(ClipboardData(text: url));
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(locale == 'ja' ? '検索結果のリンクをコピーしました' : locale == 'ko' ? '검색 결과 링크가 복사되었습니다' : 'Result link copied!'),
+              ));
+            },
+          ),
+          IconButton(icon: const Icon(Icons.tune, size: 20), onPressed: () => notifier.clearResult()),
         ],
       ),
       body: Column(

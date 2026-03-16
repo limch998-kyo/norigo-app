@@ -62,7 +62,7 @@ class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
     final result = state.result;
     if (result == null || result.stations.isEmpty) {
       return Scaffold(
-        appBar: AppBar(title: Text(title), leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => notifier.reset())),
+        appBar: AppBar(title: Text(title), leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => notifier.clearResult())),
         body: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Icon(Icons.search_off, size: 64, color: Colors.grey.shade400),
           const SizedBox(height: 16),
@@ -74,9 +74,9 @@ class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
-        leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => notifier.reset()),
+        leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => notifier.clearResult()),
         actions: [
-          IconButton(icon: const Icon(Icons.tune, size: 20), onPressed: () => notifier.reset()),
+          IconButton(icon: const Icon(Icons.tune, size: 20), onPressed: () => notifier.clearResult()),
           IconButton(icon: Icon(_showMap ? Icons.list : Icons.map, size: 20), onPressed: () => setState(() => _showMap = !_showMap)),
         ],
       ),

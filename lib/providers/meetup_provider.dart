@@ -139,6 +139,10 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
     }
   }
 
+  void clearResult() {
+    state = state.copyWith(clearResult: true, clearError: true);
+  }
+
   void reset() {
     state = const MeetupSearchState();
   }

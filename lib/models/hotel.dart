@@ -54,12 +54,22 @@ class Hotel {
     );
   }
 
+  static String _formatNumber(int n) {
+    final s = n.toString();
+    final buf = StringBuffer();
+    for (var i = 0; i < s.length; i++) {
+      if (i > 0 && (s.length - i) % 3 == 0) buf.write(',');
+      buf.write(s[i]);
+    }
+    return buf.toString();
+  }
+
   String get formattedPrice {
     if (dailyRate == null) return '';
     final symbol = currency == 'KRW' ? '₩'
         : currency == 'JPY' ? '¥'
         : '\$';
-    return '$symbol${dailyRate!.round()}';
+    return '$symbol${_formatNumber(dailyRate!.round())}';
   }
 
   String? get formattedCrossedOutPrice {
@@ -68,7 +78,7 @@ class Hotel {
     final symbol = currency == 'KRW' ? '₩'
         : currency == 'JPY' ? '¥'
         : '\$';
-    return '$symbol${crossedOutRate!.round()}';
+    return '$symbol${_formatNumber(crossedOutRate!.round())}';
   }
 
   String get formattedRating {
