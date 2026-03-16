@@ -86,6 +86,7 @@ class TripScreen extends ConsumerWidget {
                   final landmarks = notifier.getItemsAsLandmarks(trip.id);
                   final stayNotifier = ref.read(staySearchProvider.notifier);
                   stayNotifier.reset();
+                  if (landmarks.isNotEmpty) stayNotifier.setRegion(landmarks.first.region);
                   for (final l in landmarks) { stayNotifier.addLandmark(l); }
                   final budget = locale == 'ja' ? 'under20000' : locale == 'ko' ? 'under30000' : 'under50000';
                   stayNotifier.setBudget(budget);
@@ -478,6 +479,7 @@ class _MySpotsSection extends StatelessWidget {
                   final landmarks = notifier.getItemsAsLandmarks(state.activeTripId!);
                   final stayNotifier = ref.read(staySearchProvider.notifier);
                   stayNotifier.reset();
+                  if (landmarks.isNotEmpty) stayNotifier.setRegion(landmarks.first.region);
                   for (final l in landmarks) { stayNotifier.addLandmark(l); }
                   final budget = locale == 'ja' ? 'under20000' : locale == 'ko' ? 'under30000' : 'under50000';
                   stayNotifier.setBudget(budget);
@@ -579,10 +581,10 @@ class _SavedSearchesSection extends StatelessWidget {
                   // Restore search and switch to hotel tab
                   final notifier = ref.read(staySearchProvider.notifier);
                   notifier.reset();
+                  notifier.setRegion(search.region);
                   for (final l in search.landmarks) {
                     notifier.addLandmark(l);
                   }
-                  notifier.setRegion(search.region);
                   notifier.setMode(search.mode);
                   if (search.maxBudget != null) notifier.setBudget(search.maxBudget!);
                   if (search.checkIn != null && search.checkOut != null) {
@@ -624,10 +626,10 @@ class _SavedSearchesSection extends StatelessWidget {
                         onPressed: () {
                           final notifier = ref.read(staySearchProvider.notifier);
                           notifier.reset();
+                          notifier.setRegion(search.region);
                           for (final l in search.landmarks) {
                             notifier.addLandmark(l);
                           }
-                          notifier.setRegion(search.region);
                           notifier.setMode(search.mode);
                           if (search.maxBudget != null) notifier.setBudget(search.maxBudget!);
                           if (search.checkIn != null) notifier.setDates(search.checkIn, search.checkOut);

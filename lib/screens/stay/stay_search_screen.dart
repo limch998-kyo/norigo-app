@@ -158,10 +158,11 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
                 region: state.region,
                 locale: locale,
                 onSelect: (landmarks, region) {
+                  // Set region FIRST, then add landmarks (setRegion restores cached slots)
+                  notifier.setRegion(region);
                   for (final l in landmarks) {
                     notifier.addLandmark(l);
                   }
-                  notifier.setRegion(region);
                 },
               ),
             ],

@@ -169,6 +169,7 @@ class _BasketSheet extends ConsumerWidget {
                         // Fill stay search with trip items
                         final stayNotifier = ref.read(staySearchProvider.notifier);
                         stayNotifier.reset();
+                        if (items.isNotEmpty) stayNotifier.setRegion(items.first.region);
                         for (final item in items) {
                           stayNotifier.addLandmark(Landmark(
                             slug: item.slug,

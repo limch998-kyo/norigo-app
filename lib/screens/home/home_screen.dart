@@ -206,10 +206,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 onPlanSelected: (planId, region, landmarks) {
                   final notifier = ref.read(staySearchProvider.notifier);
                   notifier.reset();
+                  notifier.setRegion(region);
                   for (final l in landmarks) {
                     notifier.addLandmark(l);
                   }
-                  notifier.setRegion(region);
                   final budget = locale == 'ja' ? 'under20000' : locale == 'ko' ? 'under30000' : 'under50000';
                   notifier.setBudget(budget);
                   final checkIn = DateTime.now().add(const Duration(days: 30));
@@ -225,8 +225,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: _KoreaQuickPlans(locale: locale, onSelect: (landmarks, region) {
                 final notifier = ref.read(staySearchProvider.notifier);
                 notifier.reset();
-                for (final l in landmarks) { notifier.addLandmark(l); }
                 notifier.setRegion(region);
+                for (final l in landmarks) { notifier.addLandmark(l); }
                 notifier.setBudget('under35000');
                 final checkIn = DateTime.now().add(const Duration(days: 30));
                 final checkOut = checkIn.add(const Duration(days: 3));
