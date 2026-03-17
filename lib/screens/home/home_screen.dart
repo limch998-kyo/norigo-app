@@ -277,7 +277,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '© 2024 Norigo. All rights reserved.',
+                  '© 2026 Norigo. All rights reserved.',
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: AppTheme.mutedForeground,
                     fontSize: 11,
