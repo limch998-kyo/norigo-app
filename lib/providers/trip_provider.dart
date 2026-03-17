@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import '../models/trip.dart';
 import '../models/landmark.dart';
+import 'app_providers.dart';
 
 class TripState {
   final List<Trip> trips;
@@ -60,8 +61,9 @@ class TripState {
 class TripNotifier extends StateNotifier<TripState> {
   static const _storageKey = 'norigo_trips_v2';
   static const _uuid = Uuid();
+  final Ref? _ref;
 
-  TripNotifier() : super(const TripState()) {
+  TripNotifier([this._ref]) : super(const TripState()) {
     _loadFromStorage();
   }
 
@@ -248,8 +250,66 @@ class TripNotifier extends StateNotifier<TripState> {
             ))
         .toList();
   }
+
+  /// Re-resolve all item names + trip names in the current locale
+  Future<void> refreshNames() async {
+    if (state.items.isEmpty || _ref == null) return;
+
+    final api = _ref!.read(apiClientProvider);
+    final locale = _ref!.read(localeProvider);
+
+    // Re-search each unique item by name/slug to get locale-specific name
+    final nameMap = <String, String>{}; // slug → new name
+    final processed = <String>{};
+
+    for (final item in state.items) {
+      if (processed.contains(item.slug)) continue;
+      processed.add(item.slug);
+      try {
+        final results = await api.searchLandmarks(
+          item.name,
+          region: item.region,
+          locale: locale,
+        );
+        if (results.isNotEmpty) {
+          // Match by coordinates
+          Landmark? best;
+          double bestDist = double.infinity;
+          for (final r in results) {
+            final d = (r.lat - item.lat).abs() + (r.lng - item.lng).abs();
+            if (d < bestDist) { bestDist = d; best = r; }
+          }
+          if (best != null && bestDist < 0.01) {
+            nameMap[item.slug] = best.name;
+          }
+        }
+      } catch (_) {}
+    }
+
+    if (nameMap.isEmpty) return;
+
+    // Update item names
+    final newItems = state.items.map((item) {
+      final newName = nameMap[item.slug];
+      if (newName != null && newName != item.name) {
+        return TripItem(
+          slug: item.slug,
+          name: newName,
+          lat: item.lat,
+          lng: item.lng,
+          region: item.region,
+          tripId: item.tripId,
+          addedAt: item.addedAt,
+        );
+      }
+      return item;
+    }).toList();
+
+    state = state.copyWith(items: newItems);
+    _saveToStorage();
+  }
 }
 
 final tripProvider = StateNotifierProvider<TripNotifier, TripState>((ref) {
-  return TripNotifier();
+  return TripNotifier(ref);
 });
