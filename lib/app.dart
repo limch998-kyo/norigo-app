@@ -25,8 +25,8 @@ class NorigoApp extends ConsumerWidget {
     return MaterialApp(
       title: 'Norigo',
       theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: themeMode,
+      // Dark mode disabled until all 179 hardcoded colors are theme-aware
+      themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
       locale: Locale(locale),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
