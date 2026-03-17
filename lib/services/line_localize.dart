@@ -19,9 +19,6 @@ class LineLocalizer {
 
   /// Get localized line name. Returns original if no translation.
   static Future<String> localize(String lineName, String locale) async {
-    // Japanese locale: return as-is (already in Japanese)
-    if (locale == 'ja') return lineName;
-
     await _load();
     final entry = _translations?[lineName];
     if (entry == null) return lineName;
@@ -36,7 +33,6 @@ class LineLocalizer {
 
   /// Synchronous version using cached data (call after _load)
   static String localizeSync(String lineName, String locale) {
-    if (locale == 'ja') return lineName;
     final entry = _translations?[lineName];
     if (entry == null) return lineName;
     final localized = entry[locale] ?? entry['en'] ?? lineName;

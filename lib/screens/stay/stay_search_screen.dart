@@ -163,6 +163,10 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
                   for (final l in landmarks) {
                     notifier.addLandmark(l);
                   }
+                  // Auto-set budget based on locale/region
+                  final isKorea = ['seoul', 'busan'].contains(region);
+                  final budget = isKorea ? 'under35000' : (locale == 'ja' ? 'under20000' : 'under30000');
+                  notifier.setBudget(budget);
                 },
               ),
             ],
