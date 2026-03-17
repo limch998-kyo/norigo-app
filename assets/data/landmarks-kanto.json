@@ -1,0 +1,1447 @@
+[
+  {
+    "name": "東京タワー",
+    "nameEn": "Tokyo Tower",
+    "nameKo": "도쿄타워",
+    "romaji": "tokyotower",
+    "lat": 35.6586,
+    "lng": 139.7454,
+    "slug": "tokyo-tower",
+    "nameZh": "东京塔",
+    "imageUrl": "/images/landmarks/tokyo-tower.webp",
+    "description": {
+      "en": "Rising above Minato since 1958 and inspired by the Eiffel Tower, Tokyo Tower’s white-and-orange lattice reaches 332.9 meters and offers sweeping city views from its observation decks. Visit for panoramic photo ops, seasonal illumination shows after dark, and the lively shops and cafés tucked beneath the iconic structure.",
+      "ja": "1958年に完成した東京タワーはエッフェル塔を手本にした白とオレンジの鉄骨が特徴で、港区から東京を一望できる展望台が魅力です。昼は富士山や都心の景色を楽しみ、夜はイルミネーションと夜景、塔下の土産屋やカフェ散策もおすすめです。",
+      "ko": "1958년에 완공된 도쿄타워는 에펠탑을 닮은 흰색·주황색 격자 구조로 미나토에서 332.9m 높이의 탁 트인 전망을 제공합니다. 낮에는 후지산과 도심 풍경을, 밤에는 화려한 조명과 야경을 감상하고 아래층의 기념품점과 카페도 둘러보세요.",
+      "zh": "1958年建成的东京塔以埃菲尔铁塔为灵感，白橙相间的格构造型高达332.9米，是俯瞰东京全景的经典地标。登上观景台可远眺富士山与都市天际线，夜里还有灯光秀，塔下的商店与咖啡厅也很值得逛逛。"
+    }
+  },
+  {
+    "name": "東京スカイツリー",
+    "nameEn": "Tokyo Skytree",
+    "nameKo": "도쿄스카이트리",
+    "romaji": "tokyoskytree",
+    "lat": 35.7101,
+    "lng": 139.8107,
+    "slug": "tokyo-skytree",
+    "nameZh": "东京晴空塔",
+    "imageUrl": "/images/landmarks/tokyo-skytree.webp",
+    "description": {
+      "en": "Rising 634 meters above Sumida, Tokyo Skytree is Japan’s iconic, record-setting tower and a top spot for breathtaking city views. Ride the high-speed elevators to glass-floored observation decks, enjoy restaurants and the Solamachi shopping complex at its base, and stick around after dark for dramatic nighttime illuminations.",
+      "ja": "高さ634メートルの東京スカイツリーは、2012年以降日本一の高さを誇るランドマークです。展望デッキからは東京の大パノラマや晴れた日には富士山も望め、ガラス床のスリルやレストラン、ソラマチのショッピング、夜のライトアップまで一日中楽しめます。",
+      "ko": "도쿄 스카이트리는 높이 634m의 인상적인 타워로, 도쿄 전경을 한눈에 내려다볼 수 있는 최고의 명소입니다. 고속 엘리베이터로 전망 데크에 올라 유리 바닥에서 도심을 내려다보고, 아래 소라마치 쇼핑몰과 레스토랑을 둘러본 뒤 밤에는 화려한 조명까지 감상해 보세요.",
+      "zh": "东京晴空塔高达634米，是日本标志性的高塔，也是俯瞰东京的绝佳去处。登上观景台可360度眺望城市风光，晴天还能远眺富士山，塔下的天空树城（Solamachi）购物街、餐厅和夜间灯光秀也都值得一逛。"
+    }
+  },
+  {
+    "name": "浅草寺",
+    "nameEn": "Asakusa Senso-ji",
+    "nameKo": "아사쿠사 센소지",
+    "romaji": "asakusasensoji",
+    "lat": 35.7148,
+    "lng": 139.7967,
+    "slug": "asakusa-senso-ji",
+    "nameZh": "浅草寺",
+    "imageUrl": "/images/landmarks/asakusa-senso-ji.webp",
+    "description": {
+      "en": "Senso-ji in Asakusa is Tokyo’s oldest temple, a living slice of history centered on Kannon, the bodhisattva of compassion. Pass beneath its towering gates to explore a bustling complex of a gleaming main hall and five‑story pagoda, where incense, street stalls and centuries-old ritual draw over 30 million visitors a year.",
+      "ja": "浅草寺は浅草にある東京最古の寺で、観音菩薩を祀る格式ある聖地です。巨大な山門をくぐると本堂や五重塔がそびえ、参拝や線香の香り、仲見世の土産店巡りなど、年間3,000万人以上が訪れる賑わいを体感できます。",
+      "ko": "센소지(浅草寺)는 아사쿠사에 자리한 도쿄에서 가장 오래된 사찰로, 자비의 보살 관음님을 모시고 있습니다. 거대한 산문을 지나면 본당과 오층탑을 볼 수 있고, 향을 맡아 참배하거나 주변 상점가를 구경하는 등 연간 3천만 명이 넘는 방문객과 함께하는 활기찬 풍경을 즐길 수 있습니다.",
+      "zh": "浅草寺位于浅草，是东京最古老且极具影响力的佛教寺院之一，供奉慈悲的观音菩萨。穿过宏伟的大门即可见本堂与五重塔，既可参拜闻香祈福，也能在周边仲见世商店街逛街买纪念品，感受每年超过3,000万游客汇聚的热闹气氛。"
+    }
+  },
+  {
+    "name": "明治神宮",
+    "nameEn": "Meiji Shrine",
+    "nameKo": "메이지신궁",
+    "romaji": "meijijingu",
+    "lat": 35.6764,
+    "lng": 139.6993,
+    "slug": "meiji-shrine",
+    "nameZh": "明治神宫",
+    "imageUrl": "/images/landmarks/meiji-shrine.webp",
+    "description": {
+      "en": "Nestled in a peaceful forest in bustling Shibuya, Meiji Shrine honors Emperor Meiji and Empress Shōken and offers a calm retreat from the city. Stroll beneath towering torii gates, admire rows of ceremonial sake barrels, glimpse Shinto rituals, and write your wishes on ema as seasonal festivals animate the grounds.",
+      "ja": "渋谷の喧騒を忘れさせる杜にたたずむ明治神宮は、明治天皇と昭憲皇后を祀る静かな社です。大鳥居をくぐって参道を歩けば、奉納された酒樽や神事に出会い、絵馬に願いを書いたり、四季折々の行事を楽しめます。",
+      "ko": "시부야 한복판의 울창한 숲 속에 자리한 메이지 신궁은 메이지 천황과 쇼켄 황후를 모시는 신사로, 도시의 소음을 잊게 해주는 휴식처입니다. 거대한 토리이를 지나 참배로를 걸으며 봉납된 술통과 전통 의식을 보고, 에마에 소원을 적거나 계절마다 열리는 축제를 즐겨보세요.",
+      "zh": "明治神宫坐落在涩谷的一片城市林地，供奉明治天皇与昭宪皇后，是远离喧嚣的静谧去处。穿过巨大鸟居沿参道漫步，可见奉纳的酒樽、传统神事与祈愿的绘马，还能在不同季节遇到热闹的祭典。"
+    }
+  },
+  {
+    "name": "渋谷スクランブル交差点",
+    "nameEn": "Shibuya Crossing",
+    "nameKo": "시부야스크램블교차점",
+    "romaji": "shibuyacrossing",
+    "lat": 35.6595,
+    "lng": 139.7004,
+    "slug": "shibuya-crossing",
+    "nameZh": "涩谷十字路口",
+    "imageUrl": "/images/landmarks/shibuya-crossing.webp",
+    "description": {
+      "en": "Stand in the middle of Shibuya Crossing and feel Tokyo’s pulse as up to 3,000 people surge across the intersection on a single green light, framed by towering billboards and neon. It’s an iconic, must-see moment—perfect for people-watching, grabbing a photo from an overlooking café, or simply soaking in the city’s kinetic energy.",
+      "ja": "渋谷スクランブル交差点は、信号が変わると最大約3,000人が一斉に渡る圧巻の光景が見られる、東京を象徴するスポットです。ビルの合間に広がるネオンや巨大広告を眺めながら、人の波を上から撮影したり、ただその熱気に浸ってみてください。",
+      "ko": "시부야 스크램블 교차로는 신호가 바뀔 때마다 최대 3,000명에 달하는 인파가 한꺼번에 건너는 세계적으로 유명한 명소입니다. 거대한 전광판과 네온에 둘러싸인 이곳에서 사람 구경을 하거나, 위층 카페에서 내려다보며 도쿄의 에너지를 그대로 느껴보세요.",
+      "zh": "涩谷十字路口是东京最具象征性的场景之一，绿灯一亮可能有多达三千人同时穿越，场面相当壮观。被霓虹和巨幅广告包围，适合在高处的咖啡馆拍照或静静观潮，体验东京的动感节奏。"
+    }
+  },
+  {
+    "name": "新宿御苑",
+    "nameEn": "Shinjuku Gyoen",
+    "nameKo": "신주쿠교엔",
+    "romaji": "shinjukugyoen",
+    "lat": 35.6852,
+    "lng": 139.71,
+    "slug": "shinjuku-gyoen",
+    "nameZh": "新宿御苑",
+    "imageUrl": "/images/landmarks/shinjuku-gyoen.webp",
+    "description": {
+      "en": "Shinjuku Gyoen is a peaceful green oasis in the heart of Tokyo where traditional Japanese landscaping meets English and French garden styles, born from an Edo-period residence. Wander beneath famous cherry-tree avenues in spring, picnic on wide lawns, and enjoy seasonal blossoms, tranquil ponds and skyline views any time of year.",
+      "ja": "新宿御苑は江戸時代の屋敷跡を起源に、和・英・仏の庭園様式が調和する都会のオアシスです。春の桜並木を歩いたり、広い芝生でピクニックをしたり、四季折々の花や静かな池の風景をゆったりと楽しめます。",
+      "ko": "신주쿠교엔은 에도 시대 저택을 바탕으로 조성된 도심 속 넓은 정원으로, 일본식·영국식·프랑스식 정원이 어우러진 독특한 풍경이 특징입니다. 봄의 벚꽃길을 걷고, 사계절 꽃과 잔디밭에서의 피크닉, 고요한 연못 산책 등으로 느긋한 휴식을 누릴 수 있습니다.",
+      "zh": "新宿御苑原是江户时代的大名宅邸，如今在东京市中心呈现出日式、英式与法式庭园交织的风貌，是远离喧嚣的绿洲。你可以沿着樱花道漫步、在宽阔的草坪上野餐，或随着季节欣赏池塘与花卉的变换景致。"
+    }
+  },
+  {
+    "name": "皇居",
+    "nameEn": "Imperial Palace",
+    "nameKo": "황거",
+    "romaji": "kokyo",
+    "lat": 35.6852,
+    "lng": 139.7528,
+    "slug": "imperial-palace",
+    "nameZh": "皇居",
+    "imageUrl": "/images/landmarks/imperial-palace.webp",
+    "description": {
+      "en": "The Imperial Palace in Tokyo’s Chiyoda district is the emperor’s main residence set inside a peaceful, park-like enclave where stately buildings rise amid gardens and tree-lined paths. Visitors can stroll the grounds, visit on-site museums and archives, and admire the main palace and surrounding residences that host Japan’s imperial ceremonies.",
+      "ja": "東京・千代田区に広がる皇居は、天皇の主要な住まいであり、庭園や緑地が広がる静かな空間です。吹上御所や宮殿、皇族の邸宅、博物館や資料館などを眺めながら散策し、都会の中に残る格式ある風景を感じられます。",
+      "ko": "도쿄 치요다구에 자리한 황거(임페리얼 팰리스)는 광대한 공원 같은 영역에 천황의 주요 거처와 위엄 있는 건물들이 어우러진 곳입니다. 산책하며 후키아게 궁과 본궁을 바라보고, 현지의 박물관과 자료관을 둘러보며 일본 황실의 역사와 분위기를 체감할 수 있습니다.",
+      "zh": "位于东京千代田区的皇居是天皇的主要住所，坐落在一片公园式的绿地中，庭院与庄重的建筑交相辉映。游人可以在绿道中漫步，参观馆藏丰富的博物馆与资料馆，并远眺主宫与各处皇室住所，感受都市中难得的宁静与仪式感。"
+    }
+  },
+  {
+    "name": "秋葉原",
+    "nameEn": "Akihabara",
+    "nameKo": "아키하바라",
+    "romaji": "akihabara",
+    "lat": 35.7023,
+    "lng": 139.7745,
+    "slug": "akihabara",
+    "nameZh": "秋叶原",
+    "imageUrl": "/images/landmarks/akihabara.webp",
+    "description": {
+      "en": "Akihabara is a lively Tokyo neighborhood centered on Akihabara Station where neon-lit “Electric Town” meets modern otaku culture. Explore multi-floor electronics stores, retro arcades and anime shops, and try a quirky maid café for a truly Tokyo experience.",
+      "ja": "秋葉原は秋葉原駅を中心に広がる、電気街とポップカルチャーが混ざり合う千代田区の名物エリアです。何階にも渡る電気店やレトロなゲームセンター、アニメショップをのぞき、メイドカフェでしか味わえない体験をしてみてください。",
+      "ko": "아키하바라는 아키하바라역 주변에 펼쳐진 도쿄의 활기 넘치는 거리로, 전자상가의 번화함과 오타쿠 문화가 공존합니다. 층층이 이어진 전자매장과 레트로 게임센터, 애니굿즈 숍을 둘러보고 메이드 카페 같은 독특한 체험도 즐겨보세요.",
+      "zh": "秋叶原位于东京千代田区、围绕秋叶原站展开，是电器街与次文化交汇的热闹街区。这里有层叠的电子产品商店、街机厅和动漫周边店，也能体验别具一格的女仆咖啡馆，感受独特的东京氛围。"
+    }
+  },
+  {
+    "name": "お台場",
+    "nameEn": "Odaiba",
+    "nameKo": "오다이바",
+    "romaji": "odaiba",
+    "lat": 35.6267,
+    "lng": 139.7762,
+    "slug": "odaiba",
+    "nameZh": "台场",
+    "imageUrl": "/images/landmarks/odaiba.webp",
+    "description": {
+      "en": "Odaiba is a striking man-made island across the Rainbow Bridge that has been reborn from 19th‑century fortifications into a vibrant waterfront playground of shops, restaurants and leisure spots. Visitors come for wide promenades, open bay views and a rare stretch of accessible Tokyo waterfront away from industrial harbors.",
+      "ja": "お台場はレインボーブリッジを渡った先に広がる人工の島で、かつての砲台跡が再開発されショッピングやレジャーが集まるエンタメエリアになっています。東京湾を間近に感じられる開放的な海辺散歩や夜景、複合施設での食事や買い物が楽しめます。",
+      "ko": "오다이바는 레인보우 브리지 맞은편에 있는 대형 인공섬으로, 19세기 방어 시설이었던 곳이 1990년대 재개발을 거쳐 쇼핑과 주거, 여가가 어우러진 활기찬 공간으로 탈바꿈했습니다. 항구·공업지대가 아닌 드문 개방형 해안가를 거닐며 도심과 바다를 동시에 감상할 수 있는 것이 매력입니다.",
+      "zh": "台场是位于东京湾、与市中心隔着彩虹大桥相望的大型人工岛，曾是19世纪的防御工事，90年代改造成商业、住宅与休闲并重的滨海区。这里有开放的海滨步道、商场和餐饮娱乐，能近距离欣赏东京湾与城市天际线，是远离工业港区的难得海滨去处。"
+    }
+  },
+  {
+    "name": "六本木ヒルズ",
+    "nameEn": "Roppongi Hills",
+    "nameKo": "롯폰기힐즈",
+    "romaji": "roppongihills",
+    "lat": 35.6605,
+    "lng": 139.7292,
+    "slug": "roppongi-hills",
+    "nameZh": "六本木新城",
+    "imageUrl": "/images/landmarks/roppongi-hills.webp",
+    "description": {
+      "en": "Roppongi Hills feels like a mini-city in the heart of Tokyo, where upscale shops, top restaurants, contemporary art spaces and vibrant nightlife all sit together. Pop in for designer stores and rotating exhibitions, grab a memorable meal, and head up to a high vantage point for sweeping views of the Tokyo skyline.",
+      "ja": "六本木ヒルズは、東京の中にある“ミニ都市”のような複合施設で、洗練されたショップやレストラン、現代アートの拠点、夜の賑わいまで一度に楽しめます。ギャラリーやイベントに触れたり、買い物や食事を満喫したあとに展望スポットから東京の景色を眺めるのがおすすめです。",
+      "ko": "롯폰기 힐즈는 도심 속의 작은 도시처럼 쇼핑, 미식, 현대 미술, 밤문화를 한곳에서 즐길 수 있는 복합 공간입니다. 트렌디한 가게와 전시를 둘러보고 맛있는 식사를 한 뒤 전망대에서 도쿄 전경을 내려다보세요.",
+      "zh": "六本木之丘像一座迷你城市，汇集了购物、餐饮、当代艺术与夜生活。这里经常有展览与活动，逛街吃饭之余，不妨登高俯瞰东京的城市景观。"
+    }
+  },
+  {
+    "name": "上野公園",
+    "nameEn": "Ueno Park",
+    "nameKo": "우에노공원",
+    "romaji": "uenopark",
+    "lat": 35.7146,
+    "lng": 139.7732,
+    "slug": "ueno-park",
+    "nameZh": "上野公园",
+    "imageUrl": "/images/landmarks/ueno-park.webp",
+    "description": {
+      "en": "Ueno Park is a leafy, historic green space in Tokyo where you can stroll former temple grounds turned public park, browse a cluster of major museums, and join lively hanami parties beneath spectacular cherry blossoms each spring. With over ten million visitors a year, it’s a cultural hub—perfect for museum-hopping by day and picnic-style sakura viewing by night.",
+      "ja": "上野恩賜公園は、かつての寛永寺の境内を受け継ぐ都心の広いオアシスです。国立博物館や美術館が集まり、春には桜の花見で賑わうので、文化散策とお弁当を広げるのにぴったりの場所です。",
+      "ko": "우에노공원은 옛 칸에이지 사찰 부지를 이어받아 조성된 도쿄 중심의 넓은 공원입니다. 여러 주요 박물관과 동물원이 모여 있고, 봄이면 만개한 벚꽃 아래에서 하나미(꽃구경)를 즐기려는 사람들로 활기가 넘쳐 하루 온종일 둘러보기 좋습니다.",
+      "zh": "上野公园是东京台东区一片宽阔的城市绿地，原为寛永寺的境内，明治时期按西方样式改建，成为日本最早的公园之一。这里汇聚了多家重要博物馆，春天更被盛开的樱花和热闹的花见气氛包围，是体验文化与赏樱的首选之地。"
+    }
+  },
+  {
+    "name": "築地場外市場",
+    "nameEn": "Tsukiji Outer Market",
+    "nameKo": "쓰키지장외시장",
+    "romaji": "tsukijioutermarket",
+    "lat": 35.6654,
+    "lng": 139.7707,
+    "slug": "tsukiji-outer-market",
+    "nameZh": "筑地场外市场",
+    "imageUrl": "/images/landmarks/tsukiji-outer-market.webp",
+    "description": {
+      "en": "Tsukiji Outer Market is a lively maze of narrow lanes where sushi counters, fresh‑fish stalls and traditional knife and cookware shops cluster together. Come for a breakfast of tuna and nigiri, browse unique culinary tools, and soak up the bustling, long-standing seafood culture of Tokyo.",
+      "ja": "築地場外市場は、活気ある路地に寿司屋や鮮魚店、包丁や調理道具の店がひしめく食の迷路です。朝は新鮮な握りを味わい、珍しい道具や乾物を覗きながら、昔ながらの市場の雰囲気を満喫してください。",
+      "ko": "츠키지 장외시장은 좁은 골목마다 스시 카운터와 신선한 해산물 가게, 전통 칼·조리도구 가게가 모여 있는 도쿄의 미식 거리입니다. 아침에 갓 잡은 해산물로 만든 스시를 맛보고, 독특한 주방용품을 구경하며 활기찬 시장 분위기를 즐겨보세요.",
+      "zh": "筑地场外市场是东京最有活力的美食街区之一，狭窄巷弄里布满寿司店、海鲜摊与专业厨房器具店。清晨来一顿新鲜的寿司，逛逛刀具和调味品小店，边走边感受这座老市场的热闹与风味。"
+    }
+  },
+  {
+    "name": "銀座",
+    "nameEn": "Ginza",
+    "nameKo": "긴자",
+    "romaji": "ginza",
+    "lat": 35.6717,
+    "lng": 139.7649,
+    "slug": "ginza",
+    "nameZh": "银座",
+    "imageUrl": "/images/landmarks/ginza.webp",
+    "description": {
+      "en": "Ginza is Tokyo’s sophisticated playground — a glossy stretch of flagship stores, designer boutiques and stylish cafés where modern fashion meets traditional craftsmanship. Spend the day shopping and gallery-hopping, then return at night to see the neon glow and sample world-class restaurants and bars.",
+      "ja": "銀座は洗練されたラグジュアリーと職人の技が共存する、東京を代表するエリアです。国内外のデパートやブランドショップ、趣ある喫茶店が立ち並び、昼はショッピングやギャラリー巡り、夜はネオンと名店の料理で贅沢な時間が過ごせます。",
+      "ko": "긴자는 도쿄의 럭셔리 중심가로, 대형 브랜드 숍과 감각적인 부티크, 분위기 좋은 카페가 모여 있는 곳입니다. 낮에는 쇼핑과 갤러리 산책을 즐기고, 밤에는 네온 불빛 아래 미쉐린급 레스토랑과 바를 찾아 도심의 화려함을 만끽하세요.",
+      "zh": "银座是东京最有格调的购物街区，汇聚了众多国际旗舰店、精致小店和别具风情的咖啡馆。白天可以逛名店与画廊、喝杯咖啡，夜晚则在霓虹与高档餐厅中体验都市奢华与独特风情。"
+    }
+  },
+  {
+    "name": "竹下通り",
+    "nameEn": "Takeshita Street",
+    "nameKo": "다케시타도리",
+    "romaji": "takeshitadori",
+    "lat": 35.6702,
+    "lng": 139.7026,
+    "slug": "takeshita-street",
+    "nameZh": "竹下通",
+    "imageUrl": "/images/landmarks/takeshita-street.webp",
+    "description": {
+      "en": "Takeshita Street in Harajuku is a tight, electric pedestrian lane packed with colorful youth-fashion boutiques, quirky accessory shops and endless crepe stands. It’s the place to people-watch, sample street snacks and soak up Tokyo’s bold, trend-setting youth culture — expect cosplay, crowds and constant energy.",
+      "ja": "竹下通りは原宿駅近くの細い歩行者天国で、カラフルな若者向けの洋服店や個性的な雑貨屋、クレープ屋がぎっしり並んでいます。話題のファッションを覗いたり、ストリートフードを片手に人間観察したり、コスプレや若者文化の熱気を肌で感じられる場所です。",
+      "ko": "하라주쿠의 다케시타도리는 좁고 활기찬 보행자 거리로, 알록달록한 스트리트 패션 숍과 귀여운 액세서리 가게, 크레페 가게들이 늘어서 있습니다. 최신 유행을 구경하고 길거리 음식을 맛보며 개성 넘치는 젊은이들의 문화를 바로 느낄 수 있는 장소예요.",
+      "zh": "竹下通位于原宿，是条热闹的步行街，汇集了色彩鲜艳的潮流小店、创意杂货和排队的人气可丽饼摊。想体验日本年轻人的街头文化、逛潮牌小店、边吃边看各式打扮，这里氛围最有活力。"
+    }
+  },
+  {
+    "name": "原宿",
+    "nameEn": "Harajuku",
+    "nameKo": "하라주쿠",
+    "romaji": "harajuku",
+    "lat": 35.6702,
+    "lng": 139.7026,
+    "slug": "harajuku",
+    "nameZh": "原宿",
+    "imageUrl": "/images/landmarks/harajuku.webp",
+    "description": {
+      "en": "Harajuku is Tokyo’s playful hub of street fashion and quirky cafés—wander the colorful shops and crepe stands on Takeshita Street, then drift down Cat Street toward the chic boutiques of Omotesando. Expect bold looks, vintage finds, lively people-watching and endless photo ops around every corner.",
+      "ja": "原宿は個性的なストリートファッションと個性派カフェが集まる、東京らしいカルチャースポットです。竹下通りのポップなショップやクレープ屋台を楽しんだり、キャットストリートを抜けて表参道の洗練されたブティックをのぞいたりして、人や風景を撮るのにぴったりの散策を満喫してください。",
+      "ko": "하라주쿠는 도쿄의 트렌드를 한눈에 볼 수 있는 활기찬 거리입니다. 다케시타 거리의 컬러풀한 가게와 크레페를 맛보고, 캣스트리트를 따라 오모테산도의 세련된 부티크까지 걸으며 독특한 스트리트 패션과 빈티지한 보물을 찾아보세요.",
+      "zh": "原宿是东京的潮流聚集地，既有张扬的街头风格，也有小清新的咖啡馆。你可以在竹下通逛色彩缤纷的小店、吃一份可丽饼，然后沿着猫街走到表参道的林荫大道，搜罗复古好物、拍照打卡，感受年轻活力的街头文化。"
+    }
+  },
+  {
+    "name": "表参道",
+    "nameEn": "Omotesando",
+    "nameKo": "오모테산도",
+    "romaji": "omotesando",
+    "lat": 35.6654,
+    "lng": 139.7123,
+    "slug": "omotesando",
+    "nameZh": "表参道",
+    "imageUrl": "/images/landmarks/omotesando.webp",
+    "description": {
+      "en": "Omotesando is a wide, tree‑lined avenue running from the torii at Meiji Shrine to Aoyama‑dōri, known for its chic boutiques and striking contemporary architecture. Stroll the shaded boulevard to browse designer shops, linger in sidewalk cafés, and soak up one of Tokyo’s most stylish promenades.",
+      "ja": "表参道は明治神宮の入口から青山通りまで続くケヤキ並木の大通りで、洗練されたブティックや個性的な建築が立ち並ぶことで有名です。木陰の歩道をゆっくり散策し、カフェでひと休みしたりウィンドウショッピングを楽しむのにぴったりの都会的な散歩道です。",
+      "ko": "오모테산도는 메이지 신궁 입구에서 아오야마도리까지 이어지는 가로수가 우거진 거리로, 세련된 부티크와 독특한 건축물이 늘어선 곳입니다. 나무 그늘 아래를 거닐며 카페에 들러 휴식하거나 쇼핑과 사진 촬영을 즐기기 좋은 도쿄의 트렌디한 산책로예요.",
+      "zh": "表参道是从明治神宫入口延伸到青山通的一条绿荫大道，以整齐的行道树、时尚的精品店和独特的现代建筑闻名。沿着树影漫步，随处可见风格各异的咖啡馆与设计师店铺，是感受东京潮流与悠闲氛围的理想去处。"
+    }
+  },
+  {
+    "name": "池袋サンシャインシティ",
+    "nameEn": "Ikebukuro Sunshine City",
+    "nameKo": "이케부쿠로선샤인시티",
+    "romaji": "ikebukurosunshinecity",
+    "lat": 35.7295,
+    "lng": 139.7187,
+    "slug": "ikebukuro-sunshine-city",
+    "nameZh": "池袋阳光城",
+    "imageUrl": "/images/landmarks/ikebukuro-sunshine-city.webp",
+    "description": {
+      "en": "Sunshine City in Ikebukuro is a one-stop entertainment hub where shopping, dining and family attractions come together. Visit the Sunshine 60 observatory for sweeping Tokyo views, drop into the rooftop Sunshine Aquarium or planetarium, and wander themed shops and cozy cafés for a full-day outing.",
+      "ja": "池袋のサンシャインシティは、ショッピングやグルメ、ファミリー向けアトラクションが一堂に集まる街のエンタメ拠点です。サンシャイン60の展望台で東京の眺めを楽しんだり、屋上のサンシャイン水族館やプラネタリウムでゆったり過ごしたり、多彩なショップやカフェ巡りを満喫できます。",
+      "ko": "이케부쿠로의 선샤인시티는 쇼핑과 맛집, 가족형 어트랙션이 한데 모인 복합 문화 공간입니다. 선샤인60 전망대에서 도쿄 전경을 감상하고 옥상에 있는 선샤인 아쿠아리움이나 플라네타륨을 방문한 뒤, 테마 숍과 카페를 느긋하게 둘러보세요.",
+      "zh": "阳光城（Sunshine City）是池袋的一站式娱乐商圈，集合了购物、美食与亲子游乐。你可以登上阳光60大楼的展望台俯瞰东京、参观屋顶的阳光水族馆或观看天文馆的节目，然后在各式主题商店与咖啡馆中闲逛。"
+    }
+  },
+  {
+    "name": "中目黒",
+    "nameEn": "Nakameguro",
+    "nameKo": "나카메구로",
+    "romaji": "nakameguro",
+    "lat": 35.6441,
+    "lng": 139.6987,
+    "slug": "nakameguro",
+    "nameZh": "中目黑",
+    "imageUrl": "/images/landmarks/nakameguro.webp",
+    "description": {
+      "en": "Nakameguro is a hip, laid-back Tokyo neighborhood where stylish boutiques and cozy cafés spill onto tree-lined streets. In mid-spring the Meguro River becomes a dreamy hanami spot—perfect for strolling under cherry blossoms after hopping off at Nakameguro Station to browse shops and sip coffee.",
+      "ja": "中目黒はおしゃれなブティックや居心地のいいカフェが点在する、気取らない街歩きにぴったりのエリアです。春先には目黒川沿いの桜並木が見事で、川沿いを散策しながらゆっくり花見やカフェ巡りを楽しめます。",
+      "ko": "나카메구로는 트렌디한 부티크와 아늑한 카페가 골목골목에 자리한 도쿄의 감성 명소입니다. 특히 봄이면 메구로강의 벚꽃이 장관을 이루어, 나카메구로역에서 내려 강변을 따라 한가로이 꽃구경하고 카페에 들르기 좋습니다.",
+      "zh": "中目黑是东京一处有格调的生活区，别致的小店与咖啡馆沿着街道和河畔分布。每到初春，目黑川的樱花盛开，是边走边拍、边喝咖啡边赏花的理想去处，从中目黑站下车就能轻松抵达。"
+    }
+  },
+  {
+    "name": "下北沢",
+    "nameEn": "Shimokitazawa",
+    "nameKo": "시모키타자와",
+    "romaji": "shimokitazawa",
+    "lat": 35.6613,
+    "lng": 139.668,
+    "slug": "shimokitazawa",
+    "nameZh": "下北泽",
+    "imageUrl": "/images/landmarks/shimokitazawa.webp",
+    "description": {
+      "en": "Shimokitazawa is a compact, bohemian Tokyo neighborhood where narrow streets brim with independent fashion boutiques, vintage shops, cozy cafés, small theaters and live-music bars. Spend an afternoon hunting for unique clothes and records, catch an intimate performance, and soak up the laid-back, creative vibe.",
+      "ja": "下北沢は個性的な古着屋や小さな服飾店、カフェ、劇場、ライブハウスが迷路のように並ぶ、独特の雰囲気を持つ街です。ぶらぶら歩きながら掘り出し物を見つけたり、小劇場やライブで刺激を受けたり、ゆるやかなクリエイティブ空間を楽しんでください。",
+      "ko": "시모키타자와는 독립적인 패션 숍과 빈티지 가게, 아기자기한 카페, 소극장과 라이브바가 골목마다 모여 있는 도쿄의 힙한 동네입니다. 하루 동안 쇼핑과 빈티지 탐험을 즐기고, 저녁엔 인디 공연이나 소극장 무대에 빠져 느긋한 예술적 분위기를 만끽해 보세요.",
+      "zh": "下北泽是东京一处充满文艺气息的小街区，巷弄里布满独立设计小店、二手服饰、咖啡馆、剧场和现场音乐酒吧。随意漫步就能发现独特穿搭与小物，或在小型演出中感受本地的轻松创意氛围。"
+    }
+  },
+  {
+    "name": "吉祥寺",
+    "nameEn": "Kichijoji",
+    "nameKo": "기치조지",
+    "romaji": "kichijoji",
+    "lat": 35.7032,
+    "lng": 139.5794,
+    "slug": "kichijoji",
+    "nameZh": "吉祥寺",
+    "imageUrl": "/images/landmarks/kichijoji.webp",
+    "description": {
+      "en": "Kichijoji in western Tokyo buzzes around a compact area north and south of the station, packed with shops, cafés, restaurants and lively bars. It’s an ideal spot for shopping and café-hopping by day and for slipping into nearby Inokashira Park and its zoo when you want a peaceful break from the city.",
+      "ja": "吉祥寺は武蔵野の人気エリアで、駅の北口・南口を中心に個性豊かなショップや飲食店、バー、コーヒー店がぎゅっと詰まっています。賑やかに買い物やカフェ巡りを楽しんだあとは、すぐ近くの井の頭恩賜公園や動物園でのんびり過ごすのがおすすめです。",
+      "ko": "기치조지(吉祥寺)는 서쪽 도쿄의 사랑받는 동네로, 역의 북·남쪽 일대에 아기자기한 상점과 식당, 바, 커피숍이 모여 있어 걸어 다니며 즐기기 좋습니다. 낮에는 쇼핑과 카페 투어를 하고, 근처 이노카시라 공원과 동물원에서 한적하게 쉬어가세요.",
+      "zh": "吉祥寺是东京西部一个颇受欢迎的街区，车站南北两侧汇集了各种商店、餐馆、酒吧和咖啡馆。白天可以尽情逛街和喝咖啡，想要宁静时只要走到近在咫尺的井之头恩赐公园和动物园放松。"
+    }
+  },
+  {
+    "name": "東京駅",
+    "nameEn": "Tokyo Station",
+    "nameKo": "도쿄역",
+    "romaji": "tokyostation",
+    "lat": 35.6812,
+    "lng": 139.7671,
+    "slug": "tokyo-station",
+    "nameZh": "东京站",
+    "imageUrl": "/images/landmarks/tokyo-station.webp",
+    "description": {
+      "en": "Tokyo Station is the beating heart of Japan’s rail network — a striking red‑brick landmark in Marunouchi that sends Shinkansen bullet trains across the country and sits just steps from the Imperial Palace. Inside its sprawling concourses (divided into Marunouchi west and Yaesu east) you can shop in underground malls, sample famous ekiben, and slip straight into Ginza’s boutiques and restaurants.",
+      "ja": "東京駅は、丸の内の赤レンガの歴史的な駅舎がシンボルの、日本の交通の要です。丸の内（西口）と八重洲（東口）に分かれた広い構内では、駅ナカの名店や駅弁を楽しんだり、皇居や銀座へ歩いて出かけたりと一日中見どころがあります。",
+      "ko": "도쿄역은 마루노우치의 붉은 벽돌 역사적 건물과 신칸센이 오가는 일본의 교통 허브입니다. 역은 마루노우치(서쪽)와 야에스(동쪽)으로 나뉘어 있어 황궁과 긴자에 가깝고, 역 안팎의 상점·맛집·에키벤(역 도시락)을 즐기며 돌아다니기 좋습니다.",
+      "zh": "东京站是东京的铁路心脏——丸之内那座保存完好的红砖站舍毗邻皇居，东侧延伸至靠近银座的八重洲。站区范围很大（分为丸之内西侧和八重洲东侧），不仅可乘新干线出发，还能逛站内商店、品尝著名车站便当，顺道前往周边的商业街区。"
+    }
+  },
+  {
+    "name": "東京ドーム",
+    "nameEn": "Tokyo Dome",
+    "nameKo": "도쿄돔",
+    "romaji": "tokyodome",
+    "lat": 35.7056,
+    "lng": 139.7519,
+    "slug": "tokyo-dome",
+    "nameZh": "东京巨蛋",
+    "imageUrl": "/images/landmarks/tokyo-dome.webp",
+    "description": {
+      "en": "Tokyo Dome is a huge indoor stadium in Bunkyō where you can watch baseball, see mega concerts, and visit exhibitions all under one roof. Its iconic dome and buzzing event calendar make it a must-visit entertainment hub — locals even use “Tokyo Dome” as a casual way to describe size when something is enormous.",
+      "ja": "東京ドームは文京区にある屋内型の巨大スタジアムで、野球観戦はもちろん、コンサートや展示会を雨に濡れずに楽しめます。象徴的なドームと賑やかなイベントスケジュールで、地元では面積の比喩に使われるほど親しまれています。",
+      "ko": "도쿄돔은 분쿄구에 있는 대형 실내 스타디움으로, 야구 경기뿐 아니라 대형 콘서트나 전시회도 한자리에서 즐길 수 있습니다. 상징적인 돔과 늘 가득한 이벤트 덕분에 현지인들이 ‘도쿄돔 몇 개 분’이라고 면적을 빗대어 말할 정도로 유명합니다.",
+      "zh": "东京巨蛋位于文京区，是一座能在室内观赛、看演唱会和逛大型展览的巨型场馆。其标志性的圆顶与热闹的活动安排让这里成为娱乐地标，甚至常被用来形容面积大小，能让游客体验到热烈的都市氛围。"
+    }
+  },
+  {
+    "name": "豊洲市場",
+    "nameEn": "Toyosu Market",
+    "nameKo": "도요스시장",
+    "romaji": "toyosumarket",
+    "lat": 35.6466,
+    "lng": 139.7811,
+    "slug": "toyosu-market",
+    "nameZh": "丰洲市场",
+    "imageUrl": "/images/landmarks/toyosu-market.webp",
+    "description": {
+      "en": "Toyosu Market is Tokyo’s vast, modern wholesale hub for seafood and produce where you can watch the famous tuna auctions from a second-floor viewing deck and explore separate buildings for bidding, general wholesale, and fruits and vegetables. After watching the action, sample ultra‑fresh sushi and seafood at market restaurants, browse shops, or join tours and events—it’s the world’s largest wholesale fish market and a vivid slice of Tokyo’s food culture.",
+      "ja": "豊洲市場は魚や青果の巨大で近代的な卸売拠点で、2階の見学デッキからマグロの競りを間近に見学できるのが魅力です。市場直送の寿司や海鮮料理を味わったり、ショップやツアーに参加して築地の伝統を受け継ぐ東京の食文化を体感できます。",
+      "ko": "도요스 시장은 도쿄의 현대적이고 거대한 수산·청과 도매시장으로, 2층 관람 데크에서 유명한 참치 경매를 직접 볼 수 있는 것이 하이라이트입니다. 경매를 구경한 뒤 시장 내 레스토랑에서 갓 잡은 해산물을 맛보고 기념품 가게나 투어에 참여하면 도쿄의 식문화를 생생히 체험할 수 있습니다.",
+      "zh": "丰洲市场是东京现代化的大型生鲜批发中心，海鲜（含拍卖）与蔬果各自分楼，游客可以在二层观景台近距离观看著名的金枪鱼拍卖。逛完热闹的拍卖场后，可在市场餐厅品尝现切寿司与新鲜海鲜，或参加导览与活动——这是继筑地之后的世界最大批发鱼市场，也是体验东京美食文化的好去处。"
+    }
+  },
+  {
+    "name": "東京ビッグサイト",
+    "nameEn": "Tokyo Big Sight",
+    "nameKo": "도쿄빅사이트",
+    "romaji": "tokyobigsight",
+    "lat": 35.63,
+    "lng": 139.7945,
+    "slug": "tokyo-big-sight",
+    "nameZh": "东京国际展示场",
+    "imageUrl": "/images/landmarks/tokyo-big-sight.webp",
+    "description": {
+      "en": "Tokyo Big Sight is Tokyo’s colossal waterfront exhibition center, instantly recognizable for its futuristic inverted‑pyramid Conference Tower. Drop in for major trade shows, pop‑culture events or art fairs, or simply stroll the Tokyo Bay promenade and snap photos of the striking architecture.",
+      "ja": "東京ビッグサイトは東京湾に面した国内最大級の展示施設で、特徴的な逆三角形のカンファレンスタワーがひときわ目を引きます。国際見本市やコミックイベント、美術展など多彩な催しに参加したり、海辺を散歩しながら建物を撮影したりと一日楽しめます。",
+      "ko": "도쿄 빅사이트는 도쿄만 해안에 자리한 일본 최대 규모의 전시장으로, 독특한 역(逆)삼각형 모양의 컨퍼런스 타워가 랜드마크입니다. 대형 박람회나 팝컬처 이벤트, 아트 페어 등을 직접 즐기고 해안가를 산책하며 건축물을 배경으로 사진을 남기기 좋습니다.",
+      "zh": "东京国际展示中心（俗称Tokyo Big Sight）坐落于东京湾畔，以那栋标志性的倒三角形会议塔最为醒目。这里常年举办大型博览会、动漫与艺术展，来访者可以逛展、拍照，并在海滨散步享受城市海景。"
+    }
+  },
+  {
+    "name": "横浜中華街",
+    "nameEn": "Yokohama Chinatown",
+    "nameKo": "요코하마중화가",
+    "romaji": "yokohamachinatown",
+    "lat": 35.4437,
+    "lng": 139.6425,
+    "slug": "yokohama-chinatown",
+    "nameZh": "横滨中华街",
+    "imageUrl": "/images/landmarks/yokohama-chinatown.webp",
+    "description": {
+      "en": "Just south of Tokyo, Yokohama Chinatown—born in the late 19th century—bustles with ornate gates, red lanterns and a maze of food stalls. Sample authentic Chinese dishes, hunt down specialty shops, and soak up a lively neighborhood where some 3,000–4,000 residents keep traditions thriving.",
+      "ja": "東京のすぐ南、横浜にある中華街は19世紀末に誕生した歴史あるエリアで、提灯や牌楼が並ぶ賑やかな街並みが魅力です。本格的な中華料理や点心を食べ歩いたり、個性的な土産店を覗いたりしながら、約3千〜4千人が暮らす活気ある日常を感じてください。",
+      "ko": "도쿄 바로 남쪽 요코하마에 자리한 차이나타운은 19세기 말 형성된 유서 깊은 거리로, 화려한 중국식 문과 등불이 늘어선 골목마다 먹거리와 상점이 가득합니다. 진짜 중국 음식을 맛보고 특산품 가게를 둘러보며, 약 3천~4천 명이 살아가는 활기찬 지역 문화를 직접 체험해 보세요.",
+      "zh": "位于东京以南的横滨中华街始于19世纪末，是一片充满烟火气与历史感的街区。走在红灯笼与牌楼之间，一边品尝地道中餐和点心，一边逛特色小店与节庆活动，能感受到约3千至4千名居民延续下来的生活风貌。"
+    }
+  },
+  {
+    "name": "横浜みなとみらい",
+    "nameEn": "Yokohama Minato Mirai",
+    "nameKo": "요코하마미나토미라이",
+    "romaji": "yokohamaminatomirai",
+    "lat": 35.4557,
+    "lng": 139.6316,
+    "slug": "yokohama-minato-mirai",
+    "nameZh": "横滨港未来",
+    "imageUrl": "/images/landmarks/yokohama-minato-mirai.webp",
+    "description": {
+      "en": "Minato Mirai is Yokohama’s sleek waterfront district where futuristic skyscrapers, a giant Ferris wheel and seaside promenades meet bustling malls and cultural venues. Stroll the harbor at sunset, ride up to panoramic views from Landmark Tower, and sample shopping, dining and museums for a perfect blend of modern city life and seaside relaxation.",
+      "ja": "みなとみらいは横浜の近代的なウォーターフロント地区で、高層ビル群や大きな観覧車、海沿いのプロムナードが印象的です。関内や横浜駅方面と結ばれた散策路を歩き、ランドマークタワーの展望や美術館、ショッピング＆グルメを楽しんで、昼夜問わず街の景色を満喫できます。",
+      "ko": "미나토미라이(みなとみらい)는 요코하마의 현대적인 항구 지구로, 고층 빌딩과 대형 관람차, 바닷가 산책로가 어우러진 곳입니다. 랜드마크 타워에서 도시 전경을 감상하고, 쇼핑몰과 카페, 박물관을 천천히 둘러보며 낮과 밤 모두 다른 매력을 체험해 보세요.",
+      "zh": "横滨港未来（Minato Mirai）是城市与海港交汇的现代商圈，摩天大楼、巨型摩天轮和滨海步道共同塑造了独特的天际线。傍晚在海边散步、登上地标塔俯瞰全景，或在商场、咖啡馆与美术馆间穿行，既能享受都市繁华也能感受海港风情。"
+    }
+  },
+  {
+    "name": "横浜赤レンガ倉庫",
+    "nameEn": "Yokohama Red Brick Warehouse",
+    "nameKo": "요코하마아카렌가창고",
+    "romaji": "yokohamaakarenga",
+    "lat": 35.453,
+    "lng": 139.6432,
+    "slug": "yokohama-red-brick-warehouse",
+    "nameZh": "横滨红砖仓库",
+    "imageUrl": "/images/landmarks/yokohama-red-brick-warehouse.webp",
+    "description": {
+      "en": "A striking pair of century-old red-brick warehouses on Yokohama’s waterfront, now reborn as a lively cultural and shopping complex. Browse boutiques and cafés, join seasonal markets or concerts in the preserved halls, and soak up the photogenic harbor views—especially magical at dusk.",
+      "ja": "横浜赤レンガ倉庫は、港にたたずむ歴史ある赤レンガ建築を活かした複合施設です。個性的なショップやカフェをのんびり巡り、コンサートやマーケットなどのイベントに参加しながら、夜のライトアップと海辺の眺めを楽しんでください。",
+      "ko": "요코하마 빨간벽돌 창고는 옛 세관 건물을 개조해 만든 문화·상업 복합 공간입니다. 감성적인 카페와 개성 있는 숍을 둘러보고 계절별 마켓이나 콘서트에 참여한 뒤, 항구를 배경으로 사진을 남기며 산책해보세요.",
+      "zh": "横滨红砖仓库是由百年海关仓库改造而成的海滨文化商业综合体。逛小店、喝咖啡、参加市集或演出都很惬意，黄昏时分的灯光与海景尤其浪漫，非常适合拍照留念。"
+    }
+  },
+  {
+    "name": "鎌倉大仏",
+    "nameEn": "Kamakura Great Buddha",
+    "nameKo": "가마쿠라대불",
+    "romaji": "kamakuradaibutsu",
+    "lat": 35.3167,
+    "lng": 139.5357,
+    "slug": "kamakura-great-buddha",
+    "nameZh": "镰仓大佛",
+    "imageUrl": "/images/landmarks/kamakura-great-buddha.webp",
+    "description": {
+      "en": "Stand before the Kamakura Great Buddha at Kōtoku-in — a serene, centuries-old bronze Amida that now sits outdoors after its hall was swept away, creating a unique sense of history and calm. You can walk right up to the statue to appreciate its scale, then wander the quiet temple grounds and nearby streets of historic Kamakura.",
+      "ja": "高徳院の鎌倉大仏は、かつての仏殿を失ってなお屋外に凛と佇む青銅の阿弥陀如来です。間近で大仏の大きさと静けさを感じ、境内や周辺の古い街並みをのんびり散策するのにぴったりの場所です。",
+      "ko": "고토쿠인(鎌倉 대불)은 야외에 우뚝 선 청동 아미타불로, 오래된 세월의 무게와 고요함이 매력적입니다. 직접 가까이 가서 규모를 체감하고, 사찰 경내와 주변의 옛 거리들을 천천히 둘러보세요.",
+      "zh": "镰仓大佛（高德院）是一尊屹立在露天的青铜阿弥陀像，历经岁月仍然沉静庄重，别具历史感。你可以近距离仰望其宏伟，随后在宁静的寺院境内和镰仓的古街里悠闲漫步，拍照留念。"
+    }
+  },
+  {
+    "name": "鶴岡八幡宮",
+    "nameEn": "Tsurugaoka Hachimangu",
+    "nameKo": "쓰루가오카하치만구",
+    "romaji": "tsurugaokahachimangu",
+    "lat": 35.3256,
+    "lng": 139.5565,
+    "slug": "tsurugaoka-hachimangu",
+    "nameZh": "鹤冈八幡宫",
+    "imageUrl": "/images/landmarks/tsurugaoka-hachimangu.webp",
+    "description": {
+      "en": "Tsurugaoka Hachimangu is Kamakura’s grand Shinto shrine and cultural heart, set at the end of a broad, tree-lined approach. Visitors can admire the dramatic torii and main hall, stroll peaceful ponds and gardens, and time their visit for lively seasonal festivals and the shrine’s two small museums that showcase Kamakura’s history.",
+      "ja": "鶴岡八幡宮は鎌倉を代表する神社で、若宮大路の並木道の先に堂々と構える街の文化の中心です。朱色の鳥居や本殿を眺めながら池や庭を散策し、季節ごとの祭礼や境内にある2つの資料館で鎌倉の歴史と風情に触れてみてください。",
+      "ko": "츠루가오카 하치만구는 가마쿠라의 중심에 자리한 대표적인 신사로, 넓게 뻗은 참배로 끝자락에 웅장하게 자리해 있습니다. 붉은 도리이와 본전을 바라보며 연못과 정원을 천천히 걷고, 계절마다 열리는 축제와 신사 내 두 곳의 박물관에서 가마쿠라의 역사와 문화를 체험해 보세요.",
+      "zh": "鹤冈八幡宫是镰仓最重要的神社，也是城市的文化中心，坐落在宽阔的参道尽头。游客可在朱红的鸟居与本殿前驻足，漫步池塘与庭院，赶上季节性祭典，或在境内的两座博物馆里深入了解镰仓的历史与生活。"
+    }
+  },
+  {
+    "name": "江ノ島",
+    "nameEn": "Enoshima",
+    "nameKo": "에노시마",
+    "romaji": "enoshima",
+    "lat": 35.3003,
+    "lng": 139.4797,
+    "slug": "enoshima",
+    "nameZh": "江之岛",
+    "imageUrl": "/images/landmarks/enoshima.webp",
+    "description": {
+      "en": "Perched on a tiny island off Kanagawa, Enoshima is connected to Fujisawa’s Katase shore by a 389‑metre bridge and boasts some of the closest sandy beaches to Tokyo and Yokohama. Spend a breezy day strolling the waterfront, taking in Sagami Bay views, browsing seaside shops and enjoying fresh local seafood in a relaxed resort atmosphere.",
+      "ja": "江の島は片瀬と結ぶ全長389メートルの橋で本土とつながる小さな島です。東京や横浜から近く、砂浜や海を眺めながらの散策、海辺のリゾート気分や地元の海の幸を手軽に楽しめる日帰りスポットです。",
+      "ko": "에노시마는 카나가와 연안의 작은 섬으로 카타세와 389m 길이의 다리로 이어져 있어 도쿄·요코하마에서 쉽게 닿을 수 있습니다. 가까운 모래사장과 해안 리조트 분위기 속에서 산책하고 바다 전망을 즐기며 신선한 해산물을 맛보기에 좋은 하루 여행지입니다.",
+      "zh": "江之岛是一座位于片濑海口、通过一座全长389米的桥与藤泽相连的小岛，也是离东京、横滨最近的沙滩度假胜地之一。这里可以在相模湾边散步、欣赏海景，感受悠闲的海滨氛围并品尝当地新鲜海鲜，适合轻松一日游。"
+    }
+  },
+  {
+    "name": "箱根",
+    "nameEn": "Hakone",
+    "nameKo": "하코네",
+    "romaji": "hakone",
+    "lat": 35.2328,
+    "lng": 139.107,
+    "slug": "hakone",
+    "nameZh": "箱根",
+    "imageUrl": "/images/landmarks/hakone.webp",
+    "description": {
+      "en": "Hakone is a scenic escape in Kanagawa where steaming onsen, misty volcanic valleys and lakeside views of Mount Fuji meet. Ride the mountain railway and ropeway, cruise Lake Ashi past a vermilion torii, visit quirky open-air museums, then relax in a traditional ryokan for the full restorative experience.",
+      "ja": "箱根は温泉街や火山の景観、芦ノ湖の富士山ビューが楽しめる癒しの町です。箱根登山電車やロープウェイ、芦ノ湖の遊覧船で名所を巡り、美術館や大涌谷を満喫したら、温泉旅館でゆっくり体を休めてください。",
+      "ko": "하코네는 온천과 화산 지형, 호수 전망이 어우러진 도쿄 근교의 힐링 명소입니다. 하코네 등산전차와 로프웨이, 아시(芦ノ湖) 유람선을 타고 오와쿠다니(大涌谷)의 신비로운 풍경과 후지산 뷰를 감상한 뒤 전통 료칸에서 온천으로 피로를 풀어보세요.",
+      "zh": "箱根位于神奈川县的火山地带，以温泉、芦之湖与富士山景色著称。可搭登山铁路、空中缆车和芦之湖游船游览大涌谷与户外雕刻美术馆，夜晚在传统旅馆泡温泉，既适合短途放松也适合深度慢游。"
+    }
+  },
+  {
+    "name": "箱根神社",
+    "nameEn": "Hakone Shrine",
+    "nameKo": "하코네신사",
+    "romaji": "hakonejinja",
+    "lat": 35.2347,
+    "lng": 139.0224,
+    "slug": "hakone-shrine",
+    "nameZh": "箱根神社",
+    "imageUrl": "/images/landmarks/hakone-shrine.webp",
+    "description": {
+      "en": "Perched on the misty shores of Lake Ashi, Hakone Shrine is best known for its striking vermilion torii rising from the water and its centuries-old cedar-lined approach. Visitors can wander the tranquil paths, offer prayers at the historic shrine, and enjoy sweeping views of the lake and, on clear days, Mount Fuji.",
+      "ja": "箱根神社は芦ノ湖畔にたたずむ神秘的な社で、湖上に立つ朱色の大鳥居がひときわ印象的です。杉並木の参道をゆっくり歩きながらお参りし、静けさの中で湖と晴れた日には富士山の絶景を楽しめます。",
+      "ko": "하코네 신사는 아시노코(芦ノ湖) 호숫가에 자리한 고즈넉한 신사로, 물 위에 서 있는 붉은 도리이가 눈길을 끕니다. 삼나무 숲길을 거닐며 참배하고 호수 풍경과 맑은 날엔 후지산까지 보이는 탁 트인 전망을 만끽해 보세요.",
+      "zh": "箱根神社坐落在芦之湖畔，以湖中那座朱红色的大鸟居最为知名。游客可沿着古老的参道穿过杉树林静心参拜，感受神社的宁静，并在晴日欣赏湖面与远处富士山的绝美景致。"
+    }
+  },
+  {
+    "name": "芦ノ湖",
+    "nameEn": "Lake Ashi",
+    "nameKo": "아시노코",
+    "romaji": "ashinoko",
+    "lat": 35.2115,
+    "lng": 139.022,
+    "slug": "lake-ashi",
+    "nameZh": "芦之湖",
+    "imageUrl": "/images/landmarks/lake-ashi.webp",
+    "description": {
+      "en": "Framed by the forested caldera of Mount Hakone, Lake Ashi offers one of Japan’s most iconic views—clear days reveal Mount Fuji rising above mirror‑like waters. Glide across the lake on whimsical pirate‑style pleasure boats or ferries, soak in nearby hot springs, and stay in a traditional ryokan to soak up the area's historic charm along the old Tōkaidō route.",
+      "ja": "箱根のカルデラに抱かれた芦ノ湖は、晴れた日には湖面に映る富士山など絵になる景色が魅力です。海賊船風の遊覧船でのんびり湖上を巡ったり、温泉や趣ある旅館でゆっくり過ごしながら、旧東海道沿いの史跡をめぐることができます。",
+      "ko": "하코네의 칼데라에 자리한 아시노코는 맑은 날이면 호수 위로 우뚝 선 후지산을 감상할 수 있는 명소입니다. 해적선 모양의 유람선으로 유유자적 호수를 누비고, 근처 온천에 몸을 담그거나 전통 료칸에서 묵으며 옛 도카이도 길을 따라 산책해 보세요.",
+      "zh": "芦之湖坐落于箱根火山口之侧，湖光山色与远处的富士山相映成趣，景致宛如画卷。你可以乘坐仿古“海盗船”游湖、泡周边温泉、住进怀旧的旅馆，或沿着旧东海道探访历史遗迹。"
+    }
+  },
+  {
+    "name": "大涌谷",
+    "nameEn": "Owakudani",
+    "nameKo": "오와쿠다니",
+    "romaji": "owakudani",
+    "lat": 35.2441,
+    "lng": 139.0234,
+    "slug": "owakudani",
+    "nameZh": "大涌谷",
+    "imageUrl": "/images/landmarks/owakudani.webp",
+    "description": {
+      "en": "Owakudani is a dramatic volcanic valley formed about 3,000 years ago when the Hakone volcano erupted; today its steaming sulphur vents and hot springs create an otherworldly landscape to explore. Visitors can smell the sulphur, watch clouds of steam rising from the ground, and snap striking photos of the rugged valley and surrounding peaks.",
+      "ja": "大涌谷は約3,000年前の箱根火山の噴火で生まれた、噴気や温泉が立ち上るダイナミックな火山谷です。硫黄の匂いと湯気に包まれる非日常的な景色を間近で楽しみ、散策や展望から雄大な谷や山並みの眺めを満喫できます。",
+      "ko": "오와쿠다니는 약 3,000년 전 하코네 화산의 폭발로 만들어진 화산 계곡으로, 현재는 활발한 유황 분출구와 온천 증기가 솟아오르는 특별한 풍경을 자랑합니다. 방문객들은 유황 냄새와 수증기가 만드는 이색적인 경관을 체험하고, 전망 포인트에서 계곡과 주변 산을 감상할 수 있습니다.",
+      "zh": "大涌谷是约3000年前箱根火山爆发形成的火山谷，如今活跃的硫磺喷气孔和温泉让这里呈现出异世界般的景象。游客可以近距离感受地热喷气和硫磺气味，在观景点或步道上拍照、欣赏崎岖的谷地与周围山景。"
+    }
+  },
+  {
+    "name": "富士山",
+    "nameEn": "Mount Fuji",
+    "nameKo": "후지산",
+    "romaji": "fujisan",
+    "lat": 35.3606,
+    "lng": 138.7274,
+    "slug": "mount-fuji",
+    "nameZh": "富士山",
+    "imageUrl": "/images/landmarks/mount-fuji.webp",
+    "description": {
+      "en": "Towering at 3,776 meters, Mount Fuji is Japan’s iconic peak — a must-see backdrop for photographers and a bucket-list climb for hikers who want to catch the famous sunrise (goraiko) from the summit. In addition to seasonal hikes, visitors can explore the Fuji Five Lakes and Hakone hot springs, or simply admire the mountain’s perfect cone from nearby towns and viewpoints.",
+      "ja": "標高3,776メートルの富士山は、日本を象徴する美しい山頂を誇り、山頂で迎えるご来光は一生の思い出になる光景です。夏の登山道を歩いて登頂を目指したり、富士五湖や箱根の温泉からその優美な姿を眺めて写真を撮ったりと、さまざまな楽しみ方があります。",
+      "ko": "해발 3,776m의 후지산은 일본을 대표하는 상징적인 봉우리로, 정상에서 맞이하는 일출(고라이코)은 잊을 수 없는 장관입니다. 여름철 개방되는 등산로를 오르거나 후지 고코(후지五湖)와 하코네 온천에서 풍경을 감상하며 사진과 휴식을 즐겨보세요.",
+      "zh": "海拔3,776米的富士山是日本的标志性高峰，完美的对称锥形与山顶迎来的日出（御来光）令人难忘。你可以在夏季徒步登顶、在富士五湖或箱根温泉旁拍照放松，或从附近小镇欣赏其壮丽全景。"
+    }
+  },
+  {
+    "name": "河口湖",
+    "nameEn": "Lake Kawaguchiko",
+    "nameKo": "가와구치코",
+    "romaji": "kawaguchiko",
+    "lat": 35.5136,
+    "lng": 138.756,
+    "slug": "lake-kawaguchiko",
+    "nameZh": "河口湖",
+    "imageUrl": "/images/landmarks/lake-kawaguchiko.webp",
+    "description": {
+      "en": "Set at about 800 metres at the foot of Mount Fuji, Lake Kawaguchiko offers sweeping, postcard-perfect views and the longest shoreline among the Fuji Five Lakes. Stroll or cycle the lakeside paths, take a tranquil boat cruise or linger in a café to watch cool summer light or the often-icy, photogenic winters unfold.",
+      "ja": "標高約800メートル、富士山の麓に広がる河口湖は、五湖の中で面積は2番目ながら湖畔が最も長く、開放的な眺めが魅力です。湖畔を散策したりサイクリングや遊覧船でゆったり景色を楽しみ、涼しい夏や凍ることのある冬といった季節ごとの富士の表情を味わえます。",
+      "ko": "해발 약 800m, 후지산 자락에 놓인 가와구치코는 다섯 호수 중 면적은 둘째지만 호수 둘레가 가장 길어 여유로운 산책과 사진 명소로 인기입니다. 자전거나 산책로로 호수를 한 바퀴 돌거나 유람선을 타고 후지의 표정을 감상하며, 시원한 여름과 얼음이 맺히는 겨울의 색다른 풍경을 즐겨보세요.",
+      "zh": "河口湖位于富士山脚下，海拔约800米，虽为富士五湖中面积第二，却拥有最长的湖岸线，视野开阔且极具摄影感。你可以沿湖漫步或骑行、乘游船或在湖畔咖啡馆放慢脚步，夏日清凉、冬季常见结冰，各季节都有不同的富士美景可观赏。"
+    }
+  },
+  {
+    "name": "日光東照宮",
+    "nameEn": "Nikko Toshogu",
+    "nameKo": "닛코도쇼구",
+    "romaji": "nikkotoshogu",
+    "lat": 36.758,
+    "lng": 139.5988,
+    "slug": "nikko-toshogu",
+    "nameZh": "日光东照宫",
+    "imageUrl": "/images/landmarks/nikko-toshogu.webp",
+    "description": {
+      "en": "Nestled in the cedar forests of Nikkō, Tōshō-gū is a lavishly decorated Shinto shrine dedicated to Tokugawa Ieyasu; its gilded gates and intricate wood carvings showcase masterful Edo-period craftsmanship. Wander the atmospheric approach, spot famous carvings like the Three Wise Monkeys and the Sleeping Cat, and soak in the serene mountain setting.",
+      "ja": "日光東照宮は徳川家康を祀る豪華絢爛な神社で、陽明門の金箔や精緻な彫刻が見どころです。杉並木に囲まれた静かな参道を歩きながら「見ざる・言わざる・聞かざる」や眠り猫といった名物彫刻を探し、江戸時代の職人技と山あいの落ち着いた雰囲気を楽しんでください。",
+      "ko": "닛코 도쇼구는 도쿠가와 이에야스를 모신 화려한 신사로, 금박 장식과 정교한 목조 조각이 눈길을 끕니다. 삼(三)원숭이와 ‘잠자는 고양이’ 같은 유명한 조각을 찾아보고, 삼나무 숲으로 둘러싸인 고요한 참배 길을 걸으며 에도 시대 장인의 손길을 느껴보세요.",
+      "zh": "日光东照宫是供奉德川家康的华丽神社，以镀金楼门和精美木雕著称。沿着杉木林立的参道漫步，寻找著名的“三猿”和“眠猫”等雕刻，既能领略江户匠人的细腻工艺，也能沉浸在宁静的山林氛围中。"
+    }
+  },
+  {
+    "name": "中禅寺湖",
+    "nameEn": "Lake Chuzenji",
+    "nameKo": "주젠지호",
+    "romaji": "chuzenjiko",
+    "lat": 36.7392,
+    "lng": 139.4756,
+    "slug": "lake-chuzenji",
+    "nameZh": "中禅寺湖",
+    "imageUrl": "/images/landmarks/lake-chuzenji.webp",
+    "description": {
+      "en": "Lake Chūzenji, nicknamed the “Sea of Happiness,” sits beneath volcanic Mount Nantai in scenic Nikkō National Park. Born about 20,000 years ago when an eruption dammed the river, the lake now rewards visitors with mirror-like waters, sweeping mountain views and easy lakeside walks or boat rides—ideal for photography, seasonal foliage and quiet reflection.",
+      "ja": "中禅寺湖は「幸福の海」と呼ばれ、日光国立公園の男体山麓に広がる風光明媚な湖です。約2万年前の噴火で川がせき止められてできた湖で、山並みを映す静かな湖面や湖畔の散策、遊覧船からの景色など四季折々の風情を楽しめます。",
+      "ko": "주젠지 호수는 ‘행복의 바다’라 불리며 닛코 국립공원 속에 자리한 그림 같은 호수입니다. 약 2만 년 전 남타이 산의 분화로 강이 막혀 형성된 이곳은 잔잔한 수면에 산이 비치는 절경과 호숫가 산책, 보트 등으로 계절마다 다른 매력을 느낄 수 있습니다.",
+      "zh": "中禅寺湖被称为“幸福之海”，位于日光国立公园、雄伟的男体山脚下。大约两万年前因火山喷发阻断河流而形成的湖泊，平静的湖面倒映群山，适合乘船、漫步湖畔或拍摄四季美景，静享自然风光。"
+    }
+  },
+  {
+    "name": "華厳の滝",
+    "nameEn": "Kegon Falls",
+    "nameKo": "게곤폭포",
+    "romaji": "kegonnotaki",
+    "lat": 36.7387,
+    "lng": 139.5,
+    "slug": "kegon-falls",
+    "nameZh": "华严瀑布",
+    "imageUrl": "/images/landmarks/kegon-falls.webp",
+    "description": {
+      "en": "Kegon Falls plunges about 97 meters from the rim of Lake Chūzenji in Nikkō National Park, creating a thunderous, photogenic centerpiece framed by forested cliffs. Around a dozen smaller streams seep from cracks in the lava-carved rock, so visitors can stroll viewpoints and trails to feel the spray, snap dramatic photos, and enjoy ever-changing seasonal colors.",
+      "ja": "中禅寺湖の縁から落ちる華厳の滝は約97メートルの豪快な落差が見どころで、日光国立公園の中でも圧巻の景観です。溶岩でできた岩の割れ目から十二ほどの小滝がにじみ出す様子は季節ごとに表情を変え、遊歩道や展望から間近で迫力と水しぶきを体感できます。",
+      "ko": "주젠지 호수 가장자리에서 떨어지는 게곤폭포는 높이 약 97m의 장대한 낙차로 한눈에 들어오는 명소입니다. 용암이 만든 암벽 틈에서 새어 나오는 열두여 개의 작은 물줄기가 주변 경관을 더 드라마틱하게 만들어, 산책로와 전망대에서 물보라를 맞으며 사진을 찍고 계절마다 다른 풍경을 즐길 수 있습니다.",
+      "zh": "华严瀑布位于中禅寺湖畔，主瀑约97米的落差自悬崖直泻而下，声势雄壮，十分上镜。岩层中的裂隙会渗出十几处小瀑，沿着观景点和步道可以近距离感受水雾与轰鸣，拍出壮观的照片并欣赏四季变换的美景。"
+    }
+  },
+  {
+    "name": "高尾山",
+    "nameEn": "Mount Takao",
+    "nameKo": "다카오산",
+    "romaji": "takaosan",
+    "lat": 35.6251,
+    "lng": 139.2435,
+    "slug": "mount-takao",
+    "nameZh": "高尾山",
+    "imageUrl": "/images/landmarks/mount-takao.webp",
+    "description": {
+      "en": "Just a short train ride from central Tokyo, Mount Takao is a green oasis inside Meiji no Mori Takao Quasi-National Park where you can hike easy forested trails, visit a mountain-top temple, and enjoy sweeping views — on clear days even of Mount Fuji. Well-marked paths, a cable car option, and vivid seasonal blooms and autumn colors make it an ideal half-day or full-day escape.",
+      "ja": "高尾山は都心から電車で気軽に行ける自然の宝庫。明治の森高尾国定公園に守られた深い森の登山道を歩き、山頂の薬王院を参拝し、晴れた日には富士山まで望める景色を楽しめます。整備された道やケーブルカーで、春の花や秋の紅葉など四季折々の表情を満喫できます。",
+      "ko": "다카오산은 도쿄 중심부에서 전철로 금방 닿는 자연의 쉼터로, 메이지노모리 다카오 국정공원에 둘러싸여 울창한 숲길과 산중 사찰을 만끽할 수 있습니다. 잘 정비된 등산로와 케이블카가 있어 부담 없이 오르내릴 수 있고, 사계절 꽃과 단풍, 맑은 날엔 후지산까지 보이는 전망이 매력적입니다.",
+      "zh": "高尾山位于东京八王子，是明治之森高尾国定公园中的一片绿色避风港，从市区乘电车即可轻松到达。林间步道、山顶寺庙与缆车设施齐全，春赏鲜花、秋观红叶，晴好时还能远眺富士山，是半日或一日短途游的好去处。"
+    }
+  },
+  {
+    "name": "東京ディズニーランド",
+    "nameEn": "Tokyo Disneyland",
+    "nameKo": "도쿄디즈니랜드",
+    "romaji": "tokyodisneyland",
+    "lat": 35.6329,
+    "lng": 139.8804,
+    "slug": "tokyo-disneyland",
+    "nameZh": "东京迪士尼乐园",
+    "imageUrl": "/images/landmarks/tokyo-disneyland.webp",
+    "description": {
+      "en": "Step into Tokyo Disneyland, a 126‑acre slice of classic Disney magic just outside Tokyo—conveniently adjacent to Maihama and Tokyo Disneyland stations—where Cinderella Castle, themed lands, parades and rides recreate the charm of Disneyland and Magic Kingdom with a uniquely Japanese polish. Opened in 1983 as the first Disney park outside the U.S., it combines timeless attractions with world‑class entertainment and warm local hospitality.",
+      "ja": "東京ディズニーランドは浦安の東京近郊に広がる夢の国で、舞浜駅や東京ディズニーランド・ステーションに隣接しアクセスは抜群です。1983年に米国外初のディズニーパークとして開業し、カリフォルニアやフロリダの雰囲気を受け継ぐクラシックな園内で、シンデレラ城やテーマランド、迫力のパレードやショー、きめ細かなオリエンタルランドのおもてなしを満喫できます。",
+      "ko": "도쿄 디즈니랜드는 도쿄 근교 우라야스에 있는 126에이커 규모의 테마파크로, 마이하마역·도쿄디즈니랜드역 바로 옆에 있어 교통이 매우 편리합니다. 1983년 미국 외 최초로 문을 연 이곳은 캘리포니아 디즈니와 플로리다 매직킹덤의 클래식한 매력을 이어받아 동화 속 성과 테마 랜드, 화려한 퍼레이드·쇼·어트랙션을 일본식 환대로 즐길 수 있습니다.",
+      "zh": "东京迪士尼乐园位于东京近郊浦安市，占地约126英亩，紧邻舞浜站与东京迪士尼乐园站，交通十分方便。作为1983年开园的美国之外首个迪士尼乐园，这里沿袭了加州迪士尼与佛罗里达魔法王国的经典布局，游客能在童话城堡、各式主题区、华丽巡游和现场表演中，体验独有的迪士尼魅力与日本式细致服务。"
+    }
+  },
+  {
+    "name": "東京ディズニーシー",
+    "nameEn": "Tokyo DisneySea",
+    "nameKo": "도쿄디즈니씨",
+    "romaji": "tokyodisneysea",
+    "lat": 35.6267,
+    "lng": 139.885,
+    "slug": "tokyo-disneysea",
+    "nameZh": "东京迪士尼海洋",
+    "imageUrl": "/images/landmarks/tokyo-disneysea.webp",
+    "description": {
+      "en": "Tokyo DisneySea blends Disney storytelling with a spectacular waterfront setting — seven themed ports inspired by sea legends and global harbors. You can ride attractions you won’t find anywhere else, enjoy stunning live shows and nighttime illuminations, and dine in immersive, seaside-inspired restaurants for a uniquely magical day.",
+      "ja": "東京ディズニーシーは、海や港をテーマにした圧倒的な没入感が魅力のパークです。七つの“ポート”をめぐるここだけのアトラクションや夜のショー、海辺を感じさせる美食まで、東京でしか味わえない体験が待っています。",
+      "ko": "도쿄 디즈니씨는 바다와 항구를 테마로 한 독창적인 디즈니 파크로, 세계 각국의 항구와 신화에서 영감을 받은 7개의 ‘포트’가 펼쳐집니다. 여기서만 즐길 수 있는 어트랙션과 라이브 쇼, 해변 분위기의 레스토랑까지 하루 종일 몰입형 체험을 즐길 수 있어요.",
+      "zh": "东京迪士尼海洋将迪士尼的故事性和壮观的海滨场景结合在一起——由海洋传说与世界港口启发的七大主题港区各具特色。游客可以体验独有的游乐项目、观赏华丽的现场与夜间演出，品尝主题餐饮，感受与众不同的沉浸式乐园体验。"
+    }
+  },
+  {
+    "name": "三鷹の森ジブリ美術館",
+    "nameEn": "Ghibli Museum",
+    "nameKo": "지브리미술관",
+    "romaji": "ghiblimuseum",
+    "lat": 35.6963,
+    "lng": 139.5705,
+    "slug": "ghibli-museum",
+    "nameZh": "三鹰之森吉卜力美术馆",
+    "imageUrl": "/images/landmarks/ghibli-museum.webp",
+    "description": {
+      "en": "Step into the whimsical world of Studio Ghibli at the Ghibli Museum in Mitaka’s Inokashira Park, where original sketches, dioramas and technical exhibits reveal how the films are made. Climb aboard a life‑size Catbus, relax in the café or rooftop garden, browse the bookstore, and catch exclusive short films in the museum's cozy theater.",
+      "ja": "井の頭公園の緑に包まれた三鷹のジブリ美術館は、アニメ作りの技と芸術に触れられる小さな宝箱のような場所です。実物大のネコバスで遊んだり、ここだけで上映される短編をミニシアターで観たり、カフェや書店、屋上庭園でのんびり過ごせます。",
+      "ko": "이노카시라 공원에 자리한 지브리 미술관은 애니메이션의 예술성과 제작 과정을 체험할 수 있는 특별한 공간입니다. 실물 크기 ‘고양이 버스’를 만나고, 미니 시어터의 박물관 전용 단편 영화와 전시를 즐긴 뒤 카페·서점·옥상 정원에서 여유를 만끽하세요.",
+      "zh": "位于井之头公园的三鹰吉卜力美术馆，是走进吉卜力梦幻世界、了解动画创作的绝佳去处。馆内有真实大小的猫巴士、只在这里放映的短片影院、以及咖啡馆、书店和可俯瞰公园的屋顶花园，适合慢慢探索与沉浸式体验。"
+    }
+  },
+  {
+    "name": "サンリオピューロランド",
+    "nameEn": "Sanrio Puroland",
+    "nameKo": "산리오퓨로랜드",
+    "romaji": "sanriopuroland",
+    "lat": 35.6442,
+    "lng": 139.44,
+    "slug": "sanrio-puroland",
+    "nameZh": "三丽鸥彩虹乐园",
+    "imageUrl": "/images/landmarks/sanrio-puroland.webp",
+    "description": {
+      "en": "Step into Sanrio Puroland, a whimsical indoor theme park in Tokyo where Hello Kitty and her friends are the stars of colorful sets, live shows, and meet-and-greets. Browse adorable shops, dine in character-themed restaurants, and soak up a Disney-like atmosphere filled with photo ops and cute surprises.",
+      "ja": "多摩ニュータウンにある屋内型テーマパーク、サンリオピューロランドはハローキティやマイメロディなどサンリオキャラが主役の“かわいい”が詰まった夢の空間です。ショーやパレードで盛り上がり、キャラクターと触れ合えるグリーティングや限定グッズ、テーマレストランまで一日中楽しめます。",
+      "ko": "도쿄의 실내 테마파크 산리오 퓨로랜드에서는 헬로키티, 마이멜로디, 시나모롤 등 인기 캐릭터를 가까이서 만나고 라이브 쇼와 퍼레이드를 즐길 수 있습니다. 귀여운 굿즈가 가득한 샵과 캐릭터 콘셉트 레스토랑까지, 사진 찍기 좋은 스폿과 볼거리로 하루가 금방 지나갑니다.",
+      "zh": "位于东京的Sanrio Puroland（又称Hello Kitty乐园）是个将三丽鸥角色的可爱世界搬到眼前的室内主题公园。你可以看现场表演与游行、与角色互动拍照，还能逛主题商店、品尝角色主题餐点，是拍照打卡和亲子同游的治愈好去处。"
+    }
+  },
+  {
+    "name": "江戸東京博物館",
+    "nameEn": "Edo-Tokyo Museum",
+    "nameKo": "에도도쿄박물관",
+    "romaji": "edotokyomuseum",
+    "lat": 35.6966,
+    "lng": 139.7964,
+    "slug": "edo-tokyo-museum",
+    "nameZh": "江户东京博物馆",
+    "imageUrl": "/images/landmarks/edo-tokyo-museum.webp",
+    "description": {
+      "en": "Step back in time at the Edo-Tokyo Museum in Ryogoku, where sprawling scale models and life-size reconstructions bring centuries of Tokyo’s past to life. Cross a full-scale replica of the famous Nihonbashi, wander reconstructed Edo, Meiji and Showa streets, and peek into a recreated Nakamuraza theatre to feel how the city once looked, worked and played.",
+      "ja": "両国にある江戸東京博物館では、精巧な都市模型や実物大の復元で江戸から昭和までの東京の姿を立体的に体験できます。日本橋の実物大レプリカを渡り、町屋や中村座の舞台をのぞけば、当時の暮らしや賑わいが手に取るように伝わってきます。",
+      "ko": "료고쿠의 에도·도쿄 박물관은 거대한 축소 도시와 실물 크기 재현으로 1590년부터 1964년까지의 도쿄 변천을 한눈에 보여줍니다. 실제 크기의 니혼바시를 건너보고 에도·메이지·쇼와 시대의 골목과 중무대인 나카무라자 극장을 구경하며 옛 도쿄의 생활과 문화를 직접 느껴보세요.",
+      "zh": "位于两国的江户东京博物馆通过大型城市模型与实物大小的日本桥复原，把1590年至1964年的东京历史立体呈现。走上日本桥、参观各时代的缩微街区与中村座戏台，你可以真实感受江户到昭和的市井生活与文化变迁。"
+    }
+  },
+  {
+    "name": "東京国立博物館",
+    "nameEn": "Tokyo National Museum",
+    "nameKo": "도쿄국립박물관",
+    "romaji": "tokyonationalmuseum",
+    "lat": 35.7189,
+    "lng": 139.7765,
+    "slug": "tokyo-national-museum",
+    "nameZh": "东京国立博物馆",
+    "imageUrl": "/images/landmarks/tokyo-national-museum.webp",
+    "description": {
+      "en": "Set in leafy Ueno Park, the Tokyo National Museum is Japan’s oldest and largest art museum, housing an extraordinary range of Japanese and Asian art—from ancient court treasures to Silk Road and Greco‑Buddhist masterpieces. With dozens of National Treasures on rotating display, plus hands-on exhibitions and scholarly programs, it’s the best place to trace Japan’s cultural history and Asia’s artistic exchanges.",
+      "ja": "上野公園にたたずむ東京国立博物館は、日本最古かつ最大の美術館で、古代〜中世の日本美術を中心に、シルクロードやグレコ・ブッダ美術まで幅広いコレクションを誇ります。国宝や重要文化財が定期的に展示替えされ、研究や教育イベントも充実しているので、じっくり日本の文化史を体感できます。",
+      "ko": "우에노공원에 자리한 도쿄국립박물관은 일본에서 가장 오래되고 큰 미술관으로, 고대·중세 일본미술을 중심으로 실크로드와 그레코‑불교 예술까지 아우르는 방대한 컬렉션을 자랑합니다. 수많은 국보가 순환 전시되고 연구·교육 프로그램도 활발해 일본 문화의 깊은 맥락을 한눈에 살펴볼 수 있는 곳입니다.",
+      "zh": "位于上野公园的东京国立博物馆是日本最古老、规模最大的美术馆，馆藏涵盖古代与中世纪日本艺术，以及丝绸之路与希腊—佛教艺术的珍贵文物。大量国宝与重要文化财定期轮换展出，并有深入的研究与教育活动，是理解日本与亚洲艺术交流的必访之地。"
+    }
+  },
+  {
+    "name": "国立西洋美術館",
+    "nameEn": "National Museum of Western Art",
+    "nameKo": "국립서양미술관",
+    "romaji": "nationalmuseumofwesternart",
+    "lat": 35.7154,
+    "lng": 139.7761,
+    "slug": "national-museum-of-western-art",
+    "nameZh": "国立西洋美术馆",
+    "imageUrl": "/images/landmarks/national-museum-of-western-art.webp",
+    "description": {
+      "en": "Set in the leafy Ueno Park, the National Museum of Western Art is Japan’s premier public gallery for art from the Western tradition. Inside you can wander a world-class collection of Western masterpieces spanning centuries, a rare chance to experience European art history in the heart of Tokyo.",
+      "ja": "上野公園の緑に囲まれた国立西洋美術館は、西洋美術を専門とする日本を代表する公共美術館です。ルネサンスから近代に至る名作を間近に鑑賞でき、東京でヨーロッパの芸術史を体感できる貴重な場所です。",
+      "ko": "도심 속 우에노공원에 자리한 국립서양미술관은 일본을 대표하는 서양미술 전문 공공미술관입니다. 르네상스부터 근현대에 이르는 서양 명작들을 한자리에서 감상하며 도쿄에서 유럽미술의 흐름을 체험할 수 있습니다.",
+      "zh": "坐落于上野公园的国立西洋美术馆是日本最重要的西洋艺术公共美术馆之一。馆内收藏横跨多个时期的西方名作，让你在东京市中心近距离感受欧洲艺术的风貌与演变。"
+    }
+  },
+  {
+    "name": "代々木公園",
+    "nameEn": "Yoyogi Park",
+    "nameKo": "요요기공원",
+    "romaji": "yoyogipark",
+    "lat": 35.6715,
+    "lng": 139.6951,
+    "slug": "yoyogi-park",
+    "nameZh": "代代木公园",
+    "imageUrl": "/images/landmarks/yoyogi-park.webp",
+    "description": {
+      "en": "Yoyogi Park sits beside Harajuku and Meiji Shrine and comes alive on weekends with live music, jugglers, cosplayers and other hobby groups—perfect for people-watching and spontaneous performances. In spring it’s a top hanami spot, and year-round you can picnic, rent bikes, play on public courts or let your dog run free.",
+      "ja": "代々木公園は原宿・明治神宮のすぐそばにあり、日曜にはロックや大道芸、コスプレ、武道サークルなど様々な人々が集まって独特の賑わいを見せます。春は桜の花見で人気、普段はピクニックやサイクリング、スポーツコート、ドッグランも楽しめます。",
+      "ko": "요요기 공원은 하라주쿠와 메이지 신궁 옆에 있어 주말이면 라이브 음악, 저글링, 코스프레 등 다양한 서브컬처와 취미 모임으로 가득합니다. 봄에는 벚꽃 명소로 유명하고, 평소에는 피크닉, 자전거 대여, 운동장, 반려견 놀이터를 이용할 수 있어요.",
+      "zh": "代代木公园紧邻原宿与明治神宫，周末常被乐队、杂耍艺人、COSPLAY者和各类兴趣团体占据，现场感十足。春天是赏樱胜地，全年也能在草地野餐、租自行车、打球或带狗去玩。"
+    }
+  },
+  {
+    "name": "新宿ゴールデン街",
+    "nameEn": "Shinjuku Golden Gai",
+    "nameKo": "신주쿠골든가이",
+    "romaji": "shinjukugoldengai",
+    "lat": 35.694,
+    "lng": 139.704,
+    "slug": "shinjuku-golden-gai",
+    "nameZh": "新宿黄金街",
+    "imageUrl": "/images/landmarks/shinjuku-golden-gai.webp",
+    "description": {
+      "en": "Tucked behind Shinjuku’s neon, Golden Gai is a compact maze of six razor‑thin alleys crammed with over 200 tiny shanty‑style bars and eateries. Pop into intimate, characterful spots for a few drinks, lively conversation with locals, and a taste of Tokyo nightlife that feels delightfully stuck in time.",
+      "ja": "歌舞伎町のネオン裏にひっそりと佇むゴールデン街は、幅が一人分ほどの路地が入り組む6本の小路に200軒以上の小さなバーや飲み屋がぎゅっと詰まった場所です。昭和の空気が残るカウンターで隣の人と話したり、はしご酒を楽しみながら独特の夜の雰囲気に浸れます。",
+      "ko": "신주쿠 네온 뒤편에 자리한 골든가이는 여섯 개의 아주 좁은 골목과 한 사람이 겨우 지나갈 수 있는 통로로 이루어져 200곳이 넘는 알록달록한 소규모 바와 식당이 모여 있는 곳입니다. 아담하고 개성 있는 술집들을 골라 들어가며 현지인들과 어울리거나 잊지 못할 밤 풍경을 즐기기 좋습니다.",
+      "zh": "藏在歌舞伎町霓虹之后的金街，由六条仅容一人通过的狭窄小巷和200多家迷你酒吧、小食店组成。这里保留着复古且亲密的氛围，适合吧台聊天、吧巡或拍出有味道的夜景照片，体验东京不同凡响的夜生活一隅。"
+    }
+  },
+  {
+    "name": "歌舞伎町",
+    "nameEn": "Kabukicho",
+    "nameKo": "가부키초",
+    "romaji": "kabukicho",
+    "lat": 35.6943,
+    "lng": 139.7028,
+    "slug": "kabukicho",
+    "nameZh": "歌舞伎町",
+    "imageUrl": "/images/landmarks/kabukicho.webp",
+    "description": {
+      "en": "Kabukichō in Shinjuku is Tokyo’s neon-drenched “Sleepless Town” — a buzzing, slightly wild patchwork of late-night restaurants, clubs, quirky shops and theatrical street life. Hop between Golden Gai’s tiny themed bars, grab late-night ramen or izakaya snacks, and soak in the electric atmosphere and colorful characters that make Kabukichō unforgettable.",
+      "ja": "歌舞伎町は新宿の「眠らない街」として知られるネオン煌めくエンタメ地区です。ゴールデン街の小さなバーをはしごしたり、深夜の飲食店や個性的なショップを巡りながら、独特のにぎわいと夜の空気を楽しんでください。",
+      "ko": "가부키초는 신주쿠의 네온빛 ‘잠들지 않는 도시’로, 늦은 시간까지 이어지는 음식점·클럽·이색 가게들이 모여 활기찬 밤문화를 이룹니다. 골든가이의 아담한 바들을 돌며 한잔하거나 길거리 라멘과 이자카야 안주를 맛보며 다채로운 풍경을 즐겨보세요.",
+      "zh": "歌舞伎町是新宿著名的不夜城，霓虹灯下汇聚了深夜餐厅、夜店、小店以及独具特色的夜间文化，也常被称为红灯区。你可以在黄金街的迷你小酒吧里逐一打卡，品尝深夜拉面和居酒屋小吃，或漫步在灯火与人潮中感受这座城市独有的夜晚氛围。"
+    }
+  },
+  {
+    "name": "東京都庁",
+    "nameEn": "Tokyo Metropolitan Government Building",
+    "nameKo": "도쿄도청",
+    "romaji": "tokyotochosha",
+    "lat": 35.6896,
+    "lng": 139.6917,
+    "slug": "tokyo-metropolitan-government-building",
+    "nameZh": "东京都厅",
+    "imageUrl": "/images/landmarks/tokyo-metropolitan-government-building.webp",
+    "description": {
+      "en": "Perched in Shinjuku, the Tokyo Metropolitan Government Building (Tochō) is an architectural landmark with free observation decks that give sweeping views of Tokyo — and on clear days, Mount Fuji. Come for striking skyline photos, enjoy the twin-tower design, and learn a bit about how the metropolis is run.",
+      "ja": "新宿にそびえる都庁はランドマーク的な建物で、無料の展望室からは都心の大パノラマや晴れた日の富士山を望めます。ツインタワーの建築美を楽しみつつ、夜景撮影や都の展示で街の仕組みを知るのにもおすすめです。",
+      "ko": "신주쿠에 우뚝 서 있는 도쿄도청(도초)은 쌍둥이 타워와 무료 전망대를 자랑하는 랜드마크로, 맑은 날엔 후지산까지 보이는 탁 트인 전망을 제공합니다. 도심 전경을 사진으로 담고, 건물 내부의 전시를 살펴보며 도쿄의 크기와 구조를 체감해 보세요.",
+      "zh": "位于新宿的东京都厅（都庁）是城市地标之一，楼内的免费展望台可以俯瞰东京全景，晴天时甚至能远眺富士山。这里既适合拍摄摩天楼和夜景，也可以通过展示了解都政府的运作，体验都市气息。"
+    }
+  },
+  {
+    "name": "増上寺",
+    "nameEn": "Zojoji Temple",
+    "nameKo": "조조지",
+    "romaji": "zojoji",
+    "lat": 35.6568,
+    "lng": 139.7479,
+    "slug": "zojoji-temple",
+    "nameZh": "增上寺",
+    "imageUrl": "/images/landmarks/zojoji-temple.webp",
+    "description": {
+      "en": "Nestled in Minato, Tokyo, Zōjō-ji is the main Jōdo-shū Chinzei temple for the Kantō region, known by its mountain name San'en-zan. Wander its historic halls and tranquil grounds to see traditional Buddhist architecture, observe rituals, and enjoy a surprising pocket of calm amid the city.",
+      "ja": "増上寺は東京・港区にある浄土宗鎮西派の大本山で、山号は三縁山です。歴史ある伽藍と静かな境内を歩き、伝統的な儀式や寺の佇まいに触れながら、都会の中の落ち着いた時間を味わえます。",
+      "ko": "조조지(増上寺)는 도쿄 미나토구에 있는 정토종(조도슈) 진세이파의 본사로, 산 이름은 삼연산(三縁山)입니다. 오래된 사찰 건물과 고요한 경내를 거닐며 전통 불교 의식과 역사를 체험하고 분주한 도심 속에서 뜻밖의 평온을 느껴보세요.",
+      "zh": "增上寺位于东京港区，是关东地区净土宗镇西流的主寺，山号为三縁山。漫步于古老的殿宇与宁静的境内，可体验传统佛教仪式与历史气息，在现代都市中找到一隅安宁。"
+    }
+  },
+  {
+    "name": "浜離宮恩賜庭園",
+    "nameEn": "Hama-rikyu Gardens",
+    "nameKo": "하마리큐정원",
+    "romaji": "hamarikyugardens",
+    "lat": 35.66,
+    "lng": 139.7634,
+    "slug": "hama-rikyu-gardens",
+    "nameZh": "浜离宫恩赐庭园",
+    "imageUrl": "/images/landmarks/hama-rikyu-gardens.webp",
+    "description": {
+      "en": "Hama-rikyu Gardens is a tranquil historic oasis at the mouth of the Sumida River in central Tokyo, laid out on the former Tokugawa family villa grounds. Wander winding paths around Shioiri-no-ike and a seawater moat fed by Tokyo Bay, and soak in a rare mix of Edo-era history and waterfront scenery.",
+      "ja": "浜離宮恩賜庭園は隅田川の河口に広がる、江戸時代の徳川屋敷跡に作られた都会の静かなオアシスです。潮入りの池や東京湾の海水で満たされた外堀を眺めながらゆったり散策し、歴史と海辺の風景を楽しめます。",
+      "ko": "하마리큐 정원은 스미다강 하구에 자리한 도쿄 중심의 고요한 오아시스로, 에도 시대 도쿠가와 가문의 별저 터를 공원으로 단장한 곳입니다. 시오이리 연못과 도쿄만의 바닷물이 채워진 해자(外堀)를 따라 걸으며 역사적 분위기와 바닷가 풍경을 함께 즐길 수 있습니다.",
+      "zh": "浜離宮恩賜庭園位于隅田川入海口，是在江户时代德川家别庄遗址上改建的都会庭园。沿着潮入池和由东京湾注入的海水护堤散步，可以在城市中心感受难得的历史氛围与滨海景致。"
+    }
+  },
+  {
+    "name": "六義園",
+    "nameEn": "Rikugien Garden",
+    "nameKo": "리쿠기엔",
+    "romaji": "rikugien",
+    "lat": 35.733,
+    "lng": 139.7461,
+    "slug": "rikugien-garden",
+    "nameZh": "六义园",
+    "imageUrl": "/images/landmarks/rikugien-garden.webp",
+    "description": {
+      "en": "Rikugien is a compact Edo‑period strolling garden whose name—“garden of six principles”—reflects its roots in classical waka poetry. Winding paths lead around a mirror-like pond, a sculpted hill and seasonal trees, inviting leisurely walks, photography and quiet moments of reflection amid cherry blossoms or autumn colours.",
+      "ja": "六義園は「六義（わかの六つの要素）」にちなんだ名前を持つ、江戸時代の回遊式小庭園です。池や築山、四季折々の木々が織りなす風景をゆっくり歩いて楽しめ、特に桜や紅葉の季節は見どころ。静かに座って詩情を味わうのにもふさわしい場所です。",
+      "ko": "릭구엔은 와카(和歌)의 ‘여섯 가지 원리’에서 이름을 딴 도쿄 분쿄구의 아담한 회유식 정원입니다. 작은 연못과 조성된 언덕, 계절마다 달라지는 수목이 어우러진 산책로를 따라 걸으며 사진을 찍거나 한적하게 사색하기 좋습니다.",
+      "zh": "六义园位于东京文京区，是一座以和歌“六义”命名的江户风格回游小园。园内有池塘、人工小山和成片古树，沿着环池小径慢步可欣赏四季花木与静谧景致，是赏樱、观红叶或安静漫步的理想去处。"
+    }
+  },
+  {
+    "name": "レインボーブリッジ",
+    "nameEn": "Rainbow Bridge",
+    "nameKo": "레인보우브릿지",
+    "romaji": "rainbowbridge",
+    "lat": 35.6372,
+    "lng": 139.7616,
+    "slug": "rainbow-bridge",
+    "nameZh": "彩虹大桥",
+    "imageUrl": "/images/landmarks/rainbow-bridge.webp",
+    "description": {
+      "en": "The Rainbow Bridge soars across northern Tokyo Bay, linking Shibaura with the futuristic Odaiba waterfront and creating one of the city’s most recognizable skylines. Stroll the pedestrian deck or hop a train for sweeping daytime views, then stay for the bridge’s colorful nighttime illumination that transforms the bay into a glowing panorama.",
+      "ja": "東京湾にかかるレインボーブリッジは、芝浦と近未来的なお台場を結ぶランドマーク的な吊り橋です。歩行者デッキからは東京の街並みや海を一望でき、夜はライトアップで表情を変える幻想的な景色が楽しめます。",
+      "ko": "레인보우 브리지는 도쿄만을 가로지르며 시바우라와 미래적인 오다이바를 잇는 상징적인 다리입니다. 보행자 전용 통로를 걸으며 도쿄의 파노라마 뷰를 감상하거나, 낮과는 다른 화려한 야간 조명으로 빛나는 만의 풍경을 즐겨보세요.",
+      "zh": "彩虹大桥横跨东京湾，连接芝浦与充满未来感的台场，是观赏海湾与城市天际线的绝佳地点。你可以在步道上漫步或乘车经过，白天享受开阔视野，夜晚则被五彩灯光点亮，别有风情。"
+    }
+  },
+  {
+    "name": "小石川後楽園",
+    "nameEn": "Koishikawa Korakuen",
+    "nameKo": "고이시카와고라쿠엔",
+    "romaji": "koishikawakorakuen",
+    "lat": 35.7078,
+    "lng": 139.7509,
+    "slug": "koishikawa-korakuen",
+    "nameZh": "小石川后乐园",
+    "imageUrl": "/images/landmarks/koishikawa-korakuen.webp",
+    "description": {
+      "en": "Step into Koishikawa Korakuen and you’ll find one of Tokyo’s few surviving daimyo gardens, a calm Edo-period landscape tucked into lively Bunkyō. Wander winding paths around ponds, teahouses and old trees to enjoy seasonal blooms and serene water views year-round.",
+      "ja": "小石川後楽園は江戸時代から受け継がれる大名庭園のひとつで、文京の喧騒を忘れさせる静かな都会のオアシスです。池や飛び石、茶屋をめぐる散策路をのんびり歩けば、四季折々の花木や水の風景が心を和ませてくれます。",
+      "ko": "고이시카와 고라쿠엔은 에도 시대부터 이어져 내려오는 다이묘 정원 중 하나로, 분쿄구의 도심 속에서 만나는 고요한 녹지입니다. 연못과 징검다리, 다실을 따라 걷다 보면 계절마다 달라지는 꽃과 풍경을 여유롭게 즐길 수 있어요.",
+      "zh": "小石川后乐园是江户时代留下来的少数大名庭园之一，位于文京区的闹市中却能感受宁静的庭院氛围。沿着池泉回游的步道漫步，可以看到茶亭、古树以及随季节更替的花木景致，四季各有风情。"
+    }
+  },
+  {
+    "name": "根津神社",
+    "nameEn": "Nezu Shrine",
+    "nameKo": "네즈신사",
+    "romaji": "nezujinja",
+    "lat": 35.7199,
+    "lng": 139.761,
+    "slug": "nezu-shrine",
+    "nameZh": "根津神社",
+    "imageUrl": "/images/landmarks/nezu-shrine.webp",
+    "description": {
+      "en": "Tucked away in Tokyo’s Bunkyō ward, Nezu Shrine is a peaceful Shinto sanctuary where you can step out of the city’s rush and breathe in a traditional atmosphere. Wander the quiet grounds, admire the classic shrine architecture, and watch or participate in customary rituals that bring Japanese spirituality to life.",
+      "ja": "東京・文京にある根津神社は、都会の喧騒から離れて伝統的な雰囲気に浸れる落ち着いた神社です。社殿や境内をゆっくり散策し、神事や季節ごとの表情に触れて日本らしさを感じられます。",
+      "ko": "도쿄 문쿄구에 자리한 네즈 신사는 분주한 도심에서 벗어나 한적한 분위기를 즐길 수 있는 전통 신사입니다. 고즈넉한 경내를 거닐며 전통 건축을 감상하고, 신사의 일상과 의식에서 일본 문화를 체험해 보세요.",
+      "zh": "根津神社位于东京文京区，是一处能让人摆脱都市喧嚣、沉浸于传统风情的宁静神社。你可以在庭院中漫步，欣赏古朴的社殿，感受神道仪式与四季变换带来的独特氛围。"
+    }
+  },
+  {
+    "name": "谷中銀座",
+    "nameEn": "Yanaka Ginza",
+    "nameKo": "야나카긴자",
+    "romaji": "yanakaginza",
+    "lat": 35.7271,
+    "lng": 139.7681,
+    "slug": "yanaka-ginza",
+    "nameZh": "谷中银座",
+    "imageUrl": "/images/landmarks/yanaka-ginza.webp",
+    "description": {
+      "en": "Yanaka Ginza is a compact, nostalgic shopping street in Tokyo’s Yanaka neighborhood where the old Shitamachi atmosphere still lingers. About 70 family-run shops sell snacks, sweets, crafts and antiques, and you can stroll past low wooden storefronts, visit the nearby Yanaka Cemetery and the Daimyo Clock Museum, and soak up a slower, photogenic side of the city.",
+      "ja": "谷中銀座は、下町の雰囲気が今も色濃く残る谷中の小さな商店街です。約70軒の個人店で昔ながらの惣菜や和菓子、雑貨や骨董に出会え、谷中霊園や大名時計資料館を覗きながらのんびり散歩するのがおすすめです。",
+      "ko": "야나카 긴자는 옛 시타마치 정취가 살아 있는 도쿄의 작은 상점가입니다. 약 70여 곳의 개인 가게에서 길거리 음식, 전통 과자, 수공예품과 골동품을 팔며, 낮은 목조 점포들이 늘어선 골목을 거닐고 옆에 있는 야나카 묘원이나 다이묘 시계 박물관 등을 구경하며 느긋한 시간을 보낼 수 있습니다.",
+      "zh": "谷中银座是东京保留着老式下町风情的一条小商店街，约有70家个体商铺贩售小吃、甜点、手作与古董。走在低矮的木造店铺间，顺便探访附近的谷中墓地和“大名时钟博物馆”，就能体验到一个慢节奏、非常上镜的东京角落。"
+    }
+  },
+  {
+    "name": "かっぱ橋道具街",
+    "nameEn": "Kappabashi Street",
+    "nameKo": "갓파바시도구거리",
+    "romaji": "kappabashistreet",
+    "lat": 35.7131,
+    "lng": 139.7876,
+    "slug": "kappabashi-street",
+    "nameZh": "合羽桥道具街",
+    "imageUrl": "/images/landmarks/kappabashi-street.webp",
+    "description": {
+      "en": "Kappabashi—Tokyo’s Kitchen Town between Ueno and Asakusa—is a lively strip where shop after shop stocks everything a restaurant could need, from pro knives and cookware to ovens, furniture and the iconic plastic display food. It’s both practical and delightfully quirky: chefs, home cooks and curious travelers can browse specialist stores, find unusual souvenirs, and snap great photos of hyper-realistic food models.",
+      "ja": "合羽橋道具街は上野と浅草の間に続く“キッチンタウン”。包丁や調理器具、飲食店向けの什器・オーブンから食品サンプルまで専門店がずらりと並び、プロも観光客も目移りしながら散策を楽しめます。ユニークな土産探しや写真スポットとしてもおすすめです。",
+      "ko": "캇파바시(합파바시) 도구 거리는 우에노와 아사쿠사 사이에 있는 ‘주방 거리’로, 식당용 칼과 조리도구, 그릇부터 가구와 오븐, 심지어 리얼한 플라스틱 음식 모형까지 전문점이 줄지어 있습니다. 요리사부터 여행자까지 모두 즐길 수 있는 장소로, 전문 용품을 구경하고 이색 기념품을 사거나 사진을 찍기 좋습니다.",
+      "zh": "合羽桥道具街位于上野与浅草之间，是东京的“厨房街”，从专业刀具、炊具、餐具到餐厅家具、烤箱，甚至逼真的食物模型，应有尽有。这里既是厨师采购的集中地，也是喜欢寻奇拍照、挑选创意纪念品游客的好去处。"
+    }
+  },
+  {
+    "name": "アメ横",
+    "nameEn": "Ameyoko",
+    "nameKo": "아메요코",
+    "romaji": "ameyoko",
+    "lat": 35.7105,
+    "lng": 139.7745,
+    "slug": "ameyoko",
+    "nameZh": "阿美横丁",
+    "imageUrl": "/images/landmarks/ameyoko.webp",
+    "description": {
+      "en": "Right next to Ueno Station, Ameyoko is a bustling open-air market where you can haggle for everything from fresh seafood and dried goods to trendy streetwear and cheap cosmetics. It’s noisy, colorful and full of energy—perfect for sampling street food, hunting down bargains, and soaking up an authentic slice of Tokyo life.",
+      "ja": "上野駅すぐのアメ横は、魚介や乾物、衣類や化粧品が露店にぎっしり並ぶ活気ある屋台街です。呼び声が飛び交う賑やかな雰囲気の中で、安くておいしい屋台グルメや掘り出し物探しを楽しめます。",
+      "ko": "우에노역 바로 옆 아메요코는 신선한 해산물과 건어물, 의류·화장품까지 다양한 물건이 늘어선 활기찬 노점 시장입니다. 상인들과 흥정하며 길거리 음식을 맛보고 기념품을 찾는 재미가 있는, 현지 분위기가 살아 있는 핫스팟이에요.",
+      "zh": "阿美横（Ameyoko）位于上野站旁，是个热闹的露天市场，鱼货、干货、服饰和化妆品摊位林立。你可以一边讨价还价一边品尝路边小吃，既能买到实惠的纪念品，也能感受东京的市井烟火气。"
+    }
+  },
+  {
+    "name": "月島",
+    "nameEn": "Tsukishima",
+    "nameKo": "쓰키시마",
+    "romaji": "tsukishima",
+    "lat": 35.6618,
+    "lng": 139.7829,
+    "slug": "tsukishima",
+    "nameZh": "月岛",
+    "imageUrl": "/images/landmarks/tsukishima.webp",
+    "description": {
+      "en": "Tsukishima is a small reclaimed island in Tokyo’s Sumida River estuary, created in 1892 from dredged earth and shaped by Japan’s industrial-era policies. Visitors can enjoy riverside walks, take in the neighborhood’s industrial heritage and unique streetscape, and easily hop over to nearby Tsukuda for more local flavor.",
+      "ja": "月島は隅田川河口の埋立地で、1892年に浚渫で出た土で作られ、富国強兵期に工業地として整備されました。川沿いをのんびり散歩したり、工業化の名残が残る街並みを眺めたり、隣の佃まで足を延ばして違った雰囲気を楽しめます。",
+      "ko": "쓰키시마는 도쿄 주오구, 스미다강 하구에 위치한 간척지로 1892년에 준설 토사로 만들어졌고 근대 산업 정책의 영향을 받은 곳입니다. 강변을 거닐며 특유의 거리 풍경과 산업 유산을 느껴보고, 인근 쓰쿠다 지역으로 가벼운 산책을 떠나보세요.",
+      "zh": "月岛位于隅田川口，是一处于1892年用疏浚泥土填海形成的人工岛，曾被划为工业区域，保留着近代化的痕迹。到这里可以沿河漫步，欣赏河港与工业风貌交织的独特景致，顺道去隔壁的佃区体验不同氛围。"
+    }
+  },
+  {
+    "name": "カップヌードルミュージアム横浜",
+    "nameEn": "Cup Noodles Museum Yokohama",
+    "nameKo": "컵누들뮤지엄요코하마",
+    "romaji": "cupnoodlesmuseum",
+    "lat": 35.4558,
+    "lng": 139.6381,
+    "slug": "cup-noodles-museum-yokohama",
+    "nameZh": "杯面博物馆横滨",
+    "imageUrl": "/images/landmarks/cup-noodles-museum-yokohama.webp",
+    "description": {
+      "en": "Visit the CupNoodles Museum in Yokohama to explore the playful history of instant ramen and the story of inventor Momofuku Ando through hands-on exhibits. The highlight is the My CupNoodles Factory, where you design, flavor and pack your own personalized cup — a must-do for families and food lovers.",
+      "ja": "横浜のカップヌードルミュージアムは、インスタントラーメンの誕生と発明者・安藤百福のアイデアを体感できる体験型ミュージアムです。目玉はマイカップヌードルファクトリーで、自分だけのカップをデザインしてスープや具材を選び、持ち帰れる楽しさがあります。",
+      "ko": "요코하마 컵누들 뮤지엄은 즉석 라면의 발명 이야기와 창의적인 전시를 직접 체험할 수 있는 곳입니다. 특히 ‘마이 컵누들 팩토리’에서 컵을 꾸미고 재료를 골라 내 손으로 라면을 완성하는 경험은 가족 여행객과 푸드 트립족에게 인기입니다.",
+      "zh": "横滨杯面博物馆把方便面的发明与文化做成了有趣的互动展览，让人从发明者安藤百福的故事出发亲身体验。最受欢迎的是“我的杯面工厂”，可以亲手设计杯子、选择配料并装杯，适合家庭和美食爱好者玩上一整天。"
+    }
+  },
+  {
+    "name": "横浜ランドマークタワー",
+    "nameEn": "Yokohama Landmark Tower",
+    "nameKo": "요코하마랜드마크타워",
+    "romaji": "yokohamalandmarktower",
+    "lat": 35.4555,
+    "lng": 139.6308,
+    "slug": "yokohama-landmark-tower",
+    "nameZh": "横滨地标塔",
+    "imageUrl": "/images/landmarks/yokohama-landmark-tower.webp",
+    "description": {
+      "en": "Rising 296.3 m (972 ft), the Yokohama Landmark Tower is one of Japan’s tallest skyscrapers and a defining feature of the Minato Mirai skyline. Visitors can enjoy sweeping views over Yokohama and Tokyo Bay from its upper levels, then explore nearby attractions like the Yokohama Museum of Art and the waterfront promenades for a full day of culture, shopping and photos.",
+      "ja": "高さ296.3mの横浜ランドマークタワーは、みなとみらいの象徴的な超高層ビルで、かつては日本一の座にありました。展望階からは横浜や東京湾の大パノラマが広がり、隣接する横浜美術館や海辺の散策路とあわせて一日楽しめます。",
+      "ko": "높이 296.3m의 요코하마 랜드마크 타워는 미나토미라이의 상징적인 마천루로, 한때 일본에서 가장 높은 빌딩이었습니다. 전망대에서 요코하마와 도쿄만의 탁 트인 전경을 감상한 뒤 인근의 요코하마 미술관과 해변 산책로를 함께 둘러보세요.",
+      "zh": "横滨地标塔高296.3米，是横滨滨海区天际线上的标志性建筑，曾一度是日本最高的摩天楼。登高远眺可俯瞰横滨与东京湾，且紧邻横滨美术馆，十分适合将观景、艺术与海滨散步串成一日游。"
+    }
+  },
+  {
+    "name": "ひたち海浜公園",
+    "nameEn": "Hitachi Seaside Park",
+    "nameKo": "히타치해변공원",
+    "romaji": "hitachiseasidepark",
+    "lat": 36.3946,
+    "lng": 140.5948,
+    "slug": "hitachi-seaside-park",
+    "nameZh": "日立海滨公园",
+    "imageUrl": "/images/landmarks/hitachi-seaside-park.webp",
+    "description": {
+      "en": "Hitachi Seaside Park, on Ibaraki’s Pacific coast, is beloved for its sweeping seasonal flower displays—from a carpet of blue nemophila in spring to fiery red kochia in autumn. You can wander or rent a bike across rolling lawns, ride the Ferris wheel, and soak in wide ocean views framed by themed gardens.",
+      "ja": "茨城・ひたちなかに広がるひたち海浜公園は、春のネモフィラの青い丘や秋のコキアの紅葉など、四季折々の花景色が魅力です。広々とした草原ではサイクリングやピクニックが楽しめ、観覧車や展望台からは海を望めます。",
+      "ko": "이바라키 현 히타치나카에 있는 히타치 씨사이드 파크는 사계절 꽃 풍경으로 유명합니다. 봄의 파란 네모필라 언덕과 가을의 붉은 코키아 등 계절마다 다른 색을 즐기고, 넓은 잔디에서 자전거를 빌려 달리거나 관람차와 전망대에서 바다를 감상해 보세요.",
+      "zh": "位于茨城县的常陆海滨公园以壮观的季节性花海著称——春天的蓝色尼莫菲拉和秋天的红色羊草格外迷人。游客可在宽阔的草坡上骑行或野餐，乘观览车眺望太平洋，享受花海与海景交织的惬意时光。"
+    }
+  },
+  {
+    "name": "成田山新勝寺",
+    "nameEn": "Naritasan Shinshoji",
+    "nameKo": "나리타산신쇼지",
+    "romaji": "naritasanshinshoji",
+    "lat": 35.7848,
+    "lng": 140.3181,
+    "slug": "naritasan-shinshoji",
+    "nameZh": "成田山新胜寺",
+    "imageUrl": "/images/landmarks/naritasan-shinshoji.webp",
+    "description": {
+      "en": "Naritasan Shinshoji is a dramatic, centuries-old Buddhist temple complex where solemn halls, tranquil gardens and a bustling approach of traditional shops meet. Wander the peaceful grounds, catch incense-filled rituals, and enjoy the lively street life and local snacks just outside the temple gates.",
+      "ja": "成田山新勝寺は長い歴史を誇る荘厳な寺院で、堂々とした本堂や静かな庭園、賑わう参道が魅力です。境内をゆっくり散策して護摩の炎や線香の香りに触れ、参道の土産屋や飲食店で地元の味を楽しめます。",
+      "ko": "나리타산 신쇼지는 오랜 역사를 가진 웅장한 사찰로, 장대한 본당과 고요한 정원, 전통 상점이 늘어선 활기찬 참배로가 어우러진 곳입니다. 사찰 구석구석을 걸으며 향 연기와 의식을 체험하고, 참배로의 가게들에서 기념품과 지역 음식을 즐겨보세요.",
+      "zh": "成田山新胜寺是一座历史悠久、气势庄严的佛寺，寺内本堂与静谧庭院，与热闹的参道形成鲜明对比。游客可以在境内漫步、观赏护摩等传统供奉、闻香静心，也可沿参道挑选土特产或品尝当地小吃。"
+    }
+  },
+  {
+    "name": "井の頭恩賜公園",
+    "nameEn": "Inokashira Park",
+    "nameKo": "이노카시라공원",
+    "romaji": "inokashirapark",
+    "lat": 35.6997,
+    "lng": 139.5722,
+    "slug": "inokashira-park",
+    "nameZh": "井之头恩赐公园",
+    "imageUrl": "/images/landmarks/inokashira-park.webp",
+    "description": {
+      "en": "Inokashira Park straddles Musashino and Mitaka and centers on Inokashira Pond—the historic Edo-period source of the Kanda River. It’s a peaceful urban oasis where you can stroll the lakeside, watch waterfowl, and relax by the river’s source while enjoying changing seasonal scenery.",
+      "ja": "井の頭公園は武蔵野と三鷹にまたがり、江戸時代から続く井の頭池が神田川の水源になっている公園です。池畔をのんびり散策したり、ベンチで季節の風景を眺めながら都会の静かなひとときを過ごせます。",
+      "ko": "이노카시라 공원은 무사시노와 미타카에 걸쳐 있으며, 에도 시대부터 이어진 이노카시라 연못이 칸다강의 발원지로 알려진 곳입니다. 잔잔한 호수 풍경을 따라 산책하고, 물가에서 쉬거나 계절마다 달라지는 풍경을 사진으로 남기기 좋은 도시의 휴식처입니다.",
+      "zh": "井之头公园横跨武藏野与三鹰，公园核心的井之头池自江户时代起就是神田川的发源地。这里是城市中的静谧绿洲，沿池漫步、观赏水鸟或在水源边放松，都能感受四季各异的风情。"
+    }
+  },
+  {
+    "name": "昭和記念公園",
+    "nameEn": "Showa Memorial Park",
+    "nameKo": "쇼와기념공원",
+    "romaji": "showamemorialpark",
+    "lat": 35.7073,
+    "lng": 139.4081,
+    "slug": "showa-memorial-park",
+    "nameZh": "昭和纪念公园",
+    "imageUrl": "/images/landmarks/showa-memorial-park.webp",
+    "description": {
+      "en": "Spread across Akishima and Tachikawa, Showa Memorial Park is Tokyo’s largest park at 165.3 hectares — a vast green lung where you can stroll, cycle, picnic and enjoy changing seasonal flower displays. It’s an ideal spot for families, photographers and anyone looking for wide-open space away from the city bustle.",
+      "ja": "昭和記念公園は昭島と立川にまたがる総面積165.3ヘクタール、都内最大の国営公園です。広々とした芝生や季節ごとの花畑を眺めながら、サイクリングや散策、ピクニックをゆったり楽しめます。",
+      "ko": "쇼와 기념공원은 아키시마와 다치카와에 걸쳐 있는 도쿄 최대 규모(165.3헥타르)의 공원으로, 탁 트인 잔디밭과 사계절 꽃들이 돋보입니다. 자전거를 타며 둘러보거나 산책과 피크닉을 즐기며 도심의 번잡함을 벗어나기 좋습니다.",
+      "zh": "昭和纪念公园横跨昭岛与立川，面积达165.3公顷，是东京最大的公园。这里有开阔草坪、四季花海和自行车道，适合散步、骑行或野餐，是远离都市喧嚣的好去处。"
+    }
+  },
+  {
+    "name": "花やしき",
+    "nameEn": "Hanayashiki",
+    "nameKo": "하나야시키",
+    "romaji": "hanayashiki",
+    "lat": 35.7155,
+    "lng": 139.7948,
+    "slug": "hanayashiki",
+    "nameZh": "花屋敷",
+    "imageUrl": "/images/landmarks/hanayashiki.webp",
+    "description": {
+      "en": "Hanayashiki in Asakusa is a compact, delightfully nostalgic amusement park that dates back to 1853 and is often called Japan’s oldest. Ride its retro attractions, soak up the old-Tokyo atmosphere, and spot the quirky Panda Car mascot for a charming, photo-ready stop between temple visits.",
+      "ja": "浅草の花やしきは1853年に始まった、日本最古といわれるこぢんまりした遊園地です。レトロな乗り物と下町の雰囲気、そして愛らしいパンダカーに会える散策の合間の気軽な寄り道にぴったりのスポットです。",
+      "ko": "아사쿠사에 있는 하나야시키는 1853년부터 이어져 온, 일본에서 가장 오래된 놀이공원으로 불리는 곳입니다. 소박한 레트로 감성의 놀이기구들과 귀여운 팬다카 마스코트를 만나며 아사쿠사 산책 중에 가볍게 들르기 좋은 장소예요.",
+      "zh": "位于浅草的花やしき自1853年开始营业，被誉为日本最古老的游乐园。园区虽小却充满怀旧风情，能体验复古游乐设施、与可爱的“熊猫车”合影，是漫步浅草时温馨又好拍的停留点。"
+    }
+  },
+  {
+    "name": "チームラボボーダレス",
+    "nameEn": "teamLab Borderless",
+    "nameKo": "팀랩보더리스",
+    "romaji": "teamlabborderless",
+    "lat": 35.6594,
+    "lng": 139.7313,
+    "slug": "teamlab-borderless",
+    "nameZh": "teamLab无界",
+    "imageUrl": "/images/landmarks/teamlab-borderless.webp",
+    "description": {
+      "en": "teamLab Borderless is an immersive digital art museum in Azabudai Hills, Tokyo, where artworks flow freely across rooms with no boundaries. Over 50 interactive installations respond to your presence — colors shift, flowers scatter, and light cascades follow you through endless, ever-changing spaces.",
+      "ja": "teamLab Borderlessは、麻布台ヒルズにある境界のないデジタルアートミュージアムです。50以上の作品が部屋を超えて移動し、来場者の動きに反応して色や光が変化する没入型の体験が楽しめます。",
+      "ko": "teamLab Borderless는 도쿄 아자부다이힐스에 위치한 경계 없는 디지털 아트 뮤지엄입니다. 50개 이상의 작품이 방을 넘나들며 관람객의 움직임에 따라 빛과 색이 변화하는 몰입형 체험을 제공합니다.",
+      "zh": "teamLab Borderless 是位于东京麻布台Hills的沉浸式数字艺术博物馆，作品没有边界地在空间中自由流动。50多件互动装置会根据你的存在做出反应——色彩变换、花瓣飘散、光影随你移动。"
+    }
+  },
+  {
+    "name": "チームラボプラネッツ",
+    "nameEn": "teamLab Planets",
+    "nameKo": "팀랩플래닛츠",
+    "romaji": "teamlabplanets",
+    "lat": 35.6467,
+    "lng": 139.7801,
+    "slug": "teamlab-planets",
+    "nameZh": "teamLab行星",
+    "imageUrl": "/images/landmarks/teamlab-planets.webp",
+    "description": {
+      "en": "teamLab Planets in Tokyo is an immersive digital art museum where you literally walk through water and enter enormous, responsive lightscapes. Interactive installations change with your movement — koi swim around your feet and flowers bloom under your touch — turning a visit into a playful, unforgettable sensory adventure.",
+      "ja": "teamLab Planetsは、身体ごと作品に入り込む体感型デジタルアート美術館です。水の中を裸足で歩いたり、触れると光や花が変化する展示など、五感で楽しめる没入体験が味わえます。",
+      "ko": "teamLab Planets는 도쿄의 몰입형 디지털 아트 뮤지엄으로, 실제로 물속을 걸으며 작품의 일부가 되는 체험을 제공합니다. 움직임에 따라 반응하는 빛과 소리, 발밑을 헤엄치는 디지털 잉어 등 온몸으로 즐기는 감각적 경험이 특징입니다.",
+      "zh": "teamLab Planets 是一座沉浸式数字艺术博物馆，你可以赤脚踩入水中，走进会随人互动的光与影之中。展区会根据你的动作改变形态——花开花落、鱼儿游动——每一步都像参与一场梦幻表演。"
+    }
+  },
+  {
+    "name": "マクセルアクアパーク品川",
+    "nameEn": "Maxell Aqua Park Shinagawa",
+    "nameKo": "맥셀아쿠아파크시나가와",
+    "romaji": "aquaparkshinagawa",
+    "lat": 35.6282,
+    "lng": 139.7391,
+    "slug": "maxell-aqua-park-shinagawa",
+    "nameZh": "品川水族馆",
+    "imageUrl": "/images/landmarks/maxell-aqua-park-shinagawa.webp",
+    "description": {
+      "en": "Located inside the Shinagawa Prince Hotel and just a short walk from Shinagawa Station, Maxell Aqua Park Shinagawa offers a compact, easy-to-reach taste of Tokyo’s marine life. Expect colorful tanks, immersive light-and-sound shows and family-friendly live performances that make the underwater world feel immediate and theatrical.",
+      "ja": "品川プリンスホテル内、品川駅からすぐ行けるマクセル アクアパーク品川は、コンパクトながら工夫が詰まった水族館です。光と音を駆使した演出やライブパフォーマンスで海の世界を身近に感じられ、デートや家族連れでも楽しめます。",
+      "ko": "신카가와 프린스 호텔 안, 시나가와역에서 도보로 닿는 맥셀 아쿠아파크 시나가와는 콤팩트하지만 감각적인 전시가 돋보이는 수족관입니다. 화려한 조명·음향 연출과 인터랙티브한 공연을 통해 바닷속을 생생하게 체험할 수 있어 데이트나 가족 나들이에 안성맞춤입니다.",
+      "zh": "Maxell Aqua Park Shinagawa 坐落于品川王子大饭店内，从品川站步行即可抵达，是一处紧凑却充满创意的水族体验空间。这里以光影与音效打造沉浸式表演，配合互动展区与亲子友好的现场秀，让你在短时间内就能近距离感受海洋的魅力。"
+    }
+  },
+  {
+    "name": "思い出横丁",
+    "nameEn": "Omoide Yokocho",
+    "nameKo": "오모이데요코초",
+    "romaji": "omoideyokocho",
+    "lat": 35.6931,
+    "lng": 139.6996,
+    "slug": "omoide-yokocho",
+    "nameZh": "回忆横丁",
+    "imageUrl": "/images/landmarks/omoide-yokocho.webp",
+    "description": {
+      "en": "Step into Omoide Yokocho and you’ll discover a tangle of narrow alleys filled with tiny yakitori stalls and retro izakaya that hum with Showa-era charm. Pull up a stool, order skewers and a drink, and enjoy the smoky, convivial atmosphere that makes this Shinjuku pocket so memorable.",
+      "ja": "思い出横丁は、新宿の細い路地に昭和の香りを残す小さな居酒屋や焼き鳥屋がぎゅっと集まった場所です。カウンターで串をほおばりながら一杯やると、ざわめきと煙が混ざった独特の温かさにどっぷり浸れます。",
+      "ko": "오모이데요코초는 신주쿠의 좁은 골목에 옹기종기 모인 작은 이자카야와 꼬치구이집들로 유명한 곳입니다. 카운터에 앉아 꼬치를 굽는 냄새와 함께 가볍게 한 잔하면서 옛 분위기와 현지인의 활기를 직접 느껴보세요.",
+      "zh": "思い出横丁位于新宿，是一条充满昭和怀旧风情的狭窄小巷，挤满了小巧的居酒屋和串烧店。傍晚来这里，在吧台前吃着炭烤串、喝着清酒或啤酒，感受热闹又怀旧的氛围，别有一番风味。"
+    }
+  },
+  {
+    "name": "豪徳寺",
+    "nameEn": "Gotokuji Temple",
+    "nameKo": "고토쿠지",
+    "romaji": "gotokuji",
+    "lat": 35.6586,
+    "lng": 139.6458,
+    "slug": "gotokuji-temple",
+    "nameZh": "豪德寺",
+    "imageUrl": "/images/landmarks/gotokuji-temple.webp",
+    "description": {
+      "en": "Nestled in Setagaya’s Gōtokuji district, Gotoku-ji is a tranquil Sōtō Zen temple that served as the Bodai-ji (family temple) of the Ii clan during the Edo period. Stroll the peaceful grounds to soak up the temple’s serene Zen atmosphere, admire the traditional architecture and historic graves, and discover a quieter, more historic side of Tokyo.",
+      "ja": "世田谷区豪徳寺にある豪徳寺は、曹洞宗の落ち着いた寺院で、江戸時代には井伊家の菩提寺を務めました。境内をゆっくり歩けば禅の静けさや歴史を感じられ、古い建物や墓所を見ながら都会の喧騒を忘れられます。",
+      "ko": "세타가야의 고토쿠지 지구에 자리한 고토쿠지는 승(曹洞)종의 고요한 사찰로, 에도 시대에는 이이(井伊) 가문의 본사(菩提寺)였습니다. 고즈넉한 경내를 거닐며 선(禅)의 평온함과 옛 영주의 흔적을 느끼고 전통 건축과 묘소를 둘러보세요.",
+      "zh": "豪德寺位于世田谷区的豪德寺地区，是一座宁静的曹洞宗寺院，江户时代曾作为井伊氏的菩提寺。漫步寺内可感受禅意的平和，欣赏古老建筑与家族墓地，体验东京少见的历史与静谧一面。"
+    }
+  },
+  {
+    "name": "御岳山",
+    "nameEn": "Mount Mitake",
+    "nameKo": "미타케산",
+    "romaji": "mitakesan",
+    "lat": 35.7932,
+    "lng": 139.154,
+    "slug": "mount-mitake",
+    "nameZh": "御岳山",
+    "imageUrl": "/images/landmarks/mount-mitake.webp",
+    "description": {
+      "en": "Mount Mitake, a 929‑metre peak tucked inside Chichibu‑Tama‑Kai National Park just outside Tokyo, blends refreshing mountain trails with deep spiritual history. At the summit a centuries‑old Shinto shrine still practices traditional rites such as futomani divination, so visitors can pair a brisk hike with a glimpse of living Japanese faith.",
+      "ja": "東京都近郊の秩父多摩甲斐国立公園にそびえる御岳山（標高929m）は、手付かずの森と気持ちのいい登山道が魅力です。頂上の古い神社ではフトマニなどの伝統的な祭祀が今も行われ、自然散策と神聖な空気を同時に味わえます。",
+      "ko": "도쿄 근교의 칙부·다마·카이 국립공원에 있는 미타케산(해발 929m)은 울창한 숲과 잘 정비된 등산로가 어우러진 아늑한 산입니다. 정상 부근의 신사에서는 푸토마니 같은 전통 의례가 지금도 이어져 가벼운 하이킹과 함께 일본의 살아 있는 신앙을 체험할 수 있습니다.",
+      "zh": "御岳山位于东京近郊的秩父多摩甲斐国立公园，海拔929米，森林茂密、步道宜人。山顶的一座神社至今仍保留着诸如Futomani（フトマニ）占卜等传统祭祀，游客可以把轻松的登山与体验日本传统信仰结合起来。"
+    }
+  },
+  {
+    "name": "奥多摩",
+    "nameEn": "Okutama",
+    "nameKo": "오쿠타마",
+    "romaji": "okutama",
+    "lat": 35.809,
+    "lng": 139.0899,
+    "slug": "okutama",
+    "nameZh": "奥多摩",
+    "imageUrl": "/images/landmarks/okutama.webp",
+    "description": {
+      "en": "Nestled about 60 km west of the Imperial Palace, Okutama feels worlds away from Tokyo—its small population and wide-open forests make it a true nature retreat. Hike riverside trails, soak up seasonal colors, and recharge with fresh mountain air on a peaceful weekend escape.",
+      "ja": "東京から約60km、西の山あいにある奥多摩は、人口が少なく広大な自然が広がる穴場のリトリートです。渓流や林道を歩いて四季の風景を楽しみ、週末に都会の喧噪から離れてリフレッシュできます。",
+      "ko": "도쿄 중심에서 서쪽으로 약 60km 떨어진 오쿠타마는 인구가 적고 넓은 자연이 남아 있는 산촌입니다. 계곡과 숲길을 트레킹하며 계절마다 변하는 풍경을 즐기고, 주말에 도심을 벗어나 힐링하기에 딱 좋은 곳입니다.",
+      "zh": "奥多摩位于东京西部约60公里，是一处人口稀少、面积广阔的山地小镇，远离都市喧嚣。这里可徒步河谷与林间小径、欣赏四季变换的自然景致，是短途周末放松的好去处。"
+    }
+  },
+  {
+    "name": "さいたまスーパーアリーナ",
+    "nameEn": "Saitama Super Arena",
+    "nameKo": "사이타마슈퍼아레나",
+    "romaji": "saitamasuperarena",
+    "lat": 35.895,
+    "lng": 139.6314,
+    "slug": "saitama-super-arena",
+    "nameZh": "埼玉超级竞技场",
+    "imageUrl": "/images/landmarks/saitama-super-arena.webp",
+    "description": {
+      "en": "Saitama Super Arena is a striking, multi-purpose venue just outside Tokyo where you can catch huge concerts, thrilling sports or major events in a space that can hold up to 36,500 people. Its flexible main arena (19,000–22,500 capacity) means shows can feel intimate or epic depending on the setup — a must-visit for music fans and event-goers alike.",
+      "ja": "さいたまスーパーアリーナは都心からのアクセスも良い大規模な多目的アリーナで、コンサートやスポーツ、各種イベントを間近で楽しめます。メインアリーナは1万9千〜2万2千人規模まで可変でき、臨場感のある公演から壮大なフェスまで幅広く味わえます。",
+      "ko": "사이타마 슈퍼 아레나는 도쿄 근교에 있는 대형 멀티플렉스 공연장으로, 최대 36,500명까지 수용할 수 있는 압도적인 스케일이 특징입니다. 메인 아레나는 1만9천~2만2천석으로 유연하게 구성되어 콘서트, 스포츠 경기, 대형 이벤트를 더욱 실감나게 즐길 수 있습니다.",
+      "zh": "埼玉超级竞技场位于埼玉市中心区、靠近东京，是一座多功能室内场馆，最多可容纳3.65万人。主场馆可在1.9万到2.25万座之间灵活调整，让你既能体验近距离演出的亲密感，也能感受大型活动的震撼场面。"
+    }
+  },
+  {
+    "name": "鉄道博物館",
+    "nameEn": "Railway Museum",
+    "nameKo": "철도박물관",
+    "romaji": "railwaymuseum",
+    "lat": 35.9212,
+    "lng": 139.6185,
+    "slug": "railway-museum",
+    "nameZh": "铁道博物馆",
+    "imageUrl": "/images/landmarks/railway-museum.webp",
+    "description": {
+      "en": "The Railway Museum in Saitama is a spacious JR East–affiliated museum opened in 2007, featuring nearly 9,500 m² of indoor exhibition space that tells the story of Japan’s railways. Visitors can see full-size trains up close and explore informative displays that make the evolution of rail travel easy and engaging for all ages.",
+      "ja": "さいたま市の鉄道博物館は、2007年開館のJR東日本系の大型ミュージアムで、約9,500㎡の展示スペースにわたり日本の鉄道史を紹介しています。実物の車両を間近に見学できるだけでなく、年代ごとの資料や展示を通じて鉄道の変遷を楽しく学べます。",
+      "ko": "사이타마에 있는 철도박물관은 2007년 개관한 JR동일본 계열의 대형 박물관으로, 약 9,500㎡에 달하는 넓은 전시 공간에서 일본 철도의 역사를 보여줍니다. 실제 차량을 가까이서 볼 수 있고 연대표와 전시를 통해 철도의 발달을 쉽게 이해할 수 있어 가족 나들이나 철도 팬에게 추천합니다.",
+      "zh": "位于埼玉的铁路博物馆自2007年开放，由东日本旅客铁道旗下的非营利机构运营，拥有近9,500平方米的展示空间和宽敞的场馆。游客可近距离观赏实物车厢与丰富展品，通过生动的展示深入了解日本铁路的发展脉络，适合家庭与铁路爱好者参观。"
+    }
+  },
+  {
+    "name": "秩父神社",
+    "nameEn": "Chichibu Shrine",
+    "nameKo": "치치부신사",
+    "romaji": "chichibujinja",
+    "lat": 35.9896,
+    "lng": 139.087,
+    "slug": "chichibu-shrine",
+    "nameZh": "秩父神社",
+    "imageUrl": "/images/landmarks/chichibu-shrine.webp",
+    "description": {
+      "en": "Nestled in Chichibu, Saitama, Chichibu Shrine is a serene Shinto sanctuary where traditional architecture and quiet grounds invite a peaceful pause. Stroll beneath its torii gates, enjoy the seasonal atmosphere, and soak up the local spiritual character of the town.",
+      "ja": "埼玉・秩父に鎮座する秩父神社は、伝統的な社殿と落ち着いた境内が魅力の神社です。鳥居をくぐって静けさに浸り、季節ごとの趣や地域の信仰に触れてみてください。",
+      "ko": "사이타마 현 치치부에 자리한 치치부 신사는 전통적인 신사 건축과 고즈넉한 경내가 인상적인 장소입니다. 도리이를 지나 산책하며 고요함을 느끼고, 계절마다 달라지는 분위기와 지역의 신앙 문화를 체험해 보세요.",
+      "zh": "秩父神社位于埼玉县秩父市，是一处保有传统风貌、氛围宁静的神社。游客可穿过鸟居漫步于静谧的境内，感受随季节变换的氛围与当地信仰的特色。"
+    }
+  },
+  {
+    "name": "明治神宮外苑",
+    "nameEn": "Meiji Jingu Gaien",
+    "nameKo": "메이지진구가이엔",
+    "romaji": "meijijingugaien",
+    "lat": 35.6735,
+    "lng": 139.7178,
+    "slug": "meiji-jingu-gaien",
+    "nameZh": "明治神宫外苑",
+    "imageUrl": "/images/landmarks/meiji-jingu-gaien.webp",
+    "description": {
+      "en": "Meiji Jingu Gaien is a leafy, welcoming green space beside Meiji Shrine that’s beloved for its wide tree-lined avenues and seasonal beauty — especially the golden ginkgo tunnel in autumn. It’s a great spot to stroll, picnic or visit nearby sports and cultural facilities while enjoying a calmer side of Tokyo.",
+      "ja": "明治神宮外苑は、明治神宮の外側に広がる都会の緑地で、イチョウ並木など四季折々の美しい景色が魅力です。散策やピクニック、周辺のスポーツ・文化施設めぐりを気軽に楽しめ、東京の喧騒を忘れてゆったり過ごせます。",
+      "ko": "메이지 신궁 가이엔은 메이지 신궁 바깥에 펼쳐진 도심 속 녹지로, 가로수길과 계절마다 달라지는 풍경(특히 가을의 은행나무 길)이 매력인 곳입니다. 산책이나 피크닉을 즐기고 주변의 스포츠·문화 시설을 둘러보며 한적한 시간을 보낼 수 있어요.",
+      "zh": "明治神宫外苑是明治神宫外侧的一片城市绿地，以林荫大道和四季变换的景致闻名，尤其秋天金黄的银杏大道最为迷人。这里适合散步、野餐，也可顺道参观附近的体育与文化场所，在繁忙的东京找到一处静谧休憩地。"
+    }
+  },
+  {
+    "name": "サンシャイン水族館",
+    "nameEn": "Sunshine Aquarium",
+    "nameKo": "선샤인수족관",
+    "romaji": "sunshineaquarium",
+    "lat": 35.729,
+    "lng": 139.7189,
+    "slug": "sunshine-aquarium",
+    "nameZh": "阳光水族馆",
+    "imageUrl": "/images/landmarks/sunshine-aquarium.webp",
+    "description": {
+      "en": "Sunshine Aquarium perches atop the World Import Mart in Tokyo’s lively Sunshine City, offering a rare urban aquarium experience where marine life meets city skyline. Renovated and modern, it features intimate, up-close displays and a rooftop area with great views — a fun stop for families and city explorers alike.",
+      "ja": "サンシャイン水族館は池袋・サンシャインシティのワールドインポートマートの屋上と上層階にあり、都会の真ん中で海の世界を楽しめるのが魅力です。2011年にリニューアルされ、洗練された展示と間近で見られる生き物、そして屋上からの眺めが家族連れや散策にぴったりです。",
+      "ko": "선샤인 아쿠아리움은 이케부쿠로의 선샤인시티 월드임포트마트 빌딩 최상층과 옥상에 자리해 도심 속에서 바다를 체험할 수 있는 특별한 장소입니다. 2011년 리뉴얼로 새로워진 전시와 가까이서 만나는 해양 생물들, 옥상에서 내다보는 도심 전망까지 가족이나 친구와 함께 둘러보기 좋습니다.",
+      "zh": "阳光水族馆坐落于池袋阳光城的世界进出口商场顶层与屋顶，是能在城市高空中近距离观赏海洋生物的难得去处。2011年翻新后展区更现代化，除了与各类海洋生物的亲密接触外，还能在屋顶俯瞰城市景致，适合家庭和城市探险者。"
+    }
+  },
+  {
+    "name": "渋谷109",
+    "nameEn": "Shibuya 109",
+    "nameKo": "시부야109",
+    "romaji": "shibuya109",
+    "lat": 35.6593,
+    "lng": 139.6988,
+    "slug": "shibuya-109",
+    "nameZh": "涩谷109",
+    "imageUrl": "/images/landmarks/shibuya-109.webp",
+    "description": {
+      "en": "Shibuya 109 is a must-visit department store in the heart of Shibuya, known for its concentrated lineup of trendy boutiques and youth-focused fashion. Wander through multiple floors of cutting-edge styles and accessories, pick up something bold, and soak up the vibrant street-energy that defines Tokyo shopping culture.",
+      "ja": "渋谷109は渋谷の中心にある、若者ファッションが集まるランドマーク的なデパートです。個性豊かなショップを階ごとに巡って最新トレンドをチェックしたり、小物を選んだりして、街の賑わいを肌で感じられます。",
+      "ko": "시부야 109는 시부야 중심에 자리한 트렌디한 백화점으로 젊은 층을 겨냥한 개성 있는 숍들이 모여 있습니다. 여러 층을 둘러보며 최신 패션과 액세서리를 구경하고 쇼핑하며 도쿄의 활기찬 분위기를 즐겨보세요.",
+      "zh": "涩谷109坐落于涩谷繁华地段，是体验日本年轻时尚风潮的热门场所。楼层里聚集了众多潮流小店和配饰店，逛街购物的同时能感受东京热闹的街头氛围。"
+    }
+  },
+  {
+    "name": "東京タワー展望台",
+    "nameEn": "Tokyo Tower Observatory",
+    "nameKo": "도쿄타워전망대",
+    "romaji": "tokyotowerobservatory",
+    "lat": 35.6586,
+    "lng": 139.7454,
+    "slug": "tokyo-tower-observatory",
+    "nameZh": "东京塔观景台",
+    "imageUrl": "/images/landmarks/tokyo-tower-observatory.webp",
+    "description": {
+      "en": "Perched in Minato, Tokyo Tower’s bright white-and-orange lattice silhouette—inspired by the Eiffel Tower—has been an iconic part of the skyline since 1958. Ride up to the main and special observatories for sweeping daytime panoramas and glittering nighttime views; the tower’s retro charm and citywide vistas make it a must-see for first-time visitors and photographers.",
+      "ja": "芝公園にそびえる東京タワーは、エッフェル塔を彷彿とさせる白とオレンジの格子構造が印象的なランドマークです。展望台からは昼は富士山や都心の大パノラマ、夜は無数の夜景が広がり、レトロな雰囲気とあわせて観光や写真撮影にぴったりです。",
+      "ko": "시바코엔의 상징인 도쿄 타워는 에펠탑에서 영감을 받은 흰색·주황색 철골 구조로 멀리서도 단번에 알아볼 수 있습니다. 전망대에 오르면 낮의 탁 트인 도시 풍경과 반짝이는 야경을 한눈에 담을 수 있어, 도쿄 첫 방문자나 사진 애호가에게 특히 추천합니다.",
+      "zh": "坐落于芝公园的东京塔以仿埃菲尔铁塔的格状结构和醒目的白橙配色著称，自1958年建成以来一直是东京的象征。登上主展望台可俯瞰城市全景，傍晚和夜间的灯光尤为迷人，是拍照和初访东京游客的必去之地。"
+    }
+  },
+  {
+    "name": "隅田川",
+    "nameEn": "Sumida River",
+    "nameKo": "스미다강",
+    "romaji": "sumidagawa",
+    "lat": 35.7135,
+    "lng": 139.8011,
+    "slug": "sumida-river",
+    "nameZh": "隅田川",
+    "imageUrl": "/images/landmarks/sumida-river.webp",
+    "description": {
+      "en": "The Sumida River cuts a scenic ribbon through central Tokyo, offering peaceful riverside walks beneath a string of historic bridges and dramatic skyline views. Hop on a leisurely cruise from Asakusa to Tokyo Bay, or visit in spring for cherry blossoms and in summer for the famous Sumida River fireworks to make your trip unforgettable.",
+      "ja": "隅田川は東京の中心を流れる風情ある川で、歴史ある橋や下町の景色を眺めながらのんびり散策するのにぴったりです。浅草発の屋形船や遊覧船で東京湾まで下ったり、春の桜や夏の花火大会を狙って訪れてみてください。",
+      "ko": "스미다강은 도쿄 중심을 흐르는 매력적인 강으로, 옛 다리들과 아래마치(하타마치)의 정취를 바라보며 강변 산책을 즐기기 좋습니다. 아사쿠사에서 출발하는 유람선을 타고 도쿄만까지 내려가거나, 봄 벚꽃과 여름 불꽃놀이 시즌을 맞춰 방문해 보세요.",
+      "zh": "隅田川贯穿东京市中心，两岸保留着古老的桥梁与下町风情，是散步、拍照、看城市天际线的好去处。你可以从浅草搭乘观光船一路驶向东京湾，春赏樱花、夏看花火大会尤其难忘。"
+    }
+  },
+  {
+    "name": "両国国技館",
+    "nameEn": "Ryogoku Kokugikan",
+    "nameKo": "료고쿠국기관",
+    "romaji": "ryogokukokugikan",
+    "lat": 35.6969,
+    "lng": 139.7929,
+    "slug": "ryogoku-kokugikan",
+    "nameZh": "两国国技馆",
+    "imageUrl": "/images/landmarks/ryogoku-kokugikan.webp",
+    "description": {
+      "en": "Ryōgoku Kokugikan is Tokyo’s iconic sumo arena with a two-part history: the first hall opened at Ekōin in 1909 and stayed in use in various roles until 1983, while the current Kokugikan opened in 1985 in Yokoami next to the Edo-Tokyo Museum. Visit to soak up the electric atmosphere of live sumo tournaments, witness the ritual ring-entering ceremonies, and combine the experience with a stroll through the nearby museum.",
+      "ja": "両国国技館は、1909年に回向院の地に誕生した初代から続く相撲の聖地です。現在の館は1985年に墨田区横網に移り江戸東京博物館の隣にあり、土俵の熱気や儀式を間近に体験できる場所です。",
+      "ko": "료고쿠 고쿠기칸은 1909년 초대관에서 시작된 도쿄의 대표적인 스모 경기장입니다. 현재 건물은 1985년 스미다구 요코아미에 문을 열어 에도-도쿄 박물관 옆에 자리하며, 실제 대회와 전통 의식을 생생하게 관람할 수 있는 명소입니다.",
+      "zh": "两代両国国技馆见证了东京的相扑史：首馆自1909年起在回向院一带使用，之后的现址则于1985年在墨田区横网落成，紧邻江户东京博物馆。到这里可以近距离感受土俵上的庄重与热闹，若遇上大赛更能体会日本传统体育的现场魅力。"
+    }
+  },
+  {
+    "name": "八景島シーパラダイス",
+    "nameEn": "Hakkeijima Sea Paradise",
+    "nameKo": "핫케이지마씨파라다이스",
+    "romaji": "hakkeijimaseaparadise",
+    "lat": 35.3363,
+    "lng": 139.6457,
+    "slug": "hakkeijima-sea-paradise",
+    "nameZh": "八景岛海岛乐园",
+    "imageUrl": "/images/landmarks/hakkeijima-sea-paradise.webp",
+    "description": {
+      "en": "Hakkeijima Sea Paradise is a one-stop ocean playground in Yokohama where a huge aquarium and dolphin shows sit alongside seaside amusement rides, shops, a hotel and a marina. It’s ideal for families and couples who want up-close marine encounters, fun attractions and waterfront views all in one day.",
+      "ja": "八景島シーパラダイスは、水族館を中心にイルカのショーや遊園地のアトラクション、ショッピングモール、ホテル、マリーナが一体となった海上テーマパークです。家族連れやデートにぴったりで、海を感じる体験や夜景、美味しい食事を一日中楽しめます。",
+      "ko": "하케이지마 씨파라다이스는 요코하마의 해상 테마파크로, 대형 수족관과 돌고래 쇼, 놀이기구부터 쇼핑몰·호텔·마리나까지 한곳에 모여 있는 복합 리조트입니다. 가족 나들이나 연인에게 안성맞춤이며, 바다를 배경으로 한 체험 프로그램과 야경, 먹거리를 함께 즐길 수 있어요.",
+      "zh": "八景岛海上乐园（Hakkeijima Sea Paradise）是横滨的一处海洋主题综合体，大型水族馆和海豚表演与海边游乐设施、购物、酒店和码头融为一体。无论亲子游还是情侣约会，都能近距离接触海洋生物、体验刺激游乐项目并饱览海景与美食。"
+    }
+  }
+]
