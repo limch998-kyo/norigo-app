@@ -942,10 +942,36 @@ class _HotelSectionState extends State<_HotelSection> {
   @override
   void initState() {
     super.initState();
-    // Default to 'any' — API already filtered by max budget from search,
-    // card range filter is for browsing within returned results
-    _budgetFilter = 'any';
+    // Auto-select the range tier that matches the search budget
+    _budgetFilter = _findMatchingTier(widget.initialBudget);
     _loadHotels();
+  }
+
+  /// Find the best matching range tier for the search budget.
+  /// If search budget exists in region tiers, use it.
+  /// If not, find the closest tier that covers the search budget.
+  String _findMatchingTier(String? searchBudget) {
+    if (searchBudget == null || searchBudget == 'any') return 'any';
+    final tiers = AppConstants.getStayBudgets(widget.region);
+
+    // Direct match
+    if (tiers.contains(searchBudget)) return searchBudget;
+
+    // Find closest tier: extract the JPY value from searchBudget
+    final searchMatch = RegExp(r'^under(\d+)$').firstMatch(searchBudget);
+    if (searchMatch == null) return 'any';
+    final searchJpy = int.parse(searchMatch.group(1)!);
+
+    // Find the smallest tier that is >= searchJpy
+    for (final tier in tiers) {
+      final tierMatch = RegExp(r'^under(\d+)$').firstMatch(tier);
+      if (tierMatch != null) {
+        final tierJpy = int.parse(tierMatch.group(1)!);
+        if (tierJpy >= searchJpy) return tier;
+      }
+    }
+    // If search budget exceeds all tiers, use the 'over' tier
+    return tiers.last;
   }
   static const _defaultVisible = 3;
 
