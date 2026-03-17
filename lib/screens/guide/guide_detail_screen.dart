@@ -128,16 +128,24 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
           locale: widget.locale,
         );
 
-        // Show snackbar only once across entire app session
+        // Show snackbar once per session with action to go to trip tab
         if (mounted && !_shownAddSnackbar) {
           _shownAddSnackbar = true;
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
-              widget.locale == 'ja' ? '旅行プランに追加しました — 旅行タブで確認できます'
-                  : widget.locale == 'ko' ? '여행 플랜에 추가했습니다 — 여행 탭에서 확인할 수 있습니다'
-                  : 'Added to trip — check the Trip tab',
+              widget.locale == 'ja' ? '旅行プランに追加しました'
+                  : widget.locale == 'ko' ? '여행 플랜에 추가했습니다'
+                  : 'Added to trip plan',
             ),
-            duration: const Duration(seconds: 2),
+            duration: const Duration(seconds: 3),
+            action: SnackBarAction(
+              label: widget.locale == 'ja' ? '旅行タブへ' : widget.locale == 'ko' ? '여행 탭으로' : 'Go to Trip',
+              textColor: Colors.white,
+              onPressed: () {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+                MainShell.globalSwitchTab?.call(3);
+              },
+            ),
           ));
         }
       }
