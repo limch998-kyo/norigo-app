@@ -111,13 +111,13 @@ abstract class AppLocalizations {
   /// No description provided for @homeTitle.
   ///
   /// In en, this message translates to:
-  /// **'Find the best hotel for your trip'**
+  /// **'Visiting Japan? We\'ll find the perfect spot.'**
   String get homeTitle;
 
   /// No description provided for @homeSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Enter tourist spots and we find the optimal hotel area'**
+  /// **'Enter a few places you want to visit — we\'ll find the best hotel area and restaurants.'**
   String get homeSubtitle;
 
   /// No description provided for @searchPlaceholder.
@@ -165,19 +165,19 @@ abstract class AppLocalizations {
   /// No description provided for @quickPlanDesc.
   ///
   /// In en, this message translates to:
-  /// **'Start your trip with one tap'**
+  /// **'Tap to instantly find the best hotel area'**
   String get quickPlanDesc;
 
   /// No description provided for @quickPlanCta.
   ///
   /// In en, this message translates to:
-  /// **'Search'**
+  /// **'Find Hotels'**
   String get quickPlanCta;
 
   /// No description provided for @staySearchTitle.
   ///
   /// In en, this message translates to:
-  /// **'Hotel Search'**
+  /// **'Find Hotel Area'**
   String get staySearchTitle;
 
   /// No description provided for @tripTitle.
@@ -269,6 +269,222 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Guide'**
   String get tabGuide;
+
+  /// No description provided for @meetupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Find Meetup Spot'**
+  String get meetupTitle;
+
+  /// No description provided for @meetupSearchButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Find Meetup Station'**
+  String get meetupSearchButton;
+
+  /// No description provided for @stationPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter station name...'**
+  String get stationPlaceholder;
+
+  /// No description provided for @addStations.
+  ///
+  /// In en, this message translates to:
+  /// **'Add departure stations (2-5)'**
+  String get addStations;
+
+  /// No description provided for @searchMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Search mode'**
+  String get searchMode;
+
+  /// No description provided for @category.
+  ///
+  /// In en, this message translates to:
+  /// **'Category (optional)'**
+  String get category;
+
+  /// No description provided for @budget.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget (optional)'**
+  String get budget;
+
+  /// No description provided for @options.
+  ///
+  /// In en, this message translates to:
+  /// **'Options'**
+  String get options;
+
+  /// No description provided for @dates.
+  ///
+  /// In en, this message translates to:
+  /// **'Dates'**
+  String get dates;
+
+  /// No description provided for @addLandmarks.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter all places you want to visit'**
+  String get addLandmarks;
+
+  /// No description provided for @results.
+  ///
+  /// In en, this message translates to:
+  /// **'Results'**
+  String get results;
+
+  /// No description provided for @noResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get noResults;
+
+  /// No description provided for @recommendedHotels.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended Hotels'**
+  String get recommendedHotels;
+
+  /// No description provided for @nearbyVenues.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby Venues'**
+  String get nearbyVenues;
+
+  /// No description provided for @route.
+  ///
+  /// In en, this message translates to:
+  /// **'Route'**
+  String get route;
+
+  /// No description provided for @avgTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Avg {minutes} min'**
+  String avgTime(int minutes);
+
+  /// No description provided for @splitStay.
+  ///
+  /// In en, this message translates to:
+  /// **'Split Stay'**
+  String get splitStay;
+
+  /// No description provided for @singleStay.
+  ///
+  /// In en, this message translates to:
+  /// **'Single Stay'**
+  String get singleStay;
+
+  /// No description provided for @newTrip.
+  ///
+  /// In en, this message translates to:
+  /// **'New Trip'**
+  String get newTrip;
+
+  /// No description provided for @tripName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter trip name'**
+  String get tripName;
+
+  /// No description provided for @create.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get create;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @rename.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get rename;
+
+  /// No description provided for @deleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \"{name}\"?'**
+  String deleteConfirm(String name);
+
+  /// No description provided for @spots.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} spots'**
+  String spots(int count);
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @about.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
+
+  /// No description provided for @website.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get website;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @termsOfService.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get termsOfService;
+
+  /// No description provided for @active.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get active;
+
+  /// No description provided for @noTripsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No trips yet'**
+  String get noTripsYet;
+
+  /// No description provided for @tapToCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap + to create a new trip'**
+  String get tapToCreate;
 }
 
 class _AppLocalizationsDelegate

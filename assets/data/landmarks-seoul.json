@@ -1,0 +1,707 @@
+[
+  {
+    "name": "明洞（ミョンドン）",
+    "nameEn": "Myeongdong",
+    "nameKo": "명동",
+    "nameZh": "明洞",
+    "romaji": "myeongdong",
+    "slug": "myeongdong",
+    "lat": 37.5609,
+    "lng": 126.9858,
+    "description": {
+      "en": "Myeongdong is Seoul's premier shopping and entertainment district, packed with flagship stores, cosmetics shops, and street food vendors. Stroll through neon-lit streets to discover the latest K-beauty trends, sample tteokbokki and hotteok from sidewalk stalls, and soak in the vibrant urban energy day and night.",
+      "ja": "明洞はソウル最大級のショッピング・エンタメ街で、コスメ店やファッションブランドが軒を連ねます。韓国コスメの最新トレンドをチェックしながら、トッポッキやホットクなどの屋台グルメを味わい、ネオン輝く活気あふれる街を楽しめます。",
+      "ko": "명동은 서울을 대표하는 쇼핑·엔터테인먼트 거리로, 화장품 매장과 패션 브랜드 매장이 즐비합니다. 네온사인이 빛나는 거리를 걸으며 최신 K-뷰티 트렌드를 만나고, 길거리 음식인 떡볶이와 호떡도 즐겨보세요.",
+      "zh": "明洞是首尔最热闹的购物与娱乐街区，汇聚了众多化妆品店、时尚品牌旗舰店和街头小吃摊。在霓虹灯闪烁的街道上体验最新的韩国美妆潮流，品尝炒年糕和糖饼，感受昼夜不息的都市活力。"
+    },
+    "imageUrl": "/images/landmarks/myeongdong.webp"
+  },
+  {
+    "name": "弘大（ホンデ）",
+    "nameEn": "Hongdae",
+    "nameKo": "홍대",
+    "nameZh": "弘大",
+    "romaji": "hongdae",
+    "slug": "hongdae",
+    "lat": 37.5574,
+    "lng": 126.9248,
+    "description": {
+      "en": "Hongdae is Seoul's youthful arts-and-nightlife hub, centered around Hongik University. The area buzzes with indie music venues, quirky cafés, street performers, and vintage shops, making it the go-to spot for experiencing Korea's creative subcultures and after-dark energy.",
+      "ja": "弘大（ホンデ）は弘益大学周辺に広がるソウル屈指の若者カルチャーエリアです。インディーズ音楽のライブハウスやおしゃれカフェ、路上パフォーマンスが楽しめ、韓国の最先端サブカルチャーとナイトライフを体験できます。",
+      "ko": "홍대는 홍익대학교 인근에 형성된 서울의 대표적인 젊은이 문화 거리입니다. 인디 음악 공연장, 개성 넘치는 카페, 거리 공연, 빈티지 숍 등이 가득해 한국의 창의적인 하위문화와 밤 문화를 만끽할 수 있습니다.",
+      "zh": "弘大以弘益大学为中心，是首尔最具青年活力的艺术与夜生活街区。这里有独立音乐演出场所、个性咖啡馆、街头表演和复古小店，是体验韩国创意亚文化与夜间活力的首选之地。"
+    },
+    "imageUrl": "/images/landmarks/hongdae.webp"
+  },
+  {
+    "name": "江南（カンナム）",
+    "nameEn": "Gangnam",
+    "nameKo": "강남",
+    "nameZh": "江南",
+    "romaji": "gangnam",
+    "slug": "gangnam",
+    "lat": 37.4979,
+    "lng": 127.0276,
+    "description": {
+      "en": "Gangnam is Seoul's upscale commercial district, famous worldwide thanks to K-pop culture. The area boasts luxury boutiques, trendy restaurants, sleek office towers, and a thriving nightlife scene along streets like Gangnam-daero and Apgujeong Rodeo.",
+      "ja": "江南（カンナム）はK-POPで世界的に知られるソウルの高級商業エリアです。高級ブティックやトレンディなレストラン、洗練されたオフィスビルが立ち並び、華やかなナイトライフも楽しめる都会的なスポットです。",
+      "ko": "강남은 K-pop으로 세계적으로 유명해진 서울의 대표적인 상업·비즈니스 지구입니다. 고급 부티크, 트렌디한 레스토랑, 세련된 오피스 타워가 즐비하며 활기찬 밤 문화도 즐길 수 있습니다.",
+      "zh": "江南是首尔的高端商业区，因K-pop文化而闻名全球。这里汇聚了奢侈品精品店、时尚餐厅和现代化写字楼，江南大路和狎鸥亭罗德奥街的夜生活也十分精彩。"
+    },
+    "imageUrl": "/images/landmarks/gangnam.webp"
+  },
+  {
+    "name": "梨泰院（イテウォン）",
+    "nameEn": "Itaewon",
+    "nameKo": "이태원",
+    "nameZh": "梨泰院",
+    "romaji": "itaewon",
+    "slug": "itaewon",
+    "lat": 37.5344,
+    "lng": 126.9946,
+    "description": {
+      "en": "Itaewon is Seoul's most cosmopolitan neighborhood, known for its diverse international restaurants, rooftop bars, and multicultural atmosphere. Nestled near Yongsan, it offers everything from Middle Eastern cuisine to craft cocktail lounges, plus unique vintage and antique shopping.",
+      "ja": "梨泰院（イテウォン）はソウルで最も国際色豊かなエリアで、世界各国のレストランやルーフトップバーが集まります。龍山エリアに位置し、多国籍グルメやクラフトカクテル、ヴィンテージショップなどコスモポリタンな雰囲気を満喫できます。",
+      "ko": "이태원은 서울에서 가장 국제적인 분위기를 자랑하는 동네로, 다양한 외국 음식점과 루프탑 바, 다문화적 분위기가 특징입니다. 중동 요리부터 크래프트 칵테일 라운지까지 다채로운 경험과 빈티지·앤틱 쇼핑을 즐길 수 있습니다.",
+      "zh": "梨泰院是首尔最具国际化氛围的街区，以多元的异国餐厅、屋顶酒吧和多文化环境著称。这里有中东美食、精酿鸡尾酒酒廊，还有独特的复古和古董小店，是感受首尔多元文化的好去处。"
+    },
+    "imageUrl": "/images/landmarks/itaewon.webp"
+  },
+  {
+    "name": "仁寺洞（インサドン）",
+    "nameEn": "Insadong",
+    "nameKo": "인사동",
+    "nameZh": "仁寺洞",
+    "romaji": "insadong",
+    "slug": "insadong",
+    "lat": 37.5746,
+    "lng": 126.985,
+    "description": {
+      "en": "Insadong is Seoul's cultural heart, lined with traditional tea houses, art galleries, and antique shops along its charming main street. Explore Korean calligraphy, ceramics, and hanbok experiences while savoring traditional snacks and soaking in centuries of artistic heritage.",
+      "ja": "仁寺洞はソウルの文化的な中心地で、伝統的な茶室やアートギャラリー、骨董品店が並ぶ趣ある通りです。韓国の書道体験や陶芸、韓服試着を楽しみながら伝統的なお菓子を味わい、長い芸術の歴史に触れることができます。",
+      "ko": "인사동은 서울의 문화 중심지로, 전통 찻집과 미술관, 골동품 가게가 줄지어 있는 매력적인 거리입니다. 한국 서예와 도자기, 한복 체험을 즐기고 전통 간식을 맛보며 오랜 예술 유산을 느껴보세요.",
+      "zh": "仁寺洞是首尔的文化核心街区，主街两旁排列着传统茶馆、艺术画廊和古董店。在这里可以体验韩国书法、陶艺和韩服，品尝传统小吃，感受数百年的艺术底蕴。"
+    },
+    "imageUrl": "/images/landmarks/insadong.webp"
+  },
+  {
+    "name": "景福宮（キョンボックン）",
+    "nameEn": "Gyeongbokgung Palace",
+    "nameKo": "경복궁",
+    "nameZh": "景福宫",
+    "romaji": "gyeongbokgung",
+    "slug": "gyeongbokgung",
+    "lat": 37.5796,
+    "lng": 126.977,
+    "description": {
+      "en": "Gyeongbokgung is the grandest of Seoul's Five Grand Palaces, built in 1395 as the main royal residence of the Joseon dynasty. Witness the spectacular changing of the guard ceremony, explore exquisite throne halls and pavilions, and enjoy the stunning mountain backdrop of Bugaksan.",
+      "ja": "景福宮は1395年に建てられた朝鮮王朝の正宮で、ソウル五大宮殿の中でも最大の規模を誇ります。華やかな守門将交代式を見学し、精巧な正殿や亭を巡りながら、北岳山を背景にした壮大な景観を楽しめます。",
+      "ko": "경복궁은 1395년 조선 왕조의 정궁으로 건립된 서울 5대 궁궐 중 가장 웅장한 궁궐입니다. 화려한 수문장 교대식을 관람하고, 근정전과 경회루 등 아름다운 전각을 둘러보며 북악산을 배경으로 한 장엄한 풍경을 감상하세요.",
+      "zh": "景福宫建于1395年，是朝鲜王朝的正宫，也是首尔五大宫中规模最大的一座。在这里可以观赏盛大的守门将换岗仪式，参观精美的正殿和亭阁，并欣赏以北岳山为背景的壮丽景色。"
+    },
+    "imageUrl": "/images/landmarks/gyeongbokgung.webp"
+  },
+  {
+    "name": "北村韓屋村（プクチョン）",
+    "nameEn": "Bukchon Hanok Village",
+    "nameKo": "북촌한옥마을",
+    "nameZh": "北村韩屋村",
+    "romaji": "bukchon",
+    "slug": "bukchon-hanok-village",
+    "lat": 37.5827,
+    "lng": 126.9837,
+    "description": {
+      "en": "Bukchon Hanok Village is a picturesque neighborhood of hundreds of traditional Korean hanok houses dating back to the Joseon dynasty. Wander through narrow alleys between Gyeongbokgung and Changdeokgung palaces for Instagram-worthy views, cultural workshops, and a glimpse into Seoul's historic residential life.",
+      "ja": "北村韓屋村は朝鮮時代から残る数百軒の伝統的な韓屋が並ぶ美しい集落です。景福宮と昌徳宮の間の細い路地を散策しながら、フォトジェニックな風景や文化体験ワークショップを楽しみ、ソウルの歴史的な暮らしに触れてみましょう。",
+      "ko": "북촌한옥마을은 조선시대부터 이어져 온 수백 채의 전통 한옥이 모여 있는 아름다운 동네입니다. 경복궁과 창덕궁 사이의 좁은 골목길을 거닐며 한옥의 아름다움을 감상하고, 문화 체험 워크숍에도 참여해보세요.",
+      "zh": "北村韩屋村坐落着数百栋朝鲜时代传承下来的传统韩屋，是首尔最具代表性的历史街区之一。漫步于景福宫和昌德宫之间的窄巷中，拍摄绝美照片，参加文化工坊，领略首尔古老的居住风貌。"
+    },
+    "imageUrl": "/images/landmarks/bukchon-hanok-village.webp"
+  },
+  {
+    "name": "Nソウルタワー",
+    "nameEn": "N Seoul Tower",
+    "nameKo": "N서울타워",
+    "nameZh": "N首尔塔",
+    "romaji": "nseoultower",
+    "slug": "n-seoul-tower",
+    "lat": 37.5512,
+    "lng": 126.9882,
+    "description": {
+      "en": "N Seoul Tower stands atop Namsan Mountain at 236 meters, offering panoramic views of the entire Seoul metropolitan area. Take the Namsan cable car up, lock a love padlock on the famous fence, and enjoy romantic sunset and night views from the observation deck or revolving restaurant.",
+      "ja": "Nソウルタワーは南山の頂上に立つ高さ236メートルのランドマークで、ソウル市街を360度見渡せます。南山ケーブルカーで登り、有名な愛の南京錠をフェンスにかけ、展望台や回転レストランからロマンティックな夕日と夜景を堪能しましょう。",
+      "ko": "N서울타워는 남산 꼭대기에 자리한 236m 높이의 서울 대표 랜드마크로, 서울 시내 전경을 360도로 조망할 수 있습니다. 남산 케이블카를 타고 올라가 사랑의 자물쇠를 걸고, 전망대나 회전 레스토랑에서 낭만적인 일몰과 야경을 즐겨보세요.",
+      "zh": "N首尔塔矗立于南山之巅，高236米，可360度俯瞰首尔全景。乘坐南山缆车登顶，在著名的爱情锁围栏上挂一把锁，在观景台或旋转餐厅欣赏浪漫的日落和夜景。"
+    },
+    "imageUrl": "/images/landmarks/n-seoul-tower.webp"
+  },
+  {
+    "name": "東大門デザインプラザ（DDP）",
+    "nameEn": "Dongdaemun Design Plaza (DDP)",
+    "nameKo": "동대문디자인플라자",
+    "nameZh": "东大门设计广场",
+    "romaji": "ddp",
+    "slug": "ddp",
+    "lat": 37.5669,
+    "lng": 127.0094,
+    "description": {
+      "en": "DDP is a futuristic neo-futuristic landmark designed by Zaha Hadid, featuring flowing curves of aluminum panels that glow beautifully at night. Inside you'll find rotating design exhibitions, a fashion market, and creative workshops, while the surrounding Dongdaemun area offers 24-hour shopping.",
+      "ja": "東大門デザインプラザ（DDP）はザハ・ハディド設計の未来的なランドマークで、アルミパネルの流線形が夜にはライトアップで美しく輝きます。館内ではデザイン展やファッションマーケットを楽しめ、周辺の東大門エリアでは24時間ショッピングも可能です。",
+      "ko": "DDP는 자하 하디드가 설계한 미래적인 건축물로, 알루미늄 패널의 유려한 곡선이 밤이면 아름답게 빛납니다. 내부에서는 디자인 전시와 패션 마켓을 즐길 수 있고, 주변 동대문 일대에서는 24시간 쇼핑이 가능합니다.",
+      "zh": "东大门设计广场（DDP）由扎哈·哈迪德设计，流线型铝面板造型充满未来感，夜间灯光效果尤为壮观。馆内有轮换的设计展览、时尚市集和创意工坊，周边东大门商圈更可24小时畅购。"
+    },
+    "imageUrl": "/images/landmarks/ddp.webp"
+  },
+  {
+    "name": "ロッテワールドタワー",
+    "nameEn": "Lotte World",
+    "nameKo": "잠실/롯데월드",
+    "nameZh": "乐天世界",
+    "romaji": "lotteworld",
+    "slug": "lotte-world",
+    "lat": 37.5112,
+    "lng": 127.0981,
+    "description": {
+      "en": "Lotte World is one of the world's largest indoor theme parks, featuring thrilling rides, an ice rink, a folk museum, and an outdoor Magic Island on Seokchon Lake. Combined with Lotte World Tower's 555-meter observation deck, it offers a full day of entertainment for all ages.",
+      "ja": "ロッテワールドは世界最大級の室内テーマパークで、スリル満点のアトラクションやアイスリンク、民俗博物館が揃っています。石村湖のマジックアイランドや555メートルのロッテワールドタワー展望台と合わせて、一日中楽しめるスポットです。",
+      "ko": "롯데월드는 세계 최대 규모의 실내 테마파크로, 스릴 넘치는 놀이기구와 아이스링크, 민속박물관을 갖추고 있습니다. 석촌호수 위의 매직아일랜드와 555m 높이의 롯데월드타워 전망대까지 모든 연령대가 하루 종일 즐길 수 있는 곳입니다.",
+      "zh": "乐天世界是全球最大的室内主题乐园之一，拥有惊险刺激的游乐设施、溜冰场和民俗博物馆，石村湖上还有户外魔幻岛。加上555米高的乐天世界塔观景台，老少皆宜，可以畅玩一整天。"
+    },
+    "imageUrl": "/images/landmarks/lotte-world.webp"
+  },
+  {
+    "name": "COEX",
+    "nameEn": "COEX",
+    "nameKo": "코엑스",
+    "nameZh": "COEX",
+    "romaji": "coex",
+    "slug": "coex",
+    "lat": 37.512,
+    "lng": 127.059,
+    "description": {
+      "en": "COEX Mall is one of Asia's largest underground shopping complexes, home to the stunning Starfield Library with its towering bookshelves, an aquarium, a cinema, and hundreds of shops and restaurants. It also hosts major conventions and K-pop events at the adjacent convention center.",
+      "ja": "コエックスモールはアジア最大級の地下ショッピング施設で、巨大な本棚が印象的なスターフィールドライブラリーや水族館、映画館を備えています。隣接するコンベンションセンターではK-POPイベントや大型展示会も開催されます。",
+      "ko": "코엑스몰은 아시아 최대 규모의 지하 쇼핑 복합단지로, 거대한 책장이 인상적인 별마당 도서관과 아쿠아리움, 영화관 등을 갖추고 있습니다. 인접한 컨벤션센터에서는 K-pop 이벤트와 대형 전시회도 열립니다.",
+      "zh": "COEX是亚洲最大的地下购物中心之一，拥有令人惊叹的星空图书馆、水族馆、影院以及数百家商铺和餐厅。毗邻的会展中心还经常举办大型展会和K-pop活动。"
+    },
+    "imageUrl": "/images/landmarks/coex.webp"
+  },
+  {
+    "name": "汝矣島（ヨイド）",
+    "nameEn": "Yeouido",
+    "nameKo": "여의도",
+    "nameZh": "汝矣岛",
+    "romaji": "yeouido",
+    "slug": "yeouido",
+    "lat": 37.5217,
+    "lng": 126.9244,
+    "description": {
+      "en": "Yeouido is Seoul's financial hub and a beautiful riverside district known for its spectacular cherry blossom festival each spring. Home to the National Assembly and the iconic 63 Building, it also features Yeouido Hangang Park, perfect for cycling, picnics, and evening river cruises.",
+      "ja": "汝矣島はソウルの金融中心地であり、毎年春には見事な桜並木で有名なリバーサイドエリアです。国会議事堂や63ビルがあり、漢江沿いの汝矣島公園ではサイクリングやピクニック、夕方のリバークルーズも楽しめます。",
+      "ko": "여의도는 서울의 금융 중심지이자 매년 봄 화려한 벚꽃 축제로 유명한 한강변 지구입니다. 국회의사당과 63빌딩이 있으며, 여의도 한강공원에서 자전거 타기, 피크닉, 한강 유람선 등을 즐길 수 있습니다.",
+      "zh": "汝矣岛是首尔的金融中心，也是每年春天赏樱的热门地点。这里有国会大厦和标志性的63大厦，沿汉江的汝矣岛公园适合骑行、野餐和傍晚的江上游船。"
+    },
+    "imageUrl": "/images/landmarks/yeouido.webp"
+  },
+  {
+    "name": "光化門（クァンファムン）",
+    "nameEn": "Gwanghwamun",
+    "nameKo": "광화문",
+    "nameZh": "光化门",
+    "romaji": "gwanghwamun",
+    "slug": "gwanghwamun",
+    "lat": 37.571,
+    "lng": 126.977,
+    "description": {
+      "en": "Gwanghwamun is the iconic main gate of Gyeongbokgung Palace and the heart of Seoul's civic square. Gwanghwamun Square features statues of King Sejong and Admiral Yi Sun-sin, and serves as a gathering place for cultural events, festivals, and national celebrations.",
+      "ja": "光化門は景福宮の正門であり、ソウルの市民広場の中心です。光化門広場には世宗大王と李舜臣将軍の像が立ち、文化イベントや祝祭、国家的行事の場として市民に親しまれています。",
+      "ko": "광화문은 경복궁의 정문이자 서울 시민 광장의 중심입니다. 광화문광장에는 세종대왕상과 이순신 장군 동상이 있으며, 각종 문화 행사와 축제, 국가적 기념행사가 열리는 장소입니다.",
+      "zh": "光化门是景福宫的正门，也是首尔市民广场的核心。光化门广场上矗立着世宗大王和李舜臣将军的铜像，是举办文化活动、节庆和国家庆典的重要场所。"
+    },
+    "imageUrl": "/images/landmarks/gwanghwamun.webp"
+  },
+  {
+    "name": "南大門市場（ナムデムン）",
+    "nameEn": "Namdaemun Market",
+    "nameKo": "남대문시장",
+    "nameZh": "南大门市场",
+    "romaji": "namdaemun",
+    "slug": "namdaemun-market",
+    "lat": 37.559,
+    "lng": 126.9773,
+    "description": {
+      "en": "Namdaemun Market is Korea's oldest and largest traditional market, operating since 1414. With over 10,000 shops selling everything from clothing and accessories to kitchenware and ginseng, plus incredible street food stalls, it's a must-visit for authentic Korean market culture.",
+      "ja": "南大門市場は1414年から続く韓国最古・最大の伝統市場です。衣類やアクセサリー、食器、高麗人参など1万店以上が軒を連ね、絶品の屋台グルメも楽しめるソウル観光の必訪スポットです。",
+      "ko": "남대문시장은 1414년부터 이어져 온 한국 최대·최고(最古)의 전통시장입니다. 의류, 액세서리, 주방용품, 인삼 등을 파는 1만여 개의 상점과 다양한 길거리 음식이 있어 한국 시장 문화를 제대로 체험할 수 있습니다.",
+      "zh": "南大门市场始于1414年，是韩国历史最悠久、规模最大的传统市场。超过一万家商铺出售服装、饰品、厨具和人参等各类商品，还有令人垂涎的街头小吃，是体验地道韩国市场文化的必去之地。"
+    },
+    "imageUrl": "/images/landmarks/namdaemun-market.webp"
+  },
+  {
+    "name": "新村（シンチョン）",
+    "nameEn": "Sinchon",
+    "nameKo": "신촌",
+    "nameZh": "新村",
+    "romaji": "sinchon",
+    "slug": "sinchon",
+    "lat": 37.5553,
+    "lng": 126.9365,
+    "description": {
+      "en": "Sinchon is a lively university district between Yonsei and Ewha Womans universities, brimming with affordable restaurants, bars, and entertainment options. The pedestrian-friendly Sinchon Shopping Street and surrounding alleys offer budget-friendly Korean food, karaoke rooms, and a youthful atmosphere.",
+      "ja": "新村は延世大学と梨花女子大学の間に位置する活気ある学生街で、手頃なレストランやバー、娯楽施設が充実しています。歩行者天国の新村ショッピング通りを中心にリーズナブルな韓国料理やカラオケを楽しめます。",
+      "ko": "신촌은 연세대와 이화여대 사이에 위치한 활기찬 대학가로, 합리적인 가격의 음식점과 술집, 오락 시설이 가득합니다. 신촌 보행자 거리와 주변 골목에서 저렴한 한국 음식과 노래방 등을 즐겨보세요.",
+      "zh": "新村位于延世大学和梨花女子大学之间，是充满青春活力的大学区，遍布实惠的餐厅、酒吧和娱乐场所。步行街和周边小巷里有平价韩餐、KTV，氛围年轻热闹。"
+    },
+    "imageUrl": "/images/landmarks/sinchon.webp"
+  },
+  {
+    "name": "梨花女子大学（イファ）",
+    "nameEn": "Ewha Womans University Area",
+    "nameKo": "이대",
+    "nameZh": "梨大",
+    "romaji": "ewha",
+    "slug": "ewha",
+    "lat": 37.5569,
+    "lng": 126.9467,
+    "description": {
+      "en": "The Ewha area surrounds Korea's prestigious Ewha Womans University, featuring the stunning ECC underground campus designed by Dominique Perrault. The neighborhood is filled with fashion boutiques, beauty shops, and charming cafés popular with students and visitors alike.",
+      "ja": "梨大エリアは名門・梨花女子大学を中心としたおしゃれなエリアです。ドミニク・ペローが設計した地下キャンパスECCは建築好き必見で、周辺にはファッションブティックやコスメショップ、カフェが立ち並びます。",
+      "ko": "이대 일대는 명문 이화여자대학교를 중심으로 형성된 세련된 거리입니다. 도미니크 페로가 설계한 지하 캠퍼스 ECC는 건축 명소이며, 주변에는 패션 부티크와 뷰티숍, 카페가 즐비합니다.",
+      "zh": "梨大商圈以韩国名校梨花女子大学为中心，多米尼克·佩罗设计的地下校园ECC是建筑亮点。周围有许多时尚精品店、美妆店和特色咖啡馆，深受学生和游客喜爱。"
+    },
+    "imageUrl": "/images/landmarks/ewha.webp"
+  },
+  {
+    "name": "狎鷗亭（アックジョン）",
+    "nameEn": "Apgujeong",
+    "nameKo": "압구정",
+    "nameZh": "狎鸥亭",
+    "romaji": "apgujeong",
+    "slug": "apgujeong",
+    "lat": 37.5271,
+    "lng": 127.0286,
+    "description": {
+      "en": "Apgujeong is Seoul's upscale fashion district, home to luxury brands, celebrity-frequented salons, and Rodeo Street's trendy boutiques. It's a hotspot for K-beauty clinics, designer shopping, and people-watching in one of Korea's most affluent neighborhoods.",
+      "ja": "狎鴎亭はソウルの高級ファッションエリアで、ラグジュアリーブランドや芸能人御用達のサロン、ロデオ通りのトレンディなブティックが集まります。K-ビューティークリニックやデザイナーズショッピングを楽しめる韓国有数の富裕層エリアです。",
+      "ko": "압구정은 서울의 고급 패션 거리로, 명품 브랜드와 셀럽이 찾는 살롱, 로데오 거리의 트렌디한 부티크가 모여 있습니다. K-뷰티 클리닉과 디자이너 쇼핑을 즐길 수 있는 한국 최고의 부촌 중 하나입니다.",
+      "zh": "狎鸥亭是首尔的高端时尚街区，汇聚了奢侈品牌、明星常去的沙龙和罗德奥街的潮流精品店。这里也是韩国美容诊所和设计师品牌购物的热门地点，是首尔最富裕的社区之一。"
+    },
+    "imageUrl": "/images/landmarks/apgujeong.webp"
+  },
+  {
+    "name": "清渓川（チョンゲチョン）",
+    "nameEn": "Cheonggyecheon Stream",
+    "nameKo": "청계천",
+    "nameZh": "清溪川",
+    "romaji": "cheonggyecheon",
+    "slug": "cheonggyecheon",
+    "lat": 37.569,
+    "lng": 126.9783,
+    "description": {
+      "en": "Cheonggyecheon is a beautifully restored 11-kilometer urban stream running through downtown Seoul, transformed from an elevated highway into a peaceful walkway. Stroll along stepping stones and public art installations, enjoy seasonal festivals, and escape the city bustle just steps from major streets.",
+      "ja": "清渓川はソウル中心部を流れる全長11キロの都市河川で、かつての高架道路から美しい散策路へと生まれ変わりました。飛び石やパブリックアートを楽しみながら歩き、季節ごとの祭りで都会の喧騒を忘れるオアシスです。",
+      "ko": "청계천은 서울 도심을 가로지르는 11km 길이의 복원된 도시 하천으로, 고가도로가 아름다운 산책로로 변모했습니다. 징검다리와 공공 예술 작품을 감상하며 걷고, 계절 축제를 즐기며 도심 속 자연의 평화를 느껴보세요.",
+      "zh": "清溪川是首尔市中心一条长11公里的复原城市溪流，从高架公路华丽转身为宁静的步行道。沿途有踏脚石和公共艺术装置，四季举办各种庆典，是闹市中难得的清幽之所。"
+    },
+    "imageUrl": "/images/landmarks/cheonggyecheon.webp"
+  },
+  {
+    "name": "戦争記念館",
+    "nameEn": "War Memorial of Korea",
+    "nameKo": "전쟁기념관",
+    "nameZh": "战争纪念馆",
+    "romaji": "warmemorial",
+    "slug": "war-memorial",
+    "lat": 37.5347,
+    "lng": 126.9772,
+    "description": {
+      "en": "The War Memorial of Korea is one of the world's largest war museums, documenting Korea's military history from ancient times through the Korean War. The outdoor exhibit features tanks, aircraft, and naval vessels, while indoor galleries offer moving displays about the sacrifices for peace.",
+      "ja": "戦争記念館は世界最大級の軍事博物館の一つで、古代から朝鮮戦争に至る韓国の軍事史を詳しく紹介しています。屋外には戦車や航空機、軍艦が展示され、屋内では平和への犠牲を伝える感動的な展示を見学できます。",
+      "ko": "전쟁기념관은 세계 최대 규모의 전쟁 박물관 중 하나로, 고대부터 한국전쟁까지 한국의 군사 역사를 기록하고 있습니다. 야외에는 전차, 항공기, 함정이 전시되어 있고, 실내 전시관에서는 평화를 위한 희생의 이야기를 만날 수 있습니다.",
+      "zh": "韩国战争纪念馆是世界上最大的战争博物馆之一，记录了从古代到朝鲜战争的军事历史。室外展区陈列着坦克、飞机和军舰，室内展厅则通过感人的展品讲述为和平所做的牺牲。"
+    },
+    "imageUrl": "/images/landmarks/war-memorial.webp"
+  },
+  {
+    "name": "国立中央博物館",
+    "nameEn": "National Museum of Korea",
+    "nameKo": "국립중앙박물관",
+    "nameZh": "国立中央博物馆",
+    "romaji": "nationalmuseum",
+    "slug": "national-museum",
+    "lat": 37.5239,
+    "lng": 126.9806,
+    "description": {
+      "en": "The National Museum of Korea is one of Asia's largest museums, housing over 310,000 artifacts spanning Korean history from prehistoric times to modern art. The stunning modern building in Yongsan features beautiful garden grounds and free admission to its impressive permanent collection.",
+      "ja": "国立中央博物館はアジア最大級の博物館で、先史時代から現代美術まで31万点以上の収蔵品を誇ります。龍山の壮大な近代建築には美しい庭園があり、充実した常設展示を無料で見学できるのも魅力です。",
+      "ko": "국립중앙박물관은 아시아 최대 규모의 박물관 중 하나로, 선사시대부터 현대미술까지 31만 점 이상의 유물을 소장하고 있습니다. 용산의 현대적인 건물과 아름다운 정원이 어우러지며, 상설전시는 무료로 관람할 수 있습니다.",
+      "zh": "国立中央博物馆是亚洲最大的博物馆之一，收藏了从史前到现代艺术的31万余件文物。坐落于龙山的现代化建筑配有优美的庭院，常设展免费开放，非常值得一看。"
+    },
+    "imageUrl": "/images/landmarks/national-museum.webp"
+  },
+  {
+    "name": "昌徳宮（チャンドックン）",
+    "nameEn": "Changdeokgung Palace",
+    "nameKo": "창덕궁",
+    "nameZh": "昌德宫",
+    "romaji": "changdeokgung",
+    "slug": "changdeokgung",
+    "lat": 37.5792,
+    "lng": 126.9911,
+    "description": {
+      "en": "Changdeokgung is a UNESCO World Heritage Site and the best-preserved of Seoul's Five Grand Palaces. Its famed Secret Garden (Huwon) features centuries-old trees, lotus ponds, and elegant pavilions harmoniously blended with the natural landscape across 78 acres.",
+      "ja": "昌徳宮はユネスコ世界遺産に登録されたソウル五大宮殿の中でも最も保存状態の良い宮殿です。名勝の後苑（秘密の庭）には樹齢数百年の木々や蓮池、風情ある東屋が自然と調和した約32万平方メートルの庭園が広がります。",
+      "ko": "창덕궁은 유네스코 세계유산으로 등재된 서울 5대 궁궐 중 가장 보존이 잘 된 궁궐입니다. 유명한 후원(비원)에는 수백 년 된 나무와 연못, 정자가 자연 지형과 조화를 이루며 약 78에이커에 걸쳐 펼쳐져 있습니다.",
+      "zh": "昌德宫是联合国教科文组织世界遗产，也是首尔五大宫中保存最完好的一座。著名的后苑（秘苑）拥有数百年古树、莲花池和雅致的亭阁，在约78英亩的土地上与自然景观完美融合。"
+    },
+    "imageUrl": "/images/landmarks/changdeokgung.webp"
+  },
+  {
+    "name": "合井・望遠（マンウォン）",
+    "nameEn": "Hapjeong/Mangwon",
+    "nameKo": "합정/망원",
+    "nameZh": "合井/望远",
+    "romaji": "hapjeong-mangwon",
+    "slug": "hapjeong-mangwon",
+    "lat": 37.5497,
+    "lng": 126.9142,
+    "description": {
+      "en": "Hapjeong and Mangwon are trendy neighborhoods along the Han River, beloved by locals for artisan bakeries, specialty coffee shops, and the bustling Mangwon Market. These areas offer an authentic, less touristy side of Seoul with a relaxed, creative vibe.",
+      "ja": "合井・望遠は漢江沿いのトレンディなエリアで、こだわりのベーカリーやスペシャルティコーヒーショップ、活気ある望遠市場で地元の人々に愛されています。観光客が少なくリラックスした雰囲気の中で、ソウルの素顔を楽しめます。",
+      "ko": "합정과 망원은 한강변의 트렌디한 동네로, 장인 베이커리와 스페셜티 커피숍, 활기찬 망원시장으로 현지인들에게 사랑받고 있습니다. 관광객이 적어 여유롭고 창의적인 서울의 일상을 경험할 수 있는 곳입니다.",
+      "zh": "合井和望远是汉江沿岸的潮流街区，以手作面包店、精品咖啡馆和热闹的望远市场深受当地人喜爱。这里游客较少，氛围轻松而富有创意，能体验到更真实的首尔生活。"
+    },
+    "imageUrl": "/images/landmarks/hapjeong-mangwon.webp"
+  },
+  {
+    "name": "永登浦（ヨンドゥンポ）",
+    "nameEn": "Yeongdeungpo",
+    "nameKo": "영등포",
+    "nameZh": "永登浦",
+    "romaji": "yeongdeungpo",
+    "slug": "yeongdeungpo",
+    "lat": 37.5159,
+    "lng": 126.9073,
+    "description": {
+      "en": "Yeongdeungpo is a major commercial and transportation hub in southwestern Seoul, anchored by the massive Times Square mall and the traditional Yeongdeungpo Market. The area offers convenient access to Yeouido and the Han River, blending modern shopping with old-school market charm.",
+      "ja": "永登浦はソウル南西部の主要な商業・交通拠点で、大型商業施設タイムズスクエアや伝統的な永登浦市場があります。汝矣島や漢江へのアクセスも便利で、最新のショッピングと昔ながらの市場の魅力を同時に味わえます。",
+      "ko": "영등포는 서울 남서부의 주요 상업·교통 중심지로, 대형 쇼핑몰 타임스퀘어와 전통 영등포시장이 있습니다. 여의도와 한강으로의 접근성이 좋으며, 현대적 쇼핑과 전통 시장의 매력을 동시에 느낄 수 있습니다.",
+      "zh": "永登浦是首尔西南部的重要商业和交通枢纽，有大型购物中心Times Square和传统的永登浦市场。这里去汝矣岛和汉江很方便，现代购物与老派市场魅力并存。"
+    },
+    "imageUrl": "/images/landmarks/yeongdeungpo.webp"
+  },
+  {
+    "name": "建国大学（コングク）",
+    "nameEn": "Konkuk University Area",
+    "nameKo": "건대입구",
+    "nameZh": "建大入口",
+    "romaji": "konkuk",
+    "slug": "konkuk",
+    "lat": 37.5407,
+    "lng": 127.0697,
+    "description": {
+      "en": "The Konkuk University area is a vibrant neighborhood known for Common Ground, Korea's first container shopping mall, and a lively food scene along Star City Mall. With trendy cafés, street food alleys, and a young crowd, it's a great spot for casual dining and shopping.",
+      "ja": "建大入口エリアは韓国初のコンテナ型ショッピングモール「コモングラウンド」やスターシティモールのグルメストリートで知られる活気ある街です。トレンディなカフェや屋台グルメ、若者向けショッピングが楽しめます。",
+      "ko": "건대입구 일대는 한국 최초의 컨테이너 쇼핑몰 '커먼그라운드'와 스타시티몰의 먹거리 거리로 유명한 활기찬 동네입니다. 트렌디한 카페와 길거리 음식, 젊은 분위기가 어우러진 곳입니다.",
+      "zh": "建大入口是一个充满活力的街区，以韩国首个集装箱购物中心Common Ground和星城商场的美食街闻名。潮流咖啡馆、街头小吃和年轻的氛围让这里成为休闲用餐和购物的好去处。"
+    },
+    "imageUrl": "/images/landmarks/konkuk.webp"
+  },
+  {
+    "name": "聖水洞（ソンス）",
+    "nameEn": "Seongsu",
+    "nameKo": "성수",
+    "nameZh": "圣水",
+    "romaji": "seongsu",
+    "slug": "seongsu",
+    "lat": 37.5446,
+    "lng": 127.0558,
+    "description": {
+      "en": "Seongsu is Seoul's Brooklyn, a former industrial zone transformed into the city's hottest creative district. Converted warehouses and factories now house artisan coffee roasters, concept stores, pop-up galleries, and some of Seoul's most Instagram-worthy spaces.",
+      "ja": "聖水はソウルのブルックリンと呼ばれ、かつての工業地帯が最先端のクリエイティブ地区に生まれ変わりました。改装された倉庫や工場にはこだわりのコーヒーロースターやコンセプトストア、ポップアップギャラリーが入り、フォトジェニックなスポットが満載です。",
+      "ko": "성수는 '서울의 브루클린'으로 불리며, 구 공업지대가 서울에서 가장 핫한 크리에이티브 지구로 변모했습니다. 개조된 창고와 공장에 장인 커피 로스터리, 컨셉 스토어, 팝업 갤러리 등이 들어서 인스타그래머블한 공간이 가득합니다.",
+      "zh": "圣水被称为'首尔的布鲁克林'，由旧工业区蜕变为首尔最火的创意街区。改造后的仓库和工厂里开设了精品咖啡烘焙坊、概念店和快闪画廊，是首尔最适合拍照打卡的地方之一。"
+    },
+    "imageUrl": "/images/landmarks/seongsu.webp"
+  },
+  {
+    "name": "ソウルの森",
+    "nameEn": "Seoul Forest",
+    "nameKo": "서울숲",
+    "nameZh": "首尔林",
+    "romaji": "seoulforest",
+    "slug": "seoul-forest",
+    "lat": 37.5443,
+    "lng": 127.0374,
+    "description": {
+      "en": "Seoul Forest is a sprawling 35-hectare urban park along the Han River, offering lush gardens, a deer enclosure, butterfly gardens, and art installations. It's a favorite weekend retreat for picnics, cycling, and nature walks just minutes from the trendy Seongsu district.",
+      "ja": "ソウルの森は漢江沿いに広がる約35ヘクタールの都市公園で、緑豊かな庭園やシカ牧場、蝶の庭園、アートインスタレーションがあります。トレンディな聖水エリアからすぐのピクニックやサイクリングに最適な週末の憩いの場です。",
+      "ko": "서울숲은 한강변에 위치한 약 35만㎡ 규모의 도시공원으로, 울창한 정원과 사슴 방사장, 나비 정원, 예술 설치물 등이 있습니다. 성수동에서 가까워 피크닉, 자전거, 산책을 즐기기에 좋은 주말 휴식처입니다.",
+      "zh": "首尔林是汉江畔占地35公顷的大型城市公园，拥有郁郁葱葱的花园、鹿苑、蝴蝶园和艺术装置。毗邻潮流圣水区，是周末野餐、骑行和散步的热门去处。"
+    },
+    "imageUrl": "/images/landmarks/seoul-forest.webp"
+  },
+  {
+    "name": "乙支路（ウルチロ）",
+    "nameEn": "Euljiro",
+    "nameKo": "을지로",
+    "nameZh": "乙支路",
+    "romaji": "euljiro",
+    "slug": "euljiro",
+    "lat": 37.566,
+    "lng": 126.992,
+    "description": {
+      "en": "Euljiro is Seoul's retro-cool district where old-school printing shops and hardware stores share space with hip cocktail bars and nostalgic cafés. This 'hipster alley' has become a cultural hotspot where Seoul's industrial past meets its creative present in a uniquely atmospheric setting.",
+      "ja": "乙支路は昔ながらの印刷所や金物店とおしゃれなカクテルバーやレトロカフェが共存するソウルのレトロクールなエリアです。工業的な過去とクリエイティブな現在が融合した独特の雰囲気で、「ヒップスター横丁」として注目を集めています。",
+      "ko": "을지로는 오래된 인쇄소와 철물점 사이로 힙한 칵테일 바와 레트로 카페가 들어선 뉴트로 감성의 거리입니다. 서울의 산업적 과거와 창의적인 현재가 만나는 독특한 분위기의 문화 핫플레이스로 떠올랐습니다.",
+      "zh": "乙支路是首尔的复古潮流街区，老式印刷厂和五金店与时髦的鸡尾酒吧和怀旧咖啡馆比邻而居。这条'文青巷'已成为文化热点，首尔的工业过去与创意现在在此独特交融。"
+    },
+    "imageUrl": "/images/landmarks/euljiro.webp"
+  },
+  {
+    "name": "カロスキル",
+    "nameEn": "Garosu-gil",
+    "nameKo": "가로수길",
+    "nameZh": "林荫路",
+    "romaji": "garosugil",
+    "slug": "garosu-gil",
+    "lat": 37.5186,
+    "lng": 127.0234,
+    "description": {
+      "en": "Garosu-gil is a tree-lined street in Sinsa-dong known for its chic boutiques, designer flagship stores, and charming sidewalk cafés. The ginkgo-lined boulevard is particularly stunning in autumn and serves as a runway for Seoul's fashion-forward crowds.",
+      "ja": "カロスキルは新沙洞にある並木道で、おしゃれなブティックやデザイナーズフラッグシップストア、素敵なカフェテラスが並びます。イチョウ並木は秋が特に美しく、ソウルのファッショニスタたちが行き交うおしゃれストリートです。",
+      "ko": "가로수길은 신사동에 위치한 가로수가 늘어선 거리로, 세련된 부티크와 디자이너 플래그십 매장, 카페 테라스가 즐비합니다. 은행나무 가로수가 특히 가을에 아름답고, 서울의 패션 피플이 모이는 거리입니다.",
+      "zh": "林荫路位于新沙洞，是一条两旁种满银杏树的时尚街道，汇聚了精品店、设计师旗舰店和迷人的露天咖啡馆。秋天的银杏大道尤为壮观，是首尔时尚达人的聚集地。"
+    },
+    "imageUrl": "/images/landmarks/garosu-gil.webp"
+  },
+  {
+    "name": "解放村（ヘバンチョン）",
+    "nameEn": "Haebangchon",
+    "nameKo": "해방촌",
+    "nameZh": "解放村",
+    "romaji": "haebangchon",
+    "slug": "haebangchon",
+    "lat": 37.539,
+    "lng": 126.9861,
+    "description": {
+      "en": "Haebangchon is a hillside neighborhood on the slopes of Namsan, offering eclectic international dining, cozy wine bars, and panoramic city views. Once a post-war refugee settlement, it has evolved into a charming multicultural enclave popular with expats and adventurous foodies.",
+      "ja": "解放村は南山の斜面に広がるヒルサイドエリアで、多国籍料理やワインバー、パノラマの街並みが楽しめます。戦後の避難民居住地から多文化的な魅力あるエリアへと変貌し、外国人居住者やグルメ好きに人気のスポットです。",
+      "ko": "해방촌은 남산 경사면에 자리한 언덕 동네로, 다양한 외국 음식점과 와인바, 탁 트인 시내 전망이 매력적입니다. 한국전쟁 이후 피난민 정착지에서 다문화적 매력을 갖춘 동네로 변모하며 외국인과 미식가들에게 인기를 얻고 있습니다.",
+      "zh": "解放村坐落在南山山坡上，有各式国际餐厅、温馨的酒吧和开阔的城市全景。这里从战后难民聚居地演变为迷人的多文化社区，深受外籍人士和美食爱好者喜爱。"
+    },
+    "imageUrl": "/images/landmarks/haebangchon.webp"
+  },
+  {
+    "name": "延南洞（ヨンナムドン）",
+    "nameEn": "Yeonnam-dong",
+    "nameKo": "연남동",
+    "nameZh": "延南洞",
+    "romaji": "yeonnamdong",
+    "slug": "yeonnam-dong",
+    "lat": 37.5626,
+    "lng": 126.9246,
+    "description": {
+      "en": "Yeonnam-dong is a trendy residential neighborhood near Hongdae, centered around Gyeongui Line Forest Park, a converted railway turned linear park. The area is packed with independent cafés, brunch spots, and small creative studios, offering a relaxed alternative to Hongdae's bustle.",
+      "ja": "延南洞は弘大近くのトレンディな住宅街で、廃線を公園に再生した京義線森の道が中心です。個性的なカフェやブランチスポット、小さなクリエイティブスタジオが立ち並び、弘大の賑わいとは一味違うリラックスした雰囲気を楽しめます。",
+      "ko": "연남동은 홍대 근처의 트렌디한 주거 지역으로, 폐선을 공원으로 재생한 경의선숲길을 중심으로 형성되어 있습니다. 개성 있는 카페와 브런치 맛집, 작은 크리에이티브 스튜디오가 가득해 홍대의 분주함과는 다른 여유로운 분위기를 즐길 수 있습니다.",
+      "zh": "延南洞是弘大附近的时尚住宅区，以由废弃铁路改建的京义线林道为中心。这里有许多独立咖啡馆、早午餐店和小型创意工作室，氛围轻松惬意，是弘大喧嚣之外的宁静选择。"
+    },
+    "imageUrl": "/images/landmarks/yeonnam-dong.webp"
+  },
+  {
+    "name": "北漢山（プッカンサン）",
+    "nameEn": "Bukhansan National Park",
+    "nameKo": "북한산",
+    "nameZh": "北汉山",
+    "romaji": "bukhansan",
+    "slug": "bukhansan",
+    "lat": 37.6608,
+    "lng": 126.993,
+    "description": {
+      "en": "Bukhansan National Park is a stunning granite mountain park on Seoul's northern edge, offering challenging hikes with breathtaking views of the city skyline. With dramatic rock peaks, ancient fortress walls, and Buddhist temples, it's one of the most visited national parks in the world.",
+      "ja": "北漢山国立公園はソウル北端にそびえる花崗岩の山岳公園で、都心のスカイラインを一望できる本格的なハイキングコースがあります。迫力ある岩峰や古代の城壁、仏教寺院があり、世界で最も訪問者の多い国立公園の一つです。",
+      "ko": "북한산국립공원은 서울 북쪽에 위치한 화강암 산악공원으로, 서울 시내 스카이라인을 조망할 수 있는 도전적인 등산 코스가 있습니다. 웅장한 바위봉우리와 고대 산성, 불교 사찰이 어우러져 세계에서 가장 많은 탐방객이 찾는 국립공원 중 하나입니다.",
+      "zh": "北汉山国立公园位于首尔北缘，是一座花岗岩山岳公园，提供颇具挑战性的徒步路线和令人叹为观止的城市天际线景观。壮观的岩峰、古老的城墙和佛教寺院交相辉映，是全球游客最多的国立公园之一。"
+    },
+    "imageUrl": "/images/landmarks/bukhansan.webp"
+  },
+  {
+    "name": "漢江公園（ハンガン）",
+    "nameEn": "Hangang Park",
+    "nameKo": "한강공원",
+    "nameZh": "汉江公园",
+    "romaji": "hangangpark",
+    "slug": "hangang-park",
+    "lat": 37.519,
+    "lng": 126.934,
+    "description": {
+      "en": "Hangang Park stretches along the iconic Han River, offering cycling paths, waterside picnic spots, and convenience store delivery straight to your mat. Order fried chicken and beer for a classic 'chimaek' experience, rent bikes, or take an evening river cruise under the illuminated bridges.",
+      "ja": "漢江公園は漢江沿いに広がる市民の憩いの場で、サイクリングロードや水辺のピクニックスポットが充実しています。韓国名物「チメク」（チキン＆ビール）を注文してマットの上で楽しんだり、レンタサイクルやナイトクルーズで漢江の夜景を満喫しましょう。",
+      "ko": "한강공원은 한강을 따라 이어지는 시민 휴식 공간으로, 자전거 도로와 수변 피크닉 장소가 마련되어 있습니다. 돗자리 위에서 치킨과 맥주를 배달시켜 '치맥'을 즐기고, 자전거를 빌려 타거나 야간 유람선을 타며 한강의 밤을 만끽해보세요.",
+      "zh": "汉江公园沿标志性的汉江延伸，设有骑行道和水边野餐区。点一份炸鸡啤酒体验经典的'炸鸡啤酒'文化，租自行车骑行，或在灯火辉煌的桥下乘坐夜间游船，尽享汉江之夜。"
+    },
+    "imageUrl": "/images/landmarks/hangang-park.webp"
+  },
+  {
+    "name": "三清洞（サムチョンドン）",
+    "nameEn": "Samcheong-dong",
+    "nameKo": "삼청동",
+    "nameZh": "三清洞",
+    "romaji": "samcheongdong",
+    "slug": "samcheong-dong",
+    "lat": 37.5827,
+    "lng": 126.9804,
+    "description": {
+      "en": "Samcheong-dong is a charming neighborhood nestled between Gyeongbokgung Palace and Bukchon, lined with art galleries, quaint cafés, and Korean fusion restaurants. Its quiet tree-lined streets offer a peaceful contrast to bustling downtown Seoul, making it ideal for leisurely afternoon strolls.",
+      "ja": "三清洞は景福宮と北村の間に位置する趣ある街で、アートギャラリーや小さなカフェ、韓国フュージョン料理店が並びます。木々に囲まれた静かな通りはソウルの喧騒とは対照的で、午後の散策に最適なスポットです。",
+      "ko": "삼청동은 경복궁과 북촌 사이에 자리한 매력적인 동네로, 미술관과 아담한 카페, 한식 퓨전 레스토랑이 줄지어 있습니다. 나무가 늘어선 조용한 거리는 번화한 서울 도심과 대조적이며, 여유로운 오후 산책에 안성맞춤입니다.",
+      "zh": "三清洞坐落在景福宫和北村之间，沿街排列着艺术画廊、精致咖啡馆和韩式创意餐厅。林荫小道宁静怡人，与喧闹的首尔市中心形成鲜明对比，是悠闲午后散步的理想之地。"
+    },
+    "imageUrl": "/images/landmarks/samcheong-dong.webp"
+  },
+  {
+    "name": "鍾路（チョンノ）",
+    "nameEn": "Jongno",
+    "nameKo": "종로",
+    "nameZh": "钟路",
+    "romaji": "jongno",
+    "slug": "jongno",
+    "lat": 37.57,
+    "lng": 126.983,
+    "description": {
+      "en": "Jongno is Seoul's historic central avenue, stretching from Gwanghwamun to Dongdaemun, and the heart of the city since the Joseon dynasty. The area is home to Tapgol Park, Jogyesa Temple, and Jongno Tower, along with traditional restaurants and the iconic Pimatgol alley.",
+      "ja": "鍾路は光化門から東大門まで延びるソウルの歴史的な中央通りで、朝鮮時代から都市の中心でした。タプコル公園や曹渓寺、鍾路タワーがあり、伝統的な飲食店やピマッコル路地など歴史情緒あふれるエリアです。",
+      "ko": "종로는 광화문에서 동대문까지 이어지는 서울의 역사적인 중앙 대로로, 조선시대부터 도시의 중심이었습니다. 탑골공원, 조계사, 종로타워와 함께 전통 음식점과 피맛골 등 역사적 정취가 남아 있는 곳입니다.",
+      "zh": "钟路是从光化门延伸至东大门的首尔历史中轴线，自朝鲜时代起即为城市核心。这里有塔谷公园、曹溪寺和钟路大厦，还有传统餐厅和标志性的避马街小巷，历史气息浓厚。"
+    },
+    "imageUrl": "/images/landmarks/jongno.webp"
+  },
+  {
+    "name": "ソウル駅",
+    "nameEn": "Seoul Station",
+    "nameKo": "서울역",
+    "nameZh": "首尔站",
+    "romaji": "seoulstation",
+    "slug": "seoul-station",
+    "lat": 37.5547,
+    "lng": 126.9707,
+    "description": {
+      "en": "Seoul Station is the city's main railway hub, connecting KTX high-speed trains to cities across Korea. The beautifully restored old station building now serves as a cultural space, while the modern terminal offers direct airport rail express service to Incheon International Airport.",
+      "ja": "ソウル駅は韓国全土へのKTX高速鉄道の起点となるソウルのメインターミナルです。美しく復元された旧駅舎は文化スペースとして活用され、現代的なターミナルからは仁川国際空港への直通エアポートエクスプレスも利用できます。",
+      "ko": "서울역은 KTX 고속열차로 전국 각지를 연결하는 서울의 중심 철도 허브입니다. 아름답게 복원된 구 역사는 문화 공간으로 활용되고 있으며, 현대적인 터미널에서는 인천국제공항으로의 공항철도 직통열차를 이용할 수 있습니다.",
+      "zh": "首尔站是首尔的主要铁路枢纽，KTX高速列车从这里通达韩国各大城市。修复后的老站房现已成为文化空间，现代化航站楼还提供直达仁川国际机场的机场快线服务。"
+    },
+    "imageUrl": "/images/landmarks/seoul-station.webp"
+  },
+  {
+    "name": "仁川チャイナタウン",
+    "nameEn": "Incheon Chinatown",
+    "nameKo": "인천 차이나타운",
+    "nameZh": "仁川中华街",
+    "romaji": "incheon-chinatown",
+    "slug": "incheon-chinatown",
+    "lat": 37.4748,
+    "lng": 126.6169,
+    "nearestStation": "인천"
+  },
+  {
+    "name": "月尾島（ウォルミド）",
+    "nameEn": "Wolmido",
+    "nameKo": "월미도",
+    "nameZh": "月尾岛",
+    "romaji": "wolmido",
+    "slug": "wolmido",
+    "lat": 37.4758,
+    "lng": 126.5978,
+    "nearestStation": "인천"
+  },
+  {
+    "name": "松島セントラルパーク",
+    "nameEn": "Songdo Central Park",
+    "nameKo": "송도 센트럴파크",
+    "nameZh": "松岛中央公园",
+    "romaji": "songdo-central-park",
+    "slug": "songdo-central-park",
+    "lat": 37.3823,
+    "lng": 126.6610,
+    "nearestStation": "센트럴파크"
+  },
+  {
+    "name": "水原華城（スウォンファソン）",
+    "nameEn": "Suwon Hwaseong Fortress",
+    "nameKo": "수원 화성",
+    "nameZh": "水原华城",
+    "romaji": "suwon-hwaseong",
+    "slug": "suwon-hwaseong",
+    "lat": 37.2870,
+    "lng": 127.0129,
+    "nearestStation": "수원"
+  },
+  {
+    "name": "華城行宮（ファソンヘングン）",
+    "nameEn": "Hwaseong Haenggung Palace",
+    "nameKo": "수원 화성행궁",
+    "nameZh": "华城行宫",
+    "romaji": "hwaseong-haenggung",
+    "slug": "hwaseong-haenggung",
+    "lat": 37.2847,
+    "lng": 127.0138,
+    "nearestStation": "수원"
+  },
+  {
+    "name": "エバーランド",
+    "nameEn": "Everland",
+    "nameKo": "에버랜드",
+    "nameZh": "爱宝乐园",
+    "romaji": "everland",
+    "slug": "everland",
+    "lat": 37.2942,
+    "lng": 127.2025,
+    "nearestStation": "기흥"
+  },
+  {
+    "name": "韓国民俗村（ハングクミンソクチョン）",
+    "nameEn": "Korean Folk Village",
+    "nameKo": "한국민속촌",
+    "nameZh": "韩国民俗村",
+    "romaji": "korean-folk-village",
+    "slug": "korean-folk-village",
+    "lat": 37.2588,
+    "lng": 127.1185,
+    "nearestStation": "상갈"
+  },
+  {
+    "name": "臨津閣平和ヌリ",
+    "nameEn": "Imjingak Peace Park",
+    "nameKo": "임진각 평화누리",
+    "nameZh": "临津阁和平公园",
+    "romaji": "imjingak",
+    "slug": "imjingak",
+    "lat": 37.8890,
+    "lng": 126.7413,
+    "nearestStation": "문산"
+  },
+  {
+    "name": "南怡島（ナミソム）",
+    "nameEn": "Nami Island",
+    "nameKo": "남이섬",
+    "nameZh": "南怡岛",
+    "romaji": "namiseom",
+    "slug": "nami-island",
+    "lat": 37.7909,
+    "lng": 127.5254,
+    "nearestStation": "가평"
+  },
+  {
+    "name": "プチフランス",
+    "nameEn": "Petite France",
+    "nameKo": "쁘띠프랑스",
+    "nameZh": "小法兰西",
+    "romaji": "petite-france",
+    "slug": "petite-france",
+    "lat": 37.8133,
+    "lng": 127.4783,
+    "nearestStation": "청평"
+  }
+]

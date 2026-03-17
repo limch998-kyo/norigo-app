@@ -1,8 +1,8 @@
 {
   "@@locale": "en",
   "appTitle": "Norigo",
-  "homeTitle": "Find the best hotel for your trip",
-  "homeSubtitle": "Enter tourist spots and we find the optimal hotel area",
+  "homeTitle": "Visiting Japan? We'll find the perfect spot.",
+  "homeSubtitle": "Enter a few places you want to visit — we'll find the best hotel area and restaurants.",
   "searchPlaceholder": "Search landmarks...",
   "searchButton": "Search Hotels",
   "tokyoTitle": "Tokyo / Kanto",
@@ -10,9 +10,9 @@
   "seoulTitle": "Seoul",
   "busanTitle": "Busan",
   "quickPlanTitle": "Popular Travel Plans",
-  "quickPlanDesc": "Start your trip with one tap",
-  "quickPlanCta": "Search",
-  "staySearchTitle": "Hotel Search",
+  "quickPlanDesc": "Tap to instantly find the best hotel area",
+  "quickPlanCta": "Find Hotels",
+  "staySearchTitle": "Find Hotel Area",
   "tripTitle": "My Trip",
   "guidesTitle": "Travel Guides",
   "addToTrip": "Add to trip",
@@ -32,5 +32,56 @@
   "tabHome": "Home",
   "tabSearch": "Search",
   "tabTrip": "Trip",
-  "tabGuide": "Guide"
+  "tabGuide": "Guide",
+  "meetupTitle": "Find Meetup Spot",
+  "meetupSearchButton": "Find Meetup Station",
+  "stationPlaceholder": "Enter station name...",
+  "addStations": "Add departure stations (2-5)",
+  "searchMode": "Search mode",
+  "category": "Category (optional)",
+  "budget": "Budget (optional)",
+  "options": "Options",
+  "dates": "Dates",
+  "addLandmarks": "Enter all places you want to visit",
+  "results": "Results",
+  "noResults": "No results found",
+  "recommendedHotels": "Recommended Hotels",
+  "nearbyVenues": "Nearby Venues",
+  "route": "Route",
+  "avgTime": "Avg {minutes} min",
+  "@avgTime": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "splitStay": "Split Stay",
+  "singleStay": "Single Stay",
+  "newTrip": "New Trip",
+  "tripName": "Enter trip name",
+  "create": "Create",
+  "cancel": "Cancel",
+  "save": "Save",
+  "delete": "Delete",
+  "rename": "Rename",
+  "deleteConfirm": "Delete \"{name}\"?",
+  "@deleteConfirm": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "spots": "{count} spots",
+  "@spots": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settings": "Settings",
+  "language": "Language",
+  "about": "About",
+  "website": "Website",
+  "privacyPolicy": "Privacy Policy",
+  "termsOfService": "Terms of Service",
+  "active": "Active",
+  "noTripsYet": "No trips yet",
+  "tapToCreate": "Tap + to create a new trip"
 }

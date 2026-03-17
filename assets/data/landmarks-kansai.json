@@ -1,0 +1,1464 @@
+[
+  {
+    "name": "金閣寺",
+    "nameEn": "Kinkaku-ji",
+    "nameKo": "금각사",
+    "romaji": "kinkakuji",
+    "lat": 35.0394,
+    "lng": 135.7292,
+    "slug": "kinkaku-ji",
+    "nameZh": "金阁寺",
+    "imageUrl": "/images/landmarks/kinkaku-ji.webp",
+    "description": {
+      "en": "Kinkaku-ji’s gleaming Golden Pavilion, its top two floors sheathed in thin gold leaf, appears to float above a mirror-like pond — an image that defines Kyoto’s timeless beauty. Stroll the peaceful paths, soak up the Zen atmosphere, and capture seasonal moments from cherry blossoms to fiery autumn leaves reflected in the water.",
+      "ja": "金閣寺（鹿苑寺）は、上層二層が薄い金箔で覆われ、池に映る光景が印象的な京都を代表する寺院です。静かな庭園を歩いて禅の落ち着きを感じながら、四季折々の風景を写真に収められます。（現在の姿は1955年に再建されました）",
+      "ko": "금각사(록온지)는 상층 두 층을 얇은 금박으로 장식한 황금 누각이 잔잔한 연못에 비치는 모습으로 유명한 교토의 명소입니다. 고요한 정원을 거닐며 선(禅)의 분위기를 느끼고 사계절마다 다른 풍경을 배경으로 사진을 남겨 보세요.",
+      "zh": "金阁寺（正式名鹿苑寺）以覆有薄金箔的“金阁”及其在池水中的倒影成为京都最具代表性的世界遗产景点之一。漫步庭园小径，既能感受禅意的静谧，也能在樱花或红叶季拍下绝美画面。"
+    }
+  },
+  {
+    "name": "伏見稲荷大社",
+    "nameEn": "Fushimi Inari Taisha",
+    "nameKo": "후시미이나리타이샤",
+    "romaji": "fushimiinaritaisha",
+    "lat": 34.9671,
+    "lng": 135.7727,
+    "slug": "fushimi-inari-taisha",
+    "nameZh": "伏见稻荷大社",
+    "imageUrl": "/images/landmarks/fushimi-inari-taisha.webp",
+    "description": {
+      "en": "Fushimi Inari Taisha in Kyoto is the chief shrine dedicated to the kami Inari, set at the foot of Mount Inari. Walk through its famous vermilion torii gates and follow the mountain trails that span about 4 km — a roughly two-hour route that leads to dozens of smaller shrines and an unforgettable, atmospheric hike.",
+      "ja": "京都・伏見の稲荷大社は稲荷神の総本社で、稲荷山の麓にあります。千本鳥居をくぐりながら山中に点在する末社へと続く約4キロ、所要約2時間の参道は、散歩感覚で神秘的な風景を楽しめる場所です。",
+      "ko": "후시미 이나리타이샤는 교토에 있는 이나리 신의 본사로, 이나리 산 기슭에 자리해 있습니다. 붉은 도리이 터널을 지나 산길로 이어지는 약 4km(약 2시간)의 참배로를 따라가며 곳곳에 있는 작은 신사들을 둘러볼 수 있는 특별한 산책을 즐겨보세요.",
+      "zh": "伏见稻荷大社是供奉稻荷神的总社，坐落于稻荷山脚下。穿过一排排朱红鸟居，沿着约4公里、耗时约2小时的山路前行，可以一路探访散落在山中的众多小社，感受别样的神社登山氛围。"
+    }
+  },
+  {
+    "name": "清水寺",
+    "nameEn": "Kiyomizu-dera",
+    "nameKo": "기요미즈데라",
+    "romaji": "kiyomizudera",
+    "lat": 34.9949,
+    "lng": 135.785,
+    "slug": "kiyomizu-dera",
+    "nameZh": "清水寺",
+    "imageUrl": "/images/landmarks/kiyomizu-dera.webp",
+    "description": {
+      "en": "Set on the eastern slopes of Kyoto, Kiyomizu-dera is a centuries-old Buddhist temple devoted to Jūichimen Kannon and one of the few temples that predate Heian‑kyō—now part of the Historic Monuments of Ancient Kyoto UNESCO site. Wander the atmospheric precincts with pilgrims, learn about its hibutsu (hidden) Kannon image, and if you visit in winter you can witness the annual Kanji of the Year ceremony held each December 12.",
+      "ja": "京都東山に佇む清水寺は、十一面観音を本尊とする古刹で、平安京以前から続く数少ない寺院の一つ。世界遺産にも登録された境内は参詣者でにぎわい、秘仏の観音や歴史ある雰囲気を間近に感じられます。毎年12月12日には「今年の漢字」発表の行事も行われます。",
+      "ko": "교토 동쪽에 자리한 기요미즈데라는 열한 면의 관음(十一面観音)을 본존으로 모신 오랜 사찰로, 헤이안쿄 이전에 세워진 몇 안 되는 사찰 중 하나이며 ‘고대 교토의 역사적 기념물’ 유산에 포함되어 있습니다. 많은 순례자와 함께 사찰을 걸으며 관음 신앙과 고즈넉한 고찰의 분위기를 체험할 수 있고, 매년 12월 12일에는 ‘한자(漢字)로 뽑는 올해의 글자’ 행사가 열립니다.",
+      "zh": "清水寺位于京都东部，是供奉十一面观音的古老佛寺，也是建于平安京之前的少数寺院之一，并列入“古都京都的历史遗迹”的世界遗产名录。游客可与朝拜者一道漫步于古寺境内，感受观音信仰与悠长的历史氛围；每年12月12日这里还会举行备受瞩目的“今年汉字”揭晓仪式。"
+    }
+  },
+  {
+    "name": "嵐山",
+    "nameEn": "Arashiyama",
+    "nameKo": "아라시야마",
+    "romaji": "arashiyama",
+    "lat": 35.0094,
+    "lng": 135.667,
+    "slug": "arashiyama",
+    "nameZh": "岚山",
+    "imageUrl": "/images/landmarks/arashiyama.webp",
+    "description": {
+      "en": "Nestled on Kyoto’s western edge, Arashiyama pairs a dramatic mountain backdrop with riverside charm and nationally protected scenic beauty. Wander the famous bamboo groves, cross the iconic Togetsukyo Bridge and visit serene temples while soaking up cherry blossoms in spring and fiery maples in autumn.",
+      "ja": "京都の西郊に広がる嵐山は、雄大な山並みと桂川の穏やかな流れが織りなす風光明媚な名所です。竹林の小径や渡月橋、古寺を巡り、春の桜や秋の紅葉など四季折々の景色をゆっくり味わえます。",
+      "ko": "교토 서쪽 끝자락에 자리한 아라시야마는 산과 강이 어우러진 그림 같은 풍경으로 유명합니다. 대나무 숲을 거닐고 도게츠쿄 다리를 건너며 고즈넉한 사찰과 사계절의 변화를 만끽해 보세요.",
+      "zh": "嵐山位于京都西郊，山水相映，是日本国家级的历史与风景名胜。你可以漫步竹林小径、走过渡月桥、参访古寺，春赏樱花、秋观红叶，体验静谧的日本风情。"
+    }
+  },
+  {
+    "name": "嵐山竹林の小径",
+    "nameEn": "Arashiyama Bamboo Grove",
+    "nameKo": "아라시야마대나무숲",
+    "romaji": "arashiyamabamboogrove",
+    "lat": 35.017,
+    "lng": 135.6713,
+    "slug": "arashiyama-bamboo-grove",
+    "nameZh": "岚山竹林小径",
+    "imageUrl": "/images/landmarks/arashiyama-bamboo-grove.webp",
+    "description": {
+      "en": "Stroll down the towering Arashiyama Bamboo Grove and listen as sunlight sifts through swaying stalks while a tranquil river and the forested mountain rise behind you. A nationally designated place of scenic beauty, it’s a peaceful, photogenic escape—ideal for morning walks, temple detours and seasonal color.",
+      "ja": "嵐山の竹林は、背の高い竹が陽光をこぼしながら天に伸びる中を歩く、京都らしい静かな風情が味わえる場所です。川沿いと山の借景が織りなす景色は、朝の散策や写真撮影、四季折々の表情を楽しむのにぴったりです。",
+      "ko": "아라시야마 대나무숲은 키 큰 대나무가 빽빽하게 늘어선 길을 걸으며 햇살과 바람 소리를 온몸으로 느낄 수 있는 특별한 산책로입니다. 강과 산이 어우러진 고즈넉한 풍광은 사진 촬영이나 사색, 계절마다 다른 매력을 즐기기 좋습니다.",
+      "zh": "岚山竹林是一片高耸的竹林，阳光透过竹梢洒下斑驳光影，沿河漫步能感受到难得的静谧与美丽。山水相映、历史气息浓厚，是清晨散步、拍照和赏季节变化的理想去处。"
+    }
+  },
+  {
+    "name": "二条城",
+    "nameEn": "Nijo Castle",
+    "nameKo": "니조성",
+    "romaji": "nijojo",
+    "lat": 35.0142,
+    "lng": 135.748,
+    "slug": "nijo-castle",
+    "nameZh": "二条城",
+    "imageUrl": "/images/landmarks/nijo-castle.webp",
+    "description": {
+      "en": "Nijō Castle in Kyoto is a sprawling flatland fortress with two concentric rings of fortifications surrounding the Ninomaru Palace, the ruins of the Honmaru Palace, and several gardens. Stroll the extensive grounds to explore the palatial spaces and ruins, admire seasonal garden views, and feel layers of Japan’s feudal history come alive.",
+      "ja": "二条城は京都の平地に広がる城で、二重に巡らされた曲輪が二の丸御殿や本丸跡、付属建物や庭園を包んでいます。広大な敷地をゆっくりと散策し、二の丸御殿を見学したり、季節ごとに表情を変える庭園で歴史を感じてください。",
+      "ko": "니조성은 교토의 평지에 자리한 성으로, 두 겹의 동심 방어선이 니노마루 궁전과 본마루 유적, 여러 부속 건물과 정원을 둘러싸고 있습니다. 넓은 터를 걸으며 니노마루를 직접 보고 본마루의 흔적을 따라가거나, 계절마다 달라지는 정원 풍경 속에서 여유를 느껴보세요.",
+      "zh": "二条城位于京都的平地，以两重同心的防御圈围绕二之丸御所、本丸遗址、众多附属建筑和庭园而著称。漫步在广阔的园区里，你可以参观二之丸御所、探访本丸遗迹，或在四季变换的传统庭园中静享历史氛围。"
+    }
+  },
+  {
+    "name": "東寺",
+    "nameEn": "To-ji",
+    "nameKo": "도지",
+    "romaji": "toji",
+    "lat": 34.9806,
+    "lng": 135.7478,
+    "slug": "to-ji",
+    "nameZh": "东寺",
+    "imageUrl": "/images/landmarks/to-ji.webp",
+    "description": {
+      "en": "Tō-ji, founded by Kūkai and crowned by Kyoto’s iconic five‑story pagoda, offers a serene window into medieval Japanese Buddhism. Stroll the historic grounds, admire the towering wooden pagoda (especially beautiful at sunset), and time your visit for the lively monthly Kobo market to browse antiques and local snacks.",
+      "ja": "東寺は弘法大師・空海ゆかりの真言宗寺院で、京都の象徴ともいえる五重塔がそびえ立つ場所です。静かな境内を散策して仏像や庭園を楽しみ、毎月21日の「弘法さん」の骨董市では地元の品や屋台を覗いてみてください。",
+      "ko": "도지(東寺)는 진언종의 중심 사찰로, 교토의 상징인 우뚝 선 오중탑으로 유명합니다. 고즈넉한 사찰 마당을 걸으며 목조 탑과 정원을 감상하고, 매달 열리는 ‘고보(弘法) 장터’에서 골동품과 길거리 음식을 즐겨보세요.",
+      "zh": "东寺（Tō‑ji）是由弘法大师空海创立的真言宗寺院，京都天际线上那座标志性的五重塔最为吸睛。你可以在古木环抱的境内悠闲漫步、观赏佛像与庭园，若赶上每月21日的弘法市还能淘到古物、品尝地道小吃。"
+    }
+  },
+  {
+    "name": "祇園",
+    "nameEn": "Gion",
+    "nameKo": "기온",
+    "romaji": "gion",
+    "lat": 35.0037,
+    "lng": 135.7755,
+    "slug": "gion",
+    "nameZh": "祇园",
+    "imageUrl": "/images/landmarks/gion.webp",
+    "description": {
+      "en": "Gion is Kyoto’s atmospheric geisha quarter beside Yasaka Shrine, born in the Sengoku era and famed for its wooden machiya, narrow lanes and elegant teahouses. Stroll at dusk to glimpse maiko in kimono, step into centuries of refined entertainment, or visit during the lively Gion Matsuri for an unforgettable taste of traditional Japan.",
+      "ja": "祇園は八坂神社の門前に発展した京都屈指の花街で、戦国時代に起源をもち、格子戸の町家や茶屋が連なる風情あるエリアです。夕暮れ時に舞妓さんが行き交う情景や、夏の祇園祭などを通して、古都の伝統文化を身近に感じられます。",
+      "ko": "기온은 야사카 신사 앞에 형성된 교토의 대표적인 게이샤 거리로, 전국 시대에 뿌리를 두고 고풍스러운 마치야와 전통 찻집이 늘어선 곳입니다. 해질녘 골목을 거닐며 기모노를 입은 마이코를 우연히 마주하거나, 여름의 기온 마쓰리 때 더욱 활기찬 전통 풍경을 즐길 수 있습니다.",
+      "zh": "祇园位于八坂神社前，是起源于战国时代的京都名妓女区，保留着木造町屋、狭窄的石板小巷和传统茶屋。傍晚漫步常能邂逅着装典雅的舞妓，夏季还有热闹的祇园祭，能近距离感受古都的传统风情。"
+    }
+  },
+  {
+    "name": "錦市場",
+    "nameEn": "Nishiki Market",
+    "nameKo": "니시키시장",
+    "romaji": "nishikimarket",
+    "lat": 35.005,
+    "lng": 135.7641,
+    "slug": "nishiki-market",
+    "nameZh": "锦市场",
+    "imageUrl": "/images/landmarks/nishiki-market.webp",
+    "description": {
+      "en": "Step into Nishiki Market, Kyoto’s bustling food arcade where centuries-old shops sell pickles, fresh seafood, sweets and kitchen tools. Sample tiny bites from stall to stall, watch artisans at work, and soak up the lively, authentic atmosphere of Kyoto’s culinary heart.",
+      "ja": "錦市場は“京の台所”と呼ばれる賑やかな商店街です。老舗の漬物屋や鮮魚、京菓子、包丁などが並び、屋台で一口ずつ食べ歩きながら職人の技と京都らしい風情を楽しめます。",
+      "ko": "닛시키 시장은 교토 중심에 위치한 활기찬 먹거리 거리로 전통 식재료와 길거리 음식이 모여 있는 곳입니다. 절임류나 신선한 해산물, 교토식 과자를 작은 가게와 포장마차에서 맛보고, 장인들이 손수 만드는 광경을 가까이서 볼 수 있어요.",
+      "zh": "锦市场是京都的美食心脏，悠久老铺沿着狭长街巷售卖京味腌菜、海鲜、和果子与厨房用具。你可以一边走一边在摊位上尝地道小吃，近距离看师傅手艺，感受浓厚的市井烟火气。"
+    }
+  },
+  {
+    "name": "哲学の道",
+    "nameEn": "Philosopher's Path",
+    "nameKo": "철학의길",
+    "romaji": "philosopherspath",
+    "lat": 35.0232,
+    "lng": 135.7944,
+    "slug": "philosophers-path",
+    "nameZh": "哲学之道",
+    "imageUrl": "/images/landmarks/philosophers-path.webp",
+    "description": {
+      "en": "Stroll the peaceful, cherry-tree-lined canal path between Ginkaku-ji and Nanzen-ji, where seasonal blossoms and quiet waters invite reflection; the walk follows a historic irrigation channel linked to the Lake Biwa Canal. Spend an hour or two wandering teahouses, photogenic bridges and benches that make perfect pauses for photos and contemplation.",
+      "ja": "銀閣寺から南禅寺まで続く「哲学の道」は、桜並木と静かな用水路に沿って歩ける散策路です。季節ごとの花や古い水路が織りなすしっとりとした風景を楽しみつつ、茶屋や小さな橋でゆっくり休憩しながら歩くのがおすすめです。",
+      "ko": "은각사(긴카쿠지)와 난젠지 사이를 잇는 '철학의 길'은 벚나무가 늘어선 운하를 따라 걷는 고즈넉한 산책로입니다. 계절마다 달라지는 꽃과 잔잔한 물소리, 아담한 찻집과 사진이 잘 나오는 다리를 구경하며 느긋하게 산책해 보세요.",
+      "zh": "哲学之道连接银阁寺与南禅寺，是沿着樱花树和古老用水渠铺就的一条静谧步道。无论是春日花海、运河的倒影，还是路旁的茶屋与小桥，都很适合慢行、拍照与沉思。"
+    }
+  },
+  {
+    "name": "南禅寺",
+    "nameEn": "Nanzen-ji",
+    "nameKo": "난젠지",
+    "romaji": "nanzenji",
+    "lat": 35.0113,
+    "lng": 135.7932,
+    "slug": "nanzen-ji",
+    "nameZh": "南禅寺",
+    "imageUrl": "/images/landmarks/nanzen-ji.webp",
+    "description": {
+      "en": "Set on the site of Emperor Kameyama’s former detached palace, Nanzen-ji is a serene Rinzai Zen temple founded in 1291 and still the headquarters of its branch. Wander the nationally designated historic precincts, linger in the Hōjō gardens — a recognized Place of Scenic Beauty — and soak up the tranquil, time‑worn atmosphere of buildings rebuilt after the 1895 fire.",
+      "ja": "南禅寺は亀山法皇の離宮跡に1291年に創建され、臨済宗南禅寺派の本山として知られる名刹です。国の史跡に指定された広い境内をゆっくり散策し、名勝に選ばれた方丈庭園の静けさに浸れば、1895年の焼失と1909年の再建を経た重厚な佇まいから時の深さを感じられます。",
+      "ko": "남젠지(南禅寺)는 1291년 가메야마 천황의 별궁 터에 세워진 임제종 남젠지파의 본산입니다. 국가지정 사적지로 보호되는 넓은 경내를 천천히 거닐며 호조(方丈) 정원의 고요함을 즐기고, 1895년 소실 후 1909년 재건된 건축에서 묵직한 선(禪)의 분위기를 느껴보세요.",
+      "zh": "南禅寺始建于1291年，建在亀山天皇的离宫旧址上，是临济宗南禅寺派的本山。游客可在被指定为国家级历史遗址的广阔寺域内漫步，欣赏被列为名胜的方丈庭园，感受经历1895年焚毁与1909年重建后那份沉静而厚重的禅意。"
+    }
+  },
+  {
+    "name": "平安神宮",
+    "nameEn": "Heian Shrine",
+    "nameKo": "헤이안신궁",
+    "romaji": "heianjingu",
+    "lat": 35.016,
+    "lng": 135.7834,
+    "slug": "heian-shrine",
+    "nameZh": "平安神宫",
+    "imageUrl": "/images/landmarks/heian-shrine.webp",
+    "description": {
+      "en": "Heian Shrine in Kyoto’s Sakyō ward is a distinguished Shinto complex officially ranked as a Beppyō Jinja and protected as an important cultural property of Japan. Visitors can stroll its tranquil precincts, admire the traditional shrine architecture and seasonal scenery, and soak up a palpable sense of Kyoto’s living history.",
+      "ja": "京都・左京区にある平安神宮は、別表神社に列せられ、重要文化財にも指定された格の高い神社です。朱塗りの社殿や広い境内をゆっくりと散策し、四季折々の風景と伝統の空気に触れてみてください。",
+      "ko": "평안신궁(헤이안신궁)은 교토 사쿄구에 있는 신사로, 별표 신사로 분류되고 일본의 중요문화재로 지정된 의미 있는 장소입니다. 붉게 단장된 전통 건축과 넓은 경내를 걸으며 고즈넉한 분위기 속에서 교토의 역사와 문화를 직접 느낄 수 있습니다.",
+      "zh": "平安神宫位于京都左京区，是一座被列为別表神社并被列为日本重要文化财的神社。游客可以在庄严的社殿与宁静的境内漫步，欣赏传统建筑与四季风景，亲身感受京都深厚的历史氛围。"
+    }
+  },
+  {
+    "name": "京都タワー",
+    "nameEn": "Kyoto Tower",
+    "nameKo": "교토타워",
+    "romaji": "kyototower",
+    "lat": 34.9875,
+    "lng": 135.7593,
+    "slug": "kyoto-tower",
+    "nameZh": "京都塔",
+    "imageUrl": "/images/landmarks/kyoto-tower.webp",
+    "description": {
+      "en": "Rising directly across from Kyoto Station, Kyoto Tower is the city's tallest landmark and an ideal first stop for stunning panoramas — its 100-meter observation deck frames temples, the city grid and distant mountains. The steel spire sits atop a nine-story building with shops and a hotel, so you can browse local stores, grab a bite and watch Kyoto glow at night.",
+      "ja": "京都駅の目の前にそびえる京都タワーは市内で最も高いランドマークで、100メートルの展望台から東山の山並みや寺社の屋根越しに街を一望できます。ビル内にはホテルやお土産店が入っていて、駅からすぐ、散策の拠点にも夜景スポットにもぴったりです。",
+      "ko": "교토역 맞은편에 우뚝 선 교토타워는 교토에서 가장 높은 상징물로, 100m 전망대에서 사찰 지붕과 도시 전경, 멀리 보이는 산까지 한눈에 들어옵니다. 타워는 호텔과 상점이 들어선 9층 건물 위에 있어 쇼핑이나 숙박을 겸해 편하게 들르기 좋고, 밤에는 빛나는 도시 풍경을 감상하기 좋습니다.",
+      "zh": "京都塔矗立在京都站对面，是市区最高的地标，100米高的观景台可以把寺庙屋顶、城市街区和远处山脉尽收眼底。塔座下的九层建筑内有酒店和商店，交通便利，适合购物、住宿后登高观景，尤其夜景迷人。"
+    }
+  },
+  {
+    "name": "京都御所",
+    "nameEn": "Kyoto Imperial Palace",
+    "nameKo": "교토고쇼",
+    "romaji": "kyotogosho",
+    "lat": 35.0254,
+    "lng": 135.762,
+    "slug": "kyoto-imperial-palace",
+    "nameZh": "京都御所",
+    "imageUrl": "/images/landmarks/kyoto-imperial-palace.webp",
+    "description": {
+      "en": "Step back into Japan's imperial past at the Kyoto Imperial Palace in Kamigyō-ku, the emperor's former residence until 1869. The carefully preserved grounds and ceremonial buildings are open to visitors, and the Imperial Household Agency runs multiple guided tours daily so you can explore grand halls and tranquil courtyards while sensing the atmosphere of the old court.",
+      "ja": "京都御所は1337年から1869年まで天皇の住まいだった由緒ある場所で、京都の歴史を感じられる静かな一画です。保存された敷地や建物が公開され、宮内庁の定期見学で格式ある殿舎や落ち着いた庭園を間近に見て、かつての宮廷の空気を味わえます。",
+      "ko": "교토고쇼는 1337년부터 1869년까지 천황의 거처였던 역사적인 장소로, 교토의 옛 정취를 생생히 느낄 수 있습니다. 보존된 부지와 건물이 일반에 공개되어 있으며, 궁내청이 주관하는 정기 투어에 참여해 장엄한 전각과 고요한 안뜰을 직접 둘러볼 수 있습니다.",
+      "zh": "京都御所曾是1337年至1869年天皇的居所，如今作为保存完好的历史场所向公众开放。宫内厅定时组织建筑内的参观，你可以走进庄严的殿堂与宁静的庭院，近距离感受古都的宫廷氛围。"
+    }
+  },
+  {
+    "name": "龍安寺",
+    "nameEn": "Ryoan-ji",
+    "nameKo": "료안지",
+    "romaji": "ryoanji",
+    "lat": 35.0345,
+    "lng": 135.7184,
+    "slug": "ryoan-ji",
+    "nameZh": "龙安寺",
+    "imageUrl": "/images/landmarks/ryoan-ji.webp",
+    "description": {
+      "en": "Tucked into northwest Kyoto, Ryoan-ji is a Zen temple famed for its kare-sansui rock garden—15 carefully placed stones set in a sea of raked white pebbles. Pause, sit, or simply gaze; the spare, meditative composition draws you into quiet reflection and has earned the site UNESCO World Heritage recognition.",
+      "ja": "京都の北西にひっそり佇む龍安寺は、禅の精神が息づく枯山水の名庭で知られています。白砂の上に配された石組をただ見つめるだけで、自然と心が落ち着いてくるはずです。世界遺産にも登録されたこの場所は、ゆっくりと時間を過ごしたい人にぴったりです。",
+      "ko": "교토 북서쪽에 자리한 료안지(龍安寺)는 정갈한 가레산스이 돌정원으로 유명한 선사입니다. 고르게 갈아놓은 자갈과 15개의 바위가 만들어내는 여백의 미를 바라보며 자연스럽게 마음이 차분해집니다. 유네스코 세계유산으로 지정된 이곳은 명상하거나 천천히 둘러보기 좋은 장소입니다.",
+      "zh": "位于京都西北的龙安寺以其枯山水石庭著称——几块精心摆放的巨石被一片耙平的白砂包围。站着观赏或静坐片刻，简洁的构图会把你带入沉静的冥想，这座世界遗产是体验日本禅意的必访之地。"
+    }
+  },
+  {
+    "name": "銀閣寺",
+    "nameEn": "Ginkaku-ji",
+    "nameKo": "은각사",
+    "romaji": "ginkakuji",
+    "lat": 35.027,
+    "lng": 135.7982,
+    "slug": "ginkaku-ji",
+    "nameZh": "银阁寺",
+    "imageUrl": "/images/landmarks/ginkaku-ji.webp",
+    "description": {
+      "en": "Perched on Kyoto’s eastern hills, Ginkaku-ji (Jishō-ji) is a quiet Muromachi-era Zen temple that helped define the refined Higashiyama culture. Stroll its mossy paths and raked-sand gardens, admire the understated Silver Pavilion, and soak in the calm views over Kyoto for a moment of contemplative beauty.",
+      "ja": "銀閣寺（慈照寺）は、東山文化を今に伝える室町時代の禅寺。苔庭や砂の庭をゆっくり散策し、飾り気のない銀閣の佇まいと京都の静かな景色に浸る、落ち着いたひとときを楽しめます。",
+      "ko": "긴카쿠지(은각사·慈照寺)는 무로마치 시대 히가시야마 문화의 정취를 느낄 수 있는 선(禅) 사원입니다. 이끼 정원과 모래 정원을 거닐며 소박한 은각의 자태를 감상하고, 고즈넉한 교토 풍경 속에서 차분히 사색할 수 있어요.",
+      "zh": "银阁寺（慈照寺）坐落于京都东山，是代表室町时代东山文化的禅寺。漫步于苔庭与枯山水砂庭，近观素雅的“银阁”，在古都的静谧与细腻美学中放慢脚步。"
+    }
+  },
+  {
+    "name": "東福寺",
+    "nameEn": "Tofuku-ji",
+    "nameKo": "도후쿠지",
+    "romaji": "tofukuji",
+    "lat": 34.9761,
+    "lng": 135.774,
+    "slug": "tofuku-ji",
+    "nameZh": "东福寺",
+    "imageUrl": "/images/landmarks/tofuku-ji.webp",
+    "description": {
+      "en": "Tōfuku-ji is a major Zen temple in Kyoto’s Higashiyama, beloved for the sweeping views of maple foliage from its famous Tsutenkyo bridge and the serene, carefully crafted Zen gardens. Visitors can wander long wooden halls, pause for peaceful reflection, and enjoy striking seasonal scenery—especially the fiery colors of autumn.",
+      "ja": "東福寺は京都・東山区にある大寺院で、通天橋から眺める紅葉の景色がとくに有名です。長い回廊や静かな庭園をゆっくり散策して、禅のたたずまいと四季折々の美しさを味わえます。",
+      "ko": "도후쿠지(東福寺)는 교토 히가시야마를 대표하는 큰 선사로, 특히 통천교에서 바라보는 단풍 풍경으로 유명합니다. 오래된 전각과 잘 가꿔진 정원을 거닐며 고요한 선의 분위기를 느끼고 계절마다 달라지는 경치를 감상할 수 있습니다.",
+      "zh": "东福寺位于京都东山区，是京都重要的禅寺之一，通天桥和满山红叶使这里成为秋日赏枫的热门去处。你可以在古老的殿堂与恬静的庭院间漫步，感受禅意并欣赏四季变换的景致。"
+    }
+  },
+  {
+    "name": "平等院",
+    "nameEn": "Byodoin",
+    "nameKo": "뵤도인",
+    "romaji": "byodoin",
+    "lat": 34.8893,
+    "lng": 135.8076,
+    "slug": "byodoin",
+    "nameZh": "平等院",
+    "imageUrl": "/images/landmarks/byodoin.webp",
+    "description": {
+      "en": "Byōdō-in in Uji, just outside Kyoto, is a late-Heian Buddhist temple prized for its graceful architecture and tranquil pond setting. Visitors can stroll the peaceful gardens, admire the historic halls maintained by both the Jōdo-shū and Tendai-shū traditions, and soak up a vivid sense of Japan’s classical past.",
+      "ja": "宇治にたたずむ平安時代末期の寺院、平等院は穏やかな池と優雅な建築で訪れる人を惹きつけます。浄土宗と天台宗がともに守る堂宇や、池に映る鳳凰堂の佇まいを眺めながら、静かな庭園散策で古都の趣を味わえます。",
+      "ko": "교토 인근 우지에 자리한 비요도인은 헤이안 시대 말에 세워진 불교 사원으로, 고요한 연못과 우아한 건축으로 유명합니다. 정토종과 천태종이 함께 지키는 당우를 둘러보며 정원 산책을 즐기고, 옛 일본의 정취를 느껴보세요.",
+      "zh": "位于宇治的平等院是建于平安时代晚期的佛教古刹，以宁静的庭院和典雅的堂宇著称。这里由净土宗与天台宗共同守护，游客可在池畔漫步，欣赏倒映堂宇的美景，感受古都的历史与静谧。"
+    }
+  },
+  {
+    "name": "三十三間堂",
+    "nameEn": "Sanjusangendo",
+    "nameKo": "산주산겐도",
+    "romaji": "sanjusangendo",
+    "lat": 34.9879,
+    "lng": 135.7717,
+    "slug": "sanjusangendo",
+    "nameZh": "三十三间堂",
+    "imageUrl": "/images/landmarks/sanjusangendo.webp",
+    "description": {
+      "en": "Step into Sanjūsangen-dō in Kyoto’s Higashiyama and walk along its unusually long wooden hall, where 1,001 carved Kannon statues stand in serene rows. Marvel at the exquisite craftsmanship and hushed atmosphere—visit in season and you might also see the dramatic traditional archery event held on the grounds.",
+      "ja": "京都・東山にある三十三間堂は、長い木造の本堂に千一体の観音像が整然と並ぶ光景で訪れる人を圧倒します。堂内を歩けば精緻な彫刻と静かな空気に包まれ、日本の伝統と歴史を肌で感じられます。",
+      "ko": "교토 히가시야마의 산주산겐도는 길게 뻗은 목조건물 안에 1,001개의 관음상이 줄지어 서 있는 장면이 압권입니다. 섬세한 조각과 고요한 분위기를 천천히 감상하고, 때맞춰 가면 전통 활쏘기 행사(토샤야)를 볼 수도 있습니다.",
+      "zh": "三十三间堂位于京都东山，以长长的木制本堂内并列的1001尊观音像闻名。游客可以在宁静的氛围中近距离欣赏精美雕刻与传统建筑之美，若时逢节日还能观赏到著名的射箭祭典。"
+    }
+  },
+  {
+    "name": "仁和寺",
+    "nameEn": "Ninna-ji",
+    "nameKo": "닌나지",
+    "romaji": "ninnaji",
+    "lat": 35.0313,
+    "lng": 135.7139,
+    "slug": "ninna-ji",
+    "nameZh": "仁和寺",
+    "imageUrl": "/images/landmarks/ninna-ji.webp",
+    "description": {
+      "en": "Ninna-ji, the head temple of the Omuro school of Shingon Buddhism in western Kyoto, was founded in AD 888 by Emperor Uda and rebuilt in the 17th century. As part of the Historic Monuments of Ancient Kyoto (UNESCO), it invites visitors to wander its historic halls and tranquil grounds, experiencing imperial connections and traditional Buddhist architecture up close.",
+      "ja": "仁和寺は京都西部にある真言宗御室派の本山で、888年に宇多天皇が創建し、17世紀に再建されました。世界遺産「古都京都の文化財」の一部として、厳かな伽藍や静かな庭を歩きながら、皇室に結びつく長い歴史と伝統的な仏教建築に触れることができます。",
+      "ko": "닌나지는 교토 서쪽에 자리한 진언종 오무로파의 본산으로, 서기 888년 우다 천황이 창건하고 17세기에 재건된 사찰입니다. 유네스코 세계유산인 고대 교토의 역사적 기념물 중 하나로서, 고즈넉한 전각과 정원을 거닐며 황실과 이어진 오랜 역사와 전통 불교 건축을 직접 느껴볼 수 있습니다.",
+      "zh": "仁和寺位于京都西部，是真言宗御室派的总寺，始建于公元888年（宇多天皇所建），17世纪重建。作为“古都京都的历史遗迹”世界遗产的一部分，游客可以在庄重的殿堂与宁静的庭院中漫步，亲身感受深厚的皇室渊源与传统佛教建筑之美。"
+    }
+  },
+  {
+    "name": "天龍寺",
+    "nameEn": "Tenryu-ji",
+    "nameKo": "덴류지",
+    "romaji": "tenryuji",
+    "lat": 35.0154,
+    "lng": 135.6744,
+    "slug": "tenryu-ji",
+    "nameZh": "天龙寺",
+    "imageUrl": "/images/landmarks/tenryu-ji.webp",
+    "description": {
+      "en": "Tenryu-ji is the chief temple of the Rinzai Tenryu-ji school, founded in 1339 by Ashikaga Takauji and steeped in imperial and shogunal history. Wander its tranquil halls and landscaped grounds to soak up a serene Zen atmosphere—this top-ranked Five Mountains temple is also a UNESCO World Heritage site, so every corner feels resonant with history.",
+      "ja": "天龍寺は1339年に足利尊氏が創建した臨済宗天龍寺派の本山で、皇室や足利氏とゆかりの深い格式ある寺院です。落ち着いた禅の空気に包まれながら堂宇や庭園をゆっくり散策でき、京都を代表する世界遺産として見どころが多い場所です。",
+      "ko": "텐류지는 1339년 아시카가 다카우지가 창건한 임제종 텐류지파의 본산으로, 왕가와 쇼군 가문과의 인연으로 높은 위상을 지닌 사찰입니다. 고요한 선의 분위기 속에서 오래된 당우와 정원을 거닐며 역사와 고요함이 어우러진 풍경을 만끽할 수 있습니다.",
+      "zh": "天龙寺由足利尊氏于1339年创建，是临济宗天龙寺派的总本山，与后醍醐天皇和足利氏有深厚渊源，位列京都“五山”之首。你可以在庄严的寺院建筑和静谧的庭园中漫步，感受禅意与历史气息，这里也是列入世界遗产的必访之地。"
+    }
+  },
+  {
+    "name": "嵯峨野トロッコ列車",
+    "nameEn": "Sagano Romantic Train",
+    "nameKo": "사가노로맨틱열차",
+    "romaji": "saganoromanticttrain",
+    "lat": 35.0171,
+    "lng": 135.6573,
+    "slug": "sagano-romantic-train",
+    "nameZh": "嵯峨野观光小火车",
+    "imageUrl": "/images/landmarks/sagano-romantic-train.webp",
+    "description": {
+      "en": "Ride the Sagano Romantic Train in Kyoto for a leisurely, nostalgic trip along the Sagano Scenic Line—retro carriages and wide windows frame unforgettable seasonal views from riverside valleys to flowering cherry trees and fiery autumn leaves. It’s a slow, romantic way to escape the city and soak up Japan’s countryside scenery.",
+      "ja": "京都の嵯峨野トロッコ列車は、ゆったり走るサガノ景観線をレトロな車両で楽しむ観光列車です。車窓に広がる四季折々の風景は見応えがあり、街の喧騒を離れてのんびりとした旅情が味わえます。",
+      "ko": "교토의 사가노 로맨틱 트레인은 사가노 경관선을 따라 느긋하게 달리는 관광열차입니다. 빈티지한 객차와 넓은 창문으로 강가 협곡과 계절마다 달라지는 풍경(벚꽃, 단풍 등)을 편안하게 감상하며 낭만적인 시간을 보낼 수 있습니다.",
+      "zh": "嵯峨野浪漫列車是在京都行驶的观光线路，乘坐复古车厢在慢速中欣赏沿线风光。透过车窗可观赏四季变换的河谷与山林景致，尤其是樱花与红叶季节，充满情调又轻松惬意。"
+    }
+  },
+  {
+    "name": "嵐山モンキーパーク",
+    "nameEn": "Arashiyama Monkey Park",
+    "nameKo": "아라시야마원숭이공원",
+    "romaji": "arashiyamamonkeypark",
+    "lat": 35.0098,
+    "lng": 135.6721,
+    "slug": "arashiyama-monkey-park",
+    "nameZh": "岚山猴子公园",
+    "imageUrl": "/images/landmarks/arashiyama-monkey-park.webp",
+    "description": {
+      "en": "Perched atop Mount Arashiyama across the Ōi River, Iwatayama Monkey Park is home to a lively troop of some 120 wild Japanese macaques. Hike up for close-up encounters—you can feed the monkeys with corn and wheat sold on-site during scheduled feedings while enjoying sweeping views of Kyoto below.",
+      "ja": "嵐山の山頂にある「嵐山モンキーパーク（いわたやま）」は、渡月橋の対岸に位置し、約120頭ものニホンザルが自由に暮らす人気スポットです。園内で販売されるトウモロコシや小麦を使って飼育員の指導で餌やりができ、山上から京都の眺めを楽しめます。",
+      "ko": "교토 아라시야마 언덕 꼭대기에 자리한 이와타야마 원숭이 공원은 120여 마리의 야생 일본원숭이가 모여 사는 특별한 장소입니다. 현장에서 판매하는 옥수수와 밀로 정해진 시간에 직접 먹이를 줄 수 있고, 오이가와(Ōi River)와 교토 시내를 내려다보는 전망도 일품입니다.",
+      "zh": "坐落在岚山山顶的岩田山猴子公园，是120多只日本猕猴的栖息地。游客可在园内购买饲料（玉米和小麦），在工作人员安排的喂食时段近距离喂猴，同时还能俯瞰大堰川和京都市景，体验难忘的野生动物互动。"
+    }
+  },
+  {
+    "name": "大阪城",
+    "nameEn": "Osaka Castle",
+    "nameKo": "오사카성",
+    "romaji": "osakajo",
+    "lat": 34.6873,
+    "lng": 135.5262,
+    "slug": "osaka-castle",
+    "nameZh": "大阪城",
+    "imageUrl": "/images/landmarks/osaka-castle.webp",
+    "description": {
+      "en": "Osaka Castle rises in the heart of the city as one of Japan’s most iconic landmarks, famed for its role in the 16th‑century unification. Explore the restored main keep and its museum, climb to the observation deck for sweeping city views, and wander the moat, stone walls and seasonal cherry‑tree park surrounding the castle.",
+      "ja": "大阪城は大阪の中心にそびえる象徴的な名所で、16世紀の日本統一期に大きな役割を果たしました。復元された天守では展示を通して歴史を学べ、展望台から市街地の眺めを楽しんだり、護城河や石垣、季節ごとに表情を変える桜並木をのんびり散策できます。",
+      "ko": "오사카성은 16세기 일본 통일사에서 중요한 역할을 한 상징적 성곽으로, 오사카 중심부의 넓은 공원 한가운데 자리합니다. 복원된 천수각의 역사 전시를 둘러보고 꼭대기 전망대에서 도시 전경을 감상한 뒤, 해자와 석벽, 계절마다 달라지는 벚꽃 길을 여유롭게 걸어보세요.",
+      "zh": "大阪城坐落于大阪市中心，是日本最具代表性的古城之一，曾在16世纪的统一过程中发挥关键作用。你可以参观修复后的天守阁与内部博物馆，登上展望台俯瞰城市全景，或在护城河与樱花掩映的广阔公园中漫步，感受四季风情。"
+    }
+  },
+  {
+    "name": "道頓堀",
+    "nameEn": "Dotonbori",
+    "nameKo": "도톤보리",
+    "romaji": "dotonbori",
+    "lat": 34.6687,
+    "lng": 135.5021,
+    "slug": "dotonbori",
+    "nameZh": "道顿堀",
+    "imageUrl": "/images/landmarks/dotonbori.webp",
+    "description": {
+      "en": "Dotonbori is Osaka’s neon-soaked playground along the canal, famous for its giant illuminated signs, quirky storefronts and nonstop nightlife. Wander beneath the glowing Glico man, sample street-food classics like takoyaki and okonomiyaki, and soak up the theater-era eccentric energy that makes this stretch unforgettable.",
+      "ja": "道頓堀はネオンと賑わいにあふれた大阪の名所で、道頓堀川沿いに光る派手な看板や個性的な店が並ぶエリアです。グリコのネオンを眺めながらたこ焼きやお好み焼きを味わい、劇場街の名残を感じる夜の散策を楽しんでください。",
+      "ko": "도톤보리는 오사카 운하를 따라 펼쳐진 네온의 거리로, 화려한 간판과 개성 넘치는 가게들로 유명한 번화가입니다. 글리코 사인 아래에서 타코야끼와 오코노미야끼 같은 길거리 음식을 맛보고, 옛 극장가의 독특한 분위기를 만끽해 보세요.",
+      "zh": "道頓堀是大阪最有名的霓虹夜生活区，沿着运河两岸布满夸张的招牌和各种个性店铺。你可以在格力高跑步人霓虹前拍照，边吃章鱼小丸子和御好烧，感受从戏剧街发展而来的热闹与古怪魅力。"
+    }
+  },
+  {
+    "name": "新世界",
+    "nameEn": "Shinsekai",
+    "nameKo": "신세카이",
+    "romaji": "shinsekai",
+    "lat": 34.6525,
+    "lng": 135.5063,
+    "slug": "shinsekai",
+    "nameZh": "新世界",
+    "imageUrl": "/images/landmarks/shinsekai.webp",
+    "description": {
+      "en": "Shinsekai is Osaka’s gloriously gritty retro quarter centered on the towering Tsutenkaku — a living time capsule where early-20th-century city planning meets neon-soaked streets. Wander the narrow alleys for cheap, irresistible kushikatsu, old-school arcades and lively izakayas that feel like stepping back in time.",
+      "ja": "通天閣をシンボルにした新世界は、昭和レトロな雰囲気と庶民の活気が同居する場外の楽しさが魅力です。串カツや昔ながらのゲーセン、雰囲気のある立ち飲み店をはしごして、ディープな大阪の夜を味わってください。",
+      "ko": "통천각을 중심으로 한 신세계는 옛 정취가 살아 있는 오사카의 레트로 명소입니다. 저렴한 쿠시카츠와 골목 구석구석의 가게들, 오래된 게임센터를 돌아다니며 현지의 활기찬 밤문화를 체험해 보세요.",
+      "zh": "以通天阁为标志的新世界，保留着浓厚的复古气息，街区既有上世纪初的设计影子，也被霓虹与市井生活照亮。这里是品尝平价串炸、逛复古游戏厅、体验最地道大阪日常的好去处。"
+    }
+  },
+  {
+    "name": "通天閣",
+    "nameEn": "Tsutenkaku",
+    "nameKo": "쓰텐카쿠",
+    "romaji": "tsutenkaku",
+    "lat": 34.6527,
+    "lng": 135.5067,
+    "slug": "tsutenkaku",
+    "nameZh": "通天阁",
+    "imageUrl": "/images/landmarks/tsutenkaku.webp",
+    "description": {
+      "en": "Tsutenkaku rises above Shinsekai as Osaka’s retro landmark — head up to the 91‑meter observation deck for sweeping city views and a neon-lit panorama. Down below, bustling streets of kushikatsu stalls and old-school arcades offer local flavor, and the iconic Hitachi sign makes for a quintessential Osaka photo.",
+      "ja": "通天閣は新世界にそびえる大阪のレトロなランドマークです。高さ103メートル、展望台は約91メートルから街を一望でき、下の商店街では串カツや昭和の雰囲気が楽しめます。日立の看板もこの場所の名物です。",
+      "ko": "츠텐카쿠는 신세카이를 대표하는 레트로한 오사카의 상징 타워로, 약 91미터 전망대에서 도시 전경과 네온 야경을 한눈에 볼 수 있습니다. 아래 거리는 쿠시카츠 가게와 오락실로 활기가 넘쳐 현지 분위기를 즐기기 좋고, 히타치 간판은 이곳의 트레이드마크입니다.",
+      "zh": "通天阁是矗立在新世界区的大阪地标，登上约91米的展望台可以俯瞰城市与怀旧的霓虹街景。塔下的商店街热闹非凡，有串炸等在地小吃和昭和风情可供体验，著名的日立广告牌也是拍照亮点。"
+    }
+  },
+  {
+    "name": "ユニバーサル・スタジオ・ジャパン",
+    "nameEn": "Universal Studios Japan",
+    "nameKo": "유니버설스튜디오재팬",
+    "romaji": "universalstudiosjapan",
+    "lat": 34.6656,
+    "lng": 135.4324,
+    "slug": "universal-studios-japan",
+    "nameZh": "日本环球影城",
+    "imageUrl": "/images/landmarks/universal-studios-japan.webp",
+    "description": {
+      "en": "Set on the waterfront in Osaka, Universal Studios Japan turns blockbuster movies into full-on experiences with a mix of beloved rides borrowed from Universal Orlando and Hollywood plus a handful of attractions you can only find here. Expect high-energy thrill rides, live shows and plenty of chances to meet iconic movie characters — perfect for families and film fans alike.",
+      "ja": "大阪にあるユニバーサル・スタジオ・ジャパンは、2001年開業で海外初のユニバーサル・スタジオとして知られるテーマパークです。ハリウッドやオーランドの人気アトラクションにここだけの演目も加わり、映画の世界に入り込めるライドやライブショー、キャラクターグリーティングが楽しめます。",
+      "ko": "오사카에 있는 유니버설 스튜디오 재팬은 2001년 개장한 테마파크로, 미국 밖에서 처음 열린 유니버설 파크입니다. 할리우드와 올랜도의 인기 어트랙션을 기반으로 한 스릴 넘치는 놀이기구와 이곳만의 독특한 체험, 라이브 쇼와 캐릭터 만남을 통해 하루 종일 영화 속 세계를 체험할 수 있어요.",
+      "zh": "位于大阪的日本环球影城自2001年开业，是首个在美国以外开设的环球影城。园区集合了好莱坞与奥兰多的经典项目并加入独家体验，让你能乘坐电影主题的刺激游乐设施、观看现场表演、与心爱的角色互动，尽情沉浸在银幕世界中。"
+    }
+  },
+  {
+    "name": "四天王寺",
+    "nameEn": "Shitennoji",
+    "nameKo": "시텐노지",
+    "romaji": "shitennoji",
+    "lat": 34.6537,
+    "lng": 135.5165,
+    "slug": "shitennoji",
+    "nameZh": "四天王寺",
+    "imageUrl": "/images/landmarks/shitennoji.webp",
+    "description": {
+      "en": "Shitennoji in Osaka is one of Japan’s oldest officially administered Buddhist temples, where centuries of history meet a calm, living place of worship — its buildings have been rebuilt over time but the site still exudes traditional charm. Visitors can stroll the tranquil grounds, observe temple rituals, and soak up the history that led to its postwar independence as the Wa sect.",
+      "ja": "大阪の四天王寺は、日本で最も古い官寺の一つとされる古刹で、たとえ建物が何度も再建されてきても境内には静かな風情と長い歴史が息づいています。境内をゆっくり散策して参拝したり、寺の空気に触れながら戦後に和宗として独立した経緯にも思いを馳せてみてください。",
+      "ko": "오사카의 시텐노지는 일본에서 가장 오래된 관할 사찰 중 하나로 꼽히는 곳으로, 여러 차례 재건되었음에도 고즈넉한 분위기와 오랜 역사를 느낄 수 있습니다. 경내를 천천히 걸으며 참배하거나 고요한 정취를 만끽하고, 전후에 독립해 ‘화종’이 된 배경까지 살펴보세요.",
+      "zh": "四天王寺位于大阪，被视为日本最古老的官办佛寺之一；尽管历经数次重建（最近一次在1963年），寺院仍保有沉静的历史氛围。游客可以在庭院中漫步、参拜并体验佛教礼仪，同时体会这座名刹战后独立形成“和宗”的独特历史脉络。"
+    }
+  },
+  {
+    "name": "住吉大社",
+    "nameEn": "Sumiyoshi Taisha",
+    "nameKo": "스미요시타이샤",
+    "romaji": "sumiyoshitaisha",
+    "lat": 34.6128,
+    "lng": 135.4929,
+    "slug": "sumiyoshi-taisha",
+    "nameZh": "住吉大社",
+    "imageUrl": "/images/landmarks/sumiyoshi-taisha.webp",
+    "description": {
+      "en": "Sumiyoshi Taisha is Osaka’s venerable coastal shrine and the head of all Sumiyoshi shrines, famed for its rare Sumiyoshi-zukuri style with simple, elegant lines. Wander cedar‑lined grounds, cross the photogenic arched bridge and catch traditional Shinto rituals that feel suspended in time.",
+      "ja": "住吉大社は全国の住吉神社の総本社で、直線的で古式ゆかしい“住吉造”の社殿がひときわ目を引きます。朱塗りの反橋や静かな境内を歩きながら、古来の神事や和の風情にじっくりと触れてください。",
+      "ko": "스미요시타이샤는 오사카를 대표하는 고신사로, ‘스미요시즈쿠리’라 불리는 독특한 고건축 양식이 인상적입니다. 고즈넉한 경내와 아치형 다리를 건너 전통 신도 의식과 일본 고유의 분위기를 직접 체험해 보세요.",
+      "zh": "住吉大社是大阪的总本社，以独特的“住吉造”古建筑风格闻名。漫步在朱色的反桥与宁静的境内，观赏古老的神事，既好拍照又能深切感受日本传统文化的魅力。"
+    }
+  },
+  {
+    "name": "なんば",
+    "nameEn": "Namba",
+    "nameKo": "난바",
+    "romaji": "namba",
+    "lat": 34.6659,
+    "lng": 135.5013,
+    "slug": "namba",
+    "nameZh": "难波",
+    "imageUrl": "/images/landmarks/namba.webp",
+    "description": {
+      "en": "Namba is the buzzing heart of Osaka’s Minami, where neon-lit streets, lively shopping arcades and endless eateries cluster around one of the city’s biggest transport hubs. With JR, Kintetsu, Nankai, Hanshin and several subway lines all converging here, it’s the perfect launchpad for food hunts, nightlife and exploring the rest of Kansai.",
+      "ja": "難波は大阪・ミナミの賑やかな中心地で、ネオンがきらめく商店街や飲食店が集まる活気あふれるエリアです。JR・近鉄・南海・阪神に加えて地下鉄も複数通っているため、移動がとても便利で、食べ歩きや夜の遊び場めぐりの拠点にぴったりです。",
+      "ko": "난바는 오사카 미나미의 활기찬 중심지로, 화려한 네온과 쇼핑 아케이드, 맛집이 밀집한 거리입니다. JR·긴테츠·난카이·한신과 여러 지하철 노선이 만나는 교통 요지라 시내외 이동이 편리하고, 먹거리 탐방이나 밤문화 즐기기에 최적입니다.",
+      "zh": "难波是大阪南部繁华的中心，霓虹闪烁的商店街、美食与娱乐聚集于此。JR、近铁、南海、阪神以及多条地铁在这里汇聚，交通十分便利，是体验关西美食与夜生活的理想出发点。"
+    }
+  },
+  {
+    "name": "梅田スカイビル",
+    "nameEn": "Umeda Sky Building",
+    "nameKo": "우메다스카이빌딩",
+    "romaji": "umedaskybuilding",
+    "lat": 34.7052,
+    "lng": 135.4906,
+    "slug": "umeda-sky-building",
+    "nameZh": "梅田蓝天大厦",
+    "imageUrl": "/images/landmarks/umeda-sky-building.webp",
+    "description": {
+      "en": "Rising as two glass-clad towers joined by sky bridges, the Umeda Sky Building treats visitors to a thrill — ride the open-air escalators and cross an atrium high above the city to reach the Floating Garden Observatory. From there you get 360° views of Osaka, especially stunning at sunset and after dark, with cafés and photo spots on the rooftop for lingering.",
+      "ja": "梅田スカイビルは、2棟のタワーが最上部でガラスの渡り廊下とエスカレーターでつながる、空中を歩くような独特の高層建築です。空中庭園展望台からは360度の大阪の眺望が楽しめ、夕焼けや夜景の撮影スポットとしても人気です。",
+      "ko": "우메다 스카이 빌딩은 두 개의 타워가 최상층에서 유리 다리와 에스컬레이터로 연결된 독특한 건축물로, 공중을 건너는 듯한 이색 체험을 제공합니다. 꼭대기 공중정원 전망대에서는 오사카 시내를 360도로 내려다볼 수 있어 일몰과 야경이 특히 아름답고, 루프톱 카페에서 여유를 즐기기 좋습니다.",
+      "zh": "梅田天空大楼由两座40层高塔在顶层通过玻璃桥和扶梯相连，形成宛如空中走廊的独特空间。登上顶层的空中庭园展望台可以360度俯瞰大阪，尤以日落与夜景最为迷人，是拍照和放松的好去处。"
+    }
+  },
+  {
+    "name": "あべのハルカス",
+    "nameEn": "Abeno Harukas",
+    "nameKo": "아베노하루카스",
+    "romaji": "abenoharukas",
+    "lat": 34.6462,
+    "lng": 135.513,
+    "slug": "abeno-harukas",
+    "nameZh": "阿倍野HARUKAS",
+    "imageUrl": "/images/landmarks/abeno-harukas.webp",
+    "description": {
+      "en": "Abeno Harukas soars 300 meters above southern Osaka, combining a supertall skyscraper with adjoining annexes full of shops, restaurants and cultural spaces. Visit the upper floors for sweeping panoramic views of the city and feel the scale of a building that was Japan’s tallest until 2023.",
+      "ja": "あべのハルカスは高さ300m、62階建てのあべののランドマークで、新館・東館と合わせてショッピングやレストラン、文化施設が集まる複合空間です。上層階に上がれば大阪の街並みをぐるりと見渡せ、かつて日本一の高さを誇った迫力を実感できます。",
+      "ko": "아베노 하루카스는 아베노에 우뚝 선 300m의 초고층 빌딩으로, 신관·동관과 함께 쇼핑·외식·문화 공간이 모여 있는 복합 시설입니다. 꼭 윗층 전망대로 올라가 보세요 — 오사카 전경이 한눈에 들어오며 한동안 일본 최고층이었던 위용을 느낄 수 있습니다.",
+      "zh": "阿倍野HARUKAS高达300米，与新馆和东馆共同构成集购物、餐饮与文化于一体的综合商业体。登上高层即可俯瞰大阪全景，亲身感受这座曾为日本最高楼的壮丽气势。"
+    }
+  },
+  {
+    "name": "黒門市場",
+    "nameEn": "Kuromon Market",
+    "nameKo": "구로몬시장",
+    "romaji": "kuromonmarket",
+    "lat": 34.6647,
+    "lng": 135.507,
+    "slug": "kuromon-market",
+    "nameZh": "黑门市场",
+    "imageUrl": "/images/landmarks/kuromon-market.webp",
+    "description": {
+      "en": "Kuromon Market is Osaka’s bustling food arcade where row after row of stalls sell the freshest seafood, produce and ready-to-eat treats. Wander the covered streets sampling sushi, grilled crab, takoyaki and other local bites while chatting with friendly vendors—it’s the perfect place to taste Osaka’s everyday flavors.",
+      "ja": "黒門市場は、新鮮な海産物や野菜、屋台の名物がずらりと並ぶ大阪の台所。歩きながらその場で寿司や焼きガニ、たこ焼きなどを味見して、地元の活気ある雰囲気を楽しめます。",
+      "ko": "쿠로몬 시장은 신선한 해산물과 과일, 길거리 간식이 즐비한 오사카의 먹거리 골목입니다. 골목을 걸으며 초밥이나 구운 게, 타코야끼 같은 현지 음식을 시식하고 상인들과 대화하며 활기찬 시장 분위기를 만끽하세요.",
+      "zh": "黑門市場是大阪著名的美食市集，新鮮海鮮、蔬果和各式小吃攤位林立。你可以邊走邊嚐壽司、烤蟹、章魚燒等在地美味，感受熱鬧的市井風情與親切的攤販招呼。"
+    }
+  },
+  {
+    "name": "万博記念公園",
+    "nameEn": "Expo '70 Commemorative Park",
+    "nameKo": "만박기념공원",
+    "romaji": "banpakukinenpark",
+    "lat": 34.8099,
+    "lng": 135.5322,
+    "slug": "expo-70-commemorative-park",
+    "nameZh": "万博纪念公园",
+    "imageUrl": "/images/landmarks/expo-70-commemorative-park.webp",
+    "description": {
+      "en": "Set on the former site of Expo '70 just north of Osaka, this vast 264-hectare park blends open lawns and forested groves where you can stroll, picnic, and soak up a bit of history. Education centers and recreational facilities make it an easygoing day out for families, culture fans, and nature lovers alike.",
+      "ja": "万博記念公園は、1970年の万国博覧会の跡地に広がる約264ヘクタールの緑地です。広い芝生や森を散策したり、教育施設やレクリエーション施設でゆったり過ごしたりと、家族連れや自然好きにぴったりの一日が過ごせます。",
+      "ko": "엑스포 '70 기념공원은 오사카 북쪽에 위치한 옛 세계박람회 부지로, 약 264헥타르의 잔디밭과 숲이 펼쳐진 곳입니다. 산책과 피크닉을 즐기고 교육·레크리에이션 시설을 활용하며 가족이나 친구와 편안한 하루를 보내기 좋습니다.",
+      "zh": "万博纪念公园位于大阪以北，是1970年世博会的旧址，约264公顷的草地与森林让人远离城市喧嚣。园内有教育和休闲设施，既适合散步和野餐，也适合带孩子边玩边学，悠闲度过一天。"
+    }
+  },
+  {
+    "name": "箕面の滝",
+    "nameEn": "Minoo Falls",
+    "nameKo": "미노오폭포",
+    "romaji": "minoonotaki",
+    "lat": 34.8555,
+    "lng": 135.4694,
+    "slug": "minoo-falls",
+    "nameZh": "箕面瀑布",
+    "imageUrl": "/images/landmarks/minoo-falls.webp",
+    "description": {
+      "en": "Minoo Falls is a peaceful, easy-to-reach waterfall tucked into a maple-lined park just outside Osaka. Walk the shaded trail to the cascade, enjoy the calming sound of falling water, and savor seasonal treats from the tea houses—especially spectacular during autumn foliage.",
+      "ja": "箕面滝は大阪近郊から気軽に訪れられる、紅葉で名高い森林散策スポットです。木立の遊歩道をゆっくり歩いて滝の轟音に耳を傾け、茶屋の名物や季節の風景を楽しんでください。",
+      "ko": "미노오 폭포는 오사카 근교에서 가볍게 다녀올 수 있는 인기 자연 명소입니다. 울창한 단풍 숲 사이의 편안한 산책로를 따라 걸으며 시원한 폭포 소리를 즐기고, 주변 찻집에서 계절 간식을 맛보며 휴식을 취해 보세요.",
+      "zh": "箕面瀑布是关西附近一处受欢迎的自然景点，尤以秋季红叶闻名。沿着林间步道漫步，聆听瀑布声、欣赏林相变换，还能在茶屋品尝当地小吃，享受宁静的森林氛围。"
+    }
+  },
+  {
+    "name": "海遊館",
+    "nameEn": "Osaka Aquarium Kaiyukan",
+    "nameKo": "가이유칸",
+    "romaji": "kaiyukan",
+    "lat": 34.6546,
+    "lng": 135.429,
+    "slug": "osaka-aquarium-kaiyukan",
+    "nameZh": "海游馆",
+    "imageUrl": "/images/landmarks/osaka-aquarium-kaiyukan.webp",
+    "description": {
+      "en": "Set on Osaka Bay in Minato ward, Kaiyukan impresses with its sheer scale — when it opened it was the world's largest public aquarium. Wander past enormous tanks and immersive exhibits to see marine life up close, making it a memorable stop for families and ocean lovers.",
+      "ja": "海に面した大阪・港区にある海遊館は、開館当初は世界最大の公共水族館として話題になりました。巨大な水槽と臨場感あふれる展示で、家族連れや海好きの人が間近に海の世界を楽しめます。",
+      "ko": "오사카 베이 근처 미나토구에 자리한 카이유칸은 개장 당시 세계 최대의 공공 수족관이었습니다. 넓은 수조와 몰입형 전시를 걸으며 다양한 해양 생물을 가까이에서 보고 즐길 수 있어 가족 여행지로도 추천합니다.",
+      "zh": "位于大阪港附近港区的海游馆，开馆时曾是世界上最大的公共水族馆。你可以在巨大的水槽和沉浸式展区近距离观赏海洋生物，是家庭和海洋爱好者必访的景点。"
+    }
+  },
+  {
+    "name": "天保山",
+    "nameEn": "Tempozan",
+    "nameKo": "덴포잔",
+    "romaji": "tempozan",
+    "lat": 34.653,
+    "lng": 135.4309,
+    "slug": "tempozan",
+    "nameZh": "天保山",
+    "imageUrl": "/images/landmarks/tempozan.webp",
+    "description": {
+      "en": "Ride the towering Tempozan Ferris Wheel at Tempozan Harbor Village — a 112.5‑meter landmark that frames sweeping views of Osaka Bay and the city skyline. Located next to the world‑class Osaka Aquarium Kaiyukan, it’s ideal for family afternoons, romantic sunsets and illuminated night panoramas.",
+      "ja": "天保山ハーバービレッジにそびえる高さ112.5メートルの天保山大観覧車は、大阪湾や街のスカイラインを一望できる名所です。世界有数の水族館・海遊館のすぐ隣にあり、家族連れやデートにぴったりで、夕暮れからライトアップされた夜景が特に美しいです。",
+      "ko": "템포잔 하버 빌리지에 있는 높이 112.5m의 템포잔 대관람차는 오사카만과 도시 전경을 한눈에 담을 수 있는 명소입니다. 세계적인 오사카 가이유칸(해유관) 바로 옆이라 가족 나들이나 커플 데이트에 안성맞춤이며, 해질녘과 야경이 특히 인상적입니다.",
+      "zh": "天保山摩天轮坐落在天保山港区，高达112.5米，可以把大阪湾与城市天际线尽收眼底。它就位于世界级的海游馆旁，白天适合亲子游，傍晚与夜间的灯光和落日晚景则是拍照打卡的热门时段。"
+    }
+  },
+  {
+    "name": "HEP FIVE",
+    "nameEn": "HEP Five",
+    "nameKo": "헵파이브",
+    "romaji": "hepfive",
+    "lat": 34.7047,
+    "lng": 135.4988,
+    "slug": "hep-five",
+    "nameZh": "HEP FIVE",
+    "imageUrl": "/images/landmarks/hep-five.webp",
+    "description": {
+      "en": "HEP Five is a lively shopping and entertainment complex in Umeda, Osaka, famous for its bright red rooftop Ferris wheel and bustling floors of trendy shops, cafes, and restaurants. Pop in for a mix of fashion, games and great city views—perfect for a shopping spree by day and a fun night out.",
+      "ja": "HEP FIVEは梅田にある大型のショッピング＆エンタメ施設で、屋上の真っ赤な観覧車が目印です。ファッションやグルメ、ゲーム施設がそろっていて、日中の買い物も夜の遊びも楽しめます。",
+      "ko": "HEP Five는 오사카 우메다의 쇼핑·엔터테인먼트 복합시설로, 옥상의 붉은 대관람차가 한눈에 들어옵니다. 최신 패션 매장과 카페, 게임센터까지 갖춰 쇼핑과 야경을 함께 즐기기 좋습니다.",
+      "zh": "HEP Five位于大阪梅田，是集购物与娱乐于一体的大型商场，屋顶那座醒目的红色摩天轮已成地标。这里汇聚潮流服饰、餐饮与游戏设施，白天逛街血拼、夜晚看夜景都很合适。"
+    }
+  },
+  {
+    "name": "アメリカ村",
+    "nameEn": "Amerikamura",
+    "nameKo": "아메리카무라",
+    "romaji": "amerikamura",
+    "lat": 34.6724,
+    "lng": 135.5001,
+    "slug": "amerikamura",
+    "nameZh": "美国村",
+    "imageUrl": "/images/landmarks/amerikamura.webp",
+    "description": {
+      "en": "Amerikamura, often called “Ame-mura,” is a lively shopping and entertainment quarter just west of Shinsaibashi, stretching from Nagahori Street toward Dotonbori. Wander colorful streets of indie boutiques, cafés and street art by day, and enjoy live music, bars and a playful nightlife after dark.",
+      "ja": "アメリカ村（通称アメ村）は心斎橋の西側、長堀通から道頓堀にかけて広がるにぎやかなショッピング＆エンタメスポット。個性的な古着屋やカフェ、ストリートアートが並ぶ街を散策して、夜はライブやバーで盛り上がってください。",
+      "ko": "아메리카무라(약칭 아메무라)는 신사이바시 서쪽, 나가호리 거리에서 도톤보리까지 이어지는 활기찬 쇼핑·엔터테인먼트 지구입니다. 개성 넘치는 빈티지 숍과 카페, 스트리트 아트가 어우러진 거리를 거닐고 낮에는 사진을, 밤에는 라이브와 바를 즐겨보세요.",
+      "zh": "美国村（当地人常称为“Ame-mura”）位于心斋桥西侧，从长堀通延伸到道顿堀，是大阪热闹的购物娱乐区。白天在个性小店和咖啡馆间闲逛、欣赏街头艺术，夜晚则能享受现场表演和酒吧带来的活力氛围。"
+    }
+  },
+  {
+    "name": "中之島",
+    "nameEn": "Nakanoshima",
+    "nameKo": "나카노시마",
+    "romaji": "nakanoshima",
+    "lat": 34.692,
+    "lng": 135.4986,
+    "slug": "nakanoshima",
+    "nameZh": "中之岛",
+    "imageUrl": "/images/landmarks/nakanoshima.webp",
+    "description": {
+      "en": "Nakanoshima is a leafy, 3‑km‑long sandbar at the heart of Osaka that splits the old Yodo into the Tosabori and Dōjima rivers. It’s a compact cultural corridor—museums, concert halls, government buildings and riverside cafés line pleasant promenades, perfect for museum‑hopping, architecture spotting and relaxed riverfront strolls.",
+      "ja": "中之島は大阪・北区に伸びる全長約3kmの細長い砂州で、堂島川と土佐堀川に挟まれた都会のリバーサイドです。美術館やホール、公共施設やカフェが集まる文化エリアなので、展示めぐりや川沿いの散歩、落ち着いたひと時が楽しめます。",
+      "ko": "나카노시마는 오사카 중심부를 가로지르는 길이 약 3km의 좁은 모래섬으로 도스보리강과 도지마강을 나눕니다. 미술관과 공연장, 관공서와 카페가 모여 있는 문화지구라 강변 산책을 하거나 전시를 감상하며 도시의 여유를 만끽하기 좋습니다.",
+      "zh": "中之岛是位于大阪北区的一条约3公里长的狭长砂洲，将旧淀川分为堂岛川和土佐堀川。这里汇集了美术馆、文化设施和办公楼，适合沿河散步、参观展览或在安静的咖啡馆里欣赏城市与河景。"
+    }
+  },
+  {
+    "name": "天王寺動物園",
+    "nameEn": "Tennoji Zoo",
+    "nameKo": "덴노지동물원",
+    "romaji": "tennojizoo",
+    "lat": 34.6507,
+    "lng": 135.5084,
+    "slug": "tennoji-zoo",
+    "nameZh": "天王寺动物园",
+    "imageUrl": "/images/landmarks/tennoji-zoo.webp",
+    "description": {
+      "en": "Tennoji Zoo is a compact, century-old city zoo tucked into Tennoji Park where families can meet animals from around the world and enjoy a shady stroll. Sitting just southwest of the historic Shitennō-ji temple, it’s an easy stop to combine lively exhibits with a touch of Osaka history.",
+      "ja": "天王寺動物園は1915年に開園した都会の小さな動物園で、緑に囲まれた園内でゾウやキリンなど人気の動物に間近で会えます。四天王寺のすぐそばにあり、動物見学と歴史散策を一度に楽しめるのが魅力です。",
+      "ko": "덴노지 동물원은 1915년에 문을 연 도심 속 11헥타르의 녹지 공간으로, 가족 나들이나 사진 찍기 좋은 아기자기한 볼거리가 가득합니다. 일본에서 가장 오래된 절인 시텐노지 바로 옆에 있어 동물 구경과 함께 역사 산책을 즐기기 좋습니다.",
+      "zh": "天王寺动物园自1915年开放，是大阪市中心一处带着百年历史的绿意乐园。占地约11公顷，紧邻日本最古老的佛寺四天王寺，游客既可近距离观赏动物，也能顺道感受古刹风情。"
+    }
+  },
+  {
+    "name": "奈良公園",
+    "nameEn": "Nara Park",
+    "nameKo": "나라공원",
+    "romaji": "narapark",
+    "lat": 34.6849,
+    "lng": 135.8427,
+    "slug": "nara-park",
+    "nameZh": "奈良公园",
+    "imageUrl": "/images/landmarks/nara-park.webp",
+    "description": {
+      "en": "Nara Park is a serene, historic green space at the foot of Mount Wakakusa where over 1,200 free-roaming sika deer—designated a natural treasure—mingle with visitors amid ancient temples and shrines. Wander tree-lined paths, feed the friendly deer with special crackers, and soak up seasonal colors and world-class sights like Tōdai-ji, Kasuga Taisha and the Nara National Museum.",
+      "ja": "奈良公園は若草山の麓に広がる歴史ある景勝地で、1,200頭以上の天然記念物の野生の鹿が人々と共にのんびり過ごす光景が楽しめます。東大寺や春日大社、奈良国立博物館に囲まれた園内を散策し、鹿せんべいをあげたり四季折々の風景を満喫してください。",
+      "ko": "나라공원은 와카쿠사산 기슭에 펼쳐진 오래된 공원으로, 천연기념물로 지정된 1,200마리가 넘는 사슴이 자유롭게 돌아다니는 모습이 인상적입니다. 도다이지·가스가 신사 등 유적 사이를 산책하며 사슴에게 과자를 주고 사진을 찍거나 사계절의 풍경을 즐겨보세요.",
+      "zh": "奈良公园位于若草山脚下，是一片历史悠久的风景名胜，园内有1200多只被列为天然纪念物的梅花鹿自由漫步。游客可以在东大寺、春日大社和奈良国立博物馆等古迹间悠闲散步，喂鹿拍照，感受四季各异的美景。"
+    }
+  },
+  {
+    "name": "東大寺",
+    "nameEn": "Todai-ji",
+    "nameKo": "도다이지",
+    "romaji": "todaiji",
+    "lat": 34.6891,
+    "lng": 135.8398,
+    "slug": "todai-ji",
+    "nameZh": "东大寺",
+    "imageUrl": "/images/landmarks/todai-ji.webp",
+    "description": {
+      "en": "Tōdai-ji in Nara is a UNESCO World Heritage temple famed for its colossal Great Buddha Hall, which houses the world's largest bronze Vairocana — the Daibutsu. Step inside the vast hall to marvel at the towering statue and Tang-inspired architecture, and stroll the historic complex to feel centuries of reconstruction and devotion up close.",
+      "ja": "奈良の東大寺は、世界最大級の青銅製大仏（大仏さま）を安置する壮大な大仏殿で知られる、世界遺産の寺院です。唐風の意匠を取り入れた広大な伽藍の中を歩き、何度も再建されてきた歴史の重みや華厳宗の拠点としての荘厳さを間近で体感できます。",
+      "ko": "나라의 도다이지는 세계유산으로 등재된 사찰로, 거대한 대불전 안에 세계 최대 규모의 청동 불상(다이부츠)이 모셔져 있는 곳입니다. 방문객은 웅장한 불상과 당나라풍의 건축미를 직접 보고, 여러 차례의 재건을 거쳐 지금의 모습을 이룬 사찰터의 역사적 분위기를 느낄 수 있습니다.",
+      "zh": "东大寺位于奈良，是列入世界遗产的佛教寺院，其大佛殿内供奉着世界最大的青铜佛像——大佛，气势宏伟。您可以走进庄严的大殿近距离凝视巨像，欣赏受唐代影响的建筑风格，并在寺院的历史空间中感受历经重建却被妥善保存的古老痕迹。"
+    }
+  },
+  {
+    "name": "春日大社",
+    "nameEn": "Kasuga Taisha",
+    "nameKo": "가스가타이샤",
+    "romaji": "kasugataisha",
+    "lat": 34.6812,
+    "lng": 135.8497,
+    "slug": "kasuga-taisha",
+    "nameZh": "春日大社",
+    "imageUrl": "/images/landmarks/kasuga-taisha.webp",
+    "description": {
+      "en": "Kasuga Taisha in Nara is a centuries‑old Shinto shrine founded by the Fujiwara family in 768 CE, its buildings lovingly rebuilt over time. Inside, rows of hanging bronze lanterns and a long approach lined with stone lanterns create a quiet, almost otherworldly atmosphere perfect for slow wandering and photos.",
+      "ja": "奈良の春日大社は、768年に藤原氏が創建した由緒ある神社で、何度も再建を重ね今日に伝わります。本殿に灯る青銅の吊灯籠と参道を彩る石灯籠がつくり出す静かな景色は、ゆっくり歩いて味わいたくなる趣があります。",
+      "ko": "나라의 가스가타이샤는 768년에 창건된 후 여러 차례 중건되며 이어져 온 신사로, 후지와라 가문과 깊은 연관이 있습니다. 실내의 청동 등롱과 신사로를 따라 늘어선 석등들이 만들어내는 고요하고 신비로운 풍경은 천천히 걸으며 사진 찍기에 안성맞춤입니다.",
+      "zh": "春日大社位于奈良，始建于768年，与藤原氏有渊源，虽经数次重修却仍保留古朴气质。庙内垂挂的青铜灯笼与通往神社的石灯笼林立，营造出宁静而富仪式感的景致，适合慢步观赏与拍照留念。"
+    }
+  },
+  {
+    "name": "法隆寺",
+    "nameEn": "Horyu-ji",
+    "nameKo": "호류지",
+    "romaji": "horyuji",
+    "lat": 34.6145,
+    "lng": 135.7347,
+    "slug": "horyu-ji",
+    "nameZh": "法隆寺",
+    "imageUrl": "/images/landmarks/horyu-ji.webp",
+    "description": {
+      "en": "Step back into Japan’s early history at Hōryū-ji in Ikaruga, Nara — one of the country’s oldest Buddhist complexes and a former member of the Seven Great Temples. Wander among ancient wooden halls and pagodas that once served as both seminary and monastery, and soak up the serene atmosphere and living history.",
+      "ja": "奈良・斑鳩の法隆寺は、仏教伝来直後に建立された現存最古級の寺院のひとつです。学問寺としての顔を持つ堂塔群を歩けば、木造建築の風格と長い歴史が静かに伝わってきます。",
+      "ko": "나라(이카루가)에 자리한 호류지는 불교가 들어온 직후 세워진, 일본에서도 손꼽히는 오래된 사찰입니다. 학문과 수도의 전통을 간직한 목조 당탑 사이를 거닐며 고요한 분위기와 역사의 숨결을 직접 느껴보세요.",
+      "zh": "法隆寺位于奈良县斑鸠，是日本最早期的佛教遗址之一，曾是七大寺之一。漫步在保存完好的木造堂塔之间，你可以感受到作为学问寺和僧院的庄重氛围，并近距离领略古代建筑与宗教文化的魅力。"
+    }
+  },
+  {
+    "name": "吉野山",
+    "nameEn": "Mount Yoshino",
+    "nameKo": "요시노산",
+    "romaji": "yoshinoyama",
+    "lat": 34.3563,
+    "lng": 135.8583,
+    "slug": "mount-yoshino",
+    "nameZh": "吉野山",
+    "imageUrl": "/images/landmarks/mount-yoshino.webp",
+    "description": {
+      "en": "Mount Yoshino is an eight-kilometer mountain ridge in central Nara stretching from the Yoshino River to the Ōmine Mountains, with shrines and temples clustered around Kinpusen-ji. Visitors can wander historic paths, soak up the spiritual atmosphere around the temple, and enjoy panoramic mountain views and gentle hikes.",
+      "ja": "吉野山は吉野川の南岸から大峰山へと約8キロにわたって続く尾根で、金峯山寺を中心に社寺が点在する神聖なエリアです。参道を歩きながら歴史と信仰に触れ、穏やかな山道や開けた眺望を楽しめます。",
+      "ko": "요시노산은 요시노강 남안에서 오미네 산맥까지 약 8km에 걸쳐 이어지는 산등성이로, 킨푸센지 사원을 중심으로 신사와 사찰이 흩어져 있는 성스러운 지역입니다. 참배길과 산책로를 따라 걸으며 고요한 분위기와 탁 트인 전망, 온화한 트레킹을 즐길 수 있습니다.",
+      "zh": "吉野山是从吉野川南岸延伸到大峰山脉的约八公里山脊，以金峯山寺为中心点缀着众多神社和寺院。游客可以沿着古老的参道漫步，感受信仰与历史的氛围，或选择山间小径徒步，欣赏开阔的山景。"
+    }
+  },
+  {
+    "name": "神戸ポートタワー",
+    "nameEn": "Kobe Port Tower",
+    "nameKo": "고베포트타워",
+    "romaji": "kobeporttower",
+    "lat": 34.6786,
+    "lng": 135.186,
+    "slug": "kobe-port-tower",
+    "nameZh": "神户港塔",
+    "imageUrl": "/images/landmarks/kobe-port-tower.webp",
+    "description": {
+      "en": "Rising from Kobe’s harbor with its distinctive red lattice silhouette, Kobe Port Tower is an instantly recognizable symbol of the city. Take the elevator to the circular observation decks for sweeping 360° views of the port, Rokko Mountains and glittering city lights—especially spectacular after its recent renovation.",
+      "ja": "港にそびえる赤い格子状のシルエットが印象的な神戸ポートタワーは、街を象徴する観光スポットです。改装を終えた展望フロアからは海や六甲山、そして刻々と表情を変える夜景をぐるりと見渡せ、散策の拠点にもぴったりです。",
+      "ko": "빨간 격자 구조가 눈에 띄는 고베 포트 타워는 항구의 상징이자 사진 명소입니다. 새로 단장한 전망대에 오르면 360도 파노라마로 고베 항, 롯코산과 반짝이는 야경을 한눈에 감상할 수 있어요.",
+      "zh": "以鲜艳红色网状外观著称的神户港塔，是神户港最具辨识度的地标。登上刚翻新的观景层，可360°俯瞰港湾、六甲山与城市灯海，黄昏与夜间的景致尤其迷人。"
+    }
+  },
+  {
+    "name": "メリケンパーク",
+    "nameEn": "Meriken Park",
+    "nameKo": "메리켄파크",
+    "romaji": "merikenpark",
+    "lat": 34.679,
+    "lng": 135.186,
+    "slug": "meriken-park",
+    "nameZh": "美利坚公园",
+    "imageUrl": "/images/landmarks/meriken-park.webp",
+    "description": {
+      "en": "Meriken Park is Kobe’s compact waterfront playground, anchored by the iconic red Kobe Port Tower and the sleek Kobe Maritime Museum—ideal for sunset photos and leisurely harbor strolls. Visit the moving Great Hanshin earthquake memorial, then relax at nearby waterfront hotels and cafés while watching ships glide by.",
+      "ja": "メリケンパークは神戸の海辺に広がる開放的な公園で、シンボルの神戸ポートタワーや洗練された神戸海洋博物館が並び、夕景の写真スポットとしても人気です。震災の慰霊碑に手を合わせて静かに想いをはせたあと、周辺のホテルやカフェで海を眺めながらゆっくり過ごせます。",
+      "ko": "메리켄파크는 고베 항구를 따라 펼쳐진 해안 공원으로, 상징적인 고베 포트타워와 멋진 해양박물관을 배경으로 산책과 사진 촬영하기에 좋습니다. 대지진 희생자를 기리는 추모 공간을 둘러보고 인근의 항구 전망 호텔이나 카페에서 노을을 감상하며 휴식을 취해보세요.",
+      "zh": "梅里肯公园位于神户港旁，是一处风景与文化并重的滨海小公园，标志性的神户港塔和别致的海事博物馆非常适合散步和拍照。你可以在震灾纪念碑前沉思，也可以在附近的海景酒店或咖啡馆里看海、看夕阳放松。"
+    }
+  },
+  {
+    "name": "布引の滝",
+    "nameEn": "Nunobiki Falls",
+    "nameKo": "누노비키폭포",
+    "romaji": "nunobikinotaki",
+    "lat": 34.7072,
+    "lng": 135.1969,
+    "slug": "nunobiki-falls",
+    "nameZh": "布引瀑布",
+    "imageUrl": "/images/landmarks/nunobiki-falls.webp",
+    "description": {
+      "en": "Just a short walk from downtown Kobe, Nunobiki Falls is a serene cascade beloved in Japanese art and literature and counted among the country’s three great “divine falls.” Follow the shaded trails for close-up views, cooling mist, and a peaceful escape from the city — perfect for photos and a nature break.",
+      "ja": "神戸の中心からすぐの場所にある布引の滝は、文学や美術にも深く描かれてきた、三大神滝のひとつです。木漏れ日の遊歩道を歩けば、飛沫が舞う迫力ある眺めと都会の喧噪を忘れる静けさを楽しめます。",
+      "ko": "고베 도심에서 금세 닿는 누노비키 폭포는 일본 문학과 미술에 자주 등장하는 ‘신성한 세 폭포’ 중 하나입니다. 숲길을 따라 걸으며 물안개에 젖은 바위와 시원한 공기를 만끽하고, 도심에서 벗어나 한적한 시간을 보내기 좋습니다.",
+      "zh": "布引瀑布距离神户市中心很近，是日本文学与艺术中常被歌咏的名胜，也是与华严瀑布、那智瀑布并列的三大“神瀑”之一。沿着林间小径漫步，可以近距离感受飞溅的水雾、拍出好照片，同时远离城市喧嚣，享受片刻宁静。"
+    }
+  },
+  {
+    "name": "北野異人館",
+    "nameEn": "Kitano Ijinkan",
+    "nameKo": "기타노이진칸",
+    "romaji": "kitanoijinkan",
+    "lat": 34.7021,
+    "lng": 135.1898,
+    "slug": "kitano-ijinkan",
+    "nameZh": "北野异人馆",
+    "imageUrl": "/images/landmarks/kitano-ijinkan.webp",
+    "description": {
+      "en": "Kitano Ijinkan is a pocket of preserved late Meiji–Taishō foreign residences where you can wander tree-lined streets past colorful Western-style mansions. Inside are small museums, quirky shops and cozy cafés — perfect for history buffs, photographers and anyone wanting a taste of old Kobe’s international charm.",
+      "ja": "北野異人館は、明治〜大正期に建てられた洋館が並ぶ神戸の異国情緒あふれるエリアです。各館は小さな博物館やカフェ、アンティーク店として公開されており、散策や写真撮影をしながら昔の神戸の国際文化を感じられます。",
+      "ko": "기타노 이진칸은 메이지·다이쇼 시대에 지어진 서양식 가옥들이 모여 있는 고베의 레트로한 거리입니다. 각 저택은 소규모 박물관이나 카페, 기념품 가게로 꾸며져 있어 건축을 감상하고 사진을 찍으며 한가롭게 걸어다니기 좋습니다.",
+      "zh": "北野异人馆是一片保存完好的明治〜大正时期洋馆街区，漫步其中仿佛穿越回那个充满洋风的年代。许多洋馆如今作为小型博物馆、咖啡馆和特色商店开放，非常适合拍照、看展并感受老神户的国际风情。"
+    }
+  },
+  {
+    "name": "有馬温泉",
+    "nameEn": "Arima Onsen",
+    "nameKo": "아리마온천",
+    "romaji": "arimaonsen",
+    "lat": 34.7968,
+    "lng": 135.2471,
+    "slug": "arima-onsen",
+    "nameZh": "有马温泉",
+    "imageUrl": "/images/landmarks/arima-onsen.webp",
+    "description": {
+      "en": "Set at the foot of Mount Rokkō, Arima Onsen is one of Japan’s oldest and most celebrated hot-spring towns—named in The Pillow Book and revered throughout the Edo period. Today visitors can easily escape from Osaka or Kobe to soak in historic baths, stroll charming streets lined with traditional inns, and taste a slice of Japan’s bathing culture.",
+      "ja": "六甲山の麓にある有馬温泉は、枕草子にも名を連ねた日本有数の古湯で、江戸時代には最も格式の高い温泉とされてきました。大阪や神戸から気軽に足を運べ、歴史ある湯に浸かりながら温泉街や老舗旅館をのんびり散策できます。",
+      "ko": "롯코 산기슭에 자리한 아리마 온천은 헤이안 시대의 '枕草子'에도 등장하는 오래된 명탕으로, 에도 시대에는 최고의 온천으로 칭송받았습니다. 오사카·고베에서 이동이 편리해 당일치기나 숙박으로 전통 목욕탕에 몸을 담그고 온천가를 거닐며 여유를 즐기기 좋습니다.",
+      "zh": "有马温泉位于六甲山脚下，是被《枕草子》列为日本三大名泉之一、在江户时代更被评为最尊贵的温泉乡。它交通便利，靠近大阪和神户，游客可以在历史悠久的汤屋中泡汤、住进老字号旅馆或在风情温泉街上慢慢漫步放松身心。"
+    }
+  },
+  {
+    "name": "六甲山",
+    "nameEn": "Mount Rokko",
+    "nameKo": "롯코산",
+    "romaji": "rokkozan",
+    "lat": 34.7703,
+    "lng": 135.2343,
+    "slug": "mount-rokko",
+    "nameZh": "六甲山",
+    "imageUrl": "/images/landmarks/mount-rokko.webp",
+    "description": {
+      "en": "Mount Rokko is a scenic mountain range overlooking Kobe and Osaka Bay, famous for sweeping daytime panoramas and one of Japan’s most celebrated night views. Visitors can hike forested trails, ride the cable car or funicular, and relax in alpine gardens and terraces that showcase seasonal flowers and glittering city lights.",
+      "ja": "六甲山は神戸や大阪湾を見下ろす山並みで、昼は広がるパノラマ、夜は宝石のように輝く夜景が魅力です。ハイキングやケーブルで気軽に山頂へ行け、山上の植物園やテラスで四季折々の花や街の光を楽しめます。",
+      "ko": "롯코산은 고베와 오사카만을 내려다보는 산맥으로, 낮에는 탁 트인 전망을, 밤에는 일본을 대표하는 야경을 즐길 수 있는 곳입니다. 산책로를 따라 걷거나 케이블카로 오르며 고산 식물원과 전망 테라스에서 계절의 꽃과 도시의 불빛을 만끽해보세요.",
+      "zh": "六甲山是俯瞰神户与大阪湾的山脉，白天能欣赏开阔的海天景致，夜晚则能观赏到日本著名的城市夜景。你可以沿林间步道徒步，乘缆车上山，或在高山植物园与观景台欣赏四季花卉与城市灯火。"
+    }
+  },
+  {
+    "name": "明石海峡大橋",
+    "nameEn": "Akashi Kaikyo Bridge",
+    "nameKo": "아카시해협대교",
+    "romaji": "akashikaikyobridge",
+    "lat": 34.6176,
+    "lng": 135.0215,
+    "slug": "akashi-kaikyo-bridge",
+    "nameZh": "明石海峡大桥",
+    "imageUrl": "/images/landmarks/akashi-kaikyo-bridge.webp",
+    "description": {
+      "en": "Spanning the turbulent Akashi Strait, the Akashi Kaikyo Bridge links Kobe on Honshu with Awaji Island and was the world’s longest suspension bridge central span when it opened in 1998. Visitors can drive the Kobe–Awaji–Naruto Expressway or admire the bridge from the shore, taking in the sheer scale of its nearly 2‑kilometre span and the steady stream of ships below.",
+      "ja": "神戸と淡路島を結ぶ明石海峡大橋は、1998年の完成当時、中央支間長1,991メートルで世界最長を誇った巨大な吊り橋です。荒々しい明石海峡をまたぐその威容は、車で高速を渡るだけでも、海辺から眺めるだけでも圧倒され、行き交う船や潮の流れを間近に感じられます。",
+      "ko": "아카시 해협을 가로지르는 아카시카이쿄 대교는 1998년 완공 당시 중앙 경간 1,991m로 세계 최장 기록을 세웠던 장대한 현수교입니다. 고베와 아와지 섬을 연결해 드라이브로 건너거나 해안에서 바라보며 거대한 스팬과 지나가는 선박, 거친 조류의 장관을 즐겨보세요.",
+      "zh": "明石海峡大桥横跨湍急的明石海峡，连接本州的神户与淡路岛；1998年竣工时其中央跨径达1,991米，一度称霸全球。无论是驾车沿神户—淡路—鸣门高速穿桥而过，还是在岸边静赏桥体与来往船只，都能亲身感受这座工程奇迹的宏伟与海峡的力量。"
+    }
+  },
+  {
+    "name": "姫路城",
+    "nameEn": "Himeji Castle",
+    "nameKo": "히메지성",
+    "romaji": "himejijo",
+    "lat": 34.8394,
+    "lng": 134.6939,
+    "slug": "himeji-castle",
+    "nameZh": "姬路城",
+    "imageUrl": "/images/landmarks/himeji-castle.webp",
+    "description": {
+      "en": "Perched on a hill in Hyogo Prefecture, Himeji Castle dazzles with its brilliant white walls and a graceful silhouette often likened to a bird taking flight. Explore a labyrinth of 83 historic buildings and clever feudal defenses to see why it’s hailed as the finest surviving example of traditional Japanese castle architecture.",
+      "ja": "兵庫県の小高い丘にそびえる姫路城は、白鷺城の名の通り真っ白な外観と舞い上がる鳥を思わせる優雅な姿が目を引きます。83棟に及ぶ建造物と巧妙な防御施設を巡りながら、戦国・江戸期の城郭建築の美しさと歴史を肌で感じられます。",
+      "ko": "언덕 위에 우아하게 자리한 히메지성은 새가 날아오르는 듯한 흰 외관으로 ‘백로성’이라 불립니다. 83채의 건물과 정교한 옛 방어 구조를 직접 걸어 다니며 일본 성곽의 원형과 역사를 생생히 체험해 보세요.",
+      "zh": "姬路城坐落于小山丘上，以洁白如羽的外墙和宛如展翅的优雅轮廓被称为“白鹭城”。漫步于由83座建筑和精巧防御系统组成的古堡群，你能直观感受封建时代的防御智慧与日式建筑之美。"
+    }
+  },
+  {
+    "name": "高野山",
+    "nameEn": "Mount Koya",
+    "nameKo": "고야산",
+    "romaji": "koyasan",
+    "lat": 34.213,
+    "lng": 135.5803,
+    "slug": "mount-koya",
+    "nameZh": "高野山",
+    "imageUrl": "/images/landmarks/mount-koya.webp",
+    "description": {
+      "en": "Perched in a cedar‑clad mountain south of Osaka, Mount Koya is a living temple town and the spiritual headquarters of Shingon Buddhism at Kongōbu‑ji. Wander ancient temple streets, follow the mossy path to Okunoin, sample temple cuisine and even spend the night in a monastery lodging to join morning prayers and meditate in silence.",
+      "ja": "高野山は大阪の南、杉林に抱かれた寺院の集まる聖地で、真言宗の総本山・金剛峯寺を中心に古い堂塔が並びます。宿坊に泊まって朝のお勤めに参加したり、奥の院へ続く杉並木を歩きながら精進料理と静かな空間を味わってください。",
+      "ko": "고야산은 오사카 남쪽 숲속에 자리한 사찰 마을로, 진언종의 본산인 금강봉사(콩고부지)를 중심으로 많은 사찰이 모여 있는 곳입니다. 사찰 숙소에서 하룻밤을 보내며 새벽 예불에 참여하거나, 오래된 삼나무 길을 걸어 오쿠노인까지 이어지는 고요한 풍경을 즐겨보세요.",
+      "zh": "高野山位于大阪以南的森林山间，是真言宗的宗教中心，以金刚峰寺为总本山。可沿着古老的杉林道走访奥之院，住进寺宿体验早课与精进料理，沉浸在宁静的宗教氛围中。"
+    }
+  },
+  {
+    "name": "伊勢神宮",
+    "nameEn": "Ise Grand Shrine",
+    "nameKo": "이세신궁",
+    "romaji": "isejingu",
+    "lat": 34.4554,
+    "lng": 136.726,
+    "slug": "ise-grand-shrine",
+    "nameZh": "伊势神宫",
+    "imageUrl": "/images/landmarks/ise-grand-shrine.webp",
+    "description": {
+      "en": "Ise Grand Shrine in Mie Prefecture is a deeply sacred Shinto complex centered on the inner Naikū and outer Gekū, dedicated to the sun goddess Amaterasu and the grain goddess Toyouke. Visitors can wander cedar‑lined paths, admire serene wooden architecture, and soak up the quiet ritual atmosphere that makes it one of Japan’s spiritual heartlands.",
+      "ja": "伊勢神宮は伊勢市にある格式高い神社群で、内宮・外宮を中心に天照大神と豊受姫を祀ります。杉並木の参道を歩きながら、古風な木造建築や厳かな祭祀の空気に触れ、日本の信仰の深さを静かに味わえます。",
+      "ko": "이세 신궁은 미에현 이세시에 자리한 신성한 신사군으로, 내궁과 외궁을 중심으로 태양의 신 아마테라스와 곡식의 여신 토요우케히메를 모십니다. 삼나무 숲길을 거닐며 전통 목조 건축의 고즈넉한 미를 감상하고, 엄숙하고 차분한 참배 분위기를 체험할 수 있습니다.",
+      "zh": "伊势神宫位于三重县伊势市，是供奉太阳女神天照大神和粮食女神丰受姬的神社群，以内宫和外宫为核心。走在杉木参道间，既能欣赏古朴的木造建筑，又能感受庄严静谧的祭祀氛围，体验日本传统信仰的独特魅力。"
+    }
+  },
+  {
+    "name": "奈良国立博物館",
+    "nameEn": "Nara National Museum",
+    "nameKo": "나라국립박물관",
+    "romaji": "naranationalmuseum",
+    "lat": 34.6838,
+    "lng": 135.8406,
+    "slug": "nara-national-museum",
+    "nameZh": "奈良国立博物馆",
+    "imageUrl": "/images/landmarks/nara-national-museum.webp",
+    "description": {
+      "en": "One of Japan’s leading national art museums, the Nara National Museum offers a peaceful, historic setting to explore exceptional Buddhist art and cultural treasures. Visitors can admire ancient sculptures, sacred scrolls and rotating exhibitions that bring Nara’s religious and artistic heritage to life.",
+      "ja": "奈良国立博物館は日本を代表する美術館の一つで、仏教美術の名品がゆったりと並ぶ静かな場所です。古い仏像や経典、季節ごとの企画展を通して、奈良の歴史と宗教文化をじっくり味わえます。",
+      "ko": "나라 국립박물관은 일본을 대표하는 미술관 중 하나로, 불교미술과 귀중한 소장품을 한자리에서 만날 수 있는 곳입니다. 고즈넉한 분위기 속에서 불상과 사경, 기획전을 통해 나라의 역사와 종교 예술을 가까이서 체험해 보세요.",
+      "zh": "奈良国立博物馆是日本首屈一指的国立美术馆之一，收藏了大量佛教艺术与珍贵文物，坐落在宁静的历史氛围中。参观者可近距离观赏古代佛像、经卷与主题展，感受奈良独有的宗教与艺术魅力。"
+    }
+  },
+  {
+    "name": "依水園",
+    "nameEn": "Isuien Garden",
+    "nameKo": "이스이엔",
+    "romaji": "isuien",
+    "lat": 34.6881,
+    "lng": 135.8432,
+    "slug": "isuien-garden",
+    "nameZh": "依水园",
+    "imageUrl": "/images/landmarks/isuien-garden.webp",
+    "description": {
+      "en": "Isuien Garden in Nara is a beautifully preserved Meiji‑era strolling garden and the only walking garden in the city. Originally two separate gardens, each section features its own pagoda, inviting quiet walks around ponds and framed views that evoke Nara’s timeless charm.",
+      "ja": "奈良にある依水園は、明治時代の造園をそのまま残す散策庭園で、奈良では唯一の回遊式庭園です。もともと別々だった二つの庭が一体となり、それぞれに塔が配された景観を眺めながらゆっくり歩けます。",
+      "ko": "나라에 있는 이수이엔(依水園)은 메이지 시대 이후 잘 보존된 산책형 정원으로, 도시에서 유일한 회유식 정원입니다. 원래 따로 있던 두 정원이 하나로 이어져 각 구역에 탑이 있어 연못과 조경을 감상하며 여유롭게 거닐기 좋습니다.",
+      "zh": "依水园位于古都奈良，保留着明治时代的风貌，是奈良唯一的回游式庭园。园内由原本独立的两座庭院组成，每一部分各有一座塔，漫步其间可在池泉与造景间感受宁静的历史气息。"
+    }
+  },
+  {
+    "name": "神戸ハーバーランド",
+    "nameEn": "Kobe Harborland",
+    "nameKo": "고베하버랜드",
+    "romaji": "kobeharborland",
+    "lat": 34.6759,
+    "lng": 135.1826,
+    "slug": "kobe-harborland",
+    "nameZh": "神户港乐园",
+    "imageUrl": "/images/landmarks/kobe-harborland.webp",
+    "description": {
+      "en": "Kobe Harborland is a lively waterfront playground where a glowing Ferris wheel, stylish boutiques and waterside restaurants come together. Stroll the promenades, snap sunset photos, or hop on a harbor cruise to take in one of Japan’s most photogenic night views.",
+      "ja": "神戸ハーバーランドは、海辺のショッピングやグルメが揃う人気のエリアです。モザイクの観覧車やライトアップされたウォーターフロントを眺めながら散策したり、夜景クルーズでロマンチックな時間を過ごせます。",
+      "ko": "고베 하버랜드는 항구를 배경으로 한 쇼핑·맛집 거리로, 반짝이는 대관람차와 해안 산책로가 매력적입니다. 산책하며 사진을 찍고 해질녘이나 야경을 즐기기에 좋은 커플·가족 여행지입니다.",
+      "zh": "神户Harborland是集海滨散步、购物与美食于一体的热门地标。码头上的摩天轮和灯光倒映在海面，傍晚或夜间漫步、拍照或乘船，都能感受到独特的港城浪漫。"
+    }
+  },
+  {
+    "name": "大徳寺",
+    "nameEn": "Daitoku-ji",
+    "nameKo": "다이토쿠지",
+    "romaji": "daitokuji",
+    "lat": 35.0442,
+    "lng": 135.7444,
+    "slug": "daitoku-ji",
+    "nameZh": "大德寺",
+    "imageUrl": "/images/landmarks/daitoku-ji.webp",
+    "description": {
+      "en": "Daitoku-ji is a sprawling Rinzai Zen complex in northern Kyoto where quiet moss gardens, intimate tea houses and over 20 sub-temples offer a concentrated taste of Japanese culture. Explore serene courtyards and historic screen paintings and tea utensils, but note that the main hall is closed to the public and many sub-temples only open at limited times — check schedules before you go.",
+      "ja": "大徳寺は京都北部に広がる大規模な臨済宗寺院群で、苔庭や茶室、20を超える塔頭が点在する落ち着いた文化の宝庫です。枯山水や障屏画、茶道具といった歴史的な見どころを楽しめますが、本堂は非公開で塔頭も公開日が限られることが多いので、事前に公開情報を確認してください。",
+      "ko": "다이토쿠지(大徳寺)는 교토 북부에 펼쳐진 거대한 린자이 선사로, 고요한 정원과 다실, 20여 개의 부속 사찰이 모여 있는 독특한 사찰군입니다. 고즈넉한 정원과 전통 다도 문화, 장막화 등 귀중한 문화재를 볼 수 있지만 본당은 공개되지 않으며 많은 탑두는 한정적으로만 공개되니 방문 전 공개 일정을 확인하세요.",
+      "zh": "大德寺是京都一处规模宏大的臨濟禅寺院群，庭院静谧、茶道传统深厚，二十余座塔头散布其间，能让人深入体会日本文化的细腻与静穆。寺内有枯山水、障屏画和茶道器具等珍贵文化财，但本堂不对外开放，许多塔头也只在特定时段或活动时开放，建议提前确认开放信息。"
+    }
+  },
+  {
+    "name": "貴船神社",
+    "nameEn": "Kifune Shrine",
+    "nameKo": "기부네신사",
+    "romaji": "kifunejinja",
+    "lat": 35.1204,
+    "lng": 135.7629,
+    "slug": "kifune-shrine",
+    "nameZh": "贵船神社",
+    "imageUrl": "/images/landmarks/kifune-shrine.webp",
+    "description": {
+      "en": "Kifune Shrine in Kyoto’s Sakyō-ku is a peaceful Shinto sanctuary where traditional architecture and quiet ritual life offer a calm escape from the city. Visit to stroll the atmospheric grounds, take in seasonal scenery, and experience a slice of timeless Japanese spiritual culture.",
+      "ja": "京都・左京区にある貴船神社は、昔ながらの佇まいが残る静かな神社です。社殿や季節ごとの風景を眺めながら参拝し、穏やかなひとときを過ごせます。",
+      "ko": "교토 사쿄구에 자리한 기후네 신사는 전통 신사의 고즈넉한 분위기를 느낄 수 있는 장소입니다. 고요한 경내를 거닐며 옛 건축과 계절 풍경을 감상하고, 잠시 일상을 잊고 참배해 보세요.",
+      "zh": "位于京都左京区的贵船神社，是一处充满古意的静谧神社。漫步在神社境内，欣赏古老社殿与四季风景，体验一段远离喧嚣的宁静时光。"
+    }
+  },
+  {
+    "name": "鞍馬寺",
+    "nameEn": "Kurama-dera",
+    "nameKo": "구라마데라",
+    "romaji": "kuramadera",
+    "lat": 35.1186,
+    "lng": 135.7679,
+    "slug": "kurama-dera",
+    "nameZh": "鞍马寺",
+    "imageUrl": "/images/landmarks/kurama-dera.webp",
+    "description": {
+      "en": "Tucked in the far north of Kyoto, Kurama-dera is a quietly powerful temple that houses several National Treasures and centers on a singular, esoteric object of worship found nowhere else. Visitors come to experience its rare spiritual atmosphere and to feel a living slice of Japan’s religious history—said to have been founded by a disciple of the Chinese monk Ganjin and long tied to the Tendai tradition.",
+      "ja": "京都の北の奥に佇む鞍馬寺は、国宝を所蔵し、寺独自の密教的な御本尊を祀ることで知られる場所です。鑑真の弟子によって創建されたと伝わり、かつては天台宗に属していた歴史を感じながら、静かで特別な信仰の空気に触れることができます。",
+      "ko": "교토 북쪽 외곽에 자리한 쿠라마데라는 일본의 국보를 소장한 사찰로, 이곳만의 독특한 밀교적 예배 대상이 남아 있는 점이 매력입니다. 전통적으로 천태종에 속하다가 1949년 독립한 역사와 함께, 차분하고 신비로운 사찰의 분위기를 직접 체험할 수 있습니다.",
+      "zh": "鞍馬寺位于京都北部，藏有日本的国宝，并以寺中独有的密教供奉对象著称。传说由鉴真的弟子所创，曾长期隶属于天台宗，来到这里可感受一段独特的宗教氛围与悠长的历史。"
+    }
+  },
+  {
+    "name": "下鴨神社",
+    "nameEn": "Shimogamo Shrine",
+    "nameKo": "시모가모신사",
+    "romaji": "shimogamojinja",
+    "lat": 35.0389,
+    "lng": 135.7723,
+    "slug": "shimogamo-shrine",
+    "nameZh": "下鸭神社",
+    "imageUrl": "/images/landmarks/shimogamo-shrine.webp",
+    "description": {
+      "en": "Step into Shimogamo Shrine (Kamo-mioya Shrine), one of Japan’s oldest Shinto sanctuaries and a UNESCO World Heritage site whose peaceful grounds have watched over Kyoto since the 6th century. Wander the tranquil precincts, admire classical shrine architecture, and feel the deep sense of history that ties this ancient Kamo complex to the life of the city.",
+      "ja": "正式名は賀茂御祖神社、通称・下鴨神社。6世紀に起源を持つ京都でも有数の古社で、世界遺産にも登録されています。静かな境内をゆっくり歩けば、古くから京都を守ってきた賀茂の信仰と風情を肌で感じられます。",
+      "ko": "시모가모 신사(정식명: 카모미오야 신사)는 6세기부터 이어져 온 교토의 대표적 고대 신사 중 하나로, 유네스코 세계유산으로 지정되어 있습니다. 고즈넉한 경내를 거닐며 전통 신사 건축을 감상하고, 도시를 수호해 온 오랜 역사적 기운을 직접 느껴보세요.",
+      "zh": "下鸭神社（正式名：賀茂御祖神社）是可追溯到6世纪的京都古老神社之一，也是被列入世界遗产的历史古迹。漫步在宁静的社域之中，既能欣赏传统神社建筑，又能体会这一古老“賀茂”社群数百年来守护京都的庄重氛围。"
+    }
+  },
+  {
+    "name": "上賀茂神社",
+    "nameEn": "Kamigamo Shrine",
+    "nameKo": "가미가모신사",
+    "romaji": "kamigamojinja",
+    "lat": 35.0594,
+    "lng": 135.7527,
+    "slug": "kamigamo-shrine",
+    "nameZh": "上贺茂神社",
+    "imageUrl": "/images/landmarks/kamigamo-shrine.webp",
+    "description": {
+      "en": "Perched on the banks of the Kamo River in north Kyoto, Kamigamo Shrine (formally Kamo-wakeikazuchi Shrine) has welcomed worshippers since 678. Stroll its peaceful, tree-lined grounds to admire ancient Shinto architecture and, if you time it right, glimpse traditional ceremonies and seasonal festivals that bring Japan’s past to life.",
+      "ja": "北の鴨川沿いに佇む上賀茂神社（正式名：賀茂別雷神社）は、678年に創建された京都有数の古社です。広い社域の森や川辺をゆっくり歩き、古式ゆかしい社殿や祭礼に触れて、静かな神聖さを味わえます。",
+      "ko": "교토 북쪽 가모강변에 자리한 가미가모 신사(정식 명칭: 카모와케이카즈치 신사)는 서기 678년에 창건된 유서 깊은 신사입니다. 울창한 숲과 강가의 고요한 경치를 거닐며 고전적인 신도 건축을 감상하고, 때맞춰 열리는 제례나 계절 축제를 체험해 보세요.",
+      "zh": "上賀茂神社（Kamigamo Shrine，正式名为Kamo-wakeikazuchi Shrine）坐落在京都北部的鸭川畔，自678年便作为重要神社延续至今。游客可以在林木葱茏的境内和河畔散步，感受古老的神道氛围，并观赏传统社殿与节庆仪式。"
+    }
+  },
+  {
+    "name": "八坂神社",
+    "nameEn": "Yasaka Shrine",
+    "nameKo": "야사카신사",
+    "romaji": "yasakajinja",
+    "lat": 35.0036,
+    "lng": 135.7785,
+    "slug": "yasaka-shrine",
+    "nameZh": "八坂神社",
+    "imageUrl": "/images/landmarks/yasaka-shrine.webp",
+    "description": {
+      "en": "Set at the east end of Shijō-dōri in Kyoto’s atmospheric Gion district, Yasaka Shrine (formerly Gion Shrine) welcomes visitors with its striking gates, main hall and open stage where ceremonies are held. Dedicated to Susanoo and surrounded by his consort and eight attendant deities, it’s a living center of Gion faith where you can watch rituals, admire traditional architecture, and soak up a timeless neighborhood atmosphere.",
+      "ja": "祇園の風情が残る四条通の東端に建つ八坂神社（旧・祇園社）は、楼門や本殿、舞台などの堂々とした社殿群が見どころです。素戔嗚尊を主祭神に、櫛名田姫や八柱の神々が祀られる神域で、祭礼や伝統行事の息づく空気を感じながら参拝や建築鑑賞ができます。",
+      "ko": "교토 기온 지구 시죠도리 동쪽 끝에 자리한 야사카 신사(옛 이름 기온사)는 웅장한 문과 본전, 무대가 어우러진 신사입니다. 스사노오를 주신으로 모시고 그의 배우자와 여덟 신이 함께하는 이곳에서는 전통 의식과 고즈넉한 신사의 분위기를 직접 체험하며 건축미를 감상할 수 있습니다.",
+      "zh": "八坂神社位于京都祇园区四条通东端，旧称祇园社，楼门、本殿与舞台等历史建筑颇具看点。这里以素戔嗚尊为主祭神，东侧供奉櫛名田姬、西侧有八柱神，既是祇园信仰的中心，也能让你观赏传统仪式、感受古老庙宇的氛围。"
+    }
+  },
+  {
+    "name": "円山公園",
+    "nameEn": "Maruyama Park",
+    "nameKo": "마루야마공원",
+    "romaji": "maruyamapark",
+    "lat": 35.0033,
+    "lng": 135.7815,
+    "slug": "maruyama-park",
+    "nameZh": "圆山公园",
+    "imageUrl": "/images/landmarks/maruyama-park.webp",
+    "description": {
+      "en": "Maruyama Park is Kyoto’s classic hanami spot, centered on a dramatic weeping cherry that’s lit up at night — perfect for glowing photos and a magical evening stroll. It gets very crowded in April, and the park also hums with activity during lively New Year’s Eve festivals.",
+      "ja": "円山公園は京都を代表する花見スポットで、夜にライトアップされる見事な枝垂桜が目玉です。4月は大変混雑しますが、幻想的な夜桜や大晦日の賑わいを存分に楽しめます。",
+      "ko": "마루야마 공원은 교토의 대표 벚꽃 명소로, 봄이면 야간에 은은하게 빛나는 수양벚나무가 인상적입니다. 4월에는 매우 붐비지만 밤벚꽃 풍경과 새해 전야제의 활기찬 분위기를 경험할 수 있습니다.",
+      "zh": "圆山公园是京都最著名的赏樱地之一，公园里那株夜间点灯的垂枝樱尤其迷人。四月赏花时节会非常拥挤，但你能欣赏到梦幻的夜樱景致，并感受热闹的大年夜庆典氛围。"
+    }
+  },
+  {
+    "name": "先斗町",
+    "nameEn": "Pontocho",
+    "nameKo": "폰토초",
+    "romaji": "pontocho",
+    "lat": 35.0061,
+    "lng": 135.7706,
+    "slug": "pontocho",
+    "nameZh": "先斗町",
+    "imageUrl": "/images/landmarks/pontocho.webp",
+    "description": {
+      "en": "Pontocho is Kyoto’s atmospheric hanamachi where okiya and traditional tea houses line narrow streets and preserved wooden architecture sets the scene for centuries-old entertainment. Visit at dusk for a chance to glimpse geiko and maiko and to enjoy intimate performances and classic Kyoto dining.",
+      "ja": "先斗町は京都の趣ある花街で、置屋や伝統的な茶屋が並び、保存された町家風の建物と昔ながらの芸能が残る場所です。夕暮れ時に訪れれば、芸妓や舞妓の姿に出会い、落ち着いた雰囲気の中で伝統的な演目や京料理を楽しめます。",
+      "ko": "폰토초는 교토의 전통적인 꽃거리로, 오키야와 전통 찻집이 모여 옛 정취를 간직한 곳입니다. 저녁에 들르면 게이코와 마이코를 마주할 기회가 있고, 소규모 공연과 교토식 요리를 차분히 즐길 수 있습니다.",
+      "zh": "先斗町是京都一处充满风情的花街，许多置屋和传统茶屋汇聚于此，老式建筑与传统艺能保存完好。傍晚时分来访，常有机会一睹艺妓与舞妓风采，体验亲切的传统表演和地道京味料理。"
+    }
+  },
+  {
+    "name": "桂離宮",
+    "nameEn": "Katsura Imperial Villa",
+    "nameKo": "가쓰라리큐",
+    "romaji": "katsurarikyu",
+    "lat": 34.9842,
+    "lng": 135.7116,
+    "slug": "katsura-imperial-villa",
+    "nameZh": "桂离宫",
+    "imageUrl": "/images/landmarks/katsura-imperial-villa.webp",
+    "description": {
+      "en": "Set beside the Katsura River in western Kyoto, the Katsura Imperial Villa is a pristine example of classical Japanese architecture and strolling gardens. Visitors can wander carefully arranged paths, admire refined shoin-style pavilions and tea houses, and experience an intimate harmony of buildings, water and seasonal foliage that earned it national cultural recognition.",
+      "ja": "桂離宮は桂川沿いの閑静な場所にある、書院造と庭園が一体となった日本美の極致です。庭をゆっくり散策し、数寄屋や茶室が織りなす繊細な空間美と四季の移ろいを感じてください。",
+      "ko": "가쓰라리큐는 교토 서쪽 가쓰라 강가에 자리한 황실 별장으로, 전통 건축과 정원이 절묘하게 어우러진 곳입니다. 산책로를 따라 다실과 누각을 감상하며 계절마다 달라지는 풍경의 정취를 느껴보세요.",
+      "zh": "桂离宫位于桂川西岸，是保存完好的皇室别苑，以简洁优雅的书院式建筑与步移景异的庭园著称。漫步于石径小路，可近距离体会茶室、亭台与水景交织的静谧，以及四季变幻带来的不同风情。"
+    }
+  },
+  {
+    "name": "修学院離宮",
+    "nameEn": "Shugakuin Imperial Villa",
+    "nameKo": "슈가쿠인리큐",
+    "romaji": "shugakuinrikyu",
+    "lat": 35.0537,
+    "lng": 135.7963,
+    "slug": "shugakuin-imperial-villa",
+    "nameZh": "修学院离宫",
+    "imageUrl": "/images/landmarks/shugakuin-imperial-villa.webp",
+    "description": {
+      "en": "Perched in the eastern hills of Kyoto, the Shugakuin Imperial Villa is a sweeping hillside retreat where carefully composed ponds, pathways and outbuildings unfold like a living work of art. A visit lets you stroll masterpiece gardens and soak in the quiet, imperial atmosphere that shaped centuries of Japanese aesthetics.",
+      "ja": "京都の東山の静かな高台に広がる修学院離宮は、庭園と離れが織りなす広大で品格ある景観が魅力の文化遺産です。回廊や池をめぐりながら、皇室の趣を残す静かな趣と日本庭園の美をゆっくり味わえます。",
+      "ko": "교토 동쪽 구릉에 자리한 슈가쿠인(修学院) 별궁은 정원과 별채가 어우러진, 일본 조경의 걸작으로 꼽히는 넓은 별원입니다. 고즈넉한 산책로와 정원을 따라 걸으며 황실의 고요한 분위기와 전통 미감을 직접 느낄 수 있습니다.",
+      "zh": "修学院离宫座落于京都东郊的群山之间，是一处规模宏大且颇具格调的皇室别苑，其庭园被视为日本造园艺术的杰作。漫步于池泉、回廊与茶室之间，能静静体会那份古雅的皇室氛围与庭园构图之美。"
+    }
+  },
+  {
+    "name": "京都鉄道博物館",
+    "nameEn": "Kyoto Railway Museum",
+    "nameKo": "교토철도박물관",
+    "romaji": "kyotorailwaymuseum",
+    "lat": 34.987,
+    "lng": 135.746,
+    "slug": "kyoto-railway-museum",
+    "nameZh": "京都铁道博物馆",
+    "imageUrl": "/images/landmarks/kyoto-railway-museum.webp",
+    "description": {
+      "en": "Step into a living history of Japanese railways at the Kyoto Railway Museum, where restored steam giants meet sleek modern trains after a major 2016 revamp. Hands‑on exhibits, driving simulators and a working turntable let you see, touch and even feel how rail travel evolved — perfect for families and train fans alike.",
+      "ja": "京都鉄道博物館は、1972年に誕生した梅小路蒸気機関車館を受け継ぎ、2016年の大改装で一段と充実した展示を誇る施設です。実際に動く転車台や運転シミュレーター、間近で見られる保存車両など、見て触れて体験できる展示が充実していて、子どもから鉄道ファンまで一日中楽しめます。",
+      "ko": "교토 철도 박물관은 2016년 대규모 확장으로 증기기관차의 향수와 현대식 전동차 전시가 어우러진 공간입니다. 운전 시뮬레이터와 실제 회전대, 각종 보존 차량을 가까이서 보고 체험하며 철도의 발전사를 직접 느낄 수 있습니다.",
+      "zh": "京都铁路博物馆把1972年开馆的梅小路蒸汽机车馆升级为既有历史感又现代化的展馆（2016年扩建）。这里既能近距离观赏保存完好的蒸汽机车，也能体验驾驶模拟器、观看转车台作业，是家庭出游和铁道迷的一天好去处。"
+    }
+  },
+  {
+    "name": "京都国際マンガミュージアム",
+    "nameEn": "Kyoto International Manga Museum",
+    "nameKo": "교토국제만화박물관",
+    "romaji": "kyotomangamuseum",
+    "lat": 35.0118,
+    "lng": 135.7596,
+    "slug": "kyoto-international-manga-museum",
+    "nameZh": "京都国际漫画博物馆",
+    "imageUrl": "/images/landmarks/kyoto-international-manga-museum.webp",
+    "description": {
+      "en": "In the heart of Kyoto, the Kyoto International Manga Museum is a must for fans and curious travelers alike—browse and read from 50,000 manga volumes on open shelves and soak up a unique, book-filled atmosphere. Researchers and enthusiasts can also request access to another 250,000 items in the reference room, including Edo-period prints, pre-war magazines and post-war rental books alongside popular modern series from around the globe.",
+      "ja": "京都中心部にある京都国際マンガミュージアムは、マンガ好きにはたまらないスポットです。開架で自由に読める5万冊のマンガに囲まれてゆったり過ごせるほか、江戸期の木版画や戦前雑誌、戦後の貸本など約25万点の所蔵資料を研究閲覧室で調べられます。",
+      "ko": "교토 시내에 있는 교토국제만화뮤지엄은 만화 애호가라면 반드시 들러야 할 곳입니다. 개방서가에서 자유롭게 읽을 수 있는 5만 권의 만화와 함께 에도시대 목판화, 전전(戰前) 잡지, 전후 대여본 등 약 25만 점의 소장자료를 연구실을 통해 열람할 수 있어 팬과 연구자 모두에게 매력적입니다.",
+      "zh": "位于京都市中心的京都国际漫画博物馆是漫画迷必访之地；馆内开放阅览的5万册漫画可随意翻阅，营造出独特的沉浸氛围。另有约25万件封存藏品（江户时期木刻、战前杂志、战后租借本以及世界各地的现代热门连载）可在研究阅览室申请查阅，兼具趣味与学术价值。"
+    }
+  },
+  {
+    "name": "建仁寺",
+    "nameEn": "Kennin-ji",
+    "nameKo": "겐닌지",
+    "romaji": "kenninji",
+    "lat": 35.0001,
+    "lng": 135.7737,
+    "slug": "kennin-ji",
+    "nameZh": "建仁寺",
+    "imageUrl": "/images/landmarks/kennin-ji.webp",
+    "description": {
+      "en": "Kennin-ji is one of Kyoto’s most important Zen temples and the head temple of its Rinzai lineage, with a history that anchors it among the city’s famed Gozan. Visitors can stroll tranquil grounds, take in traditional temple buildings and gardens, and soak up an authentic Zen atmosphere that feels timeless in the heart of Kyoto.",
+      "ja": "建仁寺は臨済宗の本山として知られ、京都五山にも数えられる古刹です。静かな境内や歴史ある堂宇、季節ごとに表情を変える庭を歩きながら、禅の落ち着いた空気に触れることができます。",
+      "ko": "켄닌지(建仁寺)는 임제종 계열의 본산이자 교토를 대표하는 고찰 중 하나로 오랜 역사를 자랑합니다. 고요한 경내와 전통 건축, 정원을 거닐며 선(禪)의 차분한 분위기를 직접 체험해 보세요.",
+      "zh": "建仁寺是临济宗的总寺，也是京都最具代表性的禅寺之一，名列“京都五山”。游人可以在宁静的寺院与庭园间漫步，欣赏古朴的堂宇，体验禅意带来的平和与沉静。"
+    }
+  },
+  {
+    "name": "スパワールド",
+    "nameEn": "Spa World",
+    "nameKo": "스파월드",
+    "romaji": "spaworld",
+    "lat": 34.6515,
+    "lng": 135.505,
+    "slug": "spa-world",
+    "nameZh": "Spa World",
+    "imageUrl": "/images/landmarks/spa-world.webp",
+    "description": {
+      "en": "Spa World is a lively urban spa complex where you can soak in a variety of themed baths, sweat it out in saunas, and relax in resort-like facilities. It’s an easy, fun way to experience Japanese bathing culture and recharge between sightseeing adventures.",
+      "ja": "スパワールドは、多彩な湯めぐりやサウナが楽しめる都会型の大型スパ施設です。観光の合間に気軽に立ち寄って、ゆったりと湯に浸かりながらリフレッシュできます。",
+      "ko": "스파월드는 다양한 테마의 온탕과 사우나로 휴식을 즐길 수 있는 도심형 스파입니다. 여행 중 피로를 풀고 일본식 목욕 문화를 편하게 체험하기에 딱 좋은 장소예요.",
+      "zh": "Spa World 是一处受欢迎的城市温泉水疗中心，提供多种主题浴池、桑拿和放松空间。无论想体验日本泡汤文化、缓解旅途疲劳，还是单纯找个放松的所在，这里都很合适。"
+    }
+  },
+  {
+    "name": "天橋立",
+    "nameEn": "Amanohashidate",
+    "nameKo": "아마노하시다테",
+    "romaji": "amanohashidate",
+    "lat": 35.5617,
+    "lng": 135.1809,
+    "slug": "amanohashidate",
+    "nameZh": "天桥立",
+    "imageUrl": "/images/landmarks/amanohashidate.webp",
+    "description": {
+      "en": "Amanohashidate is a narrow, tree-lined sandbar that stretches across Miyazu Bay in northern Kyoto and is celebrated as one of Japan’s three greatest scenic views. You can stroll or bike the peaceful strip, take a boat around the bay, or climb a nearby viewpoint and try the traditional matanozoki—bend forward and look between your legs to see the sandbar appear like a bridge to the heavens.",
+      "ja": "天橋立は京都北部の宮津湾にのびる松並木の砂州で、日本三景のひとつとして知られています。砂州を散策したり自転車で渡ったり、対岸の展望所から股のぞきで“天に架かる橋”のような眺めを楽しめます。",
+      "ko": "아마노하시다테는 교토 북부 미야즈만에 길게 뻗은 소나무 숲이 덮인 모래톱으로 일본 3대 절경 중 하나입니다. 산책하거나 자전거로 건너고 유람선을 타보거나 언덕 전망대에서 '다리 사이로 보기'라는 전통 방식으로 모래톱이 마치 하늘에 닿은 다리처럼 보이는 풍경을 감상해 보세요.",
+      "zh": "天桥立位于京都府北部的宫津湾，是日本三景之一，由一条覆有松林的细长沙洲横跨海湾。游客可以步行或骑行穿过沙洲、乘船环湾，或登上对岸观景台，用“跨腿观景（股のぞき）”的方式看那条沙洲宛如通向天空的桥。"
+    }
+  },
+  {
+    "name": "琵琶湖",
+    "nameEn": "Lake Biwa",
+    "nameKo": "비와호",
+    "romaji": "biwako",
+    "lat": 35.25,
+    "lng": 136.1,
+    "slug": "lake-biwa",
+    "nameZh": "琵琶湖",
+    "imageUrl": "/images/landmarks/lake-biwa.webp",
+    "description": {
+      "en": "Lake Biwa, just northeast of Kyoto, is Japan’s largest freshwater lake and an ancient natural landmark more than four million years old. Visitors can take peaceful boat cruises, cycle the scenic shoreline, taste lakeside specialties, and wander sites that have inspired poets and warriors for centuries.",
+      "ja": "琵琶湖は京都の北東、滋賀県に広がる日本最大の淡水湖で、四百万年以上の歴史をもつ悠久の景観です。遊覧船や湖畔サイクリング、近隣の寺社巡りやしじみなど郷土料理を楽しみながら、和歌や史伝に描かれてきた風情を感じてください。",
+      "ko": "비와호는 교토 북동쪽의 시가현에 있는 일본 최대의 담수호로, 400만 년이 넘는 역사를 지닌 고대의 호수입니다. 유람선이나 자전거로 호반을 둘러보고, 호숫가의 맛집을 즐기며 오랜 문학과 역사가 깃든 고즈넉한 풍경을 체험해 보세요.",
+      "zh": "琵琶湖位于京都东北的滋贺县，是日本最大的淡水湖，也是拥有超过四百万年历史的古老湖泊。你可以乘船游湖、沿湖骑行、参拜湖畔寺社并品尝地道淡水美食，在诗歌与史书记载的湖光山色中慢慢探索。"
+    }
+  },
+  {
+    "name": "彦根城",
+    "nameEn": "Hikone Castle",
+    "nameKo": "히코네성",
+    "romaji": "hikonejo",
+    "lat": 35.2764,
+    "lng": 136.2517,
+    "slug": "hikone-castle",
+    "nameZh": "彦根城",
+    "imageUrl": "/images/landmarks/hikone-castle.webp",
+    "description": {
+      "en": "Hikone Castle is a rare, beautifully preserved Edo-period stronghold — one of only twelve castles in Japan with its original tenshu and among the handful whose buildings are National Treasures. Stroll the stone walls and moats, explore the authentically preserved keep and museum displays, and feel transported back to the age of samurai and feudal courts.",
+      "ja": "彦根城は江戸時代の天守が現存する貴重な城で、わずか数件しかない国宝建造物を有する滋賀を代表する史跡です。石垣や堀を巡り、本丸の天守や展示をじっくり見学すれば、当時の武家文化の風情を体感できます。",
+      "ko": "히코네성은 에도 시대의 본래 천수가 남아 있는 드문 성으로, 건물이 국보로 지정된 귀중한 문화재입니다. 돌담과 해자를 따라 걸으며 원형이 그대로 보존된 천수와 내부 전시를 둘러보면 일본 봉건 시대의 분위기를 생생히 느낄 수 있습니다.",
+      "zh": "彦根城是滋贺最重要的江户时代古城之一，保存着原貌的天守阁，也是为数不多的国宝级城堡建筑之一。沿着石垣与护城河漫步，参观完好保留的天守与资料展览，就能沉浸在浓厚的历史氛围中。"
+    }
+  },
+  {
+    "name": "延暦寺",
+    "nameEn": "Enryaku-ji",
+    "nameKo": "엔랴쿠지",
+    "romaji": "enryakuji",
+    "lat": 35.0705,
+    "lng": 135.841,
+    "slug": "enryaku-ji",
+    "nameZh": "延历寺",
+    "imageUrl": "/images/landmarks/enryaku-ji.webp",
+    "description": {
+      "en": "Perched on Mount Hiei above Kyoto, Enryaku-ji is the ancient Tendai headquarters founded in 788 and part of the UNESCO-listed Historic Monuments of Ancient Kyoto. Wander cedar-shaded paths and centuries-old halls, enjoy sweeping views of the city below, and sense the deep Buddhist legacy here — from the rigorous kaihōgyō ascetic tradition to its role in shaping many Japanese sects.",
+      "ja": "比叡山の山上に広がる延暦寺は、788年に最澄が開いた天台宗の総本山で、世界遺産にも登録された歴史の舞台です。杉並木の参道や古い堂宇を歩きながら京都を見下ろす眺望を楽しみ、厳しい修行（回峰行）や日本仏教の深い系譜に触れてみてください。",
+      "ko": "비에이산(比叡山)에 자리한 엔랴쿠지(延暦寺)는 788년 사이초가 창건한 천태종의 본산으로, 교토를 내려다보는 유네스코 세계유산입니다. 고요한 삼나무 숲길과 오래된 전각을 거닐며 도심 전경을 감상하고, 엄격한 수행인 카이호교(回峰行) 등 불교의 깊은 역사를 체험할 수 있습니다.",
+      "zh": "延历寺坐落于比叡山，俯瞰京都，始建于788年，是天台宗的总本山并列入世界遗产名录。漫步在古老的参道与堂宇之间，可一览城市全景，感受僧侣苦行（kaihōgyō）等庄严传统与日本佛教的深厚渊源，是兼具观景与静修氛围的必访之地。"
+    }
+  },
+  {
+    "name": "ミホミュージアム",
+    "nameEn": "Miho Museum",
+    "nameKo": "미호뮤지엄",
+    "romaji": "mihomuseum",
+    "lat": 34.8948,
+    "lng": 136.0373,
+    "slug": "miho-museum",
+    "nameZh": "美秀美术馆",
+    "imageUrl": "/images/landmarks/miho-museum.webp",
+    "description": {
+      "en": "The Miho Museum, located southeast of Kyoto in the Shigaraki neighborhood of Kōka, Shiga Prefecture, is an art museum set away from the city's bustle. Visitors can enjoy rotating exhibitions in a peaceful countryside setting, making it an ideal, easy day trip from Kyoto.",
+      "ja": "ミホ・ミュージアムは、京都の南東、滋賀県甲賀市信楽にある美術館で、落ち着いた郊外の雰囲気の中で芸術と向き合えます。京都から日帰りで訪れやすく、展覧会をゆっくり楽しむのにぴったりの場所です。",
+      "ko": "미호 미술관은 교토 남동쪽, 시가현 고카의 시가라키 지역에 위치한 미술관으로 도시의 번잡함을 벗어나 조용히 작품을 감상할 수 있는 곳입니다. 교토에서 비교적 가기 쉬워 전시를 둘러보며 여유로운 문화 나들이를 즐기기 좋습니다.",
+      "zh": "Miho美术馆位于京都东南、滋贺县甲贺市信乐地区，是一座远离都市喧嚣的艺术馆。游客可以在宁静的乡间环境中参观各类展览，作为从京都出发的轻松文化一日游目的地。"
+    }
+  },
+  {
+    "name": "和歌山城",
+    "nameEn": "Wakayama Castle",
+    "nameKo": "와카야마성",
+    "romaji": "wakayamajo",
+    "lat": 34.2266,
+    "lng": 135.171,
+    "slug": "wakayama-castle",
+    "nameZh": "和歌山城",
+    "imageUrl": "/images/landmarks/wakayama-castle.webp",
+    "description": {
+      "en": "Perched above Wakayama city, Wakayama Castle showcases the grandeur of Tokugawa-era power with its stately keep, massive stone walls, and sweeping grounds. Visitors can climb to panoramic viewpoints, explore exhibits about the Kishū Domain, and stroll through seasonal gardens and cherry blossoms that bring the history to life.",
+      "ja": "和歌山城は紀州徳川家の拠点として栄えた堂々たる天守や石垣が見どころで、江戸時代の重厚な雰囲気を今に伝えています。天守からの市街と海のパノラマを楽しみ、展示で紀州藩の歴史に触れたり、季節の庭園や桜並木を散策したりできます。",
+      "ko": "와카야마성은 기슈 번(紀伊藩)을 다스리던 도쿠가와 가문의 중심지로서 웅장한 천수각과 튼튼한 성벽이 인상적입니다. 방문자는 천수에서 펼쳐지는 시가지와 바다 전망을 감상하고, 번의 역사를 전시로 배울 수 있으며 계절마다 피어나는 벚꽃과 정원을 함께 즐길 수 있습니다.",
+      "zh": "和歌山城位于和歌山市，曾是纪伊藩（纪州德川家）的政治中心，城堡规模宏大、石垣坚固，仍能感受到江户时代的气息。游客可登天守远眺城市与海景，参观介绍纪州藩历史的展览，并在春季的樱花与庭院中悠闲漫步。"
+    }
+  },
+  {
+    "name": "白浜",
+    "nameEn": "Shirahama",
+    "nameKo": "시라하마",
+    "romaji": "shirahama",
+    "lat": 33.6826,
+    "lng": 135.3454,
+    "slug": "shirahama",
+    "nameZh": "白浜",
+    "imageUrl": "/images/landmarks/shirahama.webp",
+    "description": {
+      "en": "Shirahama is a charming coastal town in Wakayama Prefecture known for its powder‑white beaches and relaxing hot springs, offering a classic Japanese seaside getaway. Visitors can stroll the shoreline, soak in open‑air baths, sample fresh seafood, and unwind amid dramatic coastal scenery.",
+      "ja": "和歌山県の白浜は、その名の通り真っ白な砂浜と湯量豊かな温泉が魅力の海辺の町です。海岸を散策したり露天風呂でゆったり湯に浸かったり、新鮮な海の幸を味わいながらリゾート気分を満喫できます。",
+      "ko": "시라하마는 와카야마현의 해안 온천 마을로, 하얀 백사장과 편안한 온천으로 유명한 곳입니다. 해변 산책이나 노천온천에서의 휴식, 신선한 해산물로 여유로운 휴가를 즐기기 좋습니다.",
+      "zh": "白滨位于和歌山县，是以洁白沙滩与温泉闻名的海滨小镇。游客可以在海边散步、泡露天温泉、品尝新鲜海鲜，体验悠闲的海滨温泉度假氛围。"
+    }
+  },
+  {
+    "name": "心斎橋",
+    "nameEn": "Shinsaibashi",
+    "nameKo": "신사이바시",
+    "romaji": "shinsaibashi",
+    "lat": 34.6751,
+    "lng": 135.5014,
+    "slug": "shinsaibashi",
+    "nameZh": "心斋桥",
+    "imageUrl": "/images/landmarks/shinsaibashi.webp",
+    "description": {
+      "en": "Shinsaibashi is Osaka’s bustling shopping heart — stroll the covered Shinsaibashi-suji arcade to discover everything from flagship boutiques to quirky local shops, then pop into nearby Amerika-mura for youth-driven fashion and street culture. Minutes from Dōtonbori and easily reached by subway, it’s perfect for an afternoon of shopping, eating and people-watching.",
+      "ja": "心斎橋は大阪を代表する賑やかなショッピングエリアです。屋根つきの心斎橋筋商店街を歩けばブランドから個性的なショップまで揃い、少し西へ足を伸ばせばアメリカ村で若者文化やストリートファッションを楽しめます。地下鉄でアクセスも良く、ぶらり散策にぴったりです。",
+      "ko": "신사이바시는 오사카의 쇼핑 중심지예요. 지붕이 있는 신사이바시스지 거리를 걸으며 대형 브랜드부터 개성 있는 작은 가게까지 둘러보고, 서쪽의 아메리카무라에서는 젊은이들의 패션과 스트리트 문화를 만날 수 있습니다. 도톤보리와 가까워 지하철로 편하게 이동할 수 있어 쇼핑과 구경하기에 안성맞춤입니다.",
+      "zh": "心斋桥是大阪最热闹的购物区：在有顶的心斋桥筋商店街逛街，可以从大型品牌逛到个性小店，西侧的美国村则是年轻人聚集的时尚街区。紧邻道顿堀，地铁直达，适合安排一个下午尽情购物和感受大阪的街头氛围。"
+    }
+  },
+  {
+    "name": "難波パークス",
+    "nameEn": "Namba Parks",
+    "nameKo": "난바파크스",
+    "romaji": "nambaparks",
+    "lat": 34.663,
+    "lng": 135.501,
+    "slug": "namba-parks",
+    "nameZh": "难波公园",
+    "imageUrl": "/images/landmarks/namba-parks.webp",
+    "description": {
+      "en": "Namba Parks is an unexpected urban oasis in the heart of Namba — a high-rise office tower and a 120-store shopping mall crowned by a stepped rooftop park. Wander its tree-lined terraces and paths, dine on outdoor terraces, and enjoy skyline views and green pockets built on the former Osaka Stadium site, just south of Nankai Namba Station.",
+      "ja": "なんばパークスは南海なんば駅の南側に広がる都会のオアシスで、オフィス棟「パークスタワー」と約120の店舗を擁するショッピングモール、そして段々に配された屋上緑地が魅力です。緑あふれる遊歩道やテラスで休んだり食事をしたりしながら、かつての大阪スタジアム跡地ならではの開放感を楽しめます。",
+      "ko": "난바 파크스는 난바 중심부에 자리한 복합 공간으로, 파크스 타워와 약 120개 점포의 쇼핑몰, 계단식 옥상 정원이 어우러진 도시 속 오아시스입니다. 나무와 테라스로 꾸며진 옥상 공원을 걸으며 카페·레스토랑을 즐기고, 옛 오사카 스타디움 터 위에 만들어진 특별한 경관을 경험해보세요.",
+      "zh": "难波公园位于难波站南侧，是集办公塔楼和约120家商铺于一体的综合体，最吸引人的是那座层叠式的屋顶花园。你可以在绿意盎然的步道与露台间漫步、在户外餐厅用餐，感受在旧大阪体育场遗址上重建的城市绿洲氛围。"
+    }
+  },
+  {
+    "name": "大阪天満宮",
+    "nameEn": "Osaka Tenmangu",
+    "nameKo": "오사카덴만구",
+    "romaji": "osakatenmangu",
+    "lat": 34.6943,
+    "lng": 135.5135,
+    "slug": "osaka-tenmangu",
+    "nameZh": "大阪天满宫",
+    "imageUrl": "/images/landmarks/osaka-tenmangu.webp",
+    "description": {
+      "en": "Osaka Tenmangū is one of Japan’s oldest Tenmangū shrines, founded in AD 949 and rebuilt after repeated fires—the current entrance hall and gate date from 1845. Visit in late July (July 24–25) for the lively Tenjin Festival when the shrine fills with traditional ceremonies and celebrations, or come any time to soak up its long history and calm atmosphere.",
+      "ja": "大阪天満宮は西暦949年に創建された由緒ある天満宮で、度重なる火災を経てなお地域に根付いています。現在の楼門や拝殿は1845年の建立で、7月24〜25日の天神祭には境内が華やかに賑わい、間近で伝統行事の息づかいを感じられます。",
+      "ko": "오사카 덴만구는 서기 949년에 세워진 유서 깊은 덴만구로, 여러 차례 화재를 딛고 이어져 왔습니다. 현재의 정문과 본당은 1845년에 세워졌고, 매년 7월 24~25일 열리는 덴진 마츠리 기간에는 전통 의식과 축제로 한층 생동감 넘치는 풍경을 체험할 수 있습니다.",
+      "zh": "大阪天满宫始建于公元949年，是历史悠久的天满宫之一，虽曾多次遭遇火灾但不断重建，现存的正门与拝殿建于1845年。每年7月24—25日的天神祭最为热闹，来访者既能感受祭典的活力，也可在平日体会古社的宁静与历史感。"
+    }
+  },
+  {
+    "name": "中崎町",
+    "nameEn": "Nakazakicho",
+    "nameKo": "나카자키초",
+    "romaji": "nakazakicho",
+    "lat": 34.7075,
+    "lng": 135.5069,
+    "slug": "nakazakicho",
+    "nameZh": "中崎町",
+    "imageUrl": "/images/landmarks/nakazakicho.webp",
+    "description": {
+      "en": "Nakazakicho is a compact, retro neighborhood in Osaka where narrow lanes hide cozy cafés, indie boutiques and small galleries—perfect for slow wandering and discovering unique local crafts and snacks. Expect a relaxed, bohemian vibe and plenty of picture-perfect corners around renovated old houses and colorful storefronts.",
+      "ja": "中崎町は昭和レトロな路地や古い民家をリノベしたカフェや雑貨店が点在する、散歩が楽しいエリアです。のんびり歩きながら個性的なギャラリーや手作り雑貨、おいしい軽食を見つけて写真を撮るのにぴったり。",
+      "ko": "나카자키초(中崎町)는 좁은 골목 사이사이에 아기자기한 카페, 빈티지 숍, 소규모 갤러리가 모여 있어 천천히 걷기 좋은 동네입니다. 오래된 집을 개조한 가게들에서 수공예품과 간단한 먹거리를 즐기며 분위기 있는 사진을 남기기 좋습니다.",
+      "zh": "中崎町是大阪一处充满怀旧气息的小街区，狭窄巷弄里藏着许多咖啡馆、手作小店和画廊。非常适合慢慢散步、挖掘独立设计与特色小吃，并拍下有味道的街景。"
+    }
+  },
+  {
+    "name": "グランフロント大阪",
+    "nameEn": "Grand Front Osaka",
+    "nameKo": "그랑프론트오사카",
+    "romaji": "grandfrontosaka",
+    "lat": 34.7055,
+    "lng": 135.4951,
+    "slug": "grand-front-osaka",
+    "nameZh": "Grand Front大阪",
+    "imageUrl": "/images/landmarks/grand-front-osaka.webp",
+    "description": {
+      "en": "Grand Front Osaka is a lively urban hub in the heart of Osaka where locals and visitors mingle. Explore stylish shops, sample diverse dining options, and join seasonal events that give a taste of the city’s modern energy.",
+      "ja": "グランフロント大阪は、大阪の中心にある人気の複合施設で、地元の人や観光客でにぎわいます。洗練されたショップや個性豊かな飲食店、季節ごとのイベントが揃っていて、散策やグルメ巡りにぴったりのスポットです。",
+      "ko": "그랜드 프론트 오사카는 오사카 중심가의 인기 복합 공간으로, 활기찬 분위기를 느끼기 좋은 곳입니다. 쇼핑과 다양한 먹거리, 계절별 이벤트를 즐기며 도시의 모던한 매력을 체험해 보세요.",
+      "zh": "Grand Front Osaka 是大阪市区一处受欢迎的综合性目的地，充满现代感与活力。这里汇聚了购物、美食与各类活动，是漫步、品尝风味并感受都市氛围的好去处。"
+    }
+  }
+]

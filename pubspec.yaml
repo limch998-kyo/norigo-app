@@ -41,6 +41,14 @@ dependencies:
   # Markdown (guide pages)
   flutter_markdown: ^0.7.6
 
+  # Maps
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
+
+  # SVG rendering
+  flutter_svg: ^2.0.17
+  webview_flutter: ^4.13.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -49,3 +57,13 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter.ttf
+
+  assets:
+    - assets/images/landmarks/
+    - assets/images/illustrations/
+    - assets/data/
