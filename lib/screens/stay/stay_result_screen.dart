@@ -1220,6 +1220,7 @@ class _HotelSectionState extends State<_HotelSection> {
                 locale: widget.locale,
                 region: widget.region,
                 stationName: widget.stationName,
+                stationId: widget.stationId,
                 lat: widget.lat,
                 lng: widget.lng,
                 checkIn: widget.checkIn,
@@ -1314,9 +1315,8 @@ class _HotelCard extends StatelessWidget {
         // Book button
         if (hotel.bookingUrl != null)
           GestureDetector(
-            onTap: () async {
-              final uri = Uri.parse(hotel.bookingUrl!);
-              if (await canLaunchUrl(uri)) await launchUrl(uri, mode: LaunchMode.externalApplication);
+            onTap: () {
+              launchUrl(Uri.parse(hotel.bookingUrl!), mode: LaunchMode.externalApplication);
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
