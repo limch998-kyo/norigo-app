@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/landmark.dart';
+import '../services/landmark_localizer.dart';
 
 class SavedSearch {
   final String id;
@@ -110,8 +111,55 @@ class SavedSearchesNotifier extends StateNotifier<List<SavedSearch>> {
   }
 
   bool hasSearch(List<Landmark> landmarks, String region) {
-    final names = landmarks.map((l) => l.name).toSet();
-    return state.any((s) => s.region == region && s.landmarks.map((l) => l.name).toSet().difference(names).isEmpty && names.difference(s.landmarks.map((l) => l.name).toSet()).isEmpty);
+    // Match by slug/coordinates, not name (names change with locale)
+    final slugs = landmarks.map((l) => l.slug).toSet();
+    return state.any((s) => s.region == region &&
+      s.landmarks.map((l) => l.slug).toSet().difference(slugs).isEmpty &&
+      slugs.difference(s.landmarks.map((l) => l.slug).toSet()).isEmpty);
+  }
+
+  /// Re-translate landmark names and titles using bundled offline data
+  void refreshNames(String locale) {
+    bool changed = false;
+    final newState = state.map((search) {
+      bool searchChanged = false;
+      final newLandmarks = search.landmarks.map((lm) {
+        final newName = LandmarkLocalizer.getLocalizedName(
+          locale: locale,
+          slug: lm.slug,
+          lat: lm.lat,
+          lng: lm.lng,
+        );
+        if (newName != null && newName != lm.name) {
+          searchChanged = true;
+          return Landmark(slug: lm.slug, name: newName, nameEn: lm.nameEn, lat: lm.lat, lng: lm.lng, region: lm.region);
+        }
+        return lm;
+      }).toList();
+
+      if (searchChanged) {
+        changed = true;
+        // Rebuild title from new landmark names
+        final newTitle = newLandmarks.map((l) => l.name).join(' · ');
+        return SavedSearch(
+          id: search.id,
+          title: newTitle,
+          landmarks: newLandmarks,
+          region: search.region,
+          mode: search.mode,
+          maxBudget: search.maxBudget,
+          checkIn: search.checkIn,
+          checkOut: search.checkOut,
+          savedAt: search.savedAt,
+        );
+      }
+      return search;
+    }).toList();
+
+    if (changed) {
+      state = newState;
+      _save();
+    }
   }
 }
 
