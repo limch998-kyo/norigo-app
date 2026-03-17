@@ -55,7 +55,7 @@ class SettingsScreen extends ConsumerWidget {
                   : null,
               onTap: () {
                 ref.read(localeProvider.notifier).state = entry.key;
-                // Re-resolve names in the new locale
+                // Instantly translate all names using bundled offline data
                 ref.read(staySearchProvider.notifier).refreshLandmarkNames();
                 ref.read(tripProvider.notifier).refreshNames();
               },

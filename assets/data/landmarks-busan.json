@@ -1,0 +1,308 @@
+[
+  {
+    "name": "海雲台（ヘウンデ）",
+    "nameEn": "Haeundae Beach",
+    "nameKo": "해운대",
+    "nameZh": "海云台",
+    "romaji": "haeundae",
+    "slug": "haeundae",
+    "lat": 35.1588,
+    "lng": 129.1604,
+    "description": {
+      "en": "Haeundae is Korea's most famous beach, stretching 1.5 kilometers along the coast with fine white sand and a vibrant boardwalk. The area features luxury hotels, seafood restaurants, the Busan Aquarium, and hosts spectacular fireworks festivals, making it a year-round destination.",
+      "ja": "海雲台は韓国で最も有名なビーチで、1.5キロの白砂が広がる海岸線と活気あるボードウォークが魅力です。高級ホテルや海鮮レストラン、釜山水族館があり、花火大会も開催される年間を通じた観光スポットです。",
+      "ko": "해운대는 1.5km의 고운 백사장과 활기찬 해변 산책로로 유명한 한국 최고의 해수욕장입니다. 고급 호텔과 해산물 음식점, 부산 아쿠아리움이 있으며 화려한 불꽃축제가 열려 사계절 내내 사랑받는 곳입니다.",
+      "zh": "海云台是韩国最著名的海滩，1.5公里的细白沙滩和热闹的海滨步道令人流连忘返。周边有豪华酒店、海鲜餐厅和釜山水族馆，还会举办盛大的烟花节，是全年皆宜的旅游目的地。"
+    },
+    "imageUrl": "/images/landmarks/haeundae.webp"
+  },
+  {
+    "name": "広安里（クァンアンリ）",
+    "nameEn": "Gwangalli Beach",
+    "nameKo": "광안리",
+    "nameZh": "广安里",
+    "romaji": "gwangalli",
+    "slug": "gwangalli",
+    "lat": 35.1534,
+    "lng": 129.1187,
+    "description": {
+      "en": "Gwangalli Beach offers stunning views of the illuminated Gwangan Bridge, especially beautiful at night. The beachfront is lined with trendy cafés, bars, and seafood restaurants, making it a favorite spot for evening hangouts and the annual Busan Fireworks Festival.",
+      "ja": "広安里ビーチはライトアップされた広安大橋の美しい夜景が魅力で、ビーチ沿いにはおしゃれなカフェやバー、海鮮レストランが並びます。毎年開催される釜山花火大会の会場としても知られる人気の夜遊びスポットです。",
+      "ko": "광안리 해수욕장은 조명이 켜진 광안대교의 야경이 아름다운 곳으로, 해변을 따라 트렌디한 카페와 바, 해산물 식당이 늘어서 있습니다. 매년 열리는 부산불꽃축제의 메인 장소이기도 합니다.",
+      "zh": "广安里海滩可以欣赏到灯火辉煌的广安大桥夜景，沿岸有时尚咖啡馆、酒吧和海鲜餐厅。这里是夜晚休闲的热门地点，也是一年一度釜山烟花节的举办地。"
+    },
+    "imageUrl": "/images/landmarks/gwangalli.webp"
+  },
+  {
+    "name": "甘川文化村（カムチョン）",
+    "nameEn": "Gamcheon Culture Village",
+    "nameKo": "감천문화마을",
+    "nameZh": "甘川文化村",
+    "romaji": "gamcheon",
+    "slug": "gamcheon-culture-village",
+    "lat": 35.0966,
+    "lng": 129.0105,
+    "description": {
+      "en": "Gamcheon Culture Village is Busan's 'Machu Picchu,' a hillside settlement of colorful pastel houses, murals, and art installations cascading down to the sea. Wander through narrow alleys to discover quirky sculptures, galleries, and sweeping harbor views.",
+      "ja": "甘川文化村は「釜山のマチュピチュ」と呼ばれ、パステルカラーの家々が山肌に連なるカラフルな集落です。狭い路地を散策しながら、ユニークな彫刻やギャラリー、港を見下ろす絶景を楽しめます。",
+      "ko": "감천문화마을은 '부산의 마추픽추'로 불리며, 알록달록한 파스텔 색상의 집들과 벽화, 예술 작품이 산비탈을 따라 바다까지 이어집니다. 좁은 골목을 거닐며 독특한 조각상과 갤러리, 항구 전망을 감상해보세요.",
+      "zh": "甘川文化村被誉为'釜山的马丘比丘'，五彩缤纷的房屋沿山坡层叠而下直至海边，墙上满是壁画和艺术装置。穿行于窄巷之间，可以发现奇趣的雕塑、小画廊和开阔的港口景色。"
+    },
+    "imageUrl": "/images/landmarks/gamcheon-culture-village.webp"
+  },
+  {
+    "name": "チャガルチ市場",
+    "nameEn": "Jagalchi Market",
+    "nameKo": "자갈치시장",
+    "nameZh": "札嘎其市场",
+    "romaji": "jagalchi",
+    "slug": "jagalchi-market",
+    "lat": 35.0966,
+    "lng": 129.0308,
+    "description": {
+      "en": "Jagalchi is Korea's largest seafood market, a bustling waterfront complex where you can pick live fish, shellfish, and octopus from tanks and have them prepared on the spot. The multi-story market building offers both raw and cooked seafood with panoramic harbor views.",
+      "ja": "チャガルチ市場は韓国最大の海鮮市場で、水槽から活きた魚や貝、タコを選んでその場で調理してもらえる活気あふれるウォーターフロントの市場です。複数階建ての市場からは港の絶景も楽しめます。",
+      "ko": "자갈치시장은 한국 최대의 해산물 시장으로, 수조에서 살아 있는 생선, 조개, 문어를 골라 그 자리에서 조리해 먹을 수 있는 활기찬 수변 시장입니다. 여러 층의 시장 건물에서 항구 전망과 함께 회와 해산물 요리를 즐길 수 있습니다.",
+      "zh": "札嘎其市场是韩国最大的海鲜市场，在这个热闹的海滨市场里，可以从水缸中挑选活鱼、贝类和章鱼，现场加工品尝。多层的市场大楼还能欣赏港口全景。"
+    },
+    "imageUrl": "/images/landmarks/jagalchi-market.webp"
+  },
+  {
+    "name": "南浦洞（ナムポドン）",
+    "nameEn": "Nampo-dong",
+    "nameKo": "남포동",
+    "nameZh": "南浦洞",
+    "romaji": "nampodong",
+    "slug": "nampo-dong",
+    "lat": 35.0978,
+    "lng": 129.0267,
+    "description": {
+      "en": "Nampo-dong is Busan's original downtown shopping district, home to the famous Gukje International Market, BIFF Square, and Lotte Department Store. The lively streets are packed with street food vendors, fashion shops, and the area serves as a gateway to Jagalchi Market and Yongdusan Park.",
+      "ja": "南浦洞は釜山の元祖ダウンタウンで、国際市場やBIFF広場、ロッテ百貨店があるショッピングエリアです。賑やかな通りには屋台やファッションショップが並び、チャガルチ市場や龍頭山公園への入口としても便利です。",
+      "ko": "남포동은 부산의 원조 번화가로, 유명한 국제시장과 BIFF광장, 롯데백화점이 있는 쇼핑 중심지입니다. 활기찬 거리에는 길거리 음식과 패션 매장이 가득하며, 자갈치시장과 용두산공원으로 가는 관문이기도 합니다.",
+      "zh": "南浦洞是釜山的老城区购物中心，这里有著名的国际市场、BIFF广场和乐天百货。热闹的街道上满是街头小吃和时装店，同时也是前往札嘎其市场和龙头山公园的门户。"
+    },
+    "imageUrl": "/images/landmarks/nampo-dong.webp"
+  },
+  {
+    "name": "センタムシティ",
+    "nameEn": "Centum City",
+    "nameKo": "센텀시티",
+    "nameZh": "Centum City",
+    "romaji": "centumcity",
+    "slug": "centum-city",
+    "lat": 35.1696,
+    "lng": 129.1289,
+    "description": {
+      "en": "Centum City is Busan's modern commercial hub, home to Shinsegae Centum City, the world's largest department store by Guinness World Records. The area also features Busan Cinema Center's dramatic rooftop, a spa complex, and high-end shopping and dining options.",
+      "ja": "センタムシティは釜山の近代的な商業エリアで、ギネス世界記録に認定された世界最大の百貨店「新世界センタムシティ」があります。釜山映画殿堂の印象的な屋根やスパ施設、ハイエンドなショッピングとダイニングも揃います。",
+      "ko": "센텀시티는 부산의 현대적 상업 중심지로, 기네스 세계기록에 등재된 세계 최대 백화점 신세계 센텀시티가 있습니다. 부산영화의전당의 인상적인 지붕과 스파 시설, 고급 쇼핑·다이닝도 즐길 수 있습니다.",
+      "zh": "Centum City是釜山的现代商业中心，拥有吉尼斯世界纪录认证的全球最大百货店——新世界Centum City。这里还有釜山电影殿堂的壮观屋顶、温泉中心以及高端购物和餐饮选择。"
+    },
+    "imageUrl": "/images/landmarks/centum-city.webp"
+  },
+  {
+    "name": "太宗台（テジョンデ）",
+    "nameEn": "Taejongdae",
+    "nameKo": "태종대",
+    "nameZh": "太宗台",
+    "romaji": "taejongdae",
+    "slug": "taejongdae",
+    "lat": 35.0519,
+    "lng": 129.0847,
+    "description": {
+      "en": "Taejongdae is a dramatic coastal park on the southern tip of Yeongdo Island, featuring rugged cliffs, dense forests, and a picturesque lighthouse. On clear days you can see Japan's Tsushima Island across the strait, and the Danubi train offers a scenic loop through the park.",
+      "ja": "太宗台は影島の南端にある海岸公園で、険しい断崖や森林、美しい灯台が見どころです。晴れた日には対馬が見え、ダヌビ列車に乗って公園内の絶景をめぐることもできます。",
+      "ko": "태종대는 영도 남단에 위치한 해안 공원으로, 험준한 절벽과 울창한 숲, 아름다운 등대가 어우러진 곳입니다. 맑은 날에는 대마도가 보이며, 다누비 열차를 타고 공원 내 절경을 둘러볼 수 있습니다.",
+      "zh": "太宗台位于影岛南端，是一座拥有险峻悬崖、茂密森林和美丽灯塔的海岸公园。天晴时可远眺日本对马岛，还可以乘坐Danubi观光列车环游公园内的绝美风光。"
+    },
+    "imageUrl": "/images/landmarks/taejongdae.webp"
+  },
+  {
+    "name": "梵魚寺（ポモサ）",
+    "nameEn": "Beomeosa Temple",
+    "nameKo": "범어사",
+    "nameZh": "梵鱼寺",
+    "romaji": "beomeosa",
+    "slug": "beomeosa-temple",
+    "lat": 35.2838,
+    "lng": 129.067,
+    "description": {
+      "en": "Beomeosa is one of Korea's most important Buddhist temples, founded in 678 CE on the slopes of Geumjeongsan Mountain. Surrounded by ancient trees and mountain streams, the temple complex features beautiful halls, stone pagodas, and offers temple stay programs for deeper cultural immersion.",
+      "ja": "梵魚寺は678年に金井山の山腹に創建された韓国有数の仏教寺院です。古木や渓流に囲まれた境内には美しい仏殿や石塔があり、テンプルステイプログラムも体験できます。",
+      "ko": "범어사는 678년 금정산 자락에 창건된 한국의 대표적인 불교 사찰입니다. 고목과 산 계류에 둘러싸인 경내에는 아름다운 전각과 석탑이 있으며, 템플스테이 프로그램도 운영하고 있습니다.",
+      "zh": "梵鱼寺建于公元678年，坐落在金井山山腰，是韩国最重要的佛教寺院之一。寺院被古树和山溪环绕，有精美的佛殿和石塔，还提供寺庙寄宿项目，让游客深入体验佛教文化。"
+    },
+    "imageUrl": "/images/landmarks/beomeosa-temple.webp"
+  },
+  {
+    "name": "釜山駅",
+    "nameEn": "Busan Station",
+    "nameKo": "부산역",
+    "nameZh": "釜山站",
+    "romaji": "busanstation",
+    "slug": "busan-station",
+    "lat": 35.1146,
+    "lng": 129.0393,
+    "description": {
+      "en": "Busan Station is the southern terminus of Korea's KTX high-speed rail network, connecting Busan to Seoul in just 2.5 hours. The modern station area is a convenient starting point for exploring Busan, with easy subway access and views of Busan Port and the nearby Texas Street.",
+      "ja": "釜山駅は韓国のKTX高速鉄道の南の終着駅で、ソウルからわずか2時間半でアクセスできます。地下鉄への接続も便利で、釜山港やテキサスストリートを望む釜山観光の出発点として最適です。",
+      "ko": "부산역은 KTX 고속철도의 남쪽 종착역으로, 서울에서 약 2시간 30분 만에 부산에 도착할 수 있습니다. 지하철 접근이 편리하며 부산항과 텍사스거리가 인근에 있어 부산 여행의 시작점으로 좋습니다.",
+      "zh": "釜山站是韩国KTX高速铁路的南端终点站，从首尔出发仅需约2.5小时即可抵达。车站地铁接驳便利，可眺望釜山港，是探索釜山的理想起点。"
+    },
+    "imageUrl": "/images/landmarks/busan-station.webp"
+  },
+  {
+    "name": "西面（ソミョン）",
+    "nameEn": "Seomyeon",
+    "nameKo": "서면",
+    "nameZh": "西面",
+    "romaji": "seomyeon",
+    "slug": "seomyeon",
+    "lat": 35.1579,
+    "lng": 129.0596,
+    "description": {
+      "en": "Seomyeon is Busan's central commercial district and nightlife hotspot, with major subway lines converging here. The area offers underground shopping arcades, Korean BBQ restaurants, lively bars, and the famous Seomyeon Medical Street lined with clinics and pharmacies.",
+      "ja": "西面は釜山の中心商業地区で、地下鉄の主要路線が交差するナイトライフの拠点です。地下ショッピング街や韓国焼肉店、活気あるバー、クリニックが並ぶ西面メディカルストリートが特徴です。",
+      "ko": "서면은 부산의 중심 상업지구이자 나이트라이프의 중심지로, 주요 지하철 노선이 교차합니다. 지하 쇼핑 아케이드와 한국 고깃집, 활기찬 바, 그리고 병원과 약국이 줄지어 있는 서면 메디컬거리가 유명합니다.",
+      "zh": "西面是釜山的核心商业区和夜生活热点，多条地铁线路在此交汇。这里有地下购物街、韩国烤肉店、热闹的酒吧，以及诊所和药店林立的西面医疗街。"
+    },
+    "imageUrl": "/images/landmarks/seomyeon.webp"
+  },
+  {
+    "name": "BIFF広場",
+    "nameEn": "BIFF Square",
+    "nameKo": "BIFF광장",
+    "nameZh": "BIFF广场",
+    "romaji": "biffsquare",
+    "slug": "biff-square",
+    "lat": 35.0976,
+    "lng": 129.0256,
+    "description": {
+      "en": "BIFF Square is the historic heart of the Busan International Film Festival, featuring celebrity handprints embedded in the pavement and surrounded by street food stalls famous for hotteok (sweet pancakes) and eomuk (fish cakes). The festive atmosphere persists year-round.",
+      "ja": "BIFF広場は釜山国際映画祭の発祥地で、路面にはスターの手形が刻まれています。ホットク（韓国式パンケーキ）やオムク（練り物）で有名な屋台が並び、年間を通じてお祭りのような雰囲気が楽しめます。",
+      "ko": "BIFF광장은 부산국제영화제의 발상지로, 바닥에는 스타들의 핸드프린팅이 새겨져 있습니다. 호떡과 어묵으로 유명한 길거리 음식 포장마차가 가득하며, 연중 축제 같은 분위기를 자아냅니다.",
+      "zh": "BIFF广场是釜山国际电影节的发源地，地面嵌有明星手印，周围满是以糖饼和鱼饼闻名的街头小吃摊。这里全年都洋溢着热闹的节日氛围。"
+    },
+    "imageUrl": "/images/landmarks/biff-square.webp"
+  },
+  {
+    "name": "龍頭山公園（ヨンドゥサン）",
+    "nameEn": "Yongdusan Park",
+    "nameKo": "용두산공원",
+    "nameZh": "龙头山公园",
+    "romaji": "yongdusan",
+    "slug": "yongdusan-park",
+    "lat": 35.1008,
+    "lng": 129.032,
+    "description": {
+      "en": "Yongdusan Park sits atop a hill in the center of Busan, offering panoramic views of the harbor and Yeongdo Bridge from Busan Tower's observation deck. The park features the statue of Admiral Yi Sun-sin, flower clocks, and peaceful walking paths, making it a quick urban escape.",
+      "ja": "龍頭山公園は釜山中心部の丘の上にあり、釜山タワーの展望台から港や影島大橋のパノラマビューを楽しめます。李舜臣将軍の像や花時計、散策路がある都会のオアシスです。",
+      "ko": "용두산공원은 부산 중심부 언덕 위에 자리하며, 부산타워 전망대에서 항구와 영도대교의 파노라마 전경을 조망할 수 있습니다. 이순신 장군 동상과 꽃시계, 산책로가 있는 도심 속 휴식 공간입니다.",
+      "zh": "龙头山公园位于釜山市中心的小山上，从釜山塔观景台可以俯瞰港口和影岛大桥的全景。公园内有李舜臣将军铜像、花钟和幽静的步道，是城市中的快捷休憩之所。"
+    },
+    "imageUrl": "/images/landmarks/yongdusan-park.webp"
+  },
+  {
+    "name": "松亭（ソンジョン）",
+    "nameEn": "Songjeong Beach",
+    "nameKo": "송정",
+    "nameZh": "松亭",
+    "romaji": "songjeong",
+    "slug": "songjeong",
+    "lat": 35.1787,
+    "lng": 129.2004,
+    "description": {
+      "en": "Songjeong Beach is a relaxed surfing spot east of Haeundae, popular with locals and surfers for its gentle waves and laid-back café scene. The quieter atmosphere and scenic coastal train route make it a refreshing alternative to Busan's busier beaches.",
+      "ja": "松亭ビーチは海雲台の東にある穏やかなサーフスポットで、おだやかな波とのんびりしたカフェが地元の人やサーファーに人気です。賑やかなビーチとは一味違うリラックスした雰囲気と海岸列車の風景が魅力です。",
+      "ko": "송정해수욕장은 해운대 동쪽에 위치한 편안한 서핑 명소로, 잔잔한 파도와 여유로운 카페 분위기로 현지인과 서퍼들에게 인기입니다. 한적한 분위기와 해안 열차 노선이 부산의 붐비는 해수욕장과 차별화된 매력을 줍니다.",
+      "zh": "松亭海滩位于海云台以东，以温和的海浪和悠闲的咖啡馆氛围吸引着当地人和冲浪爱好者。相比釜山其他繁忙的海滩，这里更加宁静，海岸观光列车的沿途风景也十分迷人。"
+    },
+    "imageUrl": "/images/landmarks/songjeong.webp"
+  },
+  {
+    "name": "機張（キジャン）",
+    "nameEn": "Gijang",
+    "nameKo": "기장",
+    "nameZh": "机张",
+    "romaji": "gijang",
+    "slug": "gijang",
+    "lat": 35.2447,
+    "lng": 129.2181,
+    "description": {
+      "en": "Gijang is a coastal district northeast of Busan, famous for its fresh crab markets and the scenic Gijang Coastal Road. The area is home to Haedong Yonggungsa Temple, Osiria tourist complex, and charming fishing villages that offer an authentic seaside Korean experience.",
+      "ja": "機張は釜山北東部の海沿いの地区で、新鮮なカニ市場や絶景の機張海岸道路で知られます。海東龍宮寺やオシリア観光複合施設、風情ある漁村があり、海辺の韓国文化を体験できます。",
+      "ko": "기장은 부산 북동쪽 해안 지역으로, 신선한 대게 시장과 경치 좋은 기장 해안도로로 유명합니다. 해동용궁사와 오시리아 관광단지, 매력적인 어촌 마을이 있어 진정한 바닷가 한국 체험을 할 수 있습니다.",
+      "zh": "机张是釜山东北部的海岸区域，以新鲜的螃蟹市场和优美的机张海岸公路闻名。这里有海东龙宫寺、Osiria旅游综合体和迷人的渔村，提供原汁原味的韩国海滨体验。"
+    },
+    "imageUrl": "/images/landmarks/gijang.webp"
+  },
+  {
+    "name": "海東龍宮寺（ヘドンヨングンサ）",
+    "nameEn": "Haedong Yonggungsa Temple",
+    "nameKo": "해동용궁사",
+    "nameZh": "海东龙宫寺",
+    "romaji": "haedong-yonggungsa",
+    "slug": "haedong-yonggungsa",
+    "lat": 35.1884,
+    "lng": 129.2232,
+    "description": {
+      "en": "Haedong Yonggungsa is a stunning seaside Buddhist temple perched on the rocky coastline of northeastern Busan. Built in 1376, the temple features a golden Buddha statue overlooking crashing waves, stone lanterns, and a 108-step staircase that leads down to the oceanfront complex.",
+      "ja": "海東龍宮寺は釜山北東部の岩場の海岸に建つ絶景の海辺の仏教寺院です。1376年に創建され、打ち寄せる波を見下ろす黄金の仏像や石灯籠、108段の石段が海へと続く壮観な寺院です。",
+      "ko": "해동용궁사는 부산 북동쪽 해안 절벽 위에 자리한 아름다운 해변 사찰입니다. 1376년에 창건되었으며, 파도가 부딪치는 바다를 내려다보는 금빛 불상과 석등, 해안으로 이어지는 108계단이 장관을 이룹니다.",
+      "zh": "海东龙宫寺是一座坐落在釜山东北海岸岩石上的壮观海滨佛寺。建于1376年，寺内有俯瞰惊涛骇浪的金佛像、石灯笼和通向海边的108级石阶，景色令人叹为观止。"
+    },
+    "imageUrl": "/images/landmarks/haedong-yonggungsa.webp"
+  },
+  {
+    "name": "冬柏島（トンベクソム）",
+    "nameEn": "Dongbaek Island",
+    "nameKo": "동백섬",
+    "nameZh": "冬柏岛",
+    "romaji": "dongbaekseom",
+    "slug": "dongbaek-island",
+    "lat": 35.153,
+    "lng": 129.1517,
+    "description": {
+      "en": "Dongbaek Island is a small wooded peninsula at the southern end of Haeundae Beach, connected by a walking path. The island features camellia trees, the APEC House, and a scenic coastal trail with views of Gwangan Bridge, Oryukdo Islands, and the open sea.",
+      "ja": "冬柏島は海雲台ビーチの南端にある小さな森の半島で、散策路でつながっています。椿の木やAPECハウスがあり、海岸沿いの遊歩道からは広安大橋や五六島、大海原の絶景が楽しめます。",
+      "ko": "동백섬은 해운대 해수욕장 남쪽 끝에 위치한 작은 숲의 반도로, 산책로로 연결되어 있습니다. 동백나무와 APEC 하우스가 있으며, 해안 산책로에서 광안대교, 오륙도, 망망대해의 경치를 감상할 수 있습니다.",
+      "zh": "冬柏岛是海云台海滩南端的一座小型林地半岛，通过步道相连。岛上有山茶树和APEC会议楼，海岸步道可以眺望广安大桥、五六岛和辽阔的大海。"
+    },
+    "imageUrl": "/images/landmarks/dongbaek-island.webp"
+  },
+  {
+    "name": "ヒンニョウル文化村",
+    "nameEn": "Huinnyeoul Culture Village",
+    "nameKo": "흰여울문화마을",
+    "nameZh": "白浅滩文化村",
+    "romaji": "huinnyeoul",
+    "slug": "huinnyeoul-culture-village",
+    "lat": 35.078,
+    "lng": 129.0442,
+    "description": {
+      "en": "Huinnyeoul Culture Village is a cliffside coastal village on Yeongdo Island, often compared to Santorini for its white-walled houses overlooking the sea. The narrow walkways between homes offer stunning ocean views, art installations, and cozy cafés perched on the edge of the cliff.",
+      "ja": "白浅灘文化村は影島の崖沿いにある海辺の集落で、白壁の家々が海を望む姿からサントリーニに例えられます。家々の間の細い散策路から絶景の海を眺め、アートインスタレーションや崖の上のカフェを楽しめます。",
+      "ko": "흰여울문화마을은 영도 절벽에 자리한 해안 마을로, 하얀 벽의 집들이 바다를 내려다보는 풍경이 산토리니에 비유됩니다. 집과 집 사이의 좁은 산책로에서 탁 트인 바다 전망과 예술 작품, 절벽 위 카페를 즐길 수 있습니다.",
+      "zh": "白浅滩文化村位于影岛的悬崖边，白色墙壁的房屋俯瞰大海，常被比作圣托里尼。沿着房屋间的窄道漫步，可以欣赏绝美的海景、艺术装置，还有悬崖边的温馨咖啡馆。"
+    },
+    "imageUrl": "/images/landmarks/huinnyeoul-culture-village.webp"
+  },
+  {
+    "name": "乙淑島（ウルスクト）",
+    "nameEn": "Eulsukdo Island",
+    "nameKo": "을숙도",
+    "nameZh": "乙淑岛",
+    "romaji": "eulsukdo",
+    "slug": "eulsukdo",
+    "lat": 35.085,
+    "lng": 128.941,
+    "description": {
+      "en": "Eulsukdo is a river island at the mouth of the Nakdong River, designated as a migratory bird sanctuary and one of Korea's most important wetland habitats. The Nakdong River Estuary Eco Center offers birdwatching, nature trails, and educational exhibits about the delta ecosystem.",
+      "ja": "乙淑島は洛東江河口にある中洲で、渡り鳥の聖地として韓国有数の湿地生態系を有しています。洛東江河口エコセンターではバードウォッチングや自然散策、三角州の生態系に関する展示を楽しめます。",
+      "ko": "을숙도는 낙동강 하구에 위치한 하중도로, 철새 도래지이자 한국에서 가장 중요한 습지 서식지 중 하나입니다. 낙동강하구에코센터에서 조류 관찰과 자연 탐방, 삼각주 생태계에 관한 교육 전시를 즐길 수 있습니다.",
+      "zh": "乙淑岛位于洛东江入海口，是候鸟栖息地，也是韩国最重要的湿地生态区之一。洛东江河口生态中心提供观鸟、自然步道和关于三角洲生态系统的教育展览。"
+    },
+    "imageUrl": "/images/landmarks/eulsukdo.webp"
+  }
+]

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app.dart';
 import 'providers/app_providers.dart';
 import 'services/line_localize.dart';
+import 'services/landmark_localizer.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,8 +16,9 @@ void main() {
   final supportedLocales = ['ja', 'ko', 'en', 'zh'];
   final initialLocale = supportedLocales.contains(langCode) ? langCode : 'en';
 
-  // Preload line translations for non-blocking localization
+  // Preload translations for non-blocking localization
   LineLocalizer.preload();
+  LandmarkLocalizer.preload();
 
   runApp(
     ProviderScope(

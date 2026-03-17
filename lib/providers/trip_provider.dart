@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import '../models/trip.dart';
 import '../models/landmark.dart';
+import '../services/landmark_localizer.dart';
 import 'app_providers.dart';
 
 class TripState {
@@ -251,47 +252,22 @@ class TripNotifier extends StateNotifier<TripState> {
         .toList();
   }
 
-  /// Re-resolve all item names + trip names in the current locale
-  Future<void> refreshNames() async {
+  /// Re-resolve all item names using bundled offline data (instant, no API)
+  void refreshNames() {
     if (state.items.isEmpty || _ref == null) return;
 
-    final api = _ref!.read(apiClientProvider);
     final locale = _ref!.read(localeProvider);
+    bool changed = false;
 
-    // Re-search each unique item by name/slug to get locale-specific name
-    final nameMap = <String, String>{}; // slug → new name
-    final processed = <String>{};
-
-    for (final item in state.items) {
-      if (processed.contains(item.slug)) continue;
-      processed.add(item.slug);
-      try {
-        final results = await api.searchLandmarks(
-          item.name,
-          region: item.region,
-          locale: locale,
-        );
-        if (results.isNotEmpty) {
-          // Match by coordinates
-          Landmark? best;
-          double bestDist = double.infinity;
-          for (final r in results) {
-            final d = (r.lat - item.lat).abs() + (r.lng - item.lng).abs();
-            if (d < bestDist) { bestDist = d; best = r; }
-          }
-          if (best != null && bestDist < 0.01) {
-            nameMap[item.slug] = best.name;
-          }
-        }
-      } catch (_) {}
-    }
-
-    if (nameMap.isEmpty) return;
-
-    // Update item names
     final newItems = state.items.map((item) {
-      final newName = nameMap[item.slug];
+      final newName = LandmarkLocalizer.getLocalizedName(
+        locale: locale,
+        slug: item.slug,
+        lat: item.lat,
+        lng: item.lng,
+      );
       if (newName != null && newName != item.name) {
+        changed = true;
         return TripItem(
           slug: item.slug,
           name: newName,
@@ -305,8 +281,10 @@ class TripNotifier extends StateNotifier<TripState> {
       return item;
     }).toList();
 
-    state = state.copyWith(items: newItems);
-    _saveToStorage();
+    if (changed) {
+      state = state.copyWith(items: newItems);
+      _saveToStorage();
+    }
   }
 }
 

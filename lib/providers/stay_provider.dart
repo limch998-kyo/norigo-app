@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/landmark.dart';
 import '../models/stay_area.dart';
+import '../services/landmark_localizer.dart';
 import 'app_providers.dart';
 
 class StaySearchState {
@@ -214,73 +215,48 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
     }
   }
 
-  /// Re-resolve landmark names in the current locale (called after locale change)
-  Future<void> refreshLandmarkNames() async {
-    // Collect ALL filled landmarks from current state + all cached regions
-    final allFilled = <Landmark>[];
-    allFilled.addAll(state.landmarks);
-    for (final region in _regionSlots.keys) {
-      if (region == state.region) continue;
-      final cached = _regionSlots[region] ?? [];
-      allFilled.addAll(cached.whereType<Landmark>());
-    }
-    if (allFilled.isEmpty) return;
-
-    final api = _ref.read(apiClientProvider);
+  /// Re-resolve landmark names using bundled offline data (instant, no API calls)
+  void refreshLandmarkNames() {
     final locale = _ref.read(localeProvider);
 
-    // Strategy: re-search each landmark by name in new locale
-    // This is more reliable than resolve (which needs proper slugs)
-    final nameMap = <String, String>{}; // oldSlug → newName
-
-    for (final lm in allFilled) {
-      if (nameMap.containsKey(lm.slug)) continue;
-      try {
-        // Search by English name first (more universal), fallback to current name
-        final query = lm.nameEn ?? lm.name;
-        final results = await api.searchLandmarks(query, region: lm.region, locale: locale);
-        if (results.isNotEmpty) {
-          // Find best match by coordinates (closest to original)
-          Landmark? best;
-          double bestDist = double.infinity;
-          for (final r in results) {
-            final d = (r.lat - lm.lat).abs() + (r.lng - lm.lng).abs();
-            if (d < bestDist) { bestDist = d; best = r; }
-          }
-          if (best != null && bestDist < 0.01) {
-            nameMap[lm.slug] = best.name;
-          }
-        }
-      } catch (_) {}
+    Landmark? _localize(Landmark lm) {
+      final newName = LandmarkLocalizer.getLocalizedName(
+        locale: locale,
+        slug: lm.slug,
+        lat: lm.lat,
+        lng: lm.lng,
+      );
+      if (newName != null && newName != lm.name) {
+        return Landmark(slug: lm.slug, name: newName, nameEn: lm.nameEn, lat: lm.lat, lng: lm.lng, region: lm.region);
+      }
+      return null;
     }
 
-    if (nameMap.isEmpty) return;
-
     // Update current state slots
+    bool changed = false;
     final newSlots = state.slots.map((slot) {
       if (slot == null) return slot;
-      final newName = nameMap[slot.slug];
-      if (newName != null && newName != slot.name) {
-        return Landmark(slug: slot.slug, name: newName, nameEn: slot.nameEn, lat: slot.lat, lng: slot.lng, region: slot.region);
-      }
+      final updated = _localize(slot);
+      if (updated != null) { changed = true; return updated; }
       return slot;
     }).toList();
 
-    state = state.copyWith(slots: newSlots);
-    _regionSlots[state.region] = List.from(newSlots);
+    if (changed) {
+      state = state.copyWith(slots: newSlots);
+      _regionSlots[state.region] = List.from(newSlots);
+    }
 
-    // Update cached regions too
+    // Update cached regions
     for (final region in _regionSlots.keys.toList()) {
       if (region == state.region) continue;
-      final cachedSlots = _regionSlots[region]!;
-      _regionSlots[region] = cachedSlots.map((slot) {
+      bool regionChanged = false;
+      final cachedSlots = _regionSlots[region]!.map((slot) {
         if (slot == null) return slot;
-        final newName = nameMap[slot.slug];
-        if (newName != null && newName != slot.name) {
-          return Landmark(slug: slot.slug, name: newName, nameEn: slot.nameEn, lat: slot.lat, lng: slot.lng, region: slot.region);
-        }
+        final updated = _localize(slot);
+        if (updated != null) { regionChanged = true; return updated; }
         return slot;
       }).toList();
+      if (regionChanged) _regionSlots[region] = cachedSlots;
     }
   }
 
