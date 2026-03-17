@@ -38,7 +38,7 @@ class BookingProvider {
       return _buildJalanUrl(stationName, checkIn, checkOut);
     }
     if (_koreaRegions.contains(region) || locale == 'ko') {
-      return _buildAgodaUrl(stationName, locale, checkIn, checkOut);
+      return _buildAgodaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
     }
     return _buildBookingUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
   }
@@ -65,7 +65,7 @@ class BookingProvider {
       if (hotelId != null) {
         return '$_agodaBaseUrl/hotel/$hotelId.html?cid=1922458';
       }
-      return _buildAgodaUrl(stationName, locale, checkIn, checkOut);
+      return _buildAgodaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
     }
     if (hotelId != null) {
       return '$_bookingBaseUrl/hotel/$hotelId.html?aid=2432111';
@@ -96,21 +96,29 @@ class BookingProvider {
     return 'https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3693387&pid=889792382&vc_url=${Uri.encodeComponent(jalanUrl)}';
   }
 
-  static String _buildAgodaUrl(String query, String locale, String? checkIn, String? checkOut) {
+  static String _buildAgodaUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng}) {
     final langCode = switch (locale) {
       'ko' => 'ko-kr',
       'zh' => 'zh-cn',
       'ja' => 'ja-jp',
       _ => 'en-us',
     };
+    // Match web app: /{lang}/search?cid=...&checkIn=...&checkOut=...&rooms=1&adults=2
     final params = <String, String>{
-      'textToSearch': query,
-      'locale': langCode,
       'cid': '1922458',
+      'rooms': '1',
+      'adults': '2',
     };
     if (checkIn != null) params['checkIn'] = checkIn;
     if (checkOut != null) params['checkOut'] = checkOut;
-    return '$_agodaBaseUrl/search?${_encodeParams(params)}';
+    // Use lat/lng for precise location (matching web fallback)
+    if (lat != null && lng != null) {
+      params['latitude'] = lat.toString();
+      params['longitude'] = lng.toString();
+    } else {
+      params['textToSearch'] = query;
+    }
+    return '$_agodaBaseUrl/$langCode/search?${_encodeParams(params)}';
   }
 
   static String _buildBookingUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng}) {
