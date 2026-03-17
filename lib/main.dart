@@ -7,7 +7,7 @@ import 'services/line_localize.dart';
 import 'services/landmark_localizer.dart';
 import 'config/booking_provider.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Detect device locale — try multiple sources
@@ -17,10 +17,12 @@ void main() {
   final supportedLocales = ['ja', 'ko', 'en', 'zh'];
   final initialLocale = supportedLocales.contains(langCode) ? langCode : 'en';
 
-  // Preload translations for non-blocking localization
-  LineLocalizer.preload();
-  LandmarkLocalizer.preload();
-  BookingProvider.preloadAgodaIds();
+  // Preload all data before app starts
+  await Future.wait([
+    LineLocalizer.preload(),
+    LandmarkLocalizer.preload(),
+    BookingProvider.preloadAgodaIds(),
+  ]);
 
   runApp(
     ProviderScope(
