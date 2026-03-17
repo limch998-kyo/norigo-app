@@ -13,7 +13,12 @@ class LandmarkLocalizer {
       try {
         final raw = await rootBundle.loadString('assets/data/landmarks-$region.json');
         final list = jsonDecode(raw) as List<dynamic>;
-        _allLandmarks!.addAll(list.cast<Map<String, dynamic>>());
+        // Tag each landmark with its region
+        for (final item in list) {
+          final map = item as Map<String, dynamic>;
+          map['_region'] = region;
+          _allLandmarks!.add(map);
+        }
       } catch (_) {}
     }
   }
@@ -84,6 +89,54 @@ class LandmarkLocalizer {
       default:
         return entry['name'] as String?; // 'name' is Japanese by default
     }
+  }
+
+  /// Get coordinates for a landmark by slug or name
+  static (double, double)? getCoordinates({String? slug, String? name}) {
+    if (_allLandmarks == null) return null;
+
+    // Try slug first
+    if (slug != null && slug.isNotEmpty) {
+      final entry = _findBySlug(slug);
+      if (entry != null) {
+        return ((entry['lat'] as num).toDouble(), (entry['lng'] as num).toDouble());
+      }
+    }
+
+    // Try name match (any locale)
+    if (name != null && name.isNotEmpty) {
+      final lower = name.toLowerCase();
+      for (final lm in _allLandmarks!) {
+        if ((lm['name'] as String?)?.toLowerCase() == lower) return ((lm['lat'] as num).toDouble(), (lm['lng'] as num).toDouble());
+        if ((lm['nameEn'] as String?)?.toLowerCase() == lower) return ((lm['lat'] as num).toDouble(), (lm['lng'] as num).toDouble());
+        if ((lm['nameKo'] as String?)?.toLowerCase() == lower) return ((lm['lat'] as num).toDouble(), (lm['lng'] as num).toDouble());
+        if ((lm['nameZh'] as String?)?.toLowerCase() == lower) return ((lm['lat'] as num).toDouble(), (lm['lng'] as num).toDouble());
+      }
+    }
+
+    return null;
+  }
+
+  /// Get the region for a landmark by slug or name
+  static String? getRegion({String? slug, String? name}) {
+    if (_allLandmarks == null) return null;
+
+    Map<String, dynamic>? entry;
+    if (slug != null && slug.isNotEmpty) entry = _findBySlug(slug);
+    if (entry == null && name != null && name.isNotEmpty) {
+      final lower = name.toLowerCase();
+      for (final lm in _allLandmarks!) {
+        if ((lm['name'] as String?)?.toLowerCase() == lower ||
+            (lm['nameEn'] as String?)?.toLowerCase() == lower ||
+            (lm['nameKo'] as String?)?.toLowerCase() == lower ||
+            (lm['nameZh'] as String?)?.toLowerCase() == lower) {
+          entry = lm;
+          break;
+        }
+      }
+    }
+
+    return entry?['_region'] as String?;
   }
 
   /// Batch translate: given a list of (slug, lat, lng), return locale-specific names

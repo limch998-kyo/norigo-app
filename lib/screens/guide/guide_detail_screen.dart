@@ -6,6 +6,7 @@ import '../../config/theme.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/trip_provider.dart';
 import '../../models/landmark.dart';
+import '../../services/landmark_localizer.dart';
 import '../../app.dart';
 
 class GuideDetailScreen extends ConsumerStatefulWidget {
@@ -96,12 +97,27 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
         final name = data['name'] as String? ?? '';
         if (name.isEmpty) return;
 
-        final region = _guessRegion();
+        // Resolve from bundled data: coordinates + region
+        final effectiveSlug = slug.isNotEmpty ? slug : name;
+        final coords = LandmarkLocalizer.getCoordinates(slug: slug.isNotEmpty ? slug : null, name: name);
+        final resolvedRegion = LandmarkLocalizer.getRegion(slug: slug.isNotEmpty ? slug : null, name: name) ?? _guessRegion();
+        final lat = coords?.$1 ?? 0.0;
+        final lng = coords?.$2 ?? 0.0;
+
+        // Get locale-specific name
+        final localizedName = LandmarkLocalizer.getLocalizedName(
+          locale: widget.locale,
+          slug: slug.isNotEmpty ? slug : null,
+          lat: lat != 0 ? lat : null,
+          lng: lng != 0 ? lng : null,
+        ) ?? name;
+
         ref.read(tripProvider.notifier).addItem(
-          Landmark(slug: slug, name: name, lat: 0, lng: 0, region: region),
+          Landmark(slug: effectiveSlug, name: localizedName, lat: lat, lng: lng, region: resolvedRegion),
           locale: widget.locale,
         );
 
+        // Show snackbar once per guide page
         if (mounted && !_shownAddSnackbar) {
           _shownAddSnackbar = true;
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
