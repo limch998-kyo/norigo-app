@@ -942,7 +942,9 @@ class _HotelSectionState extends State<_HotelSection> {
   @override
   void initState() {
     super.initState();
-    _budgetFilter = widget.initialBudget ?? 'any';
+    // Default to 'any' — API already filtered by search budget,
+    // card filter is for further narrowing within returned results
+    _budgetFilter = 'any';
     _loadHotels();
   }
   static const _defaultVisible = 3;
