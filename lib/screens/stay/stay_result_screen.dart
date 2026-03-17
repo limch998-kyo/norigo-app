@@ -651,9 +651,15 @@ class _AreaCardState extends State<_AreaCard> {
               ).toList()),
             ],
 
-            // ── Hotels (always loaded, matching web) ──
+            // ── Hotels ──
+            // ko locale → Agoda hotel cards (real-time prices)
+            // ja + Japan → Jalan link
+            // ja + Korea, en, zh → Booking.com link
             const Divider(height: 24),
-            _HotelSection(stationId: area.station.id, locale: locale, region: widget.searchRegion, stationName: name, l10n: l10n, checkIn: widget.checkIn, checkOut: widget.checkOut, initialBudget: widget.maxBudget, lat: area.station.lat, lng: area.station.lng, onLoaded: _onHotelsLoaded),
+            if (locale == 'ko')
+              _HotelSection(stationId: area.station.id, locale: locale, region: widget.searchRegion, stationName: name, l10n: l10n, checkIn: widget.checkIn, checkOut: widget.checkOut, initialBudget: widget.maxBudget, lat: area.station.lat, lng: area.station.lng, onLoaded: _onHotelsLoaded)
+            else
+              _ExternalHotelLinks(stationName: name, locale: locale, region: widget.searchRegion, lat: area.station.lat, lng: area.station.lng, checkIn: widget.checkIn, checkOut: widget.checkOut),
           ]),
         ),
       ),
@@ -1321,6 +1327,111 @@ class _AmenityBadge extends StatelessWidget {
         Text(label, style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground)),
       ]),
     );
+  }
+}
+
+/// External hotel links (no Agoda cards) — locale-aware provider
+class _ExternalHotelLinks extends StatelessWidget {
+  final String stationName;
+  final String locale;
+  final String region;
+  final double lat;
+  final double lng;
+  final String? checkIn;
+  final String? checkOut;
+
+  const _ExternalHotelLinks({required this.stationName, required this.locale, required this.region, required this.lat, required this.lng, this.checkIn, this.checkOut});
+
+  @override
+  Widget build(BuildContext context) {
+    final isJaJapan = locale == 'ja' && ['kanto', 'kansai'].contains(region);
+    final title = locale == 'ja' ? 'ホテルを探す' : locale == 'ko' ? '호텔 찾기' : 'Find Hotels';
+
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+      const SizedBox(height: 10),
+
+      // Primary button: Jalan (ja+Japan) or Booking.com (others)
+      if (isJaJapan) ...[
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton.icon(
+            onPressed: () => _openUrl(BookingProvider.buildSearchUrl(
+              locale: locale, region: region, stationName: stationName,
+              lat: lat, lng: lng, checkIn: checkIn, checkOut: checkOut,
+            )),
+            icon: const Icon(Icons.open_in_new, size: 16),
+            label: const Text('じゃらんで検索', style: TextStyle(fontSize: 14)),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFE4007F),
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 14),
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        // Booking.com as secondary
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: () => _openUrl(BookingProvider.buildSearchUrl(
+              locale: locale, region: 'global', stationName: stationName,
+              lat: lat, lng: lng, checkIn: checkIn, checkOut: checkOut,
+            )),
+            icon: const Icon(Icons.open_in_new, size: 16),
+            label: const Text('Booking.comで検索', style: TextStyle(fontSize: 14)),
+            style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 14)),
+          ),
+        ),
+      ] else ...[
+        // Booking.com primary
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton.icon(
+            onPressed: () => _openUrl(BookingProvider.buildSearchUrl(
+              locale: locale, region: 'global', stationName: stationName,
+              lat: lat, lng: lng, checkIn: checkIn, checkOut: checkOut,
+            )),
+            icon: const Icon(Icons.open_in_new, size: 16),
+            label: Text(
+              locale == 'ja' ? 'Booking.comで検索' : 'Search on Booking.com',
+              style: const TextStyle(fontSize: 14),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF003580), // Booking.com blue
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 14),
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        // Agoda as secondary for non-ja
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: () => _openUrl(BookingProvider.buildSearchUrl(
+              locale: locale, region: 'seoul', stationName: stationName,
+              lat: lat, lng: lng, checkIn: checkIn, checkOut: checkOut,
+            )),
+            icon: const Icon(Icons.open_in_new, size: 16),
+            label: Text(
+              locale == 'ja' ? 'Agodaで検索' : 'Search on Agoda',
+              style: const TextStyle(fontSize: 14),
+            ),
+            style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 14)),
+          ),
+        ),
+      ],
+      const SizedBox(height: 6),
+      Text(
+        isJaJapan ? 'Powered by じゃらん / Booking.com' : 'Powered by Booking.com / Agoda',
+        style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground),
+      ),
+    ]);
+  }
+
+  void _openUrl(String url) {
+    launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
   }
 }
 
