@@ -950,16 +950,30 @@ class _HotelSectionState extends State<_HotelSection> {
   // JPY conversion rates (matching web)
   static const _jpyRates = {'JPY': 1.0, 'KRW': 9.0, 'USD': 0.007};
 
+  /// Filter by budget range: each tier represents a range (prev tier ~ this tier)
   List<Hotel> _filterByBudgetKey(List<Hotel> hotels, String budget) {
     if (budget == 'any') return hotels;
+
+    final tiers = AppConstants.getStayBudgets(widget.region);
+    final tierIndex = tiers.indexOf(budget);
+
     final overMatch = RegExp(r'^over(\d+)$').firstMatch(budget);
     final underMatch = RegExp(r'^under(\d+)$').firstMatch(budget);
+
     if (underMatch != null) {
-      final jpyLimit = int.parse(underMatch.group(1)!);
+      final jpyUpper = int.parse(underMatch.group(1)!);
+      // Find the previous tier's limit as lower bound
+      int jpyLower = 0;
+      if (tierIndex > 1) { // index 0 = 'any', index 1 = first budget
+        final prevBudget = tiers[tierIndex - 1];
+        final prevMatch = RegExp(r'^under(\d+)$').firstMatch(prevBudget);
+        if (prevMatch != null) jpyLower = int.parse(prevMatch.group(1)!);
+      }
       return hotels.where((h) {
         if (h.dailyRate == null) return true;
         final rate = _jpyRates[h.currency] ?? 1.0;
-        return h.dailyRate! <= jpyLimit * rate;
+        final jpyPrice = h.dailyRate! / rate;
+        return jpyPrice > jpyLower && jpyPrice <= jpyUpper;
       }).toList();
     }
     if (overMatch != null) {
@@ -967,10 +981,39 @@ class _HotelSectionState extends State<_HotelSection> {
       return hotels.where((h) {
         if (h.dailyRate == null) return false;
         final rate = _jpyRates[h.currency] ?? 1.0;
-        return h.dailyRate! > jpyLimit * rate;
+        return h.dailyRate! / rate > jpyLimit;
       }).toList();
     }
     return hotels;
+  }
+
+  String _buildRangeLabel(String budget, String? prevBudget, String locale) {
+    if (budget == 'any') {
+      return locale == 'ja' ? 'すべて' : locale == 'ko' ? '전체' : 'All';
+    }
+    final underMatch = RegExp(r'^under(\d+)$').firstMatch(budget);
+    final overMatch = RegExp(r'^over(\d+)$').firstMatch(budget);
+
+    String _fmtJpy(int v) {
+      if (v >= 10000) return '¥${v ~/ 10000}万';
+      return '¥${(v / 1000).round()}k';
+    }
+
+    if (underMatch != null) {
+      final upper = int.parse(underMatch.group(1)!);
+      int lower = 0;
+      if (prevBudget != null && prevBudget != 'any') {
+        final prevMatch = RegExp(r'^under(\d+)$').firstMatch(prevBudget);
+        if (prevMatch != null) lower = int.parse(prevMatch.group(1)!);
+      }
+      if (lower == 0) return '~${_fmtJpy(upper)}';
+      return '${_fmtJpy(lower)}~${_fmtJpy(upper)}';
+    }
+    if (overMatch != null) {
+      final limit = int.parse(overMatch.group(1)!);
+      return '${_fmtJpy(limit)}~';
+    }
+    return budget;
   }
 
   int _countForBudget(String budget) {
@@ -1006,8 +1049,8 @@ class _HotelSectionState extends State<_HotelSection> {
     final displayed = _expanded ? filtered : filtered.take(_defaultVisible).toList();
     final hasMore = filtered.length > _defaultVisible;
 
-    // Always show JP budget tiers for filtering (web uses JPY as base)
-    final budgetTiers = AppConstants.stayBudgetsJp;
+    // Use region-specific budget tiers
+    final budgetTiers = AppConstants.getStayBudgets(widget.region);
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       // Budget filter tabs (matching web)
@@ -1019,12 +1062,14 @@ class _HotelSectionState extends State<_HotelSection> {
         const SizedBox(height: 6),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(children: budgetTiers.map((b) {
+          child: Row(children: budgetTiers.asMap().entries.map((entry) {
+            final bi = entry.key;
+            final b = entry.value;
             final count = _countForBudget(b);
             if (count == 0 && b != 'any') return const SizedBox.shrink();
             final isSelected = _budgetFilter == b;
-            final label = AppConstants.stayBudgetLabels[b]?[widget.locale]
-                ?? AppConstants.stayBudgetLabels[b]?['en'] ?? b;
+            // Show range label: "¥10,000~¥20,000" instead of just "~¥20,000"
+            final label = _buildRangeLabel(b, bi > 0 ? budgetTiers[bi - 1] : null, widget.locale);
             return Padding(
               padding: const EdgeInsets.only(right: 6),
               child: GestureDetector(
