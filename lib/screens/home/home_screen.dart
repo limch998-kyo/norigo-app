@@ -69,7 +69,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   children: [
                     Text(
                       _koreaMode
-                          ? (locale == 'ja' ? '韓国旅行、最適なホテルを見つけよう' : locale == 'ko' ? '한국 여행, 딱 좋은 호텔을 찾아줄게요' : 'Korea trip? Find the perfect hotel.')
+                          ? (locale == 'ja' ? '韓国旅行、\n最適なホテルを見つけよう' : locale == 'ko' ? '한국 여행,\n딱 좋은 호텔을 찾아줄게요' : 'Korea trip?\nFind the perfect hotel.')
                           : l10n.homeTitle,
                       style: theme.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.bold,
