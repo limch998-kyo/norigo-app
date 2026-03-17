@@ -24,7 +24,9 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
   late final WebViewController _controller;
   bool _loading = true;
   double _progress = 0;
-  bool _shownAddSnackbar = false;
+
+  /// Global flag: show "added to trip" snackbar only once across entire app session
+  static bool _shownAddSnackbar = false;
 
   @override
   void initState() {
@@ -117,28 +119,16 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
           locale: widget.locale,
         );
 
-        // Show snackbar once per guide page
+        // Show snackbar only once across entire app session
         if (mounted && !_shownAddSnackbar) {
           _shownAddSnackbar = true;
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Row(children: [
-              const Icon(Icons.check_circle, color: Colors.white, size: 16),
-              const SizedBox(width: 8),
-              Expanded(child: Text(
-                widget.locale == 'ja' ? '旅行プランに追加しました'
-                    : widget.locale == 'ko' ? '여행 플랜에 추가했습니다'
-                    : 'Added to trip plan',
-              )),
-            ]),
-            duration: const Duration(seconds: 4),
-            action: SnackBarAction(
-              label: widget.locale == 'ja' ? '旅行タブへ' : widget.locale == 'ko' ? '여행 탭으로' : 'Go to Trip',
-              textColor: Colors.white,
-              onPressed: () {
-                Navigator.of(context).popUntil((route) => route.isFirst);
-                MainShell.globalSwitchTab?.call(3);
-              },
+            content: Text(
+              widget.locale == 'ja' ? '旅行プランに追加しました — 旅行タブで確認できます'
+                  : widget.locale == 'ko' ? '여행 플랜에 추가했습니다 — 여행 탭에서 확인할 수 있습니다'
+                  : 'Added to trip — check the Trip tab',
             ),
+            duration: const Duration(seconds: 2),
           ));
         }
       }
