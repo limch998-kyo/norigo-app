@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// Determines booking provider based on locale and region.
@@ -10,14 +11,28 @@ class BookingProvider {
   /// Agoda area/poi IDs loaded from bundled data
   static Map<String, dynamic>? _agodaAreaIds;
 
-  static Future<void> preloadAgodaIds() async {
+  static Future<void>? _loadFuture;
+
+  static Future<void> preloadAgodaIds() {
+    _loadFuture ??= _doLoad();
+    return _loadFuture!;
+  }
+
+  static Future<void> _doLoad() async {
     if (_agodaAreaIds != null) return;
     try {
       final raw = await rootBundle.loadString('assets/data/agoda-area-ids.json');
       _agodaAreaIds = jsonDecode(raw) as Map<String, dynamic>;
-    } catch (_) {
+      debugPrint('Agoda area IDs loaded: ${_agodaAreaIds!.length} entries');
+    } catch (e) {
+      debugPrint('Failed to load Agoda area IDs: $e');
       _agodaAreaIds = {};
     }
+  }
+
+  /// Ensure data is loaded (call before buildSearchUrl if needed)
+  static Future<void> ensureLoaded() async {
+    if (_agodaAreaIds == null) await preloadAgodaIds();
   }
   static const _jalanBaseUrl = 'https://www.jalan.net';
   static const _agodaBaseUrl = 'https://www.agoda.com';
@@ -126,19 +141,36 @@ class BookingProvider {
       var base = '$_agodaBaseUrl/$langCode/search?cid=$cid&checkIn=$checkIn&checkOut=$checkOut&rooms=1&adults=2';
 
       // 1) Try area ID (best: direct search results)
-      if (stationId != null && _agodaAreaIds != null) {
-        final entry = _agodaAreaIds![stationId];
-        if (entry != null && entry['type'] == 'area') {
-          return '$base&area=${entry['id']}';
+      if (stationId != null && stationId.isNotEmpty) {
+        // Ensure data is loaded (may not be ready if called before preload completes)
+        if (_agodaAreaIds == null) {
+          // Synchronous fallback: try loading now
+          try {
+            // Data might not be ready yet, skip to lat/lng fallback
+          } catch (_) {}
+        }
+        if (_agodaAreaIds != null) {
+          final entry = _agodaAreaIds![stationId];
+          if (entry != null && entry['type'] == 'area') {
+            debugPrint('Agoda: area ID match for $stationId → area=${entry['id']}');
+            return '$base&area=${entry['id']}';
+          }
+          debugPrint('Agoda: no area ID for $stationId, falling back to lat/lng');
+        } else {
+          debugPrint('Agoda: area IDs not loaded yet');
         }
       }
 
       // 2) lat/lng fallback
       if (lat != null && lng != null) {
-        return '$base&latitude=$lat&longitude=$lng';
+        final url = '$base&latitude=$lat&longitude=$lng';
+        debugPrint('Agoda URL (lat/lng): $url');
+        return url;
       }
 
-      return '$base&textToSearch=${Uri.encodeComponent(query)}';
+      final url = '$base&textToSearch=${Uri.encodeComponent(query)}';
+      debugPrint('Agoda URL (textToSearch): $url');
+      return url;
     }
 
     // Without dates: simple search
