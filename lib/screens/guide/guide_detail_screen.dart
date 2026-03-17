@@ -46,6 +46,15 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
   }
 
   void _injectInterceptor() {
+    // Hide web app's own UI elements (header, footer, floating cart, nav)
+    _controller.runJavaScript('''
+    (function() {
+      var style = document.createElement('style');
+      style.textContent = 'header, footer, nav, [class*="TripCart"], [class*="trip-cart"], [class*="floating"], [class*="Fab"], button[class*="fixed"] { display: none !important; } main { padding-top: 0 !important; }';
+      document.head.appendChild(style);
+    })();
+    ''');
+
     // Capture phase listener — fires BEFORE React's handler
     // Does NOT prevent default or stop propagation — React button still works normally
     _controller.runJavaScript('''
