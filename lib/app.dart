@@ -76,7 +76,17 @@ class _MainShellState extends ConsumerState<MainShell> {
     final stayState = ref.watch(staySearchProvider);
     final meetupState = ref.watch(meetupSearchProvider);
 
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) return;
+        // If not on home tab, go to home
+        if (_currentIndex != 0) {
+          switchToTab(0);
+        }
+        // On home tab, do nothing (don't exit app)
+      },
+      child: Scaffold(
       body: SafeArea(
         child: IndexedStack(
           index: _currentIndex,
@@ -123,6 +133,7 @@ class _MainShellState extends ConsumerState<MainShell> {
             label: locale == 'ja' ? 'ガイド' : locale == 'ko' ? '가이드' : 'Guide'),
         ],
       ),
+    ),
     );
   }
 }
