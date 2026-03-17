@@ -5,6 +5,7 @@ import 'app.dart';
 import 'providers/app_providers.dart';
 import 'services/line_localize.dart';
 import 'services/landmark_localizer.dart';
+import 'config/booking_provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +20,7 @@ void main() {
   // Preload translations for non-blocking localization
   LineLocalizer.preload();
   LandmarkLocalizer.preload();
+  BookingProvider.preloadAgodaIds();
 
   runApp(
     ProviderScope(

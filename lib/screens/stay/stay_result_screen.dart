@@ -660,7 +660,7 @@ class _AreaCardState extends State<_AreaCard> {
             if (locale == 'ko' || (locale == 'ja' && ['seoul', 'busan'].contains(widget.searchRegion)))
               _HotelSection(stationId: area.station.id, locale: locale, region: widget.searchRegion, stationName: name, l10n: l10n, checkIn: widget.checkIn, checkOut: widget.checkOut, initialBudget: widget.maxBudget, lat: area.station.lat, lng: area.station.lng, onLoaded: _onHotelsLoaded)
             else
-              _ExternalHotelLinks(stationName: name, locale: locale, region: widget.searchRegion, lat: area.station.lat, lng: area.station.lng, checkIn: widget.checkIn, checkOut: widget.checkOut),
+              _ExternalHotelLinks(stationName: name, stationId: area.station.id, locale: locale, region: widget.searchRegion, lat: area.station.lat, lng: area.station.lng, checkIn: widget.checkIn, checkOut: widget.checkOut),
           ]),
         ),
       ),
@@ -1081,6 +1081,7 @@ class _HotelSectionState extends State<_HotelSection> {
     // Use region-specific budget tiers
     final budgetTiers = AppConstants.getStayBudgets(widget.region);
     final isAllSelected = _selectedBudgets.isEmpty;
+    final noResultsInBudget = filtered.isEmpty && _selectedBudgets.isNotEmpty;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       // Budget range filter (multi-select)
@@ -1169,6 +1170,27 @@ class _HotelSectionState extends State<_HotelSection> {
       const SizedBox(height: 8),
 
       // Hotel cards
+      // No results in selected budget range
+      if (noResultsInBudget)
+        Container(
+          padding: const EdgeInsets.all(16),
+          margin: const EdgeInsets.only(bottom: 8),
+          decoration: BoxDecoration(
+            color: Colors.amber.shade50,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(children: [
+            Icon(Icons.info_outline, size: 16, color: Colors.amber.shade700),
+            const SizedBox(width: 8),
+            Expanded(child: Text(
+              widget.locale == 'ja' ? '選択した予算範囲のホテルが見つかりませんでした'
+                : widget.locale == 'ko' ? '선택한 예산 범위의 호텔이 없습니다'
+                : 'No hotels found in the selected budget range',
+              style: TextStyle(fontSize: 12, color: Colors.amber.shade800),
+            )),
+          ]),
+        ),
+
       ...displayed.asMap().entries.map((e) => _HotelCard(hotel: e.value, index: e.key + 1, l10n: widget.l10n)),
 
       // Show more / show less
@@ -1334,6 +1356,7 @@ class _AmenityBadge extends StatelessWidget {
 /// External hotel link — ja+Japan=Jalan, en/zh=Booking.com
 class _ExternalHotelLinks extends StatelessWidget {
   final String stationName;
+  final String stationId;
   final String locale;
   final String region;
   final double lat;
@@ -1341,7 +1364,7 @@ class _ExternalHotelLinks extends StatelessWidget {
   final String? checkIn;
   final String? checkOut;
 
-  const _ExternalHotelLinks({required this.stationName, required this.locale, required this.region, required this.lat, required this.lng, this.checkIn, this.checkOut});
+  const _ExternalHotelLinks({required this.stationName, this.stationId = '', required this.locale, required this.region, required this.lat, required this.lng, this.checkIn, this.checkOut});
 
   @override
   Widget build(BuildContext context) {
@@ -1363,6 +1386,7 @@ class _ExternalHotelLinks extends StatelessWidget {
               stationName: stationName,
               lat: lat, lng: lng,
               checkIn: checkIn, checkOut: checkOut,
+              stationId: stationId,
             );
             launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
           },
