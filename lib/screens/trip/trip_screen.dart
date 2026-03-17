@@ -21,84 +21,86 @@ class TripScreen extends ConsumerWidget {
     final state = ref.watch(tripProvider);
     final notifier = ref.read(tripProvider.notifier);
 
-    final trips = state.filteredTrips;
+    // Split trips by country, sorted by most recently updated
+    final japanTrips = state.trips
+        .where((t) => t.country == 'japan' || t.country == null)
+        .toList()
+      ..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+    final koreaTrips = state.trips
+        .where((t) => t.country == 'korea')
+        .toList()
+      ..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+
+    // Determine which section goes first (most recently updated trip)
+    final japanLatest = japanTrips.isNotEmpty ? japanTrips.first.updatedAt : DateTime(2000);
+    final koreaLatest = koreaTrips.isNotEmpty ? koreaTrips.first.updatedAt : DateTime(2000);
+    final japanFirst = japanLatest.isAfter(koreaLatest);
+
+    Widget buildTripSection(String label, String flag, List<Trip> trips) {
+      if (trips.isEmpty) return const SizedBox.shrink();
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 16),
+          Row(children: [
+            Text(flag, style: const TextStyle(fontSize: 18)),
+            const SizedBox(width: 8),
+            Text(label, style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+          ]),
+          const SizedBox(height: 8),
+          ...trips.map((trip) {
+            final items = state.items.where((i) => i.tripId == trip.id).toList();
+            final isActive = state.activeTripId == trip.id;
+            return _TripCard(
+              trip: trip,
+              items: items,
+              isActive: isActive,
+              locale: locale,
+              onTap: () => notifier.setActiveTrip(trip.id),
+              onRename: () => _showRenameDialog(context, notifier, trip, locale),
+              onDelete: () => _showDeleteDialog(context, notifier, trip, locale),
+              onRemoveItem: (slug, tripId) => notifier.removeItem(slug, tripId),
+              onFindHotels: items.length >= 2 ? () {
+                final landmarks = notifier.getItemsAsLandmarks(trip.id);
+                final stayNotifier = ref.read(staySearchProvider.notifier);
+                stayNotifier.reset();
+                if (landmarks.isNotEmpty) stayNotifier.setRegion(landmarks.first.region);
+                for (final l in landmarks) { stayNotifier.addLandmark(l); }
+                final isKorea = ['seoul', 'busan'].contains(landmarks.firstOrNull?.region);
+                final budget = isKorea ? 'under35000' : (locale == 'ja' ? 'under20000' : 'under30000');
+                stayNotifier.setBudget(budget);
+                final checkIn = DateTime.now().add(const Duration(days: 30));
+                stayNotifier.setDates(checkIn.toIso8601String().substring(0, 10),
+                  checkIn.add(const Duration(days: 3)).toIso8601String().substring(0, 10));
+                onSwitchTab?.call(1);
+              } : null,
+            );
+          }),
+        ],
+      );
+    }
+
+    final japanLabel = locale == 'ja' ? '日本' : locale == 'ko' ? '일본' : 'Japan';
+    final koreaLabel = locale == 'ja' ? '韓国' : locale == 'ko' ? '한국' : 'Korea';
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.tripTitle),
-        actions: [
-          // Country toggle
-          SegmentedButton<String>(
-            segments: [
-              ButtonSegment(
-                value: 'japan',
-                label: Text(
-                  locale == 'ja' ? '日本' : locale == 'ko' ? '일본' : 'Japan',
-                  style: const TextStyle(fontSize: 12),
-                ),
-              ),
-              ButtonSegment(
-                value: 'korea',
-                label: Text(
-                  locale == 'ja' ? '韓国' : locale == 'ko' ? '한국' : 'Korea',
-                  style: const TextStyle(fontSize: 12),
-                ),
-              ),
-            ],
-            selected: {state.country},
-            onSelectionChanged: (s) => notifier.setCountry(s.first),
-            style: ButtonStyle(
-              visualDensity: VisualDensity.compact,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            ),
-          ),
-          const SizedBox(width: 8),
-        ],
-      ),
+      appBar: AppBar(title: Text(l10n.tripTitle)),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           // ── Saved Searches ──
           _SavedSearchesSection(locale: locale, ref: ref, onSwitchTab: onSwitchTab),
 
-          // ── Trips ──
-          if (trips.isNotEmpty) ...[
-            const SizedBox(height: 16),
-            Text(
-              locale == 'ja' ? '旅行プラン' : locale == 'ko' ? '여행 플랜' : 'Trip Plans',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            ...trips.map((trip) {
-              final items = state.items.where((i) => i.tripId == trip.id).toList();
-              final isActive = state.activeTripId == trip.id;
-              return _TripCard(
-                trip: trip,
-                items: items,
-                isActive: isActive,
-                locale: locale,
-                onTap: () => notifier.setActiveTrip(trip.id),
-                onRename: () => _showRenameDialog(context, notifier, trip, locale),
-                onDelete: () => _showDeleteDialog(context, notifier, trip, locale),
-                onRemoveItem: (slug, tripId) => notifier.removeItem(slug, tripId),
-                onFindHotels: items.length >= 2 ? () {
-                  final landmarks = notifier.getItemsAsLandmarks(trip.id);
-                  final stayNotifier = ref.read(staySearchProvider.notifier);
-                  stayNotifier.reset();
-                  if (landmarks.isNotEmpty) stayNotifier.setRegion(landmarks.first.region);
-                  for (final l in landmarks) { stayNotifier.addLandmark(l); }
-                  final budget = locale == 'ja' ? 'under20000' : locale == 'ko' ? 'under30000' : 'under50000';
-                  stayNotifier.setBudget(budget);
-                  final checkIn = DateTime.now().add(const Duration(days: 30));
-                  stayNotifier.setDates(checkIn.toIso8601String().substring(0, 10),
-                    checkIn.add(const Duration(days: 3)).toIso8601String().substring(0, 10));
-                  onSwitchTab?.call(1);
-                } : null,
-              );
-            }),
+          // ── Trips (both countries, most recent first) ──
+          if (japanFirst) ...[
+            buildTripSection(japanLabel, '🇯🇵', japanTrips),
+            buildTripSection(koreaLabel, '🇰🇷', koreaTrips),
+          ] else ...[
+            buildTripSection(koreaLabel, '🇰🇷', koreaTrips),
+            buildTripSection(japanLabel, '🇯🇵', japanTrips),
           ],
 
-          if (trips.isEmpty && state.items.isEmpty)
+          if (japanTrips.isEmpty && koreaTrips.isEmpty && state.items.isEmpty)
             _EmptyState(locale: locale),
         ],
       ),
@@ -496,9 +498,8 @@ class _SavedSearchesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Filter by current country (japan/korea toggle)
-    final tripState = ref.watch(tripProvider);
-    final saved = ref.watch(savedSearchesProvider.notifier).byCountry(tripState.country);
+    // Show all saved searches (no country filter)
+    final saved = ref.watch(savedSearchesProvider);
     if (saved.isEmpty) return const SizedBox.shrink();
 
     final theme = Theme.of(context);
