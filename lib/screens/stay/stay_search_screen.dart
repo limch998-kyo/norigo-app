@@ -237,10 +237,17 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
             const SizedBox(height: 20),
 
             // Budget selector
-            Text(
-              locale == 'ja' ? '予算' : locale == 'ko' ? '예산' : 'Budget',
-              style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
-            ),
+            Row(children: [
+              Text(
+                locale == 'ja' ? '予算' : locale == 'ko' ? '예산' : 'Budget',
+                style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(width: 6),
+              Text(
+                locale == 'ja' ? '（1泊あたり）' : locale == 'ko' ? '(1박 기준)' : '(per night)',
+                style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground),
+              ),
+            ]),
             const SizedBox(height: 8),
             Wrap(
               spacing: 6,
