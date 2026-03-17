@@ -64,59 +64,7 @@ class SettingsScreen extends ConsumerWidget {
             );
           }),
 
-          const Divider(height: 32),
-
-          // Theme
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-            child: Text(
-              locale == 'ja'
-                  ? 'テーマ'
-                  : locale == 'ko'
-                      ? '테마'
-                      : 'Theme',
-              style: theme.textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
-              ),
-            ),
-          ),
-          ...{
-            ThemeMode.system: locale == 'ja'
-                ? 'システム'
-                : locale == 'ko'
-                    ? '시스템'
-                    : 'System',
-            ThemeMode.light: locale == 'ja'
-                ? 'ライト'
-                : locale == 'ko'
-                    ? '라이트'
-                    : 'Light',
-            ThemeMode.dark: locale == 'ja'
-                ? 'ダーク'
-                : locale == 'ko'
-                    ? '다크'
-                    : 'Dark',
-          }.entries.map((entry) {
-            final currentMode = ref.watch(themeModeProvider);
-            final isSelected = currentMode == entry.key;
-            return ListTile(
-              leading: Icon(
-                entry.key == ThemeMode.system
-                    ? Icons.brightness_auto
-                    : entry.key == ThemeMode.light
-                        ? Icons.light_mode
-                        : Icons.dark_mode,
-              ),
-              title: Text(entry.value),
-              trailing: isSelected
-                  ? Icon(Icons.check, color: theme.colorScheme.primary)
-                  : null,
-              onTap: () {
-                ref.read(themeModeProvider.notifier).state = entry.key;
-              },
-            );
-          }),
+          // Theme section hidden until dark mode colors are fully supported
 
           const Divider(height: 32),
 
