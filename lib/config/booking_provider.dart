@@ -1,9 +1,24 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
+
 /// Determines booking provider based on locale and region.
 /// Matches web app logic:
 ///   - Japan region + ja locale → Jalan
 ///   - Korea region OR ko locale → Agoda
 ///   - Fallback → Booking.com
 class BookingProvider {
+  /// Agoda area/poi IDs loaded from bundled data
+  static Map<String, dynamic>? _agodaAreaIds;
+
+  static Future<void> preloadAgodaIds() async {
+    if (_agodaAreaIds != null) return;
+    try {
+      final raw = await rootBundle.loadString('assets/data/agoda-area-ids.json');
+      _agodaAreaIds = jsonDecode(raw) as Map<String, dynamic>;
+    } catch (_) {
+      _agodaAreaIds = {};
+    }
+  }
   static const _jalanBaseUrl = 'https://www.jalan.net';
   static const _agodaBaseUrl = 'https://www.agoda.com';
   static const _bookingBaseUrl = 'https://www.booking.com';
@@ -33,12 +48,13 @@ class BookingProvider {
     double? lng,
     String? checkIn,
     String? checkOut,
+    String? stationId,
   }) {
     if (_japanRegions.contains(region) && locale == 'ja') {
       return _buildJalanUrl(stationName, checkIn, checkOut);
     }
     if (_koreaRegions.contains(region) || locale == 'ko') {
-      return _buildAgodaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
+      return _buildAgodaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, stationId: stationId, region: region);
     }
     return _buildBookingUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
   }
@@ -65,7 +81,7 @@ class BookingProvider {
       if (hotelId != null) {
         return '$_agodaBaseUrl/hotel/$hotelId.html?cid=1922458';
       }
-      return _buildAgodaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
+      return _buildAgodaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, region: region);
     }
     if (hotelId != null) {
       return '$_bookingBaseUrl/hotel/$hotelId.html?aid=2432111';
@@ -96,29 +112,37 @@ class BookingProvider {
     return 'https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3693387&pid=889792382&vc_url=${Uri.encodeComponent(jalanUrl)}';
   }
 
-  static String _buildAgodaUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng}) {
+  static String _buildAgodaUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng, String? stationId, String? region}) {
     final langCode = switch (locale) {
       'ko' => 'ko-kr',
       'zh' => 'zh-cn',
       'ja' => 'ja-jp',
       _ => 'en-us',
     };
-    // Match web app: /{lang}/search?cid=...&checkIn=...&checkOut=...&rooms=1&adults=2
-    final params = <String, String>{
-      'cid': '1922458',
-      'rooms': '1',
-      'adults': '2',
-    };
-    if (checkIn != null) params['checkIn'] = checkIn;
-    if (checkOut != null) params['checkOut'] = checkOut;
-    // Use lat/lng for precise location (matching web fallback)
-    if (lat != null && lng != null) {
-      params['latitude'] = lat.toString();
-      params['longitude'] = lng.toString();
-    } else {
-      params['textToSearch'] = query;
+    const cid = '1922458';
+
+    // With dates: match web buildAgodaSearchUrl exactly
+    if (checkIn != null && checkOut != null) {
+      var base = '$_agodaBaseUrl/$langCode/search?cid=$cid&checkIn=$checkIn&checkOut=$checkOut&rooms=1&adults=2';
+
+      // 1) Try area ID (best: direct search results)
+      if (stationId != null && _agodaAreaIds != null) {
+        final entry = _agodaAreaIds![stationId];
+        if (entry != null && entry['type'] == 'area') {
+          return '$base&area=${entry['id']}';
+        }
+      }
+
+      // 2) lat/lng fallback
+      if (lat != null && lng != null) {
+        return '$base&latitude=$lat&longitude=$lng';
+      }
+
+      return '$base&textToSearch=${Uri.encodeComponent(query)}';
     }
-    return '$_agodaBaseUrl/$langCode/search?${_encodeParams(params)}';
+
+    // Without dates: simple search
+    return '$_agodaBaseUrl/$langCode/search?cid=$cid&textToSearch=${Uri.encodeComponent(query)}';
   }
 
   static String _buildBookingUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng}) {
