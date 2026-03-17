@@ -942,13 +942,9 @@ class _HotelSectionState extends State<_HotelSection> {
   @override
   void initState() {
     super.initState();
-    // Default to search budget — find matching tier in region's budget list
-    final tiers = AppConstants.getStayBudgets(widget.region);
-    if (widget.initialBudget != null && tiers.contains(widget.initialBudget)) {
-      _budgetFilter = widget.initialBudget!;
-    } else {
-      _budgetFilter = 'any';
-    }
+    // Default to 'any' — API already filtered by max budget from search,
+    // card range filter is for browsing within returned results
+    _budgetFilter = 'any';
     _loadHotels();
   }
   static const _defaultVisible = 3;
@@ -956,17 +952,29 @@ class _HotelSectionState extends State<_HotelSection> {
   // JPY conversion rates (matching web)
   static const _jpyRates = {'JPY': 1.0, 'KRW': 9.0, 'USD': 0.007};
 
-  /// Filter by budget (cumulative: under X = everything up to X)
+  /// Filter by budget RANGE (e.g. under20000 = ¥10k~¥20k range, not cumulative)
   List<Hotel> _filterByBudgetKey(List<Hotel> hotels, String budget) {
     if (budget == 'any') return hotels;
+
+    final tiers = AppConstants.getStayBudgets(widget.region);
+    final tierIndex = tiers.indexOf(budget);
+
     final overMatch = RegExp(r'^over(\d+)$').firstMatch(budget);
     final underMatch = RegExp(r'^under(\d+)$').firstMatch(budget);
+
     if (underMatch != null) {
-      final jpyLimit = int.parse(underMatch.group(1)!);
+      final jpyUpper = int.parse(underMatch.group(1)!);
+      // Lower bound = previous tier's value (or 0 for first tier)
+      int jpyLower = 0;
+      if (tierIndex > 1) {
+        final prevMatch = RegExp(r'^under(\d+)$').firstMatch(tiers[tierIndex - 1]);
+        if (prevMatch != null) jpyLower = int.parse(prevMatch.group(1)!);
+      }
       return hotels.where((h) {
         if (h.dailyRate == null) return true;
         final rate = _jpyRates[h.currency] ?? 1.0;
-        return h.dailyRate! / rate <= jpyLimit;
+        final jpyPrice = h.dailyRate! / rate;
+        return jpyPrice > jpyLower && jpyPrice <= jpyUpper;
       }).toList();
     }
     if (overMatch != null) {
@@ -980,10 +988,33 @@ class _HotelSectionState extends State<_HotelSection> {
     return hotels;
   }
 
-  String _buildBudgetLabel(String budget, String locale) {
-    // Use the standard label from constants
-    return AppConstants.stayBudgetLabels[budget]?[locale]
-        ?? AppConstants.stayBudgetLabels[budget]?['en'] ?? budget;
+  String _buildBudgetLabel(String budget, int index, List<String> tiers, String locale) {
+    if (budget == 'any') {
+      return locale == 'ja' ? 'すべて' : locale == 'ko' ? '전체' : 'All';
+    }
+
+    String fmtJpy(int v) {
+      if (v >= 10000) return '¥${(v / 10000).toStringAsFixed(v % 10000 == 0 ? 0 : 1)}万';
+      return '¥${(v / 1000).round()}k';
+    }
+
+    final underMatch = RegExp(r'^under(\d+)$').firstMatch(budget);
+    final overMatch = RegExp(r'^over(\d+)$').firstMatch(budget);
+
+    if (underMatch != null) {
+      final upper = int.parse(underMatch.group(1)!);
+      int lower = 0;
+      if (index > 1) {
+        final prevMatch = RegExp(r'^under(\d+)$').firstMatch(tiers[index - 1]);
+        if (prevMatch != null) lower = int.parse(prevMatch.group(1)!);
+      }
+      if (lower == 0) return '~${fmtJpy(upper)}';
+      return '${fmtJpy(lower)}~${fmtJpy(upper)}';
+    }
+    if (overMatch != null) {
+      return '${fmtJpy(int.parse(overMatch.group(1)!))}~';
+    }
+    return budget;
   }
 
   int _countForBudget(String budget) {
@@ -1032,11 +1063,12 @@ class _HotelSectionState extends State<_HotelSection> {
         const SizedBox(height: 6),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(children: budgetTiers.map((b) {
+          child: Row(children: budgetTiers.asMap().entries.map((entry) {
+            final b = entry.value;
             final count = _countForBudget(b);
             if (count == 0 && b != 'any') return const SizedBox.shrink();
             final isSelected = _budgetFilter == b;
-            final label = _buildBudgetLabel(b, widget.locale);
+            final label = _buildBudgetLabel(b, entry.key, budgetTiers, widget.locale);
             return Padding(
               padding: const EdgeInsets.only(right: 6),
               child: GestureDetector(
