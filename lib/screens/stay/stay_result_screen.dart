@@ -277,6 +277,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
                     maxBudget: state.maxBudget,
                     checkIn: state.checkIn,
                     checkOut: state.checkOut,
+                    searchRegion: state.region,
                   )
                 : ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -294,6 +295,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
                   maxBudget: state.maxBudget,
                   checkIn: state.checkIn,
                   checkOut: state.checkOut,
+                  searchRegion: state.region,
                 );
               },
             ),
@@ -314,11 +316,12 @@ class _SplitResultsList extends StatefulWidget {
   final String? maxBudget;
   final String? checkIn;
   final String? checkOut;
+  final String searchRegion;
 
   const _SplitResultsList({
     required this.clusters, required this.expandedIndex, required this.onTap,
     required this.locale, required this.l10n, required this.landmarks,
-    this.maxBudget, this.checkIn, this.checkOut,
+    this.maxBudget, this.checkIn, this.checkOut, this.searchRegion = 'kanto',
   });
 
   @override
@@ -403,6 +406,7 @@ class _SplitResultsListState extends State<_SplitResultsList> {
                   maxBudget: widget.maxBudget,
                   checkIn: widget.checkIn,
                   checkOut: widget.checkOut,
+                  searchRegion: widget.searchRegion,
                 );
               });
             })(),
@@ -484,8 +488,9 @@ class _AreaCard extends StatefulWidget {
   final String? maxBudget;
   final String? checkIn;
   final String? checkOut;
+  final String searchRegion; // The region from search state, not from station
 
-  const _AreaCard({required this.area, required this.rank, required this.isExpanded, required this.onTap, required this.locale, required this.l10n, required this.landmarks, this.localNames = const {}, this.maxBudget, this.checkIn, this.checkOut});
+  const _AreaCard({required this.area, required this.rank, required this.isExpanded, required this.onTap, required this.locale, required this.l10n, required this.landmarks, this.localNames = const {}, this.maxBudget, this.checkIn, this.checkOut, this.searchRegion = 'kanto'});
 
   @override
   State<_AreaCard> createState() => _AreaCardState();
@@ -648,7 +653,7 @@ class _AreaCardState extends State<_AreaCard> {
 
             // ── Hotels (always loaded, matching web) ──
             const Divider(height: 24),
-            _HotelSection(stationId: area.station.id, locale: locale, region: area.station.region, stationName: name, l10n: l10n, checkIn: widget.checkIn, checkOut: widget.checkOut, initialBudget: widget.maxBudget, lat: area.station.lat, lng: area.station.lng, onLoaded: _onHotelsLoaded),
+            _HotelSection(stationId: area.station.id, locale: locale, region: widget.searchRegion, stationName: name, l10n: l10n, checkIn: widget.checkIn, checkOut: widget.checkOut, initialBudget: widget.maxBudget, lat: area.station.lat, lng: area.station.lng, onLoaded: _onHotelsLoaded),
           ]),
         ),
       ),
@@ -937,81 +942,70 @@ class _HotelSectionState extends State<_HotelSection> {
   List<Hotel>? _hotels;
   bool _loading = true;
   bool _expanded = false;
-  late String _budgetFilter;
+  Set<String> _selectedBudgets = {}; // empty = show all
 
   @override
   void initState() {
     super.initState();
-    // Auto-select the range tier that matches the search budget
-    _budgetFilter = _findMatchingTier(widget.initialBudget);
+    // Auto-select budget ranges that fall within the search max budget
+    _selectedBudgets = _findMatchingTiers(widget.initialBudget);
     _loadHotels();
   }
 
-  /// Find the best matching range tier for the search budget.
-  /// If search budget exists in region tiers, use it.
-  /// If not, find the closest tier that covers the search budget.
-  String _findMatchingTier(String? searchBudget) {
-    if (searchBudget == null || searchBudget == 'any') return 'any';
+  /// Find all range tiers that fall within the search max budget
+  Set<String> _findMatchingTiers(String? searchBudget) {
+    if (searchBudget == null || searchBudget == 'any') return {};
     final tiers = AppConstants.getStayBudgets(widget.region);
-
-    // Direct match
-    if (tiers.contains(searchBudget)) return searchBudget;
-
-    // Find closest tier: extract the JPY value from searchBudget
     final searchMatch = RegExp(r'^under(\d+)$').firstMatch(searchBudget);
-    if (searchMatch == null) return 'any';
+    if (searchMatch == null) return {};
     final searchJpy = int.parse(searchMatch.group(1)!);
 
-    // Find the smallest tier that is >= searchJpy
+    // Select all "underX" tiers where X <= searchJpy
+    final result = <String>{};
     for (final tier in tiers) {
-      final tierMatch = RegExp(r'^under(\d+)$').firstMatch(tier);
-      if (tierMatch != null) {
-        final tierJpy = int.parse(tierMatch.group(1)!);
-        if (tierJpy >= searchJpy) return tier;
+      if (tier == 'any') continue;
+      final m = RegExp(r'^under(\d+)$').firstMatch(tier);
+      if (m != null && int.parse(m.group(1)!) <= searchJpy) {
+        result.add(tier);
       }
     }
-    // If search budget exceeds all tiers, use the 'over' tier
-    return tiers.last;
+    return result;
   }
   static const _defaultVisible = 3;
 
   // JPY conversion rates (matching web)
   static const _jpyRates = {'JPY': 1.0, 'KRW': 9.0, 'USD': 0.007};
 
-  /// Filter by budget RANGE (e.g. under20000 = ¥10k~¥20k range, not cumulative)
-  List<Hotel> _filterByBudgetKey(List<Hotel> hotels, String budget) {
-    if (budget == 'any') return hotels;
-
+  /// Check if a hotel falls within a specific range tier
+  bool _hotelInRange(Hotel h, String budget) {
+    if (h.dailyRate == null) return true;
     final tiers = AppConstants.getStayBudgets(widget.region);
     final tierIndex = tiers.indexOf(budget);
+    final rate = _jpyRates[h.currency] ?? 1.0;
+    final jpyPrice = h.dailyRate! / rate;
 
-    final overMatch = RegExp(r'^over(\d+)$').firstMatch(budget);
     final underMatch = RegExp(r'^under(\d+)$').firstMatch(budget);
+    final overMatch = RegExp(r'^over(\d+)$').firstMatch(budget);
 
     if (underMatch != null) {
-      final jpyUpper = int.parse(underMatch.group(1)!);
-      // Lower bound = previous tier's value (or 0 for first tier)
-      int jpyLower = 0;
+      final upper = int.parse(underMatch.group(1)!);
+      int lower = 0;
       if (tierIndex > 1) {
         final prevMatch = RegExp(r'^under(\d+)$').firstMatch(tiers[tierIndex - 1]);
-        if (prevMatch != null) jpyLower = int.parse(prevMatch.group(1)!);
+        if (prevMatch != null) lower = int.parse(prevMatch.group(1)!);
       }
-      return hotels.where((h) {
-        if (h.dailyRate == null) return true;
-        final rate = _jpyRates[h.currency] ?? 1.0;
-        final jpyPrice = h.dailyRate! / rate;
-        return jpyPrice > jpyLower && jpyPrice <= jpyUpper;
-      }).toList();
+      return jpyPrice > lower && jpyPrice <= upper;
     }
     if (overMatch != null) {
-      final jpyLimit = int.parse(overMatch.group(1)!);
-      return hotels.where((h) {
-        if (h.dailyRate == null) return false;
-        final rate = _jpyRates[h.currency] ?? 1.0;
-        return h.dailyRate! / rate > jpyLimit;
-      }).toList();
+      return jpyPrice > int.parse(overMatch.group(1)!);
     }
-    return hotels;
+    return true;
+  }
+
+  /// Filter by selected budget ranges (multi-select)
+  List<Hotel> _filterBySelectedBudgets(List<Hotel> hotels) {
+    if (_selectedBudgets.isEmpty) return hotels; // empty = show all
+    return hotels.where((h) => _selectedBudgets.any((b) => _hotelInRange(h, b))).toList();
   }
 
   String _buildBudgetLabel(String budget, int index, List<String> tiers, String locale) {
@@ -1045,7 +1039,8 @@ class _HotelSectionState extends State<_HotelSection> {
 
   int _countForBudget(String budget) {
     if (_hotels == null) return 0;
-    return _filterByBudgetKey(_hotels!, budget).length;
+    if (budget == 'any') return _hotels!.length;
+    return _hotels!.where((h) => _hotelInRange(h, budget)).length;
   }
 
   Future<void> _loadHotels() async {
@@ -1072,33 +1067,68 @@ class _HotelSectionState extends State<_HotelSection> {
         child: Text(widget.locale == 'ja' ? 'ホテル情報を取得できませんでした' : 'No hotel data', style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground)));
     }
 
-    final filtered = _filterByBudgetKey(_hotels!, _budgetFilter);
+    final filtered = _filterBySelectedBudgets(_hotels!);
     final displayed = _expanded ? filtered : filtered.take(_defaultVisible).toList();
     final hasMore = filtered.length > _defaultVisible;
 
     // Use region-specific budget tiers
     final budgetTiers = AppConstants.getStayBudgets(widget.region);
+    final isAllSelected = _selectedBudgets.isEmpty;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      // Budget filter tabs (matching web)
+      // Budget range filter (multi-select)
       if (_hotels!.length > 3) ...[
-        Text(
-          widget.locale == 'ja' ? '予算' : widget.locale == 'ko' ? '예산' : 'Budget',
-          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground),
-        ),
+        Row(children: [
+          Text(
+            widget.locale == 'ja' ? '予算' : widget.locale == 'ko' ? '예산' : 'Budget',
+            style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground),
+          ),
+          const SizedBox(width: 6),
+          Text(
+            widget.locale == 'ja' ? '（複数選択可）' : widget.locale == 'ko' ? '(복수 선택 가능)' : '(multi-select)',
+            style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground),
+          ),
+        ]),
         const SizedBox(height: 6),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(children: budgetTiers.asMap().entries.map((entry) {
+          child: Row(children: [
+            // "All" chip
+            Padding(
+              padding: const EdgeInsets.only(right: 6),
+              child: GestureDetector(
+                onTap: () => setState(() { _selectedBudgets = {}; _expanded = false; }),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: isAllSelected ? AppTheme.primary : Colors.transparent,
+                    border: Border.all(color: isAllSelected ? AppTheme.primary : AppTheme.border),
+                  ),
+                  child: Text(
+                    '${widget.locale == 'ja' ? 'すべて' : widget.locale == 'ko' ? '전체' : 'All'}(${_hotels!.length})',
+                    style: TextStyle(fontSize: 10, fontWeight: isAllSelected ? FontWeight.w600 : FontWeight.normal,
+                      color: isAllSelected ? Colors.white : AppTheme.foreground),
+                  ),
+                ),
+              ),
+            ),
+            // Range chips
+            ...budgetTiers.asMap().entries.where((e) => e.value != 'any').map((entry) {
             final b = entry.value;
             final count = _countForBudget(b);
-            if (count == 0 && b != 'any') return const SizedBox.shrink();
-            final isSelected = _budgetFilter == b;
+            if (count == 0) return const SizedBox.shrink();
+            final isSelected = _selectedBudgets.contains(b);
             final label = _buildBudgetLabel(b, entry.key, budgetTiers, widget.locale);
             return Padding(
               padding: const EdgeInsets.only(right: 6),
               child: GestureDetector(
-                onTap: () => setState(() { _budgetFilter = b; _expanded = false; }),
+                onTap: () => setState(() {
+                  final newSet = Set<String>.from(_selectedBudgets);
+                  if (isSelected) { newSet.remove(b); } else { newSet.add(b); }
+                  _selectedBudgets = newSet;
+                  _expanded = false;
+                }),
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                   decoration: BoxDecoration(
@@ -1107,14 +1137,15 @@ class _HotelSectionState extends State<_HotelSection> {
                     border: Border.all(color: isSelected ? AppTheme.primary : AppTheme.border),
                   ),
                   child: Text(
-                    '$label${count > 0 ? "($count)" : ""}',
+                    '$label($count)',
                     style: TextStyle(fontSize: 10, fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
                       color: isSelected ? Colors.white : AppTheme.foreground),
                   ),
                 ),
               ),
             );
-          }).toList()),
+          }),
+          ]),
         ),
         const SizedBox(height: 10),
       ],
