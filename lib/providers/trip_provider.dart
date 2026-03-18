@@ -194,22 +194,13 @@ class TripNotifier extends StateNotifier<TripState> {
     return ['seoul', 'busan'].contains(region) ? 'korea' : 'japan';
   }
 
-  /// Find all trips that match a given region (have items in that region, or same country with no items)
+  /// Find all trips that match a given region/country
   List<Trip> findTripsForRegion(String region) {
-    final result = <Trip>[];
-    for (final trip in state.trips) {
-      final tripItems = state.items.where((i) => i.tripId == trip.id).toList();
-      if (tripItems.any((i) => i.region == region)) {
-        result.add(trip);
-      }
-    }
-    if (result.isEmpty) {
-      // Include empty trips for same country
-      final country = regionCountry(region);
-      result.addAll(state.trips.where((t) => t.country == country &&
-          state.items.where((i) => i.tripId == t.id).isEmpty));
-    }
-    return result;
+    final country = regionCountry(region);
+    // All trips for the same country (regardless of items)
+    final countryTrips = state.trips.where((t) => t.country == country).toList();
+    if (countryTrips.isNotEmpty) return countryTrips;
+    return [];
   }
 
   void addItem(Landmark landmark, {String? tripId, String locale = 'en'}) {
