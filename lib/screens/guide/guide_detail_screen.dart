@@ -7,6 +7,7 @@ import '../../providers/app_providers.dart';
 import '../../providers/trip_provider.dart';
 import '../../models/landmark.dart';
 import '../../services/landmark_localizer.dart';
+import '../../widgets/trip_picker_dialog.dart';
 import '../../app.dart';
 
 class GuideDetailScreen extends ConsumerStatefulWidget {
@@ -100,7 +101,7 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
     ''');
   }
 
-  void _onMessage(JavaScriptMessage message) {
+  void _onMessage(JavaScriptMessage message) async {
     try {
       final data = jsonDecode(message.message) as Map<String, dynamic>;
       if (data['action'] == 'addToTrip') {
@@ -123,10 +124,21 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
           lng: lng != 0 ? lng : null,
         ) ?? name;
 
-        ref.read(tripProvider.notifier).addItem(
-          Landmark(slug: effectiveSlug, name: localizedName, lat: lat, lng: lng, region: resolvedRegion),
-          locale: widget.locale,
-        );
+        final tripNotifier = ref.read(tripProvider.notifier);
+        final lm = Landmark(slug: effectiveSlug, name: localizedName, lat: lat, lng: lng, region: resolvedRegion);
+        tripNotifier.addItem(lm, locale: widget.locale);
+
+        // If multiple trips match, show picker
+        if (tripNotifier.needsTripPicker && mounted) {
+          final candidates = tripNotifier.pendingTripCandidates;
+          final picked = await showTripPickerDialog(context, candidates, widget.locale);
+          if (picked != null) {
+            tripNotifier.completePendingAdd(picked);
+          } else {
+            tripNotifier.cancelPendingAdd();
+            return;
+          }
+        }
 
         // Show snackbar once per session with action to go to trip tab
         if (mounted && !_shownAddSnackbar) {
