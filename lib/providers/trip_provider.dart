@@ -221,11 +221,7 @@ class TripNotifier extends StateNotifier<TripState> {
       if (!result.any((r) => r.id == t.id)) result.add(t);
     }
 
-    // If still empty, any same-country trip
-    if (result.isEmpty) {
-      result.addAll(state.trips.where((t) => t.country == country));
-    }
-
+    // If no matching trips found, return empty → addItem will create new trip
     return result;
   }
 
