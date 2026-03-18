@@ -128,18 +128,29 @@ class TripScreen extends ConsumerWidget {
               TextField(
                 controller: controller,
                 decoration: InputDecoration(
-                  hintText: locale == 'ja' ? '観光地名を入力' : locale == 'ko' ? '관광지 이름 입력' : 'Enter landmark name',
+                  hintText: locale == 'ja' ? '観光地・レストランを検索' : locale == 'ko' ? '관광지 또는 음식점 검색' : 'Search landmarks or restaurants',
+                  prefixIcon: const Icon(Icons.search, size: 18),
                 ),
                 onChanged: (q) async {
-                  if (q.length < 2) return;
+                  if (q.length < 2) { setDialogState(() => results = []); return; }
                   final r = await api.searchLandmarks(q, locale: locale);
                   setDialogState(() => results = r);
                 },
               ),
               const SizedBox(height: 8),
+              if (results.isEmpty && controller.text.length >= 2)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Text(
+                    locale == 'ja' ? '結果がありません' : locale == 'ko' ? '결과가 없습니다' : 'No results',
+                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                ),
               ...results.take(5).map((l) => ListTile(
                 dense: true,
+                leading: const Icon(Icons.place, size: 18),
                 title: Text(l.name, style: const TextStyle(fontSize: 13)),
+                subtitle: l.nameEn != null ? Text(l.nameEn!, style: TextStyle(fontSize: 10, color: Colors.grey)) : null,
                 onTap: () {
                   notifier.addItem(l, tripId: trip.id, locale: locale);
                   Navigator.pop(ctx);
