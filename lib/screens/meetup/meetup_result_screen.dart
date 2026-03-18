@@ -222,12 +222,23 @@ class _StationCard extends StatelessWidget {
                     children: [
                       TileLayer(urlTemplate: 'https://basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}@2x.png', userAgentPackageName: 'app.norigo'),
                       MarkerLayer(markers: [
-                        // Participant markers (blue)
-                        ...participants.where((p) => p.lat != 0).map((p) => Marker(
-                          point: LatLng(p.lat, p.lng), width: 24, height: 24,
-                          child: Container(decoration: BoxDecoration(color: Colors.blue, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 1.5)),
-                            child: const Icon(Icons.person, size: 12, color: Colors.white)),
-                        )),
+                        // Participant markers (blue) with name label
+                        ...participants.where((p) => p.lat != 0).map((p) {
+                          final pName = localNames[p.id] ?? p.localizedName(locale);
+                          return Marker(
+                            point: LatLng(p.lat, p.lng), width: 80, height: 40,
+                            child: Column(mainAxisSize: MainAxisSize.min, children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                                decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(4)),
+                                child: Text(pName, style: const TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis),
+                              ),
+                              Container(width: 16, height: 16,
+                                decoration: BoxDecoration(color: Colors.blue, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 1.5)),
+                                child: const Icon(Icons.person, size: 9, color: Colors.white)),
+                            ]),
+                          );
+                        }),
                         // Recommended station (orange)
                         Marker(
                           point: LatLng(rec.station.lat, rec.station.lng), width: 32, height: 32,

@@ -22,4 +22,15 @@ class StationLocalizer {
     if (entry == null) return null;
     return entry[locale] as String?;
   }
+
+  /// Get coordinates for a station by ID
+  static (double, double)? getCoordinates(String stationId) {
+    if (_names == null) return null;
+    final entry = _names![stationId];
+    if (entry == null) return null;
+    final lat = entry['lat'];
+    final lng = entry['lng'];
+    if (lat == null || lng == null) return null;
+    return ((lat as num).toDouble(), (lng as num).toDouble());
+  }
 }
