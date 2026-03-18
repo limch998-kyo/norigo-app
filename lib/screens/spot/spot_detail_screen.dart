@@ -7,6 +7,7 @@ import '../../providers/app_providers.dart';
 import '../../providers/trip_provider.dart';
 import '../../providers/stay_provider.dart';
 import '../../models/landmark.dart';
+import '../../widgets/trip_picker_dialog.dart';
 import '../../app.dart';
 
 class SpotDetailScreen extends ConsumerWidget {
@@ -119,8 +120,14 @@ class SpotDetailScreen extends ConsumerWidget {
                             ),
                           )
                         : ElevatedButton.icon(
-                            onPressed: () {
+                            onPressed: () async {
                               tripNotifier.addItem(landmark, locale: locale);
+                              if (tripNotifier.needsTripPicker) {
+                                final picked = await showTripPickerDialog(context, tripNotifier.pendingTripCandidates, locale);
+                                if (picked != null) { tripNotifier.completePendingAdd(picked); }
+                                else { tripNotifier.cancelPendingAdd(); return; }
+                              }
+                              if (!context.mounted) return;
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text(
                                   locale == 'ja' ? '旅行に追加しました'

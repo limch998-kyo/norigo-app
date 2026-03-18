@@ -63,6 +63,27 @@ class TripNotifier extends StateNotifier<TripState> {
   static const _storageKey = 'norigo_trips_v2';
   static const _uuid = Uuid();
   final Ref? _ref;
+  Landmark? _pendingLandmark;
+  String? _pendingLocale;
+
+  /// Check if addItem needs a trip picker (multiple trips for same region)
+  bool get needsTripPicker => _pendingLandmark != null;
+  Landmark? get pendingLandmark => _pendingLandmark;
+  List<Trip> get pendingTripCandidates => _pendingLandmark != null ? findTripsForRegion(_pendingLandmark!.region) : [];
+
+  /// Complete pending add with selected trip
+  void completePendingAdd(String tripId) {
+    if (_pendingLandmark != null) {
+      addItem(_pendingLandmark!, tripId: tripId, locale: _pendingLocale ?? 'en');
+      _pendingLandmark = null;
+      _pendingLocale = null;
+    }
+  }
+
+  void cancelPendingAdd() {
+    _pendingLandmark = null;
+    _pendingLocale = null;
+  }
 
   TripNotifier([this._ref]) : super(const TripState()) {
     _loadFromStorage();
@@ -146,50 +167,64 @@ class TripNotifier extends StateNotifier<TripState> {
     _saveToStorage();
   }
 
+  static const _regionNames = {
+    'kanto': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto'},
+    'kansai': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai'},
+    'seoul': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul'},
+    'busan': {'ja': '釜山', 'ko': '부산', 'en': 'Busan'},
+  };
+
+  static String tripNameForRegion(String region, String locale) {
+    return _regionNames[region]?[locale] ?? _regionNames[region]?['en'] ?? region;
+  }
+
+  static String regionCountry(String region) {
+    return ['seoul', 'busan'].contains(region) ? 'korea' : 'japan';
+  }
+
+  /// Find all trips that match a given region (have items in that region, or same country with no items)
+  List<Trip> findTripsForRegion(String region) {
+    final result = <Trip>[];
+    for (final trip in state.trips) {
+      final tripItems = state.items.where((i) => i.tripId == trip.id).toList();
+      if (tripItems.any((i) => i.region == region)) {
+        result.add(trip);
+      }
+    }
+    if (result.isEmpty) {
+      // Include empty trips for same country
+      final country = regionCountry(region);
+      result.addAll(state.trips.where((t) => t.country == country &&
+          state.items.where((i) => i.tripId == t.id).isEmpty));
+    }
+    return result;
+  }
+
   void addItem(Landmark landmark, {String? tripId, String locale = 'en'}) {
-    final regionNames = {
-      'kanto': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto'},
-      'kansai': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai'},
-      'seoul': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul'},
-      'busan': {'ja': '釜山', 'ko': '부산', 'en': 'Busan'},
-    };
-
-    String tripName(String region) {
-      return regionNames[region]?[locale] ?? regionNames[region]?['en'] ?? region;
-    }
-
-    String regionCountry(String region) {
-      return ['seoul', 'busan'].contains(region) ? 'korea' : 'japan';
-    }
-
-    // Always route by REGION — no active trip bias
-    // Priority: explicit tripId → find trip for region → create new
+    // Always route by REGION
+    // Priority: explicit tripId → single matching trip → create new
     String? targetTripId = tripId;
 
     if (targetTripId == null) {
-      // Find existing trip for this region
-      for (final trip in state.trips) {
-        final tripItems = state.items.where((i) => i.tripId == trip.id).toList();
-        if (tripItems.any((i) => i.region == landmark.region)) {
-          targetTripId = trip.id;
-          break;
-        }
+      final candidates = findTripsForRegion(landmark.region);
+      if (candidates.length == 1) {
+        targetTripId = candidates.first.id;
+      } else if (candidates.isEmpty) {
+        targetTripId = createTrip(tripNameForRegion(landmark.region, locale), country: regionCountry(landmark.region));
       }
+      // If candidates.length > 1, targetTripId stays null → caller should show picker
+    }
+
+    // If still null (multiple candidates), use _pendingAdd for UI picker
+    if (targetTripId == null) {
+      // Store pending add — caller should check needsTripPicker and show dialog
+      _pendingLandmark = landmark;
+      _pendingLocale = locale;
+      return;
     }
 
     if (targetTripId == null) {
-      // Find empty trip for same country
-      final country = regionCountry(landmark.region);
-      final emptyTrip = state.trips.where((t) => t.country == country &&
-          state.items.where((i) => i.tripId == t.id).isEmpty).firstOrNull;
-      if (emptyTrip != null) {
-        targetTripId = emptyTrip.id;
-      }
-    }
-
-    if (targetTripId == null) {
-      // Create new trip for this region
-      targetTripId = createTrip(tripName(landmark.region), country: regionCountry(landmark.region));
+      targetTripId = createTrip(tripNameForRegion(landmark.region, locale), country: regionCountry(landmark.region));
     }
 
     // Don't add duplicates
