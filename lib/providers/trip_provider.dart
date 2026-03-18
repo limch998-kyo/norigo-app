@@ -194,13 +194,39 @@ class TripNotifier extends StateNotifier<TripState> {
     return ['seoul', 'busan'].contains(region) ? 'korea' : 'japan';
   }
 
-  /// Find all trips that match a given region/country
+  /// Find trips that match a given region
+  /// Priority: trips with items in same region > empty trips for same region name > same country
   List<Trip> findTripsForRegion(String region) {
     final country = regionCountry(region);
-    // All trips for the same country (regardless of items)
-    final countryTrips = state.trips.where((t) => t.country == country).toList();
-    if (countryTrips.isNotEmpty) return countryTrips;
-    return [];
+    final regionName = tripNameForRegion(region, 'ja'); // use ja as canonical
+
+    // 1. Trips with items in same region
+    final withItems = <Trip>[];
+    for (final trip in state.trips) {
+      final tripItems = state.items.where((i) => i.tripId == trip.id);
+      if (tripItems.any((i) => i.region == region)) withItems.add(trip);
+    }
+
+    // 2. Empty trips whose name matches this region (any locale)
+    final regionNames = _regionNames[region]?.values.toSet() ?? {};
+    final emptyMatching = state.trips.where((t) =>
+      t.country == country &&
+      state.items.where((i) => i.tripId == t.id).isEmpty &&
+      (regionNames.contains(t.name) || t.name.startsWith(regionNames.firstOrNull ?? ''))
+    ).toList();
+
+    // Combine without duplicates
+    final result = <Trip>[...withItems];
+    for (final t in emptyMatching) {
+      if (!result.any((r) => r.id == t.id)) result.add(t);
+    }
+
+    // If still empty, any same-country trip
+    if (result.isEmpty) {
+      result.addAll(state.trips.where((t) => t.country == country));
+    }
+
+    return result;
   }
 
   void addItem(Landmark landmark, {String? tripId, String locale = 'en'}) {
