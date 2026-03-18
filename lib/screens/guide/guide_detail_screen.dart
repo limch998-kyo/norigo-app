@@ -112,9 +112,17 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
         // Resolve from bundled data: coordinates + region
         final effectiveSlug = slug.isNotEmpty ? slug : name;
         final coords = LandmarkLocalizer.getCoordinates(slug: slug.isNotEmpty ? slug : null, name: name);
-        final resolvedRegion = LandmarkLocalizer.getRegion(slug: slug.isNotEmpty ? slug : null, name: name) ?? _guessRegion();
         final lat = coords?.$1 ?? 0.0;
         final lng = coords?.$2 ?? 0.0;
+        var resolvedRegion = LandmarkLocalizer.getRegion(slug: slug.isNotEmpty ? slug : null, name: name);
+        // Fallback: infer region from coordinates
+        if (resolvedRegion == null && lat != 0) {
+          if (lat > 36.0) resolvedRegion = 'kanto';
+          else if (lat > 33.5 && lat < 36.0) resolvedRegion = 'kansai';
+          else if (lat > 37.0 && lng < 128.0) resolvedRegion = 'seoul';
+          else if (lat > 34.5 && lat < 36.0 && lng > 128.5) resolvedRegion = 'busan';
+        }
+        resolvedRegion ??= _guessRegion();
 
         // Get locale-specific name
         final localizedName = LandmarkLocalizer.getLocalizedName(
