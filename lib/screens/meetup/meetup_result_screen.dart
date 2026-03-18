@@ -15,6 +15,7 @@ import '../../models/station.dart';
 import '../../widgets/mode_tabs.dart';
 import '../../widgets/share_buttons.dart';
 import '../../widgets/skeleton_loader.dart';
+import '../../config/booking_provider.dart';
 
 class MeetupResultScreen extends ConsumerStatefulWidget {
   const MeetupResultScreen({super.key});
@@ -305,11 +306,32 @@ class _StationCard extends StatelessWidget {
                 Row(children: [
                   Icon(Icons.restaurant, size: 16, color: AppTheme.primary),
                   const SizedBox(width: 6),
-                  Text(locale == 'ja' ? '周辺のお店 (${rec.venues.length}件)' : 'Nearby (${rec.venues.length})',
+                  Text(locale == 'ja' ? '周辺のお店 (${rec.venues.length}件)' : locale == 'ko' ? '주변 맛집 (${rec.venues.length}개)' : 'Nearby (${rec.venues.length})',
                     style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
                 ]),
                 const SizedBox(height: 8),
+                // ja → HotPepper cards, non-ja → HotPepper cards + Tabelog link
                 ...rec.venues.take(5).toList().asMap().entries.map((e) => _VenueCard(venue: e.value, locale: locale, index: e.key + 1)),
+
+                // Tabelog link for non-ja (matching web: ko/en/zh → Tabelog)
+                if (locale != 'ja') ...[
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton.icon(
+                      onPressed: () {
+                        final stationName = localNames[rec.station.id] ?? rec.station.localizedName(locale);
+                        final url = BookingProvider.buildTabelogUrl(stationName, locale);
+                        launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+                      },
+                      icon: const Icon(Icons.open_in_new, size: 14),
+                      label: Text(
+                        locale == 'ko' ? '타베로그에서 더 보기' : 'More on Tabelog',
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                    ),
+                  ),
+                ],
 
                 // Vote button (ja locale only, matching web)
                 if (locale == 'ja' && rec.venues.isNotEmpty) ...[

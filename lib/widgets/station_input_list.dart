@@ -94,7 +94,7 @@ class _StationInputListState extends State<StationInputList> {
 
   void _onSelect(int index, Station station) {
     widget.onSelect(index, station);
-    _getController(index).text = station.name;
+    _getController(index).text = station.localizedName(widget.locale);
     setState(() {
       _suggestions = [];
       _activeIndex = null;
@@ -159,7 +159,7 @@ class _StationInputListState extends State<StationInputList> {
           final stationChanged = (prevStation?.id != station?.id) || (prevStation?.name != station?.name);
           if (stationChanged) {
             if (station != null) {
-              controller.text = station.name;
+              controller.text = station.localizedName(widget.locale);
             } else {
               controller.text = '';
             }
@@ -259,7 +259,7 @@ class _StationInputListState extends State<StationInputList> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        s.name,
+                                        s.localizedName(widget.locale),
                                         style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
                                       ),
                                       if (s.lines.isNotEmpty)
