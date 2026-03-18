@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 /// Maps coordinates → multilingual names instantly (no API calls).
 class LandmarkLocalizer {
   static List<Map<String, dynamic>>? _allLandmarks;
+  static final Map<String, String> _slugToRegion = {};
 
   static Future<void> _load() async {
     if (_allLandmarks != null) return;
@@ -15,9 +16,12 @@ class LandmarkLocalizer {
         final list = jsonDecode(raw) as List<dynamic>;
         // Tag each landmark with its region
         for (final item in list) {
-          final map = item as Map<String, dynamic>;
+          final map = Map<String, dynamic>.from(item as Map);
           map['_region'] = region;
           _allLandmarks!.add(map);
+          // Also index by slug for fast region lookup
+          final slug = map['slug'] as String?;
+          if (slug != null) _slugToRegion[slug] = region;
         }
       } catch (_) {}
     }
@@ -120,6 +124,11 @@ class LandmarkLocalizer {
   /// Get the region for a landmark by slug or name
   static String? getRegion({String? slug, String? name}) {
     if (_allLandmarks == null) return null;
+
+    // Fast lookup by slug
+    if (slug != null && slug.isNotEmpty && _slugToRegion.containsKey(slug)) {
+      return _slugToRegion[slug];
+    }
 
     Map<String, dynamic>? entry;
     if (slug != null && slug.isNotEmpty) entry = _findBySlug(slug);
