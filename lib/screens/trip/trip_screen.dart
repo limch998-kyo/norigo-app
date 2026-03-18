@@ -60,6 +60,7 @@ class TripScreen extends ConsumerWidget {
               onRename: () => _showRenameDialog(context, notifier, trip, locale),
               onDelete: () => _showDeleteDialog(context, notifier, trip, locale),
               onRemoveItem: (slug, tripId) => notifier.removeItem(slug, tripId),
+              onAddSpot: () => _showAddSpotDialog(context, ref, trip, locale),
               onFindHotels: items.length >= 2 ? () {
                 final landmarks = notifier.getItemsAsLandmarks(trip.id);
                 final stayNotifier = ref.read(staySearchProvider.notifier);
@@ -108,6 +109,50 @@ class TripScreen extends ConsumerWidget {
         onPressed: () => _showCreateDialog(context, notifier, locale),
         child: const Icon(Icons.add),
       ),
+    );
+  }
+
+  void _showAddSpotDialog(BuildContext context, WidgetRef ref, Trip trip, String locale) {
+    final controller = TextEditingController();
+    final api = ref.read(apiClientProvider);
+    final notifier = ref.read(tripProvider.notifier);
+
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        List<Landmark> results = [];
+        return StatefulBuilder(builder: (ctx, setDialogState) {
+          return AlertDialog(
+            title: Text(locale == 'ja' ? 'スポットを追加' : locale == 'ko' ? '스팟 추가' : 'Add Spot'),
+            content: Column(mainAxisSize: MainAxisSize.min, children: [
+              TextField(
+                controller: controller,
+                decoration: InputDecoration(
+                  hintText: locale == 'ja' ? '観光地名を入力' : locale == 'ko' ? '관광지 이름 입력' : 'Enter landmark name',
+                ),
+                onChanged: (q) async {
+                  if (q.length < 2) return;
+                  final r = await api.searchLandmarks(q, locale: locale);
+                  setDialogState(() => results = r);
+                },
+              ),
+              const SizedBox(height: 8),
+              ...results.take(5).map((l) => ListTile(
+                dense: true,
+                title: Text(l.name, style: const TextStyle(fontSize: 13)),
+                onTap: () {
+                  notifier.addItem(l, tripId: trip.id, locale: locale);
+                  Navigator.pop(ctx);
+                },
+              )),
+            ]),
+            actions: [
+              TextButton(onPressed: () => Navigator.pop(ctx),
+                child: Text(locale == 'ja' ? 'キャンセル' : locale == 'ko' ? '취소' : 'Cancel')),
+            ],
+          );
+        });
+      },
     );
   }
 
@@ -234,6 +279,7 @@ class _TripCard extends StatelessWidget {
   final VoidCallback onRename;
   final VoidCallback onDelete;
   final VoidCallback? onFindHotels;
+  final VoidCallback? onAddSpot;
   final void Function(String slug, String tripId)? onRemoveItem;
 
   const _TripCard({
@@ -245,6 +291,7 @@ class _TripCard extends StatelessWidget {
     required this.onRename,
     required this.onDelete,
     this.onFindHotels,
+    this.onAddSpot,
     this.onRemoveItem,
   });
 
@@ -354,6 +401,19 @@ class _TripCard extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
+                  if (onAddSpot != null)
+                    TextButton.icon(
+                      onPressed: onAddSpot,
+                      icon: const Icon(Icons.add_location_alt, size: 16),
+                      label: Text(
+                        locale == 'ja'
+                            ? 'スポット追加'
+                            : locale == 'ko'
+                                ? '스팟 추가'
+                                : 'Add Spot',
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                    ),
                   if (onFindHotels != null)
                     TextButton.icon(
                       onPressed: onFindHotels,

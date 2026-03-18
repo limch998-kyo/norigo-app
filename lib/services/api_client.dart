@@ -37,9 +37,10 @@ class ApiClient {
 
   // ── Station Search ──
 
-  Future<List<Station>> searchStations(String query, {String? region}) async {
+  Future<List<Station>> searchStations(String query, {String? region, String? locale}) async {
     final params = <String, dynamic>{'q': query};
     if (region != null) params['region'] = region;
+    if (locale != null) params['locale'] = locale;
 
     final response = await _dio.get(
       AppConstants.stationSearchEndpoint,
@@ -158,6 +159,7 @@ class ApiClient {
     String? category,
     String? budget,
     List<String>? options,
+    String? locale,
   }) async {
     final response = await _dio.post(
       AppConstants.recommendEndpoint,
@@ -168,6 +170,7 @@ class ApiClient {
         if (category != null) 'category': category,
         if (budget != null) 'budget': budget,
         if (options != null && options.isNotEmpty) 'options': options,
+        if (locale != null) 'locale': locale,
       },
     );
     return MeetupResult.fromJson(response.data as Map<String, dynamic>);

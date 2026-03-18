@@ -36,17 +36,30 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
 
   void _saveSearch(BuildContext context, WidgetRef ref, StaySearchState state, String locale) {
     final savedNotifier = ref.read(savedSearchesProvider.notifier);
-    final alreadySaved = ref.read(savedSearchesProvider.notifier).hasSearch(state.landmarks, state.region);
-
-    if (alreadySaved) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(locale == 'ja' ? 'すでに保存済みです' : locale == 'ko' ? '이미 저장되어 있습니다' : 'Already saved'),
-      ));
-      return;
-    }
+    final existing = savedNotifier.findExisting(state.landmarks, state.region);
 
     // Build descriptive title from landmark names
     final title = state.landmarks.map((l) => l.name).join(' · ');
+
+    if (existing != null) {
+      // Update existing saved search with new parameters (budget, dates, mode)
+      savedNotifier.update(existing.id, SavedSearch(
+        id: existing.id,
+        title: existing.title, // keep user's custom title if renamed
+        landmarks: state.landmarks,
+        region: state.region,
+        mode: state.mode,
+        maxBudget: state.maxBudget,
+        checkIn: state.checkIn,
+        checkOut: state.checkOut,
+        savedAt: DateTime.now(),
+      ));
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(locale == 'ja' ? '保存した検索を更新しました' : locale == 'ko' ? '저장된 검색을 업데이트했습니다' : 'Saved search updated'),
+      ));
+      return;
+    }
 
     savedNotifier.add(SavedSearch(
       id: const Uuid().v4(),

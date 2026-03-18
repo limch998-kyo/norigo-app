@@ -139,6 +139,7 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
 
     try {
       final api = _ref.read(apiClientProvider);
+      final locale = _ref.read(localeProvider);
       final result = await api.getMeetupRecommendation(
         stationIds: filled.map((s) => s.id).toList(),
         mode: state.mode,
@@ -146,6 +147,7 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
         category: state.category,
         budget: state.budget,
         options: state.options.isNotEmpty ? state.options : null,
+        locale: locale,
       );
       state = state.copyWith(result: result, isLoading: false);
     } catch (e) {

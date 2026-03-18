@@ -61,7 +61,7 @@ class MeetupSearchScreen extends ConsumerWidget {
             const SizedBox(height: 8),
             StationInputList(
               stations: state.slots,
-              onSearch: (q) => api.searchStations(q, region: state.region),
+              onSearch: (q) => api.searchStations(q, region: state.region, locale: locale),
               onSelect: (index, station) => notifier.setStation(index, station),
               onRemove: (index) => notifier.removeSlot(index),
               onAdd: () => notifier.addSlot(),

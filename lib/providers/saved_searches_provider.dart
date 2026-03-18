@@ -96,6 +96,22 @@ class SavedSearchesNotifier extends StateNotifier<List<SavedSearch>> {
     _save();
   }
 
+  void update(String id, SavedSearch updated) {
+    state = state.map((s) => s.id == id ? updated : s).toList();
+    _save();
+  }
+
+  /// Find an existing saved search with the same landmarks and region
+  SavedSearch? findExisting(List<Landmark> landmarks, String region) {
+    final slugs = landmarks.map((l) => l.slug).toSet();
+    return state.cast<SavedSearch?>().firstWhere(
+      (s) => s!.region == region &&
+        s.landmarks.map((l) => l.slug).toSet().difference(slugs).isEmpty &&
+        slugs.difference(s.landmarks.map((l) => l.slug).toSet()).isEmpty,
+      orElse: () => null,
+    );
+  }
+
   void remove(String id) {
     state = state.where((s) => s.id != id).toList();
     _save();
