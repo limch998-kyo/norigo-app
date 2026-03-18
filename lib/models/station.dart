@@ -24,14 +24,25 @@ class Station {
   });
 
   factory Station.fromJson(Map<String, dynamic> json) {
+    final id = json['id'] as String;
+    var lat = (json['lat'] as num?)?.toDouble() ?? 0;
+    var lng = (json['lng'] as num?)?.toDouble() ?? 0;
+    // If API doesn't return coordinates, fill from bundled data
+    if (lat == 0 && lng == 0) {
+      final coords = StationLocalizer.getCoordinates(id);
+      if (coords != null) {
+        lat = coords.$1;
+        lng = coords.$2;
+      }
+    }
     return Station(
-      id: json['id'] as String,
+      id: id,
       name: json['name'] as String,
       nameEn: json['nameEn'] as String?,
       nameKo: json['nameKo'] as String?,
       nameZh: json['nameZh'] as String?,
-      lat: (json['lat'] as num?)?.toDouble() ?? 0,
-      lng: (json['lng'] as num?)?.toDouble() ?? 0,
+      lat: lat,
+      lng: lng,
       region: json['region'] as String? ?? 'kanto',
       lines: (json['lines'] as List<dynamic>?)
               ?.map((e) => e as String)
