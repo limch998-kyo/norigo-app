@@ -49,7 +49,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
       // Update existing saved search with new parameters (budget, dates, mode, landmarks)
       savedNotifier.update(existing.id, SavedSearch(
         id: existing.id,
-        title: existing.title, // keep user's custom title if renamed
+        title: title, // update title to reflect current landmarks
         landmarks: state.landmarks,
         region: state.region,
         mode: state.mode,
