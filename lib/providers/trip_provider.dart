@@ -128,9 +128,21 @@ class TripNotifier extends StateNotifier<TripState> {
   }
 
   String createTrip(String name, {String? country}) {
+    // Auto-number if same name exists
+    var finalName = name;
+    final existingNames = state.trips.map((t) => t.name).toSet();
+    if (existingNames.contains(name)) {
+      for (var i = 2; i <= 99; i++) {
+        final candidate = '$name $i';
+        if (!existingNames.contains(candidate)) {
+          finalName = candidate;
+          break;
+        }
+      }
+    }
     final trip = Trip(
       id: _uuid.v4(),
-      name: name,
+      name: finalName,
       country: country ?? state.country,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),

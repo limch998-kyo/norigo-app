@@ -154,8 +154,9 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
               label: widget.locale == 'ja' ? '旅行タブへ' : widget.locale == 'ko' ? '여행 탭으로' : 'Go to Trip',
               textColor: Colors.white,
               onPressed: () {
-                Navigator.of(context).popUntil((route) => route.isFirst);
+                // Switch tab first, then pop back
                 MainShell.globalSwitchTab?.call(3);
+                Navigator.of(context).popUntil((route) => route.isFirst);
               },
             ),
           ));
