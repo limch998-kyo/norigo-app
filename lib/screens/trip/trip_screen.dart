@@ -116,6 +116,9 @@ class TripScreen extends ConsumerWidget {
     final controller = TextEditingController();
     final api = ref.read(apiClientProvider);
     final notifier = ref.read(tripProvider.notifier);
+    // Determine search region from trip's country
+    final tripItems = ref.read(tripProvider).items.where((i) => i.tripId == trip.id);
+    final tripRegion = tripItems.isNotEmpty ? tripItems.first.region : (trip.country == 'korea' ? 'seoul' : 'kanto');
 
     showDialog(
       context: context,
@@ -133,7 +136,7 @@ class TripScreen extends ConsumerWidget {
                 ),
                 onChanged: (q) async {
                   if (q.length < 2) { setDialogState(() => results = []); return; }
-                  final r = await api.searchLandmarks(q, locale: locale);
+                  final r = await api.searchLandmarks(q, region: tripRegion, locale: locale);
                   setDialogState(() => results = r);
                 },
               ),
