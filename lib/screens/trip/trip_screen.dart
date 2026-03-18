@@ -635,7 +635,7 @@ class _SavedSearchesSection extends StatelessWidget {
                   if (search.checkIn != null && search.checkOut != null) {
                     notifier.setDates(search.checkIn, search.checkOut);
                   }
-                  // Switch to stay tab and search
+                  notifier.setSavedSearchId(search.id);
                   notifier.search();
                   onSwitchTab?.call(1);
                 },
@@ -678,8 +678,8 @@ class _SavedSearchesSection extends StatelessWidget {
                           notifier.setMode(search.mode);
                           if (search.maxBudget != null) notifier.setBudget(search.maxBudget!);
                           if (search.checkIn != null) notifier.setDates(search.checkIn, search.checkOut);
+                          notifier.setSavedSearchId(search.id);
                           notifier.search();
-                          // Switch to stay tab
                           onSwitchTab?.call(1);
                         },
                         icon: const Icon(Icons.search, size: 14),

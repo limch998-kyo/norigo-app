@@ -18,6 +18,8 @@ class StaySearchState {
   final String? error;
   final bool showSplit;
   final String stayStyle;
+  /// Track which saved search this was loaded from (for update instead of create)
+  final String? savedSearchId;
 
   const StaySearchState({
     this.slots = const [null, null],
@@ -31,6 +33,7 @@ class StaySearchState {
     this.error,
     this.showSplit = false,
     this.stayStyle = 'auto',
+    this.savedSearchId,
   });
 
   /// Only filled (non-null) landmarks
@@ -48,9 +51,11 @@ class StaySearchState {
     String? error,
     bool? showSplit,
     String? stayStyle,
+    String? savedSearchId,
     bool clearBudget = false,
     bool clearError = false,
     bool clearResult = false,
+    bool clearSavedSearchId = false,
   }) {
     return StaySearchState(
       slots: slots ?? this.slots,
@@ -64,6 +69,7 @@ class StaySearchState {
       error: clearError ? null : (error ?? this.error),
       showSplit: showSplit ?? this.showSplit,
       stayStyle: stayStyle ?? this.stayStyle,
+      savedSearchId: clearSavedSearchId ? null : (savedSearchId ?? this.savedSearchId),
     );
   }
 }
@@ -179,6 +185,10 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
 
   void toggleSplit() {
     state = state.copyWith(showSplit: !state.showSplit);
+  }
+
+  void setSavedSearchId(String? id) {
+    state = state.copyWith(savedSearchId: id, clearSavedSearchId: id == null);
   }
 
   void setStayStyle(String style) {
