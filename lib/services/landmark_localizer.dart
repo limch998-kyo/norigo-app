@@ -95,6 +95,12 @@ class LandmarkLocalizer {
     }
   }
 
+  /// Get all landmarks for a region (for popular spots)
+  static List<Map<String, dynamic>>? getLandmarksForRegion(String region) {
+    if (_allLandmarks == null) return null;
+    return _allLandmarks!.where((lm) => lm['_region'] == region).toList();
+  }
+
   /// Get coordinates for a landmark by slug or name
   static (double, double)? getCoordinates({String? slug, String? name}) {
     if (_allLandmarks == null) return null;
