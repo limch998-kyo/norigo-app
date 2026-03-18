@@ -49,10 +49,9 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
       // Update existing saved search with new parameters (budget, dates, mode, landmarks)
       savedNotifier.update(existing.id, SavedSearch(
         id: existing.id,
-        // Update title only if landmarks changed; keep user's custom title otherwise
-        title: existing.landmarks.map((l) => l.slug).toSet().difference(state.landmarks.map((l) => l.slug).toSet()).isEmpty &&
-               state.landmarks.map((l) => l.slug).toSet().difference(existing.landmarks.map((l) => l.slug).toSet()).isEmpty
-            ? existing.title : title,
+        // Keep existing title if loaded from saved search (user may have renamed)
+        // Only auto-generate title for brand new saves
+        title: (state.savedSearchId != null) ? existing.title : title,
         landmarks: state.landmarks,
         region: state.region,
         mode: state.mode,
