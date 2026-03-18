@@ -325,21 +325,23 @@ class _StationCard extends StatelessWidget {
                 if (locale == 'ja')
                   ...rec.venues.take(5).toList().asMap().entries.map((e) => _VenueCard(venue: e.value, locale: locale, index: e.key + 1))
                 else ...[
+                  // Google Maps restaurant search (matching web app)
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        final stationName = localNames[rec.station.id] ?? rec.station.localizedName(locale);
-                        final url = BookingProvider.buildTabelogUrl(stationName, locale);
+                        final stationName = localNames[rec.station.id] ?? rec.station.localizedName('ja');
+                        final query = Uri.encodeComponent('$stationName駅 レストラン');
+                        final url = 'https://www.google.com/maps/search/$query/@${rec.station.lat},${rec.station.lng},16z';
                         launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
                       },
-                      icon: const Icon(Icons.open_in_new, size: 16),
+                      icon: const Icon(Icons.map, size: 16),
                       label: Text(
-                        locale == 'ko' ? '타베로그에서 맛집 보기' : 'View restaurants on Tabelog',
+                        locale == 'ko' ? '주변 맛집 검색 (Google Maps)' : 'Search restaurants (Google Maps)',
                         style: const TextStyle(fontSize: 13),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFE4572E),
+                        backgroundColor: const Color(0xFF4285F4),
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
