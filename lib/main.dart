@@ -5,6 +5,7 @@ import 'app.dart';
 import 'providers/app_providers.dart';
 import 'services/line_localize.dart';
 import 'services/landmark_localizer.dart';
+import 'services/station_localizer.dart';
 import 'config/booking_provider.dart';
 
 void main() async {
@@ -21,6 +22,7 @@ void main() async {
   await Future.wait([
     LineLocalizer.preload(),
     LandmarkLocalizer.preload(),
+    StationLocalizer.preload(),
     BookingProvider.preloadAgodaIds(),
   ]);
 

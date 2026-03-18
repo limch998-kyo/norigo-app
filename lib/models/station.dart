@@ -1,3 +1,5 @@
+import '../services/station_localizer.dart';
+
 class Station {
   final String id;
   final String name;
@@ -47,13 +49,14 @@ class Station {
       };
 
   String localizedName(String locale) {
+    // Try model fields first, then bundled station names
     switch (locale) {
       case 'en':
-        return nameEn ?? name;
+        return nameEn ?? StationLocalizer.getLocalizedName(id, 'en') ?? name;
       case 'ko':
-        return nameKo ?? name;
+        return nameKo ?? StationLocalizer.getLocalizedName(id, 'ko') ?? name;
       case 'zh':
-        return nameZh ?? name;
+        return nameZh ?? StationLocalizer.getLocalizedName(id, 'zh') ?? name;
       default:
         return name;
     }
