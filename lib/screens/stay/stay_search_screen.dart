@@ -298,6 +298,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
               region: state.region,
               locale: locale,
               filledSlugs: state.landmarks.map((l) => l.slug).toSet(),
+              filledLandmarks: state.landmarks,
               onSelect: (landmark) => notifier.addLandmark(landmark),
             ),
             const SizedBox(height: 24),
@@ -322,9 +323,10 @@ class _PopularSpotCards extends StatefulWidget {
   final String region;
   final String locale;
   final Set<String> filledSlugs;
+  final List<Landmark> filledLandmarks;
   final void Function(Landmark) onSelect;
 
-  const _PopularSpotCards({required this.region, required this.locale, required this.filledSlugs, required this.onSelect});
+  const _PopularSpotCards({required this.region, required this.locale, required this.filledSlugs, this.filledLandmarks = const [], required this.onSelect});
 
   @override
   State<_PopularSpotCards> createState() => _PopularSpotCardsState();
@@ -397,7 +399,15 @@ class _PopularSpotCardsState extends State<_PopularSpotCards> {
     final bundled = LandmarkLocalizer.getLandmarksForRegion(widget.region);
     if (bundled != null && bundled.isNotEmpty) {
       return bundled
-        .where((lm) => !widget.filledSlugs.contains(lm['slug'] as String? ?? ''))
+        .where((lm) {
+          final slug = lm['slug'] as String? ?? '';
+          if (widget.filledSlugs.contains(slug)) return false;
+          // Also filter by proximity (~100m) to avoid near-duplicate spots
+          final lat = (lm['lat'] as num).toDouble();
+          final lng = (lm['lng'] as num).toDouble();
+          return !widget.filledLandmarks.any((f) =>
+            (f.lat - lat).abs() < 0.001 && (f.lng - lng).abs() < 0.001);
+        })
         .take(6)
         .map((lm) => <String, Object>{
           'slug': lm['slug'] as String? ?? '',
