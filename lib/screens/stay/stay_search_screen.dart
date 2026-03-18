@@ -148,7 +148,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
             _SuggestionChips(
               region: state.region,
               locale: locale,
-              filledNames: state.landmarks.map((l) => l.name).toSet(),
+              filledSlugs: state.landmarks.map((l) => l.slug).toSet(),
               onSelect: (landmark) => notifier.addLandmark(landmark),
             ),
             // Quick Plans (shown when no landmarks selected)
@@ -296,7 +296,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
             _PopularSpotCards(
               region: state.region,
               locale: locale,
-              filledNames: state.landmarks.map((l) => l.name).toSet(),
+              filledSlugs: state.landmarks.map((l) => l.slug).toSet(),
               onSelect: (landmark) => notifier.addLandmark(landmark),
             ),
             const SizedBox(height: 24),
@@ -320,10 +320,10 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
 class _PopularSpotCards extends StatefulWidget {
   final String region;
   final String locale;
-  final Set<String> filledNames;
+  final Set<String> filledSlugs;
   final void Function(Landmark) onSelect;
 
-  const _PopularSpotCards({required this.region, required this.locale, required this.filledNames, required this.onSelect});
+  const _PopularSpotCards({required this.region, required this.locale, required this.filledSlugs, required this.onSelect});
 
   @override
   State<_PopularSpotCards> createState() => _PopularSpotCardsState();
@@ -397,7 +397,7 @@ class _PopularSpotCardsState extends State<_PopularSpotCards> {
     // Filter out already-added spots
     final spots = allSpots.where((s) {
       final name = _getName(s);
-      return !widget.filledNames.contains(name);
+      return !widget.filledSlugs.contains(s['slug'] as String);
     }).toList();
 
     if (spots.isEmpty) return const SizedBox.shrink();
@@ -649,10 +649,10 @@ class _QuickSearchPlans extends StatelessWidget {
 class _SuggestionChips extends StatelessWidget {
   final String region;
   final String locale;
-  final Set<String> filledNames;
+  final Set<String> filledSlugs;
   final void Function(Landmark) onSelect;
 
-  const _SuggestionChips({required this.region, required this.locale, required this.filledNames, required this.onSelect});
+  const _SuggestionChips({required this.region, required this.locale, required this.filledSlugs, required this.onSelect});
 
   static const _popularByRegion = {
     'kanto': [
@@ -694,7 +694,7 @@ class _SuggestionChips extends StatelessWidget {
     final spots = _popularByRegion[region] ?? [];
     final suggestions = spots.where((s) {
       final name = _getName(s);
-      return !filledNames.contains(name);
+      return !filledSlugs.contains(s['slug'] as String? ?? name);
     }).take(8).toList();
 
     if (suggestions.isEmpty) return const SizedBox.shrink();
