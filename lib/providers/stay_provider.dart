@@ -100,10 +100,9 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
   }
 
   void addLandmark(Landmark landmark) {
-    // Prevent duplicates (by slug or coordinates match)
+    // Prevent duplicates by slug only (not coordinates — nearby spots can have similar coords)
     final filled = state.landmarks;
-    if (filled.any((l) => l.slug == landmark.slug ||
-        (l.lat == landmark.lat && l.lng == landmark.lng && l.lat != 0))) return;
+    if (filled.any((l) => l.slug == landmark.slug)) return;
 
     // Find first empty slot, or add new slot
     final newSlots = List<Landmark?>.from(state.slots);

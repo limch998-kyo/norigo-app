@@ -10,6 +10,7 @@ import '../../widgets/landmark_input_list.dart';
 import '../../widgets/mode_selector.dart';
 import '../../config/constants.dart';
 import '../spot/spot_detail_screen.dart';
+import '../../services/landmark_localizer.dart';
 
 class StaySearchScreen extends ConsumerStatefulWidget {
   const StaySearchScreen({super.key});
@@ -391,14 +392,37 @@ class _PopularSpotCardsState extends State<_PopularSpotCards> {
     ],
   };
 
+  List<Map<String, Object>> _getDynamicSpots() {
+    // Get up to 16 spots from bundled data, filtered by filled slugs, show 6
+    final bundled = LandmarkLocalizer.getLandmarksForRegion(widget.region);
+    if (bundled != null && bundled.isNotEmpty) {
+      return bundled
+        .where((lm) => !widget.filledSlugs.contains(lm['slug'] as String? ?? ''))
+        .take(6)
+        .map((lm) => <String, Object>{
+          'slug': lm['slug'] as String? ?? '',
+          'name': lm['name'] as String? ?? '',
+          'nameKo': lm['nameKo'] as String? ?? '',
+          'nameEn': lm['nameEn'] as String? ?? '',
+          'lat': (lm['lat'] as num).toDouble(),
+          'lng': (lm['lng'] as num).toDouble(),
+          'image': lm['slug'] as String? ?? '',
+          'desc': <String, String>{
+            'ja': (lm['description'] as Map?)?['ja'] as String? ?? '',
+            'ko': (lm['description'] as Map?)?['ko'] as String? ?? '',
+            'en': (lm['description'] as Map?)?['en'] as String? ?? '',
+          },
+        }).toList();
+    }
+    // Fallback to hardcoded
+    return (_spots[widget.region] ?? [])
+      .where((s) => !widget.filledSlugs.contains(s['slug'] as String))
+      .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final allSpots = _spots[widget.region] ?? [];
-    // Filter out already-added spots
-    final spots = allSpots.where((s) {
-      final name = _getName(s);
-      return !widget.filledSlugs.contains(s['slug'] as String);
-    }).toList();
+    final spots = _getDynamicSpots();
 
     if (spots.isEmpty) return const SizedBox.shrink();
 
