@@ -310,24 +310,27 @@ class _StationCard extends StatelessWidget {
                     style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
                 ]),
                 const SizedBox(height: 8),
-                // ja → HotPepper cards, non-ja → HotPepper cards + Tabelog link
-                ...rec.venues.take(5).toList().asMap().entries.map((e) => _VenueCard(venue: e.value, locale: locale, index: e.key + 1)),
-
-                // Tabelog link for non-ja (matching web: ko/en/zh → Tabelog)
-                if (locale != 'ja') ...[
-                  const SizedBox(height: 8),
+                // ja → HotPepper cards, non-ja → Tabelog link only
+                if (locale == 'ja')
+                  ...rec.venues.take(5).toList().asMap().entries.map((e) => _VenueCard(venue: e.value, locale: locale, index: e.key + 1))
+                else ...[
                   SizedBox(
                     width: double.infinity,
-                    child: OutlinedButton.icon(
+                    child: ElevatedButton.icon(
                       onPressed: () {
                         final stationName = localNames[rec.station.id] ?? rec.station.localizedName(locale);
                         final url = BookingProvider.buildTabelogUrl(stationName, locale);
                         launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
                       },
-                      icon: const Icon(Icons.open_in_new, size: 14),
+                      icon: const Icon(Icons.open_in_new, size: 16),
                       label: Text(
-                        locale == 'ko' ? '타베로그에서 더 보기' : 'More on Tabelog',
-                        style: const TextStyle(fontSize: 12),
+                        locale == 'ko' ? '타베로그에서 맛집 보기' : 'View restaurants on Tabelog',
+                        style: const TextStyle(fontSize: 13),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFE4572E),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
                     ),
                   ),
