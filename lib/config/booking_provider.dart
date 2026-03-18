@@ -151,11 +151,18 @@ class BookingProvider {
         }
         if (_agodaAreaIds != null) {
           final entry = _agodaAreaIds![stationId];
-          if (entry != null && entry['type'] == 'area') {
-            debugPrint('Agoda: area ID match for $stationId → area=${entry['id']}');
-            return '$base&area=${entry['id']}';
+          if (entry != null) {
+            final idType = entry['type'] as String;
+            final id = entry['id'];
+            if (idType == 'area') {
+              debugPrint('Agoda: area match for $stationId → area=$id');
+              return '$base&area=$id';
+            } else if (idType == 'poi') {
+              debugPrint('Agoda: poi match for $stationId → poi=$id');
+              return '$base&poi=$id';
+            }
           }
-          debugPrint('Agoda: no area ID for $stationId, falling back to lat/lng');
+          debugPrint('Agoda: no entry for $stationId, falling back to lat/lng');
         } else {
           debugPrint('Agoda: area IDs not loaded yet');
         }
