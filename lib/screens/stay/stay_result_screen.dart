@@ -36,13 +36,17 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
 
   void _saveSearch(BuildContext context, WidgetRef ref, StaySearchState state, String locale) {
     final savedNotifier = ref.read(savedSearchesProvider.notifier);
-    final existing = savedNotifier.findExisting(state.landmarks, state.region);
+    // First check by savedSearchId (loaded from saved search), then by landmarks
+    final existingById = state.savedSearchId != null
+        ? savedNotifier.state.cast<SavedSearch?>().firstWhere((s) => s!.id == state.savedSearchId, orElse: () => null)
+        : null;
+    final existing = existingById ?? savedNotifier.findExisting(state.landmarks, state.region);
 
     // Build descriptive title from landmark names
     final title = state.landmarks.map((l) => l.name).join(' · ');
 
     if (existing != null) {
-      // Update existing saved search with new parameters (budget, dates, mode)
+      // Update existing saved search with new parameters (budget, dates, mode, landmarks)
       savedNotifier.update(existing.id, SavedSearch(
         id: existing.id,
         title: existing.title, // keep user's custom title if renamed
