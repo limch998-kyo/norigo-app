@@ -43,3 +43,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+ScreenRecording_03-19-2026 13-16-34_1.MP4
+*.MP4
+AuthKey_*.p8

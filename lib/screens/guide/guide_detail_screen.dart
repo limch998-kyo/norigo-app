@@ -36,7 +36,11 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..addJavaScriptChannel('NorigoApp', onMessageReceived: _onMessage)
       ..setNavigationDelegate(NavigationDelegate(
-        onPageStarted: (_) => setState(() => _loading = true),
+        onPageStarted: (_) {
+          setState(() => _loading = true);
+          // Clear localStorage BEFORE React loads to prevent stale trip state
+          _controller.runJavaScript('try { localStorage.clear(); } catch(e) {}');
+        },
         onPageFinished: (_) {
           setState(() => _loading = false);
           _injectInterceptor();
@@ -56,11 +60,10 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
     })();
     ''');
 
-    // Clear web app's trip localStorage so buttons don't show stale "Added" state
+    // Clear ALL web app localStorage so trip buttons don't show stale "Added" state
     _controller.runJavaScript('''
     (function() {
-      try { localStorage.removeItem('norigo_trips'); } catch(e) {}
-      try { localStorage.removeItem('norigo_trip_items'); } catch(e) {}
+      try { localStorage.clear(); } catch(e) {}
     })();
     ''');
 
