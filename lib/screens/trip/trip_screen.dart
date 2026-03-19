@@ -456,43 +456,18 @@ class _TripCard extends ConsumerWidget {
                       color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                     ),
                   ),
-                  const Spacer(),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Wrap(
+                spacing: 4,
+                runSpacing: 4,
+                children: [
                   if (onAddSpot != null)
-                    TextButton.icon(
-                      onPressed: onAddSpot,
-                      icon: const Icon(Icons.add_location_alt, size: 16),
-                      label: Text(
-                        locale == 'ja'
-                            ? 'スポット追加'
-                            : locale == 'ko'
-                                ? '스팟 추가'
-                                : 'Add Spot',
-                        style: const TextStyle(fontSize: 12),
-                      ),
-                    ),
-                  TextButton.icon(
-                    onPressed: () => _showDateDialog(context, ref, trip, locale),
-                    icon: const Icon(Icons.calendar_month, size: 16),
-                    label: Text(
-                      trip.checkIn != null
-                        ? (locale == 'ja' ? '日程変更' : locale == 'ko' ? '날짜 변경' : 'Change dates')
-                        : (locale == 'ja' ? '日程設定' : locale == 'ko' ? '날짜 설정' : 'Set dates'),
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                  ),
+                    _CompactButton(icon: Icons.add_location_alt, label: locale == 'ja' ? 'スポット追加' : locale == 'ko' ? '스팟 추가' : 'Add Spot', onTap: onAddSpot!),
+                  _CompactButton(icon: Icons.calendar_month, label: trip.checkIn != null ? (locale == 'ja' ? '日程変更' : locale == 'ko' ? '날짜 변경' : 'Dates') : (locale == 'ja' ? '日程設定' : locale == 'ko' ? '날짜 설정' : 'Set dates'), onTap: () => _showDateDialog(context, ref, trip, locale)),
                   if (onFindHotels != null)
-                    TextButton.icon(
-                      onPressed: onFindHotels,
-                      icon: const Icon(Icons.hotel, size: 16),
-                      label: Text(
-                        locale == 'ja'
-                            ? 'ホテルを探す'
-                            : locale == 'ko'
-                                ? '호텔 찾기'
-                                : 'Find Hotels',
-                        style: const TextStyle(fontSize: 12),
-                      ),
-                    ),
+                    _CompactButton(icon: Icons.hotel, label: locale == 'ja' ? 'ホテル検索' : locale == 'ko' ? '호텔 찾기' : 'Hotels', onTap: onFindHotels!),
                 ],
               ),
             ],
@@ -822,6 +797,32 @@ String localizedTripName(String storedName, String locale) {
   final mapped = tripNameMap[storedName];
   if (mapped != null) return mapped[locale] ?? mapped['en'] ?? storedName;
   return storedName;
+}
+
+class _CompactButton extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+  const _CompactButton({required this.icon, required this.label, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: AppTheme.border),
+        ),
+        child: Row(mainAxisSize: MainAxisSize.min, children: [
+          Icon(icon, size: 13, color: AppTheme.primary),
+          const SizedBox(width: 4),
+          Text(label, style: TextStyle(fontSize: 11, color: AppTheme.primary, fontWeight: FontWeight.w500)),
+        ]),
+      ),
+    );
+  }
 }
 
 class _EmptyState extends StatelessWidget {
