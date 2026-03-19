@@ -62,6 +62,8 @@ class TripScreen extends ConsumerWidget {
               onRemoveItem: (slug, tripId) => notifier.removeItem(slug, tripId),
               onAddSpot: () => _showAddSpotDialog(context, ref, trip, locale),
               onFindHotels: items.length >= 2 ? () {
+                // Read latest trip state (dates may have been updated after widget built)
+                final latestTrip = ref.read(tripProvider).trips.firstWhere((t) => t.id == trip.id, orElse: () => trip);
                 final landmarks = notifier.getItemsAsLandmarks(trip.id);
                 final stayNotifier = ref.read(staySearchProvider.notifier);
                 stayNotifier.reset();
@@ -70,8 +72,8 @@ class TripScreen extends ConsumerWidget {
                 final isKorea = ['seoul', 'busan'].contains(landmarks.firstOrNull?.region);
                 final budget = isKorea ? 'under35000' : (locale == 'ja' ? 'under20000' : 'under30000');
                 stayNotifier.setBudget(budget);
-                if (trip.checkIn != null && trip.checkOut != null) {
-                  stayNotifier.setDates(trip.checkIn!, trip.checkOut!);
+                if (latestTrip.checkIn != null && latestTrip.checkOut != null) {
+                  stayNotifier.setDates(latestTrip.checkIn!, latestTrip.checkOut!);
                 } else {
                   final checkIn = DateTime.now().add(const Duration(days: 30));
                   stayNotifier.setDates(checkIn.toIso8601String().substring(0, 10),
