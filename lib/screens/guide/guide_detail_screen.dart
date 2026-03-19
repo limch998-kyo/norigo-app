@@ -38,8 +38,6 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
       ..setNavigationDelegate(NavigationDelegate(
         onPageStarted: (_) {
           setState(() => _loading = true);
-          // Clear localStorage BEFORE React loads to prevent stale trip state
-          _controller.runJavaScript('try { localStorage.clear(); } catch(e) {}');
         },
         onPageFinished: (_) {
           setState(() => _loading = false);
@@ -60,10 +58,20 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
     })();
     ''');
 
-    // Clear ALL web app localStorage so trip buttons don't show stale "Added" state
+    // Clear web app's trip data and reset button UI
     _controller.runJavaScript('''
     (function() {
-      try { localStorage.clear(); } catch(e) {}
+      try {
+        localStorage.removeItem('norigo_trips');
+        // Reset all "Added" buttons back to "Add to trip"
+        document.querySelectorAll('button').forEach(function(btn) {
+          var text = btn.textContent || '';
+          if (text.indexOf('追加済み') >= 0 || text.indexOf('추가됨') >= 0 || text.indexOf('Added') >= 0) {
+            btn.disabled = false;
+            btn.style.opacity = '1';
+          }
+        });
+      } catch(e) {}
     })();
     ''');
 
