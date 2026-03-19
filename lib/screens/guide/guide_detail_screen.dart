@@ -76,25 +76,18 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
     ''');
 
     // Capture phase listener — fires BEFORE React's handler
-    // Prevents web app from handling the click (stops localStorage save)
+    // Does NOT block React — just sends data to Flutter in parallel
     _controller.runJavaScript('''
     (function() {
       if (window._norigoIntercepted) return;
       window._norigoIntercepted = true;
 
       document.addEventListener('click', function(e) {
-        // Find closest button
         var btn = e.target.closest('button');
         if (!btn) return;
 
         var text = btn.textContent || '';
-        // Check if this is "Add to trip" button
-        if (text.indexOf('\u65C5\u884C\u306B\u8FFD\u52A0') >= 0 || text.indexOf('\uC5EC\uD589\uC5D0 \uCD94\uAC00') >= 0 || text.indexOf('Add to trip') >= 0 || text.indexOf('\u6DFB\u52A0\u5230\u884C\u7A0B') >= 0) {
-          // Block web app from handling this click
-          e.preventDefault();
-          e.stopImmediatePropagation();
-
-          // Extract spot data from parent card
+        if (text.indexOf('旅行に追加') >= 0 || text.indexOf('여행에 추가') >= 0 || text.indexOf('Add to trip') >= 0 || text.indexOf('添加到行程') >= 0) {
           var card = btn.closest('.my-6, [class*="my-6"]');
           if (!card) card = btn.parentElement && btn.parentElement.parentElement;
 
@@ -103,13 +96,12 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
 
           if (card) {
             var link = card.querySelector('a[href*="/spot/"]');
-            if (link) slug = link.getAttribute('href').replace(/.*\/spot\//, '');
+            if (link) slug = link.getAttribute('href').replace(/.*\\/spot\\//, '');
             var h3 = card.querySelector('h3');
             if (h3) name = h3.textContent.trim();
           }
 
           if (name) {
-            // Send to Flutter only — web app won't save to localStorage
             try {
               NorigoApp.postMessage(JSON.stringify({
                 action: 'addToTrip',
@@ -119,7 +111,7 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
             } catch(e) {}
           }
         }
-      }, true);  // true = capture phase = fires BEFORE React
+      }, true);
     })();
     ''');
   }
