@@ -315,28 +315,24 @@ class _TripCard extends ConsumerWidget {
 
   void _showDateDialog(BuildContext context, WidgetRef ref, Trip trip, String locale) async {
     final now = DateTime.now();
-    final checkIn = await showDatePicker(
+    final initialRange = (trip.checkIn != null && trip.checkOut != null)
+        ? DateTimeRange(start: DateTime.parse(trip.checkIn!), end: DateTime.parse(trip.checkOut!))
+        : DateTimeRange(start: now.add(const Duration(days: 30)), end: now.add(const Duration(days: 33)));
+
+    final picked = await showDateRangePicker(
       context: context,
-      initialDate: trip.checkIn != null ? DateTime.parse(trip.checkIn!) : now.add(const Duration(days: 30)),
+      initialDateRange: initialRange,
       firstDate: now,
       lastDate: now.add(const Duration(days: 365)),
-      helpText: locale == 'ja' ? 'チェックイン日' : locale == 'ko' ? '체크인 날짜' : 'Check-in date',
+      helpText: locale == 'ja' ? 'チェックイン〜チェックアウト' : locale == 'ko' ? '체크인 ~ 체크아웃' : 'Check-in ~ Check-out',
+      saveText: locale == 'ja' ? '設定' : locale == 'ko' ? '설정' : 'Set',
     );
-    if (checkIn == null || !context.mounted) return;
-
-    final checkOut = await showDatePicker(
-      context: context,
-      initialDate: trip.checkOut != null ? DateTime.parse(trip.checkOut!) : checkIn.add(const Duration(days: 3)),
-      firstDate: checkIn.add(const Duration(days: 1)),
-      lastDate: checkIn.add(const Duration(days: 30)),
-      helpText: locale == 'ja' ? 'チェックアウト日' : locale == 'ko' ? '체크아웃 날짜' : 'Check-out date',
-    );
-    if (checkOut == null) return;
+    if (picked == null) return;
 
     ref.read(tripProvider.notifier).setTripDates(
       trip.id,
-      checkIn.toIso8601String().substring(0, 10),
-      checkOut.toIso8601String().substring(0, 10),
+      picked.start.toIso8601String().substring(0, 10),
+      picked.end.toIso8601String().substring(0, 10),
     );
   }
 
