@@ -2,6 +2,8 @@ class Trip {
   final String id;
   final String name;
   final String? country;
+  final String? checkIn;
+  final String? checkOut;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -9,6 +11,8 @@ class Trip {
     required this.id,
     required this.name,
     this.country,
+    this.checkIn,
+    this.checkOut,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -18,6 +22,8 @@ class Trip {
       id: json['id'] as String,
       name: json['name'] as String,
       country: json['country'] as String?,
+      checkIn: json['checkIn'] as String?,
+      checkOut: json['checkOut'] as String?,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
     );
@@ -27,15 +33,19 @@ class Trip {
         'id': id,
         'name': name,
         'country': country,
+        'checkIn': checkIn,
+        'checkOut': checkOut,
         'createdAt': createdAt.toIso8601String(),
         'updatedAt': updatedAt.toIso8601String(),
       };
 
-  Trip copyWith({String? name, String? country}) {
+  Trip copyWith({String? name, String? country, String? checkIn, String? checkOut}) {
     return Trip(
       id: id,
       name: name ?? this.name,
       country: country ?? this.country,
+      checkIn: checkIn ?? this.checkIn,
+      checkOut: checkOut ?? this.checkOut,
       createdAt: createdAt,
       updatedAt: DateTime.now(),
     );

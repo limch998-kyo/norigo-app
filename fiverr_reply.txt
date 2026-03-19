@@ -1,0 +1,22 @@
+Hi Kefayatullah,
+
+Setup is complete! All 177 countries added and testers CSV uploaded (109 testers total including my own beta testers).
+
+Here is my testing link:
+https://play.google.com/apps/testing/app.norigo.norigo_app
+
+App details:
+- Free app, no login required
+- No in-app purchases or subscriptions
+- Supports 4 languages (Japanese, Korean, English, Chinese) - changes based on device language
+
+Key features:
+1. Hotel area search (enter landmarks, find best hotel area)
+2. Meetup station finder (enter stations, find meeting point)
+3. Trip planning (save spots, manage trips)
+4. Travel guides
+5. Language switching in Settings
+
+No special test accounts needed. Please let me know when testers start joining.
+
+Thanks!

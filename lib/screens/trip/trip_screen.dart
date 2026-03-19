@@ -70,9 +70,13 @@ class TripScreen extends ConsumerWidget {
                 final isKorea = ['seoul', 'busan'].contains(landmarks.firstOrNull?.region);
                 final budget = isKorea ? 'under35000' : (locale == 'ja' ? 'under20000' : 'under30000');
                 stayNotifier.setBudget(budget);
-                final checkIn = DateTime.now().add(const Duration(days: 30));
-                stayNotifier.setDates(checkIn.toIso8601String().substring(0, 10),
-                  checkIn.add(const Duration(days: 3)).toIso8601String().substring(0, 10));
+                if (trip.checkIn != null && trip.checkOut != null) {
+                  stayNotifier.setDates(trip.checkIn!, trip.checkOut!);
+                } else {
+                  final checkIn = DateTime.now().add(const Duration(days: 30));
+                  stayNotifier.setDates(checkIn.toIso8601String().substring(0, 10),
+                    checkIn.add(const Duration(days: 3)).toIso8601String().substring(0, 10));
+                }
                 onSwitchTab?.call(1);
               } : null,
             );
@@ -284,7 +288,7 @@ class TripScreen extends ConsumerWidget {
   }
 }
 
-class _TripCard extends StatelessWidget {
+class _TripCard extends ConsumerWidget {
   final Trip trip;
   final List<TripItem> items;
   final bool isActive;
@@ -309,8 +313,35 @@ class _TripCard extends StatelessWidget {
     this.onRemoveItem,
   });
 
+  void _showDateDialog(BuildContext context, WidgetRef ref, Trip trip, String locale) async {
+    final now = DateTime.now();
+    final checkIn = await showDatePicker(
+      context: context,
+      initialDate: trip.checkIn != null ? DateTime.parse(trip.checkIn!) : now.add(const Duration(days: 30)),
+      firstDate: now,
+      lastDate: now.add(const Duration(days: 365)),
+      helpText: locale == 'ja' ? 'チェックイン日' : locale == 'ko' ? '체크인 날짜' : 'Check-in date',
+    );
+    if (checkIn == null || !context.mounted) return;
+
+    final checkOut = await showDatePicker(
+      context: context,
+      initialDate: trip.checkOut != null ? DateTime.parse(trip.checkOut!) : checkIn.add(const Duration(days: 3)),
+      firstDate: checkIn.add(const Duration(days: 1)),
+      lastDate: checkIn.add(const Duration(days: 30)),
+      helpText: locale == 'ja' ? 'チェックアウト日' : locale == 'ko' ? '체크아웃 날짜' : 'Check-out date',
+    );
+    if (checkOut == null) return;
+
+    ref.read(tripProvider.notifier).setTripDates(
+      trip.id,
+      checkIn.toIso8601String().substring(0, 10),
+      checkOut.toIso8601String().substring(0, 10),
+    );
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
 
     return Card(
@@ -376,6 +407,17 @@ class _TripCard extends StatelessWidget {
                   ),
                 ],
               ),
+              if (trip.checkIn != null) ...[
+                const SizedBox(height: 4),
+                Row(children: [
+                  Icon(Icons.calendar_today, size: 14, color: AppTheme.mutedForeground),
+                  const SizedBox(width: 6),
+                  Text(
+                    '${trip.checkIn} → ${trip.checkOut ?? "?"}',
+                    style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground),
+                  ),
+                ]),
+              ],
               const SizedBox(height: 8),
               // Show items inline
               if (items.isNotEmpty) ...[
@@ -428,6 +470,16 @@ class _TripCard extends StatelessWidget {
                         style: const TextStyle(fontSize: 12),
                       ),
                     ),
+                  TextButton.icon(
+                    onPressed: () => _showDateDialog(context, ref, trip, locale),
+                    icon: const Icon(Icons.calendar_month, size: 16),
+                    label: Text(
+                      trip.checkIn != null
+                        ? (locale == 'ja' ? '日程変更' : locale == 'ko' ? '날짜 변경' : 'Change dates')
+                        : (locale == 'ja' ? '日程設定' : locale == 'ko' ? '날짜 설정' : 'Set dates'),
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  ),
                   if (onFindHotels != null)
                     TextButton.icon(
                       onPressed: onFindHotels,

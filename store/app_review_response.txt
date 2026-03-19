@@ -1,0 +1,29 @@
+2. App Purpose:
+Nori GO! is a travel planning app for Japan (Tokyo/Kanto, Osaka/Kansai) and Korea (Seoul, Busan). It solves the problem of finding the optimal hotel area when visiting multiple tourist landmarks. Users enter 2-10 landmarks they want to visit, and the app calculates the best hotel area that minimizes travel time to all of them. It also helps groups of friends find the fairest meetup station based on everyone's departure stations. The app includes trip planning features and 30+ travel area guides.
+
+3. Instructions for accessing main features:
+No login or account is required. All features are immediately accessible:
+- Tab 1 (Home): Landing page with quick plans and popular spots
+- Tab 2 (Hotel): Enter 2+ landmarks (e.g., "Shibuya", "Asakusa") → tap Search → view recommended hotel areas with maps, travel times, and hotel prices
+- Tab 3 (Meetup): Enter 2+ train stations → tap Search → view recommended meetup station with route visualization
+- Tab 4 (Trip): Manage saved trips and saved searches. Add spots via search dialog.
+- Tab 5 (Guide): Browse 30+ travel area guides. Tap any guide to view detailed content.
+- Settings (gear icon on home screen): Change language (Japanese, Korean, English, Chinese)
+
+4. External services used:
+- norigo.app API (our own backend): Hotel area recommendations, meetup station calculations, landmark/station search, hotel pricing data
+- Agoda LT API (via our backend): Real-time hotel prices for Korean locale users
+- Google Places API (via our backend): Landmark search fallback
+- HotPepper API (via our backend): Restaurant data for Japanese locale meetup results
+- CARTO tile server: Map tiles for in-app maps (flutter_map)
+- WebView loading norigo.app: Travel guide content display
+
+5. Regional differences:
+The app functions consistently across all regions. Content differences based on user's device language setting:
+- Japanese: Meetup feature prioritized on home screen, HotPepper restaurant cards in meetup results, Jalan hotel links for Japan searches
+- Korean: Hotel search prioritized on home screen, Agoda hotel cards with real-time prices, KakaoTalk sharing
+- English/Chinese: Hotel search prioritized, Booking.com hotel links, Google Maps restaurant search
+All core features (hotel search, meetup search, trip planning, guides) are available in all languages.
+
+6. Regulated industry:
+This app does not operate in a regulated industry. It is a travel planning tool that provides hotel area recommendations and meetup station suggestions. Hotel bookings are handled by external partners (Agoda, Booking.com, Jalan) through their own websites. No financial transactions occur within the app.
