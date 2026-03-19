@@ -20,35 +20,36 @@ class StaySearchScreen extends ConsumerStatefulWidget {
 }
 
 class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
-  late DateTime _checkIn;
-  late DateTime _checkOut;
   String _stayStyle = 'auto'; // auto = let API decide
 
   @override
   void initState() {
     super.initState();
-    // Default: 1 month from now, 3 nights
-    _checkIn = DateTime.now().add(const Duration(days: 30));
-    _checkOut = _checkIn.add(const Duration(days: 3));
-
-    // Set dates in provider after build
+    // Set defaults in provider after build (only if not already set)
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final notifier = ref.read(staySearchProvider.notifier);
       final state = ref.read(staySearchProvider);
       if (state.checkIn == null) {
+        final checkIn = DateTime.now().add(const Duration(days: 30));
         notifier.setDates(
-          _checkIn.toIso8601String().substring(0, 10),
-          _checkOut.toIso8601String().substring(0, 10),
+          checkIn.toIso8601String().substring(0, 10),
+          checkIn.add(const Duration(days: 3)).toIso8601String().substring(0, 10),
         );
-      } else {
-        _checkIn = DateTime.parse(state.checkIn!);
-        _checkOut = DateTime.parse(state.checkOut!);
       }
-      // Set default budget: under30000 (¥30,000)
       if (state.maxBudget == null) {
         notifier.setBudget('under30000');
       }
     });
+  }
+
+  DateTime get _checkIn {
+    final ci = ref.read(staySearchProvider).checkIn;
+    return ci != null ? DateTime.parse(ci) : DateTime.now().add(const Duration(days: 30));
+  }
+
+  DateTime get _checkOut {
+    final co = ref.read(staySearchProvider).checkOut;
+    return co != null ? DateTime.parse(co) : _checkIn.add(const Duration(days: 3));
   }
 
   Future<void> _pickDate(BuildContext context, bool isCheckIn) async {
@@ -61,21 +62,17 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
     );
     if (picked == null) return;
 
-    setState(() {
-      if (isCheckIn) {
-        _checkIn = picked;
-        if (_checkOut.isBefore(picked)) {
-          _checkOut = picked.add(const Duration(days: 1));
-        }
-      } else {
-        _checkOut = picked;
-      }
-    });
+    final notifier = ref.read(staySearchProvider.notifier);
+    final pickedStr = picked.toIso8601String().substring(0, 10);
 
-    ref.read(staySearchProvider.notifier).setDates(
-      _checkIn.toIso8601String().substring(0, 10),
-      _checkOut.toIso8601String().substring(0, 10),
-    );
+    if (isCheckIn) {
+      final newCheckOut = _checkOut.isBefore(picked)
+          ? picked.add(const Duration(days: 1)).toIso8601String().substring(0, 10)
+          : _checkOut.toIso8601String().substring(0, 10);
+      notifier.setDates(pickedStr, newCheckOut);
+    } else {
+      notifier.setDates(_checkIn.toIso8601String().substring(0, 10), pickedStr);
+    }
   }
 
   String _formatDate(DateTime date) {
