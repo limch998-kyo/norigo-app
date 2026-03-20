@@ -18,6 +18,7 @@ import '../../widgets/share_buttons.dart';
 import '../../widgets/skeleton_loader.dart';
 import '../../services/api_client.dart';
 import '../../providers/trip_provider.dart';
+import '../../models/trip.dart';
 import 'package:uuid/uuid.dart';
 import '../../services/line_localize.dart';
 import '../../config/constants.dart';
@@ -34,19 +35,42 @@ class StayResultScreen extends ConsumerStatefulWidget {
 class _StayResultScreenState extends ConsumerState<StayResultScreen> {
   int _expandedIndex = 0;
 
+  /// Find the linked trip: by savedSearchId (tripId) first, then by landmark match
+  Trip? _findLinkedTrip(WidgetRef ref, StaySearchState state) {
+    final tripNotifier = ref.read(tripProvider.notifier);
+    final trips = ref.read(tripProvider).trips;
+    // 1. Check savedSearchId (set when search originated from a trip)
+    if (state.savedSearchId != null) {
+      try {
+        return trips.firstWhere((t) => t.id == state.savedSearchId);
+      } catch (_) {}
+    }
+    // 2. Fallback: match by landmarks
+    return tripNotifier.findTripForLandmarks(state.landmarks.map((l) => l.slug).toList());
+  }
+
   void _saveSearch(BuildContext context, WidgetRef ref, StaySearchState state, String locale) {
     final tripNotifier = ref.read(tripProvider.notifier);
-    final slugs = state.landmarks.map((l) => l.slug).toList();
-    final existing = tripNotifier.findTripForLandmarks(slugs);
+    final stayNotifier = ref.read(staySearchProvider.notifier);
+    final existing = _findLinkedTrip(ref, state);
 
     if (existing != null) {
-      // Update existing trip with search settings
+      // Update existing trip: items + search settings
+      // Remove old items and re-add current landmarks
+      final oldItems = ref.read(tripProvider).items.where((i) => i.tripId == existing.id).toList();
+      for (final item in oldItems) {
+        tripNotifier.removeItem(item.slug, existing.id);
+      }
+      for (final lm in state.landmarks) {
+        tripNotifier.addItem(lm, tripId: existing.id, locale: locale);
+      }
       tripNotifier.saveSearchToTrip(existing.id,
         mode: state.mode,
         maxBudget: state.maxBudget,
         checkIn: state.checkIn,
         checkOut: state.checkOut,
       );
+      stayNotifier.setSavedSearchId(existing.id);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(tr(locale, ja: '旅行プランを更新しました', ko: '여행 플랜을 업데이트했습니다', en: 'Trip updated', zh: '行程已更新')),
       ));
@@ -54,7 +78,6 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
       // Create new trip from search
       final title = state.landmarks.map((l) => l.name).join(' · ');
       final tripId = tripNotifier.createTrip(title, country: TripNotifier.regionCountry(state.region));
-      // Add landmarks as trip items
       for (final lm in state.landmarks) {
         tripNotifier.addItem(lm, tripId: tripId, locale: locale);
       }
@@ -64,6 +87,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
         checkIn: state.checkIn,
         checkOut: state.checkOut,
       );
+      stayNotifier.setSavedSearchId(tripId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(tr(locale, ja: '旅行プランに保存しました', ko: '여행 플랜에 저장했습니다', en: 'Saved to trip', zh: '已保存到行程')),
       ));
@@ -121,7 +145,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
         actions: [
           // Save/update trip button
           Builder(builder: (ctx) {
-            final isSaved = ref.watch(tripProvider.notifier).findTripForLandmarks(state.landmarks.map((l) => l.slug).toList()) != null;
+            final isSaved = _findLinkedTrip(ref, state) != null;
             return IconButton(
               icon: Icon(isSaved ? Icons.sync : Icons.bookmark_outline, size: 20,
                 color: isSaved ? AppTheme.primary : null),
@@ -241,7 +265,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
           ),
           // Save/update trip prompt
           Builder(builder: (ctx) {
-            final isSaved = ref.watch(tripProvider.notifier).findTripForLandmarks(state.landmarks.map((l) => l.slug).toList()) != null;
+            final isSaved = _findLinkedTrip(ref, state) != null;
             return Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
               child: SizedBox(
