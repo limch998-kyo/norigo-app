@@ -358,64 +358,43 @@ class _SplitResultsList extends StatefulWidget {
 
 class _SplitResultsListState extends State<_SplitResultsList> {
   static const _defaultVisible = 2;
-  // Track which clusters are expanded to show all results
   final Set<int> _expandedClusters = {};
-  final ScrollController _scrollController = ScrollController();
-  final Map<int, GlobalKey> _clusterKeys = {};
   int _activeCluster = 0;
 
   @override
-  void initState() {
-    super.initState();
-    for (var i = 0; i < widget.clusters.length; i++) {
-      _clusterKeys[i] = GlobalKey();
-    }
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _scrollToCluster(int index) {
-    setState(() => _activeCluster = index);
-    final key = _clusterKeys[index];
-    if (key?.currentContext != null) {
-      Scrollable.ensureVisible(
-        key!.currentContext!,
-        duration: const Duration(milliseconds: 400),
-        curve: Curves.easeInOut,
-        alignmentPolicy: ScrollPositionAlignmentPolicy.explicit,
-      );
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final cluster = widget.clusters[_activeCluster];
+    final isClusterExpanded = _expandedClusters.contains(_activeCluster);
+    final visibleAreas = isClusterExpanded ? cluster.areas : cluster.areas.take(_defaultVisible).toList();
+    final hasMore = cluster.areas.length > _defaultVisible;
+
+    // Calculate globalIndex offset for active cluster
     int globalIndex = 0;
-    final theme = Theme.of(context);
+    for (var i = 0; i < _activeCluster; i++) {
+      globalIndex += widget.clusters[i].areas.length;
+    }
+    final startGlobalIndex = globalIndex;
 
     return Column(children: [
-      // Area tabs (sticky at top)
+      // Area toggle tabs
       Container(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
         child: Row(
           children: widget.clusters.asMap().entries.map((e) {
             final ci = e.key;
-            final cluster = e.value;
+            final c = e.value;
             final isActive = _activeCluster == ci;
             final color = ci == 0 ? AppTheme.primary : AppTheme.orange;
             return Expanded(child: Padding(
               padding: EdgeInsets.only(right: ci < widget.clusters.length - 1 ? 8 : 0),
               child: GestureDetector(
-                onTap: () => _scrollToCluster(ci),
+                onTap: () => setState(() => _activeCluster = ci),
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   decoration: BoxDecoration(
                     color: isActive ? color.withValues(alpha: 0.1) : Colors.transparent,
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: isActive ? color : AppTheme.border),
+                    border: Border.all(color: isActive ? color : AppTheme.border, width: isActive ? 1.5 : 1),
                   ),
                   child: Column(children: [
                     Container(
@@ -425,12 +404,17 @@ class _SplitResultsListState extends State<_SplitResultsList> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      cluster.landmarks.join(' · '),
+                      c.landmarks.join(' · '),
                       style: TextStyle(fontSize: 10, fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
                         color: isActive ? color : AppTheme.mutedForeground),
                       textAlign: TextAlign.center,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      '${c.areas.length}${tr(widget.locale, ja: '件', ko: '개', en: ' results', zh: '个')}',
+                      style: TextStyle(fontSize: 9, color: isActive ? color : AppTheme.mutedForeground),
                     ),
                   ]),
                 ),
@@ -439,123 +423,67 @@ class _SplitResultsListState extends State<_SplitResultsList> {
           }).toList(),
         ),
       ),
-      // Scrollable area list
+      // Active cluster's area cards
       Expanded(child: ListView(
-        controller: _scrollController,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         children: [
-          ...widget.clusters.asMap().entries.expand((clusterEntry) {
-          final ci = clusterEntry.key;
-          final cluster = clusterEntry.value;
-          final isClusterExpanded = _expandedClusters.contains(ci);
-          final visibleAreas = isClusterExpanded ? cluster.areas : cluster.areas.take(_defaultVisible).toList();
-          final hasMore = cluster.areas.length > _defaultVisible;
-
-          // Need to track globalIndex for all areas, not just visible ones
-          final startGlobalIndex = globalIndex;
-
-          return [
-            // Cluster header
+          ...(() {
+            final clusterLandmarkNames = cluster.landmarks.map((n) => n.toLowerCase()).toSet();
+            final clusterLandmarks = widget.landmarks.where((l) =>
+              clusterLandmarkNames.contains(l.name.toLowerCase()) ||
+              clusterLandmarkNames.contains(l.slug.toLowerCase())
+            ).toList();
+            final effectiveLandmarks = clusterLandmarks.isNotEmpty ? clusterLandmarks : widget.landmarks;
+            return visibleAreas.asMap().entries.map((areaEntry) {
+              final idx = startGlobalIndex + areaEntry.key;
+              return _AreaCard(
+                area: areaEntry.value,
+                rank: areaEntry.key + 1,
+                isExpanded: widget.expandedIndex == idx,
+                onTap: () => widget.onTap(idx),
+                locale: widget.locale,
+                l10n: widget.l10n,
+                landmarks: effectiveLandmarks,
+                localNames: cluster.localNames,
+                maxBudget: widget.maxBudget,
+                checkIn: widget.checkIn,
+                checkOut: widget.checkOut,
+                searchRegion: widget.searchRegion,
+              );
+            });
+          })(),
+          if (hasMore)
             Padding(
-              key: _clusterKeys[ci],
-              padding: const EdgeInsets.only(top: 8, bottom: 8),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  color: ci == 0 ? AppTheme.primaryBg : const Color(0xFFFFF7ED),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(children: [
-                  Container(
-                    width: 24, height: 24,
-                    decoration: BoxDecoration(
-                      color: ci == 0 ? AppTheme.primary : AppTheme.orange,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(child: Text('${ci + 1}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12))),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(child: Text(
-                    '${tr(widget.locale, ja: 'エリア', ko: '지역', en: 'Area', zh: '区域')} ${ci + 1}: ${cluster.landmarks.join(' · ')}',
-                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                  )),
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Center(child: TextButton(
+                onPressed: () => setState(() {
+                  if (isClusterExpanded) _expandedClusters.remove(_activeCluster);
+                  else _expandedClusters.add(_activeCluster);
+                }),
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
                   Text(
-                    '${cluster.areas.length}${tr(widget.locale, ja: '件', ko: '개', en: '', zh: '个')}',
-                    style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground),
+                    isClusterExpanded
+                      ? tr(widget.locale, ja: '閉じる', ko: '접기', en: 'Show less', zh: '收起')
+                      : tr(widget.locale, ja: '他${cluster.areas.length - _defaultVisible}件を表示',
+                          ko: '${cluster.areas.length - _defaultVisible}개 더 보기',
+                          en: 'Show ${cluster.areas.length - _defaultVisible} more',
+                          zh: '显示更多${cluster.areas.length - _defaultVisible}个'),
+                    style: TextStyle(fontSize: 12, color: AppTheme.primary),
                   ),
+                  Icon(isClusterExpanded ? Icons.expand_less : Icons.expand_more, size: 16, color: AppTheme.primary),
                 ]),
+              )),
+            ),
+          if (cluster.areas.isEmpty)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Text(
+                tr(widget.locale, ja: 'このエリアの推薦結果がありません', ko: '이 지역의 추천 결과가 없습니다', en: 'No results for this area', zh: '该区域没有推荐结果'),
+                style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground),
               ),
             ),
-            // Filter landmarks to only those in this cluster
-            ...(() {
-              final clusterLandmarkNames = cluster.landmarks.map((n) => n.toLowerCase()).toSet();
-              final clusterLandmarks = widget.landmarks.where((l) =>
-                clusterLandmarkNames.contains(l.name.toLowerCase()) ||
-                clusterLandmarkNames.contains(l.slug.toLowerCase())
-              ).toList();
-              // Fallback: if no match (name mismatch), use all landmarks
-              final effectiveLandmarks = clusterLandmarks.isNotEmpty ? clusterLandmarks : widget.landmarks;
-
-              return visibleAreas.asMap().entries.map((areaEntry) {
-                final idx = startGlobalIndex + areaEntry.key;
-                globalIndex = startGlobalIndex + areaEntry.key + 1;
-                return _AreaCard(
-                  area: areaEntry.value,
-                  rank: idx + 1,
-                  isExpanded: widget.expandedIndex == idx,
-                  onTap: () => widget.onTap(idx),
-                  locale: widget.locale,
-                  l10n: widget.l10n,
-                  landmarks: effectiveLandmarks,
-                  localNames: cluster.localNames,
-                  maxBudget: widget.maxBudget,
-                  checkIn: widget.checkIn,
-                  checkOut: widget.checkOut,
-                  searchRegion: widget.searchRegion,
-                );
-              });
-            })(),
-            // Adjust globalIndex for hidden areas
-            if (!isClusterExpanded)
-              ...(() { globalIndex = startGlobalIndex + cluster.areas.length; return <Widget>[]; })(),
-            // Show more / show less button
-            if (hasMore)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Center(child: TextButton(
-                  onPressed: () => setState(() {
-                    if (isClusterExpanded) {
-                      _expandedClusters.remove(ci);
-                    } else {
-                      _expandedClusters.add(ci);
-                    }
-                  }),
-                  child: Row(mainAxisSize: MainAxisSize.min, children: [
-                    Text(
-                      isClusterExpanded
-                        ? tr(widget.locale, ja: '閉じる', ko: '접기', en: 'Show less', zh: '收起')
-                        : tr(widget.locale, ja: '他${cluster.areas.length - _defaultVisible}件を表示',
-                            ko: '${cluster.areas.length - _defaultVisible}개 더 보기',
-                            en: 'Show ${cluster.areas.length - _defaultVisible} more',
-                            zh: '显示更多${cluster.areas.length - _defaultVisible}个'),
-                      style: TextStyle(fontSize: 12, color: AppTheme.primary),
-                    ),
-                    Icon(isClusterExpanded ? Icons.expand_less : Icons.expand_more, size: 16, color: AppTheme.primary),
-                  ]),
-                )),
-              ),
-            if (cluster.areas.isEmpty)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Text(
-                  tr(widget.locale, ja: 'このエリアの推薦結果がありません', ko: '이 지역의 추천 결과가 없습니다', en: 'No results for this area', zh: '该区域没有推荐结果'),
-                  style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground),
-                ),
-              ),
-          ];
-        }),
-      ],
-    )),
+        ],
+      )),
     ]);
   }
 }
