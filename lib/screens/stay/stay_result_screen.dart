@@ -531,7 +531,8 @@ class _AreaCardState extends State<_AreaCard> {
   List<Hotel> _hotelMarkers = [];
 
   void _onHotelsLoaded(List<Hotel> hotels) {
-    if (mounted) setState(() => _hotelMarkers = hotels);
+    // Show only top 3 on map (matching visible cards)
+    if (mounted) setState(() => _hotelMarkers = hotels.take(3).toList());
   }
 
   @override
@@ -1060,12 +1061,35 @@ class _HotelSectionState extends State<_HotelSection> {
     return _hotels!.where((h) => _hotelInRange(h, budget)).length;
   }
 
+  double _distSq(double lat1, double lng1, double lat2, double lng2) {
+    final dlat = lat1 - lat2;
+    final dlng = lng1 - lng2;
+    return dlat * dlat + dlng * dlng;
+  }
+
   Future<void> _loadHotels() async {
     try {
       final api = ApiClient();
       final checkIn = widget.checkIn ?? DateTime.now().add(const Duration(days: 30)).toIso8601String().substring(0, 10);
       final checkOut = widget.checkOut ?? DateTime.now().add(const Duration(days: 32)).toIso8601String().substring(0, 10);
       final hotels = await api.getHotels(stationId: widget.stationId, checkIn: checkIn, checkOut: checkOut, locale: widget.locale);
+      // Sort: high-rated (8.5+) first by distance to station, then rest by rating desc
+      if (widget.lat != null && widget.lng != null) {
+        hotels.sort((a, b) {
+          final aHigh = (a.reviewScore ?? 0) >= 8.5;
+          final bHigh = (b.reviewScore ?? 0) >= 8.5;
+          if (aHigh && !bHigh) return -1;
+          if (!aHigh && bHigh) return 1;
+          if (aHigh && bHigh) {
+            // Both high-rated: sort by distance to station
+            final aDist = _distSq(a.lat, a.lng, widget.lat!, widget.lng!);
+            final bDist = _distSq(b.lat, b.lng, widget.lat!, widget.lng!);
+            return aDist.compareTo(bDist);
+          }
+          // Both below 8.5: sort by rating desc
+          return (b.reviewScore ?? 0).compareTo(a.reviewScore ?? 0);
+        });
+      }
       if (mounted) {
         setState(() { _hotels = hotels; _loading = false; });
         widget.onLoaded?.call(hotels);
