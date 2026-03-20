@@ -102,6 +102,14 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
     final notifier = ref.read(staySearchProvider.notifier);
     final theme = Theme.of(context);
 
+    // Auto-link to existing trip if not already linked
+    if (state.savedSearchId == null && state.landmarks.isNotEmpty) {
+      final match = ref.read(tripProvider.notifier).findTripForLandmarks(state.landmarks.map((l) => l.slug).toList());
+      if (match != null) {
+        Future.microtask(() => notifier.setSavedSearchId(match.id));
+      }
+    }
+
     if (state.isLoading) {
       return Scaffold(appBar: AppBar(title: Text(l10n.staySearchTitle)), body: const SkeletonLoader(count: 3));
     }

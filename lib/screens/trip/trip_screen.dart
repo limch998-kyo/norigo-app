@@ -68,6 +68,7 @@ class TripScreen extends ConsumerWidget {
                 final landmarks = notifier.getItemsAsLandmarks(trip.id);
                 final stayNotifier = ref.read(staySearchProvider.notifier);
                 stayNotifier.reset();
+                stayNotifier.setSavedSearchId(trip.id);
                 if (landmarks.isNotEmpty) stayNotifier.setRegion(landmarks.first.region);
                 for (final l in landmarks) { stayNotifier.addLandmark(l); }
                 // Restore saved search settings from trip, or use defaults
