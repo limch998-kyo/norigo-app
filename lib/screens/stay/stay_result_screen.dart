@@ -413,7 +413,7 @@ class _SplitResultsListState extends State<_SplitResultsList> {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      '${c.landmarks.length}${tr(widget.locale, ja: 'スポット', ko: '관광지', en: ' spots', zh: '景点')} · ${c.areas.length}${tr(widget.locale, ja: '件', ko: '개', en: ' results', zh: '个')}',
+                      '${c.areas.length}${tr(widget.locale, ja: '件の結果', ko: '개 결과', en: ' results', zh: '个结果')}',
                       style: TextStyle(fontSize: 9, color: isActive ? color : AppTheme.mutedForeground),
                     ),
                   ]),
