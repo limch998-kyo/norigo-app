@@ -24,7 +24,7 @@ class StaySearchState {
   const StaySearchState({
     this.slots = const [null, null],
     this.region = 'kanto',
-    this.mode = 'centroid',
+    this.mode = 'minTotal',
     this.maxBudget,
     this.checkIn,
     this.checkOut,

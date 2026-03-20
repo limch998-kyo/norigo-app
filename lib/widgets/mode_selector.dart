@@ -12,47 +12,35 @@ class ModeSelector extends StatelessWidget {
     this.locale = 'en',
   });
 
-  static const _modes = ['centroid', 'minTotal', 'balanced'];
+  static const _modes = ['centroid', 'minTotal'];
 
   static Map<String, Map<String, String>> get modeLabels => {
         'centroid': {
-          'ja': '中間地点',
-          'en': 'Middle Point',
-          'ko': '중간 지점',
-          'zh': '中间点',
+          'ja': '均等な距離',
+          'en': 'Equal Distance',
+          'ko': '균등 거리',
+          'zh': '均等距离',
         },
         'minTotal': {
-          'ja': '最速',
-          'en': 'Fastest',
-          'ko': '가장 빠르게',
-          'zh': '最快',
-        },
-        'balanced': {
-          'ja': '公平',
-          'en': 'Fairest',
-          'ko': '가장 공평하게',
-          'zh': '最公平',
+          'ja': '最短移動',
+          'en': 'Min Travel',
+          'ko': '최소 이동',
+          'zh': '最短移动',
         },
       };
 
   static Map<String, Map<String, String>> get modeDescriptions => {
         'centroid': {
-          'ja': 'みんなの距離が近い駅',
-          'en': 'Similar distance for everyone',
-          'ko': '모두와 비슷한 거리의 역',
-          'zh': '所有人距离相近的站',
+          'ja': 'どの観光地にも同じくらいの時間で到着',
+          'en': 'Similar travel time to all spots',
+          'ko': '모든 관광지에 비슷한 시간으로 도착',
+          'zh': '到所有景点的时间相近',
         },
         'minTotal': {
-          'ja': '全体の移動時間が最も短い',
-          'en': 'Least total travel time',
-          'ko': '전체 이동시간이 가장 적은 역',
-          'zh': '总通勤时间最短',
-        },
-        'balanced': {
-          'ja': '一番遠い人も遠すぎない',
-          'en': 'No one travels too far',
-          'ko': '가장 먼 사람도 너무 멀지 않게',
-          'zh': '最远的人也不会太远',
+          'ja': '観光地への合計移動時間が最も少ない',
+          'en': 'Least total travel time to all spots',
+          'ko': '모든 관광지까지 이동시간 합계가 가장 적음',
+          'zh': '到所有景点的总移动时间最短',
         },
       };
 
