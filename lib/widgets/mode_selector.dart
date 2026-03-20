@@ -16,43 +16,43 @@ class ModeSelector extends StatelessWidget {
 
   static Map<String, Map<String, String>> get modeLabels => {
         'centroid': {
-          'ja': '均等',
-          'en': 'Balanced Time',
-          'ko': '균등',
-          'zh': '均衡',
+          'ja': '中間地点',
+          'en': 'Middle Point',
+          'ko': '중간 지점',
+          'zh': '中间点',
         },
         'minTotal': {
-          'ja': '最短合計',
-          'en': 'Min Total',
-          'ko': '최단합계',
-          'zh': '最短总计',
+          'ja': '最速',
+          'en': 'Fastest',
+          'ko': '가장 빠르게',
+          'zh': '最快',
         },
         'balanced': {
           'ja': '公平',
-          'en': 'Fair',
-          'ko': '공평',
-          'zh': '公平',
+          'en': 'Fairest',
+          'ko': '가장 공평하게',
+          'zh': '最公平',
         },
       };
 
   static Map<String, Map<String, String>> get modeDescriptions => {
         'centroid': {
-          'ja': '全員の移動時間を均等に',
-          'en': 'Minimize variance in travel times',
-          'ko': '모두의 이동시간을 균등하게',
-          'zh': '使所有人的通勤时间均衡',
+          'ja': 'みんなの距離が近い駅',
+          'en': 'Similar distance for everyone',
+          'ko': '모두와 비슷한 거리의 역',
+          'zh': '所有人距离相近的站',
         },
         'minTotal': {
-          'ja': '合計移動時間を最短に',
-          'en': 'Minimize total travel time',
-          'ko': '총 이동시간을 최소화',
-          'zh': '最小化总通勤时间',
+          'ja': '全体の移動時間が最も短い',
+          'en': 'Least total travel time',
+          'ko': '전체 이동시간이 가장 적은 역',
+          'zh': '总通勤时间最短',
         },
         'balanced': {
-          'ja': '最大移動時間を最小に',
-          'en': 'Minimize max travel time',
-          'ko': '최대 이동시간을 최소화',
-          'zh': '最小化最长通勤时间',
+          'ja': '一番遠い人も遠すぎない',
+          'en': 'No one travels too far',
+          'ko': '가장 먼 사람도 너무 멀지 않게',
+          'zh': '最远的人也不会太远',
         },
       };
 

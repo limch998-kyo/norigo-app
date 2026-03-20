@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/stay_provider.dart';
 import '../../utils/tr.dart';
@@ -83,18 +84,24 @@ class SettingsScreen extends ConsumerWidget {
               tr(locale, ja: 'ウェブサイト', ko: '웹사이트', en: 'Website', zh: '网站'),
             ),
             subtitle: const Text('norigo.app'),
+            trailing: const Icon(Icons.open_in_new, size: 16),
+            onTap: () => launchUrl(Uri.parse('https://norigo.app/$locale'), mode: LaunchMode.externalApplication),
           ),
           ListTile(
             leading: const Icon(Icons.privacy_tip_outlined),
             title: Text(
               tr(locale, ja: 'プライバシーポリシー', ko: '개인정보 처리방침', en: 'Privacy Policy', zh: '隐私政策'),
             ),
+            trailing: const Icon(Icons.open_in_new, size: 16),
+            onTap: () => launchUrl(Uri.parse('https://norigo.app/$locale/privacy'), mode: LaunchMode.externalApplication),
           ),
           ListTile(
             leading: const Icon(Icons.description_outlined),
             title: Text(
               tr(locale, ja: '利用規約', ko: '이용약관', en: 'Terms of Service', zh: '服务条款'),
             ),
+            trailing: const Icon(Icons.open_in_new, size: 16),
+            onTap: () => launchUrl(Uri.parse('https://norigo.app/$locale/terms'), mode: LaunchMode.externalApplication),
           ),
         ],
       ),

@@ -15,9 +15,9 @@ class ModeTabs extends StatelessWidget {
   static const _modes = ['centroid', 'minTotal', 'balanced'];
 
   static const _labels = {
-    'centroid': {'ja': '均等', 'en': 'Balanced', 'ko': '균등', 'zh': '均衡'},
-    'minTotal': {'ja': '最短合計', 'en': 'Min Total', 'ko': '최단합계', 'zh': '最短总计'},
-    'balanced': {'ja': '公平', 'en': 'Fair', 'ko': '공평', 'zh': '公平'},
+    'centroid': {'ja': '中間地点', 'en': 'Middle Point', 'ko': '중간 지점', 'zh': '中间点'},
+    'minTotal': {'ja': '最速', 'en': 'Fastest', 'ko': '가장 빠르게', 'zh': '最快'},
+    'balanced': {'ja': '公平', 'en': 'Fairest', 'ko': '가장 공평하게', 'zh': '最公平'},
   };
 
   @override
