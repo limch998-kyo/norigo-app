@@ -413,7 +413,7 @@ class _SplitResultsListState extends State<_SplitResultsList> {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      '${c.areas.length}${tr(widget.locale, ja: '件', ko: '개', en: ' results', zh: '个')}',
+                      '${c.landmarks.length}${tr(widget.locale, ja: 'スポット', ko: '관광지', en: ' spots', zh: '景点')} · ${c.areas.length}${tr(widget.locale, ja: '件', ko: '개', en: ' results', zh: '个')}',
                       style: TextStyle(fontSize: 9, color: isActive ? color : AppTheme.mutedForeground),
                     ),
                   ]),
@@ -437,6 +437,7 @@ class _SplitResultsListState extends State<_SplitResultsList> {
             return visibleAreas.asMap().entries.map((areaEntry) {
               final idx = startGlobalIndex + areaEntry.key;
               return _AreaCard(
+                key: ValueKey('cluster_${_activeCluster}_area_${areaEntry.key}'),
                 area: areaEntry.value,
                 rank: areaEntry.key + 1,
                 isExpanded: widget.expandedIndex == idx,
@@ -525,7 +526,7 @@ class _AreaCard extends StatefulWidget {
   final String? checkOut;
   final String searchRegion; // The region from search state, not from station
 
-  const _AreaCard({required this.area, required this.rank, required this.isExpanded, required this.onTap, required this.locale, required this.l10n, required this.landmarks, this.localNames = const {}, this.maxBudget, this.checkIn, this.checkOut, this.searchRegion = 'kanto'});
+  const _AreaCard({super.key, required this.area, required this.rank, required this.isExpanded, required this.onTap, required this.locale, required this.l10n, required this.landmarks, this.localNames = const {}, this.maxBudget, this.checkIn, this.checkOut, this.searchRegion = 'kanto'});
 
   @override
   State<_AreaCard> createState() => _AreaCardState();
