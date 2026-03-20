@@ -411,11 +411,6 @@ class _SplitResultsListState extends State<_SplitResultsList> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      '${c.areas.length}${tr(widget.locale, ja: '件の結果', ko: '개 결과', en: ' results', zh: '个结果')}',
-                      style: TextStyle(fontSize: 9, color: isActive ? color : AppTheme.mutedForeground),
-                    ),
                   ]),
                 ),
               ),
