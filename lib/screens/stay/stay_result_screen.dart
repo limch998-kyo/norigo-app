@@ -23,6 +23,7 @@ import 'package:uuid/uuid.dart';
 import '../../services/line_localize.dart';
 import '../../config/constants.dart';
 import '../../config/booking_provider.dart';
+import '../../services/landmark_localizer.dart';
 import '../../utils/tr.dart';
 
 class StayResultScreen extends ConsumerStatefulWidget {
@@ -404,7 +405,27 @@ class _SplitResultsListState extends State<_SplitResultsList> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      c.landmarks.map((name) => c.localNames[name] ?? name).join(' · '),
+                      c.landmarks.map((name) {
+                        // Try bundled data by slug
+                        final translated = LandmarkLocalizer.getLocalizedName(
+                          locale: widget.locale,
+                          slug: name,
+                        );
+                        if (translated != null) return translated;
+                        // Try matching input landmarks by name
+                        for (final lm in widget.landmarks) {
+                          if (lm.name == name || lm.slug == name) {
+                            final t = LandmarkLocalizer.getLocalizedName(
+                              locale: widget.locale,
+                              slug: lm.slug,
+                              lat: lm.lat,
+                              lng: lm.lng,
+                            );
+                            if (t != null) return t;
+                          }
+                        }
+                        return c.localNames[name] ?? name;
+                      }).join(' · '),
                       style: TextStyle(fontSize: 10, fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
                         color: isActive ? color : AppTheme.mutedForeground),
                       textAlign: TextAlign.center,
