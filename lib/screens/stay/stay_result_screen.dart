@@ -404,7 +404,7 @@ class _SplitResultsListState extends State<_SplitResultsList> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      c.landmarks.join(' · '),
+                      c.landmarks.map((name) => c.localNames[name] ?? name).join(' · '),
                       style: TextStyle(fontSize: 10, fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
                         color: isActive ? color : AppTheme.mutedForeground),
                       textAlign: TextAlign.center,
