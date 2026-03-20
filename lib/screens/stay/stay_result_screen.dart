@@ -18,7 +18,6 @@ import '../../widgets/share_buttons.dart';
 import '../../widgets/skeleton_loader.dart';
 import '../../services/api_client.dart';
 import '../../providers/trip_provider.dart';
-import '../../providers/saved_searches_provider.dart';
 import 'package:uuid/uuid.dart';
 import '../../services/line_localize.dart';
 import '../../config/constants.dart';
@@ -36,57 +35,39 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
   int _expandedIndex = 0;
 
   void _saveSearch(BuildContext context, WidgetRef ref, StaySearchState state, String locale) {
-    final savedNotifier = ref.read(savedSearchesProvider.notifier);
-    // First check by savedSearchId (loaded from saved search), then by landmarks
-    final existingById = state.savedSearchId != null
-        ? savedNotifier.state.cast<SavedSearch?>().firstWhere((s) => s!.id == state.savedSearchId, orElse: () => null)
-        : null;
-    final existing = existingById ?? savedNotifier.findExisting(state.landmarks, state.region);
-
-    // Build descriptive title from landmark names
-    final title = state.landmarks.map((l) => l.name).join(' · ');
+    final tripNotifier = ref.read(tripProvider.notifier);
+    final slugs = state.landmarks.map((l) => l.slug).toList();
+    final existing = tripNotifier.findTripForLandmarks(slugs);
 
     if (existing != null) {
-      // Update existing saved search with new parameters (budget, dates, mode, landmarks)
-      savedNotifier.update(existing.id, SavedSearch(
-        id: existing.id,
-        // Keep existing title if loaded from saved search (user may have renamed)
-        // Only auto-generate title for brand new saves
-        title: (state.savedSearchId != null) ? existing.title : title,
-        landmarks: state.landmarks,
-        region: state.region,
+      // Update existing trip with search settings
+      tripNotifier.saveSearchToTrip(existing.id,
         mode: state.mode,
         maxBudget: state.maxBudget,
         checkIn: state.checkIn,
         checkOut: state.checkOut,
-        savedAt: DateTime.now(),
-      ));
-
+      );
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(tr(locale, ja: '保存した検索を更新しました', ko: '저장된 검색을 업데이트했습니다', en: 'Saved search updated', zh: '已更新保存的搜索')),
+        content: Text(tr(locale, ja: '旅行プランを更新しました', ko: '여행 플랜을 업데이트했습니다', en: 'Trip updated', zh: '行程已更新')),
       ));
-      return;
+    } else {
+      // Create new trip from search
+      final title = state.landmarks.map((l) => l.name).join(' · ');
+      final tripId = tripNotifier.createTrip(title, country: TripNotifier.regionCountry(state.region));
+      // Add landmarks as trip items
+      for (final lm in state.landmarks) {
+        tripNotifier.addItem(lm, tripId: tripId, locale: locale);
+      }
+      tripNotifier.saveSearchToTrip(tripId,
+        mode: state.mode,
+        maxBudget: state.maxBudget,
+        checkIn: state.checkIn,
+        checkOut: state.checkOut,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(tr(locale, ja: '旅行プランに保存しました', ko: '여행 플랜에 저장했습니다', en: 'Saved to trip', zh: '已保存到行程')),
+      ));
     }
-
-    savedNotifier.add(SavedSearch(
-      id: const Uuid().v4(),
-      title: title,
-      landmarks: state.landmarks,
-      region: state.region,
-      mode: state.mode,
-      maxBudget: state.maxBudget,
-      checkIn: state.checkIn,
-      checkOut: state.checkOut,
-      savedAt: DateTime.now(),
-    ));
-
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(tr(locale, ja: '検索を保存しました', ko: '검색을 저장했습니다', en: 'Search saved', zh: '搜索已保存')),
-      action: SnackBarAction(
-        label: tr(locale, ja: '旅行タブで確認', ko: '여행 탭에서 확인', en: 'View in Trip', zh: '在行程中查看'),
-        onPressed: () {},
-      ),
-    ));
   }
 
   @override
@@ -140,7 +121,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
         actions: [
           // Save search button (changes icon when saved)
           Builder(builder: (ctx) {
-            final isSaved = ref.watch(savedSearchesProvider.notifier).hasSearch(state.landmarks, state.region);
+            final isSaved = ref.watch(tripProvider.notifier).findTripForLandmarks(state.landmarks.map((l) => l.slug).toList()) != null;
             return IconButton(
               icon: Icon(isSaved ? Icons.bookmark : Icons.bookmark_outline, size: 20,
                 color: isSaved ? AppTheme.primary : null),
@@ -258,7 +239,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
           ),
           // Save search prompt (visible, not just icon)
           Builder(builder: (ctx) {
-            final isSaved = ref.watch(savedSearchesProvider.notifier).hasSearch(state.landmarks, state.region);
+            final isSaved = ref.watch(tripProvider.notifier).findTripForLandmarks(state.landmarks.map((l) => l.slug).toList()) != null;
             if (isSaved) {
               return Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),

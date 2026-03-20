@@ -6,7 +6,7 @@ import '../../config/constants.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/trip_provider.dart';
 import '../../providers/stay_provider.dart';
-import '../../providers/saved_searches_provider.dart';
+// saved_searches_provider removed — searches are now part of trips
 import '../../models/trip.dart';
 import '../../models/landmark.dart';
 import '../../utils/tr.dart';
@@ -96,9 +96,6 @@ class TripScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // ── Saved Searches ──
-          _SavedSearchesSection(locale: locale, ref: ref, onSwitchTab: onSwitchTab),
-
           // ── Trips (both countries, most recent first) ──
           if (japanFirst) ...[
             buildTripSection(japanLabel, '🇯🇵', japanTrips),
@@ -580,189 +577,6 @@ class _MySpotsSection extends StatelessWidget {
       'busan': {'ja': '釜山', 'ko': '부산', 'en': 'Busan'},
     };
     return labels[region]?[locale] ?? region;
-  }
-}
-
-class _SavedSearchesSection extends StatelessWidget {
-  final String locale;
-  final WidgetRef ref;
-  final void Function(int)? onSwitchTab;
-
-  const _SavedSearchesSection({required this.locale, required this.ref, this.onSwitchTab});
-
-  @override
-  Widget build(BuildContext context) {
-    // Show all saved searches (no country filter)
-    final saved = ref.watch(savedSearchesProvider);
-    if (saved.isEmpty) return const SizedBox.shrink();
-
-    final theme = Theme.of(context);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(children: [
-          Icon(Icons.bookmark, size: 18, color: AppTheme.primary),
-          const SizedBox(width: 6),
-          Text(
-            tr(locale, ja: '保存した検索', ko: '저장된 검색', en: 'Saved Searches', zh: '已保存的搜索'),
-            style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
-          ),
-        ]),
-        const SizedBox(height: 8),
-        ...saved.map((search) {
-          final regionLabel = {
-            'kanto': tr(locale, ja: '東京/関東', ko: '도쿄/간토', en: 'Tokyo', zh: '东京/关东'),
-            'kansai': tr(locale, ja: '大阪/関西', ko: '오사카/간사이', en: 'Osaka', zh: '大阪/关西'),
-            'seoul': tr(locale, ja: 'ソウル', ko: '서울', en: 'Seoul', zh: '首尔'),
-            'busan': tr(locale, ja: '釜山', ko: '부산', en: 'Busan', zh: '釜山'),
-          }[search.region] ?? search.region;
-
-          final budgetLabel = search.maxBudget != null
-              ? (AppConstants.stayBudgetLabels[search.maxBudget]?[locale] ?? search.maxBudget!)
-              : '';
-
-          return Dismissible(
-            key: ValueKey(search.id),
-            direction: DismissDirection.endToStart,
-            background: Container(
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.only(right: 16),
-              margin: const EdgeInsets.only(bottom: 10),
-              decoration: BoxDecoration(
-                color: Colors.red.shade50,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Icon(Icons.delete, color: Colors.red.shade400),
-            ),
-            confirmDismiss: (direction) async {
-              return true;
-            },
-            onDismissed: (direction) {
-              ref.read(savedSearchesProvider.notifier).remove(search.id);
-            },
-            child: Card(
-              margin: const EdgeInsets.only(bottom: 10),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(16),
-                onTap: () {
-                  // Restore search and switch to hotel tab
-                  final notifier = ref.read(staySearchProvider.notifier);
-                  notifier.reset();
-                  notifier.setRegion(search.region);
-                  for (final l in search.landmarks) {
-                    notifier.addLandmark(l);
-                  }
-                  notifier.setMode(search.mode);
-                  if (search.maxBudget != null) notifier.setBudget(search.maxBudget!);
-                  if (search.checkIn != null && search.checkOut != null) {
-                    notifier.setDates(search.checkIn, search.checkOut);
-                  }
-                  notifier.setSavedSearchId(search.id);
-                  notifier.search();
-                  onSwitchTab?.call(1);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(14),
-                  child: Row(children: [
-                    // Info
-                    Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text(search.title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600), maxLines: 2, overflow: TextOverflow.ellipsis),
-                      const SizedBox(height: 4),
-                      Row(children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                          decoration: BoxDecoration(color: AppTheme.primaryBg, borderRadius: BorderRadius.circular(4)),
-                          child: Text(regionLabel, style: TextStyle(fontSize: 10, color: AppTheme.primary)),
-                        ),
-                        if (budgetLabel.isNotEmpty) ...[
-                          const SizedBox(width: 4),
-                          Text(budgetLabel, style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
-                        ],
-                      ]),
-                      const SizedBox(height: 2),
-                      Text(
-                        '${search.landmarks.length} ${tr(locale, ja: 'スポット', ko: '관광지', en: 'spots', zh: '景点')}',
-                        style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground),
-                      ),
-                    ])),
-
-                    // Actions
-                    Column(children: [
-                      // Re-search button
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          final notifier = ref.read(staySearchProvider.notifier);
-                          notifier.reset();
-                          notifier.setRegion(search.region);
-                          for (final l in search.landmarks) {
-                            notifier.addLandmark(l);
-                          }
-                          notifier.setMode(search.mode);
-                          if (search.maxBudget != null) notifier.setBudget(search.maxBudget!);
-                          if (search.checkIn != null) notifier.setDates(search.checkIn, search.checkOut);
-                          notifier.setSavedSearchId(search.id);
-                          notifier.search();
-                          onSwitchTab?.call(1);
-                        },
-                        icon: const Icon(Icons.search, size: 14),
-                        label: Text(tr(locale, ja: '再検索', ko: '재검색', en: 'Search', zh: '重新搜索'), style: const TextStyle(fontSize: 11)),
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                          visualDensity: VisualDensity.compact,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      // Rename + Delete
-                      Row(mainAxisSize: MainAxisSize.min, children: [
-                        GestureDetector(
-                          onTap: () => _showRenameSearchDialog(context, ref, search, locale),
-                          child: Text(tr(locale, ja: '名前変更', ko: '이름변경', en: 'Rename', zh: '重命名'),
-                            style: TextStyle(fontSize: 10, color: AppTheme.primary)),
-                        ),
-                        Text(' · ', style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
-                        GestureDetector(
-                          onTap: () => ref.read(savedSearchesProvider.notifier).remove(search.id),
-                          child: Text(tr(locale, ja: '削除', ko: '삭제', en: 'Delete', zh: '删除'),
-                            style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
-                        ),
-                      ]),
-                    ]),
-                  ]),
-                ),
-              ),
-            ),
-          );
-        }),
-      ],
-    );
-  }
-
-  void _showRenameSearchDialog(BuildContext context, WidgetRef ref, SavedSearch search, String locale) {
-    final controller = TextEditingController(text: search.title);
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(tr(locale, ja: '名前を変更', ko: '이름 변경', en: 'Rename', zh: '重命名')),
-        content: TextField(controller: controller, autofocus: true),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(tr(locale, ja: 'キャンセル', ko: '취소', en: 'Cancel', zh: '取消')),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              final name = controller.text.trim();
-              if (name.isNotEmpty) {
-                ref.read(savedSearchesProvider.notifier).rename(search.id, name);
-                Navigator.pop(ctx);
-              }
-            },
-            child: Text(tr(locale, ja: '保存', ko: '저장', en: 'Save', zh: '保存')),
-          ),
-        ],
-      ),
-    );
   }
 }
 

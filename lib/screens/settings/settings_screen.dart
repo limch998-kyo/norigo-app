@@ -5,7 +5,6 @@ import '../../providers/app_providers.dart';
 import '../../providers/stay_provider.dart';
 import '../../utils/tr.dart';
 import '../../providers/trip_provider.dart';
-import '../../providers/saved_searches_provider.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -53,7 +52,6 @@ class SettingsScreen extends ConsumerWidget {
                 // Instantly translate all names using bundled offline data
                 ref.read(staySearchProvider.notifier).refreshLandmarkNames();
                 ref.read(tripProvider.notifier).refreshNames();
-                ref.read(savedSearchesProvider.notifier).refreshNames(entry.key);
               },
             );
           }),

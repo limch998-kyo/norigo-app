@@ -4,6 +4,9 @@ class Trip {
   final String? country;
   final String? checkIn;
   final String? checkOut;
+  final String? searchMode;
+  final String? maxBudget;
+  final String? region;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -13,6 +16,9 @@ class Trip {
     this.country,
     this.checkIn,
     this.checkOut,
+    this.searchMode,
+    this.maxBudget,
+    this.region,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -24,6 +30,9 @@ class Trip {
       country: json['country'] as String?,
       checkIn: json['checkIn'] as String?,
       checkOut: json['checkOut'] as String?,
+      searchMode: json['searchMode'] as String?,
+      maxBudget: json['maxBudget'] as String?,
+      region: json['region'] as String?,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
     );
@@ -35,17 +44,33 @@ class Trip {
         'country': country,
         'checkIn': checkIn,
         'checkOut': checkOut,
+        'searchMode': searchMode,
+        'maxBudget': maxBudget,
+        'region': region,
         'createdAt': createdAt.toIso8601String(),
         'updatedAt': updatedAt.toIso8601String(),
       };
 
-  Trip copyWith({String? name, String? country, String? checkIn, String? checkOut}) {
+  Trip copyWith({
+    String? name,
+    String? country,
+    String? checkIn,
+    String? checkOut,
+    String? searchMode,
+    String? maxBudget,
+    String? region,
+    bool clearSearchMode = false,
+    bool clearMaxBudget = false,
+  }) {
     return Trip(
       id: id,
       name: name ?? this.name,
       country: country ?? this.country,
       checkIn: checkIn ?? this.checkIn,
       checkOut: checkOut ?? this.checkOut,
+      searchMode: clearSearchMode ? null : (searchMode ?? this.searchMode),
+      maxBudget: clearMaxBudget ? null : (maxBudget ?? this.maxBudget),
+      region: region ?? this.region,
       createdAt: createdAt,
       updatedAt: DateTime.now(),
     );

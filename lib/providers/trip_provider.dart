@@ -111,8 +111,96 @@ class TripNotifier extends StateNotifier<TripState> {
         items: items,
         activeTripId: activeTripId,
       );
+
+      // Migrate saved searches into trips (one-time)
+      await _migrateSavedSearches(prefs);
     } catch (_) {
       // Corrupted data, start fresh
+    }
+  }
+
+  Future<void> _migrateSavedSearches(SharedPreferences prefs) async {
+    const savedKey = 'norigo_saved_searches';
+    final raw = prefs.getString(savedKey);
+    if (raw == null) return;
+
+    try {
+      final list = jsonDecode(raw) as List<dynamic>;
+      if (list.isEmpty) return;
+
+      final newTrips = <Trip>[];
+      final newItems = <TripItem>[];
+
+      for (final entry in list) {
+        final s = entry as Map<String, dynamic>;
+        final landmarks = (s['landmarks'] as List<dynamic>?) ?? [];
+        if (landmarks.isEmpty) continue;
+
+        // Check if a trip with matching items already exists
+        final slugs = landmarks.map((l) => (l as Map<String, dynamic>)['slug'] as String).toSet();
+        final existing = findTripForLandmarks(slugs.toList());
+        if (existing != null) {
+          // Update existing trip with search settings
+          state = state.copyWith(
+            trips: state.trips.map((t) {
+              if (t.id == existing.id) {
+                return t.copyWith(
+                  searchMode: s['mode'] as String?,
+                  maxBudget: s['maxBudget'] as String?,
+                  checkIn: s['checkIn'] as String?,
+                  checkOut: s['checkOut'] as String?,
+                );
+              }
+              return t;
+            }).toList(),
+          );
+          continue;
+        }
+
+        // Create new trip from saved search
+        final region = s['region'] as String? ?? 'kanto';
+        final tripId = _uuid.v4();
+        final title = s['title'] as String? ?? region;
+
+        newTrips.add(Trip(
+          id: tripId,
+          name: title,
+          country: regionCountry(region),
+          checkIn: s['checkIn'] as String?,
+          checkOut: s['checkOut'] as String?,
+          searchMode: s['mode'] as String?,
+          maxBudget: s['maxBudget'] as String?,
+          region: region,
+          createdAt: DateTime.tryParse(s['savedAt'] as String? ?? '') ?? DateTime.now(),
+          updatedAt: DateTime.now(),
+        ));
+
+        for (final l in landmarks) {
+          final lm = l as Map<String, dynamic>;
+          newItems.add(TripItem(
+            slug: lm['slug'] as String? ?? '',
+            name: lm['name'] as String? ?? '',
+            lat: (lm['lat'] as num?)?.toDouble() ?? 0,
+            lng: (lm['lng'] as num?)?.toDouble() ?? 0,
+            region: region,
+            tripId: tripId,
+            addedAt: DateTime.now(),
+          ));
+        }
+      }
+
+      if (newTrips.isNotEmpty || newItems.isNotEmpty) {
+        state = state.copyWith(
+          trips: [...state.trips, ...newTrips],
+          items: [...state.items, ...newItems],
+        );
+        _saveToStorage();
+      }
+
+      // Remove old saved searches data
+      await prefs.remove(savedKey);
+    } catch (_) {
+      // Migration failed, keep old data
     }
   }
 
@@ -178,6 +266,39 @@ class TripNotifier extends StateNotifier<TripState> {
       }).toList(),
     );
     _saveToStorage();
+  }
+
+  void setTripSearchSettings(String tripId, {String? mode, String? maxBudget, String? region}) {
+    state = state.copyWith(
+      trips: state.trips.map((t) {
+        if (t.id == tripId) return t.copyWith(searchMode: mode, maxBudget: maxBudget, region: region);
+        return t;
+      }).toList(),
+    );
+    _saveToStorage();
+  }
+
+  /// Save search results into a trip (from stay result screen)
+  void saveSearchToTrip(String tripId, {required String mode, String? maxBudget, String? checkIn, String? checkOut}) {
+    state = state.copyWith(
+      trips: state.trips.map((t) {
+        if (t.id == tripId) return t.copyWith(searchMode: mode, maxBudget: maxBudget, checkIn: checkIn, checkOut: checkOut);
+        return t;
+      }).toList(),
+    );
+    _saveToStorage();
+  }
+
+  /// Find trip that matches a set of landmarks (by slug)
+  Trip? findTripForLandmarks(List<String> slugs) {
+    final slugSet = slugs.toSet();
+    for (final trip in state.trips) {
+      final tripSlugs = state.items.where((i) => i.tripId == trip.id).map((i) => i.slug).toSet();
+      if (tripSlugs.isNotEmpty && tripSlugs.difference(slugSet).isEmpty && slugSet.difference(tripSlugs).isEmpty) {
+        return trip;
+      }
+    }
+    return null;
   }
 
   void deleteTrip(String tripId) {
