@@ -4,15 +4,17 @@ class ModeTabs extends StatelessWidget {
   final String selected;
   final ValueChanged<String> onChanged;
   final String locale;
+  final List<String>? modes;
 
   const ModeTabs({
     super.key,
     required this.selected,
     required this.onChanged,
     this.locale = 'en',
+    this.modes,
   });
 
-  static const _modes = ['centroid', 'minTotal', 'balanced'];
+  static const _defaultModes = ['centroid', 'minTotal', 'balanced'];
 
   static const _labels = {
     'centroid': {'ja': '中間地点', 'en': 'Middle Point', 'ko': '중간 지점', 'zh': '中间点'},
@@ -20,9 +22,20 @@ class ModeTabs extends StatelessWidget {
     'balanced': {'ja': '公平', 'en': 'Fairest', 'ko': '가장 공평하게', 'zh': '最公平'},
   };
 
+  /// Stay-specific labels (different wording for hotel search context)
+  static const _stayLabels = {
+    'centroid': {'ja': '均等な距離', 'en': 'Equal Distance', 'ko': '균등 거리', 'zh': '均等距离'},
+    'minTotal': {'ja': '最短移動', 'en': 'Min Travel', 'ko': '최소 이동', 'zh': '最短移动'},
+  };
+
+  static const stayModes = ['centroid', 'minTotal'];
+  static const meetupModes = ['centroid', 'minTotal', 'balanced'];
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final activeModes = modes ?? _defaultModes;
+    final isStay = activeModes.length == 2;
 
     return Container(
       padding: const EdgeInsets.all(4),
@@ -31,9 +44,10 @@ class ModeTabs extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
-        children: _modes.map((mode) {
+        children: activeModes.map((mode) {
           final isSelected = selected == mode;
-          final label = _labels[mode]?[locale] ?? _labels[mode]?['en'] ?? mode;
+          final labels = isStay ? _stayLabels : _labels;
+          final label = labels[mode]?[locale] ?? _labels[mode]?[locale] ?? _labels[mode]?['en'] ?? mode;
 
           return Expanded(
             child: GestureDetector(

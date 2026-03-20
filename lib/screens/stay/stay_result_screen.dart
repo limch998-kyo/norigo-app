@@ -119,14 +119,16 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
         title: Text(tr(locale, ja: '推薦宿泊エリア', ko: '추천 숙박 지역', en: 'Recommended Areas', zh: '推荐住宿区域')),
         leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => notifier.clearResult()),
         actions: [
-          // Save search button (changes icon when saved)
+          // Save/update trip button
           Builder(builder: (ctx) {
             final isSaved = ref.watch(tripProvider.notifier).findTripForLandmarks(state.landmarks.map((l) => l.slug).toList()) != null;
             return IconButton(
-              icon: Icon(isSaved ? Icons.bookmark : Icons.bookmark_outline, size: 20,
+              icon: Icon(isSaved ? Icons.sync : Icons.bookmark_outline, size: 20,
                 color: isSaved ? AppTheme.primary : null),
-              tooltip: tr(locale, ja: '保存', ko: '저장', en: 'Save', zh: '保存'),
-              onPressed: isSaved ? null : () => _saveSearch(context, ref, state, locale),
+              tooltip: isSaved
+                ? tr(locale, ja: '旅行を更新', ko: '여행 갱신', en: 'Update Trip', zh: '更新行程')
+                : tr(locale, ja: '旅行に保存', ko: '여행에 저장', en: 'Save to Trip', zh: '保存到行程'),
+              onPressed: () => _saveSearch(context, ref, state, locale),
             );
           }),
           // Edit search button
@@ -149,7 +151,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
           // Mode tabs
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-            child: ModeTabs(selected: state.mode, onChanged: (m) { notifier.setMode(m); notifier.search(); }, locale: locale),
+            child: ModeTabs(selected: state.mode, onChanged: (m) { notifier.setMode(m); notifier.search(); }, locale: locale, modes: ModeTabs.stayModes),
           ),
           // Stay style toggle (single ↔ split) — like web
           if (state.landmarks.length >= 2)
@@ -237,29 +239,20 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
               locale: locale,
             ),
           ),
-          // Save search prompt (visible, not just icon)
+          // Save/update trip prompt
           Builder(builder: (ctx) {
             final isSaved = ref.watch(tripProvider.notifier).findTripForLandmarks(state.landmarks.map((l) => l.slug).toList()) != null;
-            if (isSaved) {
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                child: Row(children: [
-                  Icon(Icons.bookmark, size: 16, color: AppTheme.primary),
-                  const SizedBox(width: 6),
-                  Text(tr(locale, ja: '保存済み', ko: '저장됨', en: 'Saved', zh: '已保存'),
-                    style: TextStyle(fontSize: 12, color: AppTheme.primary, fontWeight: FontWeight.w500)),
-                ]),
-              );
-            }
             return Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
               child: SizedBox(
                 width: double.infinity,
                 child: OutlinedButton.icon(
                   onPressed: () => _saveSearch(context, ref, state, locale),
-                  icon: const Icon(Icons.bookmark_outline, size: 16),
+                  icon: Icon(isSaved ? Icons.sync : Icons.bookmark_outline, size: 16),
                   label: Text(
-                    tr(locale, ja: 'この検索を保存', ko: '이 검색 저장하기', en: 'Save this search', zh: '保存此搜索'),
+                    isSaved
+                      ? tr(locale, ja: '旅行プランを更新', ko: '여행 플랜 갱신', en: 'Update trip', zh: '更新行程')
+                      : tr(locale, ja: '旅行プランに保存', ko: '여행 플랜에 저장', en: 'Save to trip', zh: '保存到行程'),
                     style: const TextStyle(fontSize: 13),
                   ),
                   style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 10)),
