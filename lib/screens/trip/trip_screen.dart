@@ -63,16 +63,24 @@ class TripScreen extends ConsumerWidget {
               onRemoveItem: (slug, tripId) => notifier.removeItem(slug, tripId),
               onAddSpot: () => _showAddSpotDialog(context, ref, trip, locale),
               onFindHotels: items.length >= 2 ? () {
-                // Read latest trip state (dates may have been updated after widget built)
+                // Read latest trip state (dates/settings may have been updated)
                 final latestTrip = ref.read(tripProvider).trips.firstWhere((t) => t.id == trip.id, orElse: () => trip);
                 final landmarks = notifier.getItemsAsLandmarks(trip.id);
                 final stayNotifier = ref.read(staySearchProvider.notifier);
                 stayNotifier.reset();
                 if (landmarks.isNotEmpty) stayNotifier.setRegion(landmarks.first.region);
                 for (final l in landmarks) { stayNotifier.addLandmark(l); }
-                final isKorea = ['seoul', 'busan'].contains(landmarks.firstOrNull?.region);
-                final budget = isKorea ? 'under35000' : (locale == 'ja' ? 'under20000' : 'under30000');
-                stayNotifier.setBudget(budget);
+                // Restore saved search settings from trip, or use defaults
+                if (latestTrip.searchMode != null) {
+                  stayNotifier.setMode(latestTrip.searchMode!);
+                }
+                if (latestTrip.maxBudget != null) {
+                  stayNotifier.setBudget(latestTrip.maxBudget!);
+                } else {
+                  final isKorea = ['seoul', 'busan'].contains(landmarks.firstOrNull?.region);
+                  final budget = isKorea ? 'under35000' : (locale == 'ja' ? 'under20000' : 'under30000');
+                  stayNotifier.setBudget(budget);
+                }
                 if (latestTrip.checkIn != null && latestTrip.checkOut != null) {
                   stayNotifier.setDates(latestTrip.checkIn!, latestTrip.checkOut!);
                 } else {
@@ -80,6 +88,7 @@ class TripScreen extends ConsumerWidget {
                   stayNotifier.setDates(checkIn.toIso8601String().substring(0, 10),
                     checkIn.add(const Duration(days: 3)).toIso8601String().substring(0, 10));
                 }
+                stayNotifier.search();
                 onSwitchTab?.call(1);
               } : null,
             );
