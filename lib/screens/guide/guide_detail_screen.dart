@@ -7,6 +7,7 @@ import '../../providers/app_providers.dart';
 import '../../providers/trip_provider.dart';
 import '../../models/landmark.dart';
 import '../../services/landmark_localizer.dart';
+import '../../utils/tr.dart';
 import '../../widgets/trip_picker_dialog.dart';
 import '../../app.dart';
 
@@ -168,13 +169,11 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
           _shownAddSnackbar = true;
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
-              widget.locale == 'ja' ? '旅行プランに追加しました'
-                  : widget.locale == 'ko' ? '여행 플랜에 추가했습니다'
-                  : 'Added to trip plan',
+              tr(widget.locale, ja: '旅行プランに追加しました', ko: '여행 플랜에 추가했습니다', en: 'Added to trip plan', zh: '已添加到旅行计划'),
             ),
             duration: const Duration(seconds: 3),
             action: SnackBarAction(
-              label: widget.locale == 'ja' ? '旅行タブへ' : widget.locale == 'ko' ? '여행 탭으로' : 'Go to Trip',
+              label: tr(widget.locale, ja: '旅行タブへ', ko: '여행 탭으로', en: 'Go to Trip', zh: '前往旅行'),
               textColor: Colors.white,
               onPressed: () {
                 // Switch tab first, then pop back

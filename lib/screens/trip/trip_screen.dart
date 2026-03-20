@@ -9,6 +9,7 @@ import '../../providers/stay_provider.dart';
 import '../../providers/saved_searches_provider.dart';
 import '../../models/trip.dart';
 import '../../models/landmark.dart';
+import '../../utils/tr.dart';
 
 class TripScreen extends ConsumerWidget {
   final void Function(int)? onSwitchTab;
@@ -87,8 +88,8 @@ class TripScreen extends ConsumerWidget {
       );
     }
 
-    final japanLabel = locale == 'ja' ? '日本' : locale == 'ko' ? '일본' : 'Japan';
-    final koreaLabel = locale == 'ja' ? '韓国' : locale == 'ko' ? '한국' : 'Korea';
+    final japanLabel = tr(locale, ja: '日本', ko: '일본', en: 'Japan', zh: '日本');
+    final koreaLabel = tr(locale, ja: '韓国', ko: '한국', en: 'Korea', zh: '韩国');
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.tripTitle)),
@@ -132,12 +133,12 @@ class TripScreen extends ConsumerWidget {
         List<Landmark> results = [];
         return StatefulBuilder(builder: (ctx, setDialogState) {
           return AlertDialog(
-            title: Text(locale == 'ja' ? 'スポットを追加' : locale == 'ko' ? '스팟 추가' : 'Add Spot'),
+            title: Text(tr(locale, ja: 'スポットを追加', ko: '스팟 추가', en: 'Add Spot', zh: '添加景点')),
             content: Column(mainAxisSize: MainAxisSize.min, children: [
               TextField(
                 controller: controller,
                 decoration: InputDecoration(
-                  hintText: locale == 'ja' ? '観光地・レストランを検索' : locale == 'ko' ? '관광지 또는 음식점 검색' : 'Search landmarks or restaurants',
+                  hintText: tr(locale, ja: '観光地・レストランを検索', ko: '관광지 또는 음식점 검색', en: 'Search landmarks or restaurants', zh: '搜索景点或餐厅'),
                   prefixIcon: const Icon(Icons.search, size: 18),
                 ),
                 onChanged: (q) async {
@@ -151,7 +152,7 @@ class TripScreen extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Text(
-                    locale == 'ja' ? '結果がありません' : locale == 'ko' ? '결과가 없습니다' : 'No results',
+                    tr(locale, ja: '結果がありません', ko: '결과가 없습니다', en: 'No results', zh: '没有结果'),
                     style: TextStyle(fontSize: 12, color: Colors.grey),
                   ),
                 ),
@@ -168,7 +169,7 @@ class TripScreen extends ConsumerWidget {
             ]),
             actions: [
               TextButton(onPressed: () => Navigator.pop(ctx),
-                child: Text(locale == 'ja' ? 'キャンセル' : locale == 'ko' ? '취소' : 'Cancel')),
+                child: Text(tr(locale, ja: 'キャンセル', ko: '취소', en: 'Cancel', zh: '取消'))),
             ],
           );
         });
@@ -188,12 +189,12 @@ class TripScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(locale == 'ja' ? '新しい旅行プラン' : locale == 'ko' ? '새 여행 플랜' : 'New Trip Plan'),
+        title: Text(tr(locale, ja: '新しい旅行プラン', ko: '새 여행 플랜', en: 'New Trip Plan', zh: '新旅行计划')),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              locale == 'ja' ? '地域を選択してください' : locale == 'ko' ? '지역을 선택해주세요' : 'Select region',
+              tr(locale, ja: '地域を選択してください', ko: '지역을 선택해주세요', en: 'Select region', zh: '选择地区'),
               style: TextStyle(fontSize: 13, color: AppTheme.mutedForeground),
             ),
             const SizedBox(height: 12),
@@ -219,7 +220,7 @@ class TripScreen extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text(locale == 'ja' ? 'キャンセル' : locale == 'ko' ? '취소' : 'Cancel'),
+            child: Text(tr(locale, ja: 'キャンセル', ko: '취소', en: 'Cancel', zh: '取消')),
           ),
         ],
       ),
@@ -233,13 +234,13 @@ class TripScreen extends ConsumerWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(
-          locale == 'ja' ? '名前を変更' : locale == 'ko' ? '이름 변경' : 'Rename',
+          tr(locale, ja: '名前を変更', ko: '이름 변경', en: 'Rename', zh: '重命名'),
         ),
         content: TextField(controller: controller, autofocus: true),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text(locale == 'ja' ? 'キャンセル' : locale == 'ko' ? '취소' : 'Cancel'),
+            child: Text(tr(locale, ja: 'キャンセル', ko: '취소', en: 'Cancel', zh: '取消')),
           ),
           ElevatedButton(
             onPressed: () {
@@ -249,7 +250,7 @@ class TripScreen extends ConsumerWidget {
                 Navigator.pop(ctx);
               }
             },
-            child: Text(locale == 'ja' ? '保存' : locale == 'ko' ? '저장' : 'Save'),
+            child: Text(tr(locale, ja: '保存', ko: '저장', en: 'Save', zh: '保存')),
           ),
         ],
       ),
@@ -262,19 +263,19 @@ class TripScreen extends ConsumerWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(
-          locale == 'ja' ? '削除確認' : locale == 'ko' ? '삭제 확인' : 'Delete Trip',
+          tr(locale, ja: '削除確認', ko: '삭제 확인', en: 'Delete Trip', zh: '确认删除'),
         ),
         content: Text(
-          locale == 'ja'
-              ? '「${localizedTripName(trip.name, locale)}」を削除しますか？'
-              : locale == 'ko'
-                  ? '"${localizedTripName(trip.name, locale)}"을 삭제하시겠습니까?'
-                  : 'Delete "${localizedTripName(trip.name, locale)}"?',
+          tr(locale,
+            ja: '「${localizedTripName(trip.name, locale)}」を削除しますか？',
+            ko: '"${localizedTripName(trip.name, locale)}"을 삭제하시겠습니까?',
+            en: 'Delete "${localizedTripName(trip.name, locale)}"?',
+            zh: '确定删除"${localizedTripName(trip.name, locale)}"吗？'),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text(locale == 'ja' ? 'キャンセル' : locale == 'ko' ? '취소' : 'Cancel'),
+            child: Text(tr(locale, ja: 'キャンセル', ko: '취소', en: 'Cancel', zh: '取消')),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
@@ -282,7 +283,7 @@ class TripScreen extends ConsumerWidget {
               notifier.deleteTrip(trip.id);
               Navigator.pop(ctx);
             },
-            child: Text(locale == 'ja' ? '削除' : locale == 'ko' ? '삭제' : 'Delete'),
+            child: Text(tr(locale, ja: '削除', ko: '삭제', en: 'Delete', zh: '删除')),
           ),
         ],
       ),
@@ -326,8 +327,8 @@ class _TripCard extends ConsumerWidget {
       initialDateRange: initialRange,
       firstDate: now,
       lastDate: now.add(const Duration(days: 365)),
-      helpText: locale == 'ja' ? 'チェックイン〜チェックアウト' : locale == 'ko' ? '체크인 ~ 체크아웃' : 'Check-in ~ Check-out',
-      saveText: locale == 'ja' ? '設定' : locale == 'ko' ? '설정' : 'Set',
+      helpText: tr(locale, ja: 'チェックイン〜チェックアウト', ko: '체크인 ~ 체크아웃', en: 'Check-in ~ Check-out', zh: '入住 ~ 退房'),
+      saveText: tr(locale, ja: '設定', ko: '설정', en: 'Set', zh: '设置'),
     );
     if (picked == null) return;
 
@@ -369,7 +370,7 @@ class _TripCard extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
-                        locale == 'ja' ? 'アクティブ' : locale == 'ko' ? '활성' : 'Active',
+                        tr(locale, ja: 'アクティブ', ko: '활성', en: 'Active', zh: '活跃'),
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 10,
@@ -392,12 +393,12 @@ class _TripCard extends ConsumerWidget {
                     itemBuilder: (ctx) => [
                       PopupMenuItem(
                         value: 'rename',
-                        child: Text(locale == 'ja' ? '名前変更' : locale == 'ko' ? '이름변경' : 'Rename'),
+                        child: Text(tr(locale, ja: '名前変更', ko: '이름변경', en: 'Rename', zh: '重命名')),
                       ),
                       PopupMenuItem(
                         value: 'delete',
                         child: Text(
-                          locale == 'ja' ? '削除' : locale == 'ko' ? '삭제' : 'Delete',
+                          tr(locale, ja: '削除', ko: '삭제', en: 'Delete', zh: '删除'),
                           style: const TextStyle(color: Colors.red),
                         ),
                       ),
@@ -444,11 +445,7 @@ class _TripCard extends ConsumerWidget {
                   Icon(Icons.place, size: 16, color: theme.colorScheme.onSurface.withValues(alpha: 0.5)),
                   const SizedBox(width: 4),
                   Text(
-                    locale == 'ja'
-                        ? '${items.length}件のスポット'
-                        : locale == 'ko'
-                            ? '${items.length}개 관광지'
-                            : '${items.length} spots',
+                    tr(locale, ja: '${items.length}件のスポット', ko: '${items.length}개 관광지', en: '${items.length} spots', zh: '${items.length}个景点'),
                     style: TextStyle(
                       fontSize: 13,
                       color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
@@ -462,10 +459,10 @@ class _TripCard extends ConsumerWidget {
                 runSpacing: 4,
                 children: [
                   if (onAddSpot != null)
-                    _CompactButton(icon: Icons.add_location_alt, label: locale == 'ja' ? 'スポット追加' : locale == 'ko' ? '스팟 추가' : 'Add Spot', onTap: onAddSpot!),
-                  _CompactButton(icon: Icons.calendar_month, label: trip.checkIn != null ? (locale == 'ja' ? '日程変更' : locale == 'ko' ? '날짜 변경' : 'Dates') : (locale == 'ja' ? '日程設定' : locale == 'ko' ? '날짜 설정' : 'Set dates'), onTap: () => _showDateDialog(context, ref, trip, locale)),
+                    _CompactButton(icon: Icons.add_location_alt, label: tr(locale, ja: 'スポット追加', ko: '스팟 추가', en: 'Add Spot', zh: '添加景点'), onTap: onAddSpot!),
+                  _CompactButton(icon: Icons.calendar_month, label: trip.checkIn != null ? tr(locale, ja: '日程変更', ko: '날짜 변경', en: 'Dates', zh: '修改日期') : tr(locale, ja: '日程設定', ko: '날짜 설정', en: 'Set dates', zh: '设置日期'), onTap: () => _showDateDialog(context, ref, trip, locale)),
                   if (onFindHotels != null)
-                    _CompactButton(icon: Icons.hotel, label: locale == 'ja' ? 'ホテル検索' : locale == 'ko' ? '호텔 찾기' : 'Hotels', onTap: onFindHotels!),
+                    _CompactButton(icon: Icons.hotel, label: tr(locale, ja: 'ホテル検索', ko: '호텔 찾기', en: 'Hotels', zh: '搜索酒店'), onTap: onFindHotels!),
                 ],
               ),
             ],
@@ -499,11 +496,11 @@ class _MySpotsSection extends StatelessWidget {
           Icon(Icons.luggage, size: 18, color: AppTheme.primary),
           const SizedBox(width: 6),
           Text(
-            locale == 'ja' ? 'マイスポット' : locale == 'ko' ? '내 관광지' : 'My Spots',
+            tr(locale, ja: 'マイスポット', ko: '내 관광지', en: 'My Spots', zh: '我的景点'),
             style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const Spacer(),
-          Text('${items.length}${locale == 'ja' ? '件' : locale == 'ko' ? '개' : ''}',
+          Text('${items.length}${tr(locale, ja: '件', ko: '개', en: '', zh: '个')}',
             style: TextStyle(fontSize: 13, color: AppTheme.mutedForeground)),
         ]),
         const SizedBox(height: 8),
@@ -564,9 +561,7 @@ class _MySpotsSection extends StatelessWidget {
                 },
                 icon: const Icon(Icons.hotel, size: 16),
                 label: Text(
-                  locale == 'ja' ? 'この${items.length}スポットでホテル検索'
-                      : locale == 'ko' ? '이 ${items.length}개로 호텔 검색'
-                      : 'Search hotels for ${items.length} spots',
+                  tr(locale, ja: 'この${items.length}スポットでホテル検索', ko: '이 ${items.length}개로 호텔 검색', en: 'Search hotels for ${items.length} spots', zh: '为${items.length}个景点搜索酒店'),
                   style: const TextStyle(fontSize: 13),
                 ),
               ),
@@ -610,17 +605,17 @@ class _SavedSearchesSection extends StatelessWidget {
           Icon(Icons.bookmark, size: 18, color: AppTheme.primary),
           const SizedBox(width: 6),
           Text(
-            locale == 'ja' ? '保存した検索' : locale == 'ko' ? '저장된 검색' : 'Saved Searches',
+            tr(locale, ja: '保存した検索', ko: '저장된 검색', en: 'Saved Searches', zh: '已保存的搜索'),
             style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
         ]),
         const SizedBox(height: 8),
         ...saved.map((search) {
           final regionLabel = {
-            'kanto': locale == 'ko' ? '도쿄/간토' : 'Tokyo',
-            'kansai': locale == 'ko' ? '오사카/간사이' : 'Osaka',
-            'seoul': locale == 'ko' ? '서울' : 'Seoul',
-            'busan': locale == 'ko' ? '부산' : 'Busan',
+            'kanto': tr(locale, ja: '東京/関東', ko: '도쿄/간토', en: 'Tokyo', zh: '东京/关东'),
+            'kansai': tr(locale, ja: '大阪/関西', ko: '오사카/간사이', en: 'Osaka', zh: '大阪/关西'),
+            'seoul': tr(locale, ja: 'ソウル', ko: '서울', en: 'Seoul', zh: '首尔'),
+            'busan': tr(locale, ja: '釜山', ko: '부산', en: 'Busan', zh: '釜山'),
           }[search.region] ?? search.region;
 
           final budgetLabel = search.maxBudget != null
@@ -687,7 +682,7 @@ class _SavedSearchesSection extends StatelessWidget {
                       ]),
                       const SizedBox(height: 2),
                       Text(
-                        '${search.landmarks.length} ${locale == 'ja' ? 'スポット' : locale == 'ko' ? '관광지' : 'spots'}',
+                        '${search.landmarks.length} ${tr(locale, ja: 'スポット', ko: '관광지', en: 'spots', zh: '景点')}',
                         style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground),
                       ),
                     ])),
@@ -711,7 +706,7 @@ class _SavedSearchesSection extends StatelessWidget {
                           onSwitchTab?.call(1);
                         },
                         icon: const Icon(Icons.search, size: 14),
-                        label: Text(locale == 'ja' ? '再検索' : locale == 'ko' ? '재검색' : 'Search', style: const TextStyle(fontSize: 11)),
+                        label: Text(tr(locale, ja: '再検索', ko: '재검색', en: 'Search', zh: '重新搜索'), style: const TextStyle(fontSize: 11)),
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                           visualDensity: VisualDensity.compact,
@@ -722,13 +717,13 @@ class _SavedSearchesSection extends StatelessWidget {
                       Row(mainAxisSize: MainAxisSize.min, children: [
                         GestureDetector(
                           onTap: () => _showRenameSearchDialog(context, ref, search, locale),
-                          child: Text(locale == 'ja' ? '名前変更' : locale == 'ko' ? '이름변경' : 'Rename',
+                          child: Text(tr(locale, ja: '名前変更', ko: '이름변경', en: 'Rename', zh: '重命名'),
                             style: TextStyle(fontSize: 10, color: AppTheme.primary)),
                         ),
                         Text(' · ', style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
                         GestureDetector(
                           onTap: () => ref.read(savedSearchesProvider.notifier).remove(search.id),
-                          child: Text(locale == 'ja' ? '削除' : locale == 'ko' ? '삭제' : 'Delete',
+                          child: Text(tr(locale, ja: '削除', ko: '삭제', en: 'Delete', zh: '删除'),
                             style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
                         ),
                       ]),
@@ -748,12 +743,12 @@ class _SavedSearchesSection extends StatelessWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(locale == 'ja' ? '名前を変更' : locale == 'ko' ? '이름 변경' : 'Rename'),
+        title: Text(tr(locale, ja: '名前を変更', ko: '이름 변경', en: 'Rename', zh: '重命名')),
         content: TextField(controller: controller, autofocus: true),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text(locale == 'ja' ? 'キャンセル' : locale == 'ko' ? '취소' : 'Cancel'),
+            child: Text(tr(locale, ja: 'キャンセル', ko: '취소', en: 'Cancel', zh: '取消')),
           ),
           ElevatedButton(
             onPressed: () {
@@ -763,7 +758,7 @@ class _SavedSearchesSection extends StatelessWidget {
                 Navigator.pop(ctx);
               }
             },
-            child: Text(locale == 'ja' ? '保存' : locale == 'ko' ? '저장' : 'Save'),
+            child: Text(tr(locale, ja: '保存', ko: '저장', en: 'Save', zh: '保存')),
           ),
         ],
       ),
@@ -837,22 +832,14 @@ class _EmptyState extends StatelessWidget {
           Icon(Icons.luggage_outlined, size: 64, color: Colors.grey.shade400),
           const SizedBox(height: 16),
           Text(
-            locale == 'ja'
-                ? 'まだ旅行がありません'
-                : locale == 'ko'
-                    ? '아직 여행이 없습니다'
-                    : 'No trips yet',
+            tr(locale, ja: 'まだ旅行がありません', ko: '아직 여행이 없습니다', en: 'No trips yet', zh: '还没有旅行'),
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: Colors.grey,
                 ),
           ),
           const SizedBox(height: 8),
           Text(
-            locale == 'ja'
-                ? '＋ボタンから新しい旅行を作成'
-                : locale == 'ko'
-                    ? '+ 버튼으로 새 여행 생성'
-                    : 'Tap + to create a new trip',
+            tr(locale, ja: '＋ボタンから新しい旅行を作成', ko: '+ 버튼으로 새 여행 생성', en: 'Tap + to create a new trip', zh: '点击+创建新旅行'),
             style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),
           ),
         ],

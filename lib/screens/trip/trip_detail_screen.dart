@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/trip_provider.dart';
+import '../../utils/tr.dart';
 
 class TripDetailScreen extends ConsumerWidget {
   final String tripId;
@@ -37,11 +38,7 @@ class TripDetailScreen extends ConsumerWidget {
                   Icon(Icons.place_outlined, size: 64, color: Colors.grey.shade400),
                   const SizedBox(height: 16),
                   Text(
-                    locale == 'ja'
-                        ? 'スポットを追加しましょう'
-                        : locale == 'ko'
-                            ? '관광지를 추가해보세요'
-                            : 'Add some spots',
+                    tr(locale, ja: 'スポットを追加しましょう', ko: '관광지를 추가해보세요', en: 'Add some spots', zh: '添加一些景点吧'),
                     style: theme.textTheme.titleMedium?.copyWith(color: Colors.grey),
                   ),
                 ],
@@ -98,11 +95,7 @@ class TripDetailScreen extends ConsumerWidget {
                   },
                   icon: const Icon(Icons.hotel),
                   label: Text(
-                    locale == 'ja'
-                        ? 'ホテルを探す'
-                        : locale == 'ko'
-                            ? '호텔 찾기'
-                            : 'Find Hotels',
+                    tr(locale, ja: 'ホテルを探す', ko: '호텔 찾기', en: 'Find Hotels', zh: '查找酒店'),
                   ),
                 ),
               ),

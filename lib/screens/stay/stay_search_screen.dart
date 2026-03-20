@@ -11,6 +11,7 @@ import '../../widgets/mode_selector.dart';
 import '../../config/constants.dart';
 import '../spot/spot_detail_screen.dart';
 import '../../services/landmark_localizer.dart';
+import '../../utils/tr.dart';
 
 class StaySearchScreen extends ConsumerStatefulWidget {
   const StaySearchScreen({super.key});
@@ -172,7 +173,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
 
             // Mode selector
             Text(
-              locale == 'ja' ? '検索モード' : locale == 'ko' ? '검색 모드' : 'Search mode',
+              tr(locale, ja: '検索モード', ko: '검색 모드', en: 'Search mode', zh: '搜索模式'),
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
@@ -185,7 +186,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
 
             // Date selection
             Text(
-              locale == 'ja' ? '日程' : locale == 'ko' ? '일정' : 'Dates',
+              tr(locale, ja: '日程', ko: '일정', en: 'Dates', zh: '日期'),
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
@@ -221,7 +222,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
             if (state.landmarks.length >= 3) ...[
               const SizedBox(height: 20),
               Text(
-                locale == 'ja' ? '宿泊スタイル' : locale == 'ko' ? '숙박 스타일' : 'Stay style',
+                tr(locale, ja: '宿泊スタイル', ko: '숙박 스타일', en: 'Stay style', zh: '住宿方式'),
                 style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 8),
@@ -237,12 +238,12 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
             // Budget selector
             Row(children: [
               Text(
-                locale == 'ja' ? '予算' : locale == 'ko' ? '예산' : 'Budget',
+                tr(locale, ja: '予算', ko: '예산', en: 'Budget', zh: '预算'),
                 style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
               ),
               const SizedBox(width: 6),
               Text(
-                locale == 'ja' ? '（1泊あたり）' : locale == 'ko' ? '(1박 기준)' : '(per night)',
+                tr(locale, ja: '（1泊あたり）', ko: '(1박 기준)', en: '(per night)', zh: '（每晚）'),
                 style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground),
               ),
             ]),
@@ -306,13 +307,13 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
   }
 
   String _regionLabel(String region, String locale) {
-    const labels = {
-      'kanto': {'ja': '東京・関東', 'en': 'Tokyo / Kanto', 'ko': '도쿄 / 간토', 'zh': '东京 / 关东'},
-      'kansai': {'ja': '大阪・関西', 'en': 'Osaka / Kansai', 'ko': '오사카 / 간사이', 'zh': '大阪 / 关西'},
-      'seoul': {'ja': 'ソウル', 'en': 'Seoul', 'ko': '서울', 'zh': '首尔'},
-      'busan': {'ja': '釜山', 'en': 'Busan', 'ko': '부산', 'zh': '釜山'},
-    };
-    return labels[region]?[locale] ?? labels[region]?['en'] ?? region;
+    switch (region) {
+      case 'kanto': return tr(locale, ja: '東京・関東', en: 'Tokyo / Kanto', ko: '도쿄 / 간토', zh: '东京 / 关东');
+      case 'kansai': return tr(locale, ja: '大阪・関西', en: 'Osaka / Kansai', ko: '오사카 / 간사이', zh: '大阪 / 关西');
+      case 'seoul': return tr(locale, ja: 'ソウル', en: 'Seoul', ko: '서울', zh: '首尔');
+      case 'busan': return tr(locale, ja: '釜山', en: 'Busan', ko: '부산', zh: '釜山');
+      default: return region;
+    }
   }
 }
 
@@ -433,8 +434,8 @@ class _PopularSpotCardsState extends State<_PopularSpotCards> {
 
     if (spots.isEmpty) return const SizedBox.shrink();
 
-    final addLabel = widget.locale == 'ja' ? '検索に追加' : widget.locale == 'ko' ? '검색에 추가' : 'Add to search';
-    final tripLabel = widget.locale == 'ja' ? '旅行に追加' : widget.locale == 'ko' ? '여행에 추가' : 'Add to trip';
+    final addLabel = tr(widget.locale, ja: '検索に追加', ko: '검색에 추가', en: 'Add to search', zh: '添加到搜索');
+    final tripLabel = tr(widget.locale, ja: '旅行に追加', ko: '여행에 추가', en: 'Add to trip', zh: '添加到旅行');
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -443,7 +444,7 @@ class _PopularSpotCardsState extends State<_PopularSpotCards> {
           Icon(Icons.place, size: 16, color: AppTheme.mutedForeground),
           const SizedBox(width: 6),
           Text(
-            widget.locale == 'ja' ? '人気スポット' : widget.locale == 'ko' ? '인기 관광지' : 'Popular Spots',
+            tr(widget.locale, ja: '人気スポット', ko: '인기 관광지', en: 'Popular Spots', zh: '热门景点'),
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: AppTheme.mutedForeground),
           ),
         ]),
@@ -628,7 +629,7 @@ class _QuickSearchPlans extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          locale == 'ja' ? '人気プランで検索' : locale == 'ko' ? '인기 플랜으로 검색' : 'Quick search plans',
+          tr(locale, ja: '人気プランで検索', ko: '인기 플랜으로 검색', en: 'Quick search plans', zh: '热门方案搜索'),
           style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground),
         ),
         const SizedBox(height: 8),
@@ -814,7 +815,7 @@ class _StayStyleToggle extends StatelessWidget {
           _buildOption(
             selected: !isSplit,
             icon: Icons.hotel,
-            label: locale == 'ja' ? '1箇所に宿泊' : locale == 'ko' ? '한 곳에 숙박' : 'Single hotel',
+            label: tr(locale, ja: '1箇所に宿泊', ko: '한 곳에 숙박', en: 'Single hotel', zh: '单一酒店'),
             showRecommended: !recommendSplit && landmarks.length >= 3,
             onTap: () => onChanged(false),
           ),
@@ -822,7 +823,7 @@ class _StayStyleToggle extends StatelessWidget {
           _buildOption(
             selected: isSplit,
             icon: Icons.swap_horiz,
-            label: locale == 'ja' ? '分散して宿泊' : locale == 'ko' ? '분산 숙박' : 'Split stay',
+            label: tr(locale, ja: '分散して宿泊', ko: '분산 숙박', en: 'Split stay', zh: '分区住宿'),
             showRecommended: recommendSplit,
             onTap: () => onChanged(true),
           ),
@@ -833,12 +834,8 @@ class _StayStyleToggle extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           recommendSplit
-            ? (locale == 'ja' ? '観光地が離れているため、分散宿泊がおすすめです'
-              : locale == 'ko' ? '관광지가 떨어져 있어 분산 숙박을 추천합니다'
-              : 'Your spots are spread out — splitting into areas is recommended')
-            : (locale == 'ja' ? '観光地が近いため、1箇所の宿泊で十分です'
-              : locale == 'ko' ? '관광지가 가까워 한 곳 숙박으로 충분합니다'
-              : 'Your spots are close together — one hotel works great'),
+            ? tr(locale, ja: '観光地が離れているため、分散宿泊がおすすめです', ko: '관광지가 떨어져 있어 분산 숙박을 추천합니다', en: 'Your spots are spread out — splitting into areas is recommended', zh: '景点较分散，建议分区住宿')
+            : tr(locale, ja: '観光地が近いため、1箇所の宿泊で十分です', ko: '관광지가 가까워 한 곳 숙박으로 충분합니다', en: 'Your spots are close together — one hotel works great', zh: '景点较集中，住一家酒店即可'),
           style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground),
           textAlign: TextAlign.center,
         ),
@@ -868,7 +865,7 @@ class _StayStyleToggle extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 4),
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(color: AppTheme.primary, borderRadius: BorderRadius.circular(8)),
-              child: Text(locale == 'ja' ? 'おすすめ' : locale == 'ko' ? '추천' : 'Rec',
+              child: Text(tr(locale, ja: 'おすすめ', ko: '추천', en: 'Rec', zh: '推荐'),
                 style: const TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.w600)),
             ),
           Icon(icon, size: 18, color: selected ? AppTheme.primary : AppTheme.mutedForeground),

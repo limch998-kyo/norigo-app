@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'l10n/app_localizations.dart';
 import 'config/theme.dart';
 import 'providers/app_providers.dart';
+import 'utils/tr.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/stay/stay_search_screen.dart';
 import 'screens/stay/stay_result_screen.dart';
@@ -122,15 +123,15 @@ class _MainShellState extends ConsumerState<MainShell> {
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(icon: const Icon(Icons.home_outlined), activeIcon: const Icon(Icons.home),
-            label: locale == 'ja' ? 'ホーム' : locale == 'ko' ? '홈' : 'Home'),
+            label: tr(locale, ja: 'ホーム', ko: '홈', en: 'Home', zh: '首页')),
           BottomNavigationBarItem(icon: const Icon(Icons.hotel_outlined), activeIcon: const Icon(Icons.hotel),
-            label: locale == 'ja' ? 'ホテル' : locale == 'ko' ? '호텔' : 'Hotel'),
+            label: tr(locale, ja: 'ホテル', ko: '호텔', en: 'Hotel', zh: '酒店')),
           BottomNavigationBarItem(icon: const Icon(Icons.groups_outlined), activeIcon: const Icon(Icons.groups),
-            label: locale == 'ja' ? '集合' : locale == 'ko' ? '만남' : 'Meetup'),
+            label: tr(locale, ja: '集合', ko: '만남', en: 'Meetup', zh: '聚会')),
           BottomNavigationBarItem(icon: const Icon(Icons.luggage_outlined), activeIcon: const Icon(Icons.luggage),
-            label: locale == 'ja' ? '旅行' : locale == 'ko' ? '여행' : 'Trip'),
+            label: tr(locale, ja: '旅行', ko: '여행', en: 'Trip', zh: '旅行')),
           BottomNavigationBarItem(icon: const Icon(Icons.menu_book_outlined), activeIcon: const Icon(Icons.menu_book),
-            label: locale == 'ja' ? 'ガイド' : locale == 'ko' ? '가이드' : 'Guide'),
+            label: tr(locale, ja: 'ガイド', ko: '가이드', en: 'Guide', zh: '指南')),
         ],
       ),
     ),

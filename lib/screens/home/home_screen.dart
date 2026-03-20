@@ -6,6 +6,7 @@ import '../../providers/app_providers.dart';
 import '../../providers/stay_provider.dart';
 import '../../models/landmark.dart';
 import '../../config/theme.dart';
+import '../../utils/tr.dart';
 import 'widgets/quick_plan_cards.dart';
 import '../settings/settings_screen.dart';
 import '../spot/spot_detail_screen.dart';
@@ -69,7 +70,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   children: [
                     Text(
                       _koreaMode
-                          ? (locale == 'ja' ? '韓国旅行、\n最適なホテルを見つけよう' : locale == 'ko' ? '한국 여행,\n딱 좋은 호텔을 찾아줄게요' : 'Korea trip?\nFind the perfect hotel.')
+                          ? tr(locale, ja: '韓国旅行、\n最適なホテルを見つけよう', ko: '한국 여행,\n딱 좋은 호텔을 찾아줄게요', en: 'Korea trip?\nFind the perfect hotel.', zh: '韩国旅行，\n找到最合适的酒店')
                           : l10n.homeTitle,
                       style: theme.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.bold,
@@ -81,7 +82,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     const SizedBox(height: 10),
                     Text(
                       _koreaMode
-                          ? (locale == 'ja' ? 'ソウル・釜山の観光地を入力するだけで、すべてに近い最適なホテルエリアを提案。' : locale == 'ko' ? '서울·부산의 관광지를 입력하면 최적의 호텔 지역을 추천합니다.' : 'Enter Seoul/Busan landmarks, we find the best hotel area.')
+                          ? tr(locale, ja: 'ソウル・釜山の観光地を入力するだけで、すべてに近い最適なホテルエリアを提案。', ko: '서울·부산의 관광지를 입력하면 최적의 호텔 지역을 추천합니다.', en: 'Enter Seoul/Busan landmarks, we find the best hotel area.', zh: '输入首尔·釜山的景点，为您推荐最佳酒店区域。')
                           : l10n.homeSubtitle,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: AppTheme.mutedForeground,
@@ -108,7 +109,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               fit: BoxFit.scaleDown,
                               child: Text(
                                 _koreaMode
-                                    ? (locale == 'ja' ? 'ソウルでホテルを探す' : locale == 'ko' ? '서울 호텔 찾기' : 'Seoul Hotels')
+                                    ? tr(locale, ja: 'ソウルでホテルを探す', ko: '서울 호텔 찾기', en: 'Seoul Hotels', zh: '搜索首尔酒店')
                                     : (locale == 'ja' ? l10n.meetupTitle : l10n.staySearchTitle),
                                 maxLines: 1,
                               ),
@@ -131,7 +132,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               fit: BoxFit.scaleDown,
                               child: Text(
                                 _koreaMode
-                                    ? (locale == 'ja' ? '釜山でホテルを探す' : locale == 'ko' ? '부산 호텔 찾기' : 'Busan Hotels')
+                                    ? tr(locale, ja: '釜山でホテルを探す', ko: '부산 호텔 찾기', en: 'Busan Hotels', zh: '搜索釜山酒店')
                                     : (locale == 'ja' ? l10n.staySearchTitle : l10n.meetupTitle),
                                 maxLines: 1,
                               ),
@@ -158,11 +159,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ? 'assets/images/illustrations/service-meetup.svg'
                         : 'assets/images/illustrations/service-stay.svg',
                     label: locale == 'ja' ? l10n.meetupTitle : l10n.staySearchTitle,
-                    subtitle: locale == 'ja'
-                        ? 'みんなの中間地点'
-                        : locale == 'ko'
-                            ? '관광지에서 호텔 찾기'
-                            : 'Find hotels near landmarks',
+                    subtitle: tr(locale, ja: 'みんなの中間地点', ko: '관광지에서 호텔 찾기', en: 'Find hotels near landmarks', zh: '在景点附近找酒店'),
                     onTap: () => onSwitchTab?.call(locale == 'ja' ? 2 : 1),
                   ),
                 ),
@@ -173,11 +170,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ? 'assets/images/illustrations/service-stay.svg'
                         : 'assets/images/illustrations/service-meetup.svg',
                     label: locale == 'ja' ? l10n.staySearchTitle : l10n.meetupTitle,
-                    subtitle: locale == 'ja'
-                        ? '観光地からホテルを探す'
-                        : locale == 'ko'
-                            ? '모두의 중간 지점'
-                            : 'Find the middle point',
+                    subtitle: tr(locale, ja: '観光地からホテルを探す', ko: '모두의 중간 지점', en: 'Find the middle point', zh: '找到大家的中间地点'),
                     onTap: () => onSwitchTab?.call(2),
                   ),
                 ),
@@ -363,7 +356,7 @@ class _HowItWorks extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          locale == 'ja' ? '使い方' : locale == 'ko' ? '이용 방법' : 'How It Works',
+          tr(locale, ja: '使い方', ko: '이용 방법', en: 'How It Works', zh: '使用方法'),
           style: theme.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
             letterSpacing: -0.3,
@@ -483,7 +476,7 @@ class _PopularSpots extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          locale == 'ja' ? '人気スポット' : locale == 'ko' ? '인기 관광지' : 'Popular Spots',
+          tr(locale, ja: '人気スポット', ko: '인기 관광지', en: 'Popular Spots', zh: '热门景点'),
           style: theme.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
             letterSpacing: -0.3,
@@ -613,16 +606,14 @@ class _KoreaBanner extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    locale == 'ja' ? '韓国もサポート！' : 'Korea Now Available!',
+                    tr(locale, ja: '韓国もサポート！', en: 'Korea Now Available!', zh: '韩国现已支持！'),
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    locale == 'ja'
-                        ? 'ソウル・釜山のホテル検索ができます'
-                        : 'Search hotels in Seoul & Busan',
+                    tr(locale, ja: 'ソウル・釜山のホテル検索ができます', en: 'Search hotels in Seoul & Busan', zh: '可搜索首尔·釜山的酒店'),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: AppTheme.mutedForeground,
                     ),
@@ -663,10 +654,10 @@ class _JapanBanner extends StatelessWidget {
           ),
           const SizedBox(width: 16),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(locale == 'ja' ? '日本の旅行に戻る' : locale == 'ko' ? '일본 여행으로 돌아가기' : 'Back to Japan',
+            Text(tr(locale, ja: '日本の旅行に戻る', ko: '일본 여행으로 돌아가기', en: 'Back to Japan', zh: '返回日本旅行'),
               style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700)),
             const SizedBox(height: 2),
-            Text(locale == 'ja' ? '東京・大阪のホテルと集合場所を探す' : locale == 'ko' ? '도쿄·오사카 호텔과 모임 장소' : 'Hotels in Tokyo & Osaka',
+            Text(tr(locale, ja: '東京・大阪のホテルと集合場所を探す', ko: '도쿄·오사카 호텔과 모임 장소', en: 'Hotels in Tokyo & Osaka', zh: '搜索东京·大阪的酒店和聚会地点'),
               style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppTheme.mutedForeground)),
           ])),
           Icon(Icons.arrow_forward_ios, size: 16, color: AppTheme.mutedForeground),
@@ -684,21 +675,21 @@ class _KoreaHowItWorks extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final steps = [
-      {'title': locale == 'ja' ? '韓国の観光地を入力' : locale == 'ko' ? '한국 관광지 입력' : 'Enter Korea landmarks',
-       'desc': locale == 'ja' ? 'ソウル・釜山の行きたいスポットを入力' : locale == 'ko' ? '서울·부산의 가고 싶은 관광지를 입력' : 'Add Seoul/Busan spots',
+      {'title': tr(locale, ja: '韓国の観光地を入力', ko: '한국 관광지 입력', en: 'Enter Korea landmarks', zh: '输入韩国景点'),
+       'desc': tr(locale, ja: 'ソウル・釜山の行きたいスポットを入力', ko: '서울·부산의 가고 싶은 관광지를 입력', en: 'Add Seoul/Busan spots', zh: '输入想去的首尔·釜山景点'),
        'illustration': 'assets/images/illustrations/korea-stay-step1.svg'},
-      {'title': locale == 'ja' ? 'ベストなエリアを提案' : locale == 'ko' ? '최적 지역 추천' : 'Best area recommended',
-       'desc': locale == 'ja' ? 'すべての観光地にアクセスしやすいホテルエリアを算出' : locale == 'ko' ? '모든 관광지에 접근하기 좋은 호텔 지역을 계산' : 'Hotel area closest to all spots',
+      {'title': tr(locale, ja: 'ベストなエリアを提案', ko: '최적 지역 추천', en: 'Best area recommended', zh: '推荐最佳区域'),
+       'desc': tr(locale, ja: 'すべての観光地にアクセスしやすいホテルエリアを算出', ko: '모든 관광지에 접근하기 좋은 호텔 지역을 계산', en: 'Hotel area closest to all spots', zh: '计算距所有景点最近的酒店区域'),
        'illustration': 'assets/images/illustrations/korea-stay-step2.svg'},
-      {'title': locale == 'ja' ? 'ホテルを予約' : locale == 'ko' ? '호텔 예약' : 'Book hotel',
-       'desc': locale == 'ja' ? 'Agodaでそのまま予約' : locale == 'ko' ? 'Agoda에서 바로 예약' : 'Book on Agoda',
+      {'title': tr(locale, ja: 'ホテルを予約', ko: '호텔 예약', en: 'Book hotel', zh: '预订酒店'),
+       'desc': tr(locale, ja: 'Agodaでそのまま予約', ko: 'Agoda에서 바로 예약', en: 'Book on Agoda', zh: '在Agoda上直接预订'),
        'illustration': 'assets/images/illustrations/stay-step3.svg'},
     ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(locale == 'ja' ? '使い方' : locale == 'ko' ? '이용 방법' : 'How It Works',
+        Text(tr(locale, ja: '使い方', ko: '이용 방법', en: 'How It Works', zh: '使用方法'),
           style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, letterSpacing: -0.3)),
         const SizedBox(height: 16),
         ...steps.asMap().entries.map((e) {
@@ -787,21 +778,21 @@ class _KoreaQuickPlans extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(locale == 'ja' ? '人気プランですぐ検索' : locale == 'ko' ? '인기 플랜으로 바로 검색' : 'Popular Plans',
+        Text(tr(locale, ja: '人気プランですぐ検索', ko: '인기 플랜으로 바로 검색', en: 'Popular Plans', zh: '热门方案快速搜索'),
           style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
         const SizedBox(height: 4),
-        Text(locale == 'ja' ? 'タップするだけで最適なホテルエリアがわかります' : locale == 'ko' ? '탭하면 바로 최적의 호텔 지역을 찾아줍니다' : 'Tap to find the best hotel area',
+        Text(tr(locale, ja: 'タップするだけで最適なホテルエリアがわかります', ko: '탭하면 바로 최적의 호텔 지역을 찾아줍니다', en: 'Tap to find the best hotel area', zh: '点击即可找到最佳酒店区域'),
           style: theme.textTheme.bodyMedium?.copyWith(color: AppTheme.mutedForeground)),
         const SizedBox(height: 16),
 
         // Seoul section
-        _regionHeader(context, locale == 'ja' ? 'ソウルの人気スポット' : locale == 'ko' ? '서울 인기 코스' : 'Seoul'),
+        _regionHeader(context, tr(locale, ja: 'ソウルの人気スポット', ko: '서울 인기 코스', en: 'Seoul', zh: '首尔热门景点')),
         const SizedBox(height: 8),
         ...seoulPlans.map((p) => _planCard(context, p)),
 
         const SizedBox(height: 16),
         // Busan section
-        _regionHeader(context, locale == 'ja' ? '釜山の人気スポット' : locale == 'ko' ? '부산 인기 코스' : 'Busan'),
+        _regionHeader(context, tr(locale, ja: '釜山の人気スポット', ko: '부산 인기 코스', en: 'Busan', zh: '釜山热门景点')),
         const SizedBox(height: 8),
         ...busanPlans.map((p) => _planCard(context, p)),
       ],
@@ -825,7 +816,7 @@ class _KoreaQuickPlans extends StatelessWidget {
     final region = plan['region'] as String;
     final image = plan['image'] as String?;
     final imageUrl = image != null ? 'https://norigo.app$image' : null;
-    final ctaLabel = locale == 'ja' ? 'ホテルを探す' : locale == 'ko' ? '호텔 찾기' : 'Find Hotels';
+    final ctaLabel = tr(locale, ja: 'ホテルを探す', ko: '호텔 찾기', en: 'Find Hotels', zh: '搜索酒店');
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
