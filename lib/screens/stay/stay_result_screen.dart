@@ -1039,31 +1039,10 @@ class _HotelSectionState extends State<_HotelSection> {
   }
 
   String _buildBudgetLabel(String budget, int index, List<String> tiers, String locale) {
-    if (budget == 'any') {
-      return tr(locale, ja: 'すべて', ko: '전체', en: 'All', zh: '全部');
-    }
-
-    String fmtJpy(int v) {
-      if (v >= 10000) return '¥${(v / 10000).toStringAsFixed(v % 10000 == 0 ? 0 : 1)}万';
-      return '¥${(v / 1000).round()}k';
-    }
-
-    final underMatch = RegExp(r'^under(\d+)$').firstMatch(budget);
-    final overMatch = RegExp(r'^over(\d+)$').firstMatch(budget);
-
-    if (underMatch != null) {
-      final upper = int.parse(underMatch.group(1)!);
-      int lower = 0;
-      if (index > 1) {
-        final prevMatch = RegExp(r'^under(\d+)$').firstMatch(tiers[index - 1]);
-        if (prevMatch != null) lower = int.parse(prevMatch.group(1)!);
-      }
-      if (lower == 0) return '~${fmtJpy(upper)}';
-      return '${fmtJpy(lower)}~${fmtJpy(upper)}';
-    }
-    if (overMatch != null) {
-      return '${fmtJpy(int.parse(overMatch.group(1)!))}~';
-    }
+    // Use pre-defined locale-aware labels from constants
+    final label = AppConstants.stayBudgetLabels[budget]?[locale]
+        ?? AppConstants.stayBudgetLabels[budget]?['en'];
+    if (label != null) return label;
     return budget;
   }
 
