@@ -360,15 +360,91 @@ class _SplitResultsListState extends State<_SplitResultsList> {
   static const _defaultVisible = 2;
   // Track which clusters are expanded to show all results
   final Set<int> _expandedClusters = {};
+  final ScrollController _scrollController = ScrollController();
+  final Map<int, GlobalKey> _clusterKeys = {};
+  int _activeCluster = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    for (var i = 0; i < widget.clusters.length; i++) {
+      _clusterKeys[i] = GlobalKey();
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _scrollToCluster(int index) {
+    setState(() => _activeCluster = index);
+    final key = _clusterKeys[index];
+    if (key?.currentContext != null) {
+      Scrollable.ensureVisible(
+        key!.currentContext!,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+        alignmentPolicy: ScrollPositionAlignmentPolicy.explicit,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     int globalIndex = 0;
+    final theme = Theme.of(context);
 
-    return ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      children: [
-        ...widget.clusters.asMap().entries.expand((clusterEntry) {
+    return Column(children: [
+      // Area tabs (sticky at top)
+      Container(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+        child: Row(
+          children: widget.clusters.asMap().entries.map((e) {
+            final ci = e.key;
+            final cluster = e.value;
+            final isActive = _activeCluster == ci;
+            final color = ci == 0 ? AppTheme.primary : AppTheme.orange;
+            return Expanded(child: Padding(
+              padding: EdgeInsets.only(right: ci < widget.clusters.length - 1 ? 8 : 0),
+              child: GestureDetector(
+                onTap: () => _scrollToCluster(ci),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                    color: isActive ? color.withValues(alpha: 0.1) : Colors.transparent,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: isActive ? color : AppTheme.border),
+                  ),
+                  child: Column(children: [
+                    Container(
+                      width: 22, height: 22,
+                      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+                      child: Center(child: Text('${ci + 1}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 11))),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      cluster.landmarks.join(' · '),
+                      style: TextStyle(fontSize: 10, fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
+                        color: isActive ? color : AppTheme.mutedForeground),
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ]),
+                ),
+              ),
+            ));
+          }).toList(),
+        ),
+      ),
+      // Scrollable area list
+      Expanded(child: ListView(
+        controller: _scrollController,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        children: [
+          ...widget.clusters.asMap().entries.expand((clusterEntry) {
           final ci = clusterEntry.key;
           final cluster = clusterEntry.value;
           final isClusterExpanded = _expandedClusters.contains(ci);
@@ -381,6 +457,7 @@ class _SplitResultsListState extends State<_SplitResultsList> {
           return [
             // Cluster header
             Padding(
+              key: _clusterKeys[ci],
               padding: const EdgeInsets.only(top: 8, bottom: 8),
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -478,7 +555,8 @@ class _SplitResultsListState extends State<_SplitResultsList> {
           ];
         }),
       ],
-    );
+    )),
+    ]);
   }
 }
 
