@@ -16,7 +16,7 @@ void main() async {
 
   // Initialize Kakao SDK (native app key from Kakao Developers console)
   KakaoSdk.init(
-    nativeAppKey: 'cbc1828029dae6bb3007fb428675af62',
+    nativeAppKey: '6519b9ccb97a21e52a47295d52f20995',
     javaScriptAppKey: 'ef83068e8071507be6a45e8af10706ee',
   );
 
