@@ -108,6 +108,14 @@ class SettingsScreen extends ConsumerWidget {
             trailing: const Icon(Icons.open_in_new, size: 16),
             onTap: () => launchUrl(Uri.parse('https://norigo.app/$locale/terms'), mode: LaunchMode.externalApplication),
           ),
+          ListTile(
+            leading: const Icon(Icons.photo_library_outlined),
+            title: Text(
+              tr(locale, ja: '画像の出典', ko: '이미지 출처', en: 'Image Credits', zh: '图片来源'),
+            ),
+            trailing: const Icon(Icons.open_in_new, size: 16),
+            onTap: () => launchUrl(Uri.parse('https://norigo.app/$locale/credits'), mode: LaunchMode.externalApplication),
+          ),
         ],
       ),
     );
