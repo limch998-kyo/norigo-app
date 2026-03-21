@@ -6,6 +6,8 @@ import 'providers/app_providers.dart';
 import 'services/line_localize.dart';
 import 'services/landmark_localizer.dart';
 import 'services/station_localizer.dart';
+import 'services/tracking_service.dart';
+import 'services/api_client.dart';
 import 'config/booking_provider.dart';
 
 void main() async {
@@ -26,10 +28,18 @@ void main() async {
     BookingProvider.preloadAgodaIds(),
   ]);
 
+  // Initialize tracking service
+  final apiClient = ApiClient();
+  final tracking = TrackingService(apiClient);
+  await tracking.init();
+  tracking.setLocale(initialLocale);
+
   runApp(
     ProviderScope(
       overrides: [
         localeProvider.overrideWith((ref) => initialLocale),
+        apiClientProvider.overrideWithValue(apiClient),
+        trackingServiceProvider.overrideWithValue(tracking),
       ],
       child: const NorigoApp(),
     ),

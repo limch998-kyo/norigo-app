@@ -307,6 +307,19 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
                     checkIn: state.checkIn,
                     checkOut: state.checkOut,
                     searchRegion: state.region,
+                    onHotelBookingClick: (hotel, stationId, stationName) {
+                      final tracking = ref.read(trackingServiceProvider);
+                      tracking.trackEvent('agoda_hotel_click', payload: {
+                        'hotelId': hotel.hotelId,
+                        'hotelName': hotel.name,
+                        'stationId': stationId,
+                        'stationName': stationName,
+                      }, path: '/stay/result');
+                      tracking.trackEvent('hotel_booking_click', payload: {
+                        'provider': 'agoda',
+                        'station': stationName,
+                      }, path: '/stay/result');
+                    },
                   )
                 : ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -325,6 +338,19 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
                   checkIn: state.checkIn,
                   checkOut: state.checkOut,
                   searchRegion: state.region,
+                  onHotelBookingClick: (hotel, stationId, stationName) {
+                    final tracking = ref.read(trackingServiceProvider);
+                    tracking.trackEvent('agoda_hotel_click', payload: {
+                      'hotelId': hotel.hotelId,
+                      'hotelName': hotel.name,
+                      'stationId': stationId,
+                      'stationName': stationName,
+                    }, path: '/stay/result');
+                    tracking.trackEvent('hotel_booking_click', payload: {
+                      'provider': 'agoda',
+                      'station': stationName,
+                    }, path: '/stay/result');
+                  },
                 );
               },
             ),
@@ -346,11 +372,13 @@ class _SplitResultsList extends StatefulWidget {
   final String? checkIn;
   final String? checkOut;
   final String searchRegion;
+  final void Function(Hotel hotel, String stationId, String stationName)? onHotelBookingClick;
 
   const _SplitResultsList({
     required this.clusters, required this.expandedIndex, required this.onTap,
     required this.locale, required this.l10n, required this.landmarks,
     this.maxBudget, this.checkIn, this.checkOut, this.searchRegion = 'kanto',
+    this.onHotelBookingClick,
   });
 
   @override
@@ -466,6 +494,7 @@ class _SplitResultsListState extends State<_SplitResultsList> {
                 checkIn: widget.checkIn,
                 checkOut: widget.checkOut,
                 searchRegion: widget.searchRegion,
+                onHotelBookingClick: widget.onHotelBookingClick,
               );
             });
           })(),
@@ -541,8 +570,9 @@ class _AreaCard extends StatefulWidget {
   final String? checkIn;
   final String? checkOut;
   final String searchRegion; // The region from search state, not from station
+  final void Function(Hotel hotel, String stationId, String stationName)? onHotelBookingClick;
 
-  const _AreaCard({super.key, required this.area, required this.rank, required this.isExpanded, required this.onTap, required this.locale, required this.l10n, required this.landmarks, this.localNames = const {}, this.maxBudget, this.checkIn, this.checkOut, this.searchRegion = 'kanto'});
+  const _AreaCard({super.key, required this.area, required this.rank, required this.isExpanded, required this.onTap, required this.locale, required this.l10n, required this.landmarks, this.localNames = const {}, this.maxBudget, this.checkIn, this.checkOut, this.searchRegion = 'kanto', this.onHotelBookingClick});
 
   @override
   State<_AreaCard> createState() => _AreaCardState();
@@ -711,7 +741,7 @@ class _AreaCardState extends State<_AreaCard> {
             // en/zh → Booking.com link only
             const Divider(height: 24),
             if (locale == 'ko' || (locale == 'ja' && ['seoul', 'busan'].contains(widget.searchRegion)))
-              _HotelSection(stationId: area.station.id, locale: locale, region: widget.searchRegion, stationName: name, l10n: l10n, checkIn: widget.checkIn, checkOut: widget.checkOut, initialBudget: widget.maxBudget, lat: area.station.lat, lng: area.station.lng, onLoaded: _onHotelsLoaded)
+              _HotelSection(stationId: area.station.id, locale: locale, region: widget.searchRegion, stationName: name, l10n: l10n, checkIn: widget.checkIn, checkOut: widget.checkOut, initialBudget: widget.maxBudget, lat: area.station.lat, lng: area.station.lng, onLoaded: _onHotelsLoaded, onHotelBookingClick: (hotel) => widget.onHotelBookingClick?.call(hotel, area.station.id, name))
             else
               _ExternalHotelLinks(stationName: name, stationId: area.station.id, locale: locale, region: widget.searchRegion, lat: area.station.lat, lng: area.station.lng, checkIn: widget.checkIn, checkOut: widget.checkOut),
           ]),
@@ -991,8 +1021,9 @@ class _HotelSection extends StatefulWidget {
   final double? lat;
   final double? lng;
   final void Function(List<Hotel>)? onLoaded;
+  final void Function(Hotel hotel)? onHotelBookingClick;
 
-  const _HotelSection({required this.stationId, required this.locale, required this.region, required this.stationName, required this.l10n, this.checkIn, this.checkOut, this.initialBudget, this.lat, this.lng, this.onLoaded});
+  const _HotelSection({required this.stationId, required this.locale, required this.region, required this.stationName, required this.l10n, this.checkIn, this.checkOut, this.initialBudget, this.lat, this.lng, this.onLoaded, this.onHotelBookingClick});
 
   @override
   State<_HotelSection> createState() => _HotelSectionState();
@@ -1247,7 +1278,12 @@ class _HotelSectionState extends State<_HotelSection> {
           ]),
         ),
 
-      ...displayed.asMap().entries.map((e) => _HotelCard(hotel: e.value, index: e.key + 1, l10n: widget.l10n)),
+      ...displayed.asMap().entries.map((e) => _HotelCard(
+        hotel: e.value,
+        index: e.key + 1,
+        l10n: widget.l10n,
+        onBookingTap: () => widget.onHotelBookingClick?.call(e.value),
+      )),
 
       // Show more / show less
       if (hasMore)
@@ -1306,8 +1342,9 @@ class _HotelCard extends StatelessWidget {
   final Hotel hotel;
   final int index;
   final AppLocalizations l10n;
+  final VoidCallback? onBookingTap;
 
-  const _HotelCard({required this.hotel, required this.index, required this.l10n});
+  const _HotelCard({required this.hotel, required this.index, required this.l10n, this.onBookingTap});
 
   @override
   Widget build(BuildContext context) {
@@ -1379,6 +1416,7 @@ class _HotelCard extends StatelessWidget {
         if (hotel.bookingUrl != null)
           GestureDetector(
             onTap: () {
+              onBookingTap?.call();
               launchUrl(Uri.parse(hotel.bookingUrl!), mode: LaunchMode.externalApplication);
             },
             child: Container(

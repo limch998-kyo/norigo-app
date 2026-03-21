@@ -202,6 +202,16 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
 
     state = state.copyWith(isLoading: true, clearError: true, clearResult: true);
 
+    // Track search event (matches web stay_search)
+    final tracking = _ref.read(trackingServiceProvider);
+    tracking.trackEvent('stay_search', payload: {
+      'landmarkCount': filled.length,
+      'landmarks': filled.map((l) => l.name).toList(),
+      'mode': state.mode,
+      'maxBudget': state.maxBudget ?? 'any',
+      'region': state.region,
+    }, path: '/stay/search');
+
     try {
       final api = _ref.read(apiClientProvider);
       final locale = _ref.read(localeProvider);

@@ -15,6 +15,8 @@ import 'screens/guide/guide_screen.dart';
 import 'providers/stay_provider.dart';
 import 'providers/meetup_provider.dart';
 
+const _tabPages = ['/home', '/stay', '/meetup', '/trip', '/guide'];
+
 class NorigoApp extends ConsumerWidget {
   const NorigoApp({super.key});
 
@@ -56,6 +58,12 @@ class _MainShellState extends ConsumerState<MainShell> {
   void initState() {
     super.initState();
     MainShell.globalSwitchTab = switchToTab;
+    // Track initial page view
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(trackingServiceProvider).trackEvent('page_view', payload: {
+        'page': '/home',
+      }, path: '/home');
+    });
   }
 
   @override
@@ -69,6 +77,10 @@ class _MainShellState extends ConsumerState<MainShell> {
       _currentIndex = index;
       _visitedTabs.add(index);
     });
+    // Track page view
+    ref.read(trackingServiceProvider).trackEvent('page_view', payload: {
+      'page': _tabPages[index],
+    }, path: _tabPages[index]);
   }
 
   @override
