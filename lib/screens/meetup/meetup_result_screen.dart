@@ -25,6 +25,20 @@ class MeetupResultScreen extends ConsumerStatefulWidget {
   ConsumerState<MeetupResultScreen> createState() => _MeetupResultScreenState();
 }
 
+/// Build web-compatible share URL with search params (matching web's result page)
+String _buildMeetupShareUrl(dynamic state, String locale) {
+  final stations = state.filledStations as List;
+  final stationIds = stations.map((s) => s.id as String).join(',');
+  final params = <String, String>{
+    'p': stationIds,
+    'm': state.mode as String,
+    'r': state.region as String,
+  };
+  if (state.category != null) params['c'] = state.category as String;
+  if (state.budget != null) params['b'] = state.budget as String;
+  return Uri.parse('https://norigo.app/$locale/result').replace(queryParameters: params).toString();
+}
+
 class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
   int _expandedIndex = 0;
   bool _showMap = false;
@@ -108,7 +122,7 @@ class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
                   ko: '모두의 만남역을 검색하니 「${result.stations.first.station.name}역」을 추천합니다!',
                   en: '${result.stations.first.station.name} is recommended!',
                   zh: '搜索大家的集合站，推荐「${result.stations.first.station.name}站」！'),
-              url: 'https://norigo.app/result',
+              url: _buildMeetupShareUrl(state, locale),
               locale: locale,
             ),
           ),

@@ -137,6 +137,17 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
 
     state = state.copyWith(isLoading: true, clearError: true, clearResult: true);
 
+    // Track search event (matches web search)
+    final tracking = _ref.read(trackingServiceProvider);
+    tracking.trackEvent('search', payload: {
+      'participantCount': filled.length,
+      'stations': filled.map((s) => s.name).toList(),
+      'mode': state.mode,
+      'category': state.category,
+      'budget': state.budget,
+      'region': state.region,
+    }, path: '/search');
+
     try {
       final api = _ref.read(apiClientProvider);
       final locale = _ref.read(localeProvider);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/stay_provider.dart';
 import '../../utils/tr.dart';
@@ -71,10 +72,16 @@ class SettingsScreen extends ConsumerWidget {
               ),
             ),
           ),
-          ListTile(
-            leading: const Icon(Icons.info_outline),
-            title: const Text('Norigo'),
-            subtitle: const Text('v1.0.0'),
+          FutureBuilder<PackageInfo>(
+            future: PackageInfo.fromPlatform(),
+            builder: (context, snapshot) {
+              final version = snapshot.hasData ? 'v${snapshot.data!.version}+${snapshot.data!.buildNumber}' : '...';
+              return ListTile(
+                leading: const Icon(Icons.info_outline),
+                title: const Text('Nori GO!'),
+                subtitle: Text(version),
+              );
+            },
           ),
           ListTile(
             leading: const Icon(Icons.language),
@@ -100,6 +107,14 @@ class SettingsScreen extends ConsumerWidget {
             ),
             trailing: const Icon(Icons.open_in_new, size: 16),
             onTap: () => launchUrl(Uri.parse('https://norigo.app/$locale/terms'), mode: LaunchMode.externalApplication),
+          ),
+          ListTile(
+            leading: const Icon(Icons.photo_library_outlined),
+            title: Text(
+              tr(locale, ja: '画像の出典', ko: '이미지 출처', en: 'Image Credits', zh: '图片来源'),
+            ),
+            trailing: const Icon(Icons.open_in_new, size: 16),
+            onTap: () => launchUrl(Uri.parse('https://norigo.app/$locale/credits'), mode: LaunchMode.externalApplication),
           ),
         ],
       ),

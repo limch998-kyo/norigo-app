@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../config/theme.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:kakao_flutter_sdk_share/kakao_flutter_sdk_share.dart';
 import '../utils/tr.dart';
 
 // Official LINE logo SVG path
@@ -25,37 +26,108 @@ class ShareButtons extends StatefulWidget {
 class _ShareButtonsState extends State<ShareButtons> {
   bool _copied = false;
 
+  String _getShareUrl(String platform) {
+    final uri = Uri.parse(widget.url);
+    final params = Map<String, String>.from(uri.queryParameters);
+    params['utm_source'] = 'share';
+    params['utm_medium'] = platform;
+    return uri.replace(queryParameters: params).toString();
+  }
+
   Future<void> _copyLink() async {
-    await Clipboard.setData(ClipboardData(text: widget.url));
+    await Clipboard.setData(ClipboardData(text: _getShareUrl('copy')));
     setState(() => _copied = true);
     Future.delayed(const Duration(seconds: 2), () { if (mounted) setState(() => _copied = false); });
   }
 
+  Future<void> _nativeShare() async {
+    await SharePlus.instance.share(
+      ShareParams(text: '${widget.text}\n${_getShareUrl('native')}'),
+    );
+  }
+
   Future<void> _shareTwitter() async {
-    final encoded = Uri.encodeComponent('${widget.text}\n${widget.url}');
-    try { await launchUrl(Uri.parse('https://twitter.com/intent/tweet?text=$encoded'), mode: LaunchMode.externalApplication); } catch (_) {}
+    // Match web: text and url as separate params
+    final url = _getShareUrl('x');
+    final text = Uri.encodeComponent(widget.text);
+    final encodedUrl = Uri.encodeComponent(url);
+    try {
+      await launchUrl(
+        Uri.parse('https://twitter.com/intent/tweet?text=$text&url=$encodedUrl'),
+        mode: LaunchMode.externalApplication,
+      );
+    } catch (_) {}
   }
 
   Future<void> _shareLine() async {
-    final encoded = Uri.encodeComponent('${widget.text}\n${widget.url}');
-    try { await launchUrl(Uri.parse('https://social-plugins.line.me/lineit/share?url=$encoded'), mode: LaunchMode.externalApplication); } catch (_) {}
+    // Match web: use LIFF shareTargetPicker for rich card sharing
+    final shareUrl = _getShareUrl('line');
+    // Add openExternalBrowser=1 like web does
+    final urlWithExternal = shareUrl.contains('?')
+        ? '$shareUrl&openExternalBrowser=1'
+        : '$shareUrl?openExternalBrowser=1';
+
+    final liffParams = Uri(queryParameters: {
+      'url': urlWithExternal,
+      'title': widget.title,
+      'desc': widget.text,
+    }).query;
+
+    final liffUrl = 'https://liff.line.me/2009553286-JcRNsKER?$liffParams';
+
+    try {
+      await launchUrl(Uri.parse(liffUrl), mode: LaunchMode.externalApplication);
+    } catch (_) {
+      // Fallback: simple LINE share
+      final encoded = Uri.encodeComponent('${widget.text}\n$shareUrl');
+      await launchUrl(
+        Uri.parse('https://line.me/R/share?text=$encoded'),
+        mode: LaunchMode.externalApplication,
+      );
+    }
   }
 
   Future<void> _shareKakao() async {
-    // Use KakaoTalk share via sharer URL (not KakaoStory)
-    // This opens KakaoTalk app's share dialog
-    final encodedUrl = Uri.encodeComponent(widget.url);
-    final encodedText = Uri.encodeComponent(widget.text);
+    final shareUrl = _getShareUrl('kakao');
+    final imageUrl = 'https://norigo.app/api/og?locale=${widget.locale}';
+
+    // Use Kakao Flutter SDK — same as web's Kakao.Share.sendDefault()
+    final template = FeedTemplate(
+      content: Content(
+        title: widget.title,
+        description: widget.text,
+        imageUrl: Uri.parse(imageUrl),
+        link: Link(
+          webUrl: Uri.parse(shareUrl),
+          mobileWebUrl: Uri.parse(shareUrl),
+        ),
+      ),
+      buttons: [
+        Button(
+          title: tr(widget.locale, ja: '結果を見る', ko: '결과 보기', en: 'View Results', zh: '查看结果'),
+          link: Link(
+            webUrl: Uri.parse(shareUrl),
+            mobileWebUrl: Uri.parse(shareUrl),
+          ),
+        ),
+      ],
+    );
+
     try {
-      await launchUrl(
-        Uri.parse('https://sharer.kakao.com/talk/friends/picker/link?app_key=ef83068e8071507be6a45e8af10706ee&ka=sdk%2F2.7.4&url=$encodedUrl&text=$encodedText'),
-        mode: LaunchMode.externalApplication,
-      );
+      // Check if KakaoTalk is installed
+      if (await ShareClient.instance.isKakaoTalkSharingAvailable()) {
+        final uri = await ShareClient.instance.shareDefault(template: template);
+        await ShareClient.instance.launchKakaoTalk(uri);
+      } else {
+        // KakaoTalk not installed — use web share fallback
+        final uri = await WebSharerClient.instance.makeDefaultUrl(template: template);
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      }
     } catch (_) {
-      // Fallback to kakaolink scheme
-      try {
-        await launchUrl(Uri.parse('https://sharer.kakao.com/talk/friends/picker/link?url=$encodedUrl'), mode: LaunchMode.externalApplication);
-      } catch (_) {}
+      // Final fallback: native share
+      await SharePlus.instance.share(
+        ShareParams(text: '${widget.text}\n$shareUrl'),
+      );
     }
   }
 
@@ -69,56 +141,75 @@ class _ShareButtonsState extends State<ShareButtons> {
       children: [
         Text(shareLabel, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
         const SizedBox(height: 8),
-        Row(children: [
-          // LINE (ja) / KakaoTalk (ko)
-          if (widget.locale == 'ja')
-            Expanded(child: SizedBox(height: 44, child: ElevatedButton(
-              onPressed: _shareLine,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF06C755), foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              ),
-              child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                CustomPaint(size: const Size(20, 20), painter: _SvgIconPainter(_lineLogoPath, Colors.white)),
-                const SizedBox(width: 8),
-                Text('LINE$viaLabel', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
-              ]),
-            ))),
 
-          if (widget.locale == 'ko')
-            Expanded(child: SizedBox(height: 44, child: ElevatedButton(
-              onPressed: _shareKakao,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFFEE500), foregroundColor: const Color(0xFF191919),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              ),
-              child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                CustomPaint(size: const Size(20, 20), painter: _SvgIconPainter(_kakaoLogoPath, const Color(0xFF191919))),
-                const SizedBox(width: 8),
-                Text('카카오톡$viaLabel', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
-              ]),
-            ))),
-
-          if (widget.locale == 'ja' || widget.locale == 'ko') const SizedBox(width: 8),
-
-          // X button
-          SizedBox(height: 44, child: OutlinedButton(
-            onPressed: _shareTwitter,
-            style: OutlinedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), padding: const EdgeInsets.symmetric(horizontal: 14)),
-            child: const Row(mainAxisSize: MainAxisSize.min, children: [
-              Text('𝕏', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              SizedBox(width: 4),
-              Text('X', style: TextStyle(fontSize: 13)),
+        // Primary messenger button — full width (matching web)
+        if (widget.locale == 'ja')
+          SizedBox(width: double.infinity, height: 44, child: ElevatedButton(
+            onPressed: _shareLine,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF06C755), foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            ),
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              CustomPaint(size: const Size(20, 20), painter: _SvgIconPainter(_lineLogoPath, Colors.white)),
+              const SizedBox(width: 8),
+              Text('LINE$viaLabel', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
             ]),
           )),
+
+        if (widget.locale == 'ko')
+          SizedBox(width: double.infinity, height: 44, child: ElevatedButton(
+            onPressed: _shareKakao,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFFEE500), foregroundColor: const Color(0xFF191919),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            ),
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              CustomPaint(size: const Size(20, 20), painter: _SvgIconPainter(_kakaoLogoPath, const Color(0xFF191919))),
+              const SizedBox(width: 8),
+              Text('카카오톡$viaLabel', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+            ]),
+          )),
+
+        if (widget.locale != 'ja' && widget.locale != 'ko')
+          SizedBox(width: double.infinity, height: 44, child: ElevatedButton.icon(
+            onPressed: _nativeShare,
+            icon: const Icon(Icons.share, size: 18),
+            label: Text(shareLabel, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            ),
+          )),
+
+        const SizedBox(height: 8),
+
+        // Secondary buttons row (matching web: X + Copy)
+        Row(children: [
+          // X button
+          Expanded(child: SizedBox(height: 40, child: OutlinedButton(
+            onPressed: _shareTwitter,
+            style: OutlinedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+            child: const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text('𝕏', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              SizedBox(width: 6),
+              Text('X', style: TextStyle(fontSize: 13)),
+            ]),
+          ))),
           const SizedBox(width: 8),
 
-          // Copy button
-          SizedBox(height: 44, width: 44, child: OutlinedButton(
+          // Copy / URL button
+          Expanded(child: SizedBox(height: 40, child: OutlinedButton(
             onPressed: _copyLink,
-            style: OutlinedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), padding: EdgeInsets.zero),
-            child: Icon(_copied ? Icons.check : Icons.content_copy, size: 18),
-          )),
+            style: OutlinedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Icon(_copied ? Icons.check : Icons.content_copy, size: 16),
+              const SizedBox(width: 6),
+              Text(_copied
+                ? tr(widget.locale, ja: 'コピー済み', ko: '복사됨', en: 'Copied', zh: '已复制')
+                : 'URL',
+                style: const TextStyle(fontSize: 13)),
+            ]),
+          ))),
         ]),
       ],
     );
