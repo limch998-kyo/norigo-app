@@ -25,47 +25,91 @@ class ShareButtons extends StatefulWidget {
 class _ShareButtonsState extends State<ShareButtons> {
   bool _copied = false;
 
+  String _getShareUrl(String platform) {
+    final uri = Uri.parse(widget.url);
+    final params = Map<String, String>.from(uri.queryParameters);
+    params['utm_source'] = 'share';
+    params['utm_medium'] = platform;
+    return uri.replace(queryParameters: params).toString();
+  }
+
   Future<void> _copyLink() async {
-    await Clipboard.setData(ClipboardData(text: widget.url));
+    await Clipboard.setData(ClipboardData(text: _getShareUrl('copy')));
     setState(() => _copied = true);
     Future.delayed(const Duration(seconds: 2), () { if (mounted) setState(() => _copied = false); });
   }
 
   Future<void> _nativeShare() async {
     await SharePlus.instance.share(
-      ShareParams(text: '${widget.text}\n${widget.url}'),
+      ShareParams(text: '${widget.text}\n${_getShareUrl('native')}'),
     );
   }
 
   Future<void> _shareTwitter() async {
-    final encoded = Uri.encodeComponent('${widget.text}\n${widget.url}');
+    // Match web: text and url as separate params
+    final url = _getShareUrl('x');
+    final text = Uri.encodeComponent(widget.text);
+    final encodedUrl = Uri.encodeComponent(url);
     try {
-      await launchUrl(Uri.parse('https://twitter.com/intent/tweet?text=$encoded'), mode: LaunchMode.externalApplication);
+      await launchUrl(
+        Uri.parse('https://twitter.com/intent/tweet?text=$text&url=$encodedUrl'),
+        mode: LaunchMode.externalApplication,
+      );
     } catch (_) {}
   }
 
   Future<void> _shareLine() async {
-    final shareText = '${widget.text}\n${widget.url}';
-    // line://msg/text/ expects raw text (not double-encoded)
-    final lineUri = Uri.parse('line://msg/text/${Uri.encodeComponent(shareText)}');
+    // Match web: use LIFF shareTargetPicker for rich card sharing
+    final shareUrl = _getShareUrl('line');
+    // Add openExternalBrowser=1 like web does
+    final urlWithExternal = shareUrl.contains('?')
+        ? '$shareUrl&openExternalBrowser=1'
+        : '$shareUrl?openExternalBrowser=1';
+
+    final liffParams = Uri(queryParameters: {
+      'url': urlWithExternal,
+      'title': widget.title,
+      'desc': widget.text,
+    }).query;
+
+    final liffUrl = 'https://liff.line.me/2009553286-JcRNsKER?$liffParams';
+
     try {
-      if (await canLaunchUrl(lineUri)) {
-        await launchUrl(lineUri);
-        return;
-      }
-    } catch (_) {}
-    // Fallback: LINE share web page
-    final webUri = Uri.parse('https://line.me/R/share?text=${Uri.encodeComponent(shareText)}');
-    await launchUrl(webUri, mode: LaunchMode.externalApplication);
+      await launchUrl(Uri.parse(liffUrl), mode: LaunchMode.externalApplication);
+    } catch (_) {
+      // Fallback: simple LINE share
+      final encoded = Uri.encodeComponent('${widget.text}\n$shareUrl');
+      await launchUrl(
+        Uri.parse('https://line.me/R/share?text=$encoded'),
+        mode: LaunchMode.externalApplication,
+      );
+    }
   }
 
   Future<void> _shareKakao() async {
-    final shareText = '${widget.text}\n${widget.url}';
-    // Use native share sheet — most reliable on mobile
-    // KakaoTalk will appear as an option in the share sheet
-    await SharePlus.instance.share(
-      ShareParams(text: shareText),
+    // Match web: use Kakao Share via web URL with feed template
+    // Flutter can't use Kakao JS SDK, so we use the Kakao share web URL
+    final shareUrl = _getShareUrl('kakao');
+    final imageUrl = 'https://norigo.app/api/og?locale=${widget.locale}';
+
+    // Kakao sharer.kakao.com with feed template params
+    final kakaoUrl = Uri.parse('https://sharer.kakao.com/talk/friends/picker/link').replace(
+      queryParameters: {
+        'app_key': 'ef83068e8071507be6a45e8af10706ee',
+        'ka': 'sdk/2.7.4 os/flutter lang/${widget.locale}',
+        'link_ver': '4.0',
+        'template_object': '{"object_type":"feed","content":{"title":"${widget.title}","description":"${widget.text}","image_url":"$imageUrl","link":{"mobile_web_url":"$shareUrl","web_url":"$shareUrl"}},"buttons":[{"title":"결과 보기","link":{"mobile_web_url":"$shareUrl","web_url":"$shareUrl"}}]}',
+      },
     );
+
+    try {
+      await launchUrl(kakaoUrl, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      // Fallback: native share sheet
+      await SharePlus.instance.share(
+        ShareParams(text: '${widget.text}\n$shareUrl'),
+      );
+    }
   }
 
   @override
@@ -78,7 +122,8 @@ class _ShareButtonsState extends State<ShareButtons> {
       children: [
         Text(shareLabel, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
         const SizedBox(height: 8),
-        // Primary share button (LINE / KakaoTalk / Native)
+
+        // Primary messenger button — full width (matching web)
         if (widget.locale == 'ja')
           SizedBox(width: double.infinity, height: 44, child: ElevatedButton(
             onPressed: _shareLine,
@@ -94,13 +139,17 @@ class _ShareButtonsState extends State<ShareButtons> {
           )),
 
         if (widget.locale == 'ko')
-          SizedBox(width: double.infinity, height: 44, child: ElevatedButton.icon(
+          SizedBox(width: double.infinity, height: 44, child: ElevatedButton(
             onPressed: _shareKakao,
-            icon: const Icon(Icons.share, size: 18),
-            label: Text('공유하기 (카카오톡 등)', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
             style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFFEE500), foregroundColor: const Color(0xFF191919),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              CustomPaint(size: const Size(20, 20), painter: _SvgIconPainter(_kakaoLogoPath, const Color(0xFF191919))),
+              const SizedBox(width: 8),
+              Text('카카오톡$viaLabel', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+            ]),
           )),
 
         if (widget.locale != 'ja' && widget.locale != 'ko')
@@ -114,37 +163,34 @@ class _ShareButtonsState extends State<ShareButtons> {
           )),
 
         const SizedBox(height: 8),
-        // Secondary buttons row
-        Row(children: [
-          // Native share (for ja/ko as secondary option)
-          if (widget.locale == 'ja' || widget.locale == 'ko') ...[
-            Expanded(child: SizedBox(height: 40, child: OutlinedButton.icon(
-              onPressed: _nativeShare,
-              icon: const Icon(Icons.share, size: 16),
-              label: Text(tr(widget.locale, ja: '他のアプリ', ko: '다른 앱', en: 'More', zh: '更多'), style: const TextStyle(fontSize: 12)),
-              style: OutlinedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-            ))),
-            const SizedBox(width: 8),
-          ],
 
+        // Secondary buttons row (matching web: X + Copy)
+        Row(children: [
           // X button
-          SizedBox(height: 40, child: OutlinedButton(
+          Expanded(child: SizedBox(height: 40, child: OutlinedButton(
             onPressed: _shareTwitter,
-            style: OutlinedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), padding: const EdgeInsets.symmetric(horizontal: 14)),
-            child: const Row(mainAxisSize: MainAxisSize.min, children: [
+            style: OutlinedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+            child: const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Text('𝕏', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              SizedBox(width: 4),
-              Text('X', style: TextStyle(fontSize: 12)),
+              SizedBox(width: 6),
+              Text('X', style: TextStyle(fontSize: 13)),
             ]),
-          )),
+          ))),
           const SizedBox(width: 8),
 
-          // Copy button
-          SizedBox(height: 40, width: 40, child: OutlinedButton(
+          // Copy / URL button
+          Expanded(child: SizedBox(height: 40, child: OutlinedButton(
             onPressed: _copyLink,
-            style: OutlinedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), padding: EdgeInsets.zero),
-            child: Icon(_copied ? Icons.check : Icons.content_copy, size: 16),
-          )),
+            style: OutlinedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Icon(_copied ? Icons.check : Icons.content_copy, size: 16),
+              const SizedBox(width: 6),
+              Text(_copied
+                ? tr(widget.locale, ja: 'コピー済み', ko: '복사됨', en: 'Copied', zh: '已复制')
+                : 'URL',
+                style: const TextStyle(fontSize: 13)),
+            ]),
+          ))),
         ]),
       ],
     );

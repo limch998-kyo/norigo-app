@@ -33,6 +33,20 @@ class StayResultScreen extends ConsumerStatefulWidget {
   ConsumerState<StayResultScreen> createState() => _StayResultScreenState();
 }
 
+/// Build a web-compatible share URL with search params (matching web's stay/result page)
+String _buildStayShareUrl(StaySearchState state, String locale) {
+  final landmarks = state.landmarks.map((l) => {'slug': l.slug, 'name': l.name, 'lat': l.lat, 'lng': l.lng}).toList();
+  final params = <String, String>{
+    'l': Uri.encodeComponent(landmarks.map((l) => '{"slug":"${l['slug']}","name":"${l['name']}","lat":${l['lat']},"lng":${l['lng']}}').join(',')),
+    'm': state.mode,
+    'r': state.region,
+  };
+  if (state.maxBudget != null) params['b'] = state.maxBudget!;
+  if (state.checkIn != null) params['ci'] = state.checkIn!;
+  if (state.checkOut != null) params['co'] = state.checkOut!;
+  return Uri.parse('https://norigo.app/$locale/stay/result').replace(queryParameters: params).toString();
+}
+
 class _StayResultScreenState extends ConsumerState<StayResultScreen> {
   int _expandedIndex = 0;
 
@@ -268,7 +282,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
                   ko: '${state.landmarks.map((l) => l.name).join('・')} 여행에 최적의 호텔 지역',
                   en: 'Best hotel area for ${state.landmarks.map((l) => l.name).join(', ')}',
                   zh: '${state.landmarks.map((l) => l.name).join('・')}旅行的最佳酒店区域'),
-              url: 'https://norigo.app/stay/result',
+              url: _buildStayShareUrl(state, locale),
               locale: locale,
             ),
           ),
