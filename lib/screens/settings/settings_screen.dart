@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/stay_provider.dart';
 import '../../utils/tr.dart';
@@ -71,10 +72,16 @@ class SettingsScreen extends ConsumerWidget {
               ),
             ),
           ),
-          ListTile(
-            leading: const Icon(Icons.info_outline),
-            title: const Text('Norigo'),
-            subtitle: const Text('v1.0.0'),
+          FutureBuilder<PackageInfo>(
+            future: PackageInfo.fromPlatform(),
+            builder: (context, snapshot) {
+              final version = snapshot.hasData ? 'v${snapshot.data!.version}+${snapshot.data!.buildNumber}' : '...';
+              return ListTile(
+                leading: const Icon(Icons.info_outline),
+                title: const Text('Nori GO!'),
+                subtitle: Text(version),
+              );
+            },
           ),
           ListTile(
             leading: const Icon(Icons.language),
