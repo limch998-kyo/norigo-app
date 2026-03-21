@@ -49,6 +49,7 @@ dependencies:
   flutter_svg: ^2.0.17
   webview_flutter: ^4.13.1
   package_info_plus: ^9.0.0
+  share_plus: ^12.0.1
 
 dev_dependencies:
   flutter_test:
