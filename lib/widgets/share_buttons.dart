@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:kakao_flutter_sdk_share/kakao_flutter_sdk_share.dart';
 import '../utils/tr.dart';
 
 // Official LINE logo SVG path
@@ -87,16 +88,47 @@ class _ShareButtonsState extends State<ShareButtons> {
   }
 
   Future<void> _shareKakao() async {
-    // Kakao JS SDK is not available in Flutter, so use native share sheet.
-    // KakaoTalk will appear as an option — user selects it.
-    // The shared URL has full search params, so web OG tags will render correctly.
     final shareUrl = _getShareUrl('kakao');
-    await SharePlus.instance.share(
-      ShareParams(
+    final imageUrl = 'https://norigo.app/api/og?locale=${widget.locale}';
+
+    // Use Kakao Flutter SDK — same as web's Kakao.Share.sendDefault()
+    final template = FeedTemplate(
+      content: Content(
         title: widget.title,
-        text: '${widget.text}\n$shareUrl',
+        description: widget.text,
+        imageUrl: Uri.parse(imageUrl),
+        link: Link(
+          webUrl: Uri.parse(shareUrl),
+          mobileWebUrl: Uri.parse(shareUrl),
+        ),
       ),
+      buttons: [
+        Button(
+          title: tr(widget.locale, ja: '結果を見る', ko: '결과 보기', en: 'View Results', zh: '查看结果'),
+          link: Link(
+            webUrl: Uri.parse(shareUrl),
+            mobileWebUrl: Uri.parse(shareUrl),
+          ),
+        ),
+      ],
     );
+
+    try {
+      // Check if KakaoTalk is installed
+      if (await ShareClient.instance.isKakaoTalkSharingAvailable()) {
+        final uri = await ShareClient.instance.shareDefault(template: template);
+        await ShareClient.instance.launchKakaoTalk(uri);
+      } else {
+        // KakaoTalk not installed — use web share fallback
+        final uri = await WebSharerClient.instance.makeDefaultUrl(template: template);
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      }
+    } catch (_) {
+      // Final fallback: native share
+      await SharePlus.instance.share(
+        ShareParams(text: '${widget.text}\n$shareUrl'),
+      );
+    }
   }
 
   @override

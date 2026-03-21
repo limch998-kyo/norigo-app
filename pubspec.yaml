@@ -50,6 +50,7 @@ dependencies:
   webview_flutter: ^4.13.1
   package_info_plus: ^9.0.0
   share_plus: ^12.0.1
+  kakao_flutter_sdk_share: ^1.10.0
 
 dev_dependencies:
   flutter_test:

@@ -9,9 +9,13 @@ import 'services/station_localizer.dart';
 import 'services/tracking_service.dart';
 import 'services/api_client.dart';
 import 'config/booking_provider.dart';
+import 'package:kakao_flutter_sdk_share/kakao_flutter_sdk_share.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Kakao SDK (same app key as web)
+  KakaoSdk.init(nativeAppKey: 'ef83068e8071507be6a45e8af10706ee');
 
   // Detect device locale — try multiple sources
   final platformLocale = ui.PlatformDispatcher.instance.locale;
