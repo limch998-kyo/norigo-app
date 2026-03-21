@@ -35,9 +35,12 @@ class StayResultScreen extends ConsumerStatefulWidget {
 
 /// Build a web-compatible share URL with search params (matching web's stay/result page)
 String _buildStayShareUrl(StaySearchState state, String locale) {
-  final landmarks = state.landmarks.map((l) => {'slug': l.slug, 'name': l.name, 'lat': l.lat, 'lng': l.lng}).toList();
+  final landmarkJson = state.landmarks.map((l) =>
+    '{"slug":"${l.slug}","name":"${l.name}","lat":${l.lat},"lng":${l.lng}}'
+  ).join(',');
+  // Don't pre-encode — Uri.replace(queryParameters:) handles encoding
   final params = <String, String>{
-    'l': Uri.encodeComponent(landmarks.map((l) => '{"slug":"${l['slug']}","name":"${l['name']}","lat":${l['lat']},"lng":${l['lng']}}').join(',')),
+    'l': '[$landmarkJson]',
     'm': state.mode,
     'r': state.region,
   };

@@ -87,29 +87,16 @@ class _ShareButtonsState extends State<ShareButtons> {
   }
 
   Future<void> _shareKakao() async {
-    // Match web: use Kakao Share via web URL with feed template
-    // Flutter can't use Kakao JS SDK, so we use the Kakao share web URL
+    // Kakao JS SDK is not available in Flutter, so use native share sheet.
+    // KakaoTalk will appear as an option — user selects it.
+    // The shared URL has full search params, so web OG tags will render correctly.
     final shareUrl = _getShareUrl('kakao');
-    final imageUrl = 'https://norigo.app/api/og?locale=${widget.locale}';
-
-    // Kakao sharer.kakao.com with feed template params
-    final kakaoUrl = Uri.parse('https://sharer.kakao.com/talk/friends/picker/link').replace(
-      queryParameters: {
-        'app_key': 'ef83068e8071507be6a45e8af10706ee',
-        'ka': 'sdk/2.7.4 os/flutter lang/${widget.locale}',
-        'link_ver': '4.0',
-        'template_object': '{"object_type":"feed","content":{"title":"${widget.title}","description":"${widget.text}","image_url":"$imageUrl","link":{"mobile_web_url":"$shareUrl","web_url":"$shareUrl"}},"buttons":[{"title":"결과 보기","link":{"mobile_web_url":"$shareUrl","web_url":"$shareUrl"}}]}',
-      },
+    await SharePlus.instance.share(
+      ShareParams(
+        title: widget.title,
+        text: '${widget.text}\n$shareUrl',
+      ),
     );
-
-    try {
-      await launchUrl(kakaoUrl, mode: LaunchMode.externalApplication);
-    } catch (_) {
-      // Fallback: native share sheet
-      await SharePlus.instance.share(
-        ShareParams(text: '${widget.text}\n$shareUrl'),
-      );
-    }
   }
 
   @override
