@@ -14,8 +14,11 @@ import 'package:kakao_flutter_sdk_share/kakao_flutter_sdk_share.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Kakao SDK (same app key as web)
-  KakaoSdk.init(nativeAppKey: 'ef83068e8071507be6a45e8af10706ee');
+  // Initialize Kakao SDK (native app key from Kakao Developers console)
+  KakaoSdk.init(
+    nativeAppKey: 'cbc1828029dae6bb3007fb428675af62',
+    javaScriptAppKey: 'ef83068e8071507be6a45e8af10706ee',
+  );
 
   // Detect device locale — try multiple sources
   final platformLocale = ui.PlatformDispatcher.instance.locale;
