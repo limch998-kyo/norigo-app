@@ -46,37 +46,26 @@ class _ShareButtonsState extends State<ShareButtons> {
 
   Future<void> _shareLine() async {
     final shareText = '${widget.text}\n${widget.url}';
-    final encoded = Uri.encodeComponent(shareText);
-    // Try LINE app deep link first
-    final lineAppUri = Uri.parse('line://msg/text/$encoded');
-    if (await canLaunchUrl(lineAppUri)) {
-      await launchUrl(lineAppUri);
-    } else {
-      // Fallback to LINE share web URL
-      await launchUrl(
-        Uri.parse('https://line.me/R/share?text=$encoded'),
-        mode: LaunchMode.externalApplication,
-      );
-    }
+    // line://msg/text/ expects raw text (not double-encoded)
+    final lineUri = Uri.parse('line://msg/text/${Uri.encodeComponent(shareText)}');
+    try {
+      if (await canLaunchUrl(lineUri)) {
+        await launchUrl(lineUri);
+        return;
+      }
+    } catch (_) {}
+    // Fallback: LINE share web page
+    final webUri = Uri.parse('https://line.me/R/share?text=${Uri.encodeComponent(shareText)}');
+    await launchUrl(webUri, mode: LaunchMode.externalApplication);
   }
 
   Future<void> _shareKakao() async {
-    final encodedUrl = Uri.encodeComponent(widget.url);
-    final encodedText = Uri.encodeComponent(widget.text);
-    // Try KakaoTalk app deep link first
-    final kakaoAppUri = Uri.parse(
-      'kakaolink://send?appkey=ef83068e8071507be6a45e8af10706ee'
-      '&appver=1.0&template_id=0'
-      '&template_args=%7B%22title%22%3A%22${Uri.encodeComponent(widget.title)}%22%2C%22description%22%3A%22$encodedText%22%2C%22url%22%3A%22$encodedUrl%22%7D'
+    final shareText = '${widget.text}\n${widget.url}';
+    // Use native share sheet — most reliable on mobile
+    // KakaoTalk will appear as an option in the share sheet
+    await SharePlus.instance.share(
+      ShareParams(text: shareText),
     );
-    if (await canLaunchUrl(kakaoAppUri)) {
-      await launchUrl(kakaoAppUri);
-    } else {
-      // Fallback: use native share with KakaoTalk text
-      await SharePlus.instance.share(
-        ShareParams(text: '${widget.text}\n${widget.url}'),
-      );
-    }
   }
 
   @override
@@ -105,17 +94,13 @@ class _ShareButtonsState extends State<ShareButtons> {
           )),
 
         if (widget.locale == 'ko')
-          SizedBox(width: double.infinity, height: 44, child: ElevatedButton(
+          SizedBox(width: double.infinity, height: 44, child: ElevatedButton.icon(
             onPressed: _shareKakao,
+            icon: const Icon(Icons.share, size: 18),
+            label: Text('공유하기 (카카오톡 등)', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFFEE500), foregroundColor: const Color(0xFF191919),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             ),
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              CustomPaint(size: const Size(20, 20), painter: _SvgIconPainter(_kakaoLogoPath, const Color(0xFF191919))),
-              const SizedBox(width: 8),
-              Text('카카오톡$viaLabel', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
-            ]),
           )),
 
         if (widget.locale != 'ja' && widget.locale != 'ko')
