@@ -96,7 +96,7 @@ class MeetupSearchScreen extends ConsumerWidget {
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
-            ModeSelector(selected: state.mode, onChanged: notifier.setMode, locale: locale),
+            ModeSelector(selected: state.mode, onChanged: notifier.setMode, locale: locale, modes: ModeSelector.meetupModes),
             const SizedBox(height: 20),
 
             // Category

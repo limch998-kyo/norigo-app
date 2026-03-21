@@ -4,15 +4,18 @@ class ModeSelector extends StatelessWidget {
   final String selected;
   final ValueChanged<String> onChanged;
   final String locale;
+  final List<String>? modes;
 
   const ModeSelector({
     super.key,
     required this.selected,
     required this.onChanged,
     this.locale = 'en',
+    this.modes,
   });
 
-  static const _modes = ['centroid', 'minTotal'];
+  static const stayModes = ['centroid', 'minTotal'];
+  static const meetupModes = ['centroid', 'minTotal', 'balanced'];
 
   static Map<String, Map<String, String>> get modeLabels => {
         'centroid': {
@@ -26,6 +29,12 @@ class ModeSelector extends StatelessWidget {
           'en': 'Min Travel',
           'ko': '최소 이동',
           'zh': '最短移动',
+        },
+        'balanced': {
+          'ja': '公平',
+          'en': 'Fairest',
+          'ko': '가장 공평하게',
+          'zh': '最公平',
         },
       };
 
@@ -42,21 +51,29 @@ class ModeSelector extends StatelessWidget {
           'ko': '모든 관광지까지 이동시간 합계가 가장 적음',
           'zh': '到所有景点的总移动时间最短',
         },
+        'balanced': {
+          'ja': '一番遠い人も遠すぎない',
+          'en': 'No one travels too far',
+          'ko': '가장 먼 사람도 너무 멀지 않게',
+          'zh': '最远的人也不会太远',
+        },
       };
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    final activeModes = modes ?? stayModes;
+
     return Row(
-      children: _modes.map((mode) {
+      children: activeModes.map((mode) {
         final isSelected = selected == mode;
         final label = modeLabels[mode]?[locale] ?? modeLabels[mode]?['en'] ?? mode;
 
         return Expanded(
           child: Padding(
             padding: EdgeInsets.only(
-              right: mode != _modes.last ? 8 : 0,
+              right: mode != activeModes.last ? 8 : 0,
             ),
             child: GestureDetector(
               onTap: () => onChanged(mode),
