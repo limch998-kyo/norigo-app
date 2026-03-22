@@ -207,6 +207,24 @@ class ApiClient {
     }
   }
 
+  // ── Vote ──
+
+  Future<Map<String, dynamic>> getVotePoll(String pollId, {String? voterId}) async {
+    final params = <String, String>{};
+    if (voterId != null) params['voterId'] = voterId;
+    final response = await _dio.get('/api/vote/$pollId', queryParameters: params);
+    return response.data as Map<String, dynamic>;
+  }
+
+  Future<String> toggleVote({required String pollId, required String venueId, required String voterId}) async {
+    final response = await _dio.post('/api/vote/$pollId', data: {
+      'venueId': venueId,
+      'voterId': voterId,
+    });
+    final data = response.data as Map<String, dynamic>;
+    return data['action'] as String? ?? 'added';
+  }
+
   // ── Trip Optimization ──
 
   Future<Map<String, dynamic>> optimizeTrip({
