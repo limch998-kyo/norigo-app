@@ -911,12 +911,13 @@ class _RouteBar extends StatelessWidget {
       const SizedBox(height: 4),
       // Line names + durations
       Row(children: segments.map((seg) {
-        final localLine = LineLocalizer.localizeSync(seg.line, locale);
+        final localLine = LineLocalizer.localizeSync(seg.line, locale, operator: seg.operator);
         final unit = tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟');
         return Expanded(child: Center(child: Text(
           '$localLine ${seg.minutes}$unit',
           style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground),
           overflow: TextOverflow.ellipsis,
+          maxLines: 1,
         )));
       }).toList()),
     ]);
