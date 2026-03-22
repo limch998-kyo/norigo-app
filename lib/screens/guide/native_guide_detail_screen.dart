@@ -32,12 +32,16 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
     _loadGuide();
   }
 
-  static bool _shownAddSnackbar = false;
+  final Set<String> _addedSlugs = {};
 
   void _addSpotToTrip(Map<String, dynamic> spot, String locale) {
     final slug = spot['slug'] as String? ?? '';
     final name = spot['name'] as String? ?? '';
     final region = spot['region'] as String? ?? _guessRegion();
+
+    // Already added check
+    final effectiveSlug = slug.isNotEmpty ? slug : name;
+    if (_addedSlugs.contains(effectiveSlug)) return;
 
     // Get coordinates from bundled data
     final coords = LandmarkLocalizer.getCoordinates(slug: slug.isNotEmpty ? slug : null, name: name);
@@ -49,7 +53,7 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
     ) ?? name;
 
     final tripNotifier = ref.read(tripProvider.notifier);
-    final lm = Landmark(slug: slug.isNotEmpty ? slug : name, name: localizedName, lat: lat, lng: lng, region: region);
+    final lm = Landmark(slug: effectiveSlug, name: localizedName, lat: lat, lng: lng, region: region);
     tripNotifier.addItem(lm, locale: locale);
 
     // Trip picker if multiple candidates
@@ -60,16 +64,20 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
           tripNotifier.completePendingAdd(picked);
         } else {
           tripNotifier.cancelPendingAdd();
+          return;
         }
       });
     }
 
-    // Snackbar with trip tab navigation
-    if (mounted && !_shownAddSnackbar) {
-      _shownAddSnackbar = true;
+    // Mark as added
+    setState(() => _addedSlugs.add(effectiveSlug));
+
+    // Snackbar — always show, auto-dismiss
+    if (mounted) {
+      ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(tr(locale, ja: '旅行プランに追加しました', ko: '여행 플랜에 추가했습니다', en: 'Added to trip plan', zh: '已添加到旅行计划')),
-        duration: const Duration(seconds: 3),
+        duration: const Duration(seconds: 2),
         action: SnackBarAction(
           label: tr(locale, ja: '旅行タブへ', ko: '여행 탭으로', en: 'Go to Trip', zh: '前往旅行'),
           textColor: Colors.white,
@@ -130,10 +138,12 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
     // Convert parts to widgets
     for (final part in parts) {
       if (part.spot != null) {
+        final spotSlug = part.spot!['slug'] as String? ?? part.spot!['name'] as String? ?? '';
         widgets.add(_SpotCard(
           spot: part.spot!,
           locale: locale,
           guideSlug: widget.slug,
+          isAdded: _addedSlugs.contains(spotSlug),
           onAddToTrip: () => _addSpotToTrip(part.spot!, locale),
         ));
       } else if (part.markdown != null) {
@@ -318,8 +328,9 @@ class _SpotCard extends StatelessWidget {
   final String locale;
   final String guideSlug;
   final VoidCallback onAddToTrip;
+  final bool isAdded;
 
-  const _SpotCard({required this.spot, required this.locale, required this.guideSlug, required this.onAddToTrip});
+  const _SpotCard({required this.spot, required this.locale, required this.guideSlug, required this.onAddToTrip, this.isAdded = false});
 
   @override
   Widget build(BuildContext context) {
@@ -358,16 +369,27 @@ class _SpotCard extends StatelessWidget {
                 const SizedBox(height: 10),
                 SizedBox(
                   width: double.infinity,
-                  child: OutlinedButton.icon(
-                    onPressed: onAddToTrip,
-                    icon: const Icon(Icons.add, size: 16),
-                    label: Text(tr(locale, ja: '旅行に追加', ko: '여행에 추가', en: 'Add to Trip', zh: '添加到行程'),
-                      style: const TextStyle(fontSize: 12)),
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    ),
-                  ),
+                  child: isAdded
+                    ? ElevatedButton.icon(
+                        onPressed: null,
+                        icon: const Icon(Icons.check, size: 16),
+                        label: Text(tr(locale, ja: '追加済み', ko: '추가됨', en: 'Added', zh: '已添加'),
+                          style: const TextStyle(fontSize: 12)),
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        ),
+                      )
+                    : OutlinedButton.icon(
+                        onPressed: onAddToTrip,
+                        icon: const Icon(Icons.add, size: 16),
+                        label: Text(tr(locale, ja: '旅行に追加', ko: '여행에 추가', en: 'Add to Trip', zh: '添加到行程'),
+                          style: const TextStyle(fontSize: 12)),
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        ),
+                      ),
                 ),
               ],
             ),
