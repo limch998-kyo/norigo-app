@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../config/theme.dart';
 import '../../providers/app_providers.dart';
 import '../../utils/tr.dart';
-import 'guide_detail_screen.dart';
+import 'native_guide_detail_screen.dart';
 
 class GuideScreen extends ConsumerStatefulWidget {
   const GuideScreen({super.key});
@@ -108,7 +108,7 @@ class _GuideScreenState extends ConsumerState<GuideScreen> {
                         child: GestureDetector(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) => GuideDetailScreen(slug: slug, title: title, locale: locale),
+                              builder: (_) => NativeGuideDetailScreen(slug: slug),
                             ));
                           },
                           child: Container(
