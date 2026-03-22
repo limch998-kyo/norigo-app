@@ -91,7 +91,9 @@ void main() {
       final result = await api.getMeetupRecommendation(
         stationIds: [shibuyaId, shinjukuId], mode: 'centroid', region: 'kanto',
       );
-      final d = result.stations.first.distances.first;
+      // Find a distance with route (skip self-to-self where distanceKm=0)
+      final allDistances = result.stations.expand((s) => s.distances).toList();
+      final d = allDistances.firstWhere((d) => d.distanceKm > 0 && d.route.isNotEmpty);
       expect(d.participantStationName, isNotEmpty, reason: 'Web shows participant name');
       expect(d.distanceKm, greaterThan(0), reason: 'Web shows distance in km');
       expect(d.route, isNotEmpty, reason: 'Web shows route bar per participant');
