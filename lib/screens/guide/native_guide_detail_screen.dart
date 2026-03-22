@@ -39,9 +39,26 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
     final name = spot['name'] as String? ?? '';
     final region = spot['region'] as String? ?? _guessRegion();
 
-    // Already added check
     final effectiveSlug = slug.isNotEmpty ? slug : name;
-    if (_addedSlugs.contains(effectiveSlug)) return;
+
+    // Toggle: remove if already added
+    if (_addedSlugs.contains(effectiveSlug)) {
+      final tripNotifier = ref.read(tripProvider.notifier);
+      // Find which trip has this item and remove it
+      final items = ref.read(tripProvider).items.where((i) => i.slug == effectiveSlug).toList();
+      for (final item in items) {
+        tripNotifier.removeItem(item.slug, item.tripId);
+      }
+      setState(() => _addedSlugs.remove(effectiveSlug));
+      if (mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(tr(locale, ja: '旅行プランから削除しました', ko: '여행 플랜에서 삭제했습니다', en: 'Removed from trip', zh: '已从行程中移除')),
+          duration: const Duration(seconds: 2),
+        ));
+      }
+      return;
+    }
 
     // Get coordinates from bundled data
     final coords = LandmarkLocalizer.getCoordinates(slug: slug.isNotEmpty ? slug : null, name: name);
@@ -384,7 +401,7 @@ class _SpotCard extends StatelessWidget {
                   width: double.infinity,
                   child: isAdded
                     ? ElevatedButton.icon(
-                        onPressed: null,
+                        onPressed: onAddToTrip,
                         icon: const Icon(Icons.check, size: 16),
                         label: Text(tr(locale, ja: '追加済み', ko: '추가됨', en: 'Added', zh: '已添加'),
                           style: const TextStyle(fontSize: 12)),
