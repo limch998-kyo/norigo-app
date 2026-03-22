@@ -91,8 +91,11 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
   }
 
   /// Build content widgets with spot cards inserted inline at their original positions
-  List<Widget> _buildContentWithSpots(String markdown, List<Map<String, dynamic>> spots, String locale) {
+  List<Widget> _buildContentWithSpots(String rawMarkdown, List<Map<String, dynamic>> spots, String locale) {
     final widgets = <Widget>[];
+
+    // Remove FAQ section from markdown (rendered separately as native widget)
+    var markdown = rawMarkdown.replaceAll(RegExp(r'##?\s*(자주 묻는 질문|よくある質問|FAQ|常见问题)\s*\n?'), '');
 
     // Build a map of spot image URLs to spot data
     final spotByImage = <String, Map<String, dynamic>>{};
@@ -201,7 +204,17 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
       final locale = ref.read(localeProvider);
       final api = ref.read(apiClientProvider);
       final data = await api.getGuideDetail(widget.slug, locale: locale);
-      if (mounted) setState(() { _data = data; _loading = false; });
+      if (mounted) {
+        // Check which spots are already in trips
+        final tripItems = ref.read(tripProvider).items;
+        final existingSlugs = tripItems.map((i) => i.slug).toSet();
+        final spots = (data['spots'] as List<dynamic>?)?.map((e) => e as Map<String, dynamic>).toList() ?? [];
+        for (final spot in spots) {
+          final slug = spot['slug'] as String? ?? spot['name'] as String? ?? '';
+          if (existingSlugs.contains(slug)) _addedSlugs.add(slug);
+        }
+        setState(() { _data = data; _loading = false; });
+      }
     } catch (e) {
       if (mounted) setState(() { _error = e.toString(); _loading = false; });
     }
