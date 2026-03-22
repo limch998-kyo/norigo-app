@@ -251,7 +251,7 @@ class _StationCard extends StatelessWidget {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
                                 decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(4)),
-                                child: Text(pName, style: const TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis),
+                                child: Text(pName, style: const TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis, maxLines: 1),
                               ),
                               Container(width: 16, height: 16,
                                 decoration: BoxDecoration(color: Colors.blue, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 1.5)),

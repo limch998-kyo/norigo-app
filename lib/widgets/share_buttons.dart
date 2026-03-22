@@ -144,7 +144,7 @@ class _ShareButtonsState extends State<ShareButtons> {
 
         // Primary messenger button — full width (matching web)
         if (widget.locale == 'ja')
-          SizedBox(width: double.infinity, height: 44, child: ElevatedButton(
+          SizedBox(width: double.infinity, height: 48, child: ElevatedButton(
             onPressed: _shareLine,
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF06C755), foregroundColor: Colors.white,
@@ -158,7 +158,7 @@ class _ShareButtonsState extends State<ShareButtons> {
           )),
 
         if (widget.locale == 'ko')
-          SizedBox(width: double.infinity, height: 44, child: ElevatedButton(
+          SizedBox(width: double.infinity, height: 48, child: ElevatedButton(
             onPressed: _shareKakao,
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFFEE500), foregroundColor: const Color(0xFF191919),
@@ -172,7 +172,7 @@ class _ShareButtonsState extends State<ShareButtons> {
           )),
 
         if (widget.locale != 'ja' && widget.locale != 'ko')
-          SizedBox(width: double.infinity, height: 44, child: ElevatedButton.icon(
+          SizedBox(width: double.infinity, height: 48, child: ElevatedButton.icon(
             onPressed: _nativeShare,
             icon: const Icon(Icons.share, size: 18),
             label: Text(shareLabel, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
@@ -186,7 +186,7 @@ class _ShareButtonsState extends State<ShareButtons> {
         // Secondary buttons row (matching web: X + Copy)
         Row(children: [
           // X button
-          Expanded(child: SizedBox(height: 40, child: OutlinedButton(
+          Expanded(child: SizedBox(height: 48, child: OutlinedButton(
             onPressed: _shareTwitter,
             style: OutlinedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
             child: const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -198,7 +198,7 @@ class _ShareButtonsState extends State<ShareButtons> {
           const SizedBox(width: 8),
 
           // Copy / URL button
-          Expanded(child: SizedBox(height: 40, child: OutlinedButton(
+          Expanded(child: SizedBox(height: 48, child: OutlinedButton(
             onPressed: _copyLink,
             style: OutlinedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
             child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [

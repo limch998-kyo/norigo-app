@@ -279,7 +279,7 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
                             // Vote button
                             Expanded(
                               child: SizedBox(
-                                height: 40,
+                                height: 48,
                                 child: isMyVote
                                   ? ElevatedButton(
                                       onPressed: () => _toggleVote(venueId),
@@ -314,7 +314,7 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
                             if (venueUrl.isNotEmpty || couponUrl.isNotEmpty) ...[
                               const SizedBox(width: 8),
                               SizedBox(
-                                height: 36,
+                                height: 44,
                                 child: OutlinedButton(
                                   onPressed: () {
                                     final url = couponUrl.isNotEmpty ? couponUrl : venueUrl;
