@@ -279,23 +279,33 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
                             // Vote button
                             Expanded(
                               child: SizedBox(
-                                height: 36,
+                                height: 40,
                                 child: isMyVote
-                                  ? ElevatedButton.icon(
+                                  ? ElevatedButton(
                                       onPressed: () => _toggleVote(venueId),
-                                      icon: const Icon(Icons.check, size: 16),
-                                      label: Text('$voteCount', style: const TextStyle(fontSize: 13)),
                                       style: ElevatedButton.styleFrom(
                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                                       ),
+                                      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                        const Icon(Icons.check, size: 16),
+                                        const SizedBox(width: 8),
+                                        Text('$voteCount', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
+                                        Text(tr(locale, ja: '票', ko: '표', en: ' votes', zh: '票'),
+                                          style: const TextStyle(fontSize: 11)),
+                                      ]),
                                     )
-                                  : OutlinedButton.icon(
+                                  : OutlinedButton(
                                       onPressed: () => _toggleVote(venueId),
-                                      icon: const Icon(Icons.how_to_vote, size: 16),
-                                      label: Text('$voteCount', style: const TextStyle(fontSize: 13)),
                                       style: OutlinedButton.styleFrom(
                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                                       ),
+                                      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                        const Icon(Icons.how_to_vote_outlined, size: 16),
+                                        const SizedBox(width: 8),
+                                        Text('$voteCount', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
+                                        Text(tr(locale, ja: '票', ko: '표', en: ' votes', zh: '票'),
+                                          style: const TextStyle(fontSize: 11)),
+                                      ]),
                                     ),
                               ),
                             ),
