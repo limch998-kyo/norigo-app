@@ -13,6 +13,7 @@ import '../../providers/meetup_provider.dart';
 import '../../models/meetup_result.dart';
 import '../../models/station.dart';
 import '../../widgets/mode_tabs.dart';
+import '../vote/vote_screen.dart';
 import '../../widgets/share_buttons.dart';
 import '../../widgets/skeleton_loader.dart';
 import '../../config/booking_provider.dart';
@@ -371,7 +372,7 @@ class _StationCard extends StatelessWidget {
                 // Vote button (ja locale only, matching web)
                 if (locale == 'ja' && rec.venues.isNotEmpty) ...[
                   const SizedBox(height: 12),
-                  _VoteButton(stationName: rec.station.name, stationId: rec.station.id, venues: rec.venues),
+                  _VoteButton(stationName: rec.station.name, stationId: rec.station.id, venues: rec.venues, locale: locale),
                 ],
               ],
 
@@ -647,8 +648,9 @@ class _VoteButton extends StatefulWidget {
   final String stationName;
   final String stationId;
   final List<Venue> venues;
+  final String locale;
 
-  const _VoteButton({required this.stationName, required this.stationId, required this.venues});
+  const _VoteButton({required this.stationName, required this.stationId, required this.venues, required this.locale});
 
   @override
   State<_VoteButton> createState() => _VoteButtonState();
@@ -656,7 +658,7 @@ class _VoteButton extends StatefulWidget {
 
 class _VoteButtonState extends State<_VoteButton> {
   bool _creating = false;
-  String? _pollUrl;
+  String? _pollId;
 
   Future<void> _createPoll() async {
     setState(() => _creating = true);
@@ -667,19 +669,11 @@ class _VoteButtonState extends State<_VoteButton> {
       venues: widget.venues.take(10).toList(),
     );
     if (pollId != null && mounted) {
-      final url = 'https://norigo.app/vote/$pollId';
-      setState(() { _pollUrl = url; _creating = false; });
-      // Open vote page in browser (like web app)
-      // Don't use canLaunchUrl — it requires LSApplicationQueriesSchemes on iOS
-      try {
-        await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-      } catch (_) {
-        // Fallback: copy to clipboard
-        if (mounted) {
-          await Clipboard.setData(ClipboardData(text: url));
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('投票リンク: $url')));
-        }
-      }
+      setState(() { _pollId = pollId; _creating = false; });
+      // Open native vote screen
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => VoteScreen(pollId: pollId),
+      ));
     } else {
       if (mounted) setState(() => _creating = false);
     }
@@ -687,16 +681,15 @@ class _VoteButtonState extends State<_VoteButton> {
 
   @override
   Widget build(BuildContext context) {
-    if (_pollUrl != null) {
+    if (_pollId != null) {
       return SizedBox(
         width: double.infinity,
         child: OutlinedButton.icon(
-          onPressed: () async {
-            await Clipboard.setData(ClipboardData(text: _pollUrl!));
-            if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('リンクをコピーしました')));
-          },
+          onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => VoteScreen(pollId: _pollId!),
+          )),
           icon: const Icon(Icons.how_to_vote, size: 14),
-          label: const FittedBox(child: Text('投票リンクをコピー', style: TextStyle(fontSize: 12))),
+          label: FittedBox(child: Text(tr(widget.locale, ja: '投票を開く', ko: '투표 열기', en: 'Open Vote', zh: '打开投票'), style: const TextStyle(fontSize: 12))),
           style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12)),
         ),
       );
@@ -709,7 +702,11 @@ class _VoteButtonState extends State<_VoteButton> {
         icon: _creating
             ? const SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2))
             : const Icon(Icons.how_to_vote, size: 14),
-        label: FittedBox(child: Text(_creating ? '作成中...' : 'お店の投票を作成', style: const TextStyle(fontSize: 12))),
+        label: FittedBox(child: Text(
+          _creating
+            ? tr(widget.locale, ja: '作成中...', ko: '생성 중...', en: 'Creating...', zh: '创建中...')
+            : tr(widget.locale, ja: 'お店の投票を作成', ko: '맛집 투표 만들기', en: 'Create Vote', zh: '创建投票'),
+          style: const TextStyle(fontSize: 12))),
         style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12)),
       ),
     );
