@@ -82,6 +82,102 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
     }
   }
 
+  /// Build content widgets with spot cards inserted inline at their original positions
+  List<Widget> _buildContentWithSpots(String markdown, List<Map<String, dynamic>> spots, String locale) {
+    final widgets = <Widget>[];
+
+    // Build a map of spot image URLs to spot data
+    final spotByImage = <String, Map<String, dynamic>>{};
+    for (final spot in spots) {
+      final imageUrl = spot['imageUrl'] as String? ?? '';
+      if (imageUrl.isNotEmpty) spotByImage[imageUrl] = spot;
+    }
+
+    // Split markdown at spot image lines: ![name](imageUrl)
+    final pattern = RegExp(r'!\[([^\]]*)\]\((https://norigo\.app/images/landmarks/[^\)]+)\)');
+    final parts = <_ContentPart>[];
+    int lastEnd = 0;
+
+    for (final match in pattern.allMatches(markdown)) {
+      // Text before this image
+      if (match.start > lastEnd) {
+        final text = markdown.substring(lastEnd, match.start).trim();
+        if (text.isNotEmpty) parts.add(_ContentPart(markdown: text));
+      }
+      // Check if this image belongs to a spot
+      final imageUrl = match.group(2)!;
+      final spot = spotByImage[imageUrl];
+      if (spot != null) {
+        // Skip the image line + next heading line (### name\nnameEn) — spot card replaces them
+        var skipEnd = match.end;
+        final afterImage = markdown.substring(match.end);
+        // Skip blank lines + ### heading + nameEn line
+        final headingMatch = RegExp(r'^\n*### [^\n]+\n[^\n]*\n?').firstMatch(afterImage);
+        if (headingMatch != null) skipEnd += headingMatch.end;
+        lastEnd = skipEnd;
+        parts.add(_ContentPart(spot: spot));
+      } else {
+        lastEnd = match.end;
+        parts.add(_ContentPart(markdown: match.group(0)!));
+      }
+    }
+    // Remaining text
+    if (lastEnd < markdown.length) {
+      final text = markdown.substring(lastEnd).trim();
+      if (text.isNotEmpty) parts.add(_ContentPart(markdown: text));
+    }
+
+    // Convert parts to widgets
+    for (final part in parts) {
+      if (part.spot != null) {
+        widgets.add(_SpotCard(
+          spot: part.spot!,
+          locale: locale,
+          guideSlug: widget.slug,
+          onAddToTrip: () => _addSpotToTrip(part.spot!, locale),
+        ));
+      } else if (part.markdown != null) {
+        widgets.add(MarkdownBody(
+          data: part.markdown!,
+          selectable: true,
+          styleSheet: _markdownStyle(),
+          onTapLink: (text, href, title) {
+            if (href != null) launchUrl(Uri.parse(href), mode: LaunchMode.externalApplication);
+          },
+          imageBuilder: (uri, title, alt) {
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(uri.toString(), fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => const SizedBox.shrink()),
+            );
+          },
+        ));
+      }
+    }
+
+    return widgets;
+  }
+
+  MarkdownStyleSheet _markdownStyle() {
+    return MarkdownStyleSheet(
+      h2: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, height: 2),
+      h3: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, height: 2),
+      p: const TextStyle(fontSize: 14, height: 1.7),
+      blockquote: TextStyle(fontSize: 13, color: AppTheme.primary, height: 1.6),
+      blockquoteDecoration: BoxDecoration(
+        color: AppTheme.primaryBg,
+        borderRadius: BorderRadius.circular(8),
+        border: Border(left: BorderSide(color: AppTheme.primary, width: 3)),
+      ),
+      blockquotePadding: const EdgeInsets.all(12),
+      tableHead: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+      tableBody: const TextStyle(fontSize: 13),
+      tableBorder: TableBorder.all(color: AppTheme.border),
+      tableCellsPadding: const EdgeInsets.all(8),
+      listBullet: const TextStyle(fontSize: 14),
+    );
+  }
+
   String _guessRegion() {
     final s = widget.slug;
     if (s.contains('seoul') || s.contains('myeongdong') || s.contains('hongdae') || s.contains('gangnam')) return 'seoul';
@@ -191,52 +287,8 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
 
                   const SizedBox(height: 16),
 
-                  // Markdown content
-                  MarkdownBody(
-                    data: markdown,
-                    selectable: true,
-                    styleSheet: MarkdownStyleSheet(
-                      h2: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, height: 2),
-                      h3: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600, height: 2),
-                      p: const TextStyle(fontSize: 14, height: 1.7),
-                      blockquote: TextStyle(fontSize: 13, color: AppTheme.primary, height: 1.6),
-                      blockquoteDecoration: BoxDecoration(
-                        color: AppTheme.primaryBg,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border(left: BorderSide(color: AppTheme.primary, width: 3)),
-                      ),
-                      blockquotePadding: const EdgeInsets.all(12),
-                      tableHead: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                      tableBody: const TextStyle(fontSize: 13),
-                      tableBorder: TableBorder.all(color: AppTheme.border),
-                      tableCellsPadding: const EdgeInsets.all(8),
-                      listBullet: const TextStyle(fontSize: 14),
-                    ),
-                    onTapLink: (text, href, title) {
-                      if (href != null) launchUrl(Uri.parse(href), mode: LaunchMode.externalApplication);
-                    },
-                    imageBuilder: (uri, title, alt) {
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.network(uri.toString(), fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => const SizedBox.shrink()),
-                      );
-                    },
-                  ),
-
-                  // Spot cards with "Add to trip" button
-                  if (spots.isNotEmpty) ...[
-                    const SizedBox(height: 24),
-                    Text(tr(locale, ja: '関連スポット', ko: '관련 관광지', en: 'Related Spots', zh: '相关景点'),
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 8),
-                    ...spots.map((spot) => _SpotCard(
-                      spot: spot,
-                      locale: locale,
-                      guideSlug: widget.slug,
-                      onAddToTrip: () => _addSpotToTrip(spot, locale),
-                    )),
-                  ],
+                  // Markdown content with inline spot cards
+                  ..._buildContentWithSpots(markdown, spots, locale),
 
                   // FAQ section
                   if (faq.isNotEmpty) ...[
@@ -369,4 +421,10 @@ class _FaqItemState extends State<_FaqItem> {
       ),
     );
   }
+}
+
+class _ContentPart {
+  final String? markdown;
+  final Map<String, dynamic>? spot;
+  _ContentPart({this.markdown, this.spot});
 }
