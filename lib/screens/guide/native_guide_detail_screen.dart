@@ -4,8 +4,13 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../config/theme.dart';
 import '../../providers/app_providers.dart';
+import '../../providers/trip_provider.dart';
+import '../../models/landmark.dart';
 import '../../services/api_client.dart';
+import '../../services/landmark_localizer.dart';
 import '../../utils/tr.dart';
+import '../../widgets/trip_picker_dialog.dart';
+import '../../app.dart';
 
 class NativeGuideDetailScreen extends ConsumerStatefulWidget {
   final String slug;
@@ -25,6 +30,64 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
   void initState() {
     super.initState();
     _loadGuide();
+  }
+
+  static bool _shownAddSnackbar = false;
+
+  void _addSpotToTrip(Map<String, dynamic> spot, String locale) {
+    final slug = spot['slug'] as String? ?? '';
+    final name = spot['name'] as String? ?? '';
+    final region = spot['region'] as String? ?? _guessRegion();
+
+    // Get coordinates from bundled data
+    final coords = LandmarkLocalizer.getCoordinates(slug: slug.isNotEmpty ? slug : null, name: name);
+    final lat = coords?.$1 ?? 0.0;
+    final lng = coords?.$2 ?? 0.0;
+
+    final localizedName = LandmarkLocalizer.getLocalizedName(
+      locale: locale, slug: slug.isNotEmpty ? slug : null, lat: lat != 0 ? lat : null, lng: lng != 0 ? lng : null,
+    ) ?? name;
+
+    final tripNotifier = ref.read(tripProvider.notifier);
+    final lm = Landmark(slug: slug.isNotEmpty ? slug : name, name: localizedName, lat: lat, lng: lng, region: region);
+    tripNotifier.addItem(lm, locale: locale);
+
+    // Trip picker if multiple candidates
+    if (tripNotifier.needsTripPicker && mounted) {
+      final candidates = tripNotifier.pendingTripCandidates;
+      showTripPickerDialog(context, candidates, locale).then((picked) {
+        if (picked != null) {
+          tripNotifier.completePendingAdd(picked);
+        } else {
+          tripNotifier.cancelPendingAdd();
+        }
+      });
+    }
+
+    // Snackbar with trip tab navigation
+    if (mounted && !_shownAddSnackbar) {
+      _shownAddSnackbar = true;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(tr(locale, ja: '旅行プランに追加しました', ko: '여행 플랜에 추가했습니다', en: 'Added to trip plan', zh: '已添加到旅行计划')),
+        duration: const Duration(seconds: 3),
+        action: SnackBarAction(
+          label: tr(locale, ja: '旅行タブへ', ko: '여행 탭으로', en: 'Go to Trip', zh: '前往旅行'),
+          textColor: Colors.white,
+          onPressed: () {
+            MainShell.globalSwitchTab?.call(3);
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          },
+        ),
+      ));
+    }
+  }
+
+  String _guessRegion() {
+    final s = widget.slug;
+    if (s.contains('seoul') || s.contains('myeongdong') || s.contains('hongdae') || s.contains('gangnam')) return 'seoul';
+    if (s.contains('busan') || s.contains('haeundae') || s.contains('gwangalli')) return 'busan';
+    if (s.contains('dotonbori') || s.contains('kiyomizu') || s.contains('fushimi') || s.contains('arashiyama')) return 'kansai';
+    return 'kanto';
   }
 
   Future<void> _loadGuide() async {
@@ -161,6 +224,20 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
                     },
                   ),
 
+                  // Spot cards with "Add to trip" button
+                  if (spots.isNotEmpty) ...[
+                    const SizedBox(height: 24),
+                    Text(tr(locale, ja: '関連スポット', ko: '관련 관광지', en: 'Related Spots', zh: '相关景点'),
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 8),
+                    ...spots.map((spot) => _SpotCard(
+                      spot: spot,
+                      locale: locale,
+                      guideSlug: widget.slug,
+                      onAddToTrip: () => _addSpotToTrip(spot, locale),
+                    )),
+                  ],
+
                   // FAQ section
                   if (faq.isNotEmpty) ...[
                     const SizedBox(height: 24),
@@ -176,6 +253,71 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
                   const SizedBox(height: 32),
                 ],
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SpotCard extends StatelessWidget {
+  final Map<String, dynamic> spot;
+  final String locale;
+  final String guideSlug;
+  final VoidCallback onAddToTrip;
+
+  const _SpotCard({required this.spot, required this.locale, required this.guideSlug, required this.onAddToTrip});
+
+  @override
+  Widget build(BuildContext context) {
+    final name = spot['name'] as String? ?? '';
+    final nameEn = spot['nameEn'] as String? ?? '';
+    final imageUrl = spot['imageUrl'] as String? ?? '';
+    final description = spot['description'] as String? ?? '';
+
+    return Card(
+      margin: const EdgeInsets.only(bottom: 10),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (imageUrl.isNotEmpty)
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Image.network(imageUrl, fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => Container(color: AppTheme.muted,
+                  child: Center(child: Icon(Icons.place, size: 32, color: AppTheme.mutedForeground)))),
+            ),
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(name, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
+                if (nameEn.isNotEmpty)
+                  Text(nameEn, style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground)),
+                if (description.isNotEmpty) ...[
+                  const SizedBox(height: 6),
+                  Text(description, style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground, height: 1.5),
+                    maxLines: 3, overflow: TextOverflow.ellipsis),
+                ],
+                const SizedBox(height: 10),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: onAddToTrip,
+                    icon: const Icon(Icons.add, size: 16),
+                    label: Text(tr(locale, ja: '旅行に追加', ko: '여행에 추가', en: 'Add to Trip', zh: '添加到行程'),
+                      style: const TextStyle(fontSize: 12)),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
