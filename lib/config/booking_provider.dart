@@ -4,12 +4,14 @@ import 'package:flutter/services.dart';
 
 /// Determines booking provider based on locale and region.
 /// Matches web app logic:
-///   - Japan region + ja locale → Jalan
+///   - Japan region + ja locale → Jalan (via /api/out server redirect)
 ///   - Korea region OR ko locale → Agoda
 ///   - Fallback → Booking.com
 class BookingProvider {
   /// Agoda area/poi IDs loaded from bundled data
   static Map<String, dynamic>? _agodaAreaIds;
+  /// Jalan station codes loaded from bundled data
+  static Map<String, dynamic>? _jalanCodes;
 
   static Future<void>? _loadFuture;
 
@@ -28,15 +30,25 @@ class BookingProvider {
       debugPrint('Failed to load Agoda area IDs: $e');
       _agodaAreaIds = {};
     }
+    try {
+      final raw = await rootBundle.loadString('assets/data/station-jalan-codes.json');
+      _jalanCodes = jsonDecode(raw) as Map<String, dynamic>;
+      debugPrint('Jalan codes loaded: ${_jalanCodes!.length} entries');
+    } catch (e) {
+      debugPrint('Failed to load Jalan codes: $e');
+      _jalanCodes = {};
+    }
   }
 
   /// Ensure data is loaded (call before buildSearchUrl if needed)
   static Future<void> ensureLoaded() async {
     if (_agodaAreaIds == null) await preloadAgodaIds();
   }
+
   static const _jalanBaseUrl = 'https://www.jalan.net';
   static const _agodaBaseUrl = 'https://www.agoda.com';
   static const _bookingBaseUrl = 'https://www.booking.com';
+  static const _apiOutUrl = 'https://norigo.app/api/out';
 
   static const _koreaRegions = ['seoul', 'busan'];
   static const _japanRegions = ['kanto', 'kansai'];
@@ -54,6 +66,17 @@ class BookingProvider {
     return 'Powered by $name';
   }
 
+  /// Wrap URL via /api/out for server-side affiliate redirect (matching web)
+  static String _wrapWithApiOut(String url, String provider, {String? stationId}) {
+    final params = <String, String>{
+      'shopId': 'app',
+      'url': url,
+      'provider': provider,
+    };
+    if (stationId != null) params['stationId'] = stationId;
+    return '$_apiOutUrl?${_encodeParams(params)}';
+  }
+
   /// Build a search URL for the booking provider
   static String buildSearchUrl({
     required String locale,
@@ -64,9 +87,10 @@ class BookingProvider {
     String? checkIn,
     String? checkOut,
     String? stationId,
+    String? maxBudget,
   }) {
     if (_japanRegions.contains(region) && locale == 'ja') {
-      return _buildJalanUrl(stationName, checkIn, checkOut);
+      return _buildJalanUrl(stationName, checkIn, checkOut, stationId: stationId, maxBudget: maxBudget);
     }
     if (_koreaRegions.contains(region) || locale == 'ko') {
       return _buildAgodaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, stationId: stationId, region: region);
@@ -84,13 +108,14 @@ class BookingProvider {
     String? checkIn,
     String? checkOut,
     int? hotelId,
+    String? stationId,
   }) {
     if (_japanRegions.contains(region) && locale == 'ja') {
       if (hotelId != null) {
         final jalanUrl = '$_jalanBaseUrl/yad/stay/$hotelId.html';
-        return 'https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3693387&pid=889792382&vc_url=${Uri.encodeComponent(jalanUrl)}';
+        return _wrapWithApiOut(jalanUrl, 'jalan', stationId: stationId);
       }
-      return _buildJalanUrl(stationName, checkIn, checkOut);
+      return _buildJalanUrl(stationName, checkIn, checkOut, stationId: stationId);
     }
     if (_koreaRegions.contains(region) || locale == 'ko') {
       if (hotelId != null) {
@@ -109,22 +134,48 @@ class BookingProvider {
     final domain = locale == 'ko' ? 'kr.tabelog.com' : locale == 'ja' ? 'tabelog.com' : 'en.tabelog.com';
     final encoded = Uri.encodeComponent(stationName);
     final tabelogUrl = 'https://$domain/rstLst/?vs=1&sk=$encoded';
-    // Wrap with ValueCommerce for non-ja
-    if (locale != 'ja') {
-      return 'https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3693387&pid=889792383&vc_url=${Uri.encodeComponent(tabelogUrl)}';
-    }
-    return tabelogUrl;
+    return _wrapWithApiOut(tabelogUrl, 'tabelog');
   }
 
-  static String _buildJalanUrl(String query, String? checkIn, String? checkOut) {
+  /// Build Jalan URL — uses station-specific page if code available (matching web)
+  static String _buildJalanUrl(String query, String? checkIn, String? checkOut, {String? stationId, String? maxBudget}) {
+    // Try station-specific URL (matching web's buildJalanSearchUrl)
+    if (stationId != null && _jalanCodes != null) {
+      final code = _jalanCodes![stationId];
+      if (code != null) {
+        final sta = code['sta'] as String;
+        final pref = code['pref'] as String;
+        var jalanUrl = '$_jalanBaseUrl/$pref/STA_$sta/';
+
+        final params = <String>[];
+        if (checkIn != null) {
+          final parts = checkIn.split('-');
+          if (parts.length == 3) {
+            params.add('stayYear=${parts[0]}&stayMonth=${parts[1]}&stayDay=${parts[2]}');
+          }
+        }
+        if (checkIn != null && checkOut != null) {
+          final ci = DateTime.tryParse(checkIn);
+          final co = DateTime.tryParse(checkOut);
+          if (ci != null && co != null) {
+            final nights = co.difference(ci).inDays.clamp(1, 30);
+            params.add('stayCount=$nights');
+          }
+        }
+        if (params.isNotEmpty) jalanUrl = '$jalanUrl?${params.join('&')}';
+
+        return _wrapWithApiOut(jalanUrl, 'jalan', stationId: stationId);
+      }
+    }
+
+    // Fallback: keyword search
     final params = <String, String>{
       'screenId': 'UWW3001',
       'keyword': query,
     };
     if (checkIn != null) params['dateUndecided'] = '0';
     final jalanUrl = '$_jalanBaseUrl/yad/list.html?${_encodeParams(params)}';
-    // Wrap with ValueCommerce affiliate redirect
-    return 'https://ck.jp.ap.valuecommerce.com/servlet/referral?sid=3693387&pid=889792382&vc_url=${Uri.encodeComponent(jalanUrl)}';
+    return _wrapWithApiOut(jalanUrl, 'jalan', stationId: stationId);
   }
 
   static String _buildAgodaUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng, String? stationId, String? region}) {
@@ -136,51 +187,23 @@ class BookingProvider {
     };
     const cid = '1922458';
 
-    // With dates: match web buildAgodaSearchUrl exactly
     if (checkIn != null && checkOut != null) {
       var base = '$_agodaBaseUrl/$langCode/search?cid=$cid&checkIn=$checkIn&checkOut=$checkOut&rooms=1&adults=2';
 
-      // 1) Try area ID (best: direct search results)
-      if (stationId != null && stationId.isNotEmpty) {
-        // Ensure data is loaded (may not be ready if called before preload completes)
-        if (_agodaAreaIds == null) {
-          // Synchronous fallback: try loading now
-          try {
-            // Data might not be ready yet, skip to lat/lng fallback
-          } catch (_) {}
-        }
-        if (_agodaAreaIds != null) {
-          final entry = _agodaAreaIds![stationId];
-          if (entry != null) {
-            final idType = entry['type'] as String;
-            final id = entry['id'];
-            if (idType == 'area') {
-              debugPrint('Agoda: area match for $stationId → area=$id');
-              return '$base&area=$id';
-            } else if (idType == 'poi') {
-              debugPrint('Agoda: poi match for $stationId → poi=$id');
-              return '$base&poi=$id';
-            }
-          }
-          debugPrint('Agoda: no entry for $stationId, falling back to lat/lng');
-        } else {
-          debugPrint('Agoda: area IDs not loaded yet');
+      if (stationId != null && stationId.isNotEmpty && _agodaAreaIds != null) {
+        final entry = _agodaAreaIds![stationId];
+        if (entry != null) {
+          final idType = entry['type'] as String;
+          final id = entry['id'];
+          if (idType == 'area') return '$base&area=$id';
+          if (idType == 'poi') return '$base&poi=$id';
         }
       }
 
-      // 2) lat/lng fallback
-      if (lat != null && lng != null) {
-        final url = '$base&latitude=$lat&longitude=$lng';
-        debugPrint('Agoda URL (lat/lng): $url');
-        return url;
-      }
-
-      final url = '$base&textToSearch=${Uri.encodeComponent(query)}';
-      debugPrint('Agoda URL (textToSearch): $url');
-      return url;
+      if (lat != null && lng != null) return '$base&latitude=$lat&longitude=$lng';
+      return '$base&textToSearch=${Uri.encodeComponent(query)}';
     }
 
-    // Without dates: simple search
     return '$_agodaBaseUrl/$langCode/search?cid=$cid&textToSearch=${Uri.encodeComponent(query)}';
   }
 
