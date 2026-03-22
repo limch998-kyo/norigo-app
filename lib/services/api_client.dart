@@ -225,6 +225,21 @@ class ApiClient {
     return data['action'] as String? ?? 'added';
   }
 
+  // ── Guide ──
+
+  Future<List<Map<String, dynamic>>> getGuides({required String locale, String? region}) async {
+    final params = <String, String>{'locale': locale};
+    if (region != null) params['region'] = region;
+    final response = await _dio.get('/api/guide', queryParameters: params);
+    final data = response.data as Map<String, dynamic>;
+    return (data['guides'] as List<dynamic>).map((e) => e as Map<String, dynamic>).toList();
+  }
+
+  Future<Map<String, dynamic>> getGuideDetail(String slug, {required String locale}) async {
+    final response = await _dio.get('/api/guide/$slug', queryParameters: {'locale': locale});
+    return response.data as Map<String, dynamic>;
+  }
+
   // ── Trip Optimization ──
 
   Future<Map<String, dynamic>> optimizeTrip({

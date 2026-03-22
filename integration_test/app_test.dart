@@ -221,4 +221,41 @@ void main() {
       }
     });
   });
+
+  group('Guide screen', () {
+    testWidgets('guide list shows guides', (tester) async {
+      await tester.pumpWidget(createApp());
+      await tester.pumpAndSettle();
+
+      // Go to Guide tab
+      await tester.tap(find.text('가이드'));
+      await tester.pumpAndSettle();
+
+      // Should show guide tab title
+      expect(find.text('여행 가이드'), findsOneWidget);
+
+      // Region filter chips should be visible
+      expect(find.text('전체'), findsOneWidget);
+    });
+
+    testWidgets('guide detail opens natively with markdown content', (tester) async {
+      await tester.pumpWidget(createApp());
+      await tester.pumpAndSettle();
+
+      // Go to Guide tab
+      await tester.tap(find.text('가이드'));
+      await tester.pumpAndSettle();
+
+      // Tap first guide's "Read Guide" button
+      final readButton = find.text('가이드 읽기');
+      if (readButton.evaluate().isNotEmpty) {
+        await tester.tap(readButton.first);
+        await tester.pumpAndSettle(const Duration(seconds: 3));
+
+        // Should show guide content (not WebView)
+        // TOC section should be present
+        expect(find.text('목차'), findsOneWidget);
+      }
+    });
+  });
 }

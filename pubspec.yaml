@@ -39,7 +39,7 @@ dependencies:
   intl: ^0.20.2
 
   # Markdown (guide pages)
-  flutter_markdown: ^0.7.6
+  flutter_markdown: ^0.7.7+1
 
   # Maps
   flutter_map: ^7.0.2
