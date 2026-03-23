@@ -445,6 +445,12 @@ class _HowItWorks extends StatelessWidget {
           {'title': 'AI가 최적 지역 분석', 'desc': '모든 관광지에 접근하기 좋은 호텔 지역 계산', 'illustration': 'assets/images/illustrations/stay-step2.svg'},
           {'title': '호텔 예약', 'desc': '추천 지역에서 호텔을 골라 예약', 'illustration': 'assets/images/illustrations/stay-step3.svg'},
         ];
+      case 'fr':
+        return [
+          {'title': 'Entrez vos sites', 'desc': 'Ajoutez 2+ sites touristiques à visiter', 'illustration': 'assets/images/illustrations/stay-step1.svg'},
+          {'title': 'L\'IA trouve le meilleur quartier', 'desc': 'Nous calculons le quartier hôtelier le mieux situé', 'illustration': 'assets/images/illustrations/stay-step2.svg'},
+          {'title': 'Réservez votre hôtel', 'desc': 'Choisissez et réservez parmi les hôtels recommandés', 'illustration': 'assets/images/illustrations/stay-step3.svg'},
+        ];
       default:
         return [
           {'title': 'Enter Landmarks', 'desc': 'Add 2+ tourist spots you want to visit', 'illustration': 'assets/images/illustrations/stay-step1.svg'},

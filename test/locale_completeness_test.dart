@@ -92,6 +92,47 @@ void main() {
     }
   });
 
+  test('All switch(locale) blocks include fr case', () {
+    final violations = <String>[];
+
+    for (final file in Directory('lib').listSync(recursive: true)) {
+      if (file is! File || !file.path.endsWith('.dart')) continue;
+      if (file.path.contains('.g.dart') || file.path.contains('l10n/')) continue;
+
+      final content = file.readAsStringSync();
+      final lines = content.split('\n');
+
+      for (var i = 0; i < lines.length; i++) {
+        // Find switch blocks that have case 'ja' and case 'ko' but no case 'fr'
+        if (lines[i].contains("case 'ja':") || lines[i].contains("case 'ko':")) {
+          // Look at surrounding block (20 lines)
+          final blockStart = (i - 3).clamp(0, lines.length);
+          final blockEnd = (i + 20).clamp(0, lines.length);
+          final block = lines.sublist(blockStart, blockEnd).join('\n');
+
+          if (block.contains("case 'ja':") && block.contains("case 'ko':") &&
+              !block.contains("case 'fr':") &&
+              // Exclude known non-UI switches (l10n, tr helper, model localization)
+              !file.path.contains('tr.dart') &&
+              !file.path.contains('l10n/') &&
+              !file.path.contains('models/') &&
+              !file.path.contains('services/') &&
+              // _getName with nameEn default is OK (fr falls to English)
+              !block.contains("nameEn")) {
+            final path = file.path.replaceFirst('lib/', '');
+            if (!violations.any((v) => v.contains('$path:${i + 1}'))) {
+              violations.add('  $path:${i + 1}: switch has ja/ko but no fr case');
+            }
+          }
+        }
+      }
+    }
+
+    if (violations.isNotEmpty) {
+      fail('Found ${violations.length} switch block(s) without fr case:\n${violations.join('\n')}');
+    }
+  });
+
   test('Suggestion chips and popular spots use en fallback for fr locale', () {
     // Check _popularByRegion and _SuggestionChips in stay_search_screen
     final content = File('lib/screens/stay/stay_search_screen.dart').readAsStringSync();
