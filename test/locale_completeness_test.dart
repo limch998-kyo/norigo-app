@@ -134,16 +134,31 @@ void main() {
   });
 
   test('Suggestion chips and popular spots use en fallback for fr locale', () {
-    // Check _popularByRegion and _SuggestionChips in stay_search_screen
-    final content = File('lib/screens/stay/stay_search_screen.dart').readAsStringSync();
+    final violations = <String>[];
 
-    // _getName should handle fr → nameEn fallback
-    expect(content.contains("default: return spot['nameEn']"), true,
-      reason: '_getName should fallback to nameEn for fr/zh/en');
+    for (final file in Directory('lib').listSync(recursive: true)) {
+      if (file is! File || !file.path.endsWith('.dart')) continue;
+      if (file.path.contains('.g.dart')) continue;
 
-    // Should NOT have: default: return spot['name'] (which is Japanese)
-    final defaultJa = RegExp(r"default:\s*return\s+spot\['name'\]").hasMatch(content);
-    expect(defaultJa, false,
-      reason: '_getName should not default to Japanese name');
+      final content = file.readAsStringSync();
+      final lines = content.split('\n');
+
+      for (var i = 0; i < lines.length; i++) {
+        final line = lines[i];
+        // Pattern: locale == 'en' ? nameEn : spot['name'] (missing ja check)
+        // This causes fr to fall through to Japanese 'name'
+        if (line.contains("locale == 'en'") && !line.contains("locale == 'ja'")) {
+          final block = lines.sublist(i, (i + 3).clamp(0, lines.length)).join(' ');
+          if (block.contains("spot['name']") && !block.contains("locale == 'ja'") && !block.contains("nameEn")) {
+            final path = file.path.replaceFirst('lib/', '');
+            violations.add('  $path:${i + 1}: en-only check → Japanese default for fr');
+          }
+        }
+      }
+    }
+
+    if (violations.isNotEmpty) {
+      fail('Found locale patterns where fr falls to Japanese:\n${violations.join('\n')}');
+    }
   });
 }

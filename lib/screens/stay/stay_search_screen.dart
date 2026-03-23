@@ -582,7 +582,7 @@ class _QuickSearchPlans extends StatelessWidget {
 
   static const _plans = {
     'kanto': [
-      {'title': {'ja': '渋谷・原宿・新宿', 'ko': '시부야・하라주쿠・신주쿠', 'en': 'Shibuya · Harajuku · Shinjuku'},
+      {'title': {'ja': '渋谷・原宿・新宿', 'ko': '시부야・하라주쿠・신주쿠', 'en': 'Shibuya · Harajuku · Shinjuku', 'fr': 'Shibuya · Harajuku · Shinjuku'},
        'landmarks': [
          {'name': '渋谷', 'nameKo': '시부야', 'nameEn': 'Shibuya', 'lat': 35.6595, 'lng': 139.7004},
          {'name': '原宿', 'nameKo': '하라주쿠', 'nameEn': 'Harajuku', 'lat': 35.6702, 'lng': 139.7026},
@@ -590,7 +590,7 @@ class _QuickSearchPlans extends StatelessWidget {
          {'name': '表参道', 'nameKo': '오모테산도', 'nameEn': 'Omotesando', 'lat': 35.6654, 'lng': 139.7121},
          {'name': '池袋', 'nameKo': '이케부쿠로', 'nameEn': 'Ikebukuro', 'lat': 35.7295, 'lng': 139.7109},
        ]},
-      {'title': {'ja': '浅草・上野・東京駅', 'ko': '아사쿠사・우에노・도쿄역', 'en': 'Asakusa · Ueno · Tokyo'},
+      {'title': {'ja': '浅草・上野・東京駅', 'ko': '아사쿠사・우에노・도쿄역', 'en': 'Asakusa · Ueno · Tokyo', 'fr': 'Asakusa · Ueno · Tokyo'},
        'landmarks': [
          {'name': '浅草', 'nameKo': '아사쿠사', 'nameEn': 'Asakusa', 'lat': 35.7148, 'lng': 139.7967},
          {'name': '上野', 'nameKo': '우에노', 'nameEn': 'Ueno', 'lat': 35.7146, 'lng': 139.7732},
@@ -600,7 +600,7 @@ class _QuickSearchPlans extends StatelessWidget {
        ]},
     ],
     'kansai': [
-      {'title': {'ja': '道頓堀・なんば・心斎橋', 'ko': '도톤보리・난바・신사이바시', 'en': 'Dotonbori · Namba · Shinsaibashi'},
+      {'title': {'ja': '道頓堀・なんば・心斎橋', 'ko': '도톤보리・난바・신사이바시', 'en': 'Dotonbori · Namba · Shinsaibashi', 'fr': 'Dotonbori · Namba · Shinsaibashi'},
        'landmarks': [
          {'name': '道頓堀', 'nameKo': '도톤보리', 'nameEn': 'Dotonbori', 'lat': 34.6687, 'lng': 135.5021},
          {'name': 'なんば', 'nameKo': '난바', 'nameEn': 'Namba', 'lat': 34.6659, 'lng': 135.5013},
@@ -610,7 +610,7 @@ class _QuickSearchPlans extends StatelessWidget {
        ]},
     ],
     'seoul': [
-      {'title': {'ja': '明洞・弘大・江南', 'ko': '명동・홍대・강남', 'en': 'Myeongdong · Hongdae · Gangnam'},
+      {'title': {'ja': '明洞・弘大・江南', 'ko': '명동・홍대・강남', 'en': 'Myeongdong · Hongdae · Gangnam', 'fr': 'Myeongdong · Hongdae · Gangnam'},
        'landmarks': [
          {'name': '明洞', 'nameKo': '명동', 'nameEn': 'Myeongdong', 'lat': 37.5636, 'lng': 126.9869},
          {'name': '弘大', 'nameKo': '홍대', 'nameEn': 'Hongdae', 'lat': 37.5563, 'lng': 126.9237},
@@ -618,7 +618,7 @@ class _QuickSearchPlans extends StatelessWidget {
        ]},
     ],
     'busan': [
-      {'title': {'ja': '海雲台・広安里・南浦', 'ko': '해운대・광안리・남포동', 'en': 'Haeundae · Gwangalli'},
+      {'title': {'ja': '海雲台・広安里・南浦', 'ko': '해운대・광안리・남포동', 'en': 'Haeundae · Gwangalli', 'fr': 'Haeundae · Gwangalli'},
        'landmarks': [
          {'name': '海雲台', 'nameKo': '해운대', 'nameEn': 'Haeundae', 'lat': 35.1586, 'lng': 129.1604},
          {'name': '広安里', 'nameKo': '광안리', 'nameEn': 'Gwangalli', 'lat': 35.1532, 'lng': 129.1187},

@@ -502,9 +502,9 @@ class _PopularSpots extends StatelessWidget {
             final spot = _spots[index];
             final name = locale == 'ko'
                 ? spot['nameKo'] as String
-                : locale == 'en'
-                    ? spot['nameEn'] as String
-                    : spot['name'] as String;
+                : locale == 'ja'
+                    ? spot['name'] as String
+                    : spot['nameEn'] as String; // en, zh, fr
             final imageFile = spot['image'] as String;
 
             return GestureDetector(
