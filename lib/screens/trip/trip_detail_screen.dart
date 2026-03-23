@@ -38,7 +38,7 @@ class TripDetailScreen extends ConsumerWidget {
                   Icon(Icons.place_outlined, size: 64, color: Colors.grey.shade400),
                   const SizedBox(height: 16),
                   Text(
-                    tr(locale, ja: 'スポットを追加しましょう', ko: '관광지를 추가해보세요', en: 'Add some spots', zh: '添加一些景点吧'),
+                    tr(locale, ja: 'スポットを追加しましょう', ko: '관광지를 추가해보세요', en: 'Add some spots', zh: '添加一些景点吧', fr: 'Ajoutez des sites'),
                     style: theme.textTheme.titleMedium?.copyWith(color: Colors.grey),
                   ),
                 ],
@@ -95,7 +95,7 @@ class TripDetailScreen extends ConsumerWidget {
                   },
                   icon: const Icon(Icons.hotel),
                   label: Text(
-                    tr(locale, ja: 'ホテルを探す', ko: '호텔 찾기', en: 'Find Hotels', zh: '查找酒店'),
+                    tr(locale, ja: 'ホテルを探す', ko: '호텔 찾기', en: 'Find Hotels', zh: '查找酒店', fr: 'Trouver des hôtels'),
                   ),
                 ),
               ),

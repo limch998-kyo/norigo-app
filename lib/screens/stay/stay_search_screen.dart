@@ -174,7 +174,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
 
             // Mode selector
             Text(
-              tr(locale, ja: '検索モード', ko: '검색 모드', en: 'Search mode', zh: '搜索模式'),
+              tr(locale, ja: '検索モード', ko: '검색 모드', en: 'Search mode', zh: '搜索模式', fr: 'Mode de recherche'),
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
@@ -187,7 +187,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
 
             // Date selection
             Text(
-              tr(locale, ja: '日程', ko: '일정', en: 'Dates', zh: '日期'),
+              tr(locale, ja: '日程', ko: '일정', en: 'Dates', zh: '日期', fr: 'Dates'),
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
@@ -223,7 +223,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
             if (state.landmarks.length >= 3) ...[
               const SizedBox(height: 20),
               Text(
-                tr(locale, ja: '宿泊スタイル', ko: '숙박 스타일', en: 'Stay style', zh: '住宿方式'),
+                tr(locale, ja: '宿泊スタイル', ko: '숙박 스타일', en: 'Stay style', zh: '住宿方式', fr: 'Style de séjour'),
                 style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 8),
@@ -239,12 +239,12 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
             // Budget selector
             Row(children: [
               Text(
-                tr(locale, ja: '予算', ko: '예산', en: 'Budget', zh: '预算'),
+                tr(locale, ja: '予算', ko: '예산', en: 'Budget', zh: '预算', fr: 'Budget'),
                 style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
               ),
               const SizedBox(width: 6),
               Text(
-                tr(locale, ja: '（1泊あたり）', ko: '(1박 기준)', en: '(per night)', zh: '（每晚）'),
+                tr(locale, ja: '（1泊あたり）', ko: '(1박 기준)', en: '(per night)', zh: '（每晚）', fr: '(par nuit)'),
                 style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground),
               ),
             ]),
@@ -309,10 +309,10 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
 
   String _regionLabel(String region, String locale) {
     switch (region) {
-      case 'kanto': return tr(locale, ja: '東京・関東', en: 'Tokyo / Kanto', ko: '도쿄 / 간토', zh: '东京 / 关东');
-      case 'kansai': return tr(locale, ja: '大阪・関西', en: 'Osaka / Kansai', ko: '오사카 / 간사이', zh: '大阪 / 关西');
-      case 'seoul': return tr(locale, ja: 'ソウル', en: 'Seoul', ko: '서울', zh: '首尔');
-      case 'busan': return tr(locale, ja: '釜山', en: 'Busan', ko: '부산', zh: '釜山');
+      case 'kanto': return tr(locale, ja: '東京・関東', en: 'Tokyo / Kanto', ko: '도쿄 / 간토', zh: '东京 / 关东', fr: 'Tokyo / Kanto');
+      case 'kansai': return tr(locale, ja: '大阪・関西', en: 'Osaka / Kansai', ko: '오사카 / 간사이', zh: '大阪 / 关西', fr: 'Osaka / Kansai');
+      case 'seoul': return tr(locale, ja: 'ソウル', en: 'Seoul', ko: '서울', zh: '首尔', fr: 'Séoul');
+      case 'busan': return tr(locale, ja: '釜山', en: 'Busan', ko: '부산', zh: '釜山', fr: 'Busan');
       default: return region;
     }
   }
@@ -435,8 +435,8 @@ class _PopularSpotCardsState extends State<_PopularSpotCards> {
 
     if (spots.isEmpty) return const SizedBox.shrink();
 
-    final addLabel = tr(widget.locale, ja: '検索に追加', ko: '검색에 추가', en: 'Add to search', zh: '添加到搜索');
-    final tripLabel = tr(widget.locale, ja: '旅行に追加', ko: '여행에 추가', en: 'Add to trip', zh: '添加到旅行');
+    final addLabel = tr(widget.locale, ja: '検索に追加', ko: '검색에 추가', en: 'Add to search', zh: '添加到搜索', fr: 'Ajouter à la recherche');
+    final tripLabel = tr(widget.locale, ja: '旅行に追加', ko: '여행에 추가', en: 'Add to trip', zh: '添加到旅行', fr: 'Ajouter au voyage');
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -445,7 +445,7 @@ class _PopularSpotCardsState extends State<_PopularSpotCards> {
           Icon(Icons.place, size: 16, color: AppTheme.mutedForeground),
           const SizedBox(width: 6),
           Text(
-            tr(widget.locale, ja: '人気スポット', ko: '인기 관광지', en: 'Popular Spots', zh: '热门景点'),
+            tr(widget.locale, ja: '人気スポット', ko: '인기 관광지', en: 'Popular Spots', zh: '热门景点', fr: 'Sites populaires'),
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: AppTheme.mutedForeground),
           ),
         ]),
@@ -566,9 +566,9 @@ class _PopularSpotCardsState extends State<_PopularSpotCards> {
 
   String _getName(Map<String, Object> spot) {
     switch (widget.locale) {
-      case 'ko': return spot['nameKo'] as String? ?? spot['name'] as String;
-      case 'en': return spot['nameEn'] as String? ?? spot['name'] as String;
-      default: return spot['name'] as String;
+      case 'ko': return spot['nameKo'] as String? ?? spot['nameEn'] as String? ?? spot['name'] as String;
+      case 'ja': return spot['name'] as String;
+      default: return spot['nameEn'] as String? ?? spot['name'] as String; // en, zh, fr
     }
   }
 }
@@ -582,47 +582,47 @@ class _QuickSearchPlans extends StatelessWidget {
 
   static const _plans = {
     'kanto': [
-      {'title': {'ja': '渋谷・原宿・新宿', 'ko': '시부야・하라주쿠・신주쿠', 'en': 'Shibuya · Harajuku · Shinjuku'},
+      {'title': {'ja': '渋谷・原宿・新宿', 'ko': '시부야・하라주쿠・신주쿠', 'en': 'Shibuya · Harajuku · Shinjuku', 'fr': 'Shibuya · Harajuku · Shinjuku'},
        'landmarks': [
-         {'name': '渋谷', 'nameKo': '시부야', 'lat': 35.6595, 'lng': 139.7004},
-         {'name': '原宿', 'nameKo': '하라주쿠', 'lat': 35.6702, 'lng': 139.7026},
-         {'name': '新宿', 'nameKo': '신주쿠', 'lat': 35.6852, 'lng': 139.7100},
-         {'name': '表参道', 'nameKo': '오모테산도', 'lat': 35.6654, 'lng': 139.7121},
-         {'name': '池袋', 'nameKo': '이케부쿠로', 'lat': 35.7295, 'lng': 139.7109},
+         {'name': '渋谷', 'nameKo': '시부야', 'nameEn': 'Shibuya', 'lat': 35.6595, 'lng': 139.7004},
+         {'name': '原宿', 'nameKo': '하라주쿠', 'nameEn': 'Harajuku', 'lat': 35.6702, 'lng': 139.7026},
+         {'name': '新宿', 'nameKo': '신주쿠', 'nameEn': 'Shinjuku', 'lat': 35.6852, 'lng': 139.7100},
+         {'name': '表参道', 'nameKo': '오모테산도', 'nameEn': 'Omotesando', 'lat': 35.6654, 'lng': 139.7121},
+         {'name': '池袋', 'nameKo': '이케부쿠로', 'nameEn': 'Ikebukuro', 'lat': 35.7295, 'lng': 139.7109},
        ]},
-      {'title': {'ja': '浅草・上野・東京駅', 'ko': '아사쿠사・우에노・도쿄역', 'en': 'Asakusa · Ueno · Tokyo'},
+      {'title': {'ja': '浅草・上野・東京駅', 'ko': '아사쿠사・우에노・도쿄역', 'en': 'Asakusa · Ueno · Tokyo', 'fr': 'Asakusa · Ueno · Tokyo'},
        'landmarks': [
-         {'name': '浅草', 'nameKo': '아사쿠사', 'lat': 35.7148, 'lng': 139.7967},
-         {'name': '上野', 'nameKo': '우에노', 'lat': 35.7146, 'lng': 139.7732},
-         {'name': '東京駅', 'nameKo': '도쿄역', 'lat': 35.6812, 'lng': 139.7671},
-         {'name': '秋葉原', 'nameKo': '아키하바라', 'lat': 35.6984, 'lng': 139.7731},
-         {'name': 'スカイツリー', 'nameKo': '스카이트리', 'lat': 35.7101, 'lng': 139.8107},
+         {'name': '浅草', 'nameKo': '아사쿠사', 'nameEn': 'Asakusa', 'lat': 35.7148, 'lng': 139.7967},
+         {'name': '上野', 'nameKo': '우에노', 'nameEn': 'Ueno', 'lat': 35.7146, 'lng': 139.7732},
+         {'name': '東京駅', 'nameKo': '도쿄역', 'nameEn': 'Tokyo Station', 'lat': 35.6812, 'lng': 139.7671},
+         {'name': '秋葉原', 'nameKo': '아키하바라', 'nameEn': 'Akihabara', 'lat': 35.6984, 'lng': 139.7731},
+         {'name': 'スカイツリー', 'nameKo': '스카이트리', 'nameEn': 'Tokyo Skytree', 'lat': 35.7101, 'lng': 139.8107},
        ]},
     ],
     'kansai': [
-      {'title': {'ja': '道頓堀・なんば・心斎橋', 'ko': '도톤보리・난바・신사이바시', 'en': 'Dotonbori · Namba · Shinsaibashi'},
+      {'title': {'ja': '道頓堀・なんば・心斎橋', 'ko': '도톤보리・난바・신사이바시', 'en': 'Dotonbori · Namba · Shinsaibashi', 'fr': 'Dotonbori · Namba · Shinsaibashi'},
        'landmarks': [
-         {'name': '道頓堀', 'nameKo': '도톤보리', 'lat': 34.6687, 'lng': 135.5021},
-         {'name': 'なんば', 'nameKo': '난바', 'lat': 34.6659, 'lng': 135.5013},
-         {'name': '心斎橋', 'nameKo': '신사이바시', 'lat': 34.6751, 'lng': 135.5014},
-         {'name': '黒門市場', 'nameKo': '구로몬시장', 'lat': 34.6681, 'lng': 135.5097},
-         {'name': '大阪城', 'nameKo': '오사카성', 'lat': 34.6873, 'lng': 135.5262},
+         {'name': '道頓堀', 'nameKo': '도톤보리', 'nameEn': 'Dotonbori', 'lat': 34.6687, 'lng': 135.5021},
+         {'name': 'なんば', 'nameKo': '난바', 'nameEn': 'Namba', 'lat': 34.6659, 'lng': 135.5013},
+         {'name': '心斎橋', 'nameKo': '신사이바시', 'nameEn': 'Shinsaibashi', 'lat': 34.6751, 'lng': 135.5014},
+         {'name': '黒門市場', 'nameKo': '구로몬시장', 'nameEn': 'Kuromon Market', 'lat': 34.6681, 'lng': 135.5097},
+         {'name': '大阪城', 'nameKo': '오사카성', 'nameEn': 'Osaka Castle', 'lat': 34.6873, 'lng': 135.5262},
        ]},
     ],
     'seoul': [
-      {'title': {'ja': '明洞・弘大・江南', 'ko': '명동・홍대・강남', 'en': 'Myeongdong · Hongdae · Gangnam'},
+      {'title': {'ja': '明洞・弘大・江南', 'ko': '명동・홍대・강남', 'en': 'Myeongdong · Hongdae · Gangnam', 'fr': 'Myeongdong · Hongdae · Gangnam'},
        'landmarks': [
-         {'name': '明洞', 'nameKo': '명동', 'lat': 37.5636, 'lng': 126.9869},
-         {'name': '弘大', 'nameKo': '홍대', 'lat': 37.5563, 'lng': 126.9237},
-         {'name': '江南', 'nameKo': '강남', 'lat': 37.4979, 'lng': 127.0276},
+         {'name': '明洞', 'nameKo': '명동', 'nameEn': 'Myeongdong', 'lat': 37.5636, 'lng': 126.9869},
+         {'name': '弘大', 'nameKo': '홍대', 'nameEn': 'Hongdae', 'lat': 37.5563, 'lng': 126.9237},
+         {'name': '江南', 'nameKo': '강남', 'nameEn': 'Gangnam', 'lat': 37.4979, 'lng': 127.0276},
        ]},
     ],
     'busan': [
-      {'title': {'ja': '海雲台・広安里・南浦', 'ko': '해운대・광안리・남포동', 'en': 'Haeundae · Gwangalli'},
+      {'title': {'ja': '海雲台・広安里・南浦', 'ko': '해운대・광안리・남포동', 'en': 'Haeundae · Gwangalli', 'fr': 'Haeundae · Gwangalli'},
        'landmarks': [
-         {'name': '海雲台', 'nameKo': '해운대', 'lat': 35.1586, 'lng': 129.1604},
-         {'name': '広安里', 'nameKo': '광안리', 'lat': 35.1532, 'lng': 129.1187},
-         {'name': '南浦', 'nameKo': '남포동', 'lat': 35.0975, 'lng': 129.0326},
+         {'name': '海雲台', 'nameKo': '해운대', 'nameEn': 'Haeundae', 'lat': 35.1586, 'lng': 129.1604},
+         {'name': '広安里', 'nameKo': '광안리', 'nameEn': 'Gwangalli', 'lat': 35.1532, 'lng': 129.1187},
+         {'name': '南浦', 'nameKo': '남포동', 'nameEn': 'Nampo-dong', 'lat': 35.0975, 'lng': 129.0326},
        ]},
     ],
   };
@@ -636,7 +636,7 @@ class _QuickSearchPlans extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          tr(locale, ja: '人気プランで検索', ko: '인기 플랜으로 검색', en: 'Quick search plans', zh: '热门方案搜索'),
+          tr(locale, ja: '人気プランで検索', ko: '인기 플랜으로 검색', en: 'Quick search plans', zh: '热门方案搜索', fr: 'Plans de recherche rapide'),
           style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground),
         ),
         const SizedBox(height: 8),
@@ -650,7 +650,9 @@ class _QuickSearchPlans extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 final landmarks = landmarkData.map((l) {
-                  final name = locale == 'ko' ? (l['nameKo'] as String? ?? l['name'] as String) : l['name'] as String;
+                  final name = locale == 'ko' ? (l['nameKo'] as String? ?? l['nameEn'] as String? ?? l['name'] as String)
+                      : locale == 'ja' ? (l['name'] as String)
+                      : (l['nameEn'] as String? ?? l['name'] as String);
                   return Landmark(
                     slug: name,
                     name: name,
@@ -766,9 +768,9 @@ class _SuggestionChips extends StatelessWidget {
 
   String _getName(Map<String, Object> spot) {
     switch (locale) {
-      case 'ko': return spot['nameKo'] as String? ?? spot['name'] as String;
-      case 'en': return spot['nameEn'] as String? ?? spot['name'] as String;
-      default: return spot['name'] as String;
+      case 'ko': return spot['nameKo'] as String? ?? spot['nameEn'] as String? ?? spot['name'] as String;
+      case 'ja': return spot['name'] as String;
+      default: return spot['nameEn'] as String? ?? spot['name'] as String; // en, zh, fr
     }
   }
 }
@@ -822,7 +824,7 @@ class _StayStyleToggle extends StatelessWidget {
           _buildOption(
             selected: !isSplit,
             icon: Icons.hotel,
-            label: tr(locale, ja: '1箇所に宿泊', ko: '한 곳에 숙박', en: 'Single hotel', zh: '单一酒店'),
+            label: tr(locale, ja: '1箇所に宿泊', ko: '한 곳에 숙박', en: 'Single hotel', zh: '单一酒店', fr: 'Hôtel unique'),
             showRecommended: !recommendSplit && landmarks.length >= 3,
             onTap: () => onChanged(false),
           ),
@@ -830,7 +832,7 @@ class _StayStyleToggle extends StatelessWidget {
           _buildOption(
             selected: isSplit,
             icon: Icons.swap_horiz,
-            label: tr(locale, ja: '分散して宿泊', ko: '분산 숙박', en: 'Split stay', zh: '分区住宿'),
+            label: tr(locale, ja: '分散して宿泊', ko: '분산 숙박', en: 'Split stay', zh: '分区住宿', fr: 'Séjour divisé'),
             showRecommended: recommendSplit,
             onTap: () => onChanged(true),
           ),
@@ -841,8 +843,8 @@ class _StayStyleToggle extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           recommendSplit
-            ? tr(locale, ja: '観光地が離れているため、分散宿泊がおすすめです', ko: '관광지가 떨어져 있어 분산 숙박을 추천합니다', en: 'Your spots are spread out — splitting into areas is recommended', zh: '景点较分散，建议分区住宿')
-            : tr(locale, ja: '観光地が近いため、1箇所の宿泊で十分です', ko: '관광지가 가까워 한 곳 숙박으로 충분합니다', en: 'Your spots are close together — one hotel works great', zh: '景点较集中，住一家酒店即可'),
+            ? tr(locale, ja: '観光地が離れているため、分散宿泊がおすすめです', ko: '관광지가 떨어져 있어 분산 숙박을 추천합니다', en: 'Your spots are spread out — splitting into areas is recommended', zh: '景点较分散，建议分区住宿', fr: 'Vos sites sont éloignés - un séjour divisé est recommandé')
+            : tr(locale, ja: '観光地が近いため、1箇所の宿泊で十分です', ko: '관광지가 가까워 한 곳 숙박으로 충분합니다', en: 'Your spots are close together — one hotel works great', zh: '景点较集中，住一家酒店即可', fr: 'Vos sites sont proches - un seul hôtel suffit'),
           style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground),
           textAlign: TextAlign.center,
         ),
@@ -872,7 +874,7 @@ class _StayStyleToggle extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 4),
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(color: AppTheme.primary, borderRadius: BorderRadius.circular(8)),
-              child: Text(tr(locale, ja: 'おすすめ', ko: '추천', en: 'Rec', zh: '推荐'),
+              child: Text(tr(locale, ja: 'おすすめ', ko: '추천', en: 'Rec', zh: '推荐', fr: 'Rec.'),
                 style: const TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.w600)),
             ),
           Icon(icon, size: 18, color: selected ? AppTheme.primary : AppTheme.mutedForeground),

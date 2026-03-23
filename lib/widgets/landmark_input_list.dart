@@ -97,6 +97,7 @@ class _LandmarkInputListState extends State<LandmarkInputList> {
       case 'ja': return 'スポット $n';
       case 'ko': return '관광지 $n';
       case 'zh': return '景点 $n';
+      case 'fr': return 'Site $n';
       default: return 'Spot $n';
     }
   }
@@ -106,6 +107,7 @@ class _LandmarkInputListState extends State<LandmarkInputList> {
       case 'ja': return 'スポットを追加';
       case 'ko': return '관광지 추가';
       case 'zh': return '添加景点';
+      case 'fr': return 'Ajouter un site';
       default: return 'Add spot';
     }
   }
@@ -115,6 +117,7 @@ class _LandmarkInputListState extends State<LandmarkInputList> {
       case 'ja': return '観光地名を入力...';
       case 'ko': return '관광지 이름 입력...';
       case 'zh': return '输入景点名...';
+      case 'fr': return 'Nom du site...';
       default: return 'Enter landmark name...';
     }
   }

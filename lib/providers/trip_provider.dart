@@ -311,10 +311,10 @@ class TripNotifier extends StateNotifier<TripState> {
   }
 
   static const _regionNames = {
-    'kanto': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto'},
-    'kansai': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai'},
-    'seoul': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul'},
-    'busan': {'ja': '釜山', 'ko': '부산', 'en': 'Busan'},
+    'kanto': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto', 'fr': 'Tokyo / Kanto'},
+    'kansai': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai', 'fr': 'Osaka / Kansai'},
+    'seoul': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul', 'fr': 'Séoul'},
+    'busan': {'ja': '釜山', 'ko': '부산', 'en': 'Busan', 'fr': 'Busan'},
   };
 
   static String tripNameForRegion(String region, String locale) {

@@ -108,7 +108,7 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
     final url = 'https://norigo.app/$locale/vote/${widget.pollId}';
     SharePlus.instance.share(ShareParams(
       text: tr(locale, ja: 'お店の投票に参加してください！', ko: '맛집 투표에 참여해주세요!',
-        en: 'Vote for restaurants!', zh: '来投票选餐厅！') + '\n$url',
+        en: 'Vote for restaurants!', zh: '来投票选餐厅！', fr: 'Votez pour les restaurants !') + '\n$url',
     ));
   }
 
@@ -119,14 +119,14 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
 
     if (_loading) {
       return Scaffold(
-        appBar: AppBar(title: Text(tr(locale, ja: '投票', ko: '투표', en: 'Vote', zh: '投票'))),
+        appBar: AppBar(title: Text(tr(locale, ja: '投票', ko: '투표', en: 'Vote', zh: '投票', fr: 'Vote'))),
         body: const Center(child: CircularProgressIndicator()),
       );
     }
 
     if (_error != null || _poll == null) {
       return Scaffold(
-        appBar: AppBar(title: Text(tr(locale, ja: '投票', ko: '투표', en: 'Vote', zh: '投票'))),
+        appBar: AppBar(title: Text(tr(locale, ja: '投票', ko: '투표', en: 'Vote', zh: '投票', fr: 'Vote'))),
         body: Center(child: Text(_error ?? 'Poll not found')),
       );
     }
@@ -148,7 +148,7 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(tr(locale, ja: '$stationName駅 お店投票', ko: '$stationName역 맛집 투표',
-          en: '$stationName Vote', zh: '$stationName站 投票')),
+          en: '$stationName Vote', zh: '$stationName站 投票', fr: 'Vote $stationName')),
         actions: [
           IconButton(
             icon: const Icon(Icons.share, size: 20),
@@ -167,7 +167,7 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
                 const SizedBox(width: 6),
                 Text(
                   tr(locale, ja: '$_totalVoters人が投票', ko: '$_totalVoters명 투표',
-                    en: '$_totalVoters voters', zh: '$_totalVoters人投票'),
+                    en: '$_totalVoters voters', zh: '$_totalVoters人投票', fr: '$_totalVoters votants'),
                   style: TextStyle(fontSize: 13, color: AppTheme.mutedForeground),
                 ),
                 const Spacer(),
@@ -177,12 +177,12 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
                     Clipboard.setData(ClipboardData(text: url));
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text(tr(locale, ja: 'リンクをコピーしました', ko: '링크를 복사했습니다',
-                        en: 'Link copied', zh: '已复制链接')),
+                        en: 'Link copied', zh: '已复制链接', fr: 'Lien copié')),
                       duration: const Duration(seconds: 2),
                     ));
                   },
                   icon: const Icon(Icons.link, size: 16),
-                  label: Text(tr(locale, ja: 'リンクコピー', ko: '링크 복사', en: 'Copy link', zh: '复制链接'),
+                  label: Text(tr(locale, ja: 'リンクコピー', ko: '링크 복사', en: 'Copy link', zh: '复制链接', fr: 'Copier le lien'),
                     style: const TextStyle(fontSize: 12)),
                 ),
               ],
@@ -290,7 +290,7 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
                                         const Icon(Icons.check, size: 16),
                                         const SizedBox(width: 8),
                                         Text('$voteCount', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
-                                        Text(tr(locale, ja: '票', ko: '표', en: ' votes', zh: '票'),
+                                        Text(tr(locale, ja: '票', ko: '표', en: ' votes', zh: '票', fr: ' votes'),
                                           style: const TextStyle(fontSize: 11)),
                                       ]),
                                     )
@@ -303,7 +303,7 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
                                         const Icon(Icons.how_to_vote_outlined, size: 16),
                                         const SizedBox(width: 8),
                                         Text('$voteCount', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
-                                        Text(tr(locale, ja: '票', ko: '표', en: ' votes', zh: '票'),
+                                        Text(tr(locale, ja: '票', ko: '표', en: ' votes', zh: '票', fr: ' votes'),
                                           style: const TextStyle(fontSize: 11)),
                                       ]),
                                     ),
@@ -326,8 +326,8 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
                                   ),
                                   child: Text(
                                     couponUrl.isNotEmpty
-                                      ? tr(locale, ja: 'クーポン', ko: '쿠폰', en: 'Coupon', zh: '优惠券')
-                                      : tr(locale, ja: '予約', ko: '예약', en: 'Reserve', zh: '预约'),
+                                      ? tr(locale, ja: 'クーポン', ko: '쿠폰', en: 'Coupon', zh: '优惠券', fr: 'Coupon')
+                                      : tr(locale, ja: '予約', ko: '예약', en: 'Reserve', zh: '预约', fr: 'Réserver'),
                                     style: const TextStyle(fontSize: 12),
                                   ),
                                 ),

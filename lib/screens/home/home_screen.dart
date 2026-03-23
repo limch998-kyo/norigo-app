@@ -70,7 +70,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   children: [
                     Text(
                       _koreaMode
-                          ? tr(locale, ja: '韓国旅行、\n最適なホテルを見つけよう', ko: '한국 여행,\n딱 좋은 호텔을 찾아줄게요', en: 'Korea trip?\nFind the perfect hotel.', zh: '韩国旅行，\n找到最合适的酒店')
+                          ? tr(locale, ja: '韓国旅行、\n最適なホテルを見つけよう', ko: '한국 여행,\n딱 좋은 호텔을 찾아줄게요', en: 'Korea trip?\nFind the perfect hotel.', zh: '韩国旅行，\n找到最合适的酒店', fr: 'Voyage en Corée ?\nTrouvez l\'hôtel idéal.')
                           : l10n.homeTitle,
                       style: theme.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.bold,
@@ -82,7 +82,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     const SizedBox(height: 10),
                     Text(
                       _koreaMode
-                          ? tr(locale, ja: 'ソウル・釜山の観光地を入力するだけで、すべてに近い最適なホテルエリアを提案。', ko: '서울·부산의 관광지를 입력하면 최적의 호텔 지역을 추천합니다.', en: 'Enter Seoul/Busan landmarks, we find the best hotel area.', zh: '输入首尔·釜山的景点，为您推荐最佳酒店区域。')
+                          ? tr(locale, ja: 'ソウル・釜山の観光地を入力するだけで、すべてに近い最適なホテルエリアを提案。', ko: '서울·부산의 관광지를 입력하면 최적의 호텔 지역을 추천합니다.', en: 'Enter Seoul/Busan landmarks, we find the best hotel area.', zh: '输入首尔·釜山的景点，为您推荐最佳酒店区域。', fr: 'Entrez vos sites à Séoul/Busan, nous trouvons le meilleur quartier hôtelier.')
                           : l10n.homeSubtitle,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: AppTheme.mutedForeground,
@@ -109,7 +109,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               fit: BoxFit.scaleDown,
                               child: Text(
                                 _koreaMode
-                                    ? tr(locale, ja: 'ソウルでホテルを探す', ko: '서울 호텔 찾기', en: 'Seoul Hotels', zh: '搜索首尔酒店')
+                                    ? tr(locale, ja: 'ソウルでホテルを探す', ko: '서울 호텔 찾기', en: 'Seoul Hotels', zh: '搜索首尔酒店', fr: 'Hôtels à Séoul')
                                     : (locale == 'ja' ? l10n.meetupTitle : l10n.staySearchTitle),
                                 maxLines: 1,
                               ),
@@ -132,7 +132,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               fit: BoxFit.scaleDown,
                               child: Text(
                                 _koreaMode
-                                    ? tr(locale, ja: '釜山でホテルを探す', ko: '부산 호텔 찾기', en: 'Busan Hotels', zh: '搜索釜山酒店')
+                                    ? tr(locale, ja: '釜山でホテルを探す', ko: '부산 호텔 찾기', en: 'Busan Hotels', zh: '搜索釜山酒店', fr: 'Hôtels à Busan')
                                     : (locale == 'ja' ? l10n.staySearchTitle : l10n.meetupTitle),
                                 maxLines: 1,
                               ),
@@ -159,7 +159,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ? 'assets/images/illustrations/service-meetup.svg'
                         : 'assets/images/illustrations/service-stay.svg',
                     label: locale == 'ja' ? l10n.meetupTitle : l10n.staySearchTitle,
-                    subtitle: tr(locale, ja: 'みんなの中間地点', ko: '관광지에서 호텔 찾기', en: 'Find hotels near landmarks', zh: '在景点附近找酒店'),
+                    subtitle: tr(locale, ja: 'みんなの中間地点', ko: '관광지에서 호텔 찾기', en: 'Find hotels near landmarks', zh: '在景点附近找酒店', fr: 'Trouvez des hôtels près des sites'),
                     onTap: () => onSwitchTab?.call(locale == 'ja' ? 2 : 1),
                   ),
                 ),
@@ -170,7 +170,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ? 'assets/images/illustrations/service-stay.svg'
                         : 'assets/images/illustrations/service-meetup.svg',
                     label: locale == 'ja' ? l10n.staySearchTitle : l10n.meetupTitle,
-                    subtitle: tr(locale, ja: '観光地からホテルを探す', ko: '모두의 중간 지점', en: 'Find the middle point', zh: '找到大家的中间地点'),
+                    subtitle: tr(locale, ja: '観光地からホテルを探す', ko: '모두의 중간 지점', en: 'Find the middle point', zh: '找到大家的中间地点', fr: 'Trouvez le point central'),
                     onTap: () => onSwitchTab?.call(2),
                   ),
                 ),
@@ -355,7 +355,7 @@ class _HowItWorks extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          tr(locale, ja: '使い方', ko: '이용 방법', en: 'How It Works', zh: '使用方法'),
+          tr(locale, ja: '使い方', ko: '이용 방법', en: 'How It Works', zh: '使用方法', fr: 'Comment ça marche'),
           style: theme.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
             letterSpacing: -0.3,
@@ -445,6 +445,12 @@ class _HowItWorks extends StatelessWidget {
           {'title': 'AI가 최적 지역 분석', 'desc': '모든 관광지에 접근하기 좋은 호텔 지역 계산', 'illustration': 'assets/images/illustrations/stay-step2.svg'},
           {'title': '호텔 예약', 'desc': '추천 지역에서 호텔을 골라 예약', 'illustration': 'assets/images/illustrations/stay-step3.svg'},
         ];
+      case 'fr':
+        return [
+          {'title': 'Entrez vos sites', 'desc': 'Ajoutez 2+ sites touristiques à visiter', 'illustration': 'assets/images/illustrations/stay-step1.svg'},
+          {'title': 'L\'IA trouve le meilleur quartier', 'desc': 'Nous calculons le quartier hôtelier le mieux situé', 'illustration': 'assets/images/illustrations/stay-step2.svg'},
+          {'title': 'Réservez votre hôtel', 'desc': 'Choisissez et réservez parmi les hôtels recommandés', 'illustration': 'assets/images/illustrations/stay-step3.svg'},
+        ];
       default:
         return [
           {'title': 'Enter Landmarks', 'desc': 'Add 2+ tourist spots you want to visit', 'illustration': 'assets/images/illustrations/stay-step1.svg'},
@@ -475,7 +481,7 @@ class _PopularSpots extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          tr(locale, ja: '人気スポット', ko: '인기 관광지', en: 'Popular Spots', zh: '热门景点'),
+          tr(locale, ja: '人気スポット', ko: '인기 관광지', en: 'Popular Spots', zh: '热门景点', fr: 'Sites populaires'),
           style: theme.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
             letterSpacing: -0.3,
@@ -496,9 +502,9 @@ class _PopularSpots extends StatelessWidget {
             final spot = _spots[index];
             final name = locale == 'ko'
                 ? spot['nameKo'] as String
-                : locale == 'en'
-                    ? spot['nameEn'] as String
-                    : spot['name'] as String;
+                : locale == 'ja'
+                    ? spot['name'] as String
+                    : spot['nameEn'] as String; // en, zh, fr
             final imageFile = spot['image'] as String;
 
             return GestureDetector(
@@ -605,14 +611,14 @@ class _KoreaBanner extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    tr(locale, ja: '韓国もサポート！', en: 'Korea Now Available!', zh: '韩国现已支持！'),
+                    tr(locale, ja: '韓国もサポート！', en: 'Korea Now Available!', zh: '韩国现已支持！', fr: 'Corée maintenant disponible !'),
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    tr(locale, ja: 'ソウル・釜山のホテル検索ができます', en: 'Search hotels in Seoul & Busan', zh: '可搜索首尔·釜山的酒店'),
+                    tr(locale, ja: 'ソウル・釜山のホテル検索ができます', en: 'Search hotels in Seoul & Busan', zh: '可搜索首尔·釜山的酒店', fr: 'Recherchez des hôtels à Séoul et Busan'),
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: AppTheme.mutedForeground,
                     ),
@@ -653,10 +659,10 @@ class _JapanBanner extends StatelessWidget {
           ),
           const SizedBox(width: 16),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(tr(locale, ja: '日本の旅行に戻る', ko: '일본 여행으로 돌아가기', en: 'Back to Japan', zh: '返回日本旅行'),
+            Text(tr(locale, ja: '日本の旅行に戻る', ko: '일본 여행으로 돌아가기', en: 'Back to Japan', zh: '返回日本旅行', fr: 'Retour au Japon'),
               style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700)),
             const SizedBox(height: 2),
-            Text(tr(locale, ja: '東京・大阪のホテルと集合場所を探す', ko: '도쿄·오사카 호텔과 모임 장소', en: 'Hotels in Tokyo & Osaka', zh: '搜索东京·大阪的酒店和聚会地点'),
+            Text(tr(locale, ja: '東京・大阪のホテルと集合場所を探す', ko: '도쿄·오사카 호텔과 모임 장소', en: 'Hotels in Tokyo & Osaka', zh: '搜索东京·大阪的酒店和聚会地点', fr: 'Hôtels à Tokyo et Osaka'),
               style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppTheme.mutedForeground)),
           ])),
           Icon(Icons.arrow_forward_ios, size: 16, color: AppTheme.mutedForeground),
@@ -674,21 +680,21 @@ class _KoreaHowItWorks extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final steps = [
-      {'title': tr(locale, ja: '韓国の観光地を入力', ko: '한국 관광지 입력', en: 'Enter Korea landmarks', zh: '输入韩国景点'),
-       'desc': tr(locale, ja: 'ソウル・釜山の行きたいスポットを入力', ko: '서울·부산의 가고 싶은 관광지를 입력', en: 'Add Seoul/Busan spots', zh: '输入想去的首尔·釜山景点'),
+      {'title': tr(locale, ja: '韓国の観光地を入力', ko: '한국 관광지 입력', en: 'Enter Korea landmarks', zh: '输入韩国景点', fr: 'Entrez les sites coréens'),
+       'desc': tr(locale, ja: 'ソウル・釜山の行きたいスポットを入力', ko: '서울·부산의 가고 싶은 관광지를 입력', en: 'Add Seoul/Busan spots', zh: '输入想去的首尔·釜山景点', fr: 'Ajoutez des sites à Séoul/Busan'),
        'illustration': 'assets/images/illustrations/korea-stay-step1.svg'},
-      {'title': tr(locale, ja: 'ベストなエリアを提案', ko: '최적 지역 추천', en: 'Best area recommended', zh: '推荐最佳区域'),
-       'desc': tr(locale, ja: 'すべての観光地にアクセスしやすいホテルエリアを算出', ko: '모든 관광지에 접근하기 좋은 호텔 지역을 계산', en: 'Hotel area closest to all spots', zh: '计算距所有景点最近的酒店区域'),
+      {'title': tr(locale, ja: 'ベストなエリアを提案', ko: '최적 지역 추천', en: 'Best area recommended', zh: '推荐最佳区域', fr: 'Meilleur quartier recommandé'),
+       'desc': tr(locale, ja: 'すべての観光地にアクセスしやすいホテルエリアを算出', ko: '모든 관광지에 접근하기 좋은 호텔 지역을 계산', en: 'Hotel area closest to all spots', zh: '计算距所有景点最近的酒店区域', fr: 'Quartier hôtelier le plus proche de tous les sites'),
        'illustration': 'assets/images/illustrations/korea-stay-step2.svg'},
-      {'title': tr(locale, ja: 'ホテルを予約', ko: '호텔 예약', en: 'Book hotel', zh: '预订酒店'),
-       'desc': tr(locale, ja: 'Agodaでそのまま予約', ko: 'Agoda에서 바로 예약', en: 'Book on Agoda', zh: '在Agoda上直接预订'),
+      {'title': tr(locale, ja: 'ホテルを予約', ko: '호텔 예약', en: 'Book hotel', zh: '预订酒店', fr: 'Réserver un hôtel'),
+       'desc': tr(locale, ja: 'Agodaでそのまま予約', ko: 'Agoda에서 바로 예약', en: 'Book on Agoda', zh: '在Agoda上直接预订', fr: 'Réservez sur Agoda'),
        'illustration': 'assets/images/illustrations/stay-step3.svg'},
     ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(tr(locale, ja: '使い方', ko: '이용 방법', en: 'How It Works', zh: '使用方法'),
+        Text(tr(locale, ja: '使い方', ko: '이용 방법', en: 'How It Works', zh: '使用方法', fr: 'Comment ça marche'),
           style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, letterSpacing: -0.3)),
         const SizedBox(height: 16),
         ...steps.asMap().entries.map((e) {
@@ -727,44 +733,65 @@ class _KoreaQuickPlans extends StatelessWidget {
   const _KoreaQuickPlans({required this.locale, required this.onSelect});
 
   static const _plans = [
-    {'id': 'seoul-classic', 'region': 'seoul', 'image': '/images/landmarks/myeongdong.webp',
-     'title': {'ja': '明洞・景福宮・弘大', 'ko': '명동·경복궁·홍대', 'en': 'Myeongdong · Gyeongbokgung · Hongdae'},
-     'subtitle': {'ja': 'ソウル定番コース', 'ko': '서울 핵심 코스', 'en': 'Classic Seoul'},
+    {'id': 'seoul-myeongdong', 'region': 'seoul', 'image': '/images/landmarks/myeongdong.webp',
+     'title': {'ja': '明洞・景福宮・北村', 'ko': '명동・경복궁・북촌', 'en': 'Myeongdong · Gyeongbokgung · Bukchon', 'zh': '明洞・景福宫・北村', 'fr': 'Myeongdong · Gyeongbokgung · Bukchon'},
+     'subtitle': {'ja': '初めての韓国旅行におすすめ', 'ko': '처음 서울 여행하는 분에게 추천', 'en': 'Perfect for first-time visitors', 'zh': '首次韩国旅行推荐', 'fr': 'Parfait pour une première visite'},
      'landmarks': [
-       {'name': '明洞', 'nameKo': '명동', 'lat': 37.5609, 'lng': 126.9858, 'region': 'seoul'},
-       {'name': '景福宮', 'nameKo': '경복궁', 'lat': 37.5796, 'lng': 126.977, 'region': 'seoul'},
-       {'name': '弘大', 'nameKo': '홍대', 'lat': 37.5574, 'lng': 126.9248, 'region': 'seoul'},
+       {'name': '明洞', 'nameKo': '명동', 'nameEn': 'Myeongdong', 'lat': 37.5609, 'lng': 126.9858, 'region': 'seoul'},
+       {'name': '景福宮', 'nameKo': '경복궁', 'nameEn': 'Gyeongbokgung', 'lat': 37.5796, 'lng': 126.977, 'region': 'seoul'},
+       {'name': '仁寺洞', 'nameKo': '인사동', 'nameEn': 'Insadong', 'lat': 37.5746, 'lng': 126.985, 'region': 'seoul'},
+       {'name': 'Nソウルタワー', 'nameKo': 'N서울타워', 'nameEn': 'N Seoul Tower', 'lat': 37.5512, 'lng': 126.9882, 'region': 'seoul'},
+       {'name': '東大門', 'nameKo': '동대문', 'nameEn': 'Dongdaemun', 'lat': 37.5709, 'lng': 127.0096, 'region': 'seoul'},
+       {'name': '北村韓屋村', 'nameKo': '북촌한옥마을', 'nameEn': 'Bukchon Hanok Village', 'lat': 37.5827, 'lng': 126.9837, 'region': 'seoul'},
      ]},
-    {'id': 'seoul-trend', 'region': 'seoul', 'image': '/images/landmarks/lotte-world.webp',
-     'title': {'ja': '江南・梨泰院・ロッテタワー', 'ko': '강남·이태원·롯데타워', 'en': 'Gangnam · Itaewon · Lotte Tower'},
-     'subtitle': {'ja': 'トレンド＆ショッピング', 'ko': '트렌드 & 쇼핑', 'en': 'Trend & Shopping'},
+    {'id': 'seoul-hongdae', 'region': 'seoul', 'image': '/images/landmarks/hongdae.webp',
+     'title': {'ja': '弘大・延南洞・新村', 'ko': '홍대・연남동・신촌', 'en': 'Hongdae · Yeonnam · Sinchon', 'zh': '弘大・延南洞・新村', 'fr': 'Hongdae · Yeonnam · Sinchon'},
+     'subtitle': {'ja': 'カフェ・ショッピング好きに', 'ko': '카페・쇼핑을 좋아하는 분에게', 'en': 'For café & shopping lovers', 'zh': '适合喜欢咖啡厅购物的人', 'fr': 'Pour les amateurs de cafés et shopping'},
      'landmarks': [
-       {'name': '江南', 'nameKo': '강남', 'lat': 37.4979, 'lng': 127.0276, 'region': 'seoul'},
-       {'name': '梨泰院', 'nameKo': '이태원', 'lat': 37.5344, 'lng': 126.9946, 'region': 'seoul'},
-       {'name': 'ロッテワールドタワー', 'nameKo': '롯데월드타워', 'lat': 37.5126, 'lng': 127.1025, 'region': 'seoul'},
+       {'name': '弘大', 'nameKo': '홍대', 'nameEn': 'Hongdae', 'lat': 37.5574, 'lng': 126.9248, 'region': 'seoul'},
+       {'name': '延南洞', 'nameKo': '연남동', 'nameEn': 'Yeonnam-dong', 'lat': 37.5663, 'lng': 126.9238, 'region': 'seoul'},
+       {'name': '新村', 'nameKo': '신촌', 'nameEn': 'Sinchon', 'lat': 37.5553, 'lng': 126.9366, 'region': 'seoul'},
+       {'name': '梨大', 'nameKo': '이대', 'nameEn': 'Ewha', 'lat': 37.5568, 'lng': 126.9462, 'region': 'seoul'},
+       {'name': '望遠', 'nameKo': '망원', 'nameEn': 'Mangwon', 'lat': 37.5562, 'lng': 126.9093, 'region': 'seoul'},
+     ]},
+    {'id': 'seoul-gangnam', 'region': 'seoul', 'image': '/images/landmarks/lotte-world.webp',
+     'title': {'ja': '江南・COEX・ロッテタワー', 'ko': '강남・코엑스・롯데타워', 'en': 'Gangnam · COEX · Lotte Tower', 'zh': '江南・COEX・乐天塔', 'fr': 'Gangnam · COEX · Lotte Tower'},
+     'subtitle': {'ja': 'K-POP・トレンド好きに', 'ko': 'K-POP・트렌드를 좋아하는 분에게', 'en': 'For K-pop & trend lovers', 'zh': '适合喜欢K-POP潮流的人', 'fr': 'Pour les fans de K-pop et tendances'},
+     'landmarks': [
+       {'name': '江南', 'nameKo': '강남', 'nameEn': 'Gangnam', 'lat': 37.4979, 'lng': 127.0276, 'region': 'seoul'},
+       {'name': 'COEX', 'nameKo': '코엑스', 'nameEn': 'COEX', 'lat': 37.5116, 'lng': 127.0592, 'region': 'seoul'},
+       {'name': '狎鷗亭', 'nameKo': '압구정', 'nameEn': 'Apgujeong', 'lat': 37.5271, 'lng': 127.0283, 'region': 'seoul'},
+       {'name': 'ロッテワールドタワー', 'nameKo': '롯데월드타워', 'nameEn': 'Lotte World Tower', 'lat': 37.5112, 'lng': 127.0981, 'region': 'seoul'},
+       {'name': 'カロスキル', 'nameKo': '가로수길', 'nameEn': 'Garosu-gil', 'lat': 37.5185, 'lng': 127.0234, 'region': 'seoul'},
      ]},
     {'id': 'seoul-culture', 'region': 'seoul', 'image': '/images/landmarks/insadong.webp',
-     'title': {'ja': '仁寺洞・北村・Nタワー', 'ko': '인사동·북촌·N타워', 'en': 'Insadong · Bukchon · N Tower'},
-     'subtitle': {'ja': '歴史＆文化', 'ko': '역사 & 문화', 'en': 'History & Culture'},
+     'title': {'ja': '昌徳宮・光化門・宗廟', 'ko': '창덕궁・광화문・종묘', 'en': 'Changdeokgung · Gwanghwamun · Jongmyo', 'zh': '昌德宫・光化门・宗庙', 'fr': 'Changdeokgung · Gwanghwamun · Jongmyo'},
+     'subtitle': {'ja': '歴史と文化を楽しみたい方に', 'ko': '역사와 문화를 즐기고 싶은 분에게', 'en': 'For history & culture enthusiasts', 'zh': '适合喜欢历史文化的人', 'fr': 'Pour les passionnés d\'histoire et culture'},
      'landmarks': [
-       {'name': '仁寺洞', 'nameKo': '인사동', 'lat': 37.5746, 'lng': 126.985, 'region': 'seoul'},
-       {'name': '北村韓屋村', 'nameKo': '북촌한옥마을', 'lat': 37.5826, 'lng': 126.9849, 'region': 'seoul'},
-       {'name': 'Nソウルタワー', 'nameKo': 'N서울타워', 'lat': 37.5512, 'lng': 126.9882, 'region': 'seoul'},
+       {'name': '昌徳宮', 'nameKo': '창덕궁', 'nameEn': 'Changdeokgung', 'lat': 37.5792, 'lng': 126.991, 'region': 'seoul'},
+       {'name': '光化門', 'nameKo': '광화문', 'nameEn': 'Gwanghwamun', 'lat': 37.5718, 'lng': 126.9769, 'region': 'seoul'},
+       {'name': '宗廟', 'nameKo': '종묘', 'nameEn': 'Jongmyo', 'lat': 37.5742, 'lng': 126.9941, 'region': 'seoul'},
+       {'name': '北村韓屋村', 'nameKo': '북촌한옥마을', 'nameEn': 'Bukchon Hanok Village', 'lat': 37.5827, 'lng': 126.9837, 'region': 'seoul'},
+       {'name': '仁寺洞', 'nameKo': '인사동', 'nameEn': 'Insadong', 'lat': 37.5746, 'lng': 126.985, 'region': 'seoul'},
      ]},
-    {'id': 'busan-classic', 'region': 'busan', 'image': '/images/landmarks/haeundae.webp',
-     'title': {'ja': '海雲台・広安里・西面', 'ko': '해운대·광안리·서면', 'en': 'Haeundae · Gwangalli · Seomyeon'},
-     'subtitle': {'ja': '釜山ビーチ＆グルメ', 'ko': '부산 해변 & 먹거리', 'en': 'Busan Beach & Food'},
+    {'id': 'busan-beach', 'region': 'busan', 'image': '/images/landmarks/haeundae.webp',
+     'title': {'ja': '海雲台・広安里・海東龍宮寺', 'ko': '해운대・광안리・해동용궁사', 'en': 'Haeundae · Gwangalli · Haedong Yonggungsa', 'zh': '海云台・广安里・海东龙宫寺', 'fr': 'Haeundae · Gwangalli · Haedong Yonggungsa'},
+     'subtitle': {'ja': 'ビーチ・絶景を楽しみたい方に', 'ko': '바다・절경을 즐기고 싶은 분에게', 'en': 'For beach & scenic views', 'zh': '适合喜欢海滩绝景的人', 'fr': 'Pour les amateurs de plage et panoramas'},
      'landmarks': [
-       {'name': '海雲台', 'nameKo': '해운대', 'lat': 35.1588, 'lng': 129.1604, 'region': 'busan'},
-       {'name': '広安里', 'nameKo': '광안리', 'lat': 35.1534, 'lng': 129.1187, 'region': 'busan'},
-       {'name': '西面', 'nameKo': '서면', 'lat': 35.1579, 'lng': 129.0596, 'region': 'busan'},
+       {'name': '海雲台', 'nameKo': '해운대', 'nameEn': 'Haeundae', 'lat': 35.1588, 'lng': 129.1604, 'region': 'busan'},
+       {'name': '広安里', 'nameKo': '광안리', 'nameEn': 'Gwangalli', 'lat': 35.1534, 'lng': 129.1187, 'region': 'busan'},
+       {'name': 'センタムシティ', 'nameKo': '센텀시티', 'nameEn': 'Centum City', 'lat': 35.1696, 'lng': 129.1289, 'region': 'busan'},
+       {'name': '海東龍宮寺', 'nameKo': '해동용궁사', 'nameEn': 'Haedong Yonggungsa', 'lat': 35.1884, 'lng': 129.2233, 'region': 'busan'},
      ]},
     {'id': 'busan-culture', 'region': 'busan', 'image': '/images/landmarks/gamcheon-culture-village.webp',
-     'title': {'ja': '甘川文化村・南浦洞', 'ko': '감천문화마을·남포동', 'en': 'Gamcheon · Nampo-dong'},
-     'subtitle': {'ja': 'アート＆ローカル', 'ko': '예술 & 로컬', 'en': 'Art & Local'},
+     'title': {'ja': '甘川文化村・南浦洞', 'ko': '감천문화마을・남포동', 'en': 'Gamcheon · Nampo-dong · Jagalchi', 'zh': '甘川文化村・南浦洞', 'fr': 'Gamcheon · Nampo-dong · Jagalchi'},
+     'subtitle': {'ja': 'アートとローカル体験が好きな方に', 'ko': '아트와 로컬 체험을 좋아하는 분에게', 'en': 'For art & local experiences', 'zh': '适合喜欢艺术本地体验的人', 'fr': 'Pour l\'art et les expériences locales'},
      'landmarks': [
-       {'name': '甘川文化村', 'nameKo': '감천문화마을', 'lat': 35.0966, 'lng': 129.0105, 'region': 'busan'},
-       {'name': '南浦洞', 'nameKo': '남포동', 'lat': 35.0978, 'lng': 129.0267, 'region': 'busan'},
+       {'name': '甘川文化村', 'nameKo': '감천문화마을', 'nameEn': 'Gamcheon Culture Village', 'lat': 35.0966, 'lng': 129.0105, 'region': 'busan'},
+       {'name': '南浦洞', 'nameKo': '남포동', 'nameEn': 'Nampo-dong', 'lat': 35.0978, 'lng': 129.0267, 'region': 'busan'},
+       {'name': 'チャガルチ市場', 'nameKo': '자갈치시장', 'nameEn': 'Jagalchi Market', 'lat': 35.0969, 'lng': 129.0306, 'region': 'busan'},
+       {'name': '龍頭山公園', 'nameKo': '용두산공원', 'nameEn': 'Yongdusan Park', 'lat': 35.1006, 'lng': 129.0321, 'region': 'busan'},
+       {'name': 'BIFF広場', 'nameKo': 'BIFF 광장', 'nameEn': 'BIFF Square', 'lat': 35.0989, 'lng': 129.0273, 'region': 'busan'},
      ]},
   ];
 
@@ -777,21 +804,21 @@ class _KoreaQuickPlans extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(tr(locale, ja: '人気プランですぐ検索', ko: '인기 플랜으로 바로 검색', en: 'Popular Plans', zh: '热门方案快速搜索'),
+        Text(tr(locale, ja: '人気プランですぐ検索', ko: '인기 플랜으로 바로 검색', en: 'Popular Plans', zh: '热门方案快速搜索', fr: 'Plans populaires'),
           style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
         const SizedBox(height: 4),
-        Text(tr(locale, ja: 'タップするだけで最適なホテルエリアがわかります', ko: '탭하면 바로 최적의 호텔 지역을 찾아줍니다', en: 'Tap to find the best hotel area', zh: '点击即可找到最佳酒店区域'),
+        Text(tr(locale, ja: 'タップするだけで最適なホテルエリアがわかります', ko: '탭하면 바로 최적의 호텔 지역을 찾아줍니다', en: 'Tap to find the best hotel area', zh: '点击即可找到最佳酒店区域', fr: 'Appuyez pour trouver le meilleur quartier hôtelier'),
           style: theme.textTheme.bodyMedium?.copyWith(color: AppTheme.mutedForeground)),
         const SizedBox(height: 16),
 
         // Seoul section
-        _regionHeader(context, tr(locale, ja: 'ソウルの人気スポット', ko: '서울 인기 코스', en: 'Seoul', zh: '首尔热门景点')),
+        _regionHeader(context, tr(locale, ja: 'ソウルの人気スポット', ko: '서울 인기 코스', en: 'Seoul', zh: '首尔热门景点', fr: 'Séoul')),
         const SizedBox(height: 8),
         ...seoulPlans.map((p) => _planCard(context, p)),
 
         const SizedBox(height: 16),
         // Busan section
-        _regionHeader(context, tr(locale, ja: '釜山の人気スポット', ko: '부산 인기 코스', en: 'Busan', zh: '釜山热门景点')),
+        _regionHeader(context, tr(locale, ja: '釜山の人気スポット', ko: '부산 인기 코스', en: 'Busan', zh: '釜山热门景点', fr: 'Busan')),
         const SizedBox(height: 8),
         ...busanPlans.map((p) => _planCard(context, p)),
       ],
@@ -815,14 +842,16 @@ class _KoreaQuickPlans extends StatelessWidget {
     final region = plan['region'] as String;
     final image = plan['image'] as String?;
     final imageUrl = image != null ? 'https://norigo.app$image' : null;
-    final ctaLabel = tr(locale, ja: 'ホテルを探す', ko: '호텔 찾기', en: 'Find Hotels', zh: '搜索酒店');
+    final ctaLabel = tr(locale, ja: 'ホテルを探す', ko: '호텔 찾기', en: 'Find Hotels', zh: '搜索酒店', fr: 'Trouver des hôtels');
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: GestureDetector(
         onTap: () {
           final landmarks = landmarkData.map((l) {
-            final name = locale == 'ko' ? (l['nameKo'] as String? ?? l['name'] as String) : l['name'] as String;
+            final name = locale == 'ko' ? (l['nameKo'] as String? ?? l['nameEn'] as String? ?? l['name'] as String)
+                : locale == 'ja' ? (l['name'] as String)
+                : (l['nameEn'] as String? ?? l['name'] as String);
             return Landmark(slug: name, name: name, lat: l['lat'] as double, lng: l['lng'] as double, region: l['region'] as String);
           }).toList();
           onSelect(landmarks, region);

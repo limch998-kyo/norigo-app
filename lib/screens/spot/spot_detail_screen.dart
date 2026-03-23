@@ -117,7 +117,7 @@ class SpotDetailScreen extends ConsumerWidget {
                             onPressed: null,
                             icon: const Icon(Icons.check, size: 18),
                             label: Text(
-                              tr(locale, ja: '追加済み', ko: '추가됨', en: 'Added', zh: '已添加'),
+                              tr(locale, ja: '追加済み', ko: '추가됨', en: 'Added', zh: '已添加', fr: 'Ajouté'),
                             ),
                           )
                         : ElevatedButton.icon(
@@ -131,11 +131,11 @@ class SpotDetailScreen extends ConsumerWidget {
                               if (!context.mounted) return;
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text(
-                                  tr(locale, ja: '旅行に追加しました', ko: '여행에 추가했습니다', en: 'Added to trip', zh: '已添加到旅行'),
+                                  tr(locale, ja: '旅行に追加しました', ko: '여행에 추가했습니다', en: 'Added to trip', zh: '已添加到旅行', fr: 'Ajouté au voyage'),
                                 ),
                                 duration: const Duration(seconds: 4),
                                 action: SnackBarAction(
-                                  label: tr(locale, ja: '旅行タブへ', ko: '여행 탭으로', en: 'Go to Trip', zh: '前往旅行'),
+                                  label: tr(locale, ja: '旅行タブへ', ko: '여행 탭으로', en: 'Go to Trip', zh: '前往旅行', fr: 'Aller au voyage'),
                                   onPressed: () {
                                     Navigator.of(context).popUntil((route) => route.isFirst);
                                     MainShell.globalSwitchTab?.call(3);
@@ -145,7 +145,7 @@ class SpotDetailScreen extends ConsumerWidget {
                             },
                             icon: const Icon(Icons.add, size: 18),
                             label: Text(
-                              tr(locale, ja: '旅行に追加', ko: '여행에 추가', en: 'Add to Trip', zh: '添加到旅行'),
+                              tr(locale, ja: '旅行に追加', ko: '여행에 추가', en: 'Add to Trip', zh: '添加到旅行', fr: 'Ajouter au voyage'),
                             ),
                           ),
                   ),
@@ -179,7 +179,7 @@ class SpotDetailScreen extends ConsumerWidget {
                       },
                       icon: const Icon(Icons.hotel, size: 18),
                       label: Text(
-                        tr(locale, ja: 'この観光地の近くのホテルを探す', ko: '이 관광지 근처 호텔 찾기', en: 'Find Hotels Near Here', zh: '查找附近酒店'),
+                        tr(locale, ja: 'この観光地の近くのホテルを探す', ko: '이 관광지 근처 호텔 찾기', en: 'Find Hotels Near Here', zh: '查找附近酒店', fr: 'Trouver des hôtels à proximité'),
                       ),
                     ),
                   ),
@@ -194,10 +194,10 @@ class SpotDetailScreen extends ConsumerWidget {
 
   String _regionLabel(String region, String locale) {
     switch (region) {
-      case 'kanto': return tr(locale, ja: '東京・関東', ko: '도쿄·간토', en: 'Tokyo / Kanto', zh: '东京 / 关东');
-      case 'kansai': return tr(locale, ja: '大阪・関西', ko: '오사카·간사이', en: 'Osaka / Kansai', zh: '大阪 / 关西');
-      case 'seoul': return tr(locale, ja: 'ソウル', ko: '서울', en: 'Seoul', zh: '首尔');
-      case 'busan': return tr(locale, ja: '釜山', ko: '부산', en: 'Busan', zh: '釜山');
+      case 'kanto': return tr(locale, ja: '東京・関東', ko: '도쿄·간토', en: 'Tokyo / Kanto', zh: '东京 / 关东', fr: 'Tokyo / Kanto');
+      case 'kansai': return tr(locale, ja: '大阪・関西', ko: '오사카·간사이', en: 'Osaka / Kansai', zh: '大阪 / 关西', fr: 'Osaka / Kansai');
+      case 'seoul': return tr(locale, ja: 'ソウル', ko: '서울', en: 'Seoul', zh: '首尔', fr: 'Séoul');
+      case 'busan': return tr(locale, ja: '釜山', ko: '부산', en: 'Busan', zh: '釜山', fr: 'Busan');
       default: return region;
     }
   }

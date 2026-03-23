@@ -25,7 +25,7 @@ void main() async {
   final platformLocale = ui.PlatformDispatcher.instance.locale;
   final langCode = platformLocale.languageCode; // e.g. 'ko', 'ja', 'en'
 
-  final supportedLocales = ['ja', 'ko', 'en', 'zh'];
+  final supportedLocales = ['ja', 'ko', 'en', 'zh', 'fr'];
   final initialLocale = supportedLocales.contains(langCode) ? langCode : 'en';
 
   // Preload all data before app starts

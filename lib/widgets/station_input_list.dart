@@ -109,6 +109,8 @@ class _StationInputListState extends State<StationInputList> {
         return '出発駅 $n';
       case 'ko':
         return '출발역 $n';
+      case 'fr':
+        return 'Gare $n';
       default:
         return 'Person $n';
     }
@@ -122,6 +124,8 @@ class _StationInputListState extends State<StationInputList> {
         return '인원 추가';
       case 'zh':
         return '添加人员';
+      case 'fr':
+        return 'Ajouter une personne';
       default:
         return 'Add person';
     }
@@ -135,6 +139,8 @@ class _StationInputListState extends State<StationInputList> {
         return '역 이름 입력...';
       case 'zh':
         return '输入车站名...';
+      case 'fr':
+        return 'Nom de la gare...';
       default:
         return 'Enter station name...';
     }

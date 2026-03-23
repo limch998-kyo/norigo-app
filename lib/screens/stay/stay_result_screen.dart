@@ -91,7 +91,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
       );
       stayNotifier.setSavedSearchId(existing.id);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(tr(locale, ja: '旅行プランを更新しました', ko: '여행 플랜을 업데이트했습니다', en: 'Trip updated', zh: '行程已更新')),
+        content: Text(tr(locale, ja: '旅行プランを更新しました', ko: '여행 플랜을 업데이트했습니다', en: 'Trip updated', zh: '行程已更新', fr: 'Voyage mis à jour')),
       ));
     } else {
       // Create new trip from search
@@ -108,7 +108,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
       );
       stayNotifier.setSavedSearchId(tripId);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(tr(locale, ja: '旅行プランに保存しました', ko: '여행 플랜에 저장했습니다', en: 'Saved to trip', zh: '已保存到行程')),
+        content: Text(tr(locale, ja: '旅行プランに保存しました', ko: '여행 플랜에 저장했습니다', en: 'Saved to trip', zh: '已保存到行程', fr: 'Enregistré dans le voyage')),
       ));
     }
   }
@@ -143,7 +143,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
             const SizedBox(height: 16),
             Text(state.error!, style: theme.textTheme.bodySmall, textAlign: TextAlign.center),
             const SizedBox(height: 24),
-            OutlinedButton(onPressed: () => notifier.search(), child: Text(tr(locale, ja: '再試行', ko: '재시도', en: 'Retry', zh: '重试'))),
+            OutlinedButton(onPressed: () => notifier.search(), child: Text(tr(locale, ja: '再試行', ko: '재시도', en: 'Retry', zh: '重试', fr: 'Réessayer'))),
           ],
         ))),
       );
@@ -167,7 +167,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr(locale, ja: '推薦宿泊エリア', ko: '추천 숙박 지역', en: 'Recommended Areas', zh: '推荐住宿区域')),
+        title: Text(tr(locale, ja: '推薦宿泊エリア', ko: '추천 숙박 지역', en: 'Recommended Areas', zh: '推荐住宿区域', fr: 'Quartiers recommandés')),
         leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => notifier.clearResult()),
         actions: [
           // Save/update trip button
@@ -177,8 +177,8 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
               icon: Icon(isSaved ? Icons.sync : Icons.bookmark_outline, size: 20,
                 color: isSaved ? AppTheme.primary : null),
               tooltip: isSaved
-                ? tr(locale, ja: '旅行を更新', ko: '여행 갱신', en: 'Update Trip', zh: '更新行程')
-                : tr(locale, ja: '旅行に保存', ko: '여행에 저장', en: 'Save to Trip', zh: '保存到行程'),
+                ? tr(locale, ja: '旅行を更新', ko: '여행 갱신', en: 'Update Trip', zh: '更新行程', fr: 'Mettre à jour le voyage')
+                : tr(locale, ja: '旅行に保存', ko: '여행에 저장', en: 'Save to Trip', zh: '保存到行程', fr: 'Enregistrer dans le voyage'),
               onPressed: () => _saveSearch(context, ref, state, locale),
             );
           }),
@@ -188,7 +188,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
             child: OutlinedButton.icon(
               onPressed: () => notifier.clearResult(),
               icon: const Icon(Icons.tune, size: 14),
-              label: Text(tr(locale, ja: '検索修正', ko: '검색 수정', en: 'Edit', zh: '编辑'), style: const TextStyle(fontSize: 12)),
+              label: Text(tr(locale, ja: '検索修正', ko: '검색 수정', en: 'Edit', zh: '编辑', fr: 'Modifier'), style: const TextStyle(fontSize: 12)),
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 visualDensity: VisualDensity.compact,
@@ -224,7 +224,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
                         border: Border.all(color: !isSplit ? AppTheme.primary : AppTheme.border),
                       ),
                       child: Center(child: Text(
-                        tr(locale, ja: '1箇所 宿泊', ko: '한 곳 숙박', en: 'Single hotel', zh: '单一酒店'),
+                        tr(locale, ja: '1箇所 宿泊', ko: '한 곳 숙박', en: 'Single hotel', zh: '单一酒店', fr: 'Hôtel unique'),
                         style: TextStyle(fontSize: 12, fontWeight: !isSplit ? FontWeight.w600 : FontWeight.normal,
                           color: !isSplit ? AppTheme.primary : AppTheme.foreground),
                       )),
@@ -235,7 +235,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                           decoration: BoxDecoration(color: AppTheme.primary, borderRadius: BorderRadius.circular(8)),
-                          child: Text(tr(locale, ja: 'おすすめ', ko: '추천', en: 'Rec', zh: '推荐'),
+                          child: Text(tr(locale, ja: 'おすすめ', ko: '추천', en: 'Rec', zh: '推荐', fr: 'Rec.'),
                             style: const TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.w600)),
                         ),
                       ),
@@ -257,7 +257,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
                         border: Border.all(color: isSplit ? AppTheme.primary : AppTheme.border),
                       ),
                       child: Center(child: Text(
-                        tr(locale, ja: '分散 宿泊', ko: '분산 숙박', en: 'Split stay', zh: '分散住宿'),
+                        tr(locale, ja: '分散 宿泊', ko: '분산 숙박', en: 'Split stay', zh: '分散住宿', fr: 'Séjour divisé'),
                         style: TextStyle(fontSize: 12, fontWeight: isSplit ? FontWeight.w600 : FontWeight.normal,
                           color: isSplit ? AppTheme.primary : AppTheme.foreground),
                       )),
@@ -268,7 +268,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                           decoration: BoxDecoration(color: AppTheme.primary, borderRadius: BorderRadius.circular(8)),
-                          child: Text(tr(locale, ja: 'おすすめ', ko: '추천', en: 'Rec', zh: '推荐'),
+                          child: Text(tr(locale, ja: 'おすすめ', ko: '추천', en: 'Rec', zh: '推荐', fr: 'Rec.'),
                             style: const TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.w600)),
                         ),
                       ),
@@ -285,7 +285,8 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
                   ja: '${state.landmarks.map((l) => l.name).join('・')}旅行に最適なホテルエリア',
                   ko: '${state.landmarks.map((l) => l.name).join('・')} 여행에 최적의 호텔 지역',
                   en: 'Best hotel area for ${state.landmarks.map((l) => l.name).join(', ')}',
-                  zh: '${state.landmarks.map((l) => l.name).join('・')}旅行的最佳酒店区域'),
+                  zh: '${state.landmarks.map((l) => l.name).join('・')}旅行的最佳酒店区域',
+                  fr: 'Meilleur quartier hôtelier pour ${state.landmarks.map((l) => l.name).join(', ')}'),
               url: _buildStayShareUrl(state, locale),
               locale: locale,
             ),
@@ -302,8 +303,8 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
                   icon: Icon(isSaved ? Icons.sync : Icons.bookmark_outline, size: 16),
                   label: Text(
                     isSaved
-                      ? tr(locale, ja: '旅行プランを更新', ko: '여행 플랜 갱신', en: 'Update trip', zh: '更新行程')
-                      : tr(locale, ja: '旅行プランに保存', ko: '여행 플랜에 저장', en: 'Save to trip', zh: '保存到行程'),
+                      ? tr(locale, ja: '旅行プランを更新', ko: '여행 플랜 갱신', en: 'Update trip', zh: '更新行程', fr: 'Mettre à jour le voyage')
+                      : tr(locale, ja: '旅行プランに保存', ko: '여행 플랜에 저장', en: 'Save to trip', zh: '保存到行程', fr: 'Enregistrer dans le voyage'),
                     style: const TextStyle(fontSize: 13),
                   ),
                   style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 10)),
@@ -527,11 +528,11 @@ class _SplitResultsListState extends State<_SplitResultsList> {
                 child: Row(mainAxisSize: MainAxisSize.min, children: [
                   Text(
                     isClusterExpanded
-                      ? tr(widget.locale, ja: '閉じる', ko: '접기', en: 'Show less', zh: '收起')
+                      ? tr(widget.locale, ja: '閉じる', ko: '접기', en: 'Show less', zh: '收起', fr: 'Réduire')
                       : tr(widget.locale, ja: '他${cluster.areas.length - _defaultVisible}件を表示',
                           ko: '${cluster.areas.length - _defaultVisible}개 더 보기',
                           en: 'Show ${cluster.areas.length - _defaultVisible} more',
-                          zh: '显示更多${cluster.areas.length - _defaultVisible}个'),
+                          zh: '显示更多${cluster.areas.length - _defaultVisible}个', fr: 'Show ${cluster.areas.length - _defaultVisible} more'),
                     style: TextStyle(fontSize: 12, color: AppTheme.primary),
                   ),
                   Icon(isClusterExpanded ? Icons.expand_less : Icons.expand_more, size: 16, color: AppTheme.primary),
@@ -542,7 +543,7 @@ class _SplitResultsListState extends State<_SplitResultsList> {
             Padding(
               padding: const EdgeInsets.only(bottom: 16),
               child: Text(
-                tr(widget.locale, ja: 'このエリアの推薦結果がありません', ko: '이 지역의 추천 결과가 없습니다', en: 'No results for this area', zh: '该区域没有推荐结果'),
+                tr(widget.locale, ja: 'このエリアの推薦結果がありません', ko: '이 지역의 추천 결과가 없습니다', en: 'No results for this area', zh: '该区域没有推荐结果', fr: 'Aucun résultat pour cette zone'),
                 style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground),
               ),
             ),
@@ -647,7 +648,7 @@ class _AreaCardState extends State<_AreaCard> {
                   ]),
                 ],
                 const SizedBox(height: 2),
-                Text('${tr(locale, ja: '平均 約', ko: '평균', en: 'avg', zh: '平均')} ${area.avgEstimatedMinutes}${tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟')}',
+                Text('${tr(locale, ja: '平均 約', ko: '평균', en: 'avg', zh: '平均', fr: 'moy.')} ${area.avgEstimatedMinutes}${tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟', fr: 'min')}',
                   style: TextStyle(fontSize: 12, color: AppTheme.primary, fontWeight: FontWeight.w600)),
               ])),
             ]),
@@ -665,18 +666,18 @@ class _AreaCardState extends State<_AreaCard> {
             Padding(
               padding: const EdgeInsets.only(top: 6),
               child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                _LegendDot(color: AppTheme.orange, label: tr(locale, ja: 'ホテル推薦駅', ko: '호텔 추천역', en: 'Recommended station', zh: '推荐酒店站')),
+                _LegendDot(color: AppTheme.orange, label: tr(locale, ja: 'ホテル推薦駅', ko: '호텔 추천역', en: 'Recommended station', zh: '推荐酒店站', fr: 'Gare recommandée')),
                 const SizedBox(width: 10),
-                _LegendDot(color: Colors.indigo, label: tr(locale, ja: '観光地', ko: '관광지', en: 'Landmarks', zh: '景点')),
+                _LegendDot(color: Colors.indigo, label: tr(locale, ja: '観光地', ko: '관광지', en: 'Landmarks', zh: '景点', fr: 'Sites')),
                 const SizedBox(width: 10),
-                _LegendDot(color: AppTheme.green, label: tr(locale, ja: '周辺ホテル', ko: '주변 호텔', en: 'Nearby hotels', zh: '周边酒店')),
+                _LegendDot(color: AppTheme.green, label: tr(locale, ja: '周辺ホテル', ko: '주변 호텔', en: 'Nearby hotels', zh: '周边酒店', fr: 'Hôtels proches')),
               ]),
             ),
 
             // ── Station lines ──
             if (area.station.lines.isNotEmpty) ...[
               const SizedBox(height: 10),
-              Text(tr(locale, ja: '路線', ko: '노선', en: 'Lines', zh: '线路'), style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground)),
+              Text(tr(locale, ja: '路線', ko: '노선', en: 'Lines', zh: '线路', fr: 'Lignes'), style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground)),
               const SizedBox(height: 4),
               Wrap(spacing: 4, runSpacing: 4, children: area.station.lines.take(4).map((l) =>
                 Container(
@@ -713,14 +714,14 @@ class _AreaCardState extends State<_AreaCard> {
               const SizedBox(height: 8),
               Row(children: [
                 if ((area.poiCounts['convenience'] ?? 0) > 0)
-                  _PoiCount(icon: Icons.store, count: area.poiCounts['convenience']!, label: tr(locale, ja: 'コンビニ', ko: '편의점', en: 'Convenience', zh: '便利店')),
+                  _PoiCount(icon: Icons.store, count: area.poiCounts['convenience']!, label: tr(locale, ja: 'コンビニ', ko: '편의점', en: 'Convenience', zh: '便利店', fr: 'Supérette')),
                 if ((area.poiCounts['restaurant'] ?? 0) > 0) ...[
                   const SizedBox(width: 12),
-                  _PoiCount(icon: Icons.restaurant, count: area.poiCounts['restaurant']!, label: tr(locale, ja: '飲食店', ko: '음식점', en: 'Restaurant', zh: '餐厅')),
+                  _PoiCount(icon: Icons.restaurant, count: area.poiCounts['restaurant']!, label: tr(locale, ja: '飲食店', ko: '음식점', en: 'Restaurant', zh: '餐厅', fr: 'Restaurant')),
                 ],
                 if ((area.poiCounts['cafe'] ?? 0) > 0) ...[
                   const SizedBox(width: 12),
-                  _PoiCount(icon: Icons.coffee, count: area.poiCounts['cafe']!, label: tr(locale, ja: 'カフェ', ko: '카페', en: 'Cafe', zh: '咖啡厅')),
+                  _PoiCount(icon: Icons.coffee, count: area.poiCounts['cafe']!, label: tr(locale, ja: 'カフェ', ko: '카페', en: 'Cafe', zh: '咖啡厅', fr: 'Café')),
                 ],
               ]),
             ],
@@ -740,7 +741,7 @@ class _AreaCardState extends State<_AreaCard> {
 
             // ── Landmark distances with routes ──
             const SizedBox(height: 12),
-            Text(tr(locale, ja: '観光地までの距離', ko: '관광지까지 거리', en: 'Distance to landmarks', zh: '到景点的距离'),
+            Text(tr(locale, ja: '観光地までの距離', ko: '관광지까지 거리', en: 'Distance to landmarks', zh: '到景点的距离', fr: 'Distance aux sites'),
               style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground)),
             const SizedBox(height: 6),
             ...area.landmarkDistances.asMap().entries.map((e) => _LandmarkDistanceTile(ld: e.value, locale: locale, isExpanded: isExpanded, localNames: localNames, index: e.key + 1)),
@@ -749,7 +750,7 @@ class _AreaCardState extends State<_AreaCard> {
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Text(
-                '${tr(locale, ja: '最大 約', ko: '최대', en: 'max', zh: '最大')} ${area.maxEstimatedMinutes}${tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟')}  ·  ${tr(locale, ja: '合計', ko: '합계', en: 'total', zh: '总计')} ${area.landmarkDistances.fold<double>(0, (s, d) => s + d.distanceKm).toStringAsFixed(1)}km',
+                '${tr(locale, ja: '最大 約', ko: '최대', en: 'max', zh: '最大', fr: 'max')} ${area.maxEstimatedMinutes}${tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟', fr: 'min')}  ·  ${tr(locale, ja: '合計', ko: '합계', en: 'total', zh: '总计', fr: 'total')} ${area.landmarkDistances.fold<double>(0, (s, d) => s + d.distanceKm).toStringAsFixed(1)}km',
                 style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground),
               ),
             ),
@@ -757,7 +758,7 @@ class _AreaCardState extends State<_AreaCard> {
             // ── Reachable destinations ──
             if (isExpanded && area.reachableDestinations.isNotEmpty) ...[
               const SizedBox(height: 12),
-              Text(tr(locale, ja: '周辺スポット', ko: '주변 명소', en: 'Nearby Spots', zh: '周边景点'),
+              Text(tr(locale, ja: '周辺スポット', ko: '주변 명소', en: 'Nearby Spots', zh: '周边景点', fr: 'Sites à proximité'),
                 style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground)),
               const SizedBox(height: 6),
               Wrap(spacing: 6, runSpacing: 6, children: area.reachableDestinations.take(6).map((rd) =>
@@ -796,22 +797,22 @@ class _TagInfo {
 _TagInfo _areaTagInfo(String tag, String locale) {
   switch (tag) {
     case 'transit_hub': return _TagInfo(
-      tr(locale, ja: '交通の要所', ko: '교통 요충지', en: 'Transit Hub', zh: '交通枢纽'),
+      tr(locale, ja: '交通の要所', ko: '교통 요충지', en: 'Transit Hub', zh: '交通枢纽', fr: 'Noeud de transport'),
       Icons.train, Colors.blue);
     case 'nightlife': return _TagInfo(
-      tr(locale, ja: 'ナイトライフ', ko: '나이트라이프', en: 'Nightlife', zh: '夜生活'),
+      tr(locale, ja: 'ナイトライフ', ko: '나이트라이프', en: 'Nightlife', zh: '夜生活', fr: 'Vie nocturne'),
       Icons.nightlife, Colors.purple);
     case 'shopping': return _TagInfo(
-      tr(locale, ja: 'ショッピング', ko: '쇼핑', en: 'Shopping', zh: '购物'),
+      tr(locale, ja: 'ショッピング', ko: '쇼핑', en: 'Shopping', zh: '购物', fr: 'Shopping'),
       Icons.shopping_bag, Colors.pink);
     case 'quiet_residential': return _TagInfo(
-      tr(locale, ja: '閑静な住宅街', ko: '조용한 주거지', en: 'Quiet Area', zh: '安静住宅区'),
+      tr(locale, ja: '閑静な住宅街', ko: '조용한 주거지', en: 'Quiet Area', zh: '安静住宅区', fr: 'Quartier calme'),
       Icons.park, Colors.green);
     case 'tourist_area': return _TagInfo(
-      tr(locale, ja: '観光エリア', ko: '관광 지역', en: 'Tourist Area', zh: '旅游区'),
+      tr(locale, ja: '観光エリア', ko: '관광 지역', en: 'Tourist Area', zh: '旅游区', fr: 'Zone touristique'),
       Icons.camera_alt, Colors.orange);
     case 'airport_access': return _TagInfo(
-      tr(locale, ja: '空港アクセス', ko: '공항 접근', en: 'Airport Access', zh: '机场交通'),
+      tr(locale, ja: '空港アクセス', ko: '공항 접근', en: 'Airport Access', zh: '机场交通', fr: 'Accès aéroport'),
       Icons.flight, Colors.teal);
     default: return _TagInfo(tag, Icons.label, Colors.grey);
   }
@@ -861,7 +862,7 @@ class _LandmarkDistanceTile extends StatelessWidget {
           const SizedBox(width: 6),
           Expanded(child: Text(ld.landmarkName, style: const TextStyle(fontSize: 13))),
           Text(
-            '${tr(locale, ja: '約', ko: '~', en: '~', zh: '约')}${ld.estimatedMinutes}${tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟')}',
+            '${tr(locale, ja: '約', ko: '~', en: '~', zh: '约', fr: '~')}${ld.estimatedMinutes}${tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟', fr: 'min')}',
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: _timeColor(ld.estimatedMinutes)),
           ),
           const SizedBox(width: 6),
@@ -875,7 +876,7 @@ class _LandmarkDistanceTile extends StatelessWidget {
               child: Row(children: [
                 Icon(Icons.directions_walk, size: 14, color: AppTheme.mutedForeground),
                 const SizedBox(width: 4),
-                Text(tr(locale, ja: '徒歩圏内', ko: '도보 거리', en: 'Walkable', zh: '步行可达'),
+                Text(tr(locale, ja: '徒歩圏内', ko: '도보 거리', en: 'Walkable', zh: '步行可达', fr: 'À pied'),
                   style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground)),
               ]),
             )
@@ -939,7 +940,7 @@ class _RouteBar extends StatelessWidget {
       // Line names + durations
       Row(children: segments.map((seg) {
         final localLine = LineLocalizer.localizeSync(seg.line, locale, operator: seg.operator);
-        final unit = tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟');
+        final unit = tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟', fr: 'min');
         return Expanded(child: Center(child: Text(
           '$localLine ${seg.minutes}$unit',
           style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground),
@@ -1243,7 +1244,7 @@ class _HotelSectionState extends State<_HotelSection> {
 
     if (_hotels == null || _hotels!.isEmpty) {
       return Padding(padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Text(tr(widget.locale, ja: 'ホテル情報を取得できませんでした', ko: '호텔 정보를 가져올 수 없습니다', en: 'No hotel data', zh: '无法获取酒店信息'), style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground)));
+        child: Text(tr(widget.locale, ja: 'ホテル情報を取得できませんでした', ko: '호텔 정보를 가져올 수 없습니다', en: 'No hotel data', zh: '无法获取酒店信息', fr: 'Aucune donnée hôtel'), style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground)));
     }
 
     final filtered = _filterBySelectedBudgets(_hotels!);
@@ -1260,12 +1261,12 @@ class _HotelSectionState extends State<_HotelSection> {
       if (_hotels!.length > 3) ...[
         Row(children: [
           Text(
-            tr(widget.locale, ja: '予算', ko: '예산', en: 'Budget', zh: '预算'),
+            tr(widget.locale, ja: '予算', ko: '예산', en: 'Budget', zh: '预算', fr: 'Budget'),
             style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground),
           ),
           const SizedBox(width: 6),
           Text(
-            tr(widget.locale, ja: '（複数選択可）', ko: '(복수 선택 가능)', en: '(multi-select)', zh: '（可多选）'),
+            tr(widget.locale, ja: '（複数選択可）', ko: '(복수 선택 가능)', en: '(multi-select)', zh: '（可多选）', fr: '(multi-sélection)'),
             style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground),
           ),
         ]),
@@ -1286,7 +1287,7 @@ class _HotelSectionState extends State<_HotelSection> {
                     border: Border.all(color: isAllSelected ? AppTheme.primary : AppTheme.border),
                   ),
                   child: Text(
-                    '${tr(widget.locale, ja: 'すべて', ko: '전체', en: 'All', zh: '全部')}(${_hotels!.length})',
+                    '${tr(widget.locale, ja: 'すべて', ko: '전체', en: 'All', zh: '全部', fr: 'Tous')}(${_hotels!.length})',
                     style: TextStyle(fontSize: 10, fontWeight: isAllSelected ? FontWeight.w600 : FontWeight.normal,
                       color: isAllSelected ? Colors.white : AppTheme.foreground),
                   ),
@@ -1332,10 +1333,10 @@ class _HotelSectionState extends State<_HotelSection> {
 
       // Header
       Row(children: [
-        Text(tr(widget.locale, ja: '周辺ホテル', ko: '주변 호텔', en: 'Nearby Hotels', zh: '周边酒店'), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+        Text(tr(widget.locale, ja: '周辺ホテル', ko: '주변 호텔', en: 'Nearby Hotels', zh: '周边酒店', fr: 'Hôtels à proximité'), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
         const SizedBox(width: 6),
         Text(
-          tr(widget.locale, ja: '1泊2人基準', ko: '1박 2인 기준', en: 'Per night, 2 guests', zh: '每晚2人'),
+          tr(widget.locale, ja: '1泊2人基準', ko: '1박 2인 기준', en: 'Per night, 2 guests', zh: '每晚2人', fr: 'Par nuit, 2 pers.'),
           style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground),
         ),
       ]),
@@ -1358,7 +1359,7 @@ class _HotelSectionState extends State<_HotelSection> {
               tr(widget.locale, ja: '選択した予算範囲のホテルが見つかりませんでした',
                 ko: '선택한 예산 범위의 호텔이 없습니다',
                 en: 'No hotels found in the selected budget range',
-                zh: '所选预算范围内没有找到酒店'),
+                zh: '所选预算范围内没有找到酒店', fr: 'Aucun hôtel dans cette gamme de prix'),
               style: TextStyle(fontSize: 12, color: Colors.amber.shade800),
             )),
           ]),
@@ -1377,11 +1378,11 @@ class _HotelSectionState extends State<_HotelSection> {
           onPressed: () => setState(() => _expanded = !_expanded),
           child: Row(mainAxisSize: MainAxisSize.min, children: [
             Text(_expanded
-                ? tr(widget.locale, ja: '閉じる', ko: '접기', en: 'Show less', zh: '收起')
+                ? tr(widget.locale, ja: '閉じる', ko: '접기', en: 'Show less', zh: '收起', fr: 'Réduire')
                 : tr(widget.locale, ja: '他${_hotels!.length - _defaultVisible}件を表示',
                     ko: '${_hotels!.length - _defaultVisible}개 더 보기',
                     en: 'Show ${_hotels!.length - _defaultVisible} more',
-                    zh: '显示更多${_hotels!.length - _defaultVisible}个'),
+                    zh: '显示更多${_hotels!.length - _defaultVisible}个', fr: 'Show ${_hotels!.length - _defaultVisible} more'),
               style: TextStyle(fontSize: 12, color: AppTheme.primary)),
             Icon(_expanded ? Icons.expand_less : Icons.expand_more, size: 16, color: AppTheme.primary),
           ]),
@@ -1414,7 +1415,7 @@ class _HotelSectionState extends State<_HotelSection> {
                 ja: '${BookingProvider.providerName(widget.locale, widget.region)}で検索 →',
                 ko: '${BookingProvider.providerName(widget.locale, widget.region)}에서 검색 →',
                 en: 'Search on ${BookingProvider.providerName(widget.locale, widget.region)} →',
-                zh: '在${BookingProvider.providerName(widget.locale, widget.region)}上搜索 →'),
+                zh: '在${BookingProvider.providerName(widget.locale, widget.region)}上搜索 →', fr: 'Search on ${BookingProvider.providerName(widget.locale, widget.region)} →'),
               style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: AppTheme.primary),
             ),
           ),
@@ -1556,7 +1557,7 @@ class _ExternalHotelLinks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isJalan = locale == 'ja' && ['kanto', 'kansai'].contains(region);
-    final title = tr(locale, ja: 'ホテルを探す', ko: '호텔 찾기', en: 'Find Hotels', zh: '查找酒店');
+    final title = tr(locale, ja: 'ホテルを探す', ko: '호텔 찾기', en: 'Find Hotels', zh: '查找酒店', fr: 'Trouver des hôtels');
     final providerName = isJalan ? 'じゃらん' : 'Booking.com';
     final buttonColor = isJalan ? const Color(0xFFE4007F) : const Color(0xFF003580);
 
@@ -1579,7 +1580,7 @@ class _ExternalHotelLinks extends StatelessWidget {
           },
           icon: const Icon(Icons.open_in_new, size: 16),
           label: Text(
-            tr(locale, ja: '$providerNameで検索', ko: '$providerName에서 검색', en: 'Search on $providerName', zh: '在$providerName上搜索'),
+            tr(locale, ja: '$providerNameで検索', ko: '$providerName에서 검색', en: 'Search on $providerName', zh: '在$providerName上搜索', fr: 'Rechercher sur $providerName'),
             style: const TextStyle(fontSize: 14),
           ),
           style: ElevatedButton.styleFrom(
