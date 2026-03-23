@@ -37,11 +37,11 @@ class _GuideScreenState extends ConsumerState<GuideScreen> {
 
     final regions = ['all', 'kanto', 'kansai', 'seoul', 'busan'];
     final regionLabels = {
-      'all': tr(locale, ja: 'すべて', ko: '전체', en: 'All', zh: '全部'),
-      'kanto': tr(locale, ja: '東京・関東', ko: '도쿄·간토', en: 'Tokyo', zh: '东京'),
-      'kansai': tr(locale, ja: '大阪・関西', ko: '오사카·간사이', en: 'Osaka', zh: '大阪'),
-      'seoul': tr(locale, ja: 'ソウル', ko: '서울', en: 'Seoul', zh: '首尔'),
-      'busan': tr(locale, ja: '釜山', ko: '부산', en: 'Busan', zh: '釜山'),
+      'all': tr(locale, ja: 'すべて', ko: '전체', en: 'All', zh: '全部', fr: 'Tout'),
+      'kanto': tr(locale, ja: '東京・関東', ko: '도쿄·간토', en: 'Tokyo', zh: '东京', fr: 'Tokyo'),
+      'kansai': tr(locale, ja: '大阪・関西', ko: '오사카·간사이', en: 'Osaka', zh: '大阪', fr: 'Osaka'),
+      'seoul': tr(locale, ja: 'ソウル', ko: '서울', en: 'Seoul', zh: '首尔', fr: 'Séoul'),
+      'busan': tr(locale, ja: '釜山', ko: '부산', en: 'Busan', zh: '釜山', fr: 'Busan'),
     };
 
     final filtered = _selectedRegion == 'all'
@@ -50,7 +50,7 @@ class _GuideScreenState extends ConsumerState<GuideScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr(locale, ja: '旅行ガイド', ko: '여행 가이드', en: 'Travel Guides', zh: '旅行指南')),
+        title: Text(tr(locale, ja: '旅行ガイド', ko: '여행 가이드', en: 'Travel Guides', zh: '旅行指南', fr: 'Guides de voyage')),
       ),
       body: Column(
         children: [
@@ -90,7 +90,7 @@ class _GuideScreenState extends ConsumerState<GuideScreen> {
           // Guide list
           Expanded(
             child: filtered.isEmpty
-                ? Center(child: Text(tr(locale, ja: 'ガイドがありません', ko: '가이드가 없습니다', en: 'No guides', zh: '没有指南'), style: TextStyle(color: AppTheme.mutedForeground)))
+                ? Center(child: Text(tr(locale, ja: 'ガイドがありません', ko: '가이드가 없습니다', en: 'No guides', zh: '没有指南', fr: 'Aucun guide'), style: TextStyle(color: AppTheme.mutedForeground)))
                 : ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: filtered.length,
@@ -169,7 +169,7 @@ class _GuideScreenState extends ConsumerState<GuideScreen> {
                                         Icon(Icons.menu_book, size: 14, color: AppTheme.primary),
                                         const SizedBox(width: 4),
                                         Text(
-                                          tr(locale, ja: 'ガイドを読む', ko: '가이드 읽기', en: 'Read Guide', zh: '阅读指南'),
+                                          tr(locale, ja: 'ガイドを読む', ko: '가이드 읽기', en: 'Read Guide', zh: '阅读指南', fr: 'Lire le guide'),
                                           style: TextStyle(fontSize: 12, color: AppTheme.primary, fontWeight: FontWeight.w500),
                                         ),
                                       ]),

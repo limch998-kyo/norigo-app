@@ -53,7 +53,7 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
       if (mounted) {
         ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(tr(locale, ja: '旅行プランから削除しました', ko: '여행 플랜에서 삭제했습니다', en: 'Removed from trip', zh: '已从行程中移除')),
+          content: Text(tr(locale, ja: '旅行プランから削除しました', ko: '여행 플랜에서 삭제했습니다', en: 'Removed from trip', zh: '已从行程中移除', fr: 'Retiré du voyage')),
           duration: const Duration(seconds: 2),
         ));
       }
@@ -93,10 +93,10 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
     if (mounted) {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(tr(locale, ja: '旅行プランに追加しました', ko: '여행 플랜에 추가했습니다', en: 'Added to trip plan', zh: '已添加到旅行计划')),
+        content: Text(tr(locale, ja: '旅行プランに追加しました', ko: '여행 플랜에 추가했습니다', en: 'Added to trip plan', zh: '已添加到旅行计划', fr: 'Ajouté au voyage')),
         duration: const Duration(seconds: 2),
         action: SnackBarAction(
-          label: tr(locale, ja: '旅行タブへ', ko: '여행 탭으로', en: 'Go to Trip', zh: '前往旅行'),
+          label: tr(locale, ja: '旅行タブへ', ko: '여행 탭으로', en: 'Go to Trip', zh: '前往旅行', fr: 'Aller au voyage'),
           textColor: Colors.white,
           onPressed: () {
             MainShell.globalSwitchTab?.call(3);
@@ -312,7 +312,7 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(tr(locale, ja: '目次', ko: '목차', en: 'Contents', zh: '目录'),
+                          Text(tr(locale, ja: '目次', ko: '목차', en: 'Contents', zh: '目录', fr: 'Sommaire'),
                             style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
                           const SizedBox(height: 6),
                           ...toc.map((item) => Padding(
@@ -333,7 +333,7 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
                   // FAQ section
                   if (faq.isNotEmpty) ...[
                     const SizedBox(height: 24),
-                    Text(tr(locale, ja: 'よくある質問', ko: '자주 묻는 질문', en: 'FAQ', zh: '常见问题'),
+                    Text(tr(locale, ja: 'よくある質問', ko: '자주 묻는 질문', en: 'FAQ', zh: '常见问题', fr: 'FAQ'),
                       style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 8),
                     ...faq.map((item) => _FaqItem(
@@ -403,7 +403,7 @@ class _SpotCard extends StatelessWidget {
                     ? ElevatedButton.icon(
                         onPressed: onAddToTrip,
                         icon: const Icon(Icons.check, size: 16),
-                        label: Text(tr(locale, ja: '追加済み', ko: '추가됨', en: 'Added', zh: '已添加'),
+                        label: Text(tr(locale, ja: '追加済み', ko: '추가됨', en: 'Added', zh: '已添加', fr: 'Ajouté'),
                           style: const TextStyle(fontSize: 12)),
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 8),
@@ -413,7 +413,7 @@ class _SpotCard extends StatelessWidget {
                     : OutlinedButton.icon(
                         onPressed: onAddToTrip,
                         icon: const Icon(Icons.add, size: 16),
-                        label: Text(tr(locale, ja: '旅行に追加', ko: '여행에 추가', en: 'Add to Trip', zh: '添加到行程'),
+                        label: Text(tr(locale, ja: '旅行に追加', ko: '여행에 추가', en: 'Add to Trip', zh: '添加到行程', fr: 'Ajouter au voyage'),
                           style: const TextStyle(fontSize: 12)),
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 8),

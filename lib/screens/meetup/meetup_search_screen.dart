@@ -21,7 +21,7 @@ class MeetupSearchScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          tr(locale, ja: '集合場所を探す', ko: '만남역 찾기', en: 'Find Meetup Station', zh: '查找聚会地点'),
+          tr(locale, ja: '集合場所を探す', ko: '만남역 찾기', en: 'Find Meetup Station', zh: '查找聚会地点', fr: 'Trouver un point de rencontre'),
         ),
       ),
       body: SingleChildScrollView(
@@ -34,8 +34,8 @@ class MeetupSearchScreen extends ConsumerWidget {
               children: ['kanto', 'kansai'].map((region) {
                 final isSelected = state.region == region;
                 final label = region == 'kanto'
-                    ? tr(locale, ja: '関東', ko: '간토', en: 'Kanto', zh: '关东')
-                    : tr(locale, ja: '関西', ko: '간사이', en: 'Kansai', zh: '关西');
+                    ? tr(locale, ja: '関東', ko: '간토', en: 'Kanto', zh: '关东', fr: 'Kanto')
+                    : tr(locale, ja: '関西', ko: '간사이', en: 'Kansai', zh: '关西', fr: 'Kansai');
                 return Expanded(
                   child: Padding(
                     padding: EdgeInsets.only(right: region == 'kanto' ? 8 : 0),
@@ -52,7 +52,7 @@ class MeetupSearchScreen extends ConsumerWidget {
 
             // Station input
             Text(
-              tr(locale, ja: '出発駅を入力 (2〜10人)', ko: '출발역 입력 (2~10명)', en: 'Enter departure stations (2-10)', zh: '输入出发站 (2~10人)'),
+              tr(locale, ja: '出発駅を入力 (2〜10人)', ko: '출발역 입력 (2~10명)', en: 'Enter departure stations (2-10)', zh: '输入出发站 (2~10人)', fr: 'Entrez les gares de départ (2-10)'),
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
@@ -82,7 +82,7 @@ class MeetupSearchScreen extends ConsumerWidget {
                   Icon(Icons.warning_amber, size: 18, color: Colors.amber.shade700),
                   const SizedBox(width: 8),
                   Expanded(child: Text(
-                    tr(locale, ja: '異なる地域の駅は混在できません', ko: '다른 지역의 역은 함께 검색할 수 없습니다', en: 'Cannot mix stations from different regions', zh: '不能混合不同地区的车站'),
+                    tr(locale, ja: '異なる地域の駅は混在できません', ko: '다른 지역의 역은 함께 검색할 수 없습니다', en: 'Cannot mix stations from different regions', zh: '不能混合不同地区的车站', fr: 'Impossible de mélanger des gares de différentes régions'),
                     style: TextStyle(fontSize: 12, color: Colors.amber.shade800),
                   )),
                 ]),
@@ -92,7 +92,7 @@ class MeetupSearchScreen extends ConsumerWidget {
 
             // Mode
             Text(
-              tr(locale, ja: '検索モード', ko: '검색 모드', en: 'Search mode', zh: '搜索模式'),
+              tr(locale, ja: '検索モード', ko: '검색 모드', en: 'Search mode', zh: '搜索模式', fr: 'Mode de recherche'),
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
@@ -101,7 +101,7 @@ class MeetupSearchScreen extends ConsumerWidget {
 
             // Category
             Text(
-              tr(locale, ja: 'ジャンル（任意）', ko: '장르 (선택)', en: 'Category (optional)', zh: '类别（可选）'),
+              tr(locale, ja: 'ジャンル（任意）', ko: '장르 (선택)', en: 'Category (optional)', zh: '类别（可选）', fr: 'Catégorie (facultatif)'),
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
@@ -120,7 +120,7 @@ class MeetupSearchScreen extends ConsumerWidget {
 
             // Budget
             Text(
-              tr(locale, ja: '予算（任意）', ko: '예산 (선택)', en: 'Budget (optional)', zh: '预算（可选）'),
+              tr(locale, ja: '予算（任意）', ko: '예산 (선택)', en: 'Budget (optional)', zh: '预算（可选）', fr: 'Budget (facultatif)'),
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
@@ -139,7 +139,7 @@ class MeetupSearchScreen extends ConsumerWidget {
 
             // Options
             Text(
-              tr(locale, ja: 'オプション', ko: '옵션', en: 'Options', zh: '选项'),
+              tr(locale, ja: 'オプション', ko: '옵션', en: 'Options', zh: '选项', fr: 'Options'),
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
@@ -165,7 +165,7 @@ class MeetupSearchScreen extends ConsumerWidget {
                     : () => notifier.search(),
                 child: state.isLoading
                     ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                    : Text(tr(locale, ja: '集合駅を検索', ko: '만남역 검색', en: 'Find Meetup Station', zh: '查找聚会地点')),
+                    : Text(tr(locale, ja: '集合駅を検索', ko: '만남역 검색', en: 'Find Meetup Station', zh: '查找聚会地点', fr: 'Trouver un point de rencontre')),
               ),
             ),
 

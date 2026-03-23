@@ -89,6 +89,16 @@ void main() {
       expect(find.text('聚会'), findsOneWidget);
       expect(find.text('旅行'), findsOneWidget);
     });
+
+    testWidgets('French UI shows French labels', (tester) async {
+      await tester.pumpWidget(createApp(locale: 'fr'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Accueil'), findsOneWidget);
+      expect(find.text('Hôtel'), findsOneWidget);
+      expect(find.text('Rencontre'), findsOneWidget);
+      expect(find.text('Voyage'), findsOneWidget);
+    });
   });
 
   group('Stay search screen', () {

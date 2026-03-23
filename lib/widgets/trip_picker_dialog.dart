@@ -14,13 +14,13 @@ Future<String?> showTripPickerDialog(
     context: context,
     builder: (ctx) => AlertDialog(
       title: Text(
-        tr(locale, ja: '旅行を選択', ko: '여행 선택', en: 'Choose Trip', zh: '选择旅行'),
+        tr(locale, ja: '旅行を選択', ko: '여행 선택', en: 'Choose Trip', zh: '选择旅行', fr: 'Choisir un voyage'),
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            tr(locale, ja: 'どの旅行に追加しますか？', ko: '어떤 여행에 추가할까요?', en: 'Which trip to add to?', zh: '添加到哪个旅行？'),
+            tr(locale, ja: 'どの旅行に追加しますか？', ko: '어떤 여행에 추가할까요?', en: 'Which trip to add to?', zh: '添加到哪个旅行？', fr: 'Ajouter à quel voyage ?'),
             style: TextStyle(fontSize: 13, color: AppTheme.mutedForeground),
           ),
           const SizedBox(height: 12),
@@ -44,7 +44,7 @@ Future<String?> showTripPickerDialog(
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(ctx),
-          child: Text(tr(locale, ja: 'キャンセル', ko: '취소', en: 'Cancel', zh: '取消')),
+          child: Text(tr(locale, ja: 'キャンセル', ko: '취소', en: 'Cancel', zh: '取消', fr: 'Annuler')),
         ),
       ],
     ),

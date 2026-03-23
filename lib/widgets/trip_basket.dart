@@ -89,10 +89,10 @@ class _BasketSheet extends ConsumerWidget {
                 Icon(Icons.luggage, size: 20, color: AppTheme.primary),
                 const SizedBox(width: 8),
                 Expanded(child: Text(
-                  trip != null ? localizedTripName(trip.name, locale) : tr(locale, ja: '旅行プラン', ko: '여행 플랜', en: 'Trip Plan', zh: '旅行计划'),
+                  trip != null ? localizedTripName(trip.name, locale) : tr(locale, ja: '旅行プラン', ko: '여행 플랜', en: 'Trip Plan', zh: '旅行计划', fr: 'Plan de voyage'),
                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 )),
-                Text('${items.length} ${tr(locale, ja: 'スポット', ko: '관광지', en: 'spots', zh: '景点')}',
+                Text('${items.length} ${tr(locale, ja: 'スポット', ko: '관광지', en: 'spots', zh: '景点', fr: 'sites')}',
                   style: TextStyle(fontSize: 13, color: AppTheme.mutedForeground)),
               ]),
             ),
@@ -102,7 +102,7 @@ class _BasketSheet extends ConsumerWidget {
             Expanded(
               child: items.isEmpty
                   ? Center(child: Text(
-                      tr(locale, ja: 'スポットを追加してください', ko: '관광지를 추가해주세요', en: 'Add some spots', zh: '请添加景点'),
+                      tr(locale, ja: 'スポットを追加してください', ko: '관광지를 추가해주세요', en: 'Add some spots', zh: '请添加景点', fr: 'Ajoutez des sites'),
                       style: TextStyle(color: AppTheme.mutedForeground),
                     ))
                   : ListView.builder(
@@ -143,12 +143,12 @@ class _BasketSheet extends ConsumerWidget {
                       final url = 'https://norigo.app/$locale/stay/search?l=${Uri.encodeComponent(params)}&r=$region';
                       Clipboard.setData(ClipboardData(text: url));
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(tr(locale, ja: 'PCで開けるリンクをコピーしました', ko: 'PC에서 열 수 있는 링크를 복사했습니다', en: 'Link copied for PC', zh: '已复制电脑端链接')),
+                        content: Text(tr(locale, ja: 'PCで開けるリンクをコピーしました', ko: 'PC에서 열 수 있는 링크를 복사했습니다', en: 'Link copied for PC', zh: '已复制电脑端链接', fr: 'Lien copié pour PC')),
                       ));
                     },
                     icon: const Icon(Icons.computer, size: 16),
                     label: Text(
-                      tr(locale, ja: 'PCに送る', ko: 'PC로 보내기', en: 'Send to PC', zh: '发送到电脑'),
+                      tr(locale, ja: 'PCに送る', ko: 'PC로 보내기', en: 'Send to PC', zh: '发送到电脑', fr: 'Envoyer au PC'),
                       style: const TextStyle(fontSize: 12),
                     ),
                     style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 8)),
@@ -193,7 +193,7 @@ class _BasketSheet extends ConsumerWidget {
                       },
                       icon: const Icon(Icons.hotel, size: 18),
                       label: Text(
-                        tr(locale, ja: 'この${items.length}スポットでホテルを検索', ko: '이 ${items.length}개 관광지로 호텔 검색', en: 'Search hotels for ${items.length} spots', zh: '为${items.length}个景点搜索酒店'),
+                        tr(locale, ja: 'この${items.length}スポットでホテルを検索', ko: '이 ${items.length}개 관광지로 호텔 검색', en: 'Search hotels for ${items.length} spots', zh: '为${items.length}个景点搜索酒店', fr: 'Chercher des hôtels pour ${items.length} sites'),
                         style: const TextStyle(fontSize: 13),
                       ),
                     ),

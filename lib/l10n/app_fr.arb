@@ -1,0 +1,87 @@
+{
+  "@@locale": "fr",
+  "appTitle": "Norigo",
+  "homeTitle": "Vous visitez le Japon ? On trouve le spot idéal.",
+  "homeSubtitle": "Entrez quelques lieux à visiter — on trouve le meilleur quartier d'hôtel et les restaurants.",
+  "searchPlaceholder": "Rechercher des sites...",
+  "searchButton": "Rechercher des hôtels",
+  "tokyoTitle": "Tokyo / Kanto",
+  "osakaTitle": "Osaka / Kansai",
+  "seoulTitle": "Séoul",
+  "busanTitle": "Busan",
+  "quickPlanTitle": "Plans de voyage populaires",
+  "quickPlanDesc": "Appuyez pour trouver le meilleur quartier d'hôtel",
+  "quickPlanCta": "Trouver des hôtels",
+  "staySearchTitle": "Trouver un quartier d'hôtel",
+  "tripTitle": "Mon voyage",
+  "guidesTitle": "Guides de voyage",
+  "addToTrip": "Ajouter au voyage",
+  "addToSearch": "Ajouter à la recherche",
+  "findHotels": "Trouver des hôtels",
+  "minutesAway": "{minutes} min",
+  "@minutesAway": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "perNight": "/ nuit",
+  "viewOnMap": "Voir sur la carte",
+  "popularSpots": "Sites populaires",
+  "moreInfo": "Plus d'infos",
+  "bookNow": "Réserver",
+  "tabHome": "Accueil",
+  "tabSearch": "Recherche",
+  "tabTrip": "Voyage",
+  "tabGuide": "Guide",
+  "meetupTitle": "Trouver un point de rencontre",
+  "meetupSearchButton": "Trouver la station",
+  "stationPlaceholder": "Nom de la gare...",
+  "addStations": "Ajouter les gares de départ (2-5)",
+  "searchMode": "Mode de recherche",
+  "category": "Catégorie (facultatif)",
+  "budget": "Budget (facultatif)",
+  "options": "Options",
+  "dates": "Dates",
+  "addLandmarks": "Entrez tous les lieux à visiter",
+  "results": "Résultats",
+  "noResults": "Aucun résultat trouvé",
+  "recommendedHotels": "Hôtels recommandés",
+  "nearbyVenues": "Restaurants à proximité",
+  "route": "Itinéraire",
+  "avgTime": "Moy. {minutes} min",
+  "@avgTime": {
+    "placeholders": {
+      "minutes": {"type": "int"}
+    }
+  },
+  "splitStay": "Séjour divisé",
+  "singleStay": "Séjour unique",
+  "newTrip": "Nouveau voyage",
+  "tripName": "Nom du voyage",
+  "create": "Créer",
+  "cancel": "Annuler",
+  "save": "Enregistrer",
+  "delete": "Supprimer",
+  "rename": "Renommer",
+  "deleteConfirm": "Supprimer \"{name}\" ?",
+  "@deleteConfirm": {
+    "placeholders": {
+      "name": {"type": "String"}
+    }
+  },
+  "spots": "{count} sites",
+  "@spots": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  },
+  "settings": "Paramètres",
+  "language": "Langue",
+  "about": "À propos",
+  "website": "Site web",
+  "privacyPolicy": "Politique de confidentialité",
+  "termsOfService": "Conditions d'utilisation",
+  "active": "Actif",
+  "noTripsYet": "Aucun voyage",
+  "tapToCreate": "Appuyez sur + pour créer un voyage"
+}

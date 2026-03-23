@@ -50,7 +50,7 @@ class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
     final state = ref.watch(meetupSearchProvider);
     final notifier = ref.read(meetupSearchProvider.notifier);
     final theme = Theme.of(context);
-    final title = tr(locale, ja: '検索結果', ko: '검색 결과', en: 'Results', zh: '搜索结果');
+    final title = tr(locale, ja: '検索結果', ko: '검색 결과', en: 'Results', zh: '搜索结果', fr: 'Résultats');
 
     if (state.isLoading) {
       return Scaffold(appBar: AppBar(title: Text(title)), body: const SkeletonLoader(count: 3));
@@ -69,7 +69,7 @@ class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
                 const SizedBox(height: 16),
                 Text(state.error!, style: theme.textTheme.bodySmall, textAlign: TextAlign.center),
                 const SizedBox(height: 24),
-                OutlinedButton(onPressed: () => notifier.search(), child: Text(tr(locale, ja: '再試行', ko: '재시도', en: 'Retry', zh: '重试'))),
+                OutlinedButton(onPressed: () => notifier.search(), child: Text(tr(locale, ja: '再試行', ko: '재시도', en: 'Retry', zh: '重试', fr: 'Réessayer'))),
               ],
             ),
           ),
@@ -84,7 +84,7 @@ class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
         body: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Icon(Icons.search_off, size: 64, color: Colors.grey.shade400),
           const SizedBox(height: 16),
-          Text(tr(locale, ja: '結果が見つかりませんでした', ko: '결과를 찾을 수 없습니다', en: 'No results found', zh: '未找到结果'), style: theme.textTheme.titleMedium),
+          Text(tr(locale, ja: '結果が見つかりませんでした', ko: '결과를 찾을 수 없습니다', en: 'No results found', zh: '未找到结果', fr: 'Aucun résultat'), style: theme.textTheme.titleMedium),
         ])),
       );
     }
@@ -100,7 +100,7 @@ class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
             child: OutlinedButton.icon(
               onPressed: () => notifier.clearResult(),
               icon: const Icon(Icons.tune, size: 14),
-              label: Text(tr(locale, ja: '検索修正', ko: '검색 수정', en: 'Edit', zh: '编辑'), style: const TextStyle(fontSize: 12)),
+              label: Text(tr(locale, ja: '検索修正', ko: '검색 수정', en: 'Edit', zh: '编辑', fr: 'Modifier'), style: const TextStyle(fontSize: 12)),
               style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4), visualDensity: VisualDensity.compact),
             ),
           ),
@@ -122,7 +122,8 @@ class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
                   ja: 'みんなの集合駅で検索したら「${result.stations.first.station.name}駅」がおすすめ！',
                   ko: '모두의 만남역을 검색하니 「${result.stations.first.station.name}역」을 추천합니다!',
                   en: '${result.stations.first.station.name} is recommended!',
-                  zh: '搜索大家的集合站，推荐「${result.stations.first.station.name}站」！'),
+                  zh: '搜索大家的集合站，推荐「${result.stations.first.station.name}站」！',
+                  fr: '${result.stations.first.station.name} est recommandé !'),
               url: _buildMeetupShareUrl(state, locale),
               locale: locale,
             ),
@@ -207,7 +208,8 @@ class _StationCard extends StatelessWidget {
                       ja: '平均${rec.avgEstimatedMinutes}分',
                       ko: '평균 ${rec.avgEstimatedMinutes}분',
                       en: 'Avg ${rec.avgEstimatedMinutes}min',
-                      zh: '平均${rec.avgEstimatedMinutes}分钟'),
+                      zh: '平均${rec.avgEstimatedMinutes}分钟',
+                      fr: 'Moy. ${rec.avgEstimatedMinutes}min'),
                     style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppTheme.primary)),
                 ),
               ]),
@@ -290,12 +292,12 @@ class _StationCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 6),
                 child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  _buildLegendDot(AppTheme.orange, tr(locale, ja: '推薦駅', ko: '추천역', en: 'Recommended', zh: '推荐站')),
+                  _buildLegendDot(AppTheme.orange, tr(locale, ja: '推薦駅', ko: '추천역', en: 'Recommended', zh: '推荐站', fr: 'Recommandé')),
                   const SizedBox(width: 10),
-                  _buildLegendDot(Colors.blue, tr(locale, ja: '出発駅', ko: '출발역', en: 'Departure', zh: '出发站')),
+                  _buildLegendDot(Colors.blue, tr(locale, ja: '出発駅', ko: '출발역', en: 'Departure', zh: '出发站', fr: 'Départ')),
                   if (rec.venues.any((v) => v.lat != null)) ...[
                     const SizedBox(width: 10),
-                    _buildLegendDot(AppTheme.green, tr(locale, ja: 'お店', ko: '맛집', en: 'Restaurant', zh: '餐厅')),
+                    _buildLegendDot(AppTheme.green, tr(locale, ja: 'お店', ko: '맛집', en: 'Restaurant', zh: '餐厅', fr: 'Restaurant')),
                   ],
                 ]),
               ),
@@ -337,7 +339,7 @@ class _StationCard extends StatelessWidget {
                 Row(children: [
                   Icon(Icons.restaurant, size: 16, color: AppTheme.primary),
                   const SizedBox(width: 6),
-                  Text(tr(locale, ja: '周辺のお店 (${rec.venues.length}件)', ko: '주변 맛집 (${rec.venues.length}개)', en: 'Nearby (${rec.venues.length})', zh: '附近餐厅 (${rec.venues.length}家)'),
+                  Text(tr(locale, ja: '周辺のお店 (${rec.venues.length}件)', ko: '주변 맛집 (${rec.venues.length}개)', en: 'Nearby (${rec.venues.length})', zh: '附近餐厅 (${rec.venues.length}家)', fr: 'À proximité (${rec.venues.length})'),
                     style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
                 ]),
                 const SizedBox(height: 8),
@@ -357,7 +359,7 @@ class _StationCard extends StatelessWidget {
                       },
                       icon: const Icon(Icons.map, size: 16),
                       label: Text(
-                        tr(locale, ko: '주변 맛집 검색 (Google Maps)', en: 'Search restaurants (Google Maps)', zh: '搜索附近餐厅 (Google Maps)'),
+                        tr(locale, ko: '주변 맛집 검색 (Google Maps)', en: 'Search restaurants (Google Maps)', zh: '搜索附近餐厅 (Google Maps)', fr: 'Rechercher des restaurants (Google Maps)'),
                         style: const TextStyle(fontSize: 13),
                       ),
                       style: ElevatedButton.styleFrom(
@@ -458,9 +460,9 @@ class _VenueCard extends StatelessWidget {
             if (venue.privateRoom || venue.noSmoking || venue.freeDrink || venue.wifi) ...[
               const SizedBox(height: 4),
               Wrap(spacing: 4, runSpacing: 4, children: [
-                if (venue.privateRoom) _FeatureBadge(icon: Icons.meeting_room, label: tr(locale, ja: '個室', ko: '개인실', en: 'Private', zh: '包间')),
-                if (venue.noSmoking) _FeatureBadge(icon: Icons.smoke_free, label: tr(locale, ja: '禁煙', ko: '금연', en: 'No smoking', zh: '禁烟')),
-                if (venue.freeDrink) _FeatureBadge(icon: Icons.local_bar, label: tr(locale, ja: '飲み放題', ko: '무한리필', en: 'Free drink', zh: '畅饮')),
+                if (venue.privateRoom) _FeatureBadge(icon: Icons.meeting_room, label: tr(locale, ja: '個室', ko: '개인실', en: 'Private', zh: '包间', fr: 'Privé')),
+                if (venue.noSmoking) _FeatureBadge(icon: Icons.smoke_free, label: tr(locale, ja: '禁煙', ko: '금연', en: 'No smoking', zh: '禁烟', fr: 'Non-fumeur')),
+                if (venue.freeDrink) _FeatureBadge(icon: Icons.local_bar, label: tr(locale, ja: '飲み放題', ko: '무한리필', en: 'Free drink', zh: '畅饮', fr: 'Boissons à volonté')),
                 if (venue.wifi) _FeatureBadge(icon: Icons.wifi, label: 'WiFi'),
               ]),
             ],
@@ -589,7 +591,7 @@ class _RouteBar extends StatelessWidget {
       // Line names + durations
       Row(children: segments.map((seg) {
         final localLine = LineLocalizer.localizeSync(seg.line, locale, operator: seg.operator);
-        final unit = tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟');
+        final unit = tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟', fr: 'min');
         return Expanded(child: Center(child: Text(
           '$localLine ${seg.minutes}$unit',
           style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground),
