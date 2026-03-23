@@ -31,10 +31,11 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
       final notifier = ref.read(staySearchProvider.notifier);
       final state = ref.read(staySearchProvider);
       if (state.checkIn == null) {
-        final checkIn = DateTime.now().add(const Duration(days: 30));
+        // Default: +7 days check-in, +2 nights (matching web's defaultDates)
+        final checkIn = DateTime.now().add(const Duration(days: 7));
         notifier.setDates(
           checkIn.toIso8601String().substring(0, 10),
-          checkIn.add(const Duration(days: 3)).toIso8601String().substring(0, 10),
+          checkIn.add(const Duration(days: 2)).toIso8601String().substring(0, 10),
         );
       }
       if (state.maxBudget == null) {
@@ -45,12 +46,12 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
 
   DateTime get _checkIn {
     final ci = ref.read(staySearchProvider).checkIn;
-    return ci != null ? DateTime.parse(ci) : DateTime.now().add(const Duration(days: 30));
+    return ci != null ? DateTime.parse(ci) : DateTime.now().add(const Duration(days: 7));
   }
 
   DateTime get _checkOut {
     final co = ref.read(staySearchProvider).checkOut;
-    return co != null ? DateTime.parse(co) : _checkIn.add(const Duration(days: 3));
+    return co != null ? DateTime.parse(co) : _checkIn.add(const Duration(days: 2));
   }
 
   Future<void> _pickDate(BuildContext context, bool isCheckIn) async {

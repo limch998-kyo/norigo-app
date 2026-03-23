@@ -1208,8 +1208,8 @@ class _HotelSectionState extends State<_HotelSection> {
   Future<void> _loadHotels() async {
     try {
       final api = ApiClient();
-      final checkIn = widget.checkIn ?? DateTime.now().add(const Duration(days: 30)).toIso8601String().substring(0, 10);
-      final checkOut = widget.checkOut ?? DateTime.now().add(const Duration(days: 32)).toIso8601String().substring(0, 10);
+      final checkIn = widget.checkIn ?? DateTime.now().add(const Duration(days: 7)).toIso8601String().substring(0, 10);
+      final checkOut = widget.checkOut ?? DateTime.now().add(const Duration(days: 9)).toIso8601String().substring(0, 10);
       final hotels = await api.getHotels(stationId: widget.stationId, checkIn: checkIn, checkOut: checkOut, locale: widget.locale);
       // Sort: high-rated (8.5+) first by distance to station, then rest by rating desc
       if (widget.lat != null && widget.lng != null) {

@@ -85,9 +85,9 @@ class TripScreen extends ConsumerWidget {
                 if (latestTrip.checkIn != null && latestTrip.checkOut != null) {
                   stayNotifier.setDates(latestTrip.checkIn!, latestTrip.checkOut!);
                 } else {
-                  final checkIn = DateTime.now().add(const Duration(days: 30));
+                  final checkIn = DateTime.now().add(const Duration(days: 7));
                   stayNotifier.setDates(checkIn.toIso8601String().substring(0, 10),
-                    checkIn.add(const Duration(days: 3)).toIso8601String().substring(0, 10));
+                    checkIn.add(const Duration(days: 2)).toIso8601String().substring(0, 10));
                 }
                 stayNotifier.search();
                 onSwitchTab?.call(1);
@@ -327,7 +327,7 @@ class _TripCard extends ConsumerWidget {
     final now = DateTime.now();
     final initialRange = (trip.checkIn != null && trip.checkOut != null)
         ? DateTimeRange(start: DateTime.parse(trip.checkIn!), end: DateTime.parse(trip.checkOut!))
-        : DateTimeRange(start: now.add(const Duration(days: 30)), end: now.add(const Duration(days: 33)));
+        : DateTimeRange(start: now.add(const Duration(days: 30)), end: now.add(const Duration(days: 9)));
 
     final picked = await showDateRangePicker(
       context: context,
@@ -561,9 +561,9 @@ class _MySpotsSection extends StatelessWidget {
                   for (final l in landmarks) { stayNotifier.addLandmark(l); }
                   final budget = locale == 'ja' ? 'under20000' : locale == 'ko' ? 'under30000' : 'under50000';
                   stayNotifier.setBudget(budget);
-                  final checkIn = DateTime.now().add(const Duration(days: 30));
+                  final checkIn = DateTime.now().add(const Duration(days: 7));
                   stayNotifier.setDates(checkIn.toIso8601String().substring(0, 10),
-                    checkIn.add(const Duration(days: 3)).toIso8601String().substring(0, 10));
+                    checkIn.add(const Duration(days: 2)).toIso8601String().substring(0, 10));
                   onSwitchTab?.call(1);
                 },
                 icon: const Icon(Icons.hotel, size: 16),

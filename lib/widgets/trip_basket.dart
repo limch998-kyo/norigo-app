@@ -183,8 +183,8 @@ class _BasketSheet extends ConsumerWidget {
                         // Set defaults: budget + dates
                         final budget = locale == 'ja' ? 'under20000' : locale == 'ko' ? 'under30000' : 'under50000';
                         stayNotifier.setBudget(budget);
-                        final checkIn = DateTime.now().add(const Duration(days: 30));
-                        final checkOut = checkIn.add(const Duration(days: 3));
+                        final checkIn = DateTime.now().add(const Duration(days: 7));
+                        final checkOut = checkIn.add(const Duration(days: 2));
                         stayNotifier.setDates(
                           checkIn.toIso8601String().substring(0, 10),
                           checkOut.toIso8601String().substring(0, 10),
