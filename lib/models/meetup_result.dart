@@ -41,6 +41,7 @@ class RouteSegment {
   final String? fromStationName;
   final String? toStationName;
   final int? transferMinutes;
+  final List<List<double>>? path; // [[lat, lng], ...] for polyline
 
   const RouteSegment({
     required this.line,
@@ -52,6 +53,7 @@ class RouteSegment {
     this.fromStationName,
     this.toStationName,
     this.transferMinutes,
+    this.path,
   });
 
   factory RouteSegment.fromJson(Map<String, dynamic> json) {
@@ -65,6 +67,9 @@ class RouteSegment {
       fromStationName: json['fromStationName'] as String?,
       toStationName: json['toStationName'] as String?,
       transferMinutes: json['transferMinutes'] as int?,
+      path: (json['path'] as List<dynamic>?)
+          ?.map((p) => (p as List<dynamic>).map((v) => (v as num).toDouble()).toList())
+          .toList(),
     );
   }
 }
