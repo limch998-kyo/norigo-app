@@ -17,15 +17,15 @@ class ModeTabs extends StatelessWidget {
   static const _defaultModes = ['centroid', 'minTotal', 'balanced'];
 
   static const _labels = {
-    'centroid': {'ja': '中間地点', 'en': 'Middle Point', 'ko': '중간 지점', 'zh': '中间点'},
-    'minTotal': {'ja': '最速', 'en': 'Fastest', 'ko': '가장 빠르게', 'zh': '最快'},
-    'balanced': {'ja': '公平', 'en': 'Fairest', 'ko': '가장 공평하게', 'zh': '最公平'},
+    'centroid': {'ja': '中間地点', 'en': 'Middle Point', 'ko': '중간 지점', 'zh': '中间点', 'fr': 'Point central'},
+    'minTotal': {'ja': '最速', 'en': 'Fastest', 'ko': '가장 빠르게', 'zh': '最快', 'fr': 'Le plus rapide'},
+    'balanced': {'ja': '公平', 'en': 'Fairest', 'ko': '가장 공평하게', 'zh': '最公平', 'fr': 'Le plus équitable'},
   };
 
   /// Stay-specific labels (different wording for hotel search context)
   static const _stayLabels = {
-    'centroid': {'ja': '均等な距離', 'en': 'Equal Distance', 'ko': '균등 거리', 'zh': '均等距离'},
-    'minTotal': {'ja': '最短移動', 'en': 'Min Travel', 'ko': '최소 이동', 'zh': '最短移动'},
+    'centroid': {'ja': '均等な距離', 'en': 'Equal Distance', 'ko': '균등 거리', 'zh': '均等距离', 'fr': 'Distance égale'},
+    'minTotal': {'ja': '最短移動', 'en': 'Min Travel', 'ko': '최소 이동', 'zh': '最短移动', 'fr': 'Trajet min.'},
   };
 
   static const stayModes = ['centroid', 'minTotal'];

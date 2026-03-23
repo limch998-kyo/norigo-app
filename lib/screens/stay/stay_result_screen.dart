@@ -1266,7 +1266,7 @@ class _HotelSectionState extends State<_HotelSection> {
           ),
           const SizedBox(width: 6),
           Text(
-            tr(widget.locale, ja: '（複数選択可）', ko: '(복수 선택 가능)', en: '(multi-select)', zh: '（可多选）', fr: '(multi-select)'), fr: '(multi-select)',
+            tr(widget.locale, ja: '（複数選択可）', ko: '(복수 선택 가능)', en: '(multi-select)', zh: '（可多选）', fr: '(multi-sélection)'),
             style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground),
           ),
         ]),

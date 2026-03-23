@@ -28,6 +28,7 @@ const _plans = [
       'ja': {'title': '渋谷・原宿・新宿', 'subtitle': '東京の定番コース'},
       'ko': {'title': '시부야・하라주쿠・신주쿠', 'subtitle': '도쿄 핵심 코스'},
       'zh': {'title': '涩谷・原宿・新宿', 'subtitle': '东京经典路线'},
+      'fr': {'title': 'Shibuya · Harajuku · Shinjuku', 'subtitle': 'Itinéraire classique de Tokyo'},
     },
     landmarks: [
       {'slug': 'shibuya-crossing', 'name': '渋谷', 'nameEn': 'Shibuya', 'nameKo': '시부야', 'lat': 35.6595, 'lng': 139.7004, 'region': 'kanto'},
@@ -46,6 +47,7 @@ const _plans = [
       'ja': {'title': '浅草・上野・東京駅', 'subtitle': '伝統とショッピングを一度に'},
       'ko': {'title': '아사쿠사・우에노・도쿄역', 'subtitle': '전통과 쇼핑을 한번에'},
       'zh': {'title': '浅草・上野・东京站', 'subtitle': '传统与购物一次搞定'},
+      'fr': {'title': 'Asakusa · Ueno · Gare de Tokyo', 'subtitle': 'Tradition et shopping'},
     },
     landmarks: [
       {'slug': 'asakusa-senso-ji', 'name': '浅草寺', 'nameEn': 'Asakusa (Senso-ji)', 'nameKo': '아사쿠사(센소지)', 'lat': 35.7148, 'lng': 139.7967, 'region': 'kanto'},
@@ -64,6 +66,7 @@ const _plans = [
       'ja': {'title': 'ディズニーランド・お台場・銀座', 'subtitle': '家族旅行におすすめ'},
       'ko': {'title': '디즈니랜드・오다이바・긴자', 'subtitle': '가족 여행에 추천'},
       'zh': {'title': '迪士尼・台场・银座', 'subtitle': '家庭旅行推荐'},
+      'fr': {'title': 'Disneyland · Odaiba · Ginza', 'subtitle': 'Idéal pour les familles'},
     },
     landmarks: [
       {'slug': 'tokyo-disneyland', 'name': '東京ディズニーランド', 'nameEn': 'Tokyo Disneyland', 'nameKo': '도쿄 디즈니랜드', 'lat': 35.6329, 'lng': 139.8804, 'region': 'kanto'},
@@ -82,6 +85,7 @@ const _plans = [
       'ja': {'title': '道頓堀・なんば・心斎橋', 'subtitle': '大阪グルメ旅'},
       'ko': {'title': '도톤보리・난바・신사이바시', 'subtitle': '오사카 먹방 여행'},
       'zh': {'title': '道顿堀・难波・心斋桥', 'subtitle': '大阪美食之旅'},
+      'fr': {'title': 'Dotonbori · Namba · Shinsaibashi', 'subtitle': 'Voyage gastronomique à Osaka'},
     },
     landmarks: [
       {'slug': 'dotonbori', 'name': '道頓堀', 'nameEn': 'Dotonbori', 'nameKo': '도톤보리', 'lat': 34.6687, 'lng': 135.5021, 'region': 'kansai'},
@@ -100,6 +104,7 @@ const _plans = [
       'ja': {'title': '清水寺・伏見稲荷・嵐山', 'subtitle': '京都日帰りプラン'},
       'ko': {'title': '기요미즈데라・후시미이나리・아라시야마', 'subtitle': '교토 당일치기'},
       'zh': {'title': '清水寺・伏见稻荷・岚山', 'subtitle': '京都一日游'},
+      'fr': {'title': 'Kiyomizu-dera · Fushimi Inari · Arashiyama', 'subtitle': 'Excursion à Kyoto'},
     },
     landmarks: [
       {'slug': 'kiyomizu-dera', 'name': '清水寺', 'nameEn': 'Kiyomizu-dera', 'nameKo': '기요미즈데라', 'lat': 34.9949, 'lng': 135.785, 'region': 'kansai'},
