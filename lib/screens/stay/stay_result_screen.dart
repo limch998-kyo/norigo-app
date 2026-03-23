@@ -24,6 +24,7 @@ import '../../services/line_localize.dart';
 import '../../config/constants.dart';
 import '../../config/booking_provider.dart';
 import '../../services/landmark_localizer.dart';
+import '../../services/station_codes.dart';
 import '../../utils/tr.dart';
 
 class StayResultScreen extends ConsumerStatefulWidget {
@@ -629,6 +630,23 @@ class _AreaCardState extends State<_AreaCard> {
               const SizedBox(width: 12),
               Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(name, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+                // Station code badges (S02, F13, etc.)
+                if (area.station.lines.isNotEmpty) ...[
+                  const SizedBox(height: 4),
+                  Wrap(spacing: 4, runSpacing: 4, children: [
+                    ...StationCodes.getCodes(area.station.name, area.station.lines).take(4).map((c) =>
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Color(int.parse(c['color']!.replaceFirst('#', '0xFF'))),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(c['code']!, style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ]),
+                ],
+                const SizedBox(height: 2),
                 Text('${tr(locale, ja: '平均 約', ko: '평균', en: 'avg', zh: '平均')} ${area.avgEstimatedMinutes}${tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟')}',
                   style: TextStyle(fontSize: 12, color: AppTheme.primary, fontWeight: FontWeight.w600)),
               ])),
@@ -725,7 +743,7 @@ class _AreaCardState extends State<_AreaCard> {
             Text(tr(locale, ja: '観光地までの距離', ko: '관광지까지 거리', en: 'Distance to landmarks', zh: '到景点的距离'),
               style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground)),
             const SizedBox(height: 6),
-            ...area.landmarkDistances.map((ld) => _LandmarkDistanceTile(ld: ld, locale: locale, isExpanded: isExpanded, localNames: localNames)),
+            ...area.landmarkDistances.asMap().entries.map((e) => _LandmarkDistanceTile(ld: e.value, locale: locale, isExpanded: isExpanded, localNames: localNames, index: e.key + 1)),
 
             // Stats
             Padding(
@@ -819,8 +837,9 @@ class _LandmarkDistanceTile extends StatelessWidget {
   final String locale;
   final bool isExpanded;
   final Map<String, String> localNames;
+  final int index; // 1-based number matching map marker
 
-  const _LandmarkDistanceTile({required this.ld, required this.locale, required this.isExpanded, this.localNames = const {}});
+  const _LandmarkDistanceTile({required this.ld, required this.locale, required this.isExpanded, this.localNames = const {}, this.index = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -830,7 +849,15 @@ class _LandmarkDistanceTile extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
-          Icon(Icons.place, size: 14, color: AppTheme.primary),
+          // Numbered badge matching map marker
+          if (index > 0)
+            Container(
+              width: 20, height: 20,
+              decoration: BoxDecoration(color: Colors.indigo, shape: BoxShape.circle),
+              child: Center(child: Text('$index', style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold))),
+            )
+          else
+            Icon(Icons.place, size: 14, color: AppTheme.primary),
           const SizedBox(width: 6),
           Expanded(child: Text(ld.landmarkName, style: const TextStyle(fontSize: 13))),
           Text(
@@ -973,6 +1000,10 @@ class _InlineMap extends StatelessWidget {
 
   const _InlineMap({required this.area, required this.landmarks, this.locale = 'en', this.hotels = const []});
 
+  Color _parseColor(String hex) {
+    try { return Color(int.parse(hex.replaceFirst('#', '0xFF'))); } catch (_) { return Colors.grey; }
+  }
+
   @override
   Widget build(BuildContext context) {
     final allPoints = [
@@ -990,28 +1021,65 @@ class _InlineMap extends StatelessWidget {
     final span = latSpan > lngSpan ? latSpan : lngSpan;
     final zoom = span < 0.01 ? 15.0 : span < 0.05 ? 14.0 : span < 0.1 ? 13.0 : span < 0.3 ? 12.0 : span < 1.0 ? 10.0 : 8.0;
 
+    // Build polylines from route segments
+    final polylines = <Polyline>[];
+    for (final ld in area.landmarkDistances) {
+      for (final seg in ld.route) {
+        if (seg.path != null && seg.path!.length >= 2) {
+          final points = seg.path!.map((p) => LatLng(p[0], p[1])).toList();
+          final isTransfer = seg.line == 'transfer';
+          polylines.add(Polyline(
+            points: points,
+            color: isTransfer ? Colors.grey : _parseColor(seg.color),
+            strokeWidth: isTransfer ? 3.0 : 4.0,
+            pattern: isTransfer ? const StrokePattern.dotted() : const StrokePattern.solid(),
+          ));
+        }
+      }
+      // Walking connection (no route = walkable)
+      if (ld.route.isEmpty && ld.estimatedMinutes > 0) {
+        final lm = landmarks.where((l) => l.name == ld.landmarkName || l.slug == ld.landmarkName).firstOrNull;
+        if (lm != null) {
+          polylines.add(Polyline(
+            points: [LatLng(area.station.lat, area.station.lng), LatLng(lm.lat, lm.lng)],
+            color: Colors.grey,
+            strokeWidth: 2.0,
+            pattern: const StrokePattern.dotted(),
+          ));
+        }
+      }
+    }
+
     return FlutterMap(
       options: MapOptions(initialCenter: center, initialZoom: zoom, interactionOptions: const InteractionOptions(flags: InteractiveFlag.pinchZoom | InteractiveFlag.drag)),
       children: [
         TileLayer(urlTemplate: 'https://basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}@2x.png', userAgentPackageName: 'app.norigo'),
+        // Route polylines
+        PolylineLayer(polylines: polylines),
         MarkerLayer(markers: [
-          // Landmarks (indigo)
-          ...landmarks.map((l) => Marker(
-            point: LatLng(l.lat, l.lng), width: 24, height: 24,
-            child: Container(decoration: BoxDecoration(color: Colors.indigo, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 1.5)),
-              child: const Icon(Icons.place, size: 12, color: Colors.white)),
-          )),
-          // Hotel station (orange with rank)
+          // Landmarks (indigo numbered — matching web)
+          ...landmarks.asMap().entries.map((e) {
+            final l = e.value;
+            return Marker(
+              point: LatLng(l.lat, l.lng), width: 28, height: 28,
+              child: Container(
+                decoration: BoxDecoration(color: Colors.indigo, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 2),
+                  boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.15), blurRadius: 3)]),
+                child: Center(child: Text('${e.key + 1}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 11))),
+              ),
+            );
+          }),
+          // Hotel station (orange)
           Marker(
             point: LatLng(area.station.lat, area.station.lng), width: 32, height: 32,
             child: Container(
               decoration: BoxDecoration(color: AppTheme.orange, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 2),
                 boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 4)]),
-              child: Center(child: Text('${area.landmarkDistances.isEmpty ? 1 : 1}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12))),
+              child: const Center(child: Icon(Icons.hotel, size: 16, color: Colors.white)),
             ),
           ),
           // Hotel markers (green numbered)
-          ...hotels.where((h) => h.lat != 0 && h.lng != 0).take(5).toList().asMap().entries.map((e) {
+          ...hotels.where((h) => h.lat != 0 && h.lng != 0).take(3).toList().asMap().entries.map((e) {
             final h = e.value;
             return Marker(
               point: LatLng(h.lat, h.lng), width: 22, height: 22,

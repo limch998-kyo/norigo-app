@@ -9,6 +9,7 @@ import 'services/station_localizer.dart';
 import 'services/tracking_service.dart';
 import 'services/api_client.dart';
 import 'config/booking_provider.dart';
+import 'services/station_codes.dart';
 import 'package:kakao_flutter_sdk_share/kakao_flutter_sdk_share.dart';
 
 void main() async {
@@ -33,6 +34,7 @@ void main() async {
     LandmarkLocalizer.preload(),
     StationLocalizer.preload(),
     BookingProvider.preloadAgodaIds(),
+    StationCodes.preload(),
   ]);
 
   // Initialize tracking service
