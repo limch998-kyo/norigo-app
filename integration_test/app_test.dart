@@ -171,10 +171,9 @@ void main() {
       await tester.tap(find.text('만남'));
       await tester.pumpAndSettle();
 
-      // Meetup should have 3 modes (same labels as ModeSelector with meetupModes)
+      // Meetup should have 2 modes (same as stay: Equal Distance / Min Travel)
       expect(find.text('균등 거리'), findsOneWidget);
       expect(find.text('최소 이동'), findsOneWidget);
-      expect(find.text('가장 공평하게'), findsOneWidget);
     });
 
     testWidgets('Seoul/Busan region chips are visible', (tester) async {

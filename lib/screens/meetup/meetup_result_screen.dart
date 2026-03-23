@@ -112,7 +112,7 @@ class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-            child: ModeTabs(selected: state.mode, onChanged: (mode) { notifier.setMode(mode); notifier.search(); }, locale: locale),
+            child: ModeTabs(selected: state.mode, onChanged: (mode) { notifier.setMode(mode); notifier.search(); }, locale: locale, modes: ModeTabs.stayModes),
           ),
           // Share buttons at top (matching web)
           Padding(
@@ -234,7 +234,7 @@ class _StationCard extends StatelessWidget {
               Builder(builder: (context) {
                 final allMapPoints = [
                   LatLng(rec.station.lat, rec.station.lng),
-                  ...participants.where((p) => p.lat != 0).map((p) => LatLng(p.lat, p.lng)),
+                  ...rec.distances.where((d) => d.lat != 0).map((d) => LatLng(d.lat, d.lng)),
                   ...rec.venues.where((v) => v.lat != null).take(5).map((v) => LatLng(v.lat!, v.lng!)),
                 ];
                 final mapCenter = LatLng(
@@ -271,11 +271,11 @@ class _StationCard extends StatelessWidget {
                         })),
                       ]),
                       MarkerLayer(markers: [
-                        // Participant markers (blue) with name label
-                        ...participants.where((p) => p.lat != 0).map((p) {
-                          final pName = localNames[p.id] ?? p.localizedName(locale);
+                        // Departure station markers (blue) from distances data
+                        ...rec.distances.where((d) => d.lat != 0 && d.estimatedMinutes > 0).map((d) {
+                          final pName = localNames[d.participantStationId] ?? d.participantStationName;
                           return Marker(
-                            point: LatLng(p.lat, p.lng), width: 80, height: 40,
+                            point: LatLng(d.lat, d.lng), width: 80, height: 40,
                             child: Column(mainAxisSize: MainAxisSize.min, children: [
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),

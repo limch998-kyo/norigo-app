@@ -103,7 +103,7 @@ class MeetupSearchScreen extends ConsumerWidget {
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
-            ModeSelector(selected: state.mode, onChanged: notifier.setMode, locale: locale, modes: ModeSelector.meetupModes),
+            ModeSelector(selected: state.mode, onChanged: notifier.setMode, locale: locale, modes: ModeSelector.stayModes),
             const SizedBox(height: 20),
 
             // Category / Budget / Options (Japan only — Korea has no restaurant API)
