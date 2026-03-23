@@ -104,7 +104,7 @@ class _ShareButtonsState extends State<ShareButtons> {
       ),
       buttons: [
         Button(
-          title: tr(widget.locale, ja: '結果を見る', ko: '결과 보기', en: 'View Results', zh: '查看结果'),
+          title: tr(widget.locale, ja: '結果を見る', ko: '결과 보기', en: 'View Results', zh: '查看结果', fr: 'Voir les résultats'),
           link: Link(
             webUrl: Uri.parse(shareUrl),
             mobileWebUrl: Uri.parse(shareUrl),
@@ -133,8 +133,8 @@ class _ShareButtonsState extends State<ShareButtons> {
 
   @override
   Widget build(BuildContext context) {
-    final shareLabel = tr(widget.locale, ja: '友達に共有する', ko: '친구에게 공유하기', en: 'Share with friends', zh: '分享给朋友');
-    final viaLabel = tr(widget.locale, ja: 'で共有', ko: '로 공유', en: ' Share', zh: ' 分享');
+    final shareLabel = tr(widget.locale, ja: '友達に共有する', ko: '친구에게 공유하기', en: 'Share with friends', zh: '分享给朋友', fr: 'Partager avec des amis');
+    final viaLabel = tr(widget.locale, ja: 'で共有', ko: '로 공유', en: ' Share', zh: ' 分享', fr: ' Partager');
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -205,7 +205,7 @@ class _ShareButtonsState extends State<ShareButtons> {
               Icon(_copied ? Icons.check : Icons.content_copy, size: 16),
               const SizedBox(width: 6),
               Text(_copied
-                ? tr(widget.locale, ja: 'コピー済み', ko: '복사됨', en: 'Copied', zh: '已复制')
+                ? tr(widget.locale, ja: 'コピー済み', ko: '복사됨', en: 'Copied', zh: '已复制', fr: 'Copié')
                 : 'URL',
                 style: const TextStyle(fontSize: 13)),
             ]),

@@ -435,8 +435,8 @@ class _PopularSpotCardsState extends State<_PopularSpotCards> {
 
     if (spots.isEmpty) return const SizedBox.shrink();
 
-    final addLabel = tr(widget.locale, ja: '検索に追加', ko: '검색에 추가', en: 'Add to search', zh: '添加到搜索');
-    final tripLabel = tr(widget.locale, ja: '旅行に追加', ko: '여행에 추가', en: 'Add to trip', zh: '添加到旅行');
+    final addLabel = tr(widget.locale, ja: '検索に追加', ko: '검색에 추가', en: 'Add to search', zh: '添加到搜索', fr: 'Ajouter à la recherche');
+    final tripLabel = tr(widget.locale, ja: '旅行に追加', ko: '여행에 추가', en: 'Add to trip', zh: '添加到旅行', fr: 'Ajouter au voyage');
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -445,7 +445,7 @@ class _PopularSpotCardsState extends State<_PopularSpotCards> {
           Icon(Icons.place, size: 16, color: AppTheme.mutedForeground),
           const SizedBox(width: 6),
           Text(
-            tr(widget.locale, ja: '人気スポット', ko: '인기 관광지', en: 'Popular Spots', zh: '热门景点'),
+            tr(widget.locale, ja: '人気スポット', ko: '인기 관광지', en: 'Popular Spots', zh: '热门景点', fr: 'Sites populaires'),
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: AppTheme.mutedForeground),
           ),
         ]),
@@ -566,9 +566,9 @@ class _PopularSpotCardsState extends State<_PopularSpotCards> {
 
   String _getName(Map<String, Object> spot) {
     switch (widget.locale) {
-      case 'ko': return spot['nameKo'] as String? ?? spot['name'] as String;
-      case 'en': return spot['nameEn'] as String? ?? spot['name'] as String;
-      default: return spot['name'] as String;
+      case 'ko': return spot['nameKo'] as String? ?? spot['nameEn'] as String? ?? spot['name'] as String;
+      case 'ja': return spot['name'] as String;
+      default: return spot['nameEn'] as String? ?? spot['name'] as String; // en, zh, fr
     }
   }
 }
@@ -650,7 +650,9 @@ class _QuickSearchPlans extends StatelessWidget {
             child: GestureDetector(
               onTap: () {
                 final landmarks = landmarkData.map((l) {
-                  final name = locale == 'ko' ? (l['nameKo'] as String? ?? l['name'] as String) : l['name'] as String;
+                  final name = locale == 'ko' ? (l['nameKo'] as String? ?? l['nameEn'] as String? ?? l['name'] as String)
+                      : locale == 'ja' ? (l['name'] as String)
+                      : (l['nameEn'] as String? ?? l['name'] as String);
                   return Landmark(
                     slug: name,
                     name: name,

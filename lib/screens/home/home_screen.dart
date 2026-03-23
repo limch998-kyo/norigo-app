@@ -822,7 +822,9 @@ class _KoreaQuickPlans extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           final landmarks = landmarkData.map((l) {
-            final name = locale == 'ko' ? (l['nameKo'] as String? ?? l['name'] as String) : l['name'] as String;
+            final name = locale == 'ko' ? (l['nameKo'] as String? ?? l['nameEn'] as String? ?? l['name'] as String)
+                : locale == 'ja' ? (l['name'] as String)
+                : (l['nameEn'] as String? ?? l['name'] as String);
             return Landmark(slug: name, name: name, lat: l['lat'] as double, lng: l['lng'] as double, region: l['region'] as String);
           }).toList();
           onSelect(landmarks, region);

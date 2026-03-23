@@ -234,9 +234,9 @@ class _QuickPlanCard extends StatelessWidget {
         if (onPlanSelected != null) {
           final landmarks = plan.landmarks.map((l) {
             // Use localized name based on current locale
-            final name = locale == 'ko' ? (l['nameKo'] as String? ?? l['name'] as String)
-                : locale == 'en' ? (l['nameEn'] as String? ?? l['name'] as String)
-                : l['name'] as String;
+            final name = locale == 'ko' ? (l['nameKo'] as String? ?? l['nameEn'] as String? ?? l['name'] as String)
+                : locale == 'ja' ? (l['name'] as String)
+                : (l['nameEn'] as String? ?? l['name'] as String); // en, zh, fr → English fallback
             return Landmark(
               slug: l['slug'] as String,
               name: name,

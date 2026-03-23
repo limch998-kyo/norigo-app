@@ -528,11 +528,11 @@ class _SplitResultsListState extends State<_SplitResultsList> {
                 child: Row(mainAxisSize: MainAxisSize.min, children: [
                   Text(
                     isClusterExpanded
-                      ? tr(widget.locale, ja: '閉じる', ko: '접기', en: 'Show less', zh: '收起')
+                      ? tr(widget.locale, ja: '閉じる', ko: '접기', en: 'Show less', zh: '收起', fr: 'Réduire')
                       : tr(widget.locale, ja: '他${cluster.areas.length - _defaultVisible}件を表示',
                           ko: '${cluster.areas.length - _defaultVisible}개 더 보기',
                           en: 'Show ${cluster.areas.length - _defaultVisible} more',
-                          zh: '显示更多${cluster.areas.length - _defaultVisible}个'),
+                          zh: '显示更多${cluster.areas.length - _defaultVisible}个', fr: 'Show ${cluster.areas.length - _defaultVisible} more'),
                     style: TextStyle(fontSize: 12, color: AppTheme.primary),
                   ),
                   Icon(isClusterExpanded ? Icons.expand_less : Icons.expand_more, size: 16, color: AppTheme.primary),
@@ -543,7 +543,7 @@ class _SplitResultsListState extends State<_SplitResultsList> {
             Padding(
               padding: const EdgeInsets.only(bottom: 16),
               child: Text(
-                tr(widget.locale, ja: 'このエリアの推薦結果がありません', ko: '이 지역의 추천 결과가 없습니다', en: 'No results for this area', zh: '该区域没有推荐结果'),
+                tr(widget.locale, ja: 'このエリアの推薦結果がありません', ko: '이 지역의 추천 결과가 없습니다', en: 'No results for this area', zh: '该区域没有推荐结果', fr: 'Aucun résultat pour cette zone'),
                 style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground),
               ),
             ),
@@ -1244,7 +1244,7 @@ class _HotelSectionState extends State<_HotelSection> {
 
     if (_hotels == null || _hotels!.isEmpty) {
       return Padding(padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Text(tr(widget.locale, ja: 'ホテル情報を取得できませんでした', ko: '호텔 정보를 가져올 수 없습니다', en: 'No hotel data', zh: '无法获取酒店信息'), style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground)));
+        child: Text(tr(widget.locale, ja: 'ホテル情報を取得できませんでした', ko: '호텔 정보를 가져올 수 없습니다', en: 'No hotel data', zh: '无法获取酒店信息', fr: 'Aucune donnée hôtel'), style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground)));
     }
 
     final filtered = _filterBySelectedBudgets(_hotels!);
@@ -1261,12 +1261,12 @@ class _HotelSectionState extends State<_HotelSection> {
       if (_hotels!.length > 3) ...[
         Row(children: [
           Text(
-            tr(widget.locale, ja: '予算', ko: '예산', en: 'Budget', zh: '预算'),
+            tr(widget.locale, ja: '予算', ko: '예산', en: 'Budget', zh: '预算', fr: 'Budget'),
             style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground),
           ),
           const SizedBox(width: 6),
           Text(
-            tr(widget.locale, ja: '（複数選択可）', ko: '(복수 선택 가능)', en: '(multi-select)', zh: '（可多选）'),
+            tr(widget.locale, ja: '（複数選択可）', ko: '(복수 선택 가능)', en: '(multi-select)', zh: '（可多选）', fr: '(multi-select)'), fr: '(multi-select)',
             style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground),
           ),
         ]),
@@ -1287,7 +1287,7 @@ class _HotelSectionState extends State<_HotelSection> {
                     border: Border.all(color: isAllSelected ? AppTheme.primary : AppTheme.border),
                   ),
                   child: Text(
-                    '${tr(widget.locale, ja: 'すべて', ko: '전체', en: 'All', zh: '全部')}(${_hotels!.length})',
+                    '${tr(widget.locale, ja: 'すべて', ko: '전체', en: 'All', zh: '全部', fr: 'Tous')}(${_hotels!.length})',
                     style: TextStyle(fontSize: 10, fontWeight: isAllSelected ? FontWeight.w600 : FontWeight.normal,
                       color: isAllSelected ? Colors.white : AppTheme.foreground),
                   ),
@@ -1333,10 +1333,10 @@ class _HotelSectionState extends State<_HotelSection> {
 
       // Header
       Row(children: [
-        Text(tr(widget.locale, ja: '周辺ホテル', ko: '주변 호텔', en: 'Nearby Hotels', zh: '周边酒店'), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+        Text(tr(widget.locale, ja: '周辺ホテル', ko: '주변 호텔', en: 'Nearby Hotels', zh: '周边酒店', fr: 'Hôtels à proximité'), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
         const SizedBox(width: 6),
         Text(
-          tr(widget.locale, ja: '1泊2人基準', ko: '1박 2인 기준', en: 'Per night, 2 guests', zh: '每晚2人'),
+          tr(widget.locale, ja: '1泊2人基準', ko: '1박 2인 기준', en: 'Per night, 2 guests', zh: '每晚2人', fr: 'Par nuit, 2 pers.'),
           style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground),
         ),
       ]),
@@ -1359,7 +1359,7 @@ class _HotelSectionState extends State<_HotelSection> {
               tr(widget.locale, ja: '選択した予算範囲のホテルが見つかりませんでした',
                 ko: '선택한 예산 범위의 호텔이 없습니다',
                 en: 'No hotels found in the selected budget range',
-                zh: '所选预算范围内没有找到酒店'),
+                zh: '所选预算范围内没有找到酒店', fr: 'Aucun hôtel dans cette gamme de prix'),
               style: TextStyle(fontSize: 12, color: Colors.amber.shade800),
             )),
           ]),
@@ -1378,11 +1378,11 @@ class _HotelSectionState extends State<_HotelSection> {
           onPressed: () => setState(() => _expanded = !_expanded),
           child: Row(mainAxisSize: MainAxisSize.min, children: [
             Text(_expanded
-                ? tr(widget.locale, ja: '閉じる', ko: '접기', en: 'Show less', zh: '收起')
+                ? tr(widget.locale, ja: '閉じる', ko: '접기', en: 'Show less', zh: '收起', fr: 'Réduire')
                 : tr(widget.locale, ja: '他${_hotels!.length - _defaultVisible}件を表示',
                     ko: '${_hotels!.length - _defaultVisible}개 더 보기',
                     en: 'Show ${_hotels!.length - _defaultVisible} more',
-                    zh: '显示更多${_hotels!.length - _defaultVisible}个'),
+                    zh: '显示更多${_hotels!.length - _defaultVisible}个', fr: 'Show ${_hotels!.length - _defaultVisible} more'),
               style: TextStyle(fontSize: 12, color: AppTheme.primary)),
             Icon(_expanded ? Icons.expand_less : Icons.expand_more, size: 16, color: AppTheme.primary),
           ]),
@@ -1415,7 +1415,7 @@ class _HotelSectionState extends State<_HotelSection> {
                 ja: '${BookingProvider.providerName(widget.locale, widget.region)}で検索 →',
                 ko: '${BookingProvider.providerName(widget.locale, widget.region)}에서 검색 →',
                 en: 'Search on ${BookingProvider.providerName(widget.locale, widget.region)} →',
-                zh: '在${BookingProvider.providerName(widget.locale, widget.region)}上搜索 →'),
+                zh: '在${BookingProvider.providerName(widget.locale, widget.region)}上搜索 →', fr: 'Search on ${BookingProvider.providerName(widget.locale, widget.region)} →'),
               style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: AppTheme.primary),
             ),
           ),

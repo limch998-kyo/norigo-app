@@ -253,7 +253,7 @@ class _StationCard extends StatelessWidget {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
                                 decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(4)),
-                                child: Text(pName, style: const TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis, maxLines: 1),
+                                child: Text(pName, style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis, maxLines: 1),
                               ),
                               Container(width: 16, height: 16,
                                 decoration: BoxDecoration(color: Colors.blue, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 1.5)),
@@ -692,7 +692,7 @@ class _VoteButtonState extends State<_VoteButton> {
             builder: (_) => VoteScreen(pollId: _pollId!),
           )),
           icon: const Icon(Icons.how_to_vote, size: 14),
-          label: FittedBox(child: Text(tr(widget.locale, ja: '投票を開く', ko: '투표 열기', en: 'Open Vote', zh: '打开投票'), style: const TextStyle(fontSize: 12))),
+          label: FittedBox(child: Text(tr(widget.locale, ja: '投票を開く', ko: '투표 열기', en: 'Open Vote', zh: '打开投票', fr: 'Ouvrir le vote'), style: const TextStyle(fontSize: 12))),
           style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12)),
         ),
       );
@@ -707,8 +707,8 @@ class _VoteButtonState extends State<_VoteButton> {
             : const Icon(Icons.how_to_vote, size: 14),
         label: FittedBox(child: Text(
           _creating
-            ? tr(widget.locale, ja: '作成中...', ko: '생성 중...', en: 'Creating...', zh: '创建中...')
-            : tr(widget.locale, ja: 'お店の投票を作成', ko: '맛집 투표 만들기', en: 'Create Vote', zh: '创建投票'),
+            ? tr(widget.locale, ja: '作成中...', ko: '생성 중...', en: 'Creating...', zh: '创建中...', fr: 'Création...')
+            : tr(widget.locale, ja: 'お店の投票を作成', ko: '맛집 투표 만들기', en: 'Create Vote', zh: '创建投票', fr: 'Créer un vote'),
           style: const TextStyle(fontSize: 12))),
         style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12)),
       ),
