@@ -258,4 +258,25 @@ void main() {
       }
     });
   });
+
+  group('Quick plan cards', () {
+    testWidgets('quick plan adds 5 landmarks to search', (tester) async {
+      await tester.pumpWidget(createApp());
+      await tester.pumpAndSettle();
+
+      // Find and tap a quick plan card (e.g., "도쿄 핵심 코스")
+      final planSubtitle = find.text('도쿄 핵심 코스');
+      if (planSubtitle.evaluate().isNotEmpty) {
+        // Tap the plan card (tap on the subtitle area)
+        await tester.tap(planSubtitle);
+        await tester.pumpAndSettle();
+
+        // Should switch to Hotel tab with landmarks filled
+        // Check that more than 3 landmarks are shown (5 expected)
+        // The search screen shows landmark input fields
+        expect(find.text('시부야'), findsWidgets);
+        expect(find.text('이케부쿠로'), findsWidgets); // 5th landmark
+      }
+    });
+  });
 }

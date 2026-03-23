@@ -585,21 +585,27 @@ class _QuickSearchPlans extends StatelessWidget {
        'landmarks': [
          {'name': '渋谷', 'nameKo': '시부야', 'lat': 35.6595, 'lng': 139.7004},
          {'name': '原宿', 'nameKo': '하라주쿠', 'lat': 35.6702, 'lng': 139.7026},
-         {'name': '新宿', 'nameKo': '신주쿠', 'lat': 35.6938, 'lng': 139.7034},
+         {'name': '新宿', 'nameKo': '신주쿠', 'lat': 35.6852, 'lng': 139.7100},
+         {'name': '表参道', 'nameKo': '오모테산도', 'lat': 35.6654, 'lng': 139.7121},
+         {'name': '池袋', 'nameKo': '이케부쿠로', 'lat': 35.7295, 'lng': 139.7109},
        ]},
       {'title': {'ja': '浅草・上野・東京駅', 'ko': '아사쿠사・우에노・도쿄역', 'en': 'Asakusa · Ueno · Tokyo'},
        'landmarks': [
          {'name': '浅草', 'nameKo': '아사쿠사', 'lat': 35.7148, 'lng': 139.7967},
-         {'name': '上野', 'nameKo': '우에노', 'lat': 35.7146, 'lng': 139.7714},
+         {'name': '上野', 'nameKo': '우에노', 'lat': 35.7146, 'lng': 139.7732},
          {'name': '東京駅', 'nameKo': '도쿄역', 'lat': 35.6812, 'lng': 139.7671},
+         {'name': '秋葉原', 'nameKo': '아키하바라', 'lat': 35.6984, 'lng': 139.7731},
+         {'name': 'スカイツリー', 'nameKo': '스카이트리', 'lat': 35.7101, 'lng': 139.8107},
        ]},
     ],
     'kansai': [
-      {'title': {'ja': '道頓堀・なんば・心斎橋', 'ko': '도톤보리・난바・신사이바시', 'en': 'Dotonbori · Namba'},
+      {'title': {'ja': '道頓堀・なんば・心斎橋', 'ko': '도톤보리・난바・신사이바시', 'en': 'Dotonbori · Namba · Shinsaibashi'},
        'landmarks': [
-         {'name': '道頓堀', 'nameKo': '도톤보리', 'lat': 34.6687, 'lng': 135.5013},
+         {'name': '道頓堀', 'nameKo': '도톤보리', 'lat': 34.6687, 'lng': 135.5021},
          {'name': 'なんば', 'nameKo': '난바', 'lat': 34.6659, 'lng': 135.5013},
-         {'name': '心斎橋', 'nameKo': '신사이바시', 'lat': 34.6748, 'lng': 135.5016},
+         {'name': '心斎橋', 'nameKo': '신사이바시', 'lat': 34.6751, 'lng': 135.5014},
+         {'name': '黒門市場', 'nameKo': '구로몬시장', 'lat': 34.6681, 'lng': 135.5097},
+         {'name': '大阪城', 'nameKo': '오사카성', 'lat': 34.6873, 'lng': 135.5262},
        ]},
     ],
     'seoul': [
