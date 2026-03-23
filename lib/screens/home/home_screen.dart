@@ -203,8 +203,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   for (final l in landmarks) {
                     notifier.addLandmark(l);
                   }
-                  final budget = locale == 'ja' ? 'under20000' : locale == 'ko' ? 'under30000' : 'under50000';
-                  notifier.setBudget(budget);
+                  notifier.setBudget('under50000');
                   final checkIn = DateTime.now().add(const Duration(days: 30));
                   final checkOut = checkIn.add(const Duration(days: 3));
                   notifier.setDates(checkIn.toIso8601String().substring(0, 10), checkOut.toIso8601String().substring(0, 10));
