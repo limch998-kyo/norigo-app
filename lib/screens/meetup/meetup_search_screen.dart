@@ -30,23 +30,30 @@ class MeetupSearchScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Region
-            Row(
-              children: ['kanto', 'kansai'].map((region) {
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+              children: (locale == 'ja'
+                  ? ['kanto', 'kansai', 'seoul', 'busan']
+                  : ['seoul', 'busan', 'kanto', 'kansai']
+              ).map((region) {
                 final isSelected = state.region == region;
-                final label = region == 'kanto'
-                    ? tr(locale, ja: '関東', ko: '간토', en: 'Kanto', zh: '关东', fr: 'Kanto')
-                    : tr(locale, ja: '関西', ko: '간사이', en: 'Kansai', zh: '关西', fr: 'Kansai');
-                return Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(right: region == 'kanto' ? 8 : 0),
+                final label = {
+                  'kanto': tr(locale, ja: '関東', ko: '간토', en: 'Kanto', zh: '关东', fr: 'Kanto'),
+                  'kansai': tr(locale, ja: '関西', ko: '간사이', en: 'Kansai', zh: '关西', fr: 'Kansai'),
+                  'seoul': tr(locale, ja: 'ソウル', ko: '서울', en: 'Seoul', zh: '首尔', fr: 'Séoul'),
+                  'busan': tr(locale, ja: '釜山', ko: '부산', en: 'Busan', zh: '釜山', fr: 'Busan'),
+                }[region] ?? region;
+                return Padding(
+                  padding: const EdgeInsets.only(right: 8),
                     child: ChoiceChip(
-                      label: SizedBox(width: double.infinity, child: Text(label, textAlign: TextAlign.center)),
+                      label: Text(label),
                       selected: isSelected,
                       onSelected: (_) => notifier.setRegion(region),
                     ),
-                  ),
                 );
               }).toList(),
+              ),
             ),
             const SizedBox(height: 20),
 
@@ -99,7 +106,8 @@ class MeetupSearchScreen extends ConsumerWidget {
             ModeSelector(selected: state.mode, onChanged: notifier.setMode, locale: locale, modes: ModeSelector.meetupModes),
             const SizedBox(height: 20),
 
-            // Category
+            // Category / Budget / Options (Japan only — Korea has no restaurant API)
+            if (!['seoul', 'busan'].contains(state.region)) ...[
             Text(
               tr(locale, ja: 'ジャンル（任意）', ko: '장르 (선택)', en: 'Category (optional)', zh: '类别（可选）', fr: 'Catégorie (facultatif)'),
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
@@ -118,7 +126,6 @@ class MeetupSearchScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 20),
 
-            // Budget
             Text(
               tr(locale, ja: '予算（任意）', ko: '예산 (선택)', en: 'Budget (optional)', zh: '预算（可选）', fr: 'Budget (facultatif)'),
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
@@ -137,7 +144,6 @@ class MeetupSearchScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 20),
 
-            // Options
             Text(
               tr(locale, ja: 'オプション', ko: '옵션', en: 'Options', zh: '选项', fr: 'Options'),
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
@@ -154,6 +160,7 @@ class MeetupSearchScreen extends ConsumerWidget {
                 );
               }).toList(),
             ),
+            ],
             const SizedBox(height: 32),
 
             // Search button

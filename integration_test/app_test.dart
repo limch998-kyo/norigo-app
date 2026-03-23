@@ -176,6 +176,37 @@ void main() {
       expect(find.text('최소 이동'), findsOneWidget);
       expect(find.text('가장 공평하게'), findsOneWidget);
     });
+
+    testWidgets('Seoul/Busan region chips are visible', (tester) async {
+      await tester.pumpWidget(createApp());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('만남'));
+      await tester.pumpAndSettle();
+
+      // Seoul and Busan chips should be present
+      expect(find.text('서울'), findsOneWidget);
+      expect(find.text('부산'), findsOneWidget);
+      expect(find.text('간토'), findsOneWidget);
+      expect(find.text('간사이'), findsOneWidget);
+    });
+
+    testWidgets('Seoul region hides category/budget/options', (tester) async {
+      await tester.pumpWidget(createApp());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('만남'));
+      await tester.pumpAndSettle();
+
+      // Select Seoul
+      await tester.tap(find.text('서울'));
+      await tester.pumpAndSettle();
+
+      // Category, budget, options should be hidden
+      expect(find.text('장르 (선택)'), findsNothing);
+      expect(find.text('예산 (선택)'), findsNothing);
+      expect(find.text('옵션'), findsNothing);
+    });
   });
 
   group('Trip screen', () {

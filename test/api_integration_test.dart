@@ -254,6 +254,48 @@ void main() {
     });
   });
 
+  group('Seoul Meetup API', () {
+    test('Seoul station search returns results', () async {
+      final results = await api.searchStations('강남', region: 'seoul');
+      expect(results, isNotEmpty);
+      expect(results.first.name, contains('강남'));
+      print('✓ Seoul station search: ${results.length} results, first=${results.first.name}');
+    });
+
+    test('Seoul meetup recommend returns stations', () async {
+      final gangnamResults = await api.searchStations('강남', region: 'seoul');
+      final hongdaeResults = await api.searchStations('홍대', region: 'seoul');
+      expect(gangnamResults, isNotEmpty);
+      expect(hongdaeResults, isNotEmpty);
+
+      final result = await api.getMeetupRecommendation(
+        stationIds: [gangnamResults.first.id, hongdaeResults.first.id],
+        mode: 'centroid',
+        region: 'seoul',
+      );
+      expect(result.stations, isNotEmpty);
+      expect(result.stations.first.station.name, isNotEmpty);
+      // Korea results should have no venues (no HotPepper)
+      expect(result.stations.first.venues, isEmpty);
+      print('✓ Seoul meetup: ${result.stations.length} results, top=${result.stations.first.station.name}, venues=0');
+    });
+
+    test('Busan meetup recommend works', () async {
+      final haeundaeResults = await api.searchStations('해운대', region: 'busan');
+      final seomyeonResults = await api.searchStations('서면', region: 'busan');
+      expect(haeundaeResults, isNotEmpty);
+      expect(seomyeonResults, isNotEmpty);
+
+      final result = await api.getMeetupRecommendation(
+        stationIds: [haeundaeResults.first.id, seomyeonResults.first.id],
+        mode: 'centroid',
+        region: 'busan',
+      );
+      expect(result.stations, isNotEmpty);
+      print('✓ Busan meetup: ${result.stations.length} results, top=${result.stations.first.station.name}');
+    });
+  });
+
   group('Event Log API', () {
     test('log event does not throw', () async {
       // Fire-and-forget, should not throw
