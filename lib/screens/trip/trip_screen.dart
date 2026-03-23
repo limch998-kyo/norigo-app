@@ -187,10 +187,10 @@ class TripScreen extends ConsumerWidget {
   void _showCreateDialog(
       BuildContext context, TripNotifier notifier, String locale) {
     final regions = [
-      {'id': 'kanto', 'country': 'japan', 'label': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto'}},
-      {'id': 'kansai', 'country': 'japan', 'label': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai'}},
-      {'id': 'seoul', 'country': 'korea', 'label': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul'}},
-      {'id': 'busan', 'country': 'korea', 'label': {'ja': '釜山', 'ko': '부산', 'en': 'Busan'}},
+      {'id': 'kanto', 'country': 'japan', 'label': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto', 'fr': 'Tokyo / Kanto'}},
+      {'id': 'kansai', 'country': 'japan', 'label': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai', 'fr': 'Osaka / Kansai'}},
+      {'id': 'seoul', 'country': 'korea', 'label': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul', 'fr': 'Séoul'}},
+      {'id': 'busan', 'country': 'korea', 'label': {'ja': '釜山', 'ko': '부산', 'en': 'Busan', 'fr': 'Busan'}},
     ];
 
     showDialog(
@@ -582,10 +582,10 @@ class _MySpotsSection extends StatelessWidget {
 
   String _regionLabel(String region) {
     const labels = {
-      'kanto': {'ja': '東京・関東', 'ko': '도쿄/간토', 'en': 'Tokyo'},
-      'kansai': {'ja': '大阪・関西', 'ko': '오사카/간사이', 'en': 'Osaka'},
-      'seoul': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul'},
-      'busan': {'ja': '釜山', 'ko': '부산', 'en': 'Busan'},
+      'kanto': {'ja': '東京・関東', 'ko': '도쿄/간토', 'en': 'Tokyo', 'fr': 'Tokyo'},
+      'kansai': {'ja': '大阪・関西', 'ko': '오사카/간사이', 'en': 'Osaka', 'fr': 'Osaka'},
+      'seoul': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul', 'fr': 'Séoul'},
+      'busan': {'ja': '釜山', 'ko': '부산', 'en': 'Busan', 'fr': 'Busan'},
     };
     return labels[region]?[locale] ?? region;
   }
@@ -596,20 +596,20 @@ class _MySpotsSection extends StatelessWidget {
 String localizedTripName(String storedName, String locale) {
   const tripNameMap = {
     // Korean stored names
-    '도쿄·간토': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto'},
-    '오사카·간사이': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai'},
-    '서울': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul'},
-    '부산': {'ja': '釜山', 'ko': '부산', 'en': 'Busan'},
+    '도쿄·간토': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto', 'fr': 'Tokyo / Kanto'},
+    '오사카·간사이': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai', 'fr': 'Osaka / Kansai'},
+    '서울': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul', 'fr': 'Séoul'},
+    '부산': {'ja': '釜山', 'ko': '부산', 'en': 'Busan', 'fr': 'Busan'},
     // Japanese stored names
-    '東京・関東': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto'},
-    '大阪・関西': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai'},
-    'ソウル': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul'},
-    '釜山': {'ja': '釜山', 'ko': '부산', 'en': 'Busan'},
+    '東京・関東': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto', 'fr': 'Tokyo / Kanto'},
+    '大阪・関西': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai', 'fr': 'Osaka / Kansai'},
+    'ソウル': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul', 'fr': 'Séoul'},
+    '釜山': {'ja': '釜山', 'ko': '부산', 'en': 'Busan', 'fr': 'Busan'},
     // English stored names
-    'Tokyo / Kanto': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto'},
-    'Osaka / Kansai': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai'},
-    'Seoul': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul'},
-    'Busan': {'ja': '釜山', 'ko': '부산', 'en': 'Busan'},
+    'Tokyo / Kanto': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto', 'fr': 'Tokyo / Kanto'},
+    'Osaka / Kansai': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai', 'fr': 'Osaka / Kansai'},
+    'Seoul': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul', 'fr': 'Séoul'},
+    'Busan': {'ja': '釜山', 'ko': '부산', 'en': 'Busan', 'fr': 'Busan'},
   };
 
   final mapped = tripNameMap[storedName];
