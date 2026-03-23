@@ -3,6 +3,8 @@ import 'station.dart';
 class StationDistance {
   final String participantStationId;
   final String participantStationName;
+  final double lat;
+  final double lng;
   final double distanceKm;
   final int estimatedMinutes;
   final List<RouteSegment> route;
@@ -10,6 +12,8 @@ class StationDistance {
   const StationDistance({
     required this.participantStationId,
     required this.participantStationName,
+    this.lat = 0,
+    this.lng = 0,
     required this.distanceKm,
     required this.estimatedMinutes,
     this.route = const [],
@@ -20,9 +24,10 @@ class StationDistance {
       // API uses stationId/stationName, not participantStationId
       participantStationId: json['stationId'] as String? ?? json['participantStationId'] as String? ?? '',
       participantStationName: json['stationName'] as String? ?? json['participantStationName'] as String? ?? '',
+      lat: (json['lat'] as num?)?.toDouble() ?? 0,
+      lng: (json['lng'] as num?)?.toDouble() ?? 0,
       distanceKm: (json['distanceKm'] as num?)?.toDouble() ?? 0,
       estimatedMinutes: json['estimatedMinutes'] as int? ?? 0,
-      // Route is inside each distance, not at top level
       route: (json['route'] as List<dynamic>?)
               ?.map((e) => RouteSegment.fromJson(e as Map<String, dynamic>))
               .toList() ??

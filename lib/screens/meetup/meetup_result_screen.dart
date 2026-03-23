@@ -14,6 +14,7 @@ import '../../models/meetup_result.dart';
 import '../../models/station.dart';
 import '../../widgets/mode_tabs.dart';
 import '../vote/vote_screen.dart';
+import '../../services/station_codes.dart';
 import '../../widgets/share_buttons.dart';
 import '../../widgets/skeleton_loader.dart';
 import '../../config/booking_provider.dart';
@@ -111,7 +112,7 @@ class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-            child: ModeTabs(selected: state.mode, onChanged: (mode) { notifier.setMode(mode); notifier.search(); }, locale: locale),
+            child: ModeTabs(selected: state.mode, onChanged: (mode) { notifier.setMode(mode); notifier.search(); }, locale: locale, modes: ModeTabs.stayModes),
           ),
           // Share buttons at top (matching web)
           Padding(
@@ -185,20 +186,34 @@ class _StationCard extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text(name, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
-                  if (rec.station.lines.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Wrap(spacing: 4, runSpacing: 4, children: rec.station.lines.take(4).map((l) =>
+                  if (rec.station.lines.isNotEmpty) ...[
+                    const SizedBox(height: 4),
+                    // Station code badges (matching stay result)
+                    Wrap(spacing: 4, runSpacing: 4, children: [
+                      ...StationCodes.getCodes(rec.station.name, rec.station.lines).take(4).map((c) =>
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                           decoration: BoxDecoration(
+                            color: Color(int.parse(c['color']!.replaceFirst('#', '0xFF'))),
                             borderRadius: BorderRadius.circular(4),
-                            border: Border.all(color: AppTheme.border),
                           ),
-                          child: Text(LineLocalizer.localizeSync(l, locale), style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
+                          child: Text(c['code']!, style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold)),
                         ),
-                      ).toList()),
-                    ),
+                      ),
+                      // If no codes found, show line names as text
+                      if (StationCodes.getCodes(rec.station.name, rec.station.lines).isEmpty)
+                        ...rec.station.lines.take(4).map((l) =>
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(color: AppTheme.border),
+                            ),
+                            child: Text(LineLocalizer.localizeSync(l, locale), style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
+                          ),
+                        ),
+                    ]),
+                  ],
                 ])),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -219,7 +234,7 @@ class _StationCard extends StatelessWidget {
               Builder(builder: (context) {
                 final allMapPoints = [
                   LatLng(rec.station.lat, rec.station.lng),
-                  ...participants.where((p) => p.lat != 0).map((p) => LatLng(p.lat, p.lng)),
+                  ...rec.distances.where((d) => d.lat != 0).map((d) => LatLng(d.lat, d.lng)),
                   ...rec.venues.where((v) => v.lat != null).take(5).map((v) => LatLng(v.lat!, v.lng!)),
                 ];
                 final mapCenter = LatLng(
@@ -243,12 +258,24 @@ class _StationCard extends StatelessWidget {
                     ),
                     children: [
                       TileLayer(urlTemplate: 'https://basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}@2x.png', userAgentPackageName: 'app.norigo'),
+                      // Route polylines from participants to recommended station
+                      PolylineLayer(polylines: [
+                        ...rec.distances.expand((d) => d.route.where((seg) => seg.path != null && seg.path!.length >= 2).map((seg) {
+                          final isTransfer = seg.line == 'transfer';
+                          return Polyline(
+                            points: seg.path!.map((p) => LatLng(p[0], p[1])).toList(),
+                            color: isTransfer ? Colors.grey : Color(int.parse(seg.color.replaceFirst('#', '0xFF'))),
+                            strokeWidth: isTransfer ? 3.0 : 4.0,
+                            pattern: isTransfer ? const StrokePattern.dotted() : const StrokePattern.solid(),
+                          );
+                        })),
+                      ]),
                       MarkerLayer(markers: [
-                        // Participant markers (blue) with name label
-                        ...participants.where((p) => p.lat != 0).map((p) {
-                          final pName = localNames[p.id] ?? p.localizedName(locale);
+                        // Departure station markers (blue) from distances data
+                        ...rec.distances.where((d) => d.lat != 0 && d.estimatedMinutes > 0).map((d) {
+                          final pName = localNames[d.participantStationId] ?? d.participantStationName;
                           return Marker(
-                            point: LatLng(p.lat, p.lng), width: 80, height: 40,
+                            point: LatLng(d.lat, d.lng), width: 80, height: 40,
                             child: Column(mainAxisSize: MainAxisSize.min, children: [
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
