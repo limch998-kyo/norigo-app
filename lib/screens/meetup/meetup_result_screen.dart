@@ -14,6 +14,7 @@ import '../../models/meetup_result.dart';
 import '../../models/station.dart';
 import '../../widgets/mode_tabs.dart';
 import '../vote/vote_screen.dart';
+import '../../services/station_codes.dart';
 import '../../widgets/share_buttons.dart';
 import '../../widgets/skeleton_loader.dart';
 import '../../config/booking_provider.dart';
@@ -185,20 +186,34 @@ class _StationCard extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text(name, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
-                  if (rec.station.lines.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Wrap(spacing: 4, runSpacing: 4, children: rec.station.lines.take(4).map((l) =>
+                  if (rec.station.lines.isNotEmpty) ...[
+                    const SizedBox(height: 4),
+                    // Station code badges (matching stay result)
+                    Wrap(spacing: 4, runSpacing: 4, children: [
+                      ...StationCodes.getCodes(rec.station.name, rec.station.lines).take(4).map((c) =>
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                           decoration: BoxDecoration(
+                            color: Color(int.parse(c['color']!.replaceFirst('#', '0xFF'))),
                             borderRadius: BorderRadius.circular(4),
-                            border: Border.all(color: AppTheme.border),
                           ),
-                          child: Text(LineLocalizer.localizeSync(l, locale), style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
+                          child: Text(c['code']!, style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold)),
                         ),
-                      ).toList()),
-                    ),
+                      ),
+                      // If no codes found, show line names as text
+                      if (StationCodes.getCodes(rec.station.name, rec.station.lines).isEmpty)
+                        ...rec.station.lines.take(4).map((l) =>
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(color: AppTheme.border),
+                            ),
+                            child: Text(LineLocalizer.localizeSync(l, locale), style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
+                          ),
+                        ),
+                    ]),
+                  ],
                 ])),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -243,6 +258,18 @@ class _StationCard extends StatelessWidget {
                     ),
                     children: [
                       TileLayer(urlTemplate: 'https://basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}@2x.png', userAgentPackageName: 'app.norigo'),
+                      // Route polylines from participants to recommended station
+                      PolylineLayer(polylines: [
+                        ...rec.distances.expand((d) => d.route.where((seg) => seg.path != null && seg.path!.length >= 2).map((seg) {
+                          final isTransfer = seg.line == 'transfer';
+                          return Polyline(
+                            points: seg.path!.map((p) => LatLng(p[0], p[1])).toList(),
+                            color: isTransfer ? Colors.grey : Color(int.parse(seg.color.replaceFirst('#', '0xFF'))),
+                            strokeWidth: isTransfer ? 3.0 : 4.0,
+                            pattern: isTransfer ? const StrokePattern.dotted() : const StrokePattern.solid(),
+                          );
+                        })),
+                      ]),
                       MarkerLayer(markers: [
                         // Participant markers (blue) with name label
                         ...participants.where((p) => p.lat != 0).map((p) {
