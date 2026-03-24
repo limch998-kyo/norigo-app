@@ -63,13 +63,16 @@ class Station {
     // Try model fields first, then bundled station names
     switch (locale) {
       case 'en':
+      case 'fr': // French uses English station names
         return nameEn ?? StationLocalizer.getLocalizedName(id, 'en') ?? name;
       case 'ko':
         return nameKo ?? StationLocalizer.getLocalizedName(id, 'ko') ?? name;
       case 'zh':
         return nameZh ?? StationLocalizer.getLocalizedName(id, 'zh') ?? name;
-      default:
+      case 'ja':
         return name;
+      default:
+        return nameEn ?? name;
     }
   }
 }

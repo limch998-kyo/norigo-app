@@ -10,6 +10,7 @@ import '../../providers/stay_provider.dart';
 import '../../models/trip.dart';
 import '../../models/landmark.dart';
 import '../../utils/tr.dart';
+import '../../services/landmark_localizer.dart';
 
 class TripScreen extends ConsumerWidget {
   final void Function(int)? onSwitchTab;
@@ -437,7 +438,9 @@ class _TripCard extends ConsumerWidget {
                       CircleAvatar(radius: 12, backgroundColor: AppTheme.primaryBg,
                         child: Text('${i + 1}', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.primary))),
                       const SizedBox(width: 8),
-                      Expanded(child: Text(item.name, style: const TextStyle(fontSize: 13))),
+                      Expanded(child: Text(
+                        LandmarkLocalizer.getLocalizedName(locale: locale, slug: item.slug, lat: item.lat, lng: item.lng) ?? item.name,
+                        style: const TextStyle(fontSize: 13))),
                       if (isActive)
                         GestureDetector(
                           onTap: () => onRemoveItem?.call(item.slug, item.tripId),
@@ -532,7 +535,8 @@ class _MySpotsSection extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(item.name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                Text(LandmarkLocalizer.getLocalizedName(locale: locale, slug: item.slug, lat: item.lat, lng: item.lng) ?? item.name,
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
                 Text(
                   _regionLabel(item.region),
                   style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground),
