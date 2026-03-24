@@ -65,6 +65,7 @@ class LandmarkLocalizer {
   static String? getLocalizedName({
     required String locale,
     String? slug,
+    String? name,
     double? lat,
     double? lng,
   }) {
@@ -75,6 +76,13 @@ class LandmarkLocalizer {
     if (slug != null) {
       entry = _findBySlug(slug);
     }
+    // Try name match (slug might be a display name like '渋谷')
+    if (entry == null && name != null) {
+      entry = _findByName(name);
+    }
+    if (entry == null && slug != null && slug != name) {
+      entry = _findByName(slug);
+    }
     // Fallback: coordinate match
     if (entry == null && lat != null && lng != null) {
       entry = _findByCoords(lat, lng);
@@ -84,15 +92,28 @@ class LandmarkLocalizer {
     // Return locale-specific name
     switch (locale) {
       case 'ko':
-        return entry['nameKo'] as String? ?? entry['name'] as String?;
+        return entry['nameKo'] as String? ?? entry['nameEn'] as String? ?? entry['name'] as String?;
       case 'en':
+      case 'fr': // French uses English names
         return entry['nameEn'] as String? ?? entry['name'] as String?;
       case 'zh':
-        return entry['nameZh'] as String? ?? entry['name'] as String?;
+        return entry['nameZh'] as String? ?? entry['nameEn'] as String? ?? entry['name'] as String?;
       case 'ja':
+        return entry['name'] as String?;
       default:
-        return entry['name'] as String?; // 'name' is Japanese by default
+        return entry['nameEn'] as String? ?? entry['name'] as String?;
     }
+  }
+
+  /// Find by any name field (name, nameKo, nameEn)
+  static Map<String, dynamic>? _findByName(String name) {
+    if (_allLandmarks == null) return null;
+    for (final lm in _allLandmarks!) {
+      if (lm['name'] == name || lm['nameKo'] == name || lm['nameEn'] == name) {
+        return lm;
+      }
+    }
+    return null;
   }
 
   /// Get all landmarks for a region (for popular spots)

@@ -439,7 +439,7 @@ class _TripCard extends ConsumerWidget {
                         child: Text('${i + 1}', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.primary))),
                       const SizedBox(width: 8),
                       Expanded(child: Text(
-                        LandmarkLocalizer.getLocalizedName(locale: locale, slug: item.slug, lat: item.lat, lng: item.lng) ?? item.name,
+                        LandmarkLocalizer.getLocalizedName(locale: locale, slug: item.slug, name: item.name, lat: item.lat, lng: item.lng) ?? item.name,
                         style: const TextStyle(fontSize: 13))),
                       if (isActive)
                         GestureDetector(
@@ -535,7 +535,7 @@ class _MySpotsSection extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(LandmarkLocalizer.getLocalizedName(locale: locale, slug: item.slug, lat: item.lat, lng: item.lng) ?? item.name,
+                Text(LandmarkLocalizer.getLocalizedName(locale: locale, slug: item.slug, name: item.name, lat: item.lat, lng: item.lng) ?? item.name,
                   style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
                 Text(
                   _regionLabel(item.region),
