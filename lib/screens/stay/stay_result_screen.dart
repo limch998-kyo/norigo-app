@@ -1211,7 +1211,18 @@ class _HotelSectionState extends State<_HotelSection> {
       final api = ApiClient();
       final checkIn = widget.checkIn ?? DateTime.now().add(const Duration(days: 30)).toIso8601String().substring(0, 10);
       final checkOut = widget.checkOut ?? DateTime.now().add(const Duration(days: 33)).toIso8601String().substring(0, 10);
-      final hotels = await api.getHotels(stationId: widget.stationId, checkIn: checkIn, checkOut: checkOut, locale: widget.locale);
+      // Use Rakuten for Japanese users searching Japan regions only
+      final isJapanRegion = ['kanto', 'kansai'].contains(widget.region);
+      final useRakuten = widget.locale == 'ja' && isJapanRegion;
+      final hotels = await api.getHotels(
+        stationId: widget.stationId,
+        checkIn: checkIn,
+        checkOut: checkOut,
+        locale: widget.locale,
+        provider: useRakuten ? 'rakuten' : null,
+        lat: useRakuten ? widget.lat : null,
+        lng: useRakuten ? widget.lng : null,
+      );
       // Sort: high-rated (8.5+) first by distance to station, then rest by rating desc
       if (widget.lat != null && widget.lng != null) {
         hotels.sort((a, b) {

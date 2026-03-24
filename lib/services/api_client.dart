@@ -134,6 +134,9 @@ class ApiClient {
     String? checkIn,
     String? checkOut,
     String? locale,
+    String? provider,
+    double? lat,
+    double? lng,
   }) async {
     final response = await _dio.post(
       AppConstants.stayHotelsEndpoint,
@@ -142,6 +145,9 @@ class ApiClient {
         if (checkIn != null) 'checkIn': checkIn,
         if (checkOut != null) 'checkOut': checkOut,
         if (locale != null) 'locale': locale,
+        if (provider != null) 'provider': provider,
+        if (lat != null) 'stationLat': lat,
+        if (lng != null) 'stationLng': lng,
       },
     );
     final data = response.data as Map<String, dynamic>;
