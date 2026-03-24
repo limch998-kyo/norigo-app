@@ -53,17 +53,24 @@ class BookingProvider {
   static const _koreaRegions = ['seoul', 'busan'];
   static const _japanRegions = ['kanto', 'kansai'];
 
-  /// Get the provider name for display
+  /// Get the primary provider name for display
   static String providerName(String locale, String region) {
     if (_japanRegions.contains(region) && locale == 'ja') return 'jalan.net';
     if (_koreaRegions.contains(region) || locale == 'ko') return 'Agoda';
-    return 'Booking.com';
+    return 'Expedia';
   }
 
   /// Get the provider label for attribution
   static String providerAttribution(String locale, String region) {
     final name = providerName(locale, region);
     return 'Powered by $name';
+  }
+
+  /// Check if Expedia is the primary provider (en/zh/fr)
+  static bool isExpediaPrimary(String locale, String region) {
+    if (_japanRegions.contains(region) && locale == 'ja') return false;
+    if (_koreaRegions.contains(region) || locale == 'ko') return false;
+    return true;
   }
 
   /// Wrap URL via /api/out for server-side affiliate redirect (matching web)
@@ -95,6 +102,30 @@ class BookingProvider {
     if (_koreaRegions.contains(region) || locale == 'ko') {
       return _buildAgodaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, stationId: stationId, region: region);
     }
+    return _buildExpediaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
+  }
+
+  /// Build Hotels.com URL (secondary when Expedia is primary)
+  static String buildHotelsComUrl({
+    required String locale,
+    required String stationName,
+    double? lat,
+    double? lng,
+    String? checkIn,
+    String? checkOut,
+  }) {
+    return _buildHotelsComUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
+  }
+
+  /// Build Booking.com URL (tertiary when Expedia is primary)
+  static String buildBookingComUrl({
+    required String locale,
+    required String stationName,
+    double? lat,
+    double? lng,
+    String? checkIn,
+    String? checkOut,
+  }) {
     return _buildBookingUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
   }
 
@@ -124,7 +155,8 @@ class BookingProvider {
       return _buildAgodaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, region: region);
     }
     if (hotelId != null) {
-      return '$_bookingBaseUrl/hotel/$hotelId.html?aid=2432111';
+      // Expedia doesn't support direct hotel ID links, use search with station
+      return _buildExpediaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
     }
     return _buildBookingUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
   }
@@ -224,6 +256,42 @@ class BookingProvider {
     if (checkIn != null) params['checkin'] = checkIn;
     if (checkOut != null) params['checkout'] = checkOut;
     return '$_bookingBaseUrl/searchresults.html?${_encodeParams(params)}';
+  }
+
+  static String _buildExpediaUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng}) {
+    final domain = switch (locale) {
+      'ko' => 'expedia.co.kr',
+      'ja' => 'expedia.co.jp',
+      'fr' => 'expedia.fr',
+      _ => 'expedia.com',
+    };
+    const affcid = 'US.DIRECT.PHG.1011l426920.1100l68075';
+    final params = <String, String>{
+      'destination': query,
+      'affcid': affcid,
+    };
+    if (lat != null && lng != null) params['latLong'] = '$lat,$lng';
+    if (checkIn != null) params['startDate'] = checkIn;
+    if (checkOut != null) params['endDate'] = checkOut;
+    return 'https://www.$domain/Hotel-Search?${_encodeParams(params)}';
+  }
+
+  static String _buildHotelsComUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng}) {
+    final domain = switch (locale) {
+      'ko' => 'kr.hotels.com',
+      'ja' => 'jp.hotels.com',
+      'fr' => 'fr.hotels.com',
+      _ => 'hotels.com',
+    };
+    const affcid = 'US.DIRECT.PHG.1011l426920.1100l68075';
+    final params = <String, String>{
+      'destination': query,
+      'affcid': affcid,
+    };
+    if (lat != null && lng != null) params['latLong'] = '$lat,$lng';
+    if (checkIn != null) params['startDate'] = checkIn;
+    if (checkOut != null) params['endDate'] = checkOut;
+    return 'https://www.$domain/Hotel-Search?${_encodeParams(params)}';
   }
 
   static String _encodeParams(Map<String, String> params) {
