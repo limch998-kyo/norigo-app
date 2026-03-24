@@ -24,6 +24,7 @@ import '../../services/line_localize.dart';
 import '../../config/constants.dart';
 import '../../config/booking_provider.dart';
 import '../../services/landmark_localizer.dart';
+import '../../services/rakuten_client.dart';
 import '../../services/station_codes.dart';
 import '../../utils/tr.dart';
 
@@ -1214,15 +1215,18 @@ class _HotelSectionState extends State<_HotelSection> {
       // Use Rakuten for Japanese users searching Japan regions only
       final isJapanRegion = ['kanto', 'kansai'].contains(widget.region);
       final useRakuten = widget.locale == 'ja' && isJapanRegion;
-      final hotels = await api.getHotels(
-        stationId: widget.stationId,
-        checkIn: checkIn,
-        checkOut: checkOut,
-        locale: widget.locale,
-        provider: useRakuten ? 'rakuten' : null,
-        lat: useRakuten ? widget.lat : null,
-        lng: useRakuten ? widget.lng : null,
-      );
+      List<Hotel> hotels;
+      if (useRakuten && widget.lat != null && widget.lng != null) {
+        // Direct Rakuten API call (requires Referer header, not server proxy)
+        hotels = await RakutenClient.fetchHotels(lat: widget.lat!, lng: widget.lng!);
+      } else {
+        hotels = await api.getHotels(
+          stationId: widget.stationId,
+          checkIn: checkIn,
+          checkOut: checkOut,
+          locale: widget.locale,
+        );
+      }
       // Sort: high-rated (8.5+) first by distance to station, then rest by rating desc
       if (widget.lat != null && widget.lng != null) {
         hotels.sort((a, b) {
