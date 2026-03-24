@@ -57,20 +57,13 @@ class BookingProvider {
   static String providerName(String locale, String region) {
     if (_japanRegions.contains(region) && locale == 'ja') return 'jalan.net';
     if (_koreaRegions.contains(region) || locale == 'ko') return 'Agoda';
-    return 'Expedia';
+    return 'Booking.com';
   }
 
   /// Get the provider label for attribution
   static String providerAttribution(String locale, String region) {
     final name = providerName(locale, region);
     return 'Powered by $name';
-  }
-
-  /// Check if Expedia is the primary provider (en/zh/fr)
-  static bool isExpediaPrimary(String locale, String region) {
-    if (_japanRegions.contains(region) && locale == 'ja') return false;
-    if (_koreaRegions.contains(region) || locale == 'ko') return false;
-    return true;
   }
 
   /// Wrap URL via /api/out for server-side affiliate redirect (matching web)
@@ -102,30 +95,6 @@ class BookingProvider {
     if (_koreaRegions.contains(region) || locale == 'ko') {
       return _buildAgodaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, stationId: stationId, region: region);
     }
-    return _buildExpediaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
-  }
-
-  /// Build Hotels.com URL (secondary when Expedia is primary)
-  static String buildHotelsComUrl({
-    required String locale,
-    required String stationName,
-    double? lat,
-    double? lng,
-    String? checkIn,
-    String? checkOut,
-  }) {
-    return _buildHotelsComUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
-  }
-
-  /// Build Booking.com URL (tertiary when Expedia is primary)
-  static String buildBookingComUrl({
-    required String locale,
-    required String stationName,
-    double? lat,
-    double? lng,
-    String? checkIn,
-    String? checkOut,
-  }) {
     return _buildBookingUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
   }
 
@@ -155,8 +124,7 @@ class BookingProvider {
       return _buildAgodaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, region: region);
     }
     if (hotelId != null) {
-      // Expedia doesn't support direct hotel ID links, use search with station
-      return _buildExpediaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
+      return '$_bookingBaseUrl/hotel/$hotelId.html?aid=2432111';
     }
     return _buildBookingUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
   }
