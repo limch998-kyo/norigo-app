@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import '../models/hotel.dart';
 
 /// Direct Rakuten Travel API client for Flutter.
@@ -76,10 +77,18 @@ class RakutenClient {
         'page': page,
       });
       final data = response.data as Map<String, dynamic>;
-      if (data.containsKey('errors') || data.containsKey('error')) return null;
-      if (data['hotels'] == null) return null;
+      if (data.containsKey('errors') || data.containsKey('error')) {
+        debugPrint('Rakuten API error: ${data['errors'] ?? data['error']}');
+        return null;
+      }
+      if (data['hotels'] == null) {
+        debugPrint('Rakuten API: no hotels in response');
+        return null;
+      }
+      debugPrint('Rakuten API page $page: ${(data['hotels'] as List).length} hotels');
       return data;
-    } catch (_) {
+    } catch (e) {
+      debugPrint('Rakuten API exception: $e');
       return null;
     }
   }
