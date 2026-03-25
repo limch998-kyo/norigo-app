@@ -129,18 +129,22 @@ class SpotDetailScreen extends ConsumerWidget {
                                 else { tripNotifier.cancelPendingAdd(); return; }
                               }
                               if (!context.mounted) return;
+                              ScaffoldMessenger.of(context).clearSnackBars();
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(
-                                  tr(locale, ja: '旅行に追加しました', ko: '여행에 추가했습니다', en: 'Added to trip', zh: '已添加到旅行', fr: 'Ajouté au voyage'),
-                                ),
-                                duration: const Duration(seconds: 4),
-                                action: SnackBarAction(
-                                  label: tr(locale, ja: '旅行タブへ', ko: '여행 탭으로', en: 'Go to Trip', zh: '前往旅行', fr: 'Aller au voyage'),
-                                  onPressed: () {
-                                    Navigator.of(context).popUntil((route) => route.isFirst);
-                                    MainShell.globalSwitchTab?.call(3);
-                                  },
-                                ),
+                                behavior: SnackBarBehavior.floating,
+                                duration: const Duration(milliseconds: 1500),
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                content: Row(children: [
+                                  Expanded(child: Text(tr(locale, ja: '旅行に追加しました', ko: '여행에 추가됨', en: 'Added to trip', zh: '已添加到旅行', fr: 'Ajouté au voyage'))),
+                                  TextButton(
+                                    onPressed: () {
+                                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                                      Navigator.of(context).popUntil((route) => route.isFirst);
+                                      MainShell.globalSwitchTab?.call(3);
+                                    },
+                                    child: Text(tr(locale, ja: '表示', ko: '보기', en: 'View', zh: '查看', fr: 'Voir'), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                                  ),
+                                ]),
                               ));
                             },
                             icon: const Icon(Icons.add, size: 18),
