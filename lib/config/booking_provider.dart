@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 /// Determines booking provider based on locale and region.
@@ -57,7 +58,42 @@ class BookingProvider {
   static String providerName(String locale, String region) {
     if (_japanRegions.contains(region) && locale == 'ja') return 'jalan.net';
     if (_koreaRegions.contains(region) || locale == 'ko') return 'Agoda';
-    return 'Booking.com';
+    return 'Expedia';
+  }
+
+  /// EN/FR/ZH: returns 3 provider buttons (Expedia + Hotels.com + Booking.com)
+  static List<({String name, String url, Color color, Color textColor})> buildMultiProviderUrls({
+    required String locale,
+    required String region,
+    required String stationName,
+    double? lat,
+    double? lng,
+    String? checkIn,
+    String? checkOut,
+    String? maxBudget,
+  }) {
+    if (locale == 'ja' || locale == 'ko') return [];
+
+    return [
+      (
+        name: 'Expedia',
+        url: _buildExpediaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, maxBudget: maxBudget),
+        color: const Color(0xFFFEC84C),
+        textColor: const Color(0xFF202843),
+      ),
+      (
+        name: 'Hotels.com',
+        url: _buildHotelsComUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, maxBudget: maxBudget),
+        color: const Color(0xFFD32F2F),
+        textColor: Colors.white,
+      ),
+      (
+        name: 'Booking.com',
+        url: _buildBookingUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, maxBudget: maxBudget),
+        color: const Color(0xFF003B95),
+        textColor: Colors.white,
+      ),
+    ];
   }
 
   /// Get the provider label for attribution
@@ -148,6 +184,12 @@ class BookingProvider {
         var jalanUrl = '$_jalanBaseUrl/$pref/STA_$sta/';
 
         final params = <String>[];
+        // Budget filter (matching web: minPrice/maxPrice)
+        if (maxBudget != null && maxBudget != 'any') {
+          final range = parseBudgetRange(maxBudget);
+          if (range.min > 0) params.add('minPrice=${range.min}');
+          if (range.max < 999999999) params.add('maxPrice=${range.max}');
+        }
         if (checkIn != null) {
           final parts = checkIn.split('-');
           if (parts.length == 3) {
@@ -207,7 +249,7 @@ class BookingProvider {
     return '$_agodaBaseUrl/$langCode/search?cid=$cid&textToSearch=${Uri.encodeComponent(query)}';
   }
 
-  static String _buildBookingUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng}) {
+  static String _buildBookingUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng, String? maxBudget}) {
     final langCode = switch (locale) {
       'ko' => 'ko',
       'zh' => 'zh-cn',
@@ -223,10 +265,37 @@ class BookingProvider {
     if (lng != null) params['longitude'] = lng.toString();
     if (checkIn != null) params['checkin'] = checkIn;
     if (checkOut != null) params['checkout'] = checkOut;
+    // Price filter matching web: per-person → per-room (×2)
+    if (maxBudget != null && maxBudget != 'any') {
+      final range = parseBudgetRange(maxBudget);
+      final priceMin = range.min * 2;
+      final priceMax = range.max >= 999999999 ? 999999 : range.max * 2;
+      params['nflt'] = 'price=JPY-$priceMin-$priceMax-1';
+    }
     return '$_bookingBaseUrl/searchresults.html?${_encodeParams(params)}';
   }
 
-  static String _buildExpediaUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng}) {
+  /// Build destination string for Expedia/Hotels.com
+  /// CJK characters → fallback to city name
+  static String _expediaDestination(String query, double? lng) {
+    final hasCjk = RegExp(r'[\u3000-\u9FFF\uF900-\uFAFF\uAC00-\uD7AF]').hasMatch(query);
+    final isKorea = lng != null && lng < 130;
+    final name = hasCjk ? (isKorea ? 'Seoul' : 'Tokyo') : query;
+    return '$name Station, ${isKorea ? "South Korea" : "Japan"}';
+  }
+
+  static const _jpyToUsd = 150;
+
+  /// Calculate number of nights from checkIn/checkOut dates
+  static int _calcNights(String? checkIn, String? checkOut) {
+    if (checkIn == null || checkOut == null) return 1;
+    final ci = DateTime.tryParse(checkIn);
+    final co = DateTime.tryParse(checkOut);
+    if (ci == null || co == null) return 1;
+    return co.difference(ci).inDays.clamp(1, 30);
+  }
+
+  static String _buildExpediaUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng, String? maxBudget}) {
     final domain = switch (locale) {
       'ko' => 'expedia.co.kr',
       'ja' => 'expedia.co.jp',
@@ -234,32 +303,61 @@ class BookingProvider {
       _ => 'expedia.com',
     };
     const affcid = 'US.DIRECT.PHG.1011l426920.1100l68075';
-    final params = <String, String>{
-      'destination': query,
-      'affcid': affcid,
-    };
-    if (lat != null && lng != null) params['latLong'] = '$lat,$lng';
-    if (checkIn != null) params['startDate'] = checkIn;
-    if (checkOut != null) params['endDate'] = checkOut;
-    return 'https://www.$domain/Hotel-Search?${_encodeParams(params)}';
+    final destination = _expediaDestination(query, lng);
+    var url = 'https://www.$domain/Hotel-Search?destination=${Uri.encodeComponent(destination)}';
+    if (checkIn != null) url += '&startDate=$checkIn';
+    if (checkOut != null) url += '&endDate=$checkOut';
+    // Expedia price filter = total stay price (per-night × nights), JPY → USD
+    if (maxBudget != null && maxBudget != 'any') {
+      final range = parseBudgetRange(maxBudget);
+      final nights = _calcNights(checkIn, checkOut);
+      final minUsd = (range.min * nights / _jpyToUsd).round();
+      final maxUsd = range.max >= 999999999 ? 10000 : (range.max * nights / _jpyToUsd).round();
+      if (minUsd > 0) url += '&price=$minUsd';
+      url += '&price=$maxUsd';
+    }
+    url += '&affcid=$affcid';
+    return url;
   }
 
-  static String _buildHotelsComUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng}) {
-    final domain = switch (locale) {
-      'ko' => 'kr.hotels.com',
-      'ja' => 'jp.hotels.com',
-      'fr' => 'fr.hotels.com',
-      _ => 'hotels.com',
+  static String _buildHotelsComUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng, String? maxBudget}) {
+    // Use locale subdomain + siteid + locale + currency=USD to force USD pricing
+    // (matching web app's working URL pattern)
+    final domainLocale = switch (locale) {
+      'ko' => (domain: 'kr.hotels.com', siteId: '300000034', loc: 'ko_KR'),
+      'ja' => (domain: 'jp.hotels.com', siteId: '300000034', loc: 'ja_JP'),
+      'fr' => (domain: 'fr.hotels.com', siteId: '300000034', loc: 'fr_FR'),
+      'zh' => (domain: 'hotels.com', siteId: '300000034', loc: 'zh_CN'),
+      _ => (domain: 'hotels.com', siteId: '300000034', loc: 'en_US'),
     };
     const affcid = 'US.DIRECT.PHG.1011l426920.1100l68075';
-    final params = <String, String>{
-      'destination': query,
-      'affcid': affcid,
-    };
-    if (lat != null && lng != null) params['latLong'] = '$lat,$lng';
-    if (checkIn != null) params['startDate'] = checkIn;
-    if (checkOut != null) params['endDate'] = checkOut;
-    return 'https://www.$domain/Hotel-Search?${_encodeParams(params)}';
+    final destination = _expediaDestination(query, lng);
+    var url = 'https://${domainLocale.domain}/Hotel-Search?siteid=${domainLocale.siteId}&locale=${domainLocale.loc}&currency=USD&destination=${Uri.encodeComponent(destination)}';
+    if (checkIn != null) url += '&startDate=$checkIn';
+    if (checkOut != null) url += '&endDate=$checkOut';
+    // Hotels.com price filter = per-night price, JPY → USD (nights=1)
+    if (maxBudget != null && maxBudget != 'any') {
+      final range = parseBudgetRange(maxBudget);
+      final minUsd = (range.min / _jpyToUsd).round();
+      final maxUsd = range.max >= 999999999 ? 10000 : (range.max / _jpyToUsd).round();
+      if (minUsd > 0) url += '&price=$minUsd';
+      url += '&price=$maxUsd';
+    }
+    url += '&affcid=$affcid';
+    if (lat != null && lng != null) url += '&latLong=$lat,$lng';
+    return url;
+  }
+
+  /// Parse budget key into {min, max} in JPY (matching web's parseBudgetRange)
+  static ({int min, int max}) parseBudgetRange(String? key) {
+    if (key == null || key == 'any') return (min: 0, max: 999999999);
+    final underMatch = RegExp(r'^under(\d+)$').firstMatch(key);
+    if (underMatch != null) return (min: 0, max: int.parse(underMatch.group(1)!));
+    final overMatch = RegExp(r'^over(\d+)$').firstMatch(key);
+    if (overMatch != null) return (min: int.parse(overMatch.group(1)!), max: 999999999);
+    final rangeMatch = RegExp(r'^(\d+)-(\d+)$').firstMatch(key);
+    if (rangeMatch != null) return (min: int.parse(rangeMatch.group(1)!), max: int.parse(rangeMatch.group(2)!));
+    return (min: 0, max: 999999999);
   }
 
   static String _encodeParams(Map<String, String> params) {

@@ -121,7 +121,6 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
     final state = ref.watch(staySearchProvider);
     final notifier = ref.read(staySearchProvider.notifier);
     final theme = Theme.of(context);
-
     // Auto-link to existing trip if not already linked
     if (state.savedSearchId == null && state.landmarks.isNotEmpty) {
       final match = ref.read(tripProvider.notifier).findTripForLandmarks(state.landmarks.map((l) => l.slug).toList());
@@ -277,6 +276,41 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
                 )),
               ]),
             ),
+          // Budget filter chips at top (matching web)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: AppConstants.getStayBudgets(state.region).map((budget) {
+                  final isSelected = (state.maxBudget ?? 'any') == budget;
+                  final label = AppConstants.stayBudgetLabels[budget]?[locale]
+                      ?? AppConstants.stayBudgetLabels[budget]?['en'] ?? budget;
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 6),
+                    child: GestureDetector(
+                      onTap: () {
+                        notifier.setBudget(budget == 'any' ? null : budget);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: isSelected ? AppTheme.primary : Colors.transparent,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: isSelected ? AppTheme.primary : AppTheme.border),
+                        ),
+                        child: Text(label, style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                          color: isSelected ? Colors.white : AppTheme.foreground,
+                        )),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
           // Share at top (matching web)
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -782,7 +816,7 @@ class _AreaCardState extends State<_AreaCard> {
                 (locale == 'ja' && ['kanto', 'kansai'].contains(widget.searchRegion)))
               _HotelSection(stationId: area.station.id, locale: locale, region: widget.searchRegion, stationName: name, l10n: l10n, checkIn: widget.checkIn, checkOut: widget.checkOut, initialBudget: widget.maxBudget, lat: area.station.lat, lng: area.station.lng, onLoaded: _onHotelsLoaded, onHotelBookingClick: (hotel) => widget.onHotelBookingClick?.call(hotel, area.station.id, name))
             else
-              _ExternalHotelLinks(stationName: name, stationId: area.station.id, locale: locale, region: widget.searchRegion, lat: area.station.lat, lng: area.station.lng, checkIn: widget.checkIn, checkOut: widget.checkOut),
+              _ExternalHotelLinks(stationName: name, stationId: area.station.id, locale: locale, region: widget.searchRegion, lat: area.station.lat, lng: area.station.lng, checkIn: widget.checkIn, checkOut: widget.checkOut, maxBudget: widget.maxBudget),
           ]),
         ),
       ),
@@ -1133,22 +1167,31 @@ class _HotelSectionState extends State<_HotelSection> {
     _loadHotels();
   }
 
-  /// Find all range tiers that fall within the search max budget
+  /// Parse budget key into {min, max} in JPY (matching web's parseBudgetRange)
+  static ({int min, int max}) _parseBudgetRange(String key) {
+    if (key == 'any') return (min: 0, max: 999999999);
+    final underMatch = RegExp(r'^under(\d+)$').firstMatch(key);
+    if (underMatch != null) return (min: 0, max: int.parse(underMatch.group(1)!));
+    final overMatch = RegExp(r'^over(\d+)$').firstMatch(key);
+    if (overMatch != null) return (min: int.parse(overMatch.group(1)!), max: 999999999);
+    final rangeMatch = RegExp(r'^(\d+)-(\d+)$').firstMatch(key);
+    if (rangeMatch != null) return (min: int.parse(rangeMatch.group(1)!), max: int.parse(rangeMatch.group(2)!));
+    return (min: 0, max: 999999999);
+  }
+
+  /// Find matching tier for the search budget
   Set<String> _findMatchingTiers(String? searchBudget) {
     if (searchBudget == null || searchBudget == 'any') return {};
     final tiers = AppConstants.getStayBudgets(widget.region);
-    final searchMatch = RegExp(r'^under(\d+)$').firstMatch(searchBudget);
-    if (searchMatch == null) return {};
-    final searchJpy = int.parse(searchMatch.group(1)!);
-
-    // Select all "underX" tiers where X <= searchJpy
+    // If the search budget is one of the tiers, just select it
+    if (tiers.contains(searchBudget)) return {searchBudget};
+    // Otherwise parse and find overlapping tiers
+    final search = _parseBudgetRange(searchBudget);
     final result = <String>{};
     for (final tier in tiers) {
       if (tier == 'any') continue;
-      final m = RegExp(r'^under(\d+)$').firstMatch(tier);
-      if (m != null && int.parse(m.group(1)!) <= searchJpy) {
-        result.add(tier);
-      }
+      final t = _parseBudgetRange(tier);
+      if (t.min < search.max && t.max > search.min) result.add(tier);
     }
     return result;
   }
@@ -1160,27 +1203,10 @@ class _HotelSectionState extends State<_HotelSection> {
   /// Check if a hotel falls within a specific range tier
   bool _hotelInRange(Hotel h, String budget) {
     if (h.dailyRate == null) return true;
-    final tiers = AppConstants.getStayBudgets(widget.region);
-    final tierIndex = tiers.indexOf(budget);
     final rate = _jpyRates[h.currency] ?? 1.0;
     final jpyPrice = h.dailyRate! / rate;
-
-    final underMatch = RegExp(r'^under(\d+)$').firstMatch(budget);
-    final overMatch = RegExp(r'^over(\d+)$').firstMatch(budget);
-
-    if (underMatch != null) {
-      final upper = int.parse(underMatch.group(1)!);
-      int lower = 0;
-      if (tierIndex > 1) {
-        final prevMatch = RegExp(r'^under(\d+)$').firstMatch(tiers[tierIndex - 1]);
-        if (prevMatch != null) lower = int.parse(prevMatch.group(1)!);
-      }
-      return jpyPrice > lower && jpyPrice <= upper;
-    }
-    if (overMatch != null) {
-      return jpyPrice > int.parse(overMatch.group(1)!);
-    }
-    return true;
+    final range = _parseBudgetRange(budget);
+    return jpyPrice >= range.min && jpyPrice <= range.max;
   }
 
   /// Filter by selected budget ranges (multi-select)
@@ -1568,13 +1594,65 @@ class _ExternalHotelLinks extends StatelessWidget {
   final double lng;
   final String? checkIn;
   final String? checkOut;
+  final String? maxBudget;
 
-  const _ExternalHotelLinks({required this.stationName, this.stationId = '', required this.locale, required this.region, required this.lat, required this.lng, this.checkIn, this.checkOut});
+  const _ExternalHotelLinks({required this.stationName, this.stationId = '', required this.locale, required this.region, required this.lat, required this.lng, this.checkIn, this.checkOut, this.maxBudget});
 
   @override
   Widget build(BuildContext context) {
     final isJalan = locale == 'ja' && ['kanto', 'kansai'].contains(region);
     final title = tr(locale, ja: 'ホテルを探す', ko: '호텔 찾기', en: 'Find Hotels', zh: '查找酒店', fr: 'Trouver des hôtels');
+
+    // EN/FR/ZH: 3 provider buttons (Expedia + Hotels.com + Booking.com)
+    final multiProviders = BookingProvider.buildMultiProviderUrls(
+      locale: locale, region: region, stationName: stationName,
+      lat: lat, lng: lng, checkIn: checkIn, checkOut: checkOut,
+      maxBudget: maxBudget,
+    );
+
+    if (multiProviders.isNotEmpty) {
+      final parts = <String>[];
+      if (checkIn != null && checkOut != null) {
+        parts.add('${checkIn!.substring(5).replaceAll('-', '/')} - ${checkOut!.substring(5).replaceAll('-', '/')}');
+      }
+      parts.add('2 guests');
+      if (maxBudget != null && maxBudget != 'any') {
+        final budgetLabel = AppConstants.stayBudgetLabels[maxBudget]?[locale]
+            ?? AppConstants.stayBudgetLabels[maxBudget]?['en'] ?? maxBudget;
+        parts.add(budgetLabel!);
+      }
+      final dateLabel = parts.join(' · ');
+      return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+        if (dateLabel.isNotEmpty)
+          Text(dateLabel, style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
+        const SizedBox(height: 8),
+        Row(
+          children: multiProviders.map((p) => Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: ElevatedButton(
+                onPressed: () => launchUrl(Uri.parse(p.url), mode: LaunchMode.externalApplication),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: p.color,
+                  foregroundColor: p.textColor,
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                ),
+                child: Text(p.name, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+              ),
+            ),
+          )).toList(),
+        ),
+        const SizedBox(height: 6),
+        Center(child: Text(
+          'Powered by Expedia Group',
+          style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground),
+        )),
+      ]);
+    }
+
+    // JA: Jalan button
     final providerName = isJalan ? 'じゃらん' : 'Booking.com';
     final buttonColor = isJalan ? const Color(0xFFE4007F) : const Color(0xFF003580);
 
@@ -1592,6 +1670,7 @@ class _ExternalHotelLinks extends StatelessWidget {
               lat: lat, lng: lng,
               checkIn: checkIn, checkOut: checkOut,
               stationId: stationId,
+              maxBudget: maxBudget,
             );
             launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
           },

@@ -181,8 +181,8 @@ class _BasketSheet extends ConsumerWidget {
                           ));
                         }
                         // Set defaults: budget + dates
-                        final budget = locale == 'ja' ? 'under20000' : locale == 'ko' ? 'under30000' : 'under50000';
-                        stayNotifier.setBudget(budget);
+                        final isKorea = items.any((i) => ['seoul', 'busan'].contains(i.region));
+                        stayNotifier.setBudget(isKorea ? '25000-35000' : '10000-30000');
                         final checkIn = DateTime.now().add(const Duration(days: 30));
                         final checkOut = checkIn.add(const Duration(days: 3));
                         stayNotifier.setDates(

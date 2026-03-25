@@ -281,8 +281,8 @@ void main() {
       expect(BookingProvider.providerName('ko', 'seoul'), equals('Agoda'));
     });
 
-    test('en + kanto → Booking.com', () {
-      expect(BookingProvider.providerName('en', 'kanto'), equals('Booking.com'));
+    test('en + kanto → Expedia', () {
+      expect(BookingProvider.providerName('en', 'kanto'), equals('Expedia'));
     });
 
     test('ko + kanto → Agoda (ko locale overrides)', () {

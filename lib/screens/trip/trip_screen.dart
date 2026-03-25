@@ -80,7 +80,7 @@ class TripScreen extends ConsumerWidget {
                   stayNotifier.setBudget(latestTrip.maxBudget!);
                 } else {
                   final isKorea = ['seoul', 'busan'].contains(landmarks.firstOrNull?.region);
-                  final budget = isKorea ? 'under35000' : (locale == 'ja' ? 'under20000' : 'under30000');
+                  final budget = isKorea ? '25000-35000' : '10000-30000';
                   stayNotifier.setBudget(budget);
                 }
                 if (latestTrip.checkIn != null && latestTrip.checkOut != null) {
@@ -564,8 +564,8 @@ class _MySpotsSection extends StatelessWidget {
                   stayNotifier.reset();
                   if (landmarks.isNotEmpty) stayNotifier.setRegion(landmarks.first.region);
                   for (final l in landmarks) { stayNotifier.addLandmark(l); }
-                  final budget = locale == 'ja' ? 'under20000' : locale == 'ko' ? 'under30000' : 'under50000';
-                  stayNotifier.setBudget(budget);
+                  final isKorea = landmarks.isNotEmpty && ['seoul', 'busan'].contains(landmarks.first.region);
+                  stayNotifier.setBudget(isKorea ? '25000-35000' : '10000-30000');
                   final checkIn = DateTime.now().add(const Duration(days: 30));
                   stayNotifier.setDates(checkIn.toIso8601String().substring(0, 10),
                     checkIn.add(const Duration(days: 3)).toIso8601String().substring(0, 10));
