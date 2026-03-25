@@ -74,22 +74,26 @@ class BookingProvider {
   }) {
     if (locale == 'ja' || locale == 'ko') return [];
 
+    final expediaUrl = _buildExpediaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, maxBudget: maxBudget);
+    final hotelsComUrl = _buildHotelsComUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, maxBudget: maxBudget);
+    final bookingUrl = _buildBookingUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, maxBudget: maxBudget);
+
     return [
       (
         name: 'Expedia',
-        url: _buildExpediaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, maxBudget: maxBudget),
+        url: _wrapWithApiOut(expediaUrl, 'expedia'),
         color: const Color(0xFFFEC84C),
         textColor: const Color(0xFF202843),
       ),
       (
         name: 'Hotels.com',
-        url: _buildHotelsComUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, maxBudget: maxBudget),
+        url: _wrapWithApiOut(hotelsComUrl, 'hotels_com'),
         color: const Color(0xFFD32F2F),
         textColor: Colors.white,
       ),
       (
         name: 'Booking.com',
-        url: _buildBookingUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, maxBudget: maxBudget),
+        url: _wrapWithApiOut(bookingUrl, 'booking'),
         color: const Color(0xFF003B95),
         textColor: Colors.white,
       ),
