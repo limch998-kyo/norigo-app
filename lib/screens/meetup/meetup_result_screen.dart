@@ -28,7 +28,7 @@ class MeetupResultScreen extends ConsumerStatefulWidget {
 }
 
 /// Build web-compatible share URL with search params (matching web's result page)
-String _buildMeetupShareUrl(dynamic state, String locale) {
+Map<String, String> _buildMeetupShareParams(dynamic state) {
   final stations = state.filledStations as List;
   final stationIds = stations.map((s) => s.id as String).join(',');
   final params = <String, String>{
@@ -38,6 +38,11 @@ String _buildMeetupShareUrl(dynamic state, String locale) {
   };
   if (state.category != null) params['c'] = state.category as String;
   if (state.budget != null) params['b'] = state.budget as String;
+  return params;
+}
+
+String _buildMeetupShareUrl(dynamic state, String locale) {
+  final params = _buildMeetupShareParams(state);
   return Uri.parse('https://norigo.app/$locale/result').replace(queryParameters: params).toString();
 }
 
@@ -127,6 +132,8 @@ class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
                   fr: '${result.stations.first.station.name} est recommandé !'),
               url: _buildMeetupShareUrl(state, locale),
               locale: locale,
+              sharePath: '/result',
+              shareParams: _buildMeetupShareParams(state),
             ),
           ),
           Expanded(

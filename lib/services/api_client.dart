@@ -322,6 +322,28 @@ class ApiClient {
       // Fire-and-forget, same as web
     }
   }
+
+  /// Create a short share URL via /api/share (matching web's share system)
+  Future<String?> createShareUrl({
+    required String path,
+    required Map<String, String> params,
+    required String locale,
+  }) async {
+    try {
+      final response = await _dio.post(
+        '/api/share',
+        data: {
+          'path': path,
+          'params': params,
+          'locale': locale,
+        },
+      );
+      if (response.statusCode == 200 && response.data is Map) {
+        return response.data['url'] as String?;
+      }
+    } catch (_) {}
+    return null;
+  }
 }
 
 class UnifiedSearchResult {

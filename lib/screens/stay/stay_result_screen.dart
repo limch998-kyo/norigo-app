@@ -35,12 +35,28 @@ class StayResultScreen extends ConsumerStatefulWidget {
   ConsumerState<StayResultScreen> createState() => _StayResultScreenState();
 }
 
-/// Build a web-compatible share URL with search params (matching web's stay/result page)
+/// Build params map for /api/share (web needs name+lat+lng)
+Map<String, String> _buildStayShareParams(StaySearchState state) {
+  final landmarkJson = state.landmarks.map((l) =>
+    '{"name":"${l.name}","lat":${l.lat},"lng":${l.lng}}'
+  ).join(',');
+  final params = <String, String>{
+    'l': '[$landmarkJson]',
+    'm': state.mode,
+    'r': state.region,
+  };
+  if (state.maxBudget != null) params['b'] = state.maxBudget!;
+  if (state.checkIn != null) params['ci'] = state.checkIn!;
+  if (state.checkOut != null) params['co'] = state.checkOut!;
+  return params;
+}
+
+/// Build a web-compatible share URL (fallback if /api/share fails)
+/// Web result page requires name+lat+lng in LandmarkParam
 String _buildStayShareUrl(StaySearchState state, String locale) {
   final landmarkJson = state.landmarks.map((l) =>
-    '{"slug":"${l.slug}","name":"${l.name}","lat":${l.lat},"lng":${l.lng}}'
+    '{"name":"${l.name}","lat":${l.lat},"lng":${l.lng}}'
   ).join(',');
-  // Don't pre-encode — Uri.replace(queryParameters:) handles encoding
   final params = <String, String>{
     'l': '[$landmarkJson]',
     'm': state.mode,
@@ -324,6 +340,8 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
                   fr: 'Meilleur quartier hôtelier pour ${state.landmarks.map((l) => l.name).join(', ')}'),
               url: _buildStayShareUrl(state, locale),
               locale: locale,
+              sharePath: '/stay/result',
+              shareParams: _buildStayShareParams(state),
             ),
           ),
           // Save/update trip prompt
