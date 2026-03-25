@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:kakao_flutter_sdk_share/kakao_flutter_sdk_share.dart';
+import '../services/api_client.dart';
 import '../utils/tr.dart';
 
 // Official LINE logo SVG path
@@ -16,8 +17,11 @@ class ShareButtons extends StatefulWidget {
   final String text;
   final String url;
   final String locale;
+  /// Pre-built params for /api/share (path, params, locale)
+  final String? sharePath;
+  final Map<String, String>? shareParams;
 
-  const ShareButtons({super.key, required this.title, required this.text, required this.url, this.locale = 'en'});
+  const ShareButtons({super.key, required this.title, required this.text, required this.url, this.locale = 'en', this.sharePath, this.shareParams});
 
   @override
   State<ShareButtons> createState() => _ShareButtonsState();
@@ -25,8 +29,35 @@ class ShareButtons extends StatefulWidget {
 
 class _ShareButtonsState extends State<ShareButtons> {
   bool _copied = false;
+  String? _shortUrl;
+  bool _shortUrlLoading = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _fetchShortUrl();
+  }
+
+  Future<void> _fetchShortUrl() async {
+    if (widget.sharePath == null || widget.shareParams == null) return;
+    setState(() => _shortUrlLoading = true);
+    try {
+      final api = ApiClient();
+      final url = await api.createShareUrl(
+        path: widget.sharePath!,
+        params: widget.shareParams!,
+        locale: widget.locale,
+      );
+      if (mounted && url != null) {
+        setState(() => _shortUrl = url);
+      }
+    } catch (_) {}
+    if (mounted) setState(() => _shortUrlLoading = false);
+  }
+
+  /// Returns short URL if available, otherwise full URL with utm params
   String _getShareUrl(String platform) {
+    if (_shortUrl != null) return _shortUrl!;
     final uri = Uri.parse(widget.url);
     final params = Map<String, String>.from(uri.queryParameters);
     params['utm_source'] = 'share';
@@ -60,15 +91,10 @@ class _ShareButtonsState extends State<ShareButtons> {
   }
 
   Future<void> _shareLine() async {
-    // Match web: use LIFF shareTargetPicker for rich card sharing
     final shareUrl = _getShareUrl('line');
-    // Add openExternalBrowser=1 like web does
-    final urlWithExternal = shareUrl.contains('?')
-        ? '$shareUrl&openExternalBrowser=1'
-        : '$shareUrl?openExternalBrowser=1';
 
     final liffParams = Uri(queryParameters: {
-      'url': urlWithExternal,
+      'url': shareUrl,
       'title': widget.title,
       'desc': widget.text,
     }).query;
@@ -88,7 +114,11 @@ class _ShareButtonsState extends State<ShareButtons> {
   }
 
   Future<void> _shareKakao() async {
-    final shareUrl = _getShareUrl('kakao');
+    var shareUrl = _getShareUrl('kakao');
+    // Kakao mobile limit: 10KB. If URL too long, fallback to homepage
+    if (shareUrl.length > 2000) {
+      shareUrl = 'https://norigo.app/${widget.locale}';
+    }
     final imageUrl = 'https://norigo.app/api/og?locale=${widget.locale}';
 
     // Use Kakao Flutter SDK — same as web's Kakao.Share.sendDefault()
