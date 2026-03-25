@@ -8,6 +8,7 @@ class Trip {
   final String? maxBudget;
   final String? region;
   final bool isPinned;
+  final String? notes;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -21,6 +22,7 @@ class Trip {
     this.maxBudget,
     this.region,
     this.isPinned = false,
+    this.notes,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -36,6 +38,7 @@ class Trip {
       maxBudget: json['maxBudget'] as String?,
       region: json['region'] as String?,
       isPinned: json['isPinned'] as bool? ?? false,
+      notes: json['notes'] as String?,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
     );
@@ -51,6 +54,7 @@ class Trip {
         'maxBudget': maxBudget,
         'region': region,
         'isPinned': isPinned,
+        'notes': notes,
         'createdAt': createdAt.toIso8601String(),
         'updatedAt': updatedAt.toIso8601String(),
       };
@@ -64,6 +68,8 @@ class Trip {
     String? maxBudget,
     String? region,
     bool? isPinned,
+    String? notes,
+    bool clearNotes = false,
     bool clearSearchMode = false,
     bool clearMaxBudget = false,
   }) {
@@ -77,6 +83,7 @@ class Trip {
       maxBudget: clearMaxBudget ? null : (maxBudget ?? this.maxBudget),
       region: region ?? this.region,
       isPinned: isPinned ?? this.isPinned,
+      notes: clearNotes ? null : (notes ?? this.notes),
       createdAt: createdAt,
       updatedAt: DateTime.now(),
     );

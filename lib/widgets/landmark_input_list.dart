@@ -204,7 +204,7 @@ class _LandmarkInputListState extends State<LandmarkInputList> {
                     margin: const EdgeInsets.only(left: 72, top: 4),
                     constraints: const BoxConstraints(maxHeight: 200),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppTheme.card,
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(color: AppTheme.border),
                       boxShadow: [

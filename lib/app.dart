@@ -25,11 +25,19 @@ class NorigoApp extends ConsumerWidget {
     final locale = ref.watch(localeProvider);
     final themeMode = ref.watch(themeModeProvider);
 
+    // Update AppTheme.isDark for static color references
+    final platformBrightness = WidgetsBinding.instance.platformDispatcher.platformBrightness;
+    AppTheme.isDark = switch (themeMode) {
+      ThemeMode.dark => true,
+      ThemeMode.light => false,
+      ThemeMode.system => platformBrightness == Brightness.dark,
+    };
+
     return MaterialApp(
       title: 'Norigo',
       theme: AppTheme.lightTheme,
-      // Dark mode disabled until all 179 hardcoded colors are theme-aware
-      themeMode: ThemeMode.light,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: themeMode,
       debugShowCheckedModeBanner: false,
       locale: Locale(locale),
       localizationsDelegates: AppLocalizations.localizationsDelegates,

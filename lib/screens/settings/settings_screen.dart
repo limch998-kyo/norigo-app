@@ -58,7 +58,32 @@ class SettingsScreen extends ConsumerWidget {
             );
           }),
 
-          // Theme section hidden until dark mode colors are fully supported
+          const Divider(height: 32),
+
+          // Theme
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: Text(
+              tr(locale, ja: 'テーマ', ko: '테마', en: 'Theme', zh: '主题', fr: 'Thème'),
+              style: theme.textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+              ),
+            ),
+          ),
+          ...{
+            ThemeMode.system: (Icons.brightness_auto, tr(locale, ja: 'システム設定', ko: '시스템 설정', en: 'System', zh: '跟随系统', fr: 'Système')),
+            ThemeMode.light: (Icons.light_mode, tr(locale, ja: 'ライト', ko: '라이트', en: 'Light', zh: '浅色', fr: 'Clair')),
+            ThemeMode.dark: (Icons.dark_mode, tr(locale, ja: 'ダーク', ko: '다크', en: 'Dark', zh: '深色', fr: 'Sombre')),
+          }.entries.map((entry) {
+            final isSelected = ref.watch(themeModeProvider) == entry.key;
+            return ListTile(
+              leading: Icon(entry.value.$1),
+              title: Text(entry.value.$2),
+              trailing: isSelected ? Icon(Icons.check, color: theme.colorScheme.primary) : null,
+              onTap: () => ref.read(themeModeProvider.notifier).state = entry.key,
+            );
+          }),
 
           const Divider(height: 32),
 

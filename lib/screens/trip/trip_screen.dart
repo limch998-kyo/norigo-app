@@ -11,6 +11,7 @@ import '../../models/trip.dart';
 import '../../models/landmark.dart';
 import '../../utils/tr.dart';
 import '../../services/landmark_localizer.dart';
+import 'trip_detail_screen.dart';
 
 class TripScreen extends ConsumerWidget {
   final void Function(int)? onSwitchTab;
@@ -61,7 +62,12 @@ class TripScreen extends ConsumerWidget {
         isActive: isActive,
         locale: locale,
         status: _tripStatus(trip),
-        onTap: () => notifier.setActiveTrip(trip.id),
+        onTap: () {
+          notifier.setActiveTrip(trip.id);
+          Navigator.push(context, MaterialPageRoute(
+            builder: (_) => TripDetailScreen(tripId: trip.id),
+          ));
+        },
         onPin: () => notifier.togglePin(trip.id),
         onRename: () => _showRenameDialog(context, notifier, trip, locale),
         onDelete: () => _showDeleteDialog(context, notifier, trip, locale),
