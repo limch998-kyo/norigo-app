@@ -271,12 +271,17 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
             expandedHeight: 200,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              title: Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                maxLines: 1, overflow: TextOverflow.ellipsis),
               background: heroImage.isNotEmpty
                 ? Image.network(heroImage, fit: BoxFit.cover,
                     errorBuilder: (_, __, ___) => Container(color: AppTheme.muted))
                 : Container(color: AppTheme.muted),
+            ),
+          ),
+          // Title below image
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              child: Text(title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
           ),
 

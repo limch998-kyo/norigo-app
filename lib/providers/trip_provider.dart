@@ -248,6 +248,16 @@ class TripNotifier extends StateNotifier<TripState> {
     _saveToStorage();
   }
 
+  void togglePin(String tripId) {
+    state = state.copyWith(
+      trips: state.trips.map((t) {
+        if (t.id == tripId) return t.copyWith(isPinned: !t.isPinned);
+        return t;
+      }).toList(),
+    );
+    _saveToStorage();
+  }
+
   void setTripDates(String tripId, String? checkIn, String? checkOut) {
     state = state.copyWith(
       trips: state.trips.map((t) {

@@ -23,103 +23,114 @@ class TripScreen extends ConsumerWidget {
     final state = ref.watch(tripProvider);
     final notifier = ref.read(tripProvider.notifier);
 
-    // Split trips by country, sorted by most recently updated
-    final japanTrips = state.trips
-        .where((t) => t.country == 'japan' || t.country == null)
-        .toList()
-      ..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
-    final koreaTrips = state.trips
-        .where((t) => t.country == 'korea')
-        .toList()
-      ..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
 
-    // Determine which section goes first (most recently updated trip)
-    final japanLatest = japanTrips.isNotEmpty ? japanTrips.first.updatedAt : DateTime(2000);
-    final koreaLatest = koreaTrips.isNotEmpty ? koreaTrips.first.updatedAt : DateTime(2000);
-    final japanFirst = japanLatest.isAfter(koreaLatest);
+    // Categorize trips: Pinned → Upcoming → Past
+    final pinned = <Trip>[];
+    final upcoming = <Trip>[];
+    final past = <Trip>[];
+    for (final trip in state.trips) {
+      if (trip.isPinned) {
+        pinned.add(trip);
+      } else if (trip.checkOut != null && DateTime.tryParse(trip.checkOut!)?.isBefore(today) == true) {
+        past.add(trip);
+      } else {
+        upcoming.add(trip);
+      }
+    }
+    pinned.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+    upcoming.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+    past.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
 
-    Widget buildTripSection(String label, String flag, List<Trip> trips) {
-      if (trips.isEmpty) return const SizedBox.shrink();
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 16),
-          Row(children: [
-            Text(flag, style: const TextStyle(fontSize: 18)),
-            const SizedBox(width: 8),
-            Text(label, style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
-          ]),
-          const SizedBox(height: 8),
-          ...trips.map((trip) {
-            final items = state.items.where((i) => i.tripId == trip.id).toList();
-            final isActive = state.activeTripId == trip.id;
-            return _TripCard(
-              trip: trip,
-              items: items,
-              isActive: isActive,
-              locale: locale,
-              onTap: () => notifier.setActiveTrip(trip.id),
-              onRename: () => _showRenameDialog(context, notifier, trip, locale),
-              onDelete: () => _showDeleteDialog(context, notifier, trip, locale),
-              onRemoveItem: (slug, tripId) => notifier.removeItem(slug, tripId),
-              onAddSpot: () => _showAddSpotDialog(context, ref, trip, locale),
-              onFindHotels: items.length >= 2 ? () {
-                // Read latest trip state (dates/settings may have been updated)
-                final latestTrip = ref.read(tripProvider).trips.firstWhere((t) => t.id == trip.id, orElse: () => trip);
-                final landmarks = notifier.getItemsAsLandmarks(trip.id);
-                final stayNotifier = ref.read(staySearchProvider.notifier);
-                stayNotifier.reset();
-                stayNotifier.setSavedSearchId(trip.id);
-                if (landmarks.isNotEmpty) stayNotifier.setRegion(landmarks.first.region);
-                for (final l in landmarks) { stayNotifier.addLandmark(l); }
-                // Restore saved search settings from trip, or use defaults
-                if (latestTrip.searchMode != null) {
-                  stayNotifier.setMode(latestTrip.searchMode!);
-                }
-                if (latestTrip.maxBudget != null) {
-                  stayNotifier.setBudget(latestTrip.maxBudget!);
-                } else {
-                  final isKorea = ['seoul', 'busan'].contains(landmarks.firstOrNull?.region);
-                  final budget = isKorea ? '25000-35000' : '10000-30000';
-                  stayNotifier.setBudget(budget);
-                }
-                if (latestTrip.checkIn != null && latestTrip.checkOut != null) {
-                  stayNotifier.setDates(latestTrip.checkIn!, latestTrip.checkOut!);
-                } else {
-                  final checkIn = DateTime.now().add(const Duration(days: 30));
-                  stayNotifier.setDates(checkIn.toIso8601String().substring(0, 10),
-                    checkIn.add(const Duration(days: 3)).toIso8601String().substring(0, 10));
-                }
-                stayNotifier.search();
-                onSwitchTab?.call(1);
-              } : null,
-            );
-          }),
-        ],
+    String _tripStatus(Trip trip) {
+      if (trip.checkIn == null) return 'planning';
+      final ci = DateTime.tryParse(trip.checkIn!);
+      final co = trip.checkOut != null ? DateTime.tryParse(trip.checkOut!) : null;
+      if (ci != null && co != null && !today.isBefore(ci) && !today.isAfter(co)) return 'active';
+      if (co != null && co.isBefore(today)) return 'completed';
+      return 'upcoming';
+    }
+
+    Widget buildTripCard(Trip trip) {
+      final items = state.items.where((i) => i.tripId == trip.id).toList();
+      final isActive = state.activeTripId == trip.id;
+      return _TripCard(
+        trip: trip,
+        items: items,
+        isActive: isActive,
+        locale: locale,
+        status: _tripStatus(trip),
+        onTap: () => notifier.setActiveTrip(trip.id),
+        onPin: () => notifier.togglePin(trip.id),
+        onRename: () => _showRenameDialog(context, notifier, trip, locale),
+        onDelete: () => _showDeleteDialog(context, notifier, trip, locale),
+        onRemoveItem: (slug, tripId) => notifier.removeItem(slug, tripId),
+        onAddSpot: () => _showAddSpotDialog(context, ref, trip, locale),
+        onFindHotels: items.length >= 2 ? () {
+          final latestTrip = ref.read(tripProvider).trips.firstWhere((t) => t.id == trip.id, orElse: () => trip);
+          final landmarks = notifier.getItemsAsLandmarks(trip.id);
+          final stayNotifier = ref.read(staySearchProvider.notifier);
+          stayNotifier.reset();
+          stayNotifier.setSavedSearchId(trip.id);
+          if (landmarks.isNotEmpty) stayNotifier.setRegion(landmarks.first.region);
+          for (final l in landmarks) { stayNotifier.addLandmark(l); }
+          if (latestTrip.searchMode != null) stayNotifier.setMode(latestTrip.searchMode!);
+          if (latestTrip.maxBudget != null) {
+            stayNotifier.setBudget(latestTrip.maxBudget!);
+          } else {
+            final isKorea = ['seoul', 'busan'].contains(landmarks.firstOrNull?.region);
+            stayNotifier.setBudget(isKorea ? '25000-35000' : '10000-30000');
+          }
+          if (latestTrip.checkIn != null && latestTrip.checkOut != null) {
+            stayNotifier.setDates(latestTrip.checkIn!, latestTrip.checkOut!);
+          } else {
+            final checkIn = DateTime.now().add(const Duration(days: 30));
+            stayNotifier.setDates(checkIn.toIso8601String().substring(0, 10),
+              checkIn.add(const Duration(days: 3)).toIso8601String().substring(0, 10));
+          }
+          stayNotifier.search();
+          onSwitchTab?.call(1);
+        } : null,
       );
     }
 
-    final japanLabel = tr(locale, ja: '日本', ko: '일본', en: 'Japan', zh: '日本', fr: 'Japon');
-    final koreaLabel = tr(locale, ja: '韓国', ko: '한국', en: 'Korea', zh: '韩国', fr: 'Corée');
+    Widget buildSection(String label, IconData icon, List<Trip> trips, {bool muted = false}) {
+      if (trips.isEmpty) return const SizedBox.shrink();
+      return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        const SizedBox(height: 16),
+        Row(children: [
+          Icon(icon, size: 18, color: muted ? Colors.grey : AppTheme.primary),
+          const SizedBox(width: 8),
+          Text(label, style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: muted ? Colors.grey : null,
+          )),
+        ]),
+        const SizedBox(height: 8),
+        ...trips.map(buildTripCard),
+      ]);
+    }
+
+    final hasTrips = state.trips.isNotEmpty;
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.tripTitle)),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          // ── Trips (both countries, most recent first) ──
-          if (japanFirst) ...[
-            buildTripSection(japanLabel, '🇯🇵', japanTrips),
-            buildTripSection(koreaLabel, '🇰🇷', koreaTrips),
-          ] else ...[
-            buildTripSection(koreaLabel, '🇰🇷', koreaTrips),
-            buildTripSection(japanLabel, '🇯🇵', japanTrips),
-          ],
-
-          if (japanTrips.isEmpty && koreaTrips.isEmpty && state.items.isEmpty)
-            _EmptyState(locale: locale),
-        ],
-      ),
+      body: hasTrips
+        ? ListView(padding: const EdgeInsets.all(16), children: [
+            if (pinned.isNotEmpty)
+              buildSection(
+                tr(locale, ja: 'ピン留め', ko: '고정됨', en: 'Pinned', zh: '已固定', fr: 'Épinglé'),
+                Icons.push_pin, pinned),
+            buildSection(
+              tr(locale, ja: '予定の旅行', ko: '예정된 여행', en: 'Upcoming', zh: '即将出行', fr: 'À venir'),
+              Icons.flight_takeoff, upcoming),
+            if (past.isNotEmpty)
+              buildSection(
+                tr(locale, ja: '過去の旅行', ko: '지난 여행', en: 'Past', zh: '过去的旅行', fr: 'Passé'),
+                Icons.history, past, muted: true),
+          ])
+        : _EmptyState(locale: locale, onCreateTrip: () => _showCreateDialog(context, notifier, locale)),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showCreateDialog(context, notifier, locale),
         child: const Icon(Icons.add),
@@ -305,7 +316,9 @@ class _TripCard extends ConsumerWidget {
   final List<TripItem> items;
   final bool isActive;
   final String locale;
+  final String status; // planning, upcoming, active, completed
   final VoidCallback onTap;
+  final VoidCallback onPin;
   final VoidCallback onRename;
   final VoidCallback onDelete;
   final VoidCallback? onFindHotels;
@@ -317,7 +330,9 @@ class _TripCard extends ConsumerWidget {
     required this.items,
     required this.isActive,
     required this.locale,
+    required this.status,
     required this.onTap,
+    required this.onPin,
     required this.onRename,
     required this.onDelete,
     this.onFindHotels,
@@ -352,8 +367,39 @@ class _TripCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
 
+    final countryFlag = trip.country == 'korea' ? '🇰🇷' : '🇯🇵';
+    final statusLabel = switch (status) {
+      'planning' => tr(locale, ja: '計画中', ko: '계획 중', en: 'Planning', zh: '计划中', fr: 'En préparation'),
+      'upcoming' => tr(locale, ja: '予定', ko: '예정', en: 'Upcoming', zh: '即将', fr: 'À venir'),
+      'active' => tr(locale, ja: '旅行中', ko: '여행 중', en: 'In Progress', zh: '旅行中', fr: 'En cours'),
+      'completed' => tr(locale, ja: '完了', ko: '완료', en: 'Completed', zh: '已完成', fr: 'Terminé'),
+      _ => '',
+    };
+    final statusColor = switch (status) {
+      'planning' => Colors.orange,
+      'upcoming' => AppTheme.primary,
+      'active' => Colors.green,
+      'completed' => Colors.grey,
+      _ => Colors.grey,
+    };
+    // Region-based fallback images
+    const _regionImages = {
+      'kanto': '/images/landmarks/shibuya-crossing.webp',
+      'kansai': '/images/landmarks/dotonbori.webp',
+      'seoul': '/images/landmarks/myeongdong.webp',
+      'busan': '/images/landmarks/haeundae.webp',
+    };
+    // Hero image: try first item slug, fallback to region image
+    final heroSlug = items.isNotEmpty ? items.first.slug : null;
+    final heroUrl = heroSlug != null
+        ? 'https://norigo.app/images/landmarks/$heroSlug.webp'
+        : null;
+    final fallbackUrl = _regionImages[items.isNotEmpty ? items.first.region : (trip.country == 'korea' ? 'seoul' : 'kanto')];
+    final imageUrl = heroUrl ?? (fallbackUrl != null ? 'https://norigo.app$fallbackUrl' : null);
+
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
+      clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: isActive
@@ -363,30 +409,77 @@ class _TripCard extends ConsumerWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
-        child: Padding(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          // Hero image
+          if (imageUrl != null)
+            Stack(children: [
+              Image.network(
+                imageUrl,
+                height: 120, width: double.infinity, fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) {
+                  // Fallback to region image if slug image fails
+                  if (heroUrl != null && fallbackUrl != null) {
+                    return Image.network(
+                      'https://norigo.app$fallbackUrl',
+                      height: 120, width: double.infinity, fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => Container(height: 80, color: AppTheme.primaryBg),
+                    );
+                  }
+                  return Container(height: 80, color: AppTheme.primaryBg);
+                },
+              ),
+              // Gradient overlay for readability
+              Positioned.fill(child: Container(
+                decoration: BoxDecoration(gradient: LinearGradient(
+                  begin: Alignment.topCenter, end: Alignment.bottomCenter,
+                  colors: [Colors.transparent, Colors.black.withValues(alpha: 0.5)],
+                )),
+              )),
+              // Country flag + status chip on image
+              Positioned(left: 12, bottom: 8, child: Row(children: [
+                Text(countryFlag, style: const TextStyle(fontSize: 16)),
+                const SizedBox(width: 6),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  decoration: BoxDecoration(color: statusColor, borderRadius: BorderRadius.circular(4)),
+                  child: Text(statusLabel, style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.w600)),
+                ),
+              ])),
+              // Pin icon
+              Positioned(right: 8, top: 8, child: GestureDetector(
+                onTap: onPin,
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(color: Colors.black.withValues(alpha: 0.3), shape: BoxShape.circle),
+                  child: Icon(
+                    trip.isPinned ? Icons.push_pin : Icons.push_pin_outlined,
+                    size: 16, color: trip.isPinned ? Colors.amber : Colors.white,
+                  ),
+                ),
+              )),
+            ]),
+          if (imageUrl == null)
+            Padding(padding: const EdgeInsets.fromLTRB(12, 12, 12, 0), child: Row(children: [
+              Text(countryFlag, style: const TextStyle(fontSize: 16)),
+              const SizedBox(width: 6),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(color: statusColor, borderRadius: BorderRadius.circular(4)),
+                child: Text(statusLabel, style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.w600)),
+              ),
+              const Spacer(),
+              GestureDetector(
+                onTap: onPin,
+                child: Icon(trip.isPinned ? Icons.push_pin : Icons.push_pin_outlined, size: 18, color: trip.isPinned ? Colors.amber : Colors.grey),
+              ),
+            ])),
+          Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
-                  if (isActive)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                      margin: const EdgeInsets.only(right: 8),
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.primary,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        tr(locale, ja: 'アクティブ', ko: '활성', en: 'Active', zh: '活跃', fr: 'Actif'),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
                   Expanded(
                     child: Text(
                       localizedTripName(trip.name, locale),
@@ -479,6 +572,7 @@ class _TripCard extends ConsumerWidget {
             ],
           ),
         ),
+        ]),
       ),
     );
   }
@@ -649,30 +743,71 @@ class _CompactButton extends StatelessWidget {
 
 class _EmptyState extends StatelessWidget {
   final String locale;
+  final VoidCallback? onCreateTrip;
 
-  const _EmptyState({required this.locale});
+  const _EmptyState({required this.locale, this.onCreateTrip});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.all(32),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.luggage_outlined, size: 64, color: Colors.grey.shade400),
-          const SizedBox(height: 16),
+          const SizedBox(height: 40),
+          Icon(Icons.flight_takeoff, size: 64, color: AppTheme.primary.withValues(alpha: 0.5)),
+          const SizedBox(height: 24),
           Text(
-            tr(locale, ja: 'まだ旅行がありません', ko: '아직 여행이 없습니다', en: 'No trips yet', zh: '还没有旅行', fr: 'Aucun voyage pour l\'instant'),
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Colors.grey,
-                ),
+            tr(locale, ja: '旅行を計画しよう！', ko: '여행을 계획하세요!', en: 'Plan your trip!', zh: '计划您的旅行！', fr: 'Planifiez votre voyage !'),
+            style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 8),
-          Text(
-            tr(locale, ja: '＋ボタンから新しい旅行を作成', ko: '+ 버튼으로 새 여행 생성', en: 'Tap + to create a new trip', zh: '点击+创建新旅行', fr: 'Appuyez sur + pour créer un voyage'),
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),
+          const SizedBox(height: 16),
+          // 3-step guide
+          _StepRow(num: '1', icon: Icons.place,
+            text: tr(locale, ja: '行きたい観光地を追加', ko: '가고 싶은 관광지 추가', en: 'Add spots you want to visit', zh: '添加想去的景点', fr: 'Ajoutez des lieux à visiter')),
+          const SizedBox(height: 10),
+          _StepRow(num: '2', icon: Icons.auto_awesome,
+            text: tr(locale, ja: 'AIが最適な宿泊エリアを検索', ko: 'AI가 최적의 숙박 지역을 검색', en: 'AI finds the best hotel area', zh: 'AI找到最佳酒店区域', fr: 'L\'IA trouve le meilleur quartier hôtelier')),
+          const SizedBox(height: 10),
+          _StepRow(num: '3', icon: Icons.hotel,
+            text: tr(locale, ja: 'そのまま予約！', ko: '바로 예약!', en: 'Book directly!', zh: '直接预订！', fr: 'Réservez directement !')),
+          const SizedBox(height: 28),
+          SizedBox(
+            width: double.infinity,
+            height: 48,
+            child: ElevatedButton.icon(
+              onPressed: onCreateTrip,
+              icon: const Icon(Icons.add, size: 18),
+              label: Text(
+                tr(locale, ja: '最初の旅行を作成', ko: '첫 여행 만들기', en: 'Create your first trip', zh: '创建第一次旅行', fr: 'Créer votre premier voyage'),
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+              ),
+              style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+            ),
           ),
         ],
       ),
     );
+  }
+}
+
+class _StepRow extends StatelessWidget {
+  final String num;
+  final IconData icon;
+  final String text;
+  const _StepRow({required this.num, required this.icon, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(children: [
+      CircleAvatar(radius: 14, backgroundColor: AppTheme.primaryBg,
+        child: Text(num, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.primary))),
+      const SizedBox(width: 12),
+      Icon(icon, size: 18, color: AppTheme.primary),
+      const SizedBox(width: 8),
+      Expanded(child: Text(text, style: const TextStyle(fontSize: 13))),
+    ]);
   }
 }
