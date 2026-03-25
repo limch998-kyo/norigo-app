@@ -382,8 +382,20 @@ class _TripCard extends ConsumerWidget {
       'completed' => Colors.grey,
       _ => Colors.grey,
     };
-    // Hero image from first landmark
+    // Region-based fallback images
+    const _regionImages = {
+      'kanto': '/images/landmarks/shibuya-crossing.webp',
+      'kansai': '/images/landmarks/dotonbori.webp',
+      'seoul': '/images/landmarks/myeongdong.webp',
+      'busan': '/images/landmarks/haeundae.webp',
+    };
+    // Hero image: try first item slug, fallback to region image
     final heroSlug = items.isNotEmpty ? items.first.slug : null;
+    final heroUrl = heroSlug != null
+        ? 'https://norigo.app/images/landmarks/$heroSlug.webp'
+        : null;
+    final fallbackUrl = _regionImages[items.isNotEmpty ? items.first.region : (trip.country == 'korea' ? 'seoul' : 'kanto')];
+    final imageUrl = heroUrl ?? (fallbackUrl != null ? 'https://norigo.app$fallbackUrl' : null);
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
@@ -399,12 +411,22 @@ class _TripCard extends ConsumerWidget {
         borderRadius: BorderRadius.circular(12),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           // Hero image
-          if (heroSlug != null)
+          if (imageUrl != null)
             Stack(children: [
               Image.network(
-                'https://norigo.app/images/landmarks/$heroSlug.webp',
-                height: 100, width: double.infinity, fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => Container(height: 60, color: AppTheme.primaryBg.withValues(alpha: 0.3)),
+                imageUrl,
+                height: 120, width: double.infinity, fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) {
+                  // Fallback to region image if slug image fails
+                  if (heroUrl != null && fallbackUrl != null) {
+                    return Image.network(
+                      'https://norigo.app$fallbackUrl',
+                      height: 120, width: double.infinity, fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => Container(height: 80, color: AppTheme.primaryBg),
+                    );
+                  }
+                  return Container(height: 80, color: AppTheme.primaryBg);
+                },
               ),
               // Gradient overlay for readability
               Positioned.fill(child: Container(
@@ -436,7 +458,7 @@ class _TripCard extends ConsumerWidget {
                 ),
               )),
             ]),
-          if (heroSlug == null)
+          if (imageUrl == null)
             Padding(padding: const EdgeInsets.fromLTRB(12, 12, 12, 0), child: Row(children: [
               Text(countryFlag, style: const TextStyle(fontSize: 16)),
               const SizedBox(width: 6),
