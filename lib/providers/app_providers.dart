@@ -14,4 +14,4 @@ final trackingServiceProvider = Provider<TrackingService>((ref) {
 
 final localeProvider = StateProvider<String>((ref) => 'ja');
 
-final themeModeProvider = StateProvider<ThemeMode>((ref) => ThemeMode.system);
+final themeModeProvider = StateProvider<ThemeMode>((ref) => ThemeMode.light);
