@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:dio/dio.dart';
 import '../config/constants.dart';
 import '../models/landmark.dart';
@@ -6,6 +7,8 @@ import '../models/stay_area.dart';
 import '../models/meetup_result.dart';
 import '../models/hotel.dart';
 import '../models/meetup_result.dart' show Venue;
+
+String get _osName => Platform.isIOS ? 'iOS' : Platform.isAndroid ? 'Android' : Platform.operatingSystem;
 
 class ApiClient {
   late final Dio _dio;
@@ -312,7 +315,7 @@ class ApiClient {
           'eventType': eventType,
           'sessionId': sessionId,
           'userId': userId,
-          'payload': {...payload, 'platform': 'flutter'},
+          'payload': {...payload, 'platform': 'flutter', 'os': _osName},
           'path': path,
           'locale': locale,
           'referrer': '',
