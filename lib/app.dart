@@ -97,64 +97,75 @@ class _MainShellState extends ConsumerState<MainShell> {
     final stayState = ref.watch(staySearchProvider);
     final meetupState = ref.watch(meetupSearchProvider);
 
+    final isWide = MediaQuery.sizeOf(context).width >= 600;
+
+    final navItems = [
+      (icon: Icons.home_outlined, activeIcon: Icons.home, label: tr(locale, ja: 'ホーム', ko: '홈', en: 'Home', zh: '首页', fr: 'Accueil')),
+      (icon: Icons.hotel_outlined, activeIcon: Icons.hotel, label: tr(locale, ja: 'ホテル', ko: '호텔', en: 'Hotel', zh: '酒店', fr: 'Hôtel')),
+      (icon: Icons.groups_outlined, activeIcon: Icons.groups, label: tr(locale, ja: '集合', ko: '만남', en: 'Meetup', zh: '聚会', fr: 'Rencontre')),
+      (icon: Icons.luggage_outlined, activeIcon: Icons.luggage, label: tr(locale, ja: '旅行', ko: '여행', en: 'Trip', zh: '旅行', fr: 'Voyage')),
+      (icon: Icons.menu_book_outlined, activeIcon: Icons.menu_book, label: tr(locale, ja: 'ガイド', ko: '가이드', en: 'Guide', zh: '指南', fr: 'Guide')),
+    ];
+
+    final body = SafeArea(
+      child: Center(
+      child: ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 700),
+      child: IndexedStack(
+        index: _currentIndex,
+        children: [
+          HomeScreen(onSwitchTab: switchToTab),
+          if (_visitedTabs.contains(1))
+            (stayState.result != null || stayState.isLoading) ? const StayResultScreen() : const StaySearchScreen()
+          else
+            const SizedBox.shrink(),
+          if (_visitedTabs.contains(2))
+            (meetupState.result != null || meetupState.isLoading) ? const MeetupResultScreen() : const MeetupSearchScreen()
+          else
+            const SizedBox.shrink(),
+          if (_visitedTabs.contains(3))
+            TripScreen(onSwitchTab: switchToTab)
+          else
+            const SizedBox.shrink(),
+          if (_visitedTabs.contains(4))
+            const GuideScreen()
+          else
+            const SizedBox.shrink(),
+        ],
+      ),
+      )),
+    );
+
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
         if (didPop) return;
-        // If not on home tab, go to home
-        if (_currentIndex != 0) {
-          switchToTab(0);
-        }
-        // On home tab, do nothing (don't exit app)
+        if (_currentIndex != 0) switchToTab(0);
       },
       child: Scaffold(
-      body: SafeArea(
-        child: IndexedStack(
-          index: _currentIndex,
-          children: [
-            // 0: Home (always built)
-            HomeScreen(onSwitchTab: switchToTab),
-            // 1: Stay (lazy) — keep result screen during re-search (isLoading)
-            if (_visitedTabs.contains(1))
-              (stayState.result != null || stayState.isLoading) ? const StayResultScreen() : const StaySearchScreen()
-            else
-              const SizedBox.shrink(),
-            // 2: Meetup (lazy) — keep result screen during re-search
-            if (_visitedTabs.contains(2))
-              (meetupState.result != null || meetupState.isLoading) ? const MeetupResultScreen() : const MeetupSearchScreen()
-            else
-              const SizedBox.shrink(),
-            // 3: Trip (lazy)
-            if (_visitedTabs.contains(3))
-              TripScreen(onSwitchTab: switchToTab)
-            else
-              const SizedBox.shrink(),
-            // 4: Guide (lazy)
-            if (_visitedTabs.contains(4))
-              const GuideScreen()
-            else
-              const SizedBox.shrink(),
-          ],
+        body: isWide
+          ? Row(children: [
+              NavigationRail(
+                selectedIndex: _currentIndex,
+                onDestinationSelected: switchToTab,
+                labelType: NavigationRailLabelType.all,
+                destinations: navItems.map((n) => NavigationRailDestination(
+                  icon: Icon(n.icon), selectedIcon: Icon(n.activeIcon), label: Text(n.label, style: const TextStyle(fontSize: 10)),
+                )).toList(),
+              ),
+              const VerticalDivider(thickness: 1, width: 1),
+              Expanded(child: body),
+            ])
+          : body,
+        bottomNavigationBar: isWide ? null : BottomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: switchToTab,
+          type: BottomNavigationBarType.fixed,
+          items: navItems.map((n) => BottomNavigationBarItem(
+            icon: Icon(n.icon), activeIcon: Icon(n.activeIcon), label: n.label,
+          )).toList(),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: switchToTab,
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(icon: const Icon(Icons.home_outlined), activeIcon: const Icon(Icons.home),
-            label: tr(locale, ja: 'ホーム', ko: '홈', en: 'Home', zh: '首页', fr: 'Accueil')),
-          BottomNavigationBarItem(icon: const Icon(Icons.hotel_outlined), activeIcon: const Icon(Icons.hotel),
-            label: tr(locale, ja: 'ホテル', ko: '호텔', en: 'Hotel', zh: '酒店', fr: 'Hôtel')),
-          BottomNavigationBarItem(icon: const Icon(Icons.groups_outlined), activeIcon: const Icon(Icons.groups),
-            label: tr(locale, ja: '集合', ko: '만남', en: 'Meetup', zh: '聚会', fr: 'Rencontre')),
-          BottomNavigationBarItem(icon: const Icon(Icons.luggage_outlined), activeIcon: const Icon(Icons.luggage),
-            label: tr(locale, ja: '旅行', ko: '여행', en: 'Trip', zh: '旅行', fr: 'Voyage')),
-          BottomNavigationBarItem(icon: const Icon(Icons.menu_book_outlined), activeIcon: const Icon(Icons.menu_book),
-            label: tr(locale, ja: 'ガイド', ko: '가이드', en: 'Guide', zh: '指南', fr: 'Guide')),
-        ],
-      ),
-    ),
     );
   }
 }
