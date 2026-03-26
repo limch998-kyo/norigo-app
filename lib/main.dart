@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,11 +16,13 @@ import 'package:kakao_flutter_sdk_share/kakao_flutter_sdk_share.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Kakao SDK (native app key from Kakao Developers console)
-  KakaoSdk.init(
-    nativeAppKey: '6519b9ccb97a21e52a47295d52f20995',
-    javaScriptAppKey: 'ef83068e8071507be6a45e8af10706ee',
-  );
+  // Initialize Kakao SDK (iOS/Android only — not supported on macOS)
+  if (Platform.isIOS || Platform.isAndroid) {
+    KakaoSdk.init(
+      nativeAppKey: '6519b9ccb97a21e52a47295d52f20995',
+      javaScriptAppKey: 'ef83068e8071507be6a45e8af10706ee',
+    );
+  }
 
   // Detect device locale — try multiple sources
   final platformLocale = ui.PlatformDispatcher.instance.locale;
