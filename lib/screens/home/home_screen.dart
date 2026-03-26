@@ -950,6 +950,7 @@ class _ContinuePlanningSection extends ConsumerWidget {
               const regionImages = {
                 'kanto': '/images/landmarks/shibuya-crossing.webp',
                 'kansai': '/images/landmarks/dotonbori.webp',
+                'kyushu': '/images/landmarks/canal-city-hakata.webp',
                 'seoul': '/images/landmarks/myeongdong.webp',
                 'busan': '/images/landmarks/haeundae.webp',
               };

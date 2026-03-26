@@ -28,6 +28,7 @@ class TripDetailScreen extends ConsumerStatefulWidget {
 
 class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
   late TextEditingController _notesController;
+  bool _editingNotes = false;
 
   @override
   void initState() {
@@ -38,11 +39,14 @@ class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
 
   @override
   void dispose() {
-    // Save notes on dispose
-    final notes = _notesController.text.trim();
-    ref.read(tripProvider.notifier).setNotes(widget.tripId, notes.isEmpty ? null : notes);
     _notesController.dispose();
     super.dispose();
+  }
+
+  void _saveNotes() {
+    final notes = _notesController.text.trim();
+    ref.read(tripProvider.notifier).setNotes(widget.tripId, notes.isEmpty ? null : notes);
+    setState(() => _editingNotes = false);
   }
 
   void _showAddSpotDialog(BuildContext context, WidgetRef ref, Trip trip, String locale) {
@@ -50,7 +54,7 @@ class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
     final api = ref.read(apiClientProvider);
     final notifier = ref.read(tripProvider.notifier);
     final tripItems = ref.read(tripProvider).items.where((i) => i.tripId == trip.id);
-    final tripRegion = tripItems.isNotEmpty ? tripItems.first.region : (trip.country == 'korea' ? 'seoul' : 'kanto');
+    final tripRegion = tripItems.isNotEmpty ? tripItems.first.region : (trip.region ?? (trip.country == 'korea' ? 'seoul' : 'kanto'));
 
     // Popular spots per region for recommendations
     const popularSpots = {
@@ -74,6 +78,13 @@ class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
         {'slug': 'hongdae', 'name': '홍대', 'nameEn': 'Hongdae', 'nameKo': '홍대', 'lat': 37.5563, 'lng': 126.9237, 'icon': 'place'},
         {'slug': 'gangnam', 'name': '강남', 'nameEn': 'Gangnam', 'nameKo': '강남', 'lat': 37.4979, 'lng': 127.0276, 'icon': 'place'},
         {'slug': 'gyeongbokgung', 'name': '景福宮', 'nameEn': 'Gyeongbokgung', 'nameKo': '경복궁', 'lat': 37.5796, 'lng': 126.977, 'icon': 'place'},
+      ],
+      'kyushu': [
+        {'slug': 'tenjin', 'name': '天神', 'nameEn': 'Tenjin', 'nameKo': '텐진', 'lat': 33.5903, 'lng': 130.3990, 'icon': 'place'},
+        {'slug': 'canal-city-hakata', 'name': 'キャナルシティ博多', 'nameEn': 'Canal City Hakata', 'nameKo': '캐널시티 하카타', 'lat': 33.5895, 'lng': 130.4107, 'icon': 'place'},
+        {'slug': 'dazaifu-tenmangu', 'name': '太宰府天満宮', 'nameEn': 'Dazaifu Tenmangu', 'nameKo': '다자이후 텐만구', 'lat': 33.5194, 'lng': 130.5350, 'icon': 'place'},
+        {'slug': 'nakasu', 'name': '中洲', 'nameEn': 'Nakasu', 'nameKo': '나카스', 'lat': 33.5922, 'lng': 130.4042, 'icon': 'place'},
+        {'slug': 'hakata-yatai', 'name': '博多屋台', 'nameEn': 'Hakata Yatai', 'nameKo': '하카타 야타이', 'lat': 33.5902, 'lng': 130.4017, 'icon': 'restaurant'},
       ],
       'busan': [
         {'slug': 'haeundae', 'name': '海雲台', 'nameEn': 'Haeundae', 'nameKo': '해운대', 'lat': 35.1587, 'lng': 129.1604, 'icon': 'place'},
@@ -420,22 +431,49 @@ class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
 
           // Notes
           const SizedBox(height: 16),
-          Text(
-            tr(locale, ja: 'メモ', ko: '메모', en: 'Notes', zh: '备注', fr: 'Notes'),
-            style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          TextField(
-            controller: _notesController,
-            maxLines: 4,
-            decoration: InputDecoration(
-              hintText: tr(locale, ja: 'メモを入力...', ko: '메모를 입력...', en: 'Add notes...', zh: '输入备注...', fr: 'Ajouter des notes...'),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+          Row(children: [
+            Text(
+              tr(locale, ja: 'メモ', ko: '메모', en: 'Notes', zh: '备注', fr: 'Notes'),
+              style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
             ),
-            onChanged: (value) {
-              // Auto-save on change (debounced by dispose)
-            },
-          ),
+            const Spacer(),
+            if (!_editingNotes && (trip.notes ?? '').isNotEmpty)
+              GestureDetector(
+                onTap: () => setState(() => _editingNotes = true),
+                child: Text(tr(locale, ja: '編集', ko: '수정', en: 'Edit', zh: '编辑', fr: 'Modifier'),
+                  style: TextStyle(fontSize: 12, color: AppTheme.primary, fontWeight: FontWeight.w600)),
+              ),
+          ]),
+          const SizedBox(height: 8),
+          if (_editingNotes || (trip.notes ?? '').isEmpty) ...[
+            TextField(
+              controller: _notesController,
+              maxLines: 4,
+              autofocus: _editingNotes,
+              decoration: InputDecoration(
+                hintText: tr(locale, ja: 'メモを入力...', ko: '메모를 입력...', en: 'Add notes...', zh: '输入备注...', fr: 'Ajouter des notes...'),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+            ),
+            const SizedBox(height: 8),
+            SizedBox(width: double.infinity, child: ElevatedButton(
+              onPressed: _saveNotes,
+              style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 10)),
+              child: Text(tr(locale, ja: '保存', ko: '저장', en: 'Save', zh: '保存', fr: 'Enregistrer'), style: const TextStyle(fontSize: 13)),
+            )),
+          ] else
+            GestureDetector(
+              onTap: () => setState(() => _editingNotes = true),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: theme.colorScheme.outline),
+                ),
+                child: Text(trip.notes!, style: const TextStyle(fontSize: 13)),
+              ),
+            ),
           const SizedBox(height: 24),
         ],
       ),
@@ -444,8 +482,7 @@ class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
               padding: const EdgeInsets.all(16),
               child: ElevatedButton.icon(
                 onPressed: () {
-                  final notes = _notesController.text.trim();
-                  notifier.setNotes(widget.tripId, notes.isEmpty ? null : notes);
+                  if (_editingNotes) _saveNotes();
                   // Set up stay search and navigate
                   final stayNotifier = ref.read(staySearchProvider.notifier);
                   final landmarks = notifier.getItemsAsLandmarks(widget.tripId);

@@ -10,7 +10,7 @@ class LandmarkLocalizer {
   static Future<void> _load() async {
     if (_allLandmarks != null) return;
     _allLandmarks = [];
-    for (final region in ['kanto', 'kansai', 'seoul', 'busan']) {
+    for (final region in ['kanto', 'kansai', 'kyushu', 'seoul', 'busan']) {
       try {
         final raw = await rootBundle.loadString('assets/data/landmarks-$region.json');
         final list = jsonDecode(raw) as List<dynamic>;

@@ -95,7 +95,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
     // ja locale: show Korea regions first (since ja users are tourists visiting Korea)
     // others: show Japan regions first
     final regionOrder = locale == 'ja'
-        ? ['seoul', 'busan', 'kanto', 'kansai']
+        ? ['seoul', 'busan', 'kanto', 'kansai', 'kyushu']
         : AppConstants.allRegions;
 
     final landmarkSlots = state.slots;

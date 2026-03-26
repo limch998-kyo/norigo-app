@@ -35,11 +35,12 @@ class _GuideScreenState extends ConsumerState<GuideScreen> {
     final locale = ref.watch(localeProvider);
     final theme = Theme.of(context);
 
-    final regions = ['all', 'kanto', 'kansai', 'seoul', 'busan'];
+    final regions = ['all', 'kanto', 'kansai', 'kyushu', 'seoul', 'busan'];
     final regionLabels = {
       'all': tr(locale, ja: 'すべて', ko: '전체', en: 'All', zh: '全部', fr: 'Tout'),
       'kanto': tr(locale, ja: '東京・関東', ko: '도쿄·간토', en: 'Tokyo', zh: '东京', fr: 'Tokyo'),
       'kansai': tr(locale, ja: '大阪・関西', ko: '오사카·간사이', en: 'Osaka', zh: '大阪', fr: 'Osaka'),
+      'kyushu': tr(locale, ja: '福岡・九州', ko: '후쿠오카·큐슈', en: 'Fukuoka', zh: '福冈', fr: 'Fukuoka'),
       'seoul': tr(locale, ja: 'ソウル', ko: '서울', en: 'Seoul', zh: '首尔', fr: 'Séoul'),
       'busan': tr(locale, ja: '釜山', ko: '부산', en: 'Busan', zh: '釜山', fr: 'Busan'),
     };

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../models/landmark.dart';
+import '../../../utils/tr.dart';
 
 class QuickPlan {
   final String id;
@@ -114,6 +115,25 @@ const _plans = [
       {'slug': 'nijo-castle', 'name': '二条城', 'nameEn': 'Nijo Castle', 'nameKo': '니조성', 'lat': 35.0142, 'lng': 135.7481, 'region': 'kansai'},
     ],
   ),
+  QuickPlan(
+    id: 'fukuoka-classic',
+    region: 'kyushu',
+    image: '/images/landmarks/canal-city-hakata.webp',
+    labels: {
+      'en': {'title': 'Tenjin · Canal City · Nakasu', 'subtitle': 'Fukuoka highlights'},
+      'ja': {'title': '天神・キャナルシティ・中洲', 'subtitle': '福岡の定番コース'},
+      'ko': {'title': '텐진·캐널시티·나카스', 'subtitle': '후쿠오카 핵심 코스'},
+      'zh': {'title': '天神・博多运河城・中洲', 'subtitle': '福冈经典路线'},
+      'fr': {'title': 'Tenjin · Canal City · Nakasu', 'subtitle': 'Incontournables de Fukuoka'},
+    },
+    landmarks: [
+      {'slug': 'tenjin', 'name': '天神', 'nameEn': 'Tenjin', 'nameKo': '텐진', 'lat': 33.5903, 'lng': 130.3990, 'region': 'kyushu'},
+      {'slug': 'canal-city-hakata', 'name': 'キャナルシティ博多', 'nameEn': 'Canal City Hakata', 'nameKo': '캐널시티 하카타', 'lat': 33.5895, 'lng': 130.4107, 'region': 'kyushu'},
+      {'slug': 'nakasu', 'name': '中洲', 'nameEn': 'Nakasu', 'nameKo': '나카스', 'lat': 33.5922, 'lng': 130.4042, 'region': 'kyushu'},
+      {'slug': 'dazaifu-tenmangu', 'name': '太宰府天満宮', 'nameEn': 'Dazaifu Tenmangu', 'nameKo': '다자이후 텐만구', 'lat': 33.5194, 'lng': 130.5350, 'region': 'kyushu'},
+      {'slug': 'hakata-station', 'name': '博多駅', 'nameEn': 'Hakata Station', 'nameKo': '하카타역', 'lat': 33.5898, 'lng': 130.4207, 'region': 'kyushu'},
+    ],
+  ),
 ];
 
 class QuickPlanCards extends StatelessWidget {
@@ -128,6 +148,7 @@ class QuickPlanCards extends StatelessWidget {
 
     final kantoPlans = _plans.where((p) => p.region == 'kanto').toList();
     final kansaiPlans = _plans.where((p) => p.region == 'kansai').toList();
+    final kyushuPlans = _plans.where((p) => p.region == 'kyushu').toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,6 +182,16 @@ class QuickPlanCards extends StatelessWidget {
         _RegionSection(
           title: l10n.osakaTitle,
           plans: kansaiPlans,
+          locale: locale,
+          ctaText: l10n.quickPlanCta,
+          onPlanSelected: onPlanSelected,
+        ),
+        const SizedBox(height: 16),
+
+        // Fukuoka / Kyushu
+        _RegionSection(
+          title: tr(locale, ja: '福岡・九州', ko: '후쿠오카·큐슈', en: 'Fukuoka / Kyushu', zh: '福冈·九州', fr: 'Fukuoka / Kyushu'),
+          plans: kyushuPlans,
           locale: locale,
           ctaText: l10n.quickPlanCta,
           onPlanSelected: onPlanSelected,

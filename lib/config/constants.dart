@@ -16,9 +16,9 @@ class AppConstants {
   static const String voteCreateEndpoint = '/api/vote/create';
 
   // Regions
-  static const List<String> japanRegions = ['kanto', 'kansai'];
+  static const List<String> japanRegions = ['kanto', 'kansai', 'kyushu'];
   static const List<String> koreaRegions = ['seoul', 'busan'];
-  static const List<String> allRegions = ['kanto', 'kansai', 'seoul', 'busan'];
+  static const List<String> allRegions = ['kanto', 'kansai', 'kyushu', 'seoul', 'busan'];
 
   // Meetup modes
   static const String modeCentroid = 'centroid';

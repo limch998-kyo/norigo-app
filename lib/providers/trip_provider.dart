@@ -215,7 +215,7 @@ class TripNotifier extends StateNotifier<TripState> {
     await prefs.setString(_storageKey, jsonEncode(data));
   }
 
-  String createTrip(String name, {String? country}) {
+  String createTrip(String name, {String? country, String? region}) {
     // Auto-number if same name exists
     var finalName = name;
     final existingNames = state.trips.map((t) => t.name).toSet();
@@ -232,6 +232,7 @@ class TripNotifier extends StateNotifier<TripState> {
       id: _uuid.v4(),
       name: finalName,
       country: country ?? state.country,
+      region: region,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );
@@ -333,6 +334,7 @@ class TripNotifier extends StateNotifier<TripState> {
   static const _regionNames = {
     'kanto': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto', 'fr': 'Tokyo / Kanto'},
     'kansai': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai', 'fr': 'Osaka / Kansai'},
+    'kyushu': {'ja': '福岡・九州', 'ko': '후쿠오카·큐슈', 'en': 'Fukuoka / Kyushu', 'fr': 'Fukuoka / Kyushu'},
     'seoul': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul', 'fr': 'Séoul'},
     'busan': {'ja': '釜山', 'ko': '부산', 'en': 'Busan', 'fr': 'Busan'},
   };

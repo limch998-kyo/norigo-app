@@ -52,7 +52,7 @@ class BookingProvider {
   static const _apiOutUrl = 'https://norigo.app/api/out';
 
   static const _koreaRegions = ['seoul', 'busan'];
-  static const _japanRegions = ['kanto', 'kansai'];
+  static const _japanRegions = ['kanto', 'kansai', 'kyushu'];
 
   /// Get the primary provider name for display
   static String providerName(String locale, String region) {
