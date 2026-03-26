@@ -97,7 +97,9 @@ class _MainShellState extends ConsumerState<MainShell> {
     final stayState = ref.watch(staySearchProvider);
     final meetupState = ref.watch(meetupSearchProvider);
 
-    final isWide = MediaQuery.sizeOf(context).width >= 600;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final isPhone = screenWidth < 600;
+    final isDesktop = screenWidth >= 900;
 
     final navItems = [
       (icon: Icons.home_outlined, activeIcon: Icons.home, label: tr(locale, ja: 'ホーム', ko: '홈', en: 'Home', zh: '首页', fr: 'Accueil')),
@@ -107,34 +109,101 @@ class _MainShellState extends ConsumerState<MainShell> {
       (icon: Icons.menu_book_outlined, activeIcon: Icons.menu_book, label: tr(locale, ja: 'ガイド', ko: '가이드', en: 'Guide', zh: '指南', fr: 'Guide')),
     ];
 
-    final body = SafeArea(
-      child: Center(
-      child: ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 700),
-      child: IndexedStack(
-        index: _currentIndex,
-        children: [
-          HomeScreen(onSwitchTab: switchToTab),
-          if (_visitedTabs.contains(1))
-            (stayState.result != null || stayState.isLoading) ? const StayResultScreen() : const StaySearchScreen()
-          else
-            const SizedBox.shrink(),
-          if (_visitedTabs.contains(2))
-            (meetupState.result != null || meetupState.isLoading) ? const MeetupResultScreen() : const MeetupSearchScreen()
-          else
-            const SizedBox.shrink(),
-          if (_visitedTabs.contains(3))
-            TripScreen(onSwitchTab: switchToTab)
-          else
-            const SizedBox.shrink(),
-          if (_visitedTabs.contains(4))
-            const GuideScreen()
-          else
-            const SizedBox.shrink(),
-        ],
-      ),
-      )),
+    final pages = IndexedStack(
+      index: _currentIndex,
+      children: [
+        HomeScreen(onSwitchTab: switchToTab),
+        if (_visitedTabs.contains(1))
+          (stayState.result != null || stayState.isLoading) ? const StayResultScreen() : const StaySearchScreen()
+        else
+          const SizedBox.shrink(),
+        if (_visitedTabs.contains(2))
+          (meetupState.result != null || meetupState.isLoading) ? const MeetupResultScreen() : const MeetupSearchScreen()
+        else
+          const SizedBox.shrink(),
+        if (_visitedTabs.contains(3))
+          TripScreen(onSwitchTab: switchToTab)
+        else
+          const SizedBox.shrink(),
+        if (_visitedTabs.contains(4))
+          const GuideScreen()
+        else
+          const SizedBox.shrink(),
+      ],
     );
+
+    // Phone: full width + bottom nav
+    // Tablet: NavigationRail + constrained content
+    // Desktop: wide sidebar + full width content
+    final Widget body;
+    if (isPhone) {
+      body = SafeArea(child: pages);
+    } else if (isDesktop) {
+      // Desktop: wide sidebar with labels + full content
+      body = SafeArea(child: Row(children: [
+        Container(
+          width: 200,
+          color: Theme.of(context).colorScheme.surfaceContainerHighest,
+          child: Column(children: [
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(children: [
+                Icon(Icons.flight_takeoff, color: AppTheme.primary, size: 20),
+                const SizedBox(width: 8),
+                Text('Nori GO!', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.primary)),
+              ]),
+            ),
+            const SizedBox(height: 8),
+            ...navItems.asMap().entries.map((e) {
+              final i = e.key;
+              final n = e.value;
+              final isSelected = _currentIndex == i;
+              return Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () => switchToTab(i),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    color: isSelected ? AppTheme.primary.withValues(alpha: 0.1) : null,
+                    child: Row(children: [
+                      Icon(isSelected ? n.activeIcon : n.icon, size: 20,
+                        color: isSelected ? AppTheme.primary : AppTheme.mutedForeground),
+                      const SizedBox(width: 12),
+                      Text(n.label, style: TextStyle(
+                        fontSize: 13, fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                        color: isSelected ? AppTheme.primary : AppTheme.foreground)),
+                    ]),
+                  ),
+                ),
+              );
+            }),
+          ]),
+        ),
+        const VerticalDivider(thickness: 1, width: 1),
+        Expanded(child: Center(child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 800),
+          child: pages,
+        ))),
+      ]));
+    } else {
+      // Tablet: NavigationRail + constrained content
+      body = SafeArea(child: Row(children: [
+        NavigationRail(
+          selectedIndex: _currentIndex,
+          onDestinationSelected: switchToTab,
+          labelType: NavigationRailLabelType.all,
+          destinations: navItems.map((n) => NavigationRailDestination(
+            icon: Icon(n.icon), selectedIcon: Icon(n.activeIcon), label: Text(n.label, style: const TextStyle(fontSize: 10)),
+          )).toList(),
+        ),
+        const VerticalDivider(thickness: 1, width: 1),
+        Expanded(child: Center(child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 700),
+          child: pages,
+        ))),
+      ]));
+    }
 
     return PopScope(
       canPop: false,
@@ -143,28 +212,15 @@ class _MainShellState extends ConsumerState<MainShell> {
         if (_currentIndex != 0) switchToTab(0);
       },
       child: Scaffold(
-        body: isWide
-          ? Row(children: [
-              NavigationRail(
-                selectedIndex: _currentIndex,
-                onDestinationSelected: switchToTab,
-                labelType: NavigationRailLabelType.all,
-                destinations: navItems.map((n) => NavigationRailDestination(
-                  icon: Icon(n.icon), selectedIcon: Icon(n.activeIcon), label: Text(n.label, style: const TextStyle(fontSize: 10)),
-                )).toList(),
-              ),
-              const VerticalDivider(thickness: 1, width: 1),
-              Expanded(child: body),
-            ])
-          : body,
-        bottomNavigationBar: isWide ? null : BottomNavigationBar(
+        body: body,
+        bottomNavigationBar: isPhone ? BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: switchToTab,
           type: BottomNavigationBarType.fixed,
           items: navItems.map((n) => BottomNavigationBarItem(
             icon: Icon(n.icon), activeIcon: Icon(n.activeIcon), label: n.label,
           )).toList(),
-        ),
+        ) : null,
       ),
     );
   }

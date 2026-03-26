@@ -8,11 +8,11 @@ class MainFlutterWindow: NSWindow {
     self.contentViewController = flutterViewController
     self.setFrame(windowFrame, display: true)
 
-    // Minimum window size
-    self.minSize = NSSize(width: 400, height: 600)
-    // Default window size
-    self.setContentSize(NSSize(width: 420, height: 800))
+    // macOS app window configuration
+    self.minSize = NSSize(width: 800, height: 600)
+    self.setContentSize(NSSize(width: 1100, height: 750))
     self.title = "Nori GO!"
+    self.center()
 
     RegisterGeneratedPlugins(registry: flutterViewController)
 
