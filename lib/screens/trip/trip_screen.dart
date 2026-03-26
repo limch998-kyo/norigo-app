@@ -395,7 +395,7 @@ class _TripCard extends ConsumerWidget {
     const _regionImages = {
       'kanto': '/images/landmarks/shibuya-crossing.webp',
       'kansai': '/images/landmarks/dotonbori.webp',
-      'kyushu': '/images/landmarks/tenjin.webp',
+      'kyushu': '/images/landmarks/canal-city-hakata.webp',
       'seoul': '/images/landmarks/myeongdong.webp',
       'busan': '/images/landmarks/haeundae.webp',
     };

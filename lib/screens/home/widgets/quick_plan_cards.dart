@@ -118,7 +118,7 @@ const _plans = [
   QuickPlan(
     id: 'fukuoka-classic',
     region: 'kyushu',
-    image: '/images/landmarks/tenjin.webp',
+    image: '/images/landmarks/canal-city-hakata.webp',
     labels: {
       'en': {'title': 'Tenjin · Canal City · Nakasu', 'subtitle': 'Fukuoka highlights'},
       'ja': {'title': '天神・キャナルシティ・中洲', 'subtitle': '福岡の定番コース'},
