@@ -26,6 +26,7 @@ import '../../config/booking_provider.dart';
 import '../../services/landmark_localizer.dart';
 import '../../services/rakuten_client.dart';
 import '../../services/station_codes.dart';
+import '../../widgets/stay_inline_map.dart';
 import '../../utils/tr.dart';
 import '../../app.dart';
 
@@ -733,7 +734,7 @@ class _AreaCardState extends State<_AreaCard> {
               height: 180,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: _InlineMap(area: area, landmarks: landmarks, locale: locale, hotels: _hotelMarkers),
+                child: StayInlineMap(area: area, landmarks: landmarks, locale: locale, hotels: _hotelMarkers),
               ),
             ),
             // Map legend

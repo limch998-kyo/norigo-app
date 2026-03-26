@@ -168,8 +168,10 @@ class TripScreen extends ConsumerWidget {
                 ),
                 onChanged: (q) async {
                   if (q.length < 2) { setDialogState(() => results = []); return; }
-                  final r = await api.searchLandmarks(q, region: tripRegion, locale: locale);
-                  setDialogState(() => results = r);
+                  try {
+                    final r = await api.searchLandmarks(q, region: tripRegion, locale: locale);
+                    if (ctx.mounted) setDialogState(() => results = r);
+                  } catch (_) {}
                 },
               ),
               const SizedBox(height: 8),
