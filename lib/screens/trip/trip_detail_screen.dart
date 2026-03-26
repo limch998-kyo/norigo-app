@@ -28,6 +28,7 @@ class TripDetailScreen extends ConsumerStatefulWidget {
 
 class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
   late TextEditingController _notesController;
+  bool _editingNotes = false;
 
   @override
   void initState() {
@@ -38,11 +39,14 @@ class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
 
   @override
   void dispose() {
-    // Save notes on dispose
-    final notes = _notesController.text.trim();
-    ref.read(tripProvider.notifier).setNotes(widget.tripId, notes.isEmpty ? null : notes);
     _notesController.dispose();
     super.dispose();
+  }
+
+  void _saveNotes() {
+    final notes = _notesController.text.trim();
+    ref.read(tripProvider.notifier).setNotes(widget.tripId, notes.isEmpty ? null : notes);
+    setState(() => _editingNotes = false);
   }
 
   void _showAddSpotDialog(BuildContext context, WidgetRef ref, Trip trip, String locale) {
@@ -427,22 +431,49 @@ class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
 
           // Notes
           const SizedBox(height: 16),
-          Text(
-            tr(locale, ja: 'メモ', ko: '메모', en: 'Notes', zh: '备注', fr: 'Notes'),
-            style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          TextField(
-            controller: _notesController,
-            maxLines: 4,
-            decoration: InputDecoration(
-              hintText: tr(locale, ja: 'メモを入力...', ko: '메모를 입력...', en: 'Add notes...', zh: '输入备注...', fr: 'Ajouter des notes...'),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+          Row(children: [
+            Text(
+              tr(locale, ja: 'メモ', ko: '메모', en: 'Notes', zh: '备注', fr: 'Notes'),
+              style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
             ),
-            onChanged: (value) {
-              // Auto-save on change (debounced by dispose)
-            },
-          ),
+            const Spacer(),
+            if (!_editingNotes && (trip.notes ?? '').isNotEmpty)
+              GestureDetector(
+                onTap: () => setState(() => _editingNotes = true),
+                child: Text(tr(locale, ja: '編集', ko: '수정', en: 'Edit', zh: '编辑', fr: 'Modifier'),
+                  style: TextStyle(fontSize: 12, color: AppTheme.primary, fontWeight: FontWeight.w600)),
+              ),
+          ]),
+          const SizedBox(height: 8),
+          if (_editingNotes || (trip.notes ?? '').isEmpty) ...[
+            TextField(
+              controller: _notesController,
+              maxLines: 4,
+              autofocus: _editingNotes,
+              decoration: InputDecoration(
+                hintText: tr(locale, ja: 'メモを入力...', ko: '메모를 입력...', en: 'Add notes...', zh: '输入备注...', fr: 'Ajouter des notes...'),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+            ),
+            const SizedBox(height: 8),
+            SizedBox(width: double.infinity, child: ElevatedButton(
+              onPressed: _saveNotes,
+              style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 10)),
+              child: Text(tr(locale, ja: '保存', ko: '저장', en: 'Save', zh: '保存', fr: 'Enregistrer'), style: const TextStyle(fontSize: 13)),
+            )),
+          ] else
+            GestureDetector(
+              onTap: () => setState(() => _editingNotes = true),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: theme.colorScheme.outline),
+                ),
+                child: Text(trip.notes!, style: const TextStyle(fontSize: 13)),
+              ),
+            ),
           const SizedBox(height: 24),
         ],
       ),
@@ -451,8 +482,7 @@ class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
               padding: const EdgeInsets.all(16),
               child: ElevatedButton.icon(
                 onPressed: () {
-                  final notes = _notesController.text.trim();
-                  notifier.setNotes(widget.tripId, notes.isEmpty ? null : notes);
+                  if (_editingNotes) _saveNotes();
                   // Set up stay search and navigate
                   final stayNotifier = ref.read(staySearchProvider.notifier);
                   final landmarks = notifier.getItemsAsLandmarks(widget.tripId);
