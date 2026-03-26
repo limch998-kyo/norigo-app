@@ -4,15 +4,28 @@ class AppTheme {
   // Brand colors (matching web theme — Blue-600 system)
   static const Color primary = Color(0xFF2563EB);
   static const Color primaryLight = Color(0xFFDBEAFE);
-  static const Color primaryBg = Color(0xFFEFF6FF);
   static const Color primaryForeground = Colors.white;
 
-  static const Color background = Colors.white;
-  static const Color foreground = Color(0xFF0F172A);
-  static const Color muted = Color(0xFFF8FAFC);
-  static const Color mutedForeground = Color(0xFF64748B);
-  static const Color border = Color(0xFFE2E8F0);
-  static const Color card = Colors.white;
+  /// Tracks current dark mode state. Updated by NorigoApp when theme changes.
+  static bool isDark = false;
+
+  // Light theme constants (used in lightTheme definition)
+  static const Color _lightPrimaryBg = Color(0xFFEFF6FF);
+  static const Color _lightBackground = Colors.white;
+  static const Color _lightForeground = Color(0xFF0F172A);
+  static const Color _lightMuted = Color(0xFFF8FAFC);
+  static const Color _lightMutedForeground = Color(0xFF64748B);
+  static const Color _lightBorder = Color(0xFFE2E8F0);
+  static const Color _lightCard = Colors.white;
+
+  // Dynamic getters — adapt to current theme mode
+  static Color get primaryBg => isDark ? const Color(0xFF1E3A5F) : _lightPrimaryBg;
+  static Color get background => isDark ? _darkBackground : _lightBackground;
+  static Color get foreground => isDark ? _darkForeground : _lightForeground;
+  static Color get muted => isDark ? _darkMuted : _lightMuted;
+  static Color get mutedForeground => isDark ? _darkMutedForeground : _lightMutedForeground;
+  static Color get border => isDark ? const Color(0xFF333333) : _lightBorder;
+  static Color get card => isDark ? _darkCard : _lightCard;
   static const Color destructive = Color(0xFFEF4444);
 
   static const Color green = Color(0xFF16A34A);
@@ -30,23 +43,23 @@ class AppTheme {
         onPrimary: primaryForeground,
         primaryContainer: primaryLight,
         onPrimaryContainer: primary,
-        secondary: muted,
-        onSecondary: foreground,
-        surface: background,
-        onSurface: foreground,
+        secondary: _lightMuted,
+        onSecondary: _lightForeground,
+        surface: _lightBackground,
+        onSurface: _lightForeground,
         surfaceContainerHighest: Color(0xFFF1F5F9),
-        outline: border,
+        outline: _lightBorder,
         error: destructive,
       ),
-      scaffoldBackgroundColor: background,
+      scaffoldBackgroundColor: _lightBackground,
       textTheme: base.textTheme.apply(
         fontFamily: _fontFamily,
-        bodyColor: foreground,
-        displayColor: foreground,
+        bodyColor: _lightForeground,
+        displayColor: _lightForeground,
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: background,
-        foregroundColor: foreground,
+        backgroundColor: _lightBackground,
+        foregroundColor: _lightForeground,
         elevation: 0,
         scrolledUnderElevation: 1,
         surfaceTintColor: Colors.transparent,
@@ -54,15 +67,15 @@ class AppTheme {
           fontFamily: _fontFamily,
           fontSize: 18,
           fontWeight: FontWeight.w600,
-          color: foreground,
+          color: _lightForeground,
         ),
       ),
       cardTheme: CardThemeData(
-        color: card,
+        color: _lightCard,
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: border),
+          side: const BorderSide(color: _lightBorder),
         ),
         shadowColor: Colors.black.withValues(alpha: 0.05),
       ),
@@ -82,8 +95,8 @@ class AppTheme {
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: foreground,
-          side: const BorderSide(color: border),
+          foregroundColor: _lightForeground,
+          side: const BorderSide(color: _lightBorder),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           textStyle: const TextStyle(
@@ -105,14 +118,14 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: background,
+        fillColor: _lightBackground,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: border),
+          borderSide: const BorderSide(color: _lightBorder),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: border),
+          borderSide: const BorderSide(color: _lightBorder),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
@@ -121,31 +134,31 @@ class AppTheme {
         contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         hintStyle: const TextStyle(
           fontFamily: _fontFamily,
-          color: mutedForeground,
+          color: _lightMutedForeground,
           fontSize: 14,
         ),
       ),
       chipTheme: ChipThemeData(
-        backgroundColor: muted,
+        backgroundColor: _lightMuted,
         selectedColor: primary,
         secondarySelectedColor: primary,
-        labelStyle: const TextStyle(fontFamily: _fontFamily, fontSize: 13, color: foreground),
+        labelStyle: const TextStyle(fontFamily: _fontFamily, fontSize: 13, color: _lightForeground),
         secondaryLabelStyle: const TextStyle(fontFamily: _fontFamily, fontSize: 13, color: primaryForeground),
-        side: const BorderSide(color: border),
+        side: const BorderSide(color: _lightBorder),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
         showCheckmark: false,
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: background,
+        backgroundColor: _lightBackground,
         selectedItemColor: primary,
-        unselectedItemColor: mutedForeground,
+        unselectedItemColor: _lightMutedForeground,
         type: BottomNavigationBarType.fixed,
         elevation: 8,
         selectedLabelStyle: TextStyle(fontFamily: _fontFamily, fontSize: 12, fontWeight: FontWeight.w500),
         unselectedLabelStyle: TextStyle(fontFamily: _fontFamily, fontSize: 12),
       ),
-      dividerTheme: const DividerThemeData(color: border, thickness: 1),
+      dividerTheme: const DividerThemeData(color: _lightBorder, thickness: 1),
       dialogTheme: DialogThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),

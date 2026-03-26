@@ -107,6 +107,7 @@ class BookingProvider {
   }
 
   /// Wrap URL via /api/out for server-side affiliate redirect (matching web)
+  /// Uses Uri class to avoid double-encoding the url parameter
   static String _wrapWithApiOut(String url, String provider, {String? stationId}) {
     final params = <String, String>{
       'shopId': 'app',
@@ -114,7 +115,7 @@ class BookingProvider {
       'provider': provider,
     };
     if (stationId != null) params['stationId'] = stationId;
-    return '$_apiOutUrl?${_encodeParams(params)}';
+    return Uri.parse(_apiOutUrl).replace(queryParameters: params).toString();
   }
 
   /// Build a search URL for the booking provider
@@ -260,8 +261,10 @@ class BookingProvider {
       'ja' => 'ja',
       _ => 'en-us',
     };
+    // Append 駅 (Station) to query for better search results (matching web)
+    final ss = '$query駅';
     final params = <String, String>{
-      'ss': query,
+      'ss': ss,
       'lang': langCode,
       'aid': '2432111',
     };
@@ -276,7 +279,7 @@ class BookingProvider {
       final priceMax = range.max >= 999999999 ? 999999 : range.max * 2;
       params['nflt'] = 'price=JPY-$priceMin-$priceMax-1';
     }
-    return '$_bookingBaseUrl/searchresults.html?${_encodeParams(params)}';
+    return '$_bookingBaseUrl/searchresults.$langCode.html?${_encodeParams(params)}';
   }
 
   /// Build destination string for Expedia/Hotels.com
@@ -327,12 +330,13 @@ class BookingProvider {
   static String _buildHotelsComUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng, String? maxBudget}) {
     // Use locale subdomain + siteid + locale + currency=USD to force USD pricing
     // (matching web app's working URL pattern)
+    // Always use www.hotels.com (matching web app)
     final domainLocale = switch (locale) {
-      'ko' => (domain: 'kr.hotels.com', siteId: '300000034', loc: 'ko_KR'),
-      'ja' => (domain: 'jp.hotels.com', siteId: '300000034', loc: 'ja_JP'),
-      'fr' => (domain: 'fr.hotels.com', siteId: '300000034', loc: 'fr_FR'),
-      'zh' => (domain: 'hotels.com', siteId: '300000034', loc: 'zh_CN'),
-      _ => (domain: 'hotels.com', siteId: '300000034', loc: 'en_US'),
+      'ko' => (domain: 'www.hotels.com', siteId: '300000034', loc: 'ko_KR'),
+      'ja' => (domain: 'www.hotels.com', siteId: '300000034', loc: 'ja_JP'),
+      'fr' => (domain: 'www.hotels.com', siteId: '300000034', loc: 'fr_FR'),
+      'zh' => (domain: 'www.hotels.com', siteId: '300000034', loc: 'zh_CN'),
+      _ => (domain: 'www.hotels.com', siteId: '300000034', loc: 'en_US'),
     };
     const affcid = 'US.DIRECT.PHG.1011l426920.1100l68075';
     final destination = _expediaDestination(query, lng);
@@ -347,8 +351,7 @@ class BookingProvider {
       if (minUsd > 0) url += '&price=$minUsd';
       url += '&price=$maxUsd';
     }
-    url += '&affcid=$affcid';
-    if (lat != null && lng != null) url += '&latLong=$lat,$lng';
+    url += '&sort=RECOMMENDED&affcid=$affcid';
     return url;
   }
 

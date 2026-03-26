@@ -26,6 +26,7 @@ import '../../config/booking_provider.dart';
 import '../../services/landmark_localizer.dart';
 import '../../services/rakuten_client.dart';
 import '../../services/station_codes.dart';
+import '../../widgets/stay_inline_map.dart';
 import '../../utils/tr.dart';
 import '../../app.dart';
 
@@ -108,12 +109,18 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
         checkOut: state.checkOut,
       );
       stayNotifier.setSavedSearchId(existing.id);
+      ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(tr(locale, ja: '旅行プランを更新しました', ko: '여행 플랜을 업데이트했습니다', en: 'Trip updated', zh: '行程已更新', fr: 'Voyage mis à jour')),
-        action: SnackBarAction(
-          label: tr(locale, ja: '表示', ko: '보기', en: 'View', zh: '查看', fr: 'Voir'),
-          onPressed: () => MainShell.globalSwitchTab?.call(3),
-        ),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(milliseconds: 1500),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        content: Row(children: [
+          Expanded(child: Text(tr(locale, ja: '旅行プランを更新しました', ko: '여행 플랜 업데이트됨', en: 'Trip updated', zh: '行程已更新', fr: 'Voyage mis à jour'))),
+          TextButton(
+            onPressed: () { ScaffoldMessenger.of(context).hideCurrentSnackBar(); MainShell.globalSwitchTab?.call(3); },
+            child: Text(tr(locale, ja: '表示', ko: '보기', en: 'View', zh: '查看', fr: 'Voir'), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+        ]),
       ));
     } else {
       // Create new trip from search
@@ -129,12 +136,18 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
         checkOut: state.checkOut,
       );
       stayNotifier.setSavedSearchId(tripId);
+      ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(tr(locale, ja: '旅行プランに保存しました', ko: '여행 플랜에 저장했습니다', en: 'Saved to trip', zh: '已保存到行程', fr: 'Enregistré dans le voyage')),
-        action: SnackBarAction(
-          label: tr(locale, ja: '表示', ko: '보기', en: 'View', zh: '查看', fr: 'Voir'),
-          onPressed: () => MainShell.globalSwitchTab?.call(3),
-        ),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(milliseconds: 1500),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        content: Row(children: [
+          Expanded(child: Text(tr(locale, ja: '旅行プランに保存しました', ko: '여행 플랜에 저장됨', en: 'Saved to trip', zh: '已保存到行程', fr: 'Enregistré dans le voyage'))),
+          TextButton(
+            onPressed: () { ScaffoldMessenger.of(context).hideCurrentSnackBar(); MainShell.globalSwitchTab?.call(3); },
+            child: Text(tr(locale, ja: '表示', ko: '보기', en: 'View', zh: '查看', fr: 'Voir'), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+        ]),
       ));
     }
   }
@@ -721,7 +734,7 @@ class _AreaCardState extends State<_AreaCard> {
               height: 180,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: _InlineMap(area: area, landmarks: landmarks, locale: locale, hotels: _hotelMarkers),
+                child: StayInlineMap(area: area, landmarks: landmarks, locale: locale, hotels: _hotelMarkers),
               ),
             ),
             // Map legend

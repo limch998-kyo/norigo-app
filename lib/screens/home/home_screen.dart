@@ -7,6 +7,8 @@ import '../../providers/stay_provider.dart';
 import '../../models/landmark.dart';
 import '../../config/theme.dart';
 import '../../utils/tr.dart';
+import '../../providers/trip_provider.dart';
+import '../../services/landmark_localizer.dart';
 import 'widgets/quick_plan_cards.dart';
 import '../settings/settings_screen.dart';
 import '../spot/spot_detail_screen.dart';
@@ -190,6 +192,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               child: _KoreaHowItWorks(locale: locale),
             ),
           const SizedBox(height: 32),
+
+          // ── Continue Planning (recent trips) ──
+          _ContinuePlanningSection(locale: locale, onSwitchTab: onSwitchTab),
 
           // ── Quick Plans ──
           if (!_koreaMode)
@@ -587,8 +592,8 @@ class _KoreaBanner extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: AppTheme.border),
-          gradient: const LinearGradient(
-            colors: [Color(0xFFEFF6FF), Color(0xFFEEF2FF)], // blue-50 to indigo-50
+          gradient: LinearGradient(
+            colors: AppTheme.isDark ? [const Color(0xFF1A1A2E), const Color(0xFF16213E)] : [const Color(0xFFEFF6FF), const Color(0xFFEEF2FF)],
           ),
         ),
         child: Row(
@@ -649,7 +654,7 @@ class _JapanBanner extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: AppTheme.border),
-          gradient: const LinearGradient(colors: [Color(0xFFFEF2F2), Color(0xFFFFF7ED)]),
+          gradient: LinearGradient(colors: AppTheme.isDark ? [const Color(0xFF2D1B1B), const Color(0xFF2D2418)] : [const Color(0xFFFEF2F2), const Color(0xFFFFF7ED)]),
         ),
         child: Row(children: [
           Container(
@@ -894,6 +899,100 @@ class _KoreaQuickPlans extends StatelessWidget {
           ]),
         ),
       ),
+    );
+  }
+}
+
+/// Shows recent trips as horizontal cards on the home screen
+class _ContinuePlanningSection extends ConsumerWidget {
+  final String locale;
+  final TabSwitcher? onSwitchTab;
+  const _ContinuePlanningSection({required this.locale, this.onSwitchTab});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(tripProvider);
+    final recentTrips = state.trips.toList()
+      ..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+    final trips = recentTrips.take(3).toList();
+    if (trips.isEmpty) return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [
+          Icon(Icons.flight_takeoff, size: 16, color: AppTheme.primary),
+          const SizedBox(width: 6),
+          Text(
+            tr(locale, ja: '旅行プラン', ko: '여행 플랜', en: 'My Trips', zh: '我的旅行', fr: 'Mes voyages'),
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          ),
+          const Spacer(),
+          GestureDetector(
+            onTap: () => onSwitchTab?.call(3),
+            child: Text(
+              tr(locale, ja: 'すべて見る', ko: '전체 보기', en: 'View all', zh: '查看全部', fr: 'Voir tout'),
+              style: TextStyle(fontSize: 12, color: AppTheme.primary),
+            ),
+          ),
+        ]),
+        const SizedBox(height: 10),
+        SizedBox(
+          height: 120,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: trips.length,
+            separatorBuilder: (_, __) => const SizedBox(width: 10),
+            itemBuilder: (context, index) {
+              final trip = trips[index];
+              final items = state.items.where((i) => i.tripId == trip.id).toList();
+              final heroSlug = items.isNotEmpty ? items.first.slug : null;
+              const regionImages = {
+                'kanto': '/images/landmarks/shibuya-crossing.webp',
+                'kansai': '/images/landmarks/dotonbori.webp',
+                'seoul': '/images/landmarks/myeongdong.webp',
+                'busan': '/images/landmarks/haeundae.webp',
+              };
+              final fallback = regionImages[items.isNotEmpty ? items.first.region : (trip.country == 'korea' ? 'seoul' : 'kanto')];
+              final imageUrl = heroSlug != null
+                  ? 'https://norigo.app/images/landmarks/$heroSlug.webp'
+                  : (fallback != null ? 'https://norigo.app$fallback' : null);
+              final spotNames = items.take(3).map((i) =>
+                LandmarkLocalizer.getLocalizedName(locale: locale, slug: i.slug, name: i.name) ?? i.name
+              ).join(' · ');
+
+              return GestureDetector(
+                onTap: () => onSwitchTab?.call(3),
+                child: Container(
+                  width: 180,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Theme.of(context).colorScheme.outline),
+                  ),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    if (imageUrl != null)
+                      Image.network(imageUrl, height: 60, width: 180, fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Container(height: 60, color: AppTheme.primaryBg)),
+                    if (imageUrl == null)
+                      Container(height: 60, color: AppTheme.primaryBg),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        Text(trip.name, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                          maxLines: 1, overflow: TextOverflow.ellipsis),
+                        if (spotNames.isNotEmpty)
+                          Text(spotNames, style: TextStyle(fontSize: 10, color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5)),
+                            maxLines: 1, overflow: TextOverflow.ellipsis),
+                      ]),
+                    ),
+                  ]),
+                ),
+              );
+            },
+          ),
+        ),
+      ]),
     );
   }
 }

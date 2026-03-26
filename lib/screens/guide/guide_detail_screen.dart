@@ -165,22 +165,23 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
         }
 
         // Show snackbar once per session with action to go to trip tab
-        if (mounted && !_shownAddSnackbar) {
-          _shownAddSnackbar = true;
+        if (mounted) {
+          ScaffoldMessenger.of(context).clearSnackBars();
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(
-              tr(widget.locale, ja: '旅行プランに追加しました', ko: '여행 플랜에 추가했습니다', en: 'Added to trip plan', zh: '已添加到旅行计划', fr: 'Ajouté au voyage'),
-            ),
-            duration: const Duration(seconds: 3),
-            action: SnackBarAction(
-              label: tr(widget.locale, ja: '旅行タブへ', ko: '여행 탭으로', en: 'Go to Trip', zh: '前往旅行', fr: 'Aller au voyage'),
-              textColor: Colors.white,
-              onPressed: () {
-                // Switch tab first, then pop back
-                MainShell.globalSwitchTab?.call(3);
-                Navigator.of(context).popUntil((route) => route.isFirst);
-              },
-            ),
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(milliseconds: 1500),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            content: Row(children: [
+              Expanded(child: Text(tr(widget.locale, ja: '旅行プランに追加しました', ko: '여행 플랜에 추가됨', en: 'Added to trip', zh: '已添加到旅行', fr: 'Ajouté au voyage'))),
+              TextButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  MainShell.globalSwitchTab?.call(3);
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                },
+                child: Text(tr(widget.locale, ja: '表示', ko: '보기', en: 'View', zh: '查看', fr: 'Voir'), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+              ),
+            ]),
           ));
         }
       }
