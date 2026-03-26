@@ -66,7 +66,7 @@ class StayInlineMap extends StatelessWidget {
     }
 
     final flags = interactive
-        ? InteractiveFlag.pinchZoom | InteractiveFlag.drag
+        ? InteractiveFlag.all
         : InteractiveFlag.none;
 
     return FlutterMap(

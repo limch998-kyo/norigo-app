@@ -182,7 +182,7 @@ class _MainShellState extends ConsumerState<MainShell> {
         ),
         const VerticalDivider(thickness: 1, width: 1),
         Expanded(child: Center(child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 800),
+          constraints: const BoxConstraints(maxWidth: 1000),
           child: pages,
         ))),
       ]));

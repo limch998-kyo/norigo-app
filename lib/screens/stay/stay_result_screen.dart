@@ -1129,7 +1129,7 @@ class _InlineMap extends StatelessWidget {
     }
 
     return FlutterMap(
-      options: MapOptions(initialCenter: center, initialZoom: zoom, interactionOptions: const InteractionOptions(flags: InteractiveFlag.pinchZoom | InteractiveFlag.drag)),
+      options: MapOptions(initialCenter: center, initialZoom: zoom, interactionOptions: const InteractionOptions(flags: InteractiveFlag.all)),
       children: [
         TileLayer(urlTemplate: 'https://basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}@2x.png', userAgentPackageName: 'app.norigo'),
         // Route polylines

@@ -261,7 +261,7 @@ class _StationCard extends StatelessWidget {
                     options: MapOptions(
                       initialCenter: mapCenter,
                       initialZoom: autoZoom,
-                      interactionOptions: const InteractionOptions(flags: InteractiveFlag.pinchZoom | InteractiveFlag.drag),
+                      interactionOptions: const InteractionOptions(flags: InteractiveFlag.all),
                     ),
                     children: [
                       TileLayer(urlTemplate: 'https://basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}@2x.png', userAgentPackageName: 'app.norigo'),
