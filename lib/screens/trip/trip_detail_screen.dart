@@ -50,7 +50,7 @@ class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
     final api = ref.read(apiClientProvider);
     final notifier = ref.read(tripProvider.notifier);
     final tripItems = ref.read(tripProvider).items.where((i) => i.tripId == trip.id);
-    final tripRegion = tripItems.isNotEmpty ? tripItems.first.region : (trip.country == 'korea' ? 'seoul' : 'kanto');
+    final tripRegion = tripItems.isNotEmpty ? tripItems.first.region : (trip.region ?? (trip.country == 'korea' ? 'seoul' : 'kanto'));
 
     // Popular spots per region for recommendations
     const popularSpots = {

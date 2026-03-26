@@ -215,7 +215,7 @@ class TripNotifier extends StateNotifier<TripState> {
     await prefs.setString(_storageKey, jsonEncode(data));
   }
 
-  String createTrip(String name, {String? country}) {
+  String createTrip(String name, {String? country, String? region}) {
     // Auto-number if same name exists
     var finalName = name;
     final existingNames = state.trips.map((t) => t.name).toSet();
@@ -232,6 +232,7 @@ class TripNotifier extends StateNotifier<TripState> {
       id: _uuid.v4(),
       name: finalName,
       country: country ?? state.country,
+      region: region,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );

@@ -234,7 +234,7 @@ class TripScreen extends ConsumerWidget {
                   width: double.infinity,
                   child: OutlinedButton(
                     onPressed: () {
-                      notifier.createTrip(label, country: r['country'] as String);
+                      notifier.createTrip(label, country: r['country'] as String, region: r['id'] as String);
                       Navigator.pop(ctx);
                     },
                     style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 12)),

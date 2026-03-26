@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:markdown/markdown.dart' as md;
 import 'package:url_launcher/url_launcher.dart';
 import '../../config/theme.dart';
 import '../../providers/app_providers.dart';
@@ -174,6 +175,10 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
         widgets.add(MarkdownBody(
           data: part.markdown!,
           selectable: true,
+          extensionSet: md.ExtensionSet(
+            md.ExtensionSet.gitHubFlavored.blockSyntaxes,
+            [md.InlineHtmlSyntax(), md.AutolinkExtensionSyntax()],
+          ),
           styleSheet: _markdownStyle(),
           onTapLink: (text, href, title) {
             if (href != null) launchUrl(Uri.parse(href), mode: LaunchMode.externalApplication);

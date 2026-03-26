@@ -478,5 +478,53 @@
     "lng": 129.0393,
     "landmarkName": "釜山駅",
     "landmarkNameKo": "부산역"
+  },
+  {
+    "slug": "hakata-fukuoka",
+    "heroImage": "/images/landmarks/hakata-station.webp",
+    "region": "kyushu",
+    "title": {
+      "en": "Hakata & Fukuoka City Guide",
+      "ja": "博多・福岡シティガイド",
+      "ko": "하카타·후쿠오카 시티 가이드",
+      "zh": "博多·福冈城市攻略",
+      "fr": "Guide de Hakata et Fukuoka"
+    },
+    "description": {
+      "en": "Japan's ramen capital — Hakata tonkotsu, yatai street stalls, Tenjin shopping, and Canal City.",
+      "ja": "日本のラーメン首都 — 博多とんこつ・屋台・天神ショッピング・キャナルシティ。",
+      "ko": "일본의 라멘 수도 — 하카타 돈코쓰, 포장마차, 텐진 쇼핑, 캐널시티.",
+      "zh": "日本拉面之都——博多豚骨、屋台摊位、天神购物与博多运河城。",
+      "fr": "La capitale du ramen — Hakata tonkotsu, yatai, shopping à Tenjin et Canal City."
+    },
+    "tags": [
+      "food",
+      "ramen",
+      "shopping"
+    ]
+  },
+  {
+    "slug": "kyushu-itinerary",
+    "heroImage": "/images/landmarks/dazaifu-tenmangu.webp",
+    "region": "kyushu",
+    "title": {
+      "en": "Kyushu 2-Day & 3-Day Model Itinerary",
+      "ja": "九州2日・3日モデルコース",
+      "ko": "큐슈 2일·3일 모델 코스",
+      "zh": "九州2日·3日模范行程",
+      "fr": "Itinéraire modèle 2-3 jours à Kyushu"
+    },
+    "description": {
+      "en": "Fukuoka, Dazaifu, Yufuin hot springs, Beppu hells, and optional Kumamoto or Nagasaki.",
+      "ja": "福岡・太宰府・由布院温泉・別府地獄・熊本/長崎 — 九州のベストを凝縮。",
+      "ko": "후쿠오카, 다자이후, 유후인 온천, 벳푸 지옥, 구마모토/나가사키 — 큐슈의 베스트.",
+      "zh": "福冈、太宰府、由布院温泉、别府地狱与熊本/长崎——九州精华之旅。",
+      "fr": "Fukuoka, Dazaifu, sources chaudes de Yufuin, enfers de Beppu et Kumamoto/Nagasaki."
+    },
+    "tags": [
+      "itinerary",
+      "onsen",
+      "culture"
+    ]
   }
 ]
