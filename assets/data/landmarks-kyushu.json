@@ -1,0 +1,977 @@
+[
+  {
+    "name": "博多駅",
+    "nameEn": "Hakata Station",
+    "nameKo": "하카타역",
+    "romaji": "hakatastation",
+    "lat": 33.5897,
+    "lng": 130.4207,
+    "slug": "hakata-station",
+    "nameZh": "博多站",
+    "imageUrl": "/images/landmarks/hakata-station.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "天神地下街",
+    "nameEn": "Tenjin Underground City",
+    "nameKo": "덴진 지하가",
+    "romaji": "tenjinunderground",
+    "lat": 33.5903,
+    "lng": 130.399,
+    "slug": "tenjin-underground",
+    "nameZh": "天神地下街",
+    "imageUrl": "/images/landmarks/tenjin-underground.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "キャナルシティ博多",
+    "nameEn": "Canal City Hakata",
+    "nameKo": "캐널시티 하카타",
+    "romaji": "canalcityhakata",
+    "lat": 33.5895,
+    "lng": 130.4111,
+    "slug": "canal-city-hakata",
+    "nameZh": "博多运河城",
+    "imageUrl": "/images/landmarks/canal-city-hakata.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "中洲屋台",
+    "nameEn": "Nakasu Yatai Street",
+    "nameKo": "나카스 포장마차",
+    "romaji": "nakasuyatai",
+    "lat": 33.5929,
+    "lng": 130.4068,
+    "slug": "nakasu-yatai",
+    "nameZh": "中洲屋台",
+    "imageUrl": "/images/landmarks/nakasu-yatai.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "太宰府天満宮",
+    "nameEn": "Dazaifu Tenmangu",
+    "nameKo": "다자이후 텐만구",
+    "romaji": "dazaifutenmangu",
+    "lat": 33.5214,
+    "lng": 130.5353,
+    "slug": "dazaifu-tenmangu",
+    "nameZh": "太宰府天满宫",
+    "imageUrl": "/images/landmarks/dazaifu-tenmangu.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "福岡タワー",
+    "nameEn": "Fukuoka Tower",
+    "nameKo": "후쿠오카 타워",
+    "romaji": "fukuokatower",
+    "lat": 33.5935,
+    "lng": 130.3514,
+    "slug": "fukuoka-tower",
+    "nameZh": "福冈塔",
+    "imageUrl": "/images/landmarks/fukuoka-tower.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "大濠公園",
+    "nameEn": "Ohori Park",
+    "nameKo": "오호리 공원",
+    "romaji": "ohoripark",
+    "lat": 33.5857,
+    "lng": 130.3779,
+    "slug": "ohori-park",
+    "nameZh": "大濠公园",
+    "imageUrl": "/images/landmarks/ohori-park.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "櫛田神社",
+    "nameEn": "Kushida Shrine",
+    "nameKo": "구시다 신사",
+    "romaji": "kushidashrine",
+    "lat": 33.5907,
+    "lng": 130.4101,
+    "slug": "kushida-shrine",
+    "nameZh": "櫛田神社",
+    "imageUrl": "/images/landmarks/kushida-shrine.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "マリンワールド海の中道",
+    "nameEn": "Marine World Uminonakamichi",
+    "nameKo": "마린월드 우미노나카미치",
+    "romaji": "marineworld",
+    "lat": 33.6523,
+    "lng": 130.3651,
+    "slug": "marine-world",
+    "nameZh": "海洋世界海之中道",
+    "imageUrl": "/images/landmarks/marine-world.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "門司港レトロ",
+    "nameEn": "Mojiko Retro",
+    "nameKo": "모지코 레트로",
+    "romaji": "mojikoretro",
+    "lat": 33.951,
+    "lng": 130.9614,
+    "slug": "mojiko-retro",
+    "nameZh": "门司港怀旧区",
+    "imageUrl": "/images/landmarks/mojiko-retro.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "小倉城",
+    "nameEn": "Kokura Castle",
+    "nameKo": "고쿠라성",
+    "romaji": "kokuracastle",
+    "lat": 33.8847,
+    "lng": 130.8742,
+    "slug": "kokura-castle",
+    "nameZh": "小仓城",
+    "imageUrl": "/images/landmarks/kokura-castle.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "柳川川下り",
+    "nameEn": "Yanagawa River Cruise",
+    "nameKo": "야나가와 뱃놀이",
+    "romaji": "yanagawariver",
+    "lat": 33.1631,
+    "lng": 130.4091,
+    "slug": "yanagawa-river",
+    "nameZh": "柳川游船",
+    "imageUrl": "/images/landmarks/yanagawa-river.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "糸島",
+    "nameEn": "Itoshima",
+    "nameKo": "이토시마",
+    "romaji": "itoshima",
+    "lat": 33.5567,
+    "lng": 130.2183,
+    "slug": "itoshima",
+    "nameZh": "系岛",
+    "imageUrl": "/images/landmarks/itoshima.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "唐津城",
+    "nameEn": "Karatsu Castle",
+    "nameKo": "가라쓰성",
+    "romaji": "karatsucastle",
+    "lat": 33.4543,
+    "lng": 129.9724,
+    "slug": "karatsu-castle",
+    "nameZh": "唐津城",
+    "imageUrl": "/images/landmarks/karatsu-castle.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "吉野ヶ里遺跡",
+    "nameEn": "Yoshinogari Ruins",
+    "nameKo": "요시노가리 유적",
+    "romaji": "yoshinogariruins",
+    "lat": 33.3165,
+    "lng": 130.3882,
+    "slug": "yoshinogari-ruins",
+    "nameZh": "吉野里遗迹",
+    "imageUrl": "/images/landmarks/yoshinogari-ruins.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "御船山楽園",
+    "nameEn": "Mifuneyama Rakuen",
+    "nameKo": "미후네야마 라쿠엔",
+    "romaji": "mifuneyamarakuen",
+    "lat": 33.2217,
+    "lng": 130.0661,
+    "slug": "mifuneyama-rakuen",
+    "nameZh": "御船山乐园",
+    "imageUrl": "/images/landmarks/mifuneyama-rakuen.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    },
+    "accessStation": {
+      "stationId": "7c84b7bd1270",
+      "minutes": 10,
+      "mode": "bus",
+      "info": {
+        "ja": "武雄温泉駅→御船山楽園(タクシー約10分)",
+        "ko": "다케오온천역 → 미후네야마 라쿠엔(택시 약 10분)",
+        "en": "Takeo-Onsen Stn → Mifuneyama (taxi ~10min)",
+        "zh": "武雄温泉站 → 御船山乐园(出租车约10分)"
+      }
+    }
+  },
+  {
+    "name": "嬉野温泉",
+    "nameEn": "Ureshino Onsen",
+    "nameKo": "우레시노 온천",
+    "romaji": "ureshinoonsen",
+    "lat": 33.1244,
+    "lng": 130.0367,
+    "slug": "ureshino-onsen",
+    "nameZh": "嬉野温泉",
+    "imageUrl": "/images/landmarks/ureshino-onsen.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    },
+    "accessStation": {
+      "stationId": "86db9e7c475d",
+      "minutes": 5,
+      "mode": "bus",
+      "info": {
+        "ja": "嬉野温泉駅→温泉街(バス約5分)",
+        "ko": "우레시노온천역 → 온천거리(버스 약 5분)",
+        "en": "Ureshino-Onsen Stn → Onsen area (bus ~5min)",
+        "zh": "�的野温泉站 → 温泉街(巴士约5分)"
+      }
+    }
+  },
+  {
+    "name": "グラバー園",
+    "nameEn": "Glover Garden",
+    "nameKo": "구라바엔",
+    "romaji": "glovergarden",
+    "lat": 32.734,
+    "lng": 129.872,
+    "slug": "glover-garden",
+    "nameZh": "哥拉巴园",
+    "imageUrl": "/images/landmarks/glover-garden.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "平和公園",
+    "nameEn": "Nagasaki Peace Park",
+    "nameKo": "나가사키 평화공원",
+    "romaji": "nagasakipeacepark",
+    "lat": 32.7737,
+    "lng": 129.8647,
+    "slug": "nagasaki-peace-park",
+    "nameZh": "和平公园",
+    "imageUrl": "/images/landmarks/nagasaki-peace-park.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "原爆資料館",
+    "nameEn": "Atomic Bomb Museum",
+    "nameKo": "원폭자료관",
+    "romaji": "atomicbombmuseum",
+    "lat": 32.7721,
+    "lng": 129.8643,
+    "slug": "atomic-bomb-museum",
+    "nameZh": "原爆资料馆",
+    "imageUrl": "/images/landmarks/atomic-bomb-museum.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "ハウステンボス",
+    "nameEn": "Huis Ten Bosch",
+    "nameKo": "하우스텐보스",
+    "romaji": "huistenbosch",
+    "lat": 33.0858,
+    "lng": 129.7884,
+    "slug": "huis-ten-bosch",
+    "nameZh": "豪斯登堡",
+    "imageUrl": "/images/landmarks/huis-ten-bosch.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "稲佐山",
+    "nameEn": "Mt. Inasa",
+    "nameKo": "이나사야마",
+    "romaji": "mtinasa",
+    "lat": 32.7583,
+    "lng": 129.8519,
+    "slug": "mt-inasa",
+    "nameZh": "稻佐山",
+    "imageUrl": "/images/landmarks/mt-inasa.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "大浦天主堂",
+    "nameEn": "Oura Church",
+    "nameKo": "오우라 천주당",
+    "romaji": "ourachurch",
+    "lat": 32.7352,
+    "lng": 129.8726,
+    "slug": "oura-church",
+    "nameZh": "大浦天主堂",
+    "imageUrl": "/images/landmarks/oura-church.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "九十九島",
+    "nameEn": "Kujukushima Islands",
+    "nameKo": "구주쿠섬",
+    "romaji": "kujukushima",
+    "lat": 33.1644,
+    "lng": 129.6373,
+    "slug": "kujukushima",
+    "nameZh": "九十九岛",
+    "imageUrl": "/images/landmarks/kujukushima.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    },
+    "accessStation": {
+      "stationId": "1166a8876408",
+      "minutes": 25,
+      "mode": "bus",
+      "info": {
+        "ja": "佐世保駅→九十九島(バス約25分)",
+        "ko": "사세보역 → 구주쿠섬(버스 약 25분)",
+        "en": "Sasebo Stn → Kujukushima (bus ~25min)",
+        "zh": "佐世保站 → 九十九岛(巴士约25分)"
+      }
+    }
+  },
+  {
+    "name": "軍艦島",
+    "nameEn": "Gunkanjima (Battleship Island)",
+    "nameKo": "군함도",
+    "romaji": "gunkanjima",
+    "lat": 32.6278,
+    "lng": 129.7386,
+    "slug": "gunkanjima",
+    "nameZh": "军舰岛",
+    "imageUrl": "/images/landmarks/gunkanjima.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    },
+    "accessStation": {
+      "stationId": "d7bb9ae55117",
+      "minutes": 40,
+      "mode": "ferry",
+      "info": {
+        "ja": "長崎駅→長崎港(徒歩10分)→軍艦島ツアー(船30分)",
+        "ko": "나가사키역 → 나가사키항(도보 10분) → 군칸지마 투어(배 30분)",
+        "en": "Nagasaki Stn → Port (walk 10min) → Gunkanjima tour boat (30min)",
+        "zh": "长崎站 → 港口(步行10分) → 军舰岛观光船(30分)"
+      }
+    }
+  },
+  {
+    "name": "熊本城",
+    "nameEn": "Kumamoto Castle",
+    "nameKo": "구마모토성",
+    "romaji": "kumamotocastle",
+    "lat": 32.806,
+    "lng": 130.7059,
+    "slug": "kumamoto-castle",
+    "nameZh": "熊本城",
+    "imageUrl": "/images/landmarks/kumamoto-castle.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "阿蘇山",
+    "nameEn": "Mt. Aso",
+    "nameKo": "아소산",
+    "romaji": "mtaso",
+    "lat": 32.884,
+    "lng": 131.104,
+    "slug": "mt-aso",
+    "nameZh": "阿苏山",
+    "imageUrl": "/images/landmarks/mt-aso.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    },
+    "accessStation": {
+      "stationId": "386a06711092",
+      "minutes": 35,
+      "mode": "bus",
+      "info": {
+        "ja": "阿蘇駅→阿蘇山上(バス約35分)",
+        "ko": "아소역 → 아소산 정상(버스 약 35분)",
+        "en": "Aso Stn → Mt. Aso summit (bus ~35min)",
+        "zh": "阿苏站 → 阿苏山顶(巴士约35分)"
+      }
+    }
+  },
+  {
+    "name": "水前寺成趣園",
+    "nameEn": "Suizenji Garden",
+    "nameKo": "스이젠지 공원",
+    "romaji": "suizenjigarden",
+    "lat": 32.7847,
+    "lng": 130.7307,
+    "slug": "suizenji-garden",
+    "nameZh": "水前寺成趣园",
+    "imageUrl": "/images/landmarks/suizenji-garden.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "黒川温泉",
+    "nameEn": "Kurokawa Onsen",
+    "nameKo": "구로카와 온천",
+    "romaji": "kurokawaonsen",
+    "lat": 33.0889,
+    "lng": 131.095,
+    "slug": "kurokawa-onsen",
+    "nameZh": "黑川温泉",
+    "imageUrl": "/images/landmarks/kurokawa-onsen.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    },
+    "accessStation": {
+      "stationId": "386a06711092",
+      "minutes": 50,
+      "mode": "bus",
+      "info": {
+        "ja": "阿蘇駅→黒川温泉(バス約50分)",
+        "ko": "아소역 → 구로카와 온천(버스 약 50분)",
+        "en": "Aso Stn → Kurokawa Onsen (bus ~50min)",
+        "zh": "阿苏站 → 黑川温泉(巴士约50分)"
+      }
+    }
+  },
+  {
+    "name": "天草",
+    "nameEn": "Amakusa Islands",
+    "nameKo": "아마쿠사",
+    "romaji": "amakusa",
+    "lat": 32.4553,
+    "lng": 130.194,
+    "slug": "amakusa",
+    "nameZh": "天草",
+    "imageUrl": "/images/landmarks/amakusa.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    },
+    "accessStation": {
+      "stationId": "56dfd8670f49",
+      "minutes": 60,
+      "mode": "bus",
+      "info": {
+        "ja": "三角駅→天草(バス約1時間)",
+        "ko": "미스미역 → 아마쿠사(버스 약 1시간)",
+        "en": "Misumi Stn → Amakusa (bus ~1h)",
+        "zh": "三角站 → 天草(巴士约1小时)"
+      }
+    }
+  },
+  {
+    "name": "別府温泉",
+    "nameEn": "Beppu Onsen",
+    "nameKo": "벳푸 온천",
+    "romaji": "beppuonsen",
+    "lat": 33.2846,
+    "lng": 131.5004,
+    "slug": "beppu-onsen",
+    "nameZh": "别府温泉",
+    "imageUrl": "/images/landmarks/beppu-onsen.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "別府地獄めぐり",
+    "nameEn": "Beppu Hells",
+    "nameKo": "벳푸 지옥온천",
+    "romaji": "beppuhells",
+    "lat": 33.3213,
+    "lng": 131.4584,
+    "slug": "beppu-hells",
+    "nameZh": "别府地狱巡游",
+    "imageUrl": "/images/landmarks/beppu-hells.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    },
+    "accessStation": {
+      "stationId": "9fadaf444b77",
+      "minutes": 15,
+      "mode": "bus",
+      "info": {
+        "ja": "別府駅→地獄めぐり(バス約15分)",
+        "ko": "벳푸역 → 지옥온천(버스 약 15분)",
+        "en": "Beppu Stn → Hells (bus ~15min)",
+        "zh": "别府站 → 地狱温泉(巴士约15分)"
+      }
+    }
+  },
+  {
+    "name": "由布院",
+    "nameEn": "Yufuin",
+    "nameKo": "유후인",
+    "romaji": "yufuin",
+    "lat": 33.2667,
+    "lng": 131.3686,
+    "slug": "yufuin",
+    "nameZh": "由布院",
+    "imageUrl": "/images/landmarks/yufuin.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "九重“夢”大吊橋",
+    "nameEn": "Kokonoe Yume Grand Bridge",
+    "nameKo": "고코노에 유메 대현수교",
+    "romaji": "kokonoebridge",
+    "lat": 33.1492,
+    "lng": 131.1531,
+    "slug": "kokonoe-bridge",
+    "nameZh": "九重梦大吊桥",
+    "imageUrl": "/images/landmarks/kokonoe-bridge.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    },
+    "accessStation": {
+      "stationId": "a2288c724a24",
+      "minutes": 20,
+      "mode": "taxi",
+      "info": {
+        "ja": "引治駅→九重夢大吊橋(タクシー約20分)",
+        "ko": "히키지역 → 구주 유메 대현수교(택시 약 20분)",
+        "en": "Hikiji Stn → Kokonoe Bridge (taxi ~20min)",
+        "zh": "引治站 → 九重梦大吊桥(出租车约20分)"
+      }
+    }
+  },
+  {
+    "name": "うみたまご",
+    "nameEn": "Umitamago Aquarium",
+    "nameKo": "우미타마고",
+    "romaji": "umitamago",
+    "lat": 33.2318,
+    "lng": 131.6487,
+    "slug": "umitamago",
+    "nameZh": "海蛋水族馆",
+    "imageUrl": "/images/landmarks/umitamago.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "高千穂峡",
+    "nameEn": "Takachiho Gorge",
+    "nameKo": "다카치호 협곡",
+    "romaji": "takachihogorge",
+    "lat": 32.7539,
+    "lng": 131.3053,
+    "slug": "takachiho-gorge",
+    "nameZh": "高千穗峡",
+    "imageUrl": "/images/landmarks/takachiho-gorge.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    },
+    "accessStation": {
+      "stationId": "847a35138dfa",
+      "minutes": 80,
+      "mode": "bus",
+      "info": {
+        "ja": "延岡駅→高千穂(バス約1時間20分)",
+        "ko": "노베오카역 → 다카치호(버스 약 1시간 20분)",
+        "en": "Nobeoka Stn → Takachiho (bus ~1h20min)",
+        "zh": "延冈站 → 高千穗峡(巴士约1小时20分)"
+      }
+    }
+  },
+  {
+    "name": "青島神社",
+    "nameEn": "Aoshima Shrine",
+    "nameKo": "아오시마 신사",
+    "romaji": "aoshimashrine",
+    "lat": 31.8027,
+    "lng": 131.4722,
+    "slug": "aoshima-shrine",
+    "nameZh": "青岛神社",
+    "imageUrl": "/images/landmarks/aoshima-shrine.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "鵜戸神宮",
+    "nameEn": "Udo Shrine",
+    "nameKo": "우도 신궁",
+    "romaji": "udoshrine",
+    "lat": 31.6436,
+    "lng": 131.4428,
+    "slug": "udo-shrine",
+    "nameZh": "鹈户神宫",
+    "imageUrl": "/images/landmarks/udo-shrine.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    },
+    "accessStation": {
+      "stationId": "1bbcc7b89900",
+      "minutes": 20,
+      "mode": "taxi",
+      "info": {
+        "ja": "内之田駅→鵜戸神宮(タクシー約20分)",
+        "ko": "우치노다역 → 우도신궁(택시 약 20분)",
+        "en": "Uchinoda Stn → Udo Shrine (taxi ~20min)",
+        "zh": "内之田站 → �的户神宫(出租车约20分)"
+      }
+    }
+  },
+  {
+    "name": "サンメッセ日南",
+    "nameEn": "Sun Messe Nichinan",
+    "nameKo": "선메세 니치난",
+    "romaji": "sunmessenichinan",
+    "lat": 31.7103,
+    "lng": 131.4553,
+    "slug": "sun-messe-nichinan",
+    "nameZh": "太阳广场日南",
+    "imageUrl": "/images/landmarks/sun-messe-nichinan.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "桜島",
+    "nameEn": "Sakurajima",
+    "nameKo": "사쿠라지마",
+    "romaji": "sakurajima",
+    "lat": 31.5856,
+    "lng": 130.6569,
+    "slug": "sakurajima",
+    "nameZh": "樱岛",
+    "imageUrl": "/images/landmarks/sakurajima.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    },
+    "accessStation": {
+      "stationId": "f33ff6e0e06f",
+      "minutes": 30,
+      "mode": "ferry",
+      "info": {
+        "ja": "鹿児島中央駅→鹿児島港(市電15分)→桜島フェリー(15分)",
+        "ko": "가고시마중앙역 → 가고시마항(시전 15분) → 사쿠라지마 페리(15분)",
+        "en": "Kagoshima-Chuo Stn → Port (tram 15min) → Sakurajima Ferry (15min)",
+        "zh": "鹿儿岛中央站 → 港口(电车15分) → 樱岛渡轮(15分)"
+      }
+    }
+  },
+  {
+    "name": "仙巌園",
+    "nameEn": "Sengan-en Garden",
+    "nameKo": "센간엔",
+    "romaji": "senganen",
+    "lat": 31.6174,
+    "lng": 130.5838,
+    "slug": "sengan-en",
+    "nameZh": "仙严园",
+    "imageUrl": "/images/landmarks/sengan-en.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    },
+    "accessStation": {
+      "stationId": "f33ff6e0e06f",
+      "minutes": 20,
+      "mode": "bus",
+      "info": {
+        "ja": "鹿児島中央駅→仙巌園(バス約20分)",
+        "ko": "가고시마중앙역 → 센간엔(버스 약 20분)",
+        "en": "Kagoshima-Chuo → Sengan-en (bus ~20min)",
+        "zh": "鹿儿岛中央站 → 仙严园(巴士约20分)"
+      }
+    }
+  },
+  {
+    "name": "屋久島",
+    "nameEn": "Yakushima Island",
+    "nameKo": "야쿠시마",
+    "romaji": "yakushima",
+    "lat": 30.355,
+    "lng": 130.505,
+    "slug": "yakushima",
+    "nameZh": "屋久岛",
+    "imageUrl": "/images/landmarks/yakushima.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    },
+    "accessStation": {
+      "stationId": "f33ff6e0e06f",
+      "minutes": 135,
+      "mode": "ferry",
+      "info": {
+        "ja": "鹿児島中央駅→鹿児島港(バス15分)→高速船(2時間)",
+        "ko": "가고시마중앙역 → 가고시마항(버스 15분) → 고속선(2시간)",
+        "en": "Kagoshima-Chuo Stn → Port (bus 15min) → Jetfoil (2h)",
+        "zh": "鹿儿岛中央站 → 港口(巴士15分) → 高速船(2小时)"
+      }
+    }
+  },
+  {
+    "name": "指宿温泉",
+    "nameEn": "Ibusuki Onsen",
+    "nameKo": "이부스키 온천",
+    "romaji": "ibusukionsen",
+    "lat": 31.2287,
+    "lng": 130.6515,
+    "slug": "ibusuki-onsen",
+    "nameZh": "指宿温泉",
+    "imageUrl": "/images/landmarks/ibusuki-onsen.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "知覧特攻平和会館",
+    "nameEn": "Chiran Peace Museum",
+    "nameKo": "치란 특공 평화회관",
+    "romaji": "chiranpeacemuseum",
+    "lat": 31.3764,
+    "lng": 130.4433,
+    "slug": "chiran-peace-museum",
+    "nameZh": "知览特攻和平会馆",
+    "imageUrl": "/images/landmarks/chiran-peace-museum.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    },
+    "accessStation": {
+      "stationId": "f33ff6e0e06f",
+      "minutes": 75,
+      "mode": "bus",
+      "info": {
+        "ja": "鹿児島中央駅→知覧(バス約1時間15分)",
+        "ko": "가고시마중앙역 → 치란(버스 약 1시간 15분)",
+        "en": "Kagoshima-Chuo Stn → Chiran (bus ~1h15min)",
+        "zh": "鹿儿岛中央站 → 知览(巴士约1小时15分)"
+      }
+    }
+  },
+  {
+    "name": "霧島神宮",
+    "nameEn": "Kirishima Shrine",
+    "nameKo": "기리시마 신궁",
+    "romaji": "kirishimashrine",
+    "lat": 31.8561,
+    "lng": 130.7208,
+    "slug": "kirishima-shrine",
+    "nameZh": "雾岛神宫",
+    "imageUrl": "/images/landmarks/kirishima-shrine.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    },
+    "accessStation": {
+      "stationId": "1bf21e96d6a9",
+      "minutes": 10,
+      "mode": "bus",
+      "info": {
+        "ja": "霧島神宮駅→霧島神宮(バス約10分)",
+        "ko": "기리시마진구역 → 기리시마 신궁(버스 약 10분)",
+        "en": "Kirishima-Jingu Stn → Shrine (bus ~10min)",
+        "zh": "雾岛神宫站 → 雾岛神宫(巴士约10分)"
+      }
+    }
+  },
+  {
+    "name": "天文館",
+    "nameEn": "Tenmonkan",
+    "nameKo": "텐몬칸",
+    "romaji": "tenmonkan",
+    "lat": 31.5892,
+    "lng": 130.5559,
+    "slug": "tenmonkan",
+    "nameZh": "天文馆",
+    "imageUrl": "/images/landmarks/tenmonkan.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  },
+  {
+    "name": "城山展望台",
+    "nameEn": "Shiroyama Observatory",
+    "nameKo": "시로야마 전망대",
+    "romaji": "shiroyamaobservatory",
+    "lat": 31.5976,
+    "lng": 130.5489,
+    "slug": "shiroyama-observatory",
+    "nameZh": "城山展望台",
+    "imageUrl": "/images/landmarks/shiroyama-observatory.webp",
+    "description": {
+      "en": "",
+      "ja": "",
+      "ko": "",
+      "zh": ""
+    }
+  }
+]

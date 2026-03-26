@@ -34,13 +34,14 @@ class MeetupSearchScreen extends ConsumerWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
               children: (locale == 'ja'
-                  ? ['kanto', 'kansai', 'seoul', 'busan']
-                  : ['seoul', 'busan', 'kanto', 'kansai']
+                  ? ['kanto', 'kansai', 'kyushu', 'seoul', 'busan']
+                  : ['seoul', 'busan', 'kanto', 'kansai', 'kyushu']
               ).map((region) {
                 final isSelected = state.region == region;
                 final label = {
                   'kanto': tr(locale, ja: '関東', ko: '간토', en: 'Kanto', zh: '关东', fr: 'Kanto'),
                   'kansai': tr(locale, ja: '関西', ko: '간사이', en: 'Kansai', zh: '关西', fr: 'Kansai'),
+                  'kyushu': tr(locale, ja: '九州', ko: '큐슈', en: 'Kyushu', zh: '九州', fr: 'Kyushu'),
                   'seoul': tr(locale, ja: 'ソウル', ko: '서울', en: 'Seoul', zh: '首尔', fr: 'Séoul'),
                   'busan': tr(locale, ja: '釜山', ko: '부산', en: 'Busan', zh: '釜山', fr: 'Busan'),
                 }[region] ?? region;

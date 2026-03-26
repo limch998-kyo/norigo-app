@@ -209,6 +209,7 @@ class TripScreen extends ConsumerWidget {
     final regions = [
       {'id': 'kanto', 'country': 'japan', 'label': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto', 'fr': 'Tokyo / Kanto'}},
       {'id': 'kansai', 'country': 'japan', 'label': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai', 'fr': 'Osaka / Kansai'}},
+      {'id': 'kyushu', 'country': 'japan', 'label': {'ja': '福岡・九州', 'ko': '후쿠오카·큐슈', 'en': 'Fukuoka / Kyushu', 'fr': 'Fukuoka / Kyushu'}},
       {'id': 'seoul', 'country': 'korea', 'label': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul', 'fr': 'Séoul'}},
       {'id': 'busan', 'country': 'korea', 'label': {'ja': '釜山', 'ko': '부산', 'en': 'Busan', 'fr': 'Busan'}},
     ];
@@ -394,6 +395,7 @@ class _TripCard extends ConsumerWidget {
     const _regionImages = {
       'kanto': '/images/landmarks/shibuya-crossing.webp',
       'kansai': '/images/landmarks/dotonbori.webp',
+      'kyushu': '/images/landmarks/tenjin.webp',
       'seoul': '/images/landmarks/myeongdong.webp',
       'busan': '/images/landmarks/haeundae.webp',
     };
@@ -704,16 +706,19 @@ String localizedTripName(String storedName, String locale) {
     // Korean stored names
     '도쿄·간토': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto', 'fr': 'Tokyo / Kanto'},
     '오사카·간사이': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai', 'fr': 'Osaka / Kansai'},
+    '후쿠오카·큐슈': {'ja': '福岡・九州', 'ko': '후쿠오카·큐슈', 'en': 'Fukuoka / Kyushu', 'fr': 'Fukuoka / Kyushu'},
     '서울': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul', 'fr': 'Séoul'},
     '부산': {'ja': '釜山', 'ko': '부산', 'en': 'Busan', 'fr': 'Busan'},
     // Japanese stored names
     '東京・関東': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto', 'fr': 'Tokyo / Kanto'},
     '大阪・関西': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai', 'fr': 'Osaka / Kansai'},
+    '福岡・九州': {'ja': '福岡・九州', 'ko': '후쿠오카·큐슈', 'en': 'Fukuoka / Kyushu', 'fr': 'Fukuoka / Kyushu'},
     'ソウル': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul', 'fr': 'Séoul'},
     '釜山': {'ja': '釜山', 'ko': '부산', 'en': 'Busan', 'fr': 'Busan'},
     // English stored names
     'Tokyo / Kanto': {'ja': '東京・関東', 'ko': '도쿄·간토', 'en': 'Tokyo / Kanto', 'fr': 'Tokyo / Kanto'},
     'Osaka / Kansai': {'ja': '大阪・関西', 'ko': '오사카·간사이', 'en': 'Osaka / Kansai', 'fr': 'Osaka / Kansai'},
+    'Fukuoka / Kyushu': {'ja': '福岡・九州', 'ko': '후쿠오카·큐슈', 'en': 'Fukuoka / Kyushu', 'fr': 'Fukuoka / Kyushu'},
     'Seoul': {'ja': 'ソウル', 'ko': '서울', 'en': 'Seoul', 'fr': 'Séoul'},
     'Busan': {'ja': '釜山', 'ko': '부산', 'en': 'Busan', 'fr': 'Busan'},
   };

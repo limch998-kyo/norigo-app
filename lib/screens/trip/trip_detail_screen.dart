@@ -75,6 +75,13 @@ class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
         {'slug': 'gangnam', 'name': '강남', 'nameEn': 'Gangnam', 'nameKo': '강남', 'lat': 37.4979, 'lng': 127.0276, 'icon': 'place'},
         {'slug': 'gyeongbokgung', 'name': '景福宮', 'nameEn': 'Gyeongbokgung', 'nameKo': '경복궁', 'lat': 37.5796, 'lng': 126.977, 'icon': 'place'},
       ],
+      'kyushu': [
+        {'slug': 'tenjin', 'name': '天神', 'nameEn': 'Tenjin', 'nameKo': '텐진', 'lat': 33.5903, 'lng': 130.3990, 'icon': 'place'},
+        {'slug': 'canal-city-hakata', 'name': 'キャナルシティ博多', 'nameEn': 'Canal City Hakata', 'nameKo': '캐널시티 하카타', 'lat': 33.5895, 'lng': 130.4107, 'icon': 'place'},
+        {'slug': 'dazaifu-tenmangu', 'name': '太宰府天満宮', 'nameEn': 'Dazaifu Tenmangu', 'nameKo': '다자이후 텐만구', 'lat': 33.5194, 'lng': 130.5350, 'icon': 'place'},
+        {'slug': 'nakasu', 'name': '中洲', 'nameEn': 'Nakasu', 'nameKo': '나카스', 'lat': 33.5922, 'lng': 130.4042, 'icon': 'place'},
+        {'slug': 'hakata-yatai', 'name': '博多屋台', 'nameEn': 'Hakata Yatai', 'nameKo': '하카타 야타이', 'lat': 33.5902, 'lng': 130.4017, 'icon': 'restaurant'},
+      ],
       'busan': [
         {'slug': 'haeundae', 'name': '海雲台', 'nameEn': 'Haeundae', 'nameKo': '해운대', 'lat': 35.1587, 'lng': 129.1604, 'icon': 'place'},
         {'slug': 'gamcheon', 'name': '甘川文化村', 'nameEn': 'Gamcheon Village', 'nameKo': '감천문화마을', 'lat': 35.0975, 'lng': 129.0108, 'icon': 'place'},

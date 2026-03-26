@@ -853,7 +853,7 @@ class _AreaCardState extends State<_AreaCard> {
             const Divider(height: 24),
             // Show hotel cards for: Korean locale, OR Japanese+Japan region (Rakuten), OR Korean region
             if (locale == 'ko' || ['seoul', 'busan'].contains(widget.searchRegion) ||
-                (locale == 'ja' && ['kanto', 'kansai'].contains(widget.searchRegion)))
+                (locale == 'ja' && AppConstants.japanRegions.contains(widget.searchRegion)))
               _HotelSection(stationId: area.station.id, locale: locale, region: widget.searchRegion, stationName: name, l10n: l10n, checkIn: widget.checkIn, checkOut: widget.checkOut, initialBudget: widget.maxBudget, lat: area.station.lat, lng: area.station.lng, onLoaded: _onHotelsLoaded, onHotelBookingClick: (hotel) => widget.onHotelBookingClick?.call(hotel, area.station.id, name))
             else
               _ExternalHotelLinks(stationName: name, stationId: area.station.id, locale: locale, region: widget.searchRegion, lat: area.station.lat, lng: area.station.lng, checkIn: widget.checkIn, checkOut: widget.checkOut, maxBudget: widget.maxBudget),
@@ -1281,7 +1281,7 @@ class _HotelSectionState extends State<_HotelSection> {
       final checkIn = widget.checkIn ?? DateTime.now().add(const Duration(days: 30)).toIso8601String().substring(0, 10);
       final checkOut = widget.checkOut ?? DateTime.now().add(const Duration(days: 33)).toIso8601String().substring(0, 10);
       // Use Rakuten for Japanese users searching Japan regions only
-      final isJapanRegion = ['kanto', 'kansai'].contains(widget.region);
+      final isJapanRegion = AppConstants.japanRegions.contains(widget.region);
       final useRakuten = widget.locale == 'ja' && isJapanRegion;
       List<Hotel> hotels;
       if (useRakuten && widget.lat != null && widget.lng != null) {
@@ -1640,7 +1640,7 @@ class _ExternalHotelLinks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isJalan = locale == 'ja' && ['kanto', 'kansai'].contains(region);
+    final isJalan = locale == 'ja' && AppConstants.japanRegions.contains(region);
     final title = tr(locale, ja: 'ホテルを探す', ko: '호텔 찾기', en: 'Find Hotels', zh: '查找酒店', fr: 'Trouver des hôtels');
 
     // EN/FR/ZH: 3 provider buttons (Expedia + Hotels.com + Booking.com)
