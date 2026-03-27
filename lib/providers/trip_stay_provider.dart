@@ -18,6 +18,8 @@ final tripStayProvider = FutureProvider.family<StayRecommendResult?, String>((re
   if (trip == null) return null;
 
   final items = state.items.where((i) => i.tripId == tripId).toList();
+  if (items.isEmpty) return null;
+
   final landmarks = items.map((i) => Landmark(
     slug: i.slug, name: i.name, lat: i.lat, lng: i.lng, region: i.region,
   )).toList();

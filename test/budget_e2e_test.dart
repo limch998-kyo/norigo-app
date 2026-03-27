@@ -5,6 +5,11 @@ import 'package:norigo_app/config/constants.dart';
 import 'package:norigo_app/config/booking_provider.dart';
 import 'package:norigo_app/models/landmark.dart';
 
+String _innerUrl(String wrappedUrl) {
+  final uri = Uri.parse(wrappedUrl);
+  return uri.queryParameters['url'] ?? wrappedUrl;
+}
+
 /// End-to-end budget flow tests:
 /// QuickCard → setBudget → state.maxBudget → ExternalHotelLinks → URL params
 void main() {
@@ -177,18 +182,18 @@ void main() {
       expect(providers.length, 3);
 
       // 4. Verify Expedia URL has total price (3 nights)
-      final expediaUrl = providers[0].url;
+      final expediaUrl = _innerUrl(providers[0].url);
       expect(expediaUrl, contains('price=200')); // min: 10000*3/150=200
       expect(expediaUrl, contains('price=600')); // max: 30000*3/150=600
 
       // 5. Verify Hotels.com URL has per-night price
-      final hotelsUrl = providers[1].url;
+      final hotelsUrl = _innerUrl(providers[1].url);
       expect(hotelsUrl, contains('price=67'));  // min: 10000/150=67
       expect(hotelsUrl, contains('price=200')); // max: 30000/150=200
       expect(hotelsUrl, contains('currency=USD'));
 
       // 6. Verify Booking.com URL has JPY price ×2
-      final bookingUrl = providers[2].url;
+      final bookingUrl = _innerUrl(providers[2].url);
       expect(bookingUrl, contains('nflt=price%3DJPY-20000-60000-1'));
 
       print('✓ Full flow: maxBudget=${state.maxBudget}');
@@ -235,8 +240,8 @@ void main() {
       );
 
       // Expedia: 50000*3/150=1000, max=10000
-      expect(providers[0].url, contains('price=1000'));
-      expect(providers[0].url, contains('price=10000'));
+      expect(_innerUrl(providers[0].url), contains('price=1000'));
+      expect(_innerUrl(providers[0].url), contains('price=10000'));
     });
 
     test('initState default budget is in tier list', () {

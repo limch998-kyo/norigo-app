@@ -42,7 +42,7 @@ class _ShareButtonsState extends State<ShareButtons> {
     if (widget.sharePath == null || widget.shareParams == null) return;
     setState(() => _shortUrlLoading = true);
     try {
-      final api = ApiClient();
+      final api = ApiClient(); // TODO: pass via constructor for singleton
       final url = await api.createShareUrl(
         path: widget.sharePath!,
         params: widget.shareParams!,

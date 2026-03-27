@@ -57,16 +57,15 @@ class MainShell extends ConsumerStatefulWidget {
   ConsumerState<MainShell> createState() => _MainShellState();
 }
 
-class _MainShellState extends ConsumerState<MainShell> {
+class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserver {
   int _currentIndex = 0;
-  // Track which tabs have been visited (for lazy init)
   final Set<int> _visitedTabs = {0};
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     MainShell.globalSwitchTab = switchToTab;
-    // Track initial page view
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(trackingServiceProvider).trackEvent('page_view', payload: {
         'page': '/home',
@@ -76,8 +75,21 @@ class _MainShellState extends ConsumerState<MainShell> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     MainShell.globalSwitchTab = null;
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // Update theme mode on resume (system dark mode may have changed)
+      final themeMode = ref.read(themeModeProvider);
+      if (themeMode == ThemeMode.system) {
+        // Force rebuild to pick up system brightness change
+        (context as Element).markNeedsBuild();
+      }
+    }
   }
 
   void switchToTab(int index) {
@@ -94,8 +106,9 @@ class _MainShellState extends ConsumerState<MainShell> {
   @override
   Widget build(BuildContext context) {
     final locale = ref.watch(localeProvider);
-    final stayState = ref.watch(staySearchProvider);
-    final meetupState = ref.watch(meetupSearchProvider);
+    // Only watch result/loading state — not the entire provider (avoids unnecessary rebuilds)
+    final stayHasResult = ref.watch(staySearchProvider.select((s) => s.result != null || s.isLoading));
+    final meetupHasResult = ref.watch(meetupSearchProvider.select((s) => s.result != null || s.isLoading));
 
     return PopScope(
       canPop: false,
@@ -116,12 +129,12 @@ class _MainShellState extends ConsumerState<MainShell> {
             HomeScreen(onSwitchTab: switchToTab),
             // 1: Stay (lazy) — keep result screen during re-search (isLoading)
             if (_visitedTabs.contains(1))
-              (stayState.result != null || stayState.isLoading) ? const StayResultScreen() : const StaySearchScreen()
+              stayHasResult ? const StayResultScreen() : const StaySearchScreen()
             else
               const SizedBox.shrink(),
             // 2: Meetup (lazy) — keep result screen during re-search
             if (_visitedTabs.contains(2))
-              (meetupState.result != null || meetupState.isLoading) ? const MeetupResultScreen() : const MeetupSearchScreen()
+              meetupHasResult ? const MeetupResultScreen() : const MeetupSearchScreen()
             else
               const SizedBox.shrink(),
             // 3: Trip (lazy)
