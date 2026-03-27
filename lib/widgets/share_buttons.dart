@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -114,6 +115,11 @@ class _ShareButtonsState extends State<ShareButtons> {
   }
 
   Future<void> _shareKakao() async {
+    // Kakao SDK: iOS/Android only — fallback to native share on macOS
+    if (!Platform.isIOS && !Platform.isAndroid) {
+      await _nativeShare();
+      return;
+    }
     var shareUrl = _getShareUrl('kakao');
     // Kakao mobile limit: 10KB. If URL too long, fallback to homepage
     if (shareUrl.length > 2000) {
