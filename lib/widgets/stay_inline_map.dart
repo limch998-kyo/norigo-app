@@ -28,14 +28,14 @@ class StayInlineMap extends StatelessWidget {
       ...landmarks.map((l) => LatLng(l.lat, l.lng)),
       ...hotels.where((h) => h.lat != 0).map((h) => LatLng(h.lat, h.lng)),
     ];
-    final center = LatLng(
-      allPoints.map((p) => p.latitude).reduce((a, b) => a + b) / allPoints.length,
-      allPoints.map((p) => p.longitude).reduce((a, b) => a + b) / allPoints.length,
-    );
-    final latSpan = allPoints.map((p) => p.latitude).reduce((a, b) => a > b ? a : b) - allPoints.map((p) => p.latitude).reduce((a, b) => a < b ? a : b);
-    final lngSpan = allPoints.map((p) => p.longitude).reduce((a, b) => a > b ? a : b) - allPoints.map((p) => p.longitude).reduce((a, b) => a < b ? a : b);
-    final span = latSpan > lngSpan ? latSpan : lngSpan;
-    final zoom = span < 0.01 ? 15.0 : span < 0.05 ? 14.0 : span < 0.1 ? 13.0 : span < 0.3 ? 12.0 : span < 1.0 ? 10.0 : 8.0;
+    // Fit all points with padding so every marker is visible
+    final bounds = LatLngBounds.fromPoints(allPoints);
+    final center = bounds.center;
+    // Calculate zoom from bounds span + add margin
+    final latSpan = bounds.north - bounds.south;
+    final lngSpan = bounds.east - bounds.west;
+    final span = (latSpan > lngSpan ? latSpan : lngSpan) * 1.3; // 30% padding
+    final zoom = span < 0.005 ? 16.0 : span < 0.01 ? 15.0 : span < 0.03 ? 14.0 : span < 0.06 ? 13.0 : span < 0.12 ? 12.0 : span < 0.3 ? 11.0 : span < 1.0 ? 10.0 : 8.0;
 
     // Build polylines from route segments
     final polylines = <Polyline>[];

@@ -238,11 +238,15 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
       ),
       body: Column(
         children: [
-          // Mode tabs
+          // Mode tabs (pinned — always visible)
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+            padding: const EdgeInsets.fromLTRB(16, 6, 16, 4),
             child: ModeTabs(selected: state.mode, onChanged: (m) { notifier.setMode(m); notifier.search(); }, locale: locale, modes: ModeTabs.stayModes),
           ),
+          // Everything below scrolls away
+          Expanded(child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
           // Stay style toggle (single ↔ split) — like web
           if (state.landmarks.length >= 2)
             Padding(
@@ -350,48 +354,53 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
               ),
             ),
           ),
-          // Share at top (matching web)
+          // Compact share + save row (less vertical space)
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-            child: ShareButtons(
-              title: 'Norigo',
-              text: tr(locale,
-                  ja: '${state.landmarks.map((l) => l.name).join('・')}旅行に最適なホテルエリア',
-                  ko: '${state.landmarks.map((l) => l.name).join('・')} 여행에 최적의 호텔 지역',
-                  en: 'Best hotel area for ${state.landmarks.map((l) => l.name).join(', ')}',
-                  zh: '${state.landmarks.map((l) => l.name).join('・')}旅行的最佳酒店区域',
-                  fr: 'Meilleur quartier hôtelier pour ${state.landmarks.map((l) => l.name).join(', ')}'),
-              url: _buildStayShareUrl(state, locale),
-              locale: locale,
-              sharePath: '/stay/result',
-              shareParams: _buildStayShareParams(state),
-            ),
-          ),
-          // Save/update trip prompt
-          Builder(builder: (ctx) {
-            final isSaved = _findLinkedTrip(ref, state) != null;
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-              child: SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
+            padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+            child: Row(children: [
+              Expanded(child: OutlinedButton.icon(
+                onPressed: () => showModalBottomSheet(
+                  context: context,
+                  builder: (_) => Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: ShareButtons(
+                      title: 'Norigo',
+                      text: tr(locale,
+                          ja: '${state.landmarks.map((l) => l.name).join('・')}旅行に最適なホテルエリア',
+                          ko: '${state.landmarks.map((l) => l.name).join('・')} 여행에 최적의 호텔 지역',
+                          en: 'Best hotel area for ${state.landmarks.map((l) => l.name).join(', ')}',
+                          zh: '${state.landmarks.map((l) => l.name).join('・')}旅行的最佳酒店区域',
+                          fr: 'Meilleur quartier hôtelier pour ${state.landmarks.map((l) => l.name).join(', ')}'),
+                      url: _buildStayShareUrl(state, locale),
+                      locale: locale,
+                      sharePath: '/stay/result',
+                      shareParams: _buildStayShareParams(state),
+                    ),
+                  ),
+                ),
+                icon: const Icon(Icons.share, size: 14),
+                label: Text(tr(locale, ja: '共有', ko: '공유', en: 'Share', zh: '分享', fr: 'Partager'), style: const TextStyle(fontSize: 12)),
+                style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 8)),
+              )),
+              const SizedBox(width: 8),
+              Expanded(child: Builder(builder: (ctx) {
+                final isSaved = _findLinkedTrip(ref, state) != null;
+                return OutlinedButton.icon(
                   onPressed: () => _saveSearch(context, ref, state, locale),
-                  icon: Icon(isSaved ? Icons.sync : Icons.bookmark_outline, size: 16),
+                  icon: Icon(isSaved ? Icons.sync : Icons.bookmark_outline, size: 14),
                   label: Text(
                     isSaved
-                      ? tr(locale, ja: '旅行プランを更新', ko: '여행 플랜 갱신', en: 'Update trip', zh: '更新行程', fr: 'Mettre à jour le voyage')
-                      : tr(locale, ja: '旅行プランに保存', ko: '여행 플랜에 저장', en: 'Save to trip', zh: '保存到行程', fr: 'Enregistrer dans le voyage'),
-                    style: const TextStyle(fontSize: 13),
-                  ),
-                  style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 10)),
-                ),
-              ),
-            );
-          }),
-          // Results list
-          Expanded(
-            child: isSplit
-                ? _SplitResultsList(
+                      ? tr(locale, ja: '更新', ko: '갱신', en: 'Update', zh: '更新', fr: 'MAJ')
+                      : tr(locale, ja: '保存', ko: '저장', en: 'Save', zh: '保存', fr: 'Sauver'),
+                    style: const TextStyle(fontSize: 12)),
+                  style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 8)),
+                );
+              })),
+            ]),
+          ),
+          // Results (inside scrollable list)
+          if (isSplit)
+            _SplitResultsList(
                     clusters: result.clusters,
                     expandedIndex: _expandedIndex,
                     onTap: (i) => setState(() => _expandedIndex = _expandedIndex == i ? -1 : i),
@@ -416,12 +425,13 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
                       }, path: '/stay/result');
                     },
                   )
-                : ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: result.areas.length,
-              itemBuilder: (context, index) {
-                return _AreaCard(
-                  area: result.areas[index],
+          else
+            ...result.areas.asMap().entries.map((entry) {
+              final index = entry.key;
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: _AreaCard(
+                  area: entry.value,
                   rank: index + 1,
                   isExpanded: _expandedIndex == index,
                   onTap: () => setState(() => _expandedIndex = _expandedIndex == index ? -1 : index),
@@ -446,10 +456,11 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
                       'station': stationName,
                     }, path: '/stay/result');
                   },
-                );
-              },
-            ),
-          ),
+                ),
+              );
+            }),
+          ],
+          )),
         ],
       ),
     );
@@ -724,15 +735,15 @@ class _AreaCardState extends State<_AreaCard> {
                   ]),
                 ],
                 const SizedBox(height: 2),
-                Text('${tr(locale, ja: '平均 約', ko: '평균', en: 'avg', zh: '平均', fr: 'moy.')} ${area.avgEstimatedMinutes}${tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟', fr: 'min')}',
-                  style: TextStyle(fontSize: 12, color: AppTheme.primary, fontWeight: FontWeight.w600)),
+                Text('🚆 ${tr(locale, ja: '各観光地まで平均', ko: '각 관광지까지 평균', en: 'Avg. to each spot:', zh: '到各景点平均', fr: 'Moy. vers chaque lieu:')} ${area.avgEstimatedMinutes}${tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟', fr: 'min')}',
+                  style: TextStyle(fontSize: 11, color: AppTheme.primary, fontWeight: FontWeight.w600)),
               ])),
             ]),
 
-            // ── Inline map (always visible like web) ──
+            // ── Inline map ──
             const SizedBox(height: 12),
             SizedBox(
-              height: 180,
+              height: 260,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: StayInlineMap(area: area, landmarks: landmarks, locale: locale, hotels: _hotelMarkers),
@@ -741,13 +752,16 @@ class _AreaCardState extends State<_AreaCard> {
             // Map legend
             Padding(
               padding: const EdgeInsets.only(top: 6),
-              child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                _LegendDot(color: AppTheme.orange, label: tr(locale, ja: 'ホテル推薦駅', ko: '호텔 추천역', en: 'Recommended station', zh: '推荐酒店站', fr: 'Gare recommandée')),
-                const SizedBox(width: 10),
-                _LegendDot(color: Colors.indigo, label: tr(locale, ja: '観光地', ko: '관광지', en: 'Landmarks', zh: '景点', fr: 'Sites')),
-                const SizedBox(width: 10),
-                _LegendDot(color: AppTheme.green, label: tr(locale, ja: '周辺ホテル', ko: '주변 호텔', en: 'Nearby hotels', zh: '周边酒店', fr: 'Hôtels proches')),
-              ]),
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 12,
+                runSpacing: 4,
+                children: [
+                  _LegendDot(color: AppTheme.orange, label: tr(locale, ja: 'ホテル推薦エリア', ko: '호텔 추천 역', en: 'Hotel area', zh: '酒店推荐区', fr: 'Zone hôtel')),
+                  _LegendDot(color: Colors.indigo, label: tr(locale, ja: 'あなたの観光地', ko: '내 관광지', en: 'Your spots', zh: '您的景点', fr: 'Vos lieux')),
+                  _LegendDot(color: AppTheme.green, label: tr(locale, ja: '周辺ホテル', ko: '주변 호텔', en: 'Nearby hotels', zh: '周边酒店', fr: 'Hôtels proches')),
+                ],
+              ),
             ),
 
             // ── Station lines ──
@@ -1066,7 +1080,7 @@ class _LegendDot extends StatelessWidget {
     return Row(mainAxisSize: MainAxisSize.min, children: [
       Container(width: 10, height: 10, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
       const SizedBox(width: 4),
-      Text(label, style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
+      Text(label, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.foreground)),
     ]);
   }
 }
