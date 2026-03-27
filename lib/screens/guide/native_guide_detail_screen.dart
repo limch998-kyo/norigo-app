@@ -260,7 +260,7 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
     if (_error != null || _data == null) {
       return Scaffold(
         appBar: AppBar(),
-        body: Center(child: Text(_error ?? 'Guide not found')),
+        body: Center(child: Text(_error ?? tr(locale, ja: 'ガイドが見つかりません', ko: '가이드를 찾을 수 없습니다', en: 'Guide not found', zh: '找不到指南', fr: 'Guide introuvable'))),
       );
     }
 

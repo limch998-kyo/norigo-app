@@ -73,7 +73,11 @@ class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
               children: [
                 Icon(Icons.error_outline, size: 64, color: Colors.red.shade300),
                 const SizedBox(height: 16),
-                Text(state.error!, style: theme.textTheme.bodySmall, textAlign: TextAlign.center),
+                Text(
+                  state.error == 'network_error'
+                    ? tr(locale, ja: 'ネットワークエラー。接続を確認してください。', ko: '네트워크 오류. 연결을 확인해주세요.', en: 'Network error. Please check your connection.', zh: '网络错误。请检查您的连接。', fr: 'Erreur réseau. Vérifiez votre connexion.')
+                    : tr(locale, ja: '検索中にエラーが発生しました', ko: '검색 중 오류가 발생했습니다', en: 'An error occurred during search', zh: '搜索时发生错误', fr: 'Une erreur est survenue'),
+                  style: theme.textTheme.bodySmall, textAlign: TextAlign.center),
                 const SizedBox(height: 24),
                 OutlinedButton(onPressed: () => notifier.search(), child: Text(tr(locale, ja: '再試行', ko: '재시도', en: 'Retry', zh: '重试', fr: 'Réessayer'))),
               ],

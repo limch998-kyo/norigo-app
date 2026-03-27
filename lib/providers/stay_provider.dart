@@ -232,7 +232,10 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
       debugPrint('Stay result: areas=${result.areas.length}, split=${result.split}, clusters=${result.clusters.length}');
       state = state.copyWith(result: result, isLoading: false);
     } catch (e) {
-      state = state.copyWith(error: e.toString(), isLoading: false);
+      final msg = e.toString().contains('SocketException') || e.toString().contains('ConnectionTimeout')
+          ? 'network_error'
+          : 'search_error';
+      state = state.copyWith(error: msg, isLoading: false);
     }
   }
 

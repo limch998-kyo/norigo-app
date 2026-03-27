@@ -127,7 +127,7 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
     if (_error != null || _poll == null) {
       return Scaffold(
         appBar: AppBar(title: Text(tr(locale, ja: '投票', ko: '투표', en: 'Vote', zh: '投票', fr: 'Vote'))),
-        body: Center(child: Text(_error ?? 'Poll not found')),
+        body: Center(child: Text(_error ?? tr(locale, ja: '投票が見つかりません', ko: '투표를 찾을 수 없습니다', en: 'Poll not found', zh: '找不到投票', fr: 'Sondage introuvable'))),
       );
     }
 
