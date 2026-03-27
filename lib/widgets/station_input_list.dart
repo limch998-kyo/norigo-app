@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../config/theme.dart';
 import '../models/station.dart';
 
@@ -222,6 +223,7 @@ class _StationInputListState extends State<StationInputList> {
                       IconButton(
                         icon: Icon(Icons.close, size: 18, color: AppTheme.mutedForeground),
                         onPressed: () {
+                          HapticFeedback.lightImpact();
                           _controllers.remove(i)?.dispose();
                           widget.onRemove(i);
                         },

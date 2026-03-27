@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -715,7 +716,7 @@ class _VoteButtonState extends State<_VoteButton> {
     if (pollId != null && mounted) {
       setState(() { _pollId = pollId; _creating = false; });
       // Open native vote screen
-      Navigator.of(context).push(MaterialPageRoute(
+      Navigator.of(context).push(CupertinoPageRoute(
         builder: (_) => VoteScreen(pollId: pollId),
       ));
     } else {
@@ -729,7 +730,7 @@ class _VoteButtonState extends State<_VoteButton> {
       return SizedBox(
         width: double.infinity,
         child: OutlinedButton.icon(
-          onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+          onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
             builder: (_) => VoteScreen(pollId: _pollId!),
           )),
           icon: const Icon(Icons.how_to_vote, size: 14),

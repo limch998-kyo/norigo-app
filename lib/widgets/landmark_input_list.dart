@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../config/theme.dart';
 import '../models/landmark.dart';
 
@@ -193,6 +194,7 @@ class _LandmarkInputListState extends State<LandmarkInputList> {
                       IconButton(
                         icon: Icon(Icons.close, size: 18, color: AppTheme.mutedForeground),
                         onPressed: () {
+                          HapticFeedback.lightImpact();
                           _controllers.remove(i)?.dispose();
                           widget.onRemove(i);
                         },

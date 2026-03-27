@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/landmark.dart';
@@ -266,6 +267,16 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
             ),
             const SizedBox(height: 32),
 
+            // Minimum landmark hint
+            if (state.landmarks.length < 2 && state.landmarks.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(
+                  tr(locale, ja: '観光地を2つ以上入力してください', ko: '관광지를 2개 이상 입력해주세요', en: 'Add at least 2 landmarks', zh: '请输入2个以上景点', fr: 'Ajoutez au moins 2 lieux'),
+                  style: TextStyle(fontSize: 12, color: Colors.orange.shade700),
+                ),
+              ),
+
             // Search button
             SizedBox(
               height: 52,
@@ -473,7 +484,7 @@ class _PopularSpotCardsState extends State<_PopularSpotCards> {
                     final nameEn = spot['nameEn'] as String?;
                     final descMap = spot['desc'] as Map<String, String>?;
                     final spotDesc = descMap?[widget.locale] ?? descMap?['en'] ?? '';
-                    Navigator.of(context).push(MaterialPageRoute(
+                    Navigator.of(context).push(CupertinoPageRoute(
                       builder: (_) => SpotDetailScreen(
                         landmark: Landmark(
                           slug: spot['slug'] as String,

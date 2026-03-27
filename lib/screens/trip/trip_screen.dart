@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../l10n/app_localizations.dart';
 import '../../config/theme.dart';
@@ -64,7 +65,7 @@ class TripScreen extends ConsumerWidget {
         status: _tripStatus(trip),
         onTap: () {
           notifier.setActiveTrip(trip.id);
-          Navigator.push(context, MaterialPageRoute(
+          Navigator.push(context, CupertinoPageRoute(
             builder: (_) => TripDetailScreen(tripId: trip.id),
           ));
         },

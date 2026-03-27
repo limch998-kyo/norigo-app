@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../config/theme.dart';
@@ -109,7 +110,7 @@ class _GuideScreenState extends ConsumerState<GuideScreen> {
                         padding: const EdgeInsets.only(bottom: 12),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
+                            Navigator.of(context).push(CupertinoPageRoute(
                               builder: (_) => NativeGuideDetailScreen(slug: slug),
                             ));
                           },

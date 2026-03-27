@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../l10n/app_localizations.dart';
@@ -47,7 +48,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 icon: const Icon(Icons.settings_outlined, size: 22),
                 color: AppTheme.mutedForeground,
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).push(CupertinoPageRoute(
                     builder: (_) => const SettingsScreen(),
                   ));
                 },
@@ -237,7 +238,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: _PopularSpots(locale: locale, onSpotTap: (landmark) {
-              Navigator.of(context).push(MaterialPageRoute(
+              Navigator.of(context).push(CupertinoPageRoute(
                 builder: (_) => SpotDetailScreen(landmark: landmark),
               ));
             }),
