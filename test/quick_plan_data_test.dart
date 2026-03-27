@@ -82,10 +82,10 @@ void main() {
   });
 
   group('Budget setting', () {
-    test('home screen quick plan uses under50000', () {
+    test('home screen quick plan uses 10000-30000', () {
       final homeFile = File('lib/screens/home/home_screen.dart').readAsStringSync();
-      expect(homeFile.contains("setBudget('under50000')"), true,
-        reason: 'Quick plan should set budget to under50000 (matching web)');
+      expect(homeFile.contains("setBudget('10000-30000')"), true,
+        reason: 'Quick plan should set budget to 10000-30000 (matching web)');
     });
   });
 }

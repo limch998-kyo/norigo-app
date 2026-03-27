@@ -128,12 +128,15 @@ class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
             child: ShareButtons(
               title: 'Norigo',
-              text: tr(locale,
-                  ja: 'みんなの集合駅で検索したら「${result.stations.first.station.name}駅」がおすすめ！',
-                  ko: '모두의 만남역을 검색하니 「${result.stations.first.station.name}역」을 추천합니다!',
-                  en: '${result.stations.first.station.name} is recommended!',
-                  zh: '搜索大家的集合站，推荐「${result.stations.first.station.name}站」！',
-                  fr: '${result.stations.first.station.name} est recommandé !'),
+              text: (() {
+                final topName = result.stations.firstOrNull?.station.name ?? '';
+                return tr(locale,
+                  ja: 'みんなの集合駅で検索したら「$topName駅」がおすすめ！',
+                  ko: '모두의 만남역을 검색하니 「$topName역」을 추천합니다!',
+                  en: '$topName is recommended!',
+                  zh: '搜索大家的集合站，推荐「$topName站」！',
+                  fr: '$topName est recommandé !');
+              })(),
               url: _buildMeetupShareUrl(state, locale),
               locale: locale,
               sharePath: '/result',
