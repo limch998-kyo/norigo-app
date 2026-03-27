@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -78,8 +79,8 @@ class _ShareButtonsState extends State<ShareButtons> {
   }
 
   Future<void> _shareTwitter() async {
-    // Match web: text and url as separate params
-    final url = _getShareUrl('x');
+    // Prefer short URL to avoid double-encoding
+    final url = _shortUrl ?? 'https://norigo.app/${widget.locale}';
     final text = Uri.encodeComponent(widget.text);
     final encodedUrl = Uri.encodeComponent(url);
     try {
@@ -87,33 +88,36 @@ class _ShareButtonsState extends State<ShareButtons> {
         Uri.parse('https://twitter.com/intent/tweet?text=$text&url=$encodedUrl'),
         mode: LaunchMode.externalApplication,
       );
-    } catch (_) {}
+    } catch (_) {
+      await _nativeShare();
+    }
   }
 
   Future<void> _shareLine() async {
-    final shareUrl = _getShareUrl('line');
+    // Prefer short URL to avoid double-encoding issues with LIFF
+    final shareUrl = _shortUrl ?? 'https://norigo.app/${widget.locale}';
 
-    final liffParams = Uri(queryParameters: {
-      'url': shareUrl,
-      'title': widget.title,
-      'desc': widget.text,
-    }).query;
-
-    final liffUrl = 'https://liff.line.me/2009553286-JcRNsKER?$liffParams';
+    // Use simple LINE share (more reliable than LIFF on mobile)
+    final text = '${widget.text}\n$shareUrl';
+    final encoded = Uri.encodeComponent(text);
 
     try {
-      await launchUrl(Uri.parse(liffUrl), mode: LaunchMode.externalApplication);
-    } catch (_) {
-      // Fallback: simple LINE share
-      final encoded = Uri.encodeComponent('${widget.text}\n$shareUrl');
       await launchUrl(
         Uri.parse('https://line.me/R/share?text=$encoded'),
         mode: LaunchMode.externalApplication,
       );
+    } catch (_) {
+      // Final fallback: native share
+      await _nativeShare();
     }
   }
 
   Future<void> _shareKakao() async {
+    // Kakao SDK: iOS/Android only — fallback to native share on macOS
+    if (!Platform.isIOS && !Platform.isAndroid) {
+      await _nativeShare();
+      return;
+    }
     var shareUrl = _getShareUrl('kakao');
     // Kakao mobile limit: 10KB. If URL too long, fallback to homepage
     if (shareUrl.length > 2000) {
