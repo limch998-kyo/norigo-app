@@ -35,38 +35,30 @@ void main() {
   });
 
   group('LINE share', () {
-    test('LIFF URL has correct format and params', () {
-      final liffParams = Uri(queryParameters: {
-        'url': testShareUrl,
-        'title': 'Norigo',
-        'desc': testText,
-      }).query;
-      final liffUrl = 'https://liff.line.me/2009553286-JcRNsKER?$liffParams';
-
-      final parsed = Uri.parse(liffUrl);
-      expect(parsed.host, 'liff.line.me');
-      expect(parsed.queryParameters['url'], testShareUrl);
-      expect(parsed.queryParameters['title'], 'Norigo');
-    });
-
-    test('LINE fallback URL format is valid', () {
-      final encoded = Uri.encodeComponent('$testText\n$testShareUrl');
+    test('LINE share URL format is valid (line.me/R/share)', () {
+      final text = '$testText\n$testShareUrl';
+      final encoded = Uri.encodeComponent(text);
       final lineUrl = 'https://line.me/R/share?text=$encoded';
       final parsed = Uri.parse(lineUrl);
       expect(parsed.host, 'line.me');
       expect(parsed.path, '/R/share');
+      // Verify no double encoding
+      expect(lineUrl, isNot(contains('%25')), reason: 'No double encoding in LINE URL');
     });
 
-    test('LIFF endpoint responds', () async {
-      final dio = Dio(BaseOptions(followRedirects: true, validateStatus: (s) => true,
-        connectTimeout: const Duration(seconds: 10), receiveTimeout: const Duration(seconds: 10)));
-      try {
-        final res = await dio.get('https://liff.line.me/2009553286-JcRNsKER?url=https://norigo.app');
-        print('LIFF: ${res.statusCode}');
-        expect(res.statusCode, lessThan(500));
-      } catch (e) {
-        print('LIFF: connection issue');
-      }
+    test('Short URL prevents double encoding issue', () {
+      // Short URL should be clean (no % in it)
+      final shortUrl = 'https://norigo.app/s/abc123';
+      final text = 'Test\n$shortUrl';
+      final encoded = Uri.encodeComponent(text);
+      expect(encoded, isNot(contains('%25')), reason: 'Short URL should not cause double encoding');
+    });
+
+    test('Full URL would cause double encoding (regression guard)', () {
+      // This is why we prefer short URLs
+      final fullUrl = 'https://norigo.app/ko/stay/result?l=%5B%7B%22name%22%3A%22test%22%7D%5D';
+      final encoded = Uri.encodeComponent(fullUrl);
+      expect(encoded, contains('%25'), reason: 'Full URL with %xx gets double-encoded');
     });
   });
 
@@ -139,9 +131,16 @@ void main() {
       expect(content, contains('Platform.isAndroid'));
     });
 
-    test('LINE uses LIFF app ID', () {
+    test('LINE uses line.me/R/share (simple share, no LIFF)', () {
       final content = File('lib/widgets/share_buttons.dart').readAsStringSync();
-      expect(content, contains('2009553286-JcRNsKER'));
+      expect(content, contains('line.me/R/share'));
+    });
+
+    test('LINE and X prefer short URL to avoid double encoding', () {
+      final content = File('lib/widgets/share_buttons.dart').readAsStringSync();
+      // Both _shareLine and _shareTwitter should use _shortUrl
+      final shortUrlUsage = '_shortUrl'.allMatches(content).length;
+      expect(shortUrlUsage, greaterThanOrEqualTo(3), reason: 'LINE + X + field = at least 3 _shortUrl references');
     });
 
     test('X uses twitter.com/intent/tweet', () {

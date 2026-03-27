@@ -354,49 +354,39 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
               ),
             ),
           ),
-          // Compact share + save row (less vertical space)
+          // Share buttons (scrolls with content)
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
-            child: Row(children: [
-              Expanded(child: OutlinedButton.icon(
-                onPressed: () => showModalBottomSheet(
-                  context: context,
-                  builder: (_) => Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: ShareButtons(
-                      title: 'Norigo',
-                      text: tr(locale,
-                          ja: '${state.landmarks.map((l) => l.name).join('・')}旅行に最適なホテルエリア',
-                          ko: '${state.landmarks.map((l) => l.name).join('・')} 여행에 최적의 호텔 지역',
-                          en: 'Best hotel area for ${state.landmarks.map((l) => l.name).join(', ')}',
-                          zh: '${state.landmarks.map((l) => l.name).join('・')}旅行的最佳酒店区域',
-                          fr: 'Meilleur quartier hôtelier pour ${state.landmarks.map((l) => l.name).join(', ')}'),
-                      url: _buildStayShareUrl(state, locale),
-                      locale: locale,
-                      sharePath: '/stay/result',
-                      shareParams: _buildStayShareParams(state),
-                    ),
-                  ),
-                ),
-                icon: const Icon(Icons.share, size: 14),
-                label: Text(tr(locale, ja: '共有', ko: '공유', en: 'Share', zh: '分享', fr: 'Partager'), style: const TextStyle(fontSize: 12)),
+            child: ShareButtons(
+              title: 'Norigo',
+              text: tr(locale,
+                  ja: '${state.landmarks.map((l) => l.name).join('・')}旅行に最適なホテルエリア',
+                  ko: '${state.landmarks.map((l) => l.name).join('・')} 여행에 최적의 호텔 지역',
+                  en: 'Best hotel area for ${state.landmarks.map((l) => l.name).join(', ')}',
+                  zh: '${state.landmarks.map((l) => l.name).join('・')}旅行的最佳酒店区域',
+                  fr: 'Meilleur quartier hôtelier pour ${state.landmarks.map((l) => l.name).join(', ')}'),
+              url: _buildStayShareUrl(state, locale),
+              locale: locale,
+              sharePath: '/stay/result',
+              shareParams: _buildStayShareParams(state),
+            ),
+          ),
+          // Save to trip (compact)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
+            child: Builder(builder: (ctx) {
+              final isSaved = _findLinkedTrip(ref, state) != null;
+              return SizedBox(width: double.infinity, child: OutlinedButton.icon(
+                onPressed: () => _saveSearch(context, ref, state, locale),
+                icon: Icon(isSaved ? Icons.sync : Icons.bookmark_outline, size: 14),
+                label: Text(
+                  isSaved
+                    ? tr(locale, ja: '旅行プランを更新', ko: '여행 플랜 갱신', en: 'Update trip', zh: '更新行程', fr: 'Mettre à jour')
+                    : tr(locale, ja: '旅行プランに保存', ko: '여행 플랜에 저장', en: 'Save to trip', zh: '保存到行程', fr: 'Enregistrer'),
+                  style: const TextStyle(fontSize: 12)),
                 style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 8)),
-              )),
-              const SizedBox(width: 8),
-              Expanded(child: Builder(builder: (ctx) {
-                final isSaved = _findLinkedTrip(ref, state) != null;
-                return OutlinedButton.icon(
-                  onPressed: () => _saveSearch(context, ref, state, locale),
-                  icon: Icon(isSaved ? Icons.sync : Icons.bookmark_outline, size: 14),
-                  label: Text(
-                    isSaved
-                      ? tr(locale, ja: '更新', ko: '갱신', en: 'Update', zh: '更新', fr: 'MAJ')
-                      : tr(locale, ja: '保存', ko: '저장', en: 'Save', zh: '保存', fr: 'Sauver'),
-                    style: const TextStyle(fontSize: 12)),
-                  style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 8)),
-                );
-              })),
-            ]),
+              ));
+            }),
           ),
           // Results (inside scrollable list)
           if (isSplit)
