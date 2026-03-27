@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,6 +28,7 @@ import '../../services/landmark_localizer.dart';
 import '../../services/rakuten_client.dart';
 import '../../services/station_codes.dart';
 import '../../widgets/stay_inline_map.dart';
+import '../../widgets/cached_image.dart';
 import '../../utils/tr.dart';
 import '../../app.dart';
 
@@ -39,11 +41,9 @@ class StayResultScreen extends ConsumerStatefulWidget {
 
 /// Build params map for /api/share (web needs name+lat+lng)
 Map<String, String> _buildStayShareParams(StaySearchState state) {
-  final landmarkJson = state.landmarks.map((l) =>
-    '{"name":"${l.name}","lat":${l.lat},"lng":${l.lng}}'
-  ).join(',');
+  final landmarks = state.landmarks.map((l) => {'name': l.name, 'lat': l.lat, 'lng': l.lng}).toList();
   final params = <String, String>{
-    'l': '[$landmarkJson]',
+    'l': jsonEncode(landmarks),
     'm': state.mode,
     'r': state.region,
   };
@@ -54,13 +54,10 @@ Map<String, String> _buildStayShareParams(StaySearchState state) {
 }
 
 /// Build a web-compatible share URL (fallback if /api/share fails)
-/// Web result page requires name+lat+lng in LandmarkParam
 String _buildStayShareUrl(StaySearchState state, String locale) {
-  final landmarkJson = state.landmarks.map((l) =>
-    '{"name":"${l.name}","lat":${l.lat},"lng":${l.lng}}'
-  ).join(',');
+  final landmarks = state.landmarks.map((l) => {'name': l.name, 'lat': l.lat, 'lng': l.lng}).toList();
   final params = <String, String>{
-    'l': '[$landmarkJson]',
+    'l': jsonEncode(landmarks),
     'm': state.mode,
     'r': state.region,
   };
@@ -179,7 +176,11 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
           children: [
             Icon(Icons.error_outline, size: 64, color: Colors.red.shade300),
             const SizedBox(height: 16),
-            Text(state.error!, style: theme.textTheme.bodySmall, textAlign: TextAlign.center),
+            Text(
+              state.error == 'network_error'
+                ? tr(locale, ja: 'ネットワークエラー。接続を確認してください。', ko: '네트워크 오류. 연결을 확인해주세요.', en: 'Network error. Please check your connection.', zh: '网络错误。请检查您的连接。', fr: 'Erreur réseau. Vérifiez votre connexion.')
+                : tr(locale, ja: '検索中にエラーが発生しました', ko: '검색 중 오류가 발생했습니다', en: 'An error occurred during search', zh: '搜索时发生错误', fr: 'Une erreur est survenue'),
+              style: theme.textTheme.bodySmall, textAlign: TextAlign.center),
             const SizedBox(height: 24),
             OutlinedButton(onPressed: () => notifier.search(), child: Text(tr(locale, ja: '再試行', ko: '재시도', en: 'Retry', zh: '重试', fr: 'Réessayer'))),
           ],
@@ -1533,7 +1534,7 @@ class _HotelCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: hotel.imageUrl != null
-                ? Image.network(hotel.imageUrl!, width: 80, height: 80, fit: BoxFit.cover,
+                ? CachedImage(hotel.imageUrl!, width: 80, height: 80,
                     errorBuilder: (_, __, ___) => Container(width: 80, height: 80, color: AppTheme.muted, child: const Icon(Icons.hotel)))
                 : Container(width: 80, height: 80, color: AppTheme.muted, child: const Icon(Icons.hotel)),
           ),

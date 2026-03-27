@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../config/theme.dart';
+import '../../widgets/cached_image.dart';
 import '../../providers/app_providers.dart';
 import '../../utils/tr.dart';
 import 'native_guide_detail_screen.dart';
@@ -124,9 +125,8 @@ class _GuideScreenState extends ConsumerState<GuideScreen> {
                                 // Image
                                 AspectRatio(
                                   aspectRatio: 16 / 9,
-                                  child: Image.network(
+                                  child: CachedImage(
                                     imageUrl,
-                                    fit: BoxFit.cover,
                                     errorBuilder: (_, __, ___) => Container(
                                       color: AppTheme.muted,
                                       child: Center(child: Icon(Icons.menu_book, size: 32, color: AppTheme.mutedForeground)),

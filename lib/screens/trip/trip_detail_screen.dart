@@ -247,7 +247,7 @@ class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
 
     final trip = state.trips.where((t) => t.id == widget.tripId).firstOrNull;
     if (trip == null) {
-      return Scaffold(appBar: AppBar(), body: const Center(child: Text('Trip not found')));
+      return Scaffold(appBar: AppBar(), body: Center(child: Text(tr(locale, ja: '旅行が見つかりません', ko: '여행을 찾을 수 없습니다', en: 'Trip not found', zh: '找不到旅行', fr: 'Voyage introuvable'))));
     }
 
     final items = state.items.where((i) => i.tripId == widget.tripId).toList();
