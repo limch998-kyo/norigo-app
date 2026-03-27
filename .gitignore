@@ -52,3 +52,7 @@ PROMPT_*.md
 
 # Screenshots
 *.png
+
+# Fastlane secrets
+fastlane/play-store-key.json
+fastlane/report.xml

@@ -1,0 +1,109 @@
+default_platform(:ios)
+
+# ── iOS ──
+platform :ios do
+  desc "Build and upload to App Store Connect"
+  lane :release do |options|
+    version = options[:version] || "1.8.0"
+
+    # Build IPA
+    sh "cd .. && flutter build ipa --release"
+
+    # Upload to App Store Connect
+    api_key = app_store_connect_api_key(
+      key_id: "MD79J6AKSY",
+      issuer_id: "24646ed0-2e19-483b-b1ed-a075a7946658",
+      key_filepath: File.expand_path("~/.appstoreconnect/private_keys/AuthKey_MD79J6AKSY.p8"),
+    )
+
+    upload_to_app_store(
+      api_key: api_key,
+      ipa: File.expand_path("../build/ios/ipa/norigo_app.ipa"),
+      skip_screenshots: true,
+      skip_metadata: false,
+      force: true,
+      submit_for_review: false,
+      automatic_release: false,
+      precheck_include_in_app_purchases: false,
+    )
+
+    UI.success "✅ iOS #{version} uploaded to App Store Connect!"
+  end
+
+  desc "Build, upload, and submit for review"
+  lane :submit do |options|
+    version = options[:version] || "1.8.0"
+
+    sh "cd .. && flutter build ipa --release"
+
+    api_key = app_store_connect_api_key(
+      key_id: "MD79J6AKSY",
+      issuer_id: "24646ed0-2e19-483b-b1ed-a075a7946658",
+      key_filepath: File.expand_path("~/.appstoreconnect/private_keys/AuthKey_MD79J6AKSY.p8"),
+    )
+
+    upload_to_app_store(
+      api_key: api_key,
+      ipa: File.expand_path("../build/ios/ipa/norigo_app.ipa"),
+      skip_screenshots: true,
+      skip_metadata: false,
+      force: true,
+      submit_for_review: true,
+      automatic_release: true,
+      precheck_include_in_app_purchases: false,
+    )
+
+    UI.success "✅ iOS #{version} submitted for review!"
+  end
+end
+
+# ── Android ──
+platform :android do
+  desc "Build and upload to Google Play (closed testing)"
+  lane :release do |options|
+    version = options[:version] || "1.8.0"
+
+    # Build AAB
+    sh "cd .. && flutter build appbundle --release"
+
+    upload_to_play_store(
+      json_key: File.expand_path("../fastlane/play-store-key.json"),
+      aab: File.expand_path("../build/app/outputs/bundle/release/app-release.aab"),
+      track: "internal",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+    )
+
+    UI.success "✅ Android #{version} uploaded to Google Play (internal)!"
+  end
+
+  desc "Build and upload to production"
+  lane :production do |options|
+    version = options[:version] || "1.8.0"
+
+    sh "cd .. && flutter build appbundle --release"
+
+    upload_to_play_store(
+      json_key: File.expand_path("../fastlane/play-store-key.json"),
+      aab: File.expand_path("../build/app/outputs/bundle/release/app-release.aab"),
+      track: "production",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+    )
+
+    UI.success "✅ Android #{version} uploaded to Google Play (production)!"
+  end
+end
+
+# ── Both platforms ──
+desc "Deploy to both iOS and Android"
+lane :deploy_all do |options|
+  version = options[:version] || "1.8.0"
+
+  Fastlane::LaneManager.cruise_lane("ios", "release", { version: version })
+  Fastlane::LaneManager.cruise_lane("android", "release", { version: version })
+
+  UI.success "✅ Both platforms deployed! Version #{version}"
+end

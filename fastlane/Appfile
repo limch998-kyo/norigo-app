@@ -1,0 +1,11 @@
+app_identifier("com.limchaehyun.norigo")
+json_key_file("./fastlane/play-store-key.json")
+
+for_platform :ios do
+  app_identifier("com.limchaehyun.norigo")
+end
+
+for_platform :android do
+  json_key_file("./fastlane/play-store-key.json")
+  package_name("app.norigo.norigo_app")
+end
