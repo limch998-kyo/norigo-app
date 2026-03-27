@@ -1,7 +1,7 @@
 name: norigo_app
 description: "Norigo - Japan & Korea Travel App"
 publish_to: 'none'
-version: 1.7.0+23
+version: 1.7.1+24
 
 environment:
   sdk: ^3.11.1
