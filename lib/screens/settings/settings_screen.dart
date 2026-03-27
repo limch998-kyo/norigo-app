@@ -101,7 +101,7 @@ class SettingsScreen extends ConsumerWidget {
           FutureBuilder<PackageInfo>(
             future: PackageInfo.fromPlatform(),
             builder: (context, snapshot) {
-              final version = snapshot.hasData ? 'v${snapshot.data!.version}+${snapshot.data!.buildNumber}' : '...';
+              final version = snapshot.hasData ? 'v${snapshot.data!.version}' : '...';
               return ListTile(
                 leading: const Icon(Icons.info_outline),
                 title: const Text('Nori GO!'),
