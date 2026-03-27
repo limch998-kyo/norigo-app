@@ -46,3 +46,9 @@ app.*.map.json
 ScreenRecording_03-19-2026 13-16-34_1.MP4
 *.MP4
 AuthKey_*.p8
+
+# Prompt documents (not part of app)
+PROMPT_*.md
+
+# Screenshots
+*.png
