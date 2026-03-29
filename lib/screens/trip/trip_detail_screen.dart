@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import '../../providers/app_providers.dart';
+import '../../widgets/cached_image.dart';
 import '../../providers/trip_provider.dart';
 import '../../config/theme.dart';
 import '../../config/constants.dart';
@@ -129,10 +130,9 @@ class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
                     dense: true,
                     leading: ClipRRect(
                       borderRadius: BorderRadius.circular(4),
-                      child: SizedBox(width: 28, height: 28, child: Image.network(
+                      child: SizedBox(width: 28, height: 28, child: CachedImage(
                         'https://norigo.app/images/landmarks/${l.slug}.webp',
                         fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => const Icon(Icons.place, size: 18),
                       )),
                     ),
                     title: Text(l.name, style: const TextStyle(fontSize: 13)),
@@ -159,10 +159,9 @@ class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
                       dense: true,
                       leading: ClipRRect(
                         borderRadius: BorderRadius.circular(4),
-                        child: SizedBox(width: 28, height: 28, child: Image.network(
+                        child: SizedBox(width: 28, height: 28, child: CachedImage(
                           'https://norigo.app/images/landmarks/${s['slug']}.webp',
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => Icon(isRestaurant ? Icons.restaurant : Icons.place, size: 16, color: isRestaurant ? AppTheme.orange : AppTheme.primary),
+                          width: 28, height: 28, fit: BoxFit.cover,
                         )),
                       ),
                       title: Text(displayName, style: const TextStyle(fontSize: 13)),
@@ -402,13 +401,9 @@ class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
                   borderRadius: BorderRadius.circular(6),
                   child: SizedBox(
                     width: 36, height: 36,
-                    child: Image.network(
+                    child: CachedImage(
                       'https://norigo.app/images/landmarks/${item.slug}.webp',
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => Container(
-                        color: AppTheme.primaryBg,
-                        child: Center(child: Text('${i + 1}', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.primary))),
-                      ),
+                      width: 36, height: 36, fit: BoxFit.cover,
                     ),
                   ),
                 ),

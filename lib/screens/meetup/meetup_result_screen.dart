@@ -19,6 +19,7 @@ import '../../widgets/share_buttons.dart';
 import '../../widgets/skeleton_loader.dart';
 import '../../config/booking_provider.dart';
 import '../../utils/tr.dart';
+import '../../widgets/cached_image.dart';
 
 Color _safeParseColor(String hex) {
   try { return Color(int.parse(hex.replaceFirst('#', '0xFF'))); } catch (_) { return Colors.grey; }
@@ -484,8 +485,7 @@ class _VenueCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: venue.imageUrl != null
-                ? Image.network(venue.imageUrl!, width: 72, height: 72, fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => _placeholder())
+                ? CachedImage(venue.imageUrl!, width: 72, height: 72, fit: BoxFit.cover)
                 : _placeholder(),
           ),
           ]),

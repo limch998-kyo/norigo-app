@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
+import '../../widgets/cached_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../config/theme.dart';
@@ -228,9 +229,7 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
                             if (photoUrl.isNotEmpty)
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(8),
-                                child: Image.network(photoUrl, width: 70, height: 70, fit: BoxFit.cover,
-                                  errorBuilder: (_, __, ___) => Container(width: 70, height: 70,
-                                    color: AppTheme.muted, child: Icon(Icons.restaurant, color: AppTheme.mutedForeground))),
+                                child: CachedImage(photoUrl, width: 70, height: 70, fit: BoxFit.cover),
                               ),
                             if (photoUrl.isNotEmpty) const SizedBox(width: 12),
 
