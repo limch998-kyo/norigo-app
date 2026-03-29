@@ -699,6 +699,9 @@ class _AreaCardState extends State<_AreaCard> {
       child: InkWell(
         onTap: widget.onTap,
         borderRadius: BorderRadius.circular(16),
+        overlayColor: AppTheme.noSplash ? WidgetStateProperty.all(Colors.transparent) : null,
+        splashFactory: AppTheme.noSplash ? NoSplash.splashFactory : null,
+        highlightColor: AppTheme.noSplash ? Colors.transparent : null,
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -1094,13 +1097,16 @@ class _InlineMap extends StatelessWidget {
       ...landmarks.map((l) => LatLng(l.lat, l.lng)),
       ...hotels.where((h) => h.lat != 0).map((h) => LatLng(h.lat, h.lng)),
     ];
+    if (allPoints.isEmpty) return const SizedBox.shrink();
     final center = LatLng(
-      allPoints.map((p) => p.latitude).reduce((a, b) => a + b) / allPoints.length,
-      allPoints.map((p) => p.longitude).reduce((a, b) => a + b) / allPoints.length,
+      allPoints.fold(0.0, (sum, p) => sum + p.latitude) / allPoints.length,
+      allPoints.fold(0.0, (sum, p) => sum + p.longitude) / allPoints.length,
     );
     // Auto-zoom to fit all points
-    final latSpan = allPoints.map((p) => p.latitude).reduce((a, b) => a > b ? a : b) - allPoints.map((p) => p.latitude).reduce((a, b) => a < b ? a : b);
-    final lngSpan = allPoints.map((p) => p.longitude).reduce((a, b) => a > b ? a : b) - allPoints.map((p) => p.longitude).reduce((a, b) => a < b ? a : b);
+    final lats = allPoints.map((p) => p.latitude);
+    final lngs = allPoints.map((p) => p.longitude);
+    final latSpan = lats.reduce((a, b) => a > b ? a : b) - lats.reduce((a, b) => a < b ? a : b);
+    final lngSpan = lngs.reduce((a, b) => a > b ? a : b) - lngs.reduce((a, b) => a < b ? a : b);
     final span = latSpan > lngSpan ? latSpan : lngSpan;
     final zoom = span < 0.01 ? 15.0 : span < 0.05 ? 14.0 : span < 0.1 ? 13.0 : span < 0.3 ? 12.0 : span < 1.0 ? 10.0 : 8.0;
 

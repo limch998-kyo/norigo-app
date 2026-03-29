@@ -190,9 +190,12 @@ class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
 
   Future<void> _showDatePicker(BuildContext context, WidgetRef ref, Trip trip, String locale) async {
     final now = DateTime.now();
-    final initialRange = (trip.checkIn != null && trip.checkOut != null)
-        ? DateTimeRange(start: DateTime.parse(trip.checkIn!), end: DateTime.parse(trip.checkOut!))
-        : DateTimeRange(start: now.add(const Duration(days: 30)), end: now.add(const Duration(days: 33)));
+    final fallbackRange = DateTimeRange(start: now.add(const Duration(days: 30)), end: now.add(const Duration(days: 33)));
+    final parsedStart = trip.checkIn != null ? DateTime.tryParse(trip.checkIn!) : null;
+    final parsedEnd = trip.checkOut != null ? DateTime.tryParse(trip.checkOut!) : null;
+    final initialRange = (parsedStart != null && parsedEnd != null)
+        ? DateTimeRange(start: parsedStart, end: parsedEnd)
+        : fallbackRange;
 
     final picked = await showDateRangePicker(
       context: context,
@@ -284,9 +287,9 @@ class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
                   ? StayInlineMap(area: topArea, landmarks: stayLandmarks, locale: locale, interactive: true)
                   : FlutterMap(
                       options: MapOptions(
-                        initialCenter: LatLng(
-                          items.map((i) => i.lat).reduce((a, b) => a + b) / items.length,
-                          items.map((i) => i.lng).reduce((a, b) => a + b) / items.length,
+                        initialCenter: items.isEmpty ? const LatLng(35.68, 139.76) : LatLng(
+                          items.fold(0.0, (sum, i) => sum + i.lat) / items.length,
+                          items.fold(0.0, (sum, i) => sum + i.lng) / items.length,
                         ),
                         initialZoom: 12,
                         interactionOptions: const InteractionOptions(flags: InteractiveFlag.all),
