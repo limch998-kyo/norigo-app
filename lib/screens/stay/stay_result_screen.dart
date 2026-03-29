@@ -109,7 +109,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         behavior: SnackBarBehavior.floating,
-        duration: const Duration(milliseconds: 1500),
+        duration: const Duration(seconds: 3),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         content: Row(children: [
           Expanded(child: Text(tr(locale, ja: '旅行プランを更新しました', ko: '여행 플랜 업데이트됨', en: 'Trip updated', zh: '行程已更新', fr: 'Voyage mis à jour'))),
@@ -136,7 +136,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         behavior: SnackBarBehavior.floating,
-        duration: const Duration(milliseconds: 1500),
+        duration: const Duration(seconds: 3),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         content: Row(children: [
           Expanded(child: Text(tr(locale, ja: '旅行プランに保存しました', ko: '여행 플랜에 저장됨', en: 'Saved to trip', zh: '已保存到行程', fr: 'Enregistré dans le voyage'))),
@@ -1463,6 +1463,7 @@ class _HotelSectionState extends State<_HotelSection> {
         hotel: e.value,
         index: e.key + 1,
         l10n: widget.l10n,
+        locale: widget.locale,
         onBookingTap: () => widget.onHotelBookingClick?.call(e.value),
       )),
 
@@ -1487,7 +1488,7 @@ class _HotelSectionState extends State<_HotelSection> {
         padding: const EdgeInsets.only(top: 8),
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Row(children: [
-            Text('Powered by ', style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
+            Text(tr(widget.locale, ja: '提供: ', ko: '제공: ', en: 'Powered by ', zh: '由 ', fr: 'Fourni par '), style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
             Text(BookingProvider.providerName(widget.locale, widget.region), style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground)),
           ]),
           GestureDetector(
@@ -1523,9 +1524,10 @@ class _HotelCard extends StatelessWidget {
   final Hotel hotel;
   final int index;
   final AppLocalizations l10n;
+  final String locale;
   final VoidCallback? onBookingTap;
 
-  const _HotelCard({required this.hotel, required this.index, required this.l10n, this.onBookingTap});
+  const _HotelCard({required this.hotel, required this.index, required this.l10n, required this.locale, this.onBookingTap});
 
   @override
   Widget build(BuildContext context) {
@@ -1587,8 +1589,8 @@ class _HotelCard extends StatelessWidget {
           if (hotel.includeBreakfast || hotel.freeWifi) ...[
             const SizedBox(height: 4),
             Wrap(spacing: 4, children: [
-              if (hotel.freeWifi) _AmenityBadge(icon: Icons.wifi, label: 'Wi-Fi'),
-              if (hotel.includeBreakfast) _AmenityBadge(icon: Icons.restaurant, label: '朝食'),
+              if (hotel.freeWifi) const _AmenityBadge(icon: Icons.wifi, label: 'Wi-Fi'),
+              if (hotel.includeBreakfast) _AmenityBadge(icon: Icons.restaurant, label: tr(locale, ja: '朝食', ko: '조식', en: 'Breakfast', zh: '早餐', fr: 'Petit-déj')),
             ]),
           ],
         ])),
@@ -1666,7 +1668,7 @@ class _ExternalHotelLinks extends StatelessWidget {
       if (checkIn != null && checkOut != null) {
         parts.add('${checkIn!.substring(5).replaceAll('-', '/')} - ${checkOut!.substring(5).replaceAll('-', '/')}');
       }
-      parts.add('2 guests');
+      parts.add(tr(locale, ja: '2名', ko: '2명', en: '2 guests', zh: '2位', fr: '2 pers.'));
       if (maxBudget != null && maxBudget != 'any') {
         final budgetLabel = AppConstants.stayBudgetLabels[maxBudget]?[locale]
             ?? AppConstants.stayBudgetLabels[maxBudget]?['en'] ?? maxBudget;
@@ -1697,7 +1699,7 @@ class _ExternalHotelLinks extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         Center(child: Text(
-          'Powered by Expedia Group',
+          tr(locale, ja: '提供: Expedia Group', ko: '제공: Expedia Group', en: 'Powered by Expedia Group', zh: '由 Expedia Group 提供', fr: 'Fourni par Expedia Group'),
           style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground),
         )),
       ]);
@@ -1739,7 +1741,7 @@ class _ExternalHotelLinks extends StatelessWidget {
       ),
       const SizedBox(height: 6),
       Center(child: Text(
-        'Powered by $providerName',
+        tr(locale, ja: '提供: $providerName', ko: '제공: $providerName', en: 'Powered by $providerName', zh: '由 $providerName 提供', fr: 'Fourni par $providerName'),
         style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground),
       )),
     ]);

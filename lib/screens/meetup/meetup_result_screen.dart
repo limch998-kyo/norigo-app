@@ -149,7 +149,7 @@ class _MeetupResultScreenState extends ConsumerState<MeetupResultScreen> {
           ),
           Expanded(
             child: _showMap
-                ? _MeetupMapView(recommended: result.stations, participants: state.filledStations)
+                ? _MeetupMapView(recommended: result.stations, participants: state.filledStations, locale: locale)
                 : ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: result.stations.length,
@@ -511,7 +511,7 @@ class _VenueCard extends StatelessWidget {
                 if (venue.privateRoom) _FeatureBadge(icon: Icons.meeting_room, label: tr(locale, ja: '個室', ko: '개인실', en: 'Private', zh: '包间', fr: 'Privé')),
                 if (venue.noSmoking) _FeatureBadge(icon: Icons.smoke_free, label: tr(locale, ja: '禁煙', ko: '금연', en: 'No smoking', zh: '禁烟', fr: 'Non-fumeur')),
                 if (venue.freeDrink) _FeatureBadge(icon: Icons.local_bar, label: tr(locale, ja: '飲み放題', ko: '무한리필', en: 'Free drink', zh: '畅饮', fr: 'Boissons à volonté')),
-                if (venue.wifi) _FeatureBadge(icon: Icons.wifi, label: 'WiFi'),
+                if (venue.wifi) const _FeatureBadge(icon: Icons.wifi, label: 'WiFi'),
               ]),
             ],
             if (venue.access != null)
@@ -767,8 +767,9 @@ class _VoteButtonState extends State<_VoteButton> {
 class _MeetupMapView extends StatelessWidget {
   final List<RecommendedStation> recommended;
   final List<Station> participants;
+  final String locale;
 
-  const _MeetupMapView({required this.recommended, required this.participants});
+  const _MeetupMapView({required this.recommended, required this.participants, this.locale = 'en'});
 
   @override
   Widget build(BuildContext context) {
@@ -778,7 +779,7 @@ class _MeetupMapView extends StatelessWidget {
       ...recommended.map((r) => LatLng(r.station.lat, r.station.lng)),
       ...participants.where((p) => p.lat != 0).map((p) => LatLng(p.lat, p.lng)),
     ];
-    if (allPoints.isEmpty) return const Center(child: Text('No map data'));
+    if (allPoints.isEmpty) return Center(child: Text(tr(locale, ja: '地図データなし', ko: '지도 데이터 없음', en: 'No map data', zh: '无地图数据', fr: 'Aucune donnée cartographique')));
 
     final center = LatLng(
       allPoints.map((p) => p.latitude).reduce((a, b) => a + b) / allPoints.length,

@@ -95,7 +95,7 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         behavior: SnackBarBehavior.floating,
-        duration: const Duration(milliseconds: 1500),
+        duration: const Duration(seconds: 3),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         content: Row(children: [
           Expanded(child: Text(tr(locale, ja: '旅行プランに追加しました', ko: '여행 플랜에 추가됨', en: 'Added to trip', zh: '已添加到旅行', fr: 'Ajouté au voyage'))),
@@ -242,7 +242,7 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
         setState(() { _data = data; _loading = false; });
       }
     } catch (e) {
-      if (mounted) setState(() { _error = e.toString(); _loading = false; });
+      if (mounted) setState(() { _error = 'load_failed'; _loading = false; });
     }
   }
 
@@ -260,7 +260,7 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
     if (_error != null || _data == null) {
       return Scaffold(
         appBar: AppBar(),
-        body: Center(child: Text(_error ?? tr(locale, ja: 'ガイドが見つかりません', ko: '가이드를 찾을 수 없습니다', en: 'Guide not found', zh: '找不到指南', fr: 'Guide introuvable'))),
+        body: Center(child: Text(tr(locale, ja: '読み込みに失敗しました', ko: '불러오기 실패', en: 'Failed to load guide', zh: '加载失败', fr: 'Échec du chargement'))),
       );
     }
 
