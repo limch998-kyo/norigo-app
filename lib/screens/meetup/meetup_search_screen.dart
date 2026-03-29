@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/meetup_provider.dart';
 import '../../widgets/station_input_list.dart';
+import '../../config/theme.dart';
 import '../../widgets/mode_selector.dart';
 import '../../config/constants.dart';
 import '../../utils/tr.dart';
@@ -25,6 +26,7 @@ class MeetupSearchScreen extends ConsumerWidget {
         ),
       ),
       body: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -176,6 +178,16 @@ class MeetupSearchScreen extends ConsumerWidget {
                     : Text(tr(locale, ja: '集合駅を検索', ko: '만남역 검색', en: 'Find Meetup Station', zh: '查找聚会地点', fr: 'Trouver un point de rencontre')),
               ),
             ),
+
+            if (state.filledStations.length < 2 && !state.isLoading)
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  tr(locale, ja: '2つ以上の駅を入力してください', ko: '2개 이상의 역을 입력해주세요', en: 'Enter at least 2 stations', zh: '请输入至少2个站', fr: 'Entrez au moins 2 gares'),
+                  style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground),
+                  textAlign: TextAlign.center,
+                ),
+              ),
 
             if (state.error != null) ...[
               const SizedBox(height: 16),

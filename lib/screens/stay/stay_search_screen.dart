@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/landmark.dart';
+import '../../widgets/cached_image.dart';
 import '../../config/theme.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/stay_provider.dart';
@@ -103,6 +104,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(l10n.staySearchTitle)),
       body: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -281,6 +283,16 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
                     : Text(l10n.searchButton),
               ),
             ),
+
+            if (state.landmarks.length < 2 && !state.isLoading)
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  tr(locale, ja: '2つ以上の観光地を入力してください', ko: '2개 이상의 관광지를 입력해주세요', en: 'Enter at least 2 landmarks', zh: '请输入至少2个景点', fr: 'Entrez au moins 2 sites'),
+                  style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground),
+                  textAlign: TextAlign.center,
+                ),
+              ),
 
             if (state.error != null) ...[
               const SizedBox(height: 16),
@@ -489,10 +501,9 @@ class _PopularSpotCardsState extends State<_PopularSpotCards> {
                   },
                   child: AspectRatio(
                     aspectRatio: 16 / 9,
-                    child: Image.network(
+                    child: CachedImage(
                       'https://norigo.app/images/landmarks/$imageFile.webp',
                       fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => Container(color: AppTheme.muted, child: Center(child: Icon(Icons.place, size: 32, color: AppTheme.mutedForeground))),
                     ),
                   ),
                 ),

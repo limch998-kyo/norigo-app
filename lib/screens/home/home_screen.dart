@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/app_providers.dart';
+import '../../widgets/cached_image.dart';
 import '../../providers/stay_provider.dart';
 import '../../models/landmark.dart';
 import '../../config/theme.dart';
@@ -870,8 +871,7 @@ class _KoreaQuickPlans extends StatelessWidget {
               AspectRatio(
                 aspectRatio: 16 / 9,
                 child: Stack(fit: StackFit.expand, children: [
-                  Image.network(imageUrl, fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(color: AppTheme.muted, child: const Icon(Icons.place, size: 32))),
+                  CachedImage(imageUrl, fit: BoxFit.cover),
                   Container(decoration: const BoxDecoration(gradient: LinearGradient(
                     begin: Alignment.bottomCenter, end: Alignment.center,
                     colors: [Colors.black54, Colors.transparent]))),
@@ -973,8 +973,7 @@ class _ContinuePlanningSection extends ConsumerWidget {
                   ),
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     if (imageUrl != null)
-                      Image.network(imageUrl, height: 60, width: 180, fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => Container(height: 60, color: AppTheme.primaryBg)),
+                      CachedImage(imageUrl, height: 60, width: 180, fit: BoxFit.cover),
                     if (imageUrl == null)
                       Container(height: 60, color: AppTheme.primaryBg),
                     Padding(

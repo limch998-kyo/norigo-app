@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../models/landmark.dart';
 import '../../../utils/tr.dart';
+import '../../../widgets/cached_image.dart';
 
 class QuickPlan {
   final String id;
@@ -300,13 +301,9 @@ class _QuickPlanCard extends StatelessWidget {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.network(
+                  CachedImage(
                     imageUrl,
                     fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(
-                      color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                      child: const Icon(Icons.image_not_supported),
-                    ),
                   ),
                   Container(
                     decoration: const BoxDecoration(

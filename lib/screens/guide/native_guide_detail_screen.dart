@@ -4,6 +4,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:url_launcher/url_launcher.dart';
 import '../../config/theme.dart';
+import '../../widgets/cached_image.dart';
 import '../../providers/app_providers.dart';
 import '../../providers/trip_provider.dart';
 import '../../models/landmark.dart';
@@ -186,8 +187,7 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
           imageBuilder: (uri, title, alt) {
             return ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: Image.network(uri.toString(), fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => const SizedBox.shrink()),
+              child: CachedImage(uri.toString(), fit: BoxFit.cover),
             );
           },
         ));
@@ -281,8 +281,7 @@ class _NativeGuideDetailScreenState extends ConsumerState<NativeGuideDetailScree
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
               background: heroImage.isNotEmpty
-                ? Image.network(heroImage, fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(color: AppTheme.muted))
+                ? CachedImage(heroImage, fit: BoxFit.cover)
                 : Container(color: AppTheme.muted),
             ),
           ),
@@ -393,9 +392,7 @@ class _SpotCard extends StatelessWidget {
           if (imageUrl.isNotEmpty)
             AspectRatio(
               aspectRatio: 16 / 9,
-              child: Image.network(imageUrl, fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => Container(color: AppTheme.muted,
-                  child: Center(child: Icon(Icons.place, size: 32, color: AppTheme.mutedForeground)))),
+              child: CachedImage(imageUrl, fit: BoxFit.cover),
             ),
           Padding(
             padding: const EdgeInsets.all(12),
