@@ -20,6 +20,10 @@ import '../../widgets/skeleton_loader.dart';
 import '../../config/booking_provider.dart';
 import '../../utils/tr.dart';
 
+Color _safeParseColor(String hex) {
+  try { return Color(int.parse(hex.replaceFirst('#', '0xFF'))); } catch (_) { return Colors.grey; }
+}
+
 class MeetupResultScreen extends ConsumerStatefulWidget {
   const MeetupResultScreen({super.key});
 
@@ -208,7 +212,7 @@ class _StationCard extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                           decoration: BoxDecoration(
-                            color: Color(int.parse(c['color']!.replaceFirst('#', '0xFF'))),
+                            color: _safeParseColor(c['color'] ?? '#888888'),
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(c['code']!, style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold)),
@@ -251,12 +255,15 @@ class _StationCard extends StatelessWidget {
                   ...rec.distances.where((d) => d.lat != 0).map((d) => LatLng(d.lat, d.lng)),
                   ...rec.venues.where((v) => v.lat != null).take(5).map((v) => LatLng(v.lat!, v.lng!)),
                 ];
+                if (allMapPoints.isEmpty) return const SizedBox(height: 160);
                 final mapCenter = LatLng(
-                  allMapPoints.map((p) => p.latitude).reduce((a, b) => a + b) / allMapPoints.length,
-                  allMapPoints.map((p) => p.longitude).reduce((a, b) => a + b) / allMapPoints.length,
+                  allMapPoints.fold(0.0, (sum, p) => sum + p.latitude) / allMapPoints.length,
+                  allMapPoints.fold(0.0, (sum, p) => sum + p.longitude) / allMapPoints.length,
                 );
-                final latSpan = allMapPoints.map((p) => p.latitude).reduce((a, b) => a > b ? a : b) - allMapPoints.map((p) => p.latitude).reduce((a, b) => a < b ? a : b);
-                final lngSpan = allMapPoints.map((p) => p.longitude).reduce((a, b) => a > b ? a : b) - allMapPoints.map((p) => p.longitude).reduce((a, b) => a < b ? a : b);
+                final lats = allMapPoints.map((p) => p.latitude);
+                final lngs = allMapPoints.map((p) => p.longitude);
+                final latSpan = lats.reduce((a, b) => a > b ? a : b) - lats.reduce((a, b) => a < b ? a : b);
+                final lngSpan = lngs.reduce((a, b) => a > b ? a : b) - lngs.reduce((a, b) => a < b ? a : b);
                 final span = latSpan > lngSpan ? latSpan : lngSpan;
                 final autoZoom = span < 0.005 ? 15.0 : span < 0.01 ? 14.5 : span < 0.03 ? 14.0 : span < 0.05 ? 13.0 : span < 0.1 ? 12.0 : span < 0.3 ? 11.0 : span < 1.0 ? 9.0 : 7.0;
 
@@ -278,7 +285,7 @@ class _StationCard extends StatelessWidget {
                           final isTransfer = seg.line == 'transfer';
                           return Polyline(
                             points: seg.path!.map((p) => LatLng(p[0], p[1])).toList(),
-                            color: isTransfer ? Colors.grey : Color(int.parse(seg.color.replaceFirst('#', '0xFF'))),
+                            color: isTransfer ? Colors.grey : _safeParseColor(seg.color),
                             strokeWidth: isTransfer ? 3.0 : 4.0,
                             pattern: isTransfer ? const StrokePattern.dotted() : const StrokePattern.solid(),
                           );
