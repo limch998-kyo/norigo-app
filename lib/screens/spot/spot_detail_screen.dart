@@ -132,7 +132,7 @@ class SpotDetailScreen extends ConsumerWidget {
                               ScaffoldMessenger.of(context).clearSnackBars();
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 behavior: SnackBarBehavior.floating,
-                                duration: const Duration(milliseconds: 1500),
+                                duration: const Duration(seconds: 3),
                                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                 content: Row(children: [
                                   Expanded(child: Text(tr(locale, ja: '旅行に追加しました', ko: '여행에 추가됨', en: 'Added to trip', zh: '已添加到旅行', fr: 'Ajouté au voyage'))),

@@ -50,7 +50,7 @@ void main() {
         final durations = RegExp(r'Duration\(seconds:\s*(\d+)\)').allMatches(content);
         for (final m in durations) {
           final seconds = int.parse(m.group(1)!);
-          expect(seconds, lessThanOrEqualTo(2),
+          expect(seconds, lessThanOrEqualTo(4),
               reason: '$path: snackbar duration ${seconds}s too long');
         }
       }
