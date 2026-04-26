@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dio/dio.dart';
+import 'package:norigo_app/models/hotel.dart';
 import 'package:norigo_app/providers/stay_provider.dart';
 import 'package:norigo_app/providers/meetup_provider.dart';
 
@@ -73,6 +74,23 @@ void main() {
     test('cached_network_image is in pubspec dependencies', () {
       final pubspec = File('pubspec.yaml').readAsStringSync();
       expect(pubspec, contains('cached_network_image'));
+    });
+  });
+
+  group('Hotel image URLs', () {
+    test('insecure provider image URLs are normalized to HTTPS', () {
+      final hotel = Hotel.fromJson({
+        'hotelId': 1,
+        'hotelName': 'Agoda Test Hotel',
+        'latitude': 35.0,
+        'longitude': 139.0,
+        'imageURL': 'http://pix8.agoda.net/hotelImages/test.jpg?size=400',
+      });
+
+      expect(
+        hotel.imageUrl,
+        'https://pix8.agoda.net/hotelImages/test.jpg?size=400',
+      );
     });
   });
 

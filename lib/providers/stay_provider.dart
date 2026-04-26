@@ -18,6 +18,7 @@ class StaySearchState {
   final String? error;
   final bool showSplit;
   final String stayStyle;
+
   /// Track which saved search this was loaded from (for update instead of create)
   final String? savedSearchId;
 
@@ -69,7 +70,9 @@ class StaySearchState {
       error: clearError ? null : (error ?? this.error),
       showSplit: showSplit ?? this.showSplit,
       stayStyle: stayStyle ?? this.stayStyle,
-      savedSearchId: clearSavedSearchId ? null : (savedSearchId ?? this.savedSearchId),
+      savedSearchId: clearSavedSearchId
+          ? null
+          : (savedSearchId ?? this.savedSearchId),
     );
   }
 }
@@ -85,7 +88,9 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
 
   void setLandmark(int index, Landmark landmark) {
     // Prevent duplicates (allow replacing same slot)
-    final existingIndex = state.slots.indexWhere((l) => l != null && (l.name == landmark.name || l.slug == landmark.slug));
+    final existingIndex = state.slots.indexWhere(
+      (l) => l != null && (l.name == landmark.name || l.slug == landmark.slug),
+    );
     if (existingIndex >= 0 && existingIndex != index) return;
 
     final newSlots = List<Landmark?>.from(state.slots);
@@ -102,8 +107,14 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
   void addLandmark(Landmark landmark) {
     // Prevent duplicates: same slug OR very close coordinates (~100m)
     final filled = state.landmarks;
-    if (filled.any((l) => l.slug == landmark.slug ||
-        ((l.lat - landmark.lat).abs() < 0.001 && (l.lng - landmark.lng).abs() < 0.001 && l.lat != 0))) return;
+    if (filled.any(
+      (l) =>
+          l.slug == landmark.slug ||
+          ((l.lat - landmark.lat).abs() < 0.001 &&
+              (l.lng - landmark.lng).abs() < 0.001 &&
+              l.lat != 0),
+    ))
+      return;
 
     // Find first empty slot, or add new slot
     final newSlots = List<Landmark?>.from(state.slots);
@@ -200,24 +211,45 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
     final filled = state.landmarks;
     if (filled.length < 2) return; // API requires minimum 2 landmarks
 
-    state = state.copyWith(isLoading: true, clearError: true, clearResult: true);
+    state = state.copyWith(
+      isLoading: true,
+      clearError: true,
+      clearResult: true,
+    );
 
-    // Track search event (matches web stay_search)
     final tracking = _ref.read(trackingServiceProvider);
-    tracking.trackEvent('stay_search', payload: {
+    final searchPayload = <String, dynamic>{
       'landmarkCount': filled.length,
+      'landmarkSlugs': filled.map((l) => l.slug).toList(),
       'landmarks': filled.map((l) => l.name).toList(),
       'mode': state.mode,
+      'stayStyle': state.stayStyle,
       'maxBudget': state.maxBudget ?? 'any',
       'region': state.region,
-    }, path: '/stay/search');
+      'checkIn': state.checkIn,
+      'checkOut': state.checkOut,
+    };
+    tracking.trackEvent(
+      'stay_search_started',
+      payload: searchPayload,
+      path: '/stay/search',
+    );
+    tracking.trackEvent(
+      'stay_search',
+      payload: searchPayload,
+      path: '/stay/search',
+    );
 
     try {
       final api = _ref.read(apiClientProvider);
       final locale = _ref.read(localeProvider);
-      debugPrint('Stay search: ${filled.length} landmarks, region=${state.region}, mode=${state.mode}, stayStyle=${state.stayStyle}');
+      debugPrint(
+        'Stay search: ${filled.length} landmarks, region=${state.region}, mode=${state.mode}, stayStyle=${state.stayStyle}',
+      );
       for (final l in filled) {
-        debugPrint('  Landmark: ${l.name} (${l.lat}, ${l.lng}) region=${l.region}');
+        debugPrint(
+          '  Landmark: ${l.name} (${l.lat}, ${l.lng}) region=${l.region}',
+        );
       }
       final result = await api.getStayRecommendation(
         landmarks: filled,
@@ -229,13 +261,32 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
         checkOut: state.checkOut,
         locale: locale,
       );
-      debugPrint('Stay result: areas=${result.areas.length}, split=${result.split}, clusters=${result.clusters.length}');
+      debugPrint(
+        'Stay result: areas=${result.areas.length}, split=${result.split}, clusters=${result.clusters.length}',
+      );
       state = state.copyWith(result: result, isLoading: false);
+      tracking.trackEvent(
+        'stay_search_completed',
+        payload: {
+          ...searchPayload,
+          'resultCount': result.areas.length,
+          'split': result.split,
+          'clusterCount': result.clusters.length,
+        },
+        path: '/stay/result',
+      );
     } catch (e) {
-      final msg = e.toString().contains('SocketException') || e.toString().contains('ConnectionTimeout')
+      final msg =
+          e.toString().contains('SocketException') ||
+              e.toString().contains('ConnectionTimeout')
           ? 'network_error'
           : 'search_error';
       state = state.copyWith(error: msg, isLoading: false);
+      tracking.trackEvent(
+        'stay_search_failed',
+        payload: {...searchPayload, 'error': msg},
+        path: '/stay/search',
+      );
     }
   }
 
@@ -251,7 +302,14 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
         lng: lm.lng,
       );
       if (newName != null && newName != lm.name) {
-        return Landmark(slug: lm.slug, name: newName, nameEn: lm.nameEn, lat: lm.lat, lng: lm.lng, region: lm.region);
+        return Landmark(
+          slug: lm.slug,
+          name: newName,
+          nameEn: lm.nameEn,
+          lat: lm.lat,
+          lng: lm.lng,
+          region: lm.region,
+        );
       }
       return null;
     }
@@ -261,7 +319,10 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
     final newSlots = state.slots.map((slot) {
       if (slot == null) return slot;
       final updated = _localize(slot);
-      if (updated != null) { changed = true; return updated; }
+      if (updated != null) {
+        changed = true;
+        return updated;
+      }
       return slot;
     }).toList();
 
@@ -277,7 +338,10 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
       final cachedSlots = _regionSlots[region]!.map((slot) {
         if (slot == null) return slot;
         final updated = _localize(slot);
-        if (updated != null) { regionChanged = true; return updated; }
+        if (updated != null) {
+          regionChanged = true;
+          return updated;
+        }
         return slot;
       }).toList();
       if (regionChanged) _regionSlots[region] = cachedSlots;
@@ -298,5 +362,5 @@ class StaySearchNotifier extends StateNotifier<StaySearchState> {
 
 final staySearchProvider =
     StateNotifierProvider<StaySearchNotifier, StaySearchState>((ref) {
-  return StaySearchNotifier(ref);
-});
+      return StaySearchNotifier(ref);
+    });

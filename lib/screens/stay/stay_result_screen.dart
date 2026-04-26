@@ -41,7 +41,9 @@ class StayResultScreen extends ConsumerStatefulWidget {
 
 /// Build params map for /api/share (web needs name+lat+lng)
 Map<String, String> _buildStayShareParams(StaySearchState state) {
-  final landmarks = state.landmarks.map((l) => {'name': l.name, 'lat': l.lat, 'lng': l.lng}).toList();
+  final landmarks = state.landmarks
+      .map((l) => {'name': l.name, 'lat': l.lat, 'lng': l.lng})
+      .toList();
   final params = <String, String>{
     'l': jsonEncode(landmarks),
     'm': state.mode,
@@ -55,7 +57,9 @@ Map<String, String> _buildStayShareParams(StaySearchState state) {
 
 /// Build a web-compatible share URL (fallback if /api/share fails)
 String _buildStayShareUrl(StaySearchState state, String locale) {
-  final landmarks = state.landmarks.map((l) => {'name': l.name, 'lat': l.lat, 'lng': l.lng}).toList();
+  final landmarks = state.landmarks
+      .map((l) => {'name': l.name, 'lat': l.lat, 'lng': l.lng})
+      .toList();
   final params = <String, String>{
     'l': jsonEncode(landmarks),
     'm': state.mode,
@@ -64,11 +68,14 @@ String _buildStayShareUrl(StaySearchState state, String locale) {
   if (state.maxBudget != null) params['b'] = state.maxBudget!;
   if (state.checkIn != null) params['ci'] = state.checkIn!;
   if (state.checkOut != null) params['co'] = state.checkOut!;
-  return Uri.parse('https://norigo.app/$locale/stay/result').replace(queryParameters: params).toString();
+  return Uri.parse(
+    'https://norigo.app/$locale/stay/result',
+  ).replace(queryParameters: params).toString();
 }
 
 class _StayResultScreenState extends ConsumerState<StayResultScreen> {
   int _expandedIndex = 0;
+  String? _trackedResultKey;
 
   /// Find the linked trip: by savedSearchId (tripId) first, then by landmark match
   Trip? _findLinkedTrip(WidgetRef ref, StaySearchState state) {
@@ -81,10 +88,17 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
       } catch (_) {}
     }
     // 2. Fallback: match by landmarks
-    return tripNotifier.findTripForLandmarks(state.landmarks.map((l) => l.slug).toList());
+    return tripNotifier.findTripForLandmarks(
+      state.landmarks.map((l) => l.slug).toList(),
+    );
   }
 
-  void _saveSearch(BuildContext context, WidgetRef ref, StaySearchState state, String locale) {
+  void _saveSearch(
+    BuildContext context,
+    WidgetRef ref,
+    StaySearchState state,
+    String locale,
+  ) {
     final tripNotifier = ref.read(tripProvider.notifier);
     final stayNotifier = ref.read(staySearchProvider.notifier);
     final existing = _findLinkedTrip(ref, state);
@@ -92,14 +106,19 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
     if (existing != null) {
       // Update existing trip: items + search settings
       // Remove old items and re-add current landmarks
-      final oldItems = ref.read(tripProvider).items.where((i) => i.tripId == existing.id).toList();
+      final oldItems = ref
+          .read(tripProvider)
+          .items
+          .where((i) => i.tripId == existing.id)
+          .toList();
       for (final item in oldItems) {
         tripNotifier.removeItem(item.slug, existing.id);
       }
       for (final lm in state.landmarks) {
         tripNotifier.addItem(lm, tripId: existing.id, locale: locale);
       }
-      tripNotifier.saveSearchToTrip(existing.id,
+      tripNotifier.saveSearchToTrip(
+        existing.id,
         mode: state.mode,
         maxBudget: state.maxBudget,
         checkIn: state.checkIn,
@@ -107,26 +126,61 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
       );
       stayNotifier.setSavedSearchId(existing.id);
       ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 3),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        content: Row(children: [
-          Expanded(child: Text(tr(locale, ja: '旅行プランを更新しました', ko: '여행 플랜 업데이트됨', en: 'Trip updated', zh: '行程已更新', fr: 'Voyage mis à jour'))),
-          TextButton(
-            onPressed: () { ScaffoldMessenger.of(context).hideCurrentSnackBar(); MainShell.globalSwitchTab?.call(3); },
-            child: Text(tr(locale, ja: '表示', ko: '보기', en: 'View', zh: '查看', fr: 'Voir'), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 3),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          content: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  tr(
+                    locale,
+                    ja: '旅行プランを更新しました',
+                    ko: '여행 플랜 업데이트됨',
+                    en: 'Trip updated',
+                    zh: '行程已更新',
+                    fr: 'Voyage mis à jour',
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  MainShell.globalSwitchTab?.call(3);
+                },
+                child: Text(
+                  tr(
+                    locale,
+                    ja: '表示',
+                    ko: '보기',
+                    en: 'View',
+                    zh: '查看',
+                    fr: 'Voir',
+                  ),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ]),
-      ));
+        ),
+      );
     } else {
       // Create new trip from search
       final title = state.landmarks.map((l) => l.name).join(' · ');
-      final tripId = tripNotifier.createTrip(title, country: TripNotifier.regionCountry(state.region));
+      final tripId = tripNotifier.createTrip(
+        title,
+        country: TripNotifier.regionCountry(state.region),
+      );
       for (final lm in state.landmarks) {
         tripNotifier.addItem(lm, tripId: tripId, locale: locale);
       }
-      tripNotifier.saveSearchToTrip(tripId,
+      tripNotifier.saveSearchToTrip(
+        tripId,
         mode: state.mode,
         maxBudget: state.maxBudget,
         checkIn: state.checkIn,
@@ -134,18 +188,49 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
       );
       stayNotifier.setSavedSearchId(tripId);
       ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 3),
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        content: Row(children: [
-          Expanded(child: Text(tr(locale, ja: '旅行プランに保存しました', ko: '여행 플랜에 저장됨', en: 'Saved to trip', zh: '已保存到行程', fr: 'Enregistré dans le voyage'))),
-          TextButton(
-            onPressed: () { ScaffoldMessenger.of(context).hideCurrentSnackBar(); MainShell.globalSwitchTab?.call(3); },
-            child: Text(tr(locale, ja: '表示', ko: '보기', en: 'View', zh: '查看', fr: 'Voir'), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 3),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          content: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  tr(
+                    locale,
+                    ja: '旅行プランに保存しました',
+                    ko: '여행 플랜에 저장됨',
+                    en: 'Saved to trip',
+                    zh: '已保存到行程',
+                    fr: 'Enregistré dans le voyage',
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  MainShell.globalSwitchTab?.call(3);
+                },
+                child: Text(
+                  tr(
+                    locale,
+                    ja: '表示',
+                    ko: '보기',
+                    en: 'View',
+                    zh: '查看',
+                    fr: 'Voir',
+                  ),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ]),
-      ));
+        ),
+      );
     }
   }
 
@@ -158,78 +243,206 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
     final theme = Theme.of(context);
     // Auto-link to existing trip if not already linked
     if (state.savedSearchId == null && state.landmarks.isNotEmpty) {
-      final match = ref.read(tripProvider.notifier).findTripForLandmarks(state.landmarks.map((l) => l.slug).toList());
+      final match = ref
+          .read(tripProvider.notifier)
+          .findTripForLandmarks(state.landmarks.map((l) => l.slug).toList());
       if (match != null) {
         Future.microtask(() => notifier.setSavedSearchId(match.id));
       }
     }
 
     if (state.isLoading) {
-      return Scaffold(appBar: AppBar(title: Text(l10n.staySearchTitle)), body: const SkeletonLoader(count: 3));
+      return Scaffold(
+        appBar: AppBar(title: Text(l10n.staySearchTitle)),
+        body: const SkeletonLoader(count: 3),
+      );
     }
 
     if (state.error != null) {
       return Scaffold(
         appBar: AppBar(title: Text(l10n.staySearchTitle)),
-        body: Center(child: Padding(padding: const EdgeInsets.all(32), child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.error_outline, size: 64, color: Colors.red.shade300),
-            const SizedBox(height: 16),
-            Text(
-              state.error == 'network_error'
-                ? tr(locale, ja: 'ネットワークエラー。接続を確認してください。', ko: '네트워크 오류. 연결을 확인해주세요.', en: 'Network error. Please check your connection.', zh: '网络错误。请检查您的连接。', fr: 'Erreur réseau. Vérifiez votre connexion.')
-                : tr(locale, ja: '検索中にエラーが発生しました', ko: '검색 중 오류가 발생했습니다', en: 'An error occurred during search', zh: '搜索时发生错误', fr: 'Une erreur est survenue'),
-              style: theme.textTheme.bodySmall, textAlign: TextAlign.center),
-            const SizedBox(height: 24),
-            OutlinedButton(onPressed: () => notifier.search(), child: Text(tr(locale, ja: '再試行', ko: '재시도', en: 'Retry', zh: '重试', fr: 'Réessayer'))),
-          ],
-        ))),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.error_outline, size: 64, color: Colors.red.shade300),
+                const SizedBox(height: 16),
+                Text(
+                  state.error == 'network_error'
+                      ? tr(
+                          locale,
+                          ja: 'ネットワークエラー。接続を確認してください。',
+                          ko: '네트워크 오류. 연결을 확인해주세요.',
+                          en: 'Network error. Please check your connection.',
+                          zh: '网络错误。请检查您的连接。',
+                          fr: 'Erreur réseau. Vérifiez votre connexion.',
+                        )
+                      : tr(
+                          locale,
+                          ja: '検索中にエラーが発生しました',
+                          ko: '검색 중 오류가 발생했습니다',
+                          en: 'An error occurred during search',
+                          zh: '搜索时发生错误',
+                          fr: 'Une erreur est survenue',
+                        ),
+                  style: theme.textTheme.bodySmall,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 24),
+                OutlinedButton(
+                  onPressed: () => notifier.search(),
+                  child: Text(
+                    tr(
+                      locale,
+                      ja: '再試行',
+                      ko: '재시도',
+                      en: 'Retry',
+                      zh: '重试',
+                      fr: 'Réessayer',
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       );
     }
 
     final result = state.result;
-    final hasResults = result != null && (result.areas.isNotEmpty || result.clusters.any((c) => c.areas.isNotEmpty));
+    final hasResults =
+        result != null &&
+        (result.areas.isNotEmpty ||
+            result.clusters.any((c) => c.areas.isNotEmpty));
     if (!hasResults) {
       return Scaffold(
-        appBar: AppBar(title: Text(l10n.staySearchTitle), leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => notifier.clearResult())),
-        body: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Icon(Icons.search_off, size: 64, color: Colors.grey.shade400),
-          const SizedBox(height: 16),
-          Text(l10n.noResults, style: theme.textTheme.titleMedium),
-        ])),
+        appBar: AppBar(
+          title: Text(l10n.staySearchTitle),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => notifier.clearResult(),
+          ),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.search_off, size: 64, color: Colors.grey.shade400),
+              const SizedBox(height: 16),
+              Text(l10n.noResults, style: theme.textTheme.titleMedium),
+            ],
+          ),
+        ),
       );
     }
 
     // For split results, show clusters grouped
     final isSplit = result.split;
+    final resultKey = [
+      state.region,
+      state.mode,
+      state.stayStyle,
+      state.landmarks.map((l) => l.slug).join(','),
+      result.areas.length,
+      result.clusters.length,
+      result.split,
+    ].join('|');
+    if (_trackedResultKey != resultKey) {
+      _trackedResultKey = resultKey;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        ref
+            .read(trackingServiceProvider)
+            .trackEvent(
+              'stay_result_viewed',
+              payload: {
+                'region': state.region,
+                'mode': state.mode,
+                'stayStyle': state.stayStyle,
+                'landmarkCount': state.landmarks.length,
+                'landmarkSlugs': state.landmarks.map((l) => l.slug).toList(),
+                'resultCount': result.areas.length,
+                'split': result.split,
+                'clusterCount': result.clusters.length,
+                'maxBudget': state.maxBudget ?? 'any',
+              },
+              path: '/stay/result',
+            );
+      });
+    }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr(locale, ja: '推薦宿泊エリア', ko: '추천 숙박 지역', en: 'Recommended Areas', zh: '推荐住宿区域', fr: 'Quartiers recommandés')),
-        leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => notifier.clearResult()),
+        title: Text(
+          tr(
+            locale,
+            ja: '推薦宿泊エリア',
+            ko: '추천 숙박 지역',
+            en: 'Recommended Areas',
+            zh: '推荐住宿区域',
+            fr: 'Quartiers recommandés',
+          ),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => notifier.clearResult(),
+        ),
         actions: [
           // Save/update trip button
-          Builder(builder: (ctx) {
-            final isSaved = _findLinkedTrip(ref, state) != null;
-            return IconButton(
-              icon: Icon(isSaved ? Icons.sync : Icons.bookmark_outline, size: 20,
-                color: isSaved ? AppTheme.primary : null),
-              tooltip: isSaved
-                ? tr(locale, ja: '旅行を更新', ko: '여행 갱신', en: 'Update Trip', zh: '更新行程', fr: 'Mettre à jour le voyage')
-                : tr(locale, ja: '旅行に保存', ko: '여행에 저장', en: 'Save to Trip', zh: '保存到行程', fr: 'Enregistrer dans le voyage'),
-              onPressed: () => _saveSearch(context, ref, state, locale),
-            );
-          }),
+          Builder(
+            builder: (ctx) {
+              final isSaved = _findLinkedTrip(ref, state) != null;
+              return IconButton(
+                icon: Icon(
+                  isSaved ? Icons.sync : Icons.bookmark_outline,
+                  size: 20,
+                  color: isSaved ? AppTheme.primary : null,
+                ),
+                tooltip: isSaved
+                    ? tr(
+                        locale,
+                        ja: '旅行を更新',
+                        ko: '여행 갱신',
+                        en: 'Update Trip',
+                        zh: '更新行程',
+                        fr: 'Mettre à jour le voyage',
+                      )
+                    : tr(
+                        locale,
+                        ja: '旅行に保存',
+                        ko: '여행에 저장',
+                        en: 'Save to Trip',
+                        zh: '保存到行程',
+                        fr: 'Enregistrer dans le voyage',
+                      ),
+                onPressed: () => _saveSearch(context, ref, state, locale),
+              );
+            },
+          ),
           // Edit search button
           Padding(
             padding: const EdgeInsets.only(right: 8),
             child: OutlinedButton.icon(
               onPressed: () => notifier.clearResult(),
               icon: const Icon(Icons.tune, size: 14),
-              label: Text(tr(locale, ja: '検索修正', ko: '검색 수정', en: 'Edit', zh: '编辑', fr: 'Modifier'), style: const TextStyle(fontSize: 12)),
+              label: Text(
+                tr(
+                  locale,
+                  ja: '検索修正',
+                  ko: '검색 수정',
+                  en: 'Edit',
+                  zh: '编辑',
+                  fr: 'Modifier',
+                ),
+                style: const TextStyle(fontSize: 12),
+              ),
               style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 visualDensity: VisualDensity.compact,
               ),
             ),
@@ -241,159 +454,332 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
           // Mode tabs (pinned — always visible)
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 6, 16, 4),
-            child: ModeTabs(selected: state.mode, onChanged: (m) { notifier.setMode(m); notifier.search(); }, locale: locale, modes: ModeTabs.stayModes),
+            child: ModeTabs(
+              selected: state.mode,
+              onChanged: (m) {
+                notifier.setMode(m);
+                notifier.search();
+              },
+              locale: locale,
+              modes: ModeTabs.stayModes,
+            ),
           ),
           // Everything below scrolls away
-          Expanded(child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-          // Stay style toggle (single ↔ split) — like web
-          if (state.landmarks.length >= 2)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-              child: Row(children: [
-                // Single stay option
-                Expanded(child: GestureDetector(
-                  onTap: () {
-                    if (isSplit) { notifier.setStayStyle('single'); notifier.search(); }
-                  },
-                  child: Stack(clipBehavior: Clip.none, children: [
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      decoration: BoxDecoration(
-                        color: !isSplit ? AppTheme.primary.withValues(alpha: 0.1) : Colors.transparent,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: !isSplit ? AppTheme.primary : AppTheme.border),
-                      ),
-                      child: Center(child: Text(
-                        tr(locale, ja: '1箇所 宿泊', ko: '한 곳 숙박', en: 'Single hotel', zh: '单一酒店', fr: 'Hôtel unique'),
-                        style: TextStyle(fontSize: 12, fontWeight: !isSplit ? FontWeight.w600 : FontWeight.normal,
-                          color: !isSplit ? AppTheme.primary : AppTheme.foreground),
-                      )),
-                    ),
-                    // Recommended badge for single (when API chose single)
-                    if (!isSplit)
-                      Positioned(right: -4, top: -8,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                          decoration: BoxDecoration(color: AppTheme.primary, borderRadius: BorderRadius.circular(8)),
-                          child: Text(tr(locale, ja: 'おすすめ', ko: '추천', en: 'Rec', zh: '推荐', fr: 'Rec.'),
-                            style: const TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.w600)),
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                // Stay style toggle (single ↔ split) — like web
+                if (state.landmarks.length >= 2)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                    child: Row(
+                      children: [
+                        // Single stay option
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              if (isSplit) {
+                                notifier.setStayStyle('single');
+                                notifier.search();
+                              }
+                            },
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: !isSplit
+                                        ? AppTheme.primary.withValues(
+                                            alpha: 0.1,
+                                          )
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                      color: !isSplit
+                                          ? AppTheme.primary
+                                          : AppTheme.border,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      tr(
+                                        locale,
+                                        ja: '1箇所 宿泊',
+                                        ko: '한 곳 숙박',
+                                        en: 'Single hotel',
+                                        zh: '单一酒店',
+                                        fr: 'Hôtel unique',
+                                      ),
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: !isSplit
+                                            ? FontWeight.w600
+                                            : FontWeight.normal,
+                                        color: !isSplit
+                                            ? AppTheme.primary
+                                            : AppTheme.foreground,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                // Recommended badge for single (when API chose single)
+                                if (!isSplit)
+                                  Positioned(
+                                    right: -4,
+                                    top: -8,
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 5,
+                                        vertical: 2,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.primary,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Text(
+                                        tr(
+                                          locale,
+                                          ja: 'おすすめ',
+                                          ko: '추천',
+                                          en: 'Rec',
+                                          zh: '推荐',
+                                          fr: 'Rec.',
+                                        ),
+                                        style: const TextStyle(
+                                          fontSize: 9,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                  ]),
-                )),
-                const SizedBox(width: 8),
-                // Split stay option
-                Expanded(child: GestureDetector(
-                  onTap: () {
-                    if (!isSplit) { notifier.setStayStyle('split'); notifier.search(); }
-                  },
-                  child: Stack(clipBehavior: Clip.none, children: [
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      decoration: BoxDecoration(
-                        color: isSplit ? AppTheme.primary.withValues(alpha: 0.1) : Colors.transparent,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: isSplit ? AppTheme.primary : AppTheme.border),
-                      ),
-                      child: Center(child: Text(
-                        tr(locale, ja: '分散 宿泊', ko: '분산 숙박', en: 'Split stay', zh: '分散住宿', fr: 'Séjour divisé'),
-                        style: TextStyle(fontSize: 12, fontWeight: isSplit ? FontWeight.w600 : FontWeight.normal,
-                          color: isSplit ? AppTheme.primary : AppTheme.foreground),
-                      )),
-                    ),
-                    // Recommended badge for split (when API chose split)
-                    if (isSplit)
-                      Positioned(right: -4, top: -8,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                          decoration: BoxDecoration(color: AppTheme.primary, borderRadius: BorderRadius.circular(8)),
-                          child: Text(tr(locale, ja: 'おすすめ', ko: '추천', en: 'Rec', zh: '推荐', fr: 'Rec.'),
-                            style: const TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.w600)),
+                        const SizedBox(width: 8),
+                        // Split stay option
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              if (!isSplit) {
+                                notifier.setStayStyle('split');
+                                notifier.search();
+                              }
+                            },
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: isSplit
+                                        ? AppTheme.primary.withValues(
+                                            alpha: 0.1,
+                                          )
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                      color: isSplit
+                                          ? AppTheme.primary
+                                          : AppTheme.border,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      tr(
+                                        locale,
+                                        ja: '分散 宿泊',
+                                        ko: '분산 숙박',
+                                        en: 'Split stay',
+                                        zh: '分散住宿',
+                                        fr: 'Séjour divisé',
+                                      ),
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: isSplit
+                                            ? FontWeight.w600
+                                            : FontWeight.normal,
+                                        color: isSplit
+                                            ? AppTheme.primary
+                                            : AppTheme.foreground,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                // Recommended badge for split (when API chose split)
+                                if (isSplit)
+                                  Positioned(
+                                    right: -4,
+                                    top: -8,
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 5,
+                                        vertical: 2,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.primary,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Text(
+                                        tr(
+                                          locale,
+                                          ja: 'おすすめ',
+                                          ko: '추천',
+                                          en: 'Rec',
+                                          zh: '推荐',
+                                          fr: 'Rec.',
+                                        ),
+                                        style: const TextStyle(
+                                          fontSize: 9,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                  ]),
-                )),
-              ]),
-            ),
-          // Budget filter chips at top (matching web)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: AppConstants.getStayBudgets(state.region).map((budget) {
-                  final isSelected = (state.maxBudget ?? 'any') == budget;
-                  final label = AppConstants.stayBudgetLabels[budget]?[locale]
-                      ?? AppConstants.stayBudgetLabels[budget]?['en'] ?? budget;
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 6),
-                    child: GestureDetector(
-                      onTap: () {
-                        notifier.setBudget(budget == 'any' ? null : budget);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: isSelected ? AppTheme.primary : Colors.transparent,
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(color: isSelected ? AppTheme.primary : AppTheme.border),
-                        ),
-                        child: Text(label, style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                          color: isSelected ? Colors.white : AppTheme.foreground,
-                        )),
-                      ),
+                      ],
                     ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-          // Share buttons (scrolls with content)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
-            child: ShareButtons(
-              title: 'Norigo',
-              text: tr(locale,
-                  ja: '${state.landmarks.map((l) => l.name).join('・')}旅行に最適なホテルエリア',
-                  ko: '${state.landmarks.map((l) => l.name).join('・')} 여행에 최적의 호텔 지역',
-                  en: 'Best hotel area for ${state.landmarks.map((l) => l.name).join(', ')}',
-                  zh: '${state.landmarks.map((l) => l.name).join('・')}旅行的最佳酒店区域',
-                  fr: 'Meilleur quartier hôtelier pour ${state.landmarks.map((l) => l.name).join(', ')}'),
-              url: _buildStayShareUrl(state, locale),
-              locale: locale,
-              sharePath: '/stay/result',
-              shareParams: _buildStayShareParams(state),
-            ),
-          ),
-          // Save to trip (compact)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
-            child: Builder(builder: (ctx) {
-              final isSaved = _findLinkedTrip(ref, state) != null;
-              return SizedBox(width: double.infinity, child: OutlinedButton.icon(
-                onPressed: () => _saveSearch(context, ref, state, locale),
-                icon: Icon(isSaved ? Icons.sync : Icons.bookmark_outline, size: 14),
-                label: Text(
-                  isSaved
-                    ? tr(locale, ja: '旅行プランを更新', ko: '여행 플랜 갱신', en: 'Update trip', zh: '更新行程', fr: 'Mettre à jour')
-                    : tr(locale, ja: '旅行プランに保存', ko: '여행 플랜에 저장', en: 'Save to trip', zh: '保存到行程', fr: 'Enregistrer'),
-                  style: const TextStyle(fontSize: 12)),
-                style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 8)),
-              ));
-            }),
-          ),
-          // Results (inside scrollable list)
-          if (isSplit)
-            _SplitResultsList(
+                  ),
+                // Budget filter chips at top (matching web)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: AppConstants.getStayBudgets(state.region).map((
+                        budget,
+                      ) {
+                        final isSelected = (state.maxBudget ?? 'any') == budget;
+                        final label =
+                            AppConstants.stayBudgetLabels[budget]?[locale] ??
+                            AppConstants.stayBudgetLabels[budget]?['en'] ??
+                            budget;
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 6),
+                          child: GestureDetector(
+                            onTap: () {
+                              notifier.setBudget(
+                                budget == 'any' ? null : budget,
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 6,
+                              ),
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? AppTheme.primary
+                                    : Colors.transparent,
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(
+                                  color: isSelected
+                                      ? AppTheme.primary
+                                      : AppTheme.border,
+                                ),
+                              ),
+                              child: Text(
+                                label,
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: isSelected
+                                      ? FontWeight.w600
+                                      : FontWeight.normal,
+                                  color: isSelected
+                                      ? Colors.white
+                                      : AppTheme.foreground,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+                // Share buttons (scrolls with content)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
+                  child: ShareButtons(
+                    title: 'Norigo',
+                    text: tr(
+                      locale,
+                      ja: '${state.landmarks.map((l) => l.name).join('・')}旅行に最適なホテルエリア',
+                      ko: '${state.landmarks.map((l) => l.name).join('・')} 여행에 최적의 호텔 지역',
+                      en: 'Best hotel area for ${state.landmarks.map((l) => l.name).join(', ')}',
+                      zh: '${state.landmarks.map((l) => l.name).join('・')}旅行的最佳酒店区域',
+                      fr: 'Meilleur quartier hôtelier pour ${state.landmarks.map((l) => l.name).join(', ')}',
+                    ),
+                    url: _buildStayShareUrl(state, locale),
+                    locale: locale,
+                    sharePath: '/stay/result',
+                    shareParams: _buildStayShareParams(state),
+                  ),
+                ),
+                // Save to trip (compact)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 4),
+                  child: Builder(
+                    builder: (ctx) {
+                      final isSaved = _findLinkedTrip(ref, state) != null;
+                      return SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton.icon(
+                          onPressed: () =>
+                              _saveSearch(context, ref, state, locale),
+                          icon: Icon(
+                            isSaved ? Icons.sync : Icons.bookmark_outline,
+                            size: 14,
+                          ),
+                          label: Text(
+                            isSaved
+                                ? tr(
+                                    locale,
+                                    ja: '旅行プランを更新',
+                                    ko: '여행 플랜 갱신',
+                                    en: 'Update trip',
+                                    zh: '更新行程',
+                                    fr: 'Mettre à jour',
+                                  )
+                                : tr(
+                                    locale,
+                                    ja: '旅行プランに保存',
+                                    ko: '여행 플랜에 저장',
+                                    en: 'Save to trip',
+                                    zh: '保存到行程',
+                                    fr: 'Enregistrer',
+                                  ),
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                // Results (inside scrollable list)
+                if (isSplit)
+                  _SplitResultsList(
                     clusters: result.clusters,
                     expandedIndex: _expandedIndex,
-                    onTap: (i) => setState(() => _expandedIndex = _expandedIndex == i ? -1 : i),
+                    onTap: (i) => setState(
+                      () => _expandedIndex = _expandedIndex == i ? -1 : i,
+                    ),
                     locale: locale,
                     l10n: l10n,
                     landmarks: state.landmarks,
@@ -403,54 +789,94 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
                     searchRegion: state.region,
                     onHotelBookingClick: (hotel, stationId, stationName) {
                       final tracking = ref.read(trackingServiceProvider);
-                      tracking.trackEvent('agoda_hotel_click', payload: {
-                        'hotelId': hotel.hotelId,
-                        'hotelName': hotel.name,
-                        'stationId': stationId,
-                        'stationName': stationName,
-                      }, path: '/stay/result');
-                      tracking.trackEvent('hotel_booking_click', payload: {
-                        'provider': 'agoda',
-                        'station': stationName,
-                      }, path: '/stay/result');
+                      tracking.trackEvent(
+                        'agoda_hotel_click',
+                        payload: {
+                          'hotelId': hotel.hotelId,
+                          'hotelName': hotel.name,
+                          'stationId': stationId,
+                          'stationName': stationName,
+                        },
+                        path: '/stay/result',
+                      );
+                      tracking.trackEvent(
+                        'hotel_booking_click',
+                        payload: {'provider': 'agoda', 'station': stationName},
+                        path: '/stay/result',
+                      );
+                      tracking.trackEvent(
+                        'hotel_outbound_click',
+                        payload: {
+                          'provider': 'agoda',
+                          'hotelId': hotel.hotelId,
+                          'hotelName': hotel.name,
+                          'stationId': stationId,
+                          'stationName': stationName,
+                        },
+                        path: '/stay/result',
+                      );
                     },
                   )
-          else
-            ...result.areas.asMap().entries.map((entry) {
-              final index = entry.key;
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: _AreaCard(
-                  area: entry.value,
-                  rank: index + 1,
-                  isExpanded: _expandedIndex == index,
-                  onTap: () => setState(() => _expandedIndex = _expandedIndex == index ? -1 : index),
-                  locale: locale,
-                  l10n: l10n,
-                  landmarks: state.landmarks,
-                  localNames: result.localNames,
-                  maxBudget: state.maxBudget,
-                  checkIn: state.checkIn,
-                  checkOut: state.checkOut,
-                  searchRegion: state.region,
-                  onHotelBookingClick: (hotel, stationId, stationName) {
-                    final tracking = ref.read(trackingServiceProvider);
-                    tracking.trackEvent('agoda_hotel_click', payload: {
-                      'hotelId': hotel.hotelId,
-                      'hotelName': hotel.name,
-                      'stationId': stationId,
-                      'stationName': stationName,
-                    }, path: '/stay/result');
-                    tracking.trackEvent('hotel_booking_click', payload: {
-                      'provider': 'agoda',
-                      'station': stationName,
-                    }, path: '/stay/result');
-                  },
-                ),
-              );
-            }),
-          ],
-          )),
+                else
+                  ...result.areas.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: _AreaCard(
+                        area: entry.value,
+                        rank: index + 1,
+                        isExpanded: _expandedIndex == index,
+                        onTap: () => setState(
+                          () => _expandedIndex = _expandedIndex == index
+                              ? -1
+                              : index,
+                        ),
+                        locale: locale,
+                        l10n: l10n,
+                        landmarks: state.landmarks,
+                        localNames: result.localNames,
+                        maxBudget: state.maxBudget,
+                        checkIn: state.checkIn,
+                        checkOut: state.checkOut,
+                        searchRegion: state.region,
+                        onHotelBookingClick: (hotel, stationId, stationName) {
+                          final tracking = ref.read(trackingServiceProvider);
+                          tracking.trackEvent(
+                            'agoda_hotel_click',
+                            payload: {
+                              'hotelId': hotel.hotelId,
+                              'hotelName': hotel.name,
+                              'stationId': stationId,
+                              'stationName': stationName,
+                            },
+                            path: '/stay/result',
+                          );
+                          tracking.trackEvent(
+                            'hotel_booking_click',
+                            payload: {
+                              'provider': 'agoda',
+                              'station': stationName,
+                            },
+                            path: '/stay/result',
+                          );
+                          tracking.trackEvent(
+                            'hotel_outbound_click',
+                            payload: {
+                              'provider': 'agoda',
+                              'hotelId': hotel.hotelId,
+                              'hotelName': hotel.name,
+                              'stationId': stationId,
+                              'stationName': stationName,
+                            },
+                            path: '/stay/result',
+                          );
+                        },
+                      ),
+                    );
+                  }),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -468,12 +894,20 @@ class _SplitResultsList extends StatefulWidget {
   final String? checkIn;
   final String? checkOut;
   final String searchRegion;
-  final void Function(Hotel hotel, String stationId, String stationName)? onHotelBookingClick;
+  final void Function(Hotel hotel, String stationId, String stationName)?
+  onHotelBookingClick;
 
   const _SplitResultsList({
-    required this.clusters, required this.expandedIndex, required this.onTap,
-    required this.locale, required this.l10n, required this.landmarks,
-    this.maxBudget, this.checkIn, this.checkOut, this.searchRegion = 'kanto',
+    required this.clusters,
+    required this.expandedIndex,
+    required this.onTap,
+    required this.locale,
+    required this.l10n,
+    required this.landmarks,
+    this.maxBudget,
+    this.checkIn,
+    this.checkOut,
+    this.searchRegion = 'kanto',
     this.onHotelBookingClick,
   });
 
@@ -490,7 +924,9 @@ class _SplitResultsListState extends State<_SplitResultsList> {
   Widget build(BuildContext context) {
     final cluster = widget.clusters[_activeCluster];
     final isClusterExpanded = _expandedClusters.contains(_activeCluster);
-    final visibleAreas = isClusterExpanded ? cluster.areas : cluster.areas.take(_defaultVisible).toList();
+    final visibleAreas = isClusterExpanded
+        ? cluster.areas
+        : cluster.areas.take(_defaultVisible).toList();
     final hasMore = cluster.areas.length > _defaultVisible;
 
     // Calculate globalIndex offset for active cluster
@@ -500,133 +936,218 @@ class _SplitResultsListState extends State<_SplitResultsList> {
     }
     final startGlobalIndex = globalIndex;
 
-    return Column(children: [
-      // Area toggle tabs
-      Container(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
-        child: Row(
-          children: widget.clusters.asMap().entries.map((e) {
-            final ci = e.key;
-            final c = e.value;
-            final isActive = _activeCluster == ci;
-            final color = ci == 0 ? AppTheme.primary : AppTheme.orange;
-            return Expanded(child: Padding(
-              padding: EdgeInsets.only(right: ci < widget.clusters.length - 1 ? 8 : 0),
-              child: GestureDetector(
-                onTap: () => setState(() => _activeCluster = ci),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  decoration: BoxDecoration(
-                    color: isActive ? color.withValues(alpha: 0.1) : Colors.transparent,
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: isActive ? color : AppTheme.border, width: isActive ? 1.5 : 1),
+    return Column(
+      children: [
+        // Area toggle tabs
+        Container(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+          child: Row(
+            children: widget.clusters.asMap().entries.map((e) {
+              final ci = e.key;
+              final c = e.value;
+              final isActive = _activeCluster == ci;
+              final color = ci == 0 ? AppTheme.primary : AppTheme.orange;
+              return Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    right: ci < widget.clusters.length - 1 ? 8 : 0,
                   ),
-                  child: Column(children: [
-                    Container(
-                      width: 22, height: 22,
-                      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-                      child: Center(child: Text('${ci + 1}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 11))),
+                  child: GestureDetector(
+                    onTap: () => setState(() => _activeCluster = ci),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                        color: isActive
+                            ? color.withValues(alpha: 0.1)
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: isActive ? color : AppTheme.border,
+                          width: isActive ? 1.5 : 1,
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: 22,
+                            height: 22,
+                            decoration: BoxDecoration(
+                              color: color,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '${ci + 1}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 11,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            c.landmarks
+                                .map((name) {
+                                  // Try bundled data by slug
+                                  final translated =
+                                      LandmarkLocalizer.getLocalizedName(
+                                        locale: widget.locale,
+                                        slug: name,
+                                      );
+                                  if (translated != null) return translated;
+                                  // Try matching input landmarks by name
+                                  for (final lm in widget.landmarks) {
+                                    if (lm.name == name || lm.slug == name) {
+                                      final t =
+                                          LandmarkLocalizer.getLocalizedName(
+                                            locale: widget.locale,
+                                            slug: lm.slug,
+                                            lat: lm.lat,
+                                            lng: lm.lng,
+                                          );
+                                      if (t != null) return t;
+                                    }
+                                  }
+                                  return c.localNames[name] ?? name;
+                                })
+                                .join(' · '),
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: isActive
+                                  ? FontWeight.w600
+                                  : FontWeight.normal,
+                              color: isActive
+                                  ? color
+                                  : AppTheme.mutedForeground,
+                            ),
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      c.landmarks.map((name) {
-                        // Try bundled data by slug
-                        final translated = LandmarkLocalizer.getLocalizedName(
-                          locale: widget.locale,
-                          slug: name,
-                        );
-                        if (translated != null) return translated;
-                        // Try matching input landmarks by name
-                        for (final lm in widget.landmarks) {
-                          if (lm.name == name || lm.slug == name) {
-                            final t = LandmarkLocalizer.getLocalizedName(
-                              locale: widget.locale,
-                              slug: lm.slug,
-                              lat: lm.lat,
-                              lng: lm.lng,
-                            );
-                            if (t != null) return t;
-                          }
-                        }
-                        return c.localNames[name] ?? name;
-                      }).join(' · '),
-                      style: TextStyle(fontSize: 10, fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
-                        color: isActive ? color : AppTheme.mutedForeground),
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ]),
+                  ),
                 ),
-              ),
-            ));
-          }).toList(),
-        ),
-      ),
-      // Active cluster's area cards
-      Expanded(child: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        children: [
-          ...(() {
-            final clusterLandmarkNames = cluster.landmarks.map((n) => n.toLowerCase()).toSet();
-            final clusterLandmarks = widget.landmarks.where((l) =>
-              clusterLandmarkNames.contains(l.name.toLowerCase()) ||
-              clusterLandmarkNames.contains(l.slug.toLowerCase())
-            ).toList();
-            final effectiveLandmarks = clusterLandmarks.isNotEmpty ? clusterLandmarks : widget.landmarks;
-            return visibleAreas.asMap().entries.map((areaEntry) {
-              final idx = startGlobalIndex + areaEntry.key;
-              return _AreaCard(
-                key: ValueKey('cluster_${_activeCluster}_area_${areaEntry.key}'),
-                area: areaEntry.value,
-                rank: areaEntry.key + 1,
-                isExpanded: widget.expandedIndex == idx,
-                onTap: () => widget.onTap(idx),
-                locale: widget.locale,
-                l10n: widget.l10n,
-                landmarks: effectiveLandmarks,
-                localNames: cluster.localNames,
-                maxBudget: widget.maxBudget,
-                checkIn: widget.checkIn,
-                checkOut: widget.checkOut,
-                searchRegion: widget.searchRegion,
-                onHotelBookingClick: widget.onHotelBookingClick,
               );
-            });
-          })(),
-          if (hasMore)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: Center(child: TextButton(
-                onPressed: () => setState(() {
-                  if (isClusterExpanded) _expandedClusters.remove(_activeCluster);
-                  else _expandedClusters.add(_activeCluster);
-                }),
-                child: Row(mainAxisSize: MainAxisSize.min, children: [
-                  Text(
-                    isClusterExpanded
-                      ? tr(widget.locale, ja: '閉じる', ko: '접기', en: 'Show less', zh: '收起', fr: 'Réduire')
-                      : tr(widget.locale, ja: '他${cluster.areas.length - _defaultVisible}件を表示',
-                          ko: '${cluster.areas.length - _defaultVisible}개 더 보기',
-                          en: 'Show ${cluster.areas.length - _defaultVisible} more',
-                          zh: '显示更多${cluster.areas.length - _defaultVisible}个', fr: 'Show ${cluster.areas.length - _defaultVisible} more'),
-                    style: TextStyle(fontSize: 12, color: AppTheme.primary),
+            }).toList(),
+          ),
+        ),
+        // Active cluster's area cards
+        Expanded(
+          child: ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            children: [
+              ...(() {
+                final clusterLandmarkNames = cluster.landmarks
+                    .map((n) => n.toLowerCase())
+                    .toSet();
+                final clusterLandmarks = widget.landmarks
+                    .where(
+                      (l) =>
+                          clusterLandmarkNames.contains(l.name.toLowerCase()) ||
+                          clusterLandmarkNames.contains(l.slug.toLowerCase()),
+                    )
+                    .toList();
+                final effectiveLandmarks = clusterLandmarks.isNotEmpty
+                    ? clusterLandmarks
+                    : widget.landmarks;
+                return visibleAreas.asMap().entries.map((areaEntry) {
+                  final idx = startGlobalIndex + areaEntry.key;
+                  return _AreaCard(
+                    key: ValueKey(
+                      'cluster_${_activeCluster}_area_${areaEntry.key}',
+                    ),
+                    area: areaEntry.value,
+                    rank: areaEntry.key + 1,
+                    isExpanded: widget.expandedIndex == idx,
+                    onTap: () => widget.onTap(idx),
+                    locale: widget.locale,
+                    l10n: widget.l10n,
+                    landmarks: effectiveLandmarks,
+                    localNames: cluster.localNames,
+                    maxBudget: widget.maxBudget,
+                    checkIn: widget.checkIn,
+                    checkOut: widget.checkOut,
+                    searchRegion: widget.searchRegion,
+                    onHotelBookingClick: widget.onHotelBookingClick,
+                  );
+                });
+              })(),
+              if (hasMore)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: Center(
+                    child: TextButton(
+                      onPressed: () => setState(() {
+                        if (isClusterExpanded)
+                          _expandedClusters.remove(_activeCluster);
+                        else
+                          _expandedClusters.add(_activeCluster);
+                      }),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            isClusterExpanded
+                                ? tr(
+                                    widget.locale,
+                                    ja: '閉じる',
+                                    ko: '접기',
+                                    en: 'Show less',
+                                    zh: '收起',
+                                    fr: 'Réduire',
+                                  )
+                                : tr(
+                                    widget.locale,
+                                    ja: '他${cluster.areas.length - _defaultVisible}件を表示',
+                                    ko: '${cluster.areas.length - _defaultVisible}개 더 보기',
+                                    en: 'Show ${cluster.areas.length - _defaultVisible} more',
+                                    zh: '显示更多${cluster.areas.length - _defaultVisible}个',
+                                    fr: 'Show ${cluster.areas.length - _defaultVisible} more',
+                                  ),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppTheme.primary,
+                            ),
+                          ),
+                          Icon(
+                            isClusterExpanded
+                                ? Icons.expand_less
+                                : Icons.expand_more,
+                            size: 16,
+                            color: AppTheme.primary,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  Icon(isClusterExpanded ? Icons.expand_less : Icons.expand_more, size: 16, color: AppTheme.primary),
-                ]),
-              )),
-            ),
-          if (cluster.areas.isEmpty)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: Text(
-                tr(widget.locale, ja: 'このエリアの推薦結果がありません', ko: '이 지역의 추천 결과가 없습니다', en: 'No results for this area', zh: '该区域没有推荐结果', fr: 'Aucun résultat pour cette zone'),
-                style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground),
-              ),
-            ),
-        ],
-      )),
-    ]);
+                ),
+              if (cluster.areas.isEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: Text(
+                    tr(
+                      widget.locale,
+                      ja: 'このエリアの推薦結果がありません',
+                      ko: '이 지역의 추천 결과가 없습니다',
+                      en: 'No results for this area',
+                      zh: '该区域没有推荐结果',
+                      fr: 'Aucun résultat pour cette zone',
+                    ),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppTheme.mutedForeground,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
 
@@ -634,22 +1155,40 @@ class _ToggleChip extends StatelessWidget {
   final String label;
   final bool selected;
   final VoidCallback onTap;
-  const _ToggleChip({required this.label, required this.selected, required this.onTap});
+  const _ToggleChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(child: GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        decoration: BoxDecoration(
-          color: selected ? AppTheme.primary.withValues(alpha: 0.1) : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: selected ? AppTheme.primary : AppTheme.border),
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          decoration: BoxDecoration(
+            color: selected
+                ? AppTheme.primary.withValues(alpha: 0.1)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: selected ? AppTheme.primary : AppTheme.border,
+            ),
+          ),
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
+              color: selected ? AppTheme.primary : AppTheme.foreground,
+            ),
+          ),
         ),
-        child: Text(label, textAlign: TextAlign.center, style: TextStyle(fontSize: 13, fontWeight: selected ? FontWeight.w600 : FontWeight.normal, color: selected ? AppTheme.primary : AppTheme.foreground)),
       ),
-    ));
+    );
   }
 }
 
@@ -666,9 +1205,25 @@ class _AreaCard extends StatefulWidget {
   final String? checkIn;
   final String? checkOut;
   final String searchRegion; // The region from search state, not from station
-  final void Function(Hotel hotel, String stationId, String stationName)? onHotelBookingClick;
+  final void Function(Hotel hotel, String stationId, String stationName)?
+  onHotelBookingClick;
 
-  const _AreaCard({super.key, required this.area, required this.rank, required this.isExpanded, required this.onTap, required this.locale, required this.l10n, required this.landmarks, this.localNames = const {}, this.maxBudget, this.checkIn, this.checkOut, this.searchRegion = 'kanto', this.onHotelBookingClick});
+  const _AreaCard({
+    super.key,
+    required this.area,
+    required this.rank,
+    required this.isExpanded,
+    required this.onTap,
+    required this.locale,
+    required this.l10n,
+    required this.landmarks,
+    this.localNames = const {},
+    this.maxBudget,
+    this.checkIn,
+    this.checkOut,
+    this.searchRegion = 'kanto',
+    this.onHotelBookingClick,
+  });
 
   @override
   State<_AreaCard> createState() => _AreaCardState();
@@ -682,6 +1237,17 @@ class _AreaCardState extends State<_AreaCard> {
     if (mounted) setState(() => _hotelMarkers = hotels.take(3).toList());
   }
 
+  bool _shouldShowHotelCards(String locale, String region) {
+    if (locale != 'ja') return true;
+    if (['seoul', 'busan'].contains(region)) return true;
+    return AppConstants.japanRegions.contains(region);
+  }
+
+  bool _shouldShowExternalHotelLinks(String locale, String region) {
+    if (!_shouldShowHotelCards(locale, region)) return true;
+    return locale != 'ja' && locale != 'ko';
+  }
+
   @override
   Widget build(BuildContext context) {
     final area = widget.area;
@@ -692,180 +1258,442 @@ class _AreaCardState extends State<_AreaCard> {
     final localNames = widget.localNames;
     final landmarks = widget.landmarks;
     final theme = Theme.of(context);
-    final name = localNames[area.station.id] ?? area.station.localizedName(locale);
+    final name =
+        localNames[area.station.id] ?? area.station.localizedName(locale);
 
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       child: InkWell(
         onTap: widget.onTap,
         borderRadius: BorderRadius.circular(16),
-        overlayColor: AppTheme.noSplash ? WidgetStateProperty.all(Colors.transparent) : null,
+        overlayColor: AppTheme.noSplash
+            ? WidgetStateProperty.all(Colors.transparent)
+            : null,
         splashFactory: AppTheme.noSplash ? NoSplash.splashFactory : null,
         highlightColor: AppTheme.noSplash ? Colors.transparent : null,
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            // ── Header ──
-            Row(children: [
-              _RankBadge(rank: rank),
-              const SizedBox(width: 12),
-              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(name, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
-                // Station code badges (S02, F13, etc.)
-                if (area.station.lines.isNotEmpty) ...[
-                  const SizedBox(height: 4),
-                  Wrap(spacing: 4, runSpacing: 4, children: [
-                    ...StationCodes.getCodes(area.station.name, area.station.lines).take(4).map((c) =>
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: Color(int.parse(c['color']!.replaceFirst('#', '0xFF'))),
-                          borderRadius: BorderRadius.circular(4),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // ── Header ──
+              Row(
+                children: [
+                  _RankBadge(rank: rank),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          name,
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        child: Text(c['code']!, style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold)),
+                        // Station code badges (S02, F13, etc.)
+                        if (area.station.lines.isNotEmpty) ...[
+                          const SizedBox(height: 4),
+                          Wrap(
+                            spacing: 4,
+                            runSpacing: 4,
+                            children: [
+                              ...StationCodes.getCodes(
+                                    area.station.name,
+                                    area.station.lines,
+                                  )
+                                  .take(4)
+                                  .map(
+                                    (c) => Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 5,
+                                        vertical: 2,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Color(
+                                          int.parse(
+                                            c['color']!.replaceFirst(
+                                              '#',
+                                              '0xFF',
+                                            ),
+                                          ),
+                                        ),
+                                        borderRadius: BorderRadius.circular(4),
+                                      ),
+                                      child: Text(
+                                        c['code']!,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 9,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                            ],
+                          ),
+                        ],
+                        const SizedBox(height: 2),
+                        Text(
+                          '🚆 ${tr(locale, ja: '各観光地まで平均', ko: '각 관광지까지 평균', en: 'Avg. to each spot:', zh: '到各景点平均', fr: 'Moy. vers chaque lieu:')} ${area.avgEstimatedMinutes}${tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟', fr: 'min')}',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: AppTheme.primary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
+              // ── Inline map ──
+              const SizedBox(height: 12),
+              SizedBox(
+                height: 260,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: StayInlineMap(
+                    area: area,
+                    landmarks: landmarks,
+                    locale: locale,
+                    hotels: _hotelMarkers,
+                  ),
+                ),
+              ),
+              // Map legend
+              Padding(
+                padding: const EdgeInsets.only(top: 6),
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 12,
+                  runSpacing: 4,
+                  children: [
+                    _LegendDot(
+                      color: AppTheme.orange,
+                      label: tr(
+                        locale,
+                        ja: 'ホテル推薦エリア',
+                        ko: '호텔 추천 역',
+                        en: 'Hotel area',
+                        zh: '酒店推荐区',
+                        fr: 'Zone hôtel',
                       ),
                     ),
-                  ]),
-                ],
-                const SizedBox(height: 2),
-                Text('🚆 ${tr(locale, ja: '各観光地まで平均', ko: '각 관광지까지 평균', en: 'Avg. to each spot:', zh: '到各景点平均', fr: 'Moy. vers chaque lieu:')} ${area.avgEstimatedMinutes}${tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟', fr: 'min')}',
-                  style: TextStyle(fontSize: 11, color: AppTheme.primary, fontWeight: FontWeight.w600)),
-              ])),
-            ]),
-
-            // ── Inline map ──
-            const SizedBox(height: 12),
-            SizedBox(
-              height: 260,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: StayInlineMap(area: area, landmarks: landmarks, locale: locale, hotels: _hotelMarkers),
-              ),
-            ),
-            // Map legend
-            Padding(
-              padding: const EdgeInsets.only(top: 6),
-              child: Wrap(
-                alignment: WrapAlignment.center,
-                spacing: 12,
-                runSpacing: 4,
-                children: [
-                  _LegendDot(color: AppTheme.orange, label: tr(locale, ja: 'ホテル推薦エリア', ko: '호텔 추천 역', en: 'Hotel area', zh: '酒店推荐区', fr: 'Zone hôtel')),
-                  _LegendDot(color: Colors.indigo, label: tr(locale, ja: 'あなたの観光地', ko: '내 관광지', en: 'Your spots', zh: '您的景点', fr: 'Vos lieux')),
-                  _LegendDot(color: AppTheme.green, label: tr(locale, ja: '周辺ホテル', ko: '주변 호텔', en: 'Nearby hotels', zh: '周边酒店', fr: 'Hôtels proches')),
-                ],
-              ),
-            ),
-
-            // ── Station lines ──
-            if (area.station.lines.isNotEmpty) ...[
-              const SizedBox(height: 10),
-              Text(tr(locale, ja: '路線', ko: '노선', en: 'Lines', zh: '线路', fr: 'Lignes'), style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground)),
-              const SizedBox(height: 4),
-              Wrap(spacing: 4, runSpacing: 4, children: area.station.lines.take(4).map((l) =>
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), color: AppTheme.primaryBg),
-                  child: Text(LineLocalizer.localizeSync(l, locale), style: TextStyle(fontSize: 10, color: AppTheme.primary)),
+                    _LegendDot(
+                      color: Colors.indigo,
+                      label: tr(
+                        locale,
+                        ja: 'あなたの観光地',
+                        ko: '내 관광지',
+                        en: 'Your spots',
+                        zh: '您的景点',
+                        fr: 'Vos lieux',
+                      ),
+                    ),
+                    _LegendDot(
+                      color: AppTheme.green,
+                      label: tr(
+                        locale,
+                        ja: '周辺ホテル',
+                        ko: '주변 호텔',
+                        en: 'Nearby hotels',
+                        zh: '周边酒店',
+                        fr: 'Hôtels proches',
+                      ),
+                    ),
+                  ],
                 ),
-              ).toList()),
-            ],
+              ),
 
-            // ── Area tags ──
-            if (area.areaTags.isNotEmpty) ...[
-              const SizedBox(height: 8),
-              Wrap(spacing: 6, runSpacing: 4, children: area.areaTags.map((tag) {
-                final tagInfo = _areaTagInfo(tag, locale);
-                return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: tagInfo.color.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(color: tagInfo.color.withValues(alpha: 0.3)),
+              // ── Station lines ──
+              if (area.station.lines.isNotEmpty) ...[
+                const SizedBox(height: 10),
+                Text(
+                  tr(
+                    locale,
+                    ja: '路線',
+                    ko: '노선',
+                    en: 'Lines',
+                    zh: '线路',
+                    fr: 'Lignes',
                   ),
-                  child: Row(mainAxisSize: MainAxisSize.min, children: [
-                    Icon(tagInfo.icon, size: 12, color: tagInfo.color),
-                    const SizedBox(width: 4),
-                    Text(tagInfo.label, style: TextStyle(fontSize: 11, color: tagInfo.color, fontWeight: FontWeight.w500)),
-                  ]),
-                );
-              }).toList()),
-            ],
-
-            // ── POI counts ──
-            if (area.poiCounts.isNotEmpty) ...[
-              const SizedBox(height: 8),
-              Row(children: [
-                if ((area.poiCounts['convenience'] ?? 0) > 0)
-                  _PoiCount(icon: Icons.store, count: area.poiCounts['convenience']!, label: tr(locale, ja: 'コンビニ', ko: '편의점', en: 'Convenience', zh: '便利店', fr: 'Supérette')),
-                if ((area.poiCounts['restaurant'] ?? 0) > 0) ...[
-                  const SizedBox(width: 12),
-                  _PoiCount(icon: Icons.restaurant, count: area.poiCounts['restaurant']!, label: tr(locale, ja: '飲食店', ko: '음식점', en: 'Restaurant', zh: '餐厅', fr: 'Restaurant')),
-                ],
-                if ((area.poiCounts['cafe'] ?? 0) > 0) ...[
-                  const SizedBox(width: 12),
-                  _PoiCount(icon: Icons.coffee, count: area.poiCounts['cafe']!, label: tr(locale, ja: 'カフェ', ko: '카페', en: 'Cafe', zh: '咖啡厅', fr: 'Café')),
-                ],
-              ]),
-            ],
-
-            // ── Area description ──
-            if (area.areaDescription != null && area.areaDescription!.isNotEmpty) ...[
-              const SizedBox(height: 10),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: AppTheme.muted,
-                  borderRadius: BorderRadius.circular(8),
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: AppTheme.mutedForeground,
+                  ),
                 ),
-                child: Text(area.areaDescription!, style: TextStyle(fontSize: 12, color: AppTheme.foreground, height: 1.5)),
-              ),
-            ],
+                const SizedBox(height: 4),
+                Wrap(
+                  spacing: 4,
+                  runSpacing: 4,
+                  children: area.station.lines
+                      .take(4)
+                      .map(
+                        (l) => Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: AppTheme.primaryBg,
+                          ),
+                          child: Text(
+                            LineLocalizer.localizeSync(l, locale),
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: AppTheme.primary,
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ],
 
-            // ── Landmark distances with routes ──
-            const SizedBox(height: 12),
-            Text(tr(locale, ja: '観光地までの距離', ko: '관광지까지 거리', en: 'Distance to landmarks', zh: '到景点的距离', fr: 'Distance aux sites'),
-              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground)),
-            const SizedBox(height: 6),
-            ...area.landmarkDistances.asMap().entries.map((e) => _LandmarkDistanceTile(ld: e.value, locale: locale, isExpanded: isExpanded, localNames: localNames, index: e.key + 1)),
+              // ── Area tags ──
+              if (area.areaTags.isNotEmpty) ...[
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 6,
+                  runSpacing: 4,
+                  children: area.areaTags.map((tag) {
+                    final tagInfo = _areaTagInfo(tag, locale);
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: tagInfo.color.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(
+                          color: tagInfo.color.withValues(alpha: 0.3),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(tagInfo.icon, size: 12, color: tagInfo.color),
+                          const SizedBox(width: 4),
+                          Text(
+                            tagInfo.label,
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: tagInfo.color,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
 
-            // Stats
-            Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: Text(
-                '${tr(locale, ja: '最大 約', ko: '최대', en: 'max', zh: '最大', fr: 'max')} ${area.maxEstimatedMinutes}${tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟', fr: 'min')}  ·  ${tr(locale, ja: '合計', ko: '합계', en: 'total', zh: '总计', fr: 'total')} ${area.landmarkDistances.fold<double>(0, (s, d) => s + d.distanceKm).toStringAsFixed(1)}km',
-                style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground),
-              ),
-            ),
+              // ── POI counts ──
+              if (area.poiCounts.isNotEmpty) ...[
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    if ((area.poiCounts['convenience'] ?? 0) > 0)
+                      _PoiCount(
+                        icon: Icons.store,
+                        count: area.poiCounts['convenience']!,
+                        label: tr(
+                          locale,
+                          ja: 'コンビニ',
+                          ko: '편의점',
+                          en: 'Convenience',
+                          zh: '便利店',
+                          fr: 'Supérette',
+                        ),
+                      ),
+                    if ((area.poiCounts['restaurant'] ?? 0) > 0) ...[
+                      const SizedBox(width: 12),
+                      _PoiCount(
+                        icon: Icons.restaurant,
+                        count: area.poiCounts['restaurant']!,
+                        label: tr(
+                          locale,
+                          ja: '飲食店',
+                          ko: '음식점',
+                          en: 'Restaurant',
+                          zh: '餐厅',
+                          fr: 'Restaurant',
+                        ),
+                      ),
+                    ],
+                    if ((area.poiCounts['cafe'] ?? 0) > 0) ...[
+                      const SizedBox(width: 12),
+                      _PoiCount(
+                        icon: Icons.coffee,
+                        count: area.poiCounts['cafe']!,
+                        label: tr(
+                          locale,
+                          ja: 'カフェ',
+                          ko: '카페',
+                          en: 'Cafe',
+                          zh: '咖啡厅',
+                          fr: 'Café',
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ],
 
-            // ── Reachable destinations ──
-            if (isExpanded && area.reachableDestinations.isNotEmpty) ...[
-              const SizedBox(height: 12),
-              Text(tr(locale, ja: '周辺スポット', ko: '주변 명소', en: 'Nearby Spots', zh: '周边景点', fr: 'Sites à proximité'),
-                style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground)),
-              const SizedBox(height: 6),
-              Wrap(spacing: 6, runSpacing: 6, children: area.reachableDestinations.take(6).map((rd) =>
+              // ── Area description ──
+              if (area.areaDescription != null &&
+                  area.areaDescription!.isNotEmpty) ...[
+                const SizedBox(height: 10),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: AppTheme.primaryBg),
-                  child: Text('${rd.name} ${rd.minutes}min', style: TextStyle(fontSize: 11, color: AppTheme.primary)),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: AppTheme.muted,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(
+                    area.areaDescription!,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppTheme.foreground,
+                      height: 1.5,
+                    ),
+                  ),
                 ),
-              ).toList()),
-            ],
+              ],
 
-            // ── Hotels ──
-            // ko → Agoda cards (all regions)
-            // ja + Korea → Agoda cards
-            // ja + Japan → Jalan link only
-            // en/zh → Booking.com link only
-            const Divider(height: 24),
-            // Show hotel cards for: Korean locale, OR Japanese+Japan region (Rakuten), OR Korean region
-            if (locale == 'ko' || ['seoul', 'busan'].contains(widget.searchRegion) ||
-                (locale == 'ja' && AppConstants.japanRegions.contains(widget.searchRegion)))
-              _HotelSection(stationId: area.station.id, locale: locale, region: widget.searchRegion, stationName: name, l10n: l10n, checkIn: widget.checkIn, checkOut: widget.checkOut, initialBudget: widget.maxBudget, lat: area.station.lat, lng: area.station.lng, onLoaded: _onHotelsLoaded, onHotelBookingClick: (hotel) => widget.onHotelBookingClick?.call(hotel, area.station.id, name))
-            else
-              _ExternalHotelLinks(stationName: name, stationId: area.station.id, locale: locale, region: widget.searchRegion, lat: area.station.lat, lng: area.station.lng, checkIn: widget.checkIn, checkOut: widget.checkOut, maxBudget: widget.maxBudget),
-          ]),
+              // ── Landmark distances with routes ──
+              const SizedBox(height: 12),
+              Text(
+                tr(
+                  locale,
+                  ja: '観光地までの距離',
+                  ko: '관광지까지 거리',
+                  en: 'Distance to landmarks',
+                  zh: '到景点的距离',
+                  fr: 'Distance aux sites',
+                ),
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: AppTheme.mutedForeground,
+                ),
+              ),
+              const SizedBox(height: 6),
+              ...area.landmarkDistances.asMap().entries.map(
+                (e) => _LandmarkDistanceTile(
+                  ld: e.value,
+                  locale: locale,
+                  isExpanded: isExpanded,
+                  localNames: localNames,
+                  index: e.key + 1,
+                ),
+              ),
+
+              // Stats
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  '${tr(locale, ja: '最大 約', ko: '최대', en: 'max', zh: '最大', fr: 'max')} ${area.maxEstimatedMinutes}${tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟', fr: 'min')}  ·  ${tr(locale, ja: '合計', ko: '합계', en: 'total', zh: '总计', fr: 'total')} ${area.landmarkDistances.fold<double>(0, (s, d) => s + d.distanceKm).toStringAsFixed(1)}km',
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: AppTheme.mutedForeground,
+                  ),
+                ),
+              ),
+
+              // ── Reachable destinations ──
+              if (isExpanded && area.reachableDestinations.isNotEmpty) ...[
+                const SizedBox(height: 12),
+                Text(
+                  tr(
+                    locale,
+                    ja: '周辺スポット',
+                    ko: '주변 명소',
+                    en: 'Nearby Spots',
+                    zh: '周边景点',
+                    fr: 'Sites à proximité',
+                  ),
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    color: AppTheme.mutedForeground,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Wrap(
+                  spacing: 6,
+                  runSpacing: 6,
+                  children: area.reachableDestinations
+                      .take(6)
+                      .map(
+                        (rd) => Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            color: AppTheme.primaryBg,
+                          ),
+                          child: Text(
+                            '${rd.name} ${rd.minutes}min',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: AppTheme.primary,
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                ),
+              ],
+
+              // ── Hotels ──
+              // Web parity: non-JA locales show Agoda cards plus provider CTAs.
+              // JA + Japan keeps the Rakuten hotel-card fallback.
+              const Divider(height: 24),
+              if (_shouldShowHotelCards(locale, widget.searchRegion))
+                _HotelSection(
+                  stationId: area.station.id,
+                  locale: locale,
+                  region: widget.searchRegion,
+                  stationName: name,
+                  l10n: l10n,
+                  checkIn: widget.checkIn,
+                  checkOut: widget.checkOut,
+                  initialBudget: widget.maxBudget,
+                  lat: area.station.lat,
+                  lng: area.station.lng,
+                  onLoaded: _onHotelsLoaded,
+                  onHotelBookingClick: (hotel) => widget.onHotelBookingClick
+                      ?.call(hotel, area.station.id, name),
+                ),
+              if (_shouldShowExternalHotelLinks(
+                locale,
+                widget.searchRegion,
+              )) ...[
+                if (_shouldShowHotelCards(locale, widget.searchRegion))
+                  const SizedBox(height: 16),
+                _ExternalHotelLinks(
+                  stationName: name,
+                  stationId: area.station.id,
+                  locale: locale,
+                  region: widget.searchRegion,
+                  lat: area.station.lat,
+                  lng: area.station.lng,
+                  checkIn: widget.checkIn,
+                  checkOut: widget.checkOut,
+                  maxBudget: widget.maxBudget,
+                ),
+              ],
+            ],
+          ),
         ),
       ),
     );
@@ -881,25 +1709,86 @@ class _TagInfo {
 
 _TagInfo _areaTagInfo(String tag, String locale) {
   switch (tag) {
-    case 'transit_hub': return _TagInfo(
-      tr(locale, ja: '交通の要所', ko: '교통 요충지', en: 'Transit Hub', zh: '交通枢纽', fr: 'Noeud de transport'),
-      Icons.train, Colors.blue);
-    case 'nightlife': return _TagInfo(
-      tr(locale, ja: 'ナイトライフ', ko: '나이트라이프', en: 'Nightlife', zh: '夜生活', fr: 'Vie nocturne'),
-      Icons.nightlife, Colors.purple);
-    case 'shopping': return _TagInfo(
-      tr(locale, ja: 'ショッピング', ko: '쇼핑', en: 'Shopping', zh: '购物', fr: 'Shopping'),
-      Icons.shopping_bag, Colors.pink);
-    case 'quiet_residential': return _TagInfo(
-      tr(locale, ja: '閑静な住宅街', ko: '조용한 주거지', en: 'Quiet Area', zh: '安静住宅区', fr: 'Quartier calme'),
-      Icons.park, Colors.green);
-    case 'tourist_area': return _TagInfo(
-      tr(locale, ja: '観光エリア', ko: '관광 지역', en: 'Tourist Area', zh: '旅游区', fr: 'Zone touristique'),
-      Icons.camera_alt, Colors.orange);
-    case 'airport_access': return _TagInfo(
-      tr(locale, ja: '空港アクセス', ko: '공항 접근', en: 'Airport Access', zh: '机场交通', fr: 'Accès aéroport'),
-      Icons.flight, Colors.teal);
-    default: return _TagInfo(tag, Icons.label, Colors.grey);
+    case 'transit_hub':
+      return _TagInfo(
+        tr(
+          locale,
+          ja: '交通の要所',
+          ko: '교통 요충지',
+          en: 'Transit Hub',
+          zh: '交通枢纽',
+          fr: 'Noeud de transport',
+        ),
+        Icons.train,
+        Colors.blue,
+      );
+    case 'nightlife':
+      return _TagInfo(
+        tr(
+          locale,
+          ja: 'ナイトライフ',
+          ko: '나이트라이프',
+          en: 'Nightlife',
+          zh: '夜生活',
+          fr: 'Vie nocturne',
+        ),
+        Icons.nightlife,
+        Colors.purple,
+      );
+    case 'shopping':
+      return _TagInfo(
+        tr(
+          locale,
+          ja: 'ショッピング',
+          ko: '쇼핑',
+          en: 'Shopping',
+          zh: '购物',
+          fr: 'Shopping',
+        ),
+        Icons.shopping_bag,
+        Colors.pink,
+      );
+    case 'quiet_residential':
+      return _TagInfo(
+        tr(
+          locale,
+          ja: '閑静な住宅街',
+          ko: '조용한 주거지',
+          en: 'Quiet Area',
+          zh: '安静住宅区',
+          fr: 'Quartier calme',
+        ),
+        Icons.park,
+        Colors.green,
+      );
+    case 'tourist_area':
+      return _TagInfo(
+        tr(
+          locale,
+          ja: '観光エリア',
+          ko: '관광 지역',
+          en: 'Tourist Area',
+          zh: '旅游区',
+          fr: 'Zone touristique',
+        ),
+        Icons.camera_alt,
+        Colors.orange,
+      );
+    case 'airport_access':
+      return _TagInfo(
+        tr(
+          locale,
+          ja: '空港アクセス',
+          ko: '공항 접근',
+          en: 'Airport Access',
+          zh: '机场交通',
+          fr: 'Accès aéroport',
+        ),
+        Icons.flight,
+        Colors.teal,
+      );
+    default:
+      return _TagInfo(tag, Icons.label, Colors.grey);
   }
 }
 
@@ -907,14 +1796,24 @@ class _PoiCount extends StatelessWidget {
   final IconData icon;
   final int count;
   final String label;
-  const _PoiCount({required this.icon, required this.count, required this.label});
+  const _PoiCount({
+    required this.icon,
+    required this.count,
+    required this.label,
+  });
   @override
   Widget build(BuildContext context) {
-    return Row(mainAxisSize: MainAxisSize.min, children: [
-      Icon(icon, size: 14, color: AppTheme.mutedForeground),
-      const SizedBox(width: 4),
-      Text('$label $count', style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground)),
-    ]);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 14, color: AppTheme.mutedForeground),
+        const SizedBox(width: 4),
+        Text(
+          '$label $count',
+          style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground),
+        ),
+      ],
+    );
   }
 }
 
@@ -925,7 +1824,13 @@ class _LandmarkDistanceTile extends StatelessWidget {
   final Map<String, String> localNames;
   final int index; // 1-based number matching map marker
 
-  const _LandmarkDistanceTile({required this.ld, required this.locale, required this.isExpanded, this.localNames = const {}, this.index = 0});
+  const _LandmarkDistanceTile({
+    required this.ld,
+    required this.locale,
+    required this.isExpanded,
+    this.localNames = const {},
+    this.index = 0,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -933,45 +1838,97 @@ class _LandmarkDistanceTile extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(children: [
-          // Numbered badge matching map marker
-          if (index > 0)
-            Container(
-              width: 20, height: 20,
-              decoration: BoxDecoration(color: Colors.indigo, shape: BoxShape.circle),
-              child: Center(child: Text('$index', style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold))),
-            )
-          else
-            Icon(Icons.place, size: 14, color: AppTheme.primary),
-          const SizedBox(width: 6),
-          Expanded(child: Text(ld.landmarkName, style: const TextStyle(fontSize: 13))),
-          Text(
-            '${tr(locale, ja: '約', ko: '~', en: '~', zh: '约', fr: '~')}${ld.estimatedMinutes}${tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟', fr: 'min')}',
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: _timeColor(ld.estimatedMinutes)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              // Numbered badge matching map marker
+              if (index > 0)
+                Container(
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.indigo,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Text(
+                      '$index',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                )
+              else
+                Icon(Icons.place, size: 14, color: AppTheme.primary),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  ld.landmarkName,
+                  style: const TextStyle(fontSize: 13),
+                ),
+              ),
+              Text(
+                '${tr(locale, ja: '約', ko: '~', en: '~', zh: '约', fr: '~')}${ld.estimatedMinutes}${tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟', fr: 'min')}',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: _timeColor(ld.estimatedMinutes),
+                ),
+              ),
+              const SizedBox(width: 6),
+              Text(
+                '${ld.distanceKm.toStringAsFixed(1)}km',
+                style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground),
+              ),
+            ],
           ),
-          const SizedBox(width: 6),
-          Text('${ld.distanceKm.toStringAsFixed(1)}km', style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground)),
-        ]),
-        // Walking or route
-        if (isExpanded) ...[
-          if (isWalking)
-            Padding(
-              padding: const EdgeInsets.only(left: 20, top: 4),
-              child: Row(children: [
-                Icon(Icons.directions_walk, size: 14, color: AppTheme.mutedForeground),
-                const SizedBox(width: 4),
-                Text(tr(locale, ja: '徒歩圏内', ko: '도보 거리', en: 'Walkable', zh: '步行可达', fr: 'À pied'),
-                  style: TextStyle(fontSize: 11, color: AppTheme.mutedForeground)),
-              ]),
-            )
-          else if (ld.route.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(left: 20, top: 4),
-              child: _RouteBar(segments: ld.route, localNames: localNames, locale: locale),
-            ),
+          // Walking or route
+          if (isExpanded) ...[
+            if (isWalking)
+              Padding(
+                padding: const EdgeInsets.only(left: 20, top: 4),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.directions_walk,
+                      size: 14,
+                      color: AppTheme.mutedForeground,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      tr(
+                        locale,
+                        ja: '徒歩圏内',
+                        ko: '도보 거리',
+                        en: 'Walkable',
+                        zh: '步行可达',
+                        fr: 'À pied',
+                      ),
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: AppTheme.mutedForeground,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else if (ld.route.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(left: 20, top: 4),
+                child: _RouteBar(
+                  segments: ld.route,
+                  localNames: localNames,
+                  locale: locale,
+                ),
+              ),
+          ],
         ],
-      ]),
+      ),
     );
   }
 
@@ -987,57 +1944,102 @@ class _RouteBar extends StatelessWidget {
   final List<RouteSegment> segments;
   final Map<String, String> localNames;
   final String locale;
-  const _RouteBar({required this.segments, this.localNames = const {}, this.locale = 'ja'});
+  const _RouteBar({
+    required this.segments,
+    this.localNames = const {},
+    this.locale = 'ja',
+  });
 
   @override
   Widget build(BuildContext context) {
     if (segments.isEmpty) return const SizedBox.shrink();
-    final totalSqrt = segments.fold<double>(0, (s, seg) => s + sqrt(seg.minutes.clamp(1, 999).toDouble()));
+    final totalSqrt = segments.fold<double>(
+      0,
+      (s, seg) => s + sqrt(seg.minutes.clamp(1, 999).toDouble()),
+    );
 
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      // Station dots + bars
-      SizedBox(
-        height: 28,
-        child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          _StationDot(color: _parseColor(segments.first.color)),
-          ...segments.asMap().entries.expand((e) {
-            final seg = e.value;
-            final isLast = e.key == segments.length - 1;
-            final frac = totalSqrt > 0 ? sqrt(seg.minutes.clamp(1, 999).toDouble()) / totalSqrt : 1.0 / segments.length;
-            return [
-              Expanded(
-                flex: (frac * 100).round().clamp(1, 100),
-                child: Container(height: 5, margin: const EdgeInsets.symmetric(horizontal: 1),
-                  decoration: BoxDecoration(color: _parseColor(seg.color), borderRadius: BorderRadius.circular(3))),
-              ),
-              if (isLast)
-                _StationDot(color: _parseColor(seg.color))
-              else
-                _TransferDot(
-                  leftColor: _parseColor(seg.color),
-                  rightColor: _parseColor(segments[e.key + 1].color),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Station dots + bars
+        SizedBox(
+          height: 28,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _StationDot(color: _parseColor(segments.first.color)),
+              ...segments.asMap().entries.expand((e) {
+                final seg = e.value;
+                final isLast = e.key == segments.length - 1;
+                final frac = totalSqrt > 0
+                    ? sqrt(seg.minutes.clamp(1, 999).toDouble()) / totalSqrt
+                    : 1.0 / segments.length;
+                return [
+                  Expanded(
+                    flex: (frac * 100).round().clamp(1, 100),
+                    child: Container(
+                      height: 5,
+                      margin: const EdgeInsets.symmetric(horizontal: 1),
+                      decoration: BoxDecoration(
+                        color: _parseColor(seg.color),
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                    ),
+                  ),
+                  if (isLast)
+                    _StationDot(color: _parseColor(seg.color))
+                  else
+                    _TransferDot(
+                      leftColor: _parseColor(seg.color),
+                      rightColor: _parseColor(segments[e.key + 1].color),
+                    ),
+                ];
+              }),
+            ],
+          ),
+        ),
+        const SizedBox(height: 4),
+        // Line names + durations
+        Row(
+          children: segments.map((seg) {
+            final localLine = LineLocalizer.localizeSync(
+              seg.line,
+              locale,
+              operator: seg.operator,
+            );
+            final unit = tr(
+              locale,
+              ja: '分',
+              ko: '분',
+              en: 'min',
+              zh: '分钟',
+              fr: 'min',
+            );
+            return Expanded(
+              child: Center(
+                child: Text(
+                  '$localLine ${seg.minutes}$unit',
+                  style: TextStyle(
+                    fontSize: 9,
+                    color: AppTheme.mutedForeground,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
-            ];
-          }),
-        ]),
-      ),
-      const SizedBox(height: 4),
-      // Line names + durations
-      Row(children: segments.map((seg) {
-        final localLine = LineLocalizer.localizeSync(seg.line, locale, operator: seg.operator);
-        final unit = tr(locale, ja: '分', ko: '분', en: 'min', zh: '分钟', fr: 'min');
-        return Expanded(child: Center(child: Text(
-          '$localLine ${seg.minutes}$unit',
-          style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground),
-          overflow: TextOverflow.ellipsis,
-          maxLines: 1,
-        )));
-      }).toList()),
-    ]);
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    );
   }
 
   Color _parseColor(String hex) {
-    try { return Color(int.parse(hex.replaceFirst('#', '0xFF'))); } catch (_) { return Colors.grey; }
+    try {
+      return Color(int.parse(hex.replaceFirst('#', '0xFF')));
+    } catch (_) {
+      return Colors.grey;
+    }
   }
 }
 
@@ -1046,7 +2048,15 @@ class _StationDot extends StatelessWidget {
   const _StationDot({required this.color});
   @override
   Widget build(BuildContext context) {
-    return Container(width: 10, height: 10, decoration: BoxDecoration(color: color, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 1.5)));
+    return Container(
+      width: 10,
+      height: 10,
+      decoration: BoxDecoration(
+        color: color,
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.white, width: 1.5),
+      ),
+    );
   }
 }
 
@@ -1056,10 +2066,18 @@ class _TransferDot extends StatelessWidget {
   const _TransferDot({required this.leftColor, required this.rightColor});
   @override
   Widget build(BuildContext context) {
-    return Container(width: 12, height: 12, decoration: BoxDecoration(
-      shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 1.5),
-      gradient: SweepGradient(colors: [rightColor, rightColor, leftColor, leftColor], stops: const [0.0, 0.5, 0.5, 1.0]),
-    ));
+    return Container(
+      width: 12,
+      height: 12,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.white, width: 1.5),
+        gradient: SweepGradient(
+          colors: [rightColor, rightColor, leftColor, leftColor],
+          stops: const [0.0, 0.5, 0.5, 1.0],
+        ),
+      ),
+    );
   }
 }
 
@@ -1070,11 +2088,25 @@ class _LegendDot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(mainAxisSize: MainAxisSize.min, children: [
-      Container(width: 10, height: 10, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
-      const SizedBox(width: 4),
-      Text(label, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.foreground)),
-    ]);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        ),
+        const SizedBox(width: 4),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            color: AppTheme.foreground,
+          ),
+        ),
+      ],
+    );
   }
 }
 
@@ -1084,10 +2116,19 @@ class _InlineMap extends StatelessWidget {
   final String locale;
   final List<Hotel> hotels;
 
-  const _InlineMap({required this.area, required this.landmarks, this.locale = 'en', this.hotels = const []});
+  const _InlineMap({
+    required this.area,
+    required this.landmarks,
+    this.locale = 'en',
+    this.hotels = const [],
+  });
 
   Color _parseColor(String hex) {
-    try { return Color(int.parse(hex.replaceFirst('#', '0xFF'))); } catch (_) { return Colors.grey; }
+    try {
+      return Color(int.parse(hex.replaceFirst('#', '0xFF')));
+    } catch (_) {
+      return Colors.grey;
+    }
   }
 
   @override
@@ -1105,10 +2146,24 @@ class _InlineMap extends StatelessWidget {
     // Auto-zoom to fit all points
     final lats = allPoints.map((p) => p.latitude);
     final lngs = allPoints.map((p) => p.longitude);
-    final latSpan = lats.reduce((a, b) => a > b ? a : b) - lats.reduce((a, b) => a < b ? a : b);
-    final lngSpan = lngs.reduce((a, b) => a > b ? a : b) - lngs.reduce((a, b) => a < b ? a : b);
+    final latSpan =
+        lats.reduce((a, b) => a > b ? a : b) -
+        lats.reduce((a, b) => a < b ? a : b);
+    final lngSpan =
+        lngs.reduce((a, b) => a > b ? a : b) -
+        lngs.reduce((a, b) => a < b ? a : b);
     final span = latSpan > lngSpan ? latSpan : lngSpan;
-    final zoom = span < 0.01 ? 15.0 : span < 0.05 ? 14.0 : span < 0.1 ? 13.0 : span < 0.3 ? 12.0 : span < 1.0 ? 10.0 : 8.0;
+    final zoom = span < 0.01
+        ? 15.0
+        : span < 0.05
+        ? 14.0
+        : span < 0.1
+        ? 13.0
+        : span < 0.3
+        ? 12.0
+        : span < 1.0
+        ? 10.0
+        : 8.0;
 
     // Build polylines from route segments
     final polylines = <Polyline>[];
@@ -1117,68 +2172,147 @@ class _InlineMap extends StatelessWidget {
         if (seg.path != null && seg.path!.length >= 2) {
           final points = seg.path!.map((p) => LatLng(p[0], p[1])).toList();
           final isTransfer = seg.line == 'transfer';
-          polylines.add(Polyline(
-            points: points,
-            color: isTransfer ? Colors.grey : _parseColor(seg.color),
-            strokeWidth: isTransfer ? 3.0 : 4.0,
-            pattern: isTransfer ? const StrokePattern.dotted() : const StrokePattern.solid(),
-          ));
+          polylines.add(
+            Polyline(
+              points: points,
+              color: isTransfer ? Colors.grey : _parseColor(seg.color),
+              strokeWidth: isTransfer ? 3.0 : 4.0,
+              pattern: isTransfer
+                  ? const StrokePattern.dotted()
+                  : const StrokePattern.solid(),
+            ),
+          );
         }
       }
       // Walking connection (no route = walkable)
       if (ld.route.isEmpty && ld.estimatedMinutes > 0) {
-        final lm = landmarks.where((l) => l.name == ld.landmarkName || l.slug == ld.landmarkName).firstOrNull;
+        final lm = landmarks
+            .where(
+              (l) => l.name == ld.landmarkName || l.slug == ld.landmarkName,
+            )
+            .firstOrNull;
         if (lm != null) {
-          polylines.add(Polyline(
-            points: [LatLng(area.station.lat, area.station.lng), LatLng(lm.lat, lm.lng)],
-            color: Colors.grey,
-            strokeWidth: 2.0,
-            pattern: const StrokePattern.dotted(),
-          ));
+          polylines.add(
+            Polyline(
+              points: [
+                LatLng(area.station.lat, area.station.lng),
+                LatLng(lm.lat, lm.lng),
+              ],
+              color: Colors.grey,
+              strokeWidth: 2.0,
+              pattern: const StrokePattern.dotted(),
+            ),
+          );
         }
       }
     }
 
     return FlutterMap(
-      options: MapOptions(initialCenter: center, initialZoom: zoom, interactionOptions: const InteractionOptions(flags: InteractiveFlag.pinchZoom | InteractiveFlag.drag)),
+      options: MapOptions(
+        initialCenter: center,
+        initialZoom: zoom,
+        interactionOptions: const InteractionOptions(
+          flags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
+        ),
+      ),
       children: [
-        TileLayer(urlTemplate: 'https://basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}@2x.png', userAgentPackageName: 'app.norigo'),
+        TileLayer(
+          urlTemplate:
+              'https://basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}@2x.png',
+          userAgentPackageName: 'app.norigo',
+        ),
         // Route polylines
         PolylineLayer(polylines: polylines),
-        MarkerLayer(markers: [
-          // Landmarks (indigo numbered — matching web)
-          ...landmarks.asMap().entries.map((e) {
-            final l = e.value;
-            return Marker(
-              point: LatLng(l.lat, l.lng), width: 28, height: 28,
+        MarkerLayer(
+          markers: [
+            // Landmarks (indigo numbered — matching web)
+            ...landmarks.asMap().entries.map((e) {
+              final l = e.value;
+              return Marker(
+                point: LatLng(l.lat, l.lng),
+                width: 28,
+                height: 28,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.indigo,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 2),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.15),
+                        blurRadius: 3,
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      '${e.key + 1}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }),
+            // Hotel station (orange)
+            Marker(
+              point: LatLng(area.station.lat, area.station.lng),
+              width: 32,
+              height: 32,
               child: Container(
-                decoration: BoxDecoration(color: Colors.indigo, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 2),
-                  boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.15), blurRadius: 3)]),
-                child: Center(child: Text('${e.key + 1}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 11))),
+                decoration: BoxDecoration(
+                  color: AppTheme.orange,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 2),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.2),
+                      blurRadius: 4,
+                    ),
+                  ],
+                ),
+                child: const Center(
+                  child: Icon(Icons.hotel, size: 16, color: Colors.white),
+                ),
               ),
-            );
-          }),
-          // Hotel station (orange)
-          Marker(
-            point: LatLng(area.station.lat, area.station.lng), width: 32, height: 32,
-            child: Container(
-              decoration: BoxDecoration(color: AppTheme.orange, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 2),
-                boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 4)]),
-              child: const Center(child: Icon(Icons.hotel, size: 16, color: Colors.white)),
             ),
-          ),
-          // Hotel markers (green numbered)
-          ...hotels.where((h) => h.lat != 0 && h.lng != 0).take(3).toList().asMap().entries.map((e) {
-            final h = e.value;
-            return Marker(
-              point: LatLng(h.lat, h.lng), width: 22, height: 22,
-              child: Container(
-                decoration: BoxDecoration(color: AppTheme.green, shape: BoxShape.circle, border: Border.all(color: Colors.white, width: 1.5)),
-                child: Center(child: Text('${e.key + 1}', style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold))),
-              ),
-            );
-          }),
-        ]),
+            // Hotel markers (green numbered)
+            ...hotels
+                .where((h) => h.lat != 0 && h.lng != 0)
+                .take(3)
+                .toList()
+                .asMap()
+                .entries
+                .map((e) {
+                  final h = e.value;
+                  return Marker(
+                    point: LatLng(h.lat, h.lng),
+                    width: 22,
+                    height: 22,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppTheme.green,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 1.5),
+                      ),
+                      child: Center(
+                        child: Text(
+                          '${e.key + 1}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 9,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+          ],
+        ),
       ],
     );
   }
@@ -1198,7 +2332,20 @@ class _HotelSection extends StatefulWidget {
   final void Function(List<Hotel>)? onLoaded;
   final void Function(Hotel hotel)? onHotelBookingClick;
 
-  const _HotelSection({required this.stationId, required this.locale, required this.region, required this.stationName, required this.l10n, this.checkIn, this.checkOut, this.initialBudget, this.lat, this.lng, this.onLoaded, this.onHotelBookingClick});
+  const _HotelSection({
+    required this.stationId,
+    required this.locale,
+    required this.region,
+    required this.stationName,
+    required this.l10n,
+    this.checkIn,
+    this.checkOut,
+    this.initialBudget,
+    this.lat,
+    this.lng,
+    this.onLoaded,
+    this.onHotelBookingClick,
+  });
 
   @override
   State<_HotelSection> createState() => _HotelSectionState();
@@ -1222,11 +2369,17 @@ class _HotelSectionState extends State<_HotelSection> {
   static ({int min, int max}) _parseBudgetRange(String key) {
     if (key == 'any') return (min: 0, max: 999999999);
     final underMatch = RegExp(r'^under(\d+)$').firstMatch(key);
-    if (underMatch != null) return (min: 0, max: int.parse(underMatch.group(1)!));
+    if (underMatch != null)
+      return (min: 0, max: int.parse(underMatch.group(1)!));
     final overMatch = RegExp(r'^over(\d+)$').firstMatch(key);
-    if (overMatch != null) return (min: int.parse(overMatch.group(1)!), max: 999999999);
+    if (overMatch != null)
+      return (min: int.parse(overMatch.group(1)!), max: 999999999);
     final rangeMatch = RegExp(r'^(\d+)-(\d+)$').firstMatch(key);
-    if (rangeMatch != null) return (min: int.parse(rangeMatch.group(1)!), max: int.parse(rangeMatch.group(2)!));
+    if (rangeMatch != null)
+      return (
+        min: int.parse(rangeMatch.group(1)!),
+        max: int.parse(rangeMatch.group(2)!),
+      );
     return (min: 0, max: 999999999);
   }
 
@@ -1246,6 +2399,7 @@ class _HotelSectionState extends State<_HotelSection> {
     }
     return result;
   }
+
   static const _defaultVisible = 3;
 
   // JPY conversion rates (matching web)
@@ -1263,13 +2417,21 @@ class _HotelSectionState extends State<_HotelSection> {
   /// Filter by selected budget ranges (multi-select)
   List<Hotel> _filterBySelectedBudgets(List<Hotel> hotels) {
     if (_selectedBudgets.isEmpty) return hotels; // empty = show all
-    return hotels.where((h) => _selectedBudgets.any((b) => _hotelInRange(h, b))).toList();
+    return hotels
+        .where((h) => _selectedBudgets.any((b) => _hotelInRange(h, b)))
+        .toList();
   }
 
-  String _buildBudgetLabel(String budget, int index, List<String> tiers, String locale) {
+  String _buildBudgetLabel(
+    String budget,
+    int index,
+    List<String> tiers,
+    String locale,
+  ) {
     // Use pre-defined locale-aware labels from constants
-    final label = AppConstants.stayBudgetLabels[budget]?[locale]
-        ?? AppConstants.stayBudgetLabels[budget]?['en'];
+    final label =
+        AppConstants.stayBudgetLabels[budget]?[locale] ??
+        AppConstants.stayBudgetLabels[budget]?['en'];
     if (label != null) return label;
     return budget;
   }
@@ -1286,18 +2448,62 @@ class _HotelSectionState extends State<_HotelSection> {
     return dlat * dlat + dlng * dlng;
   }
 
+  bool get _usesRakuten =>
+      widget.locale == 'ja' &&
+      AppConstants.japanRegions.contains(widget.region);
+
+  String get _hotelProviderName => _usesRakuten
+      ? BookingProvider.providerName(widget.locale, widget.region)
+      : 'Agoda';
+
+  String _buildHotelProviderSearchUrl() {
+    if (!_usesRakuten) {
+      return BookingProvider.buildAgodaSearchUrl(
+        locale: widget.locale,
+        region: widget.region,
+        stationName: widget.stationName,
+        stationId: widget.stationId,
+        lat: widget.lat,
+        lng: widget.lng,
+        checkIn: widget.checkIn,
+        checkOut: widget.checkOut,
+      );
+    }
+    return BookingProvider.buildSearchUrl(
+      locale: widget.locale,
+      region: widget.region,
+      stationName: widget.stationName,
+      stationId: widget.stationId,
+      lat: widget.lat,
+      lng: widget.lng,
+      checkIn: widget.checkIn,
+      checkOut: widget.checkOut,
+    );
+  }
+
   Future<void> _loadHotels() async {
     try {
       final api = ApiClient();
-      final checkIn = widget.checkIn ?? DateTime.now().add(const Duration(days: 30)).toIso8601String().substring(0, 10);
-      final checkOut = widget.checkOut ?? DateTime.now().add(const Duration(days: 33)).toIso8601String().substring(0, 10);
+      final checkIn =
+          widget.checkIn ??
+          DateTime.now()
+              .add(const Duration(days: 30))
+              .toIso8601String()
+              .substring(0, 10);
+      final checkOut =
+          widget.checkOut ??
+          DateTime.now()
+              .add(const Duration(days: 33))
+              .toIso8601String()
+              .substring(0, 10);
       // Use Rakuten for Japanese users searching Japan regions only
-      final isJapanRegion = AppConstants.japanRegions.contains(widget.region);
-      final useRakuten = widget.locale == 'ja' && isJapanRegion;
       List<Hotel> hotels;
-      if (useRakuten && widget.lat != null && widget.lng != null) {
+      if (_usesRakuten && widget.lat != null && widget.lng != null) {
         // Direct Rakuten API call (requires Referer header, not server proxy)
-        hotels = await RakutenClient.fetchHotels(lat: widget.lat!, lng: widget.lng!);
+        hotels = await RakutenClient.fetchHotels(
+          lat: widget.lat!,
+          lng: widget.lng!,
+        );
       } else {
         hotels = await api.getHotels(
           stationId: widget.stationId,
@@ -1324,25 +2530,55 @@ class _HotelSectionState extends State<_HotelSection> {
         });
       }
       if (mounted) {
-        setState(() { _hotels = hotels; _loading = false; });
+        setState(() {
+          _hotels = hotels;
+          _loading = false;
+        });
         widget.onLoaded?.call(hotels);
       }
     } catch (e) {
-      if (mounted) setState(() { _loading = false; });
+      if (mounted)
+        setState(() {
+          _loading = false;
+        });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_loading) return const Padding(padding: EdgeInsets.symmetric(vertical: 16), child: Center(child: SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2))));
+    if (_loading)
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 16),
+        child: Center(
+          child: SizedBox(
+            width: 24,
+            height: 24,
+            child: CircularProgressIndicator(strokeWidth: 2),
+          ),
+        ),
+      );
 
     if (_hotels == null || _hotels!.isEmpty) {
-      return Padding(padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Text(tr(widget.locale, ja: 'ホテル情報を取得できませんでした', ko: '호텔 정보를 가져올 수 없습니다', en: 'No hotel data', zh: '无法获取酒店信息', fr: 'Aucune donnée hôtel'), style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground)));
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Text(
+          tr(
+            widget.locale,
+            ja: 'ホテル情報を取得できませんでした',
+            ko: '호텔 정보를 가져올 수 없습니다',
+            en: 'No hotel data',
+            zh: '无法获取酒店信息',
+            fr: 'Aucune donnée hôtel',
+          ),
+          style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground),
+        ),
+      );
     }
 
     final filtered = _filterBySelectedBudgets(_hotels!);
-    final displayed = _expanded ? filtered : filtered.take(_defaultVisible).toList();
+    final displayed = _expanded
+        ? filtered
+        : filtered.take(_defaultVisible).toList();
     final hasMore = filtered.length > _defaultVisible;
 
     // Use region-specific budget tiers
@@ -1350,173 +2586,329 @@ class _HotelSectionState extends State<_HotelSection> {
     final isAllSelected = _selectedBudgets.isEmpty;
     final noResultsInBudget = filtered.isEmpty && _selectedBudgets.isNotEmpty;
 
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      // Budget range filter (multi-select)
-      if (_hotels!.length > 3) ...[
-        Row(children: [
-          Text(
-            tr(widget.locale, ja: '予算', ko: '예산', en: 'Budget', zh: '预算', fr: 'Budget'),
-            style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground),
-          ),
-          const SizedBox(width: 6),
-          Text(
-            tr(widget.locale, ja: '（複数選択可）', ko: '(복수 선택 가능)', en: '(multi-select)', zh: '（可多选）', fr: '(multi-sélection)'),
-            style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground),
-          ),
-        ]),
-        const SizedBox(height: 6),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(children: [
-            // "All" chip
-            Padding(
-              padding: const EdgeInsets.only(right: 6),
-              child: GestureDetector(
-                onTap: () => setState(() { _selectedBudgets = {}; _expanded = false; }),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    color: isAllSelected ? AppTheme.primary : Colors.transparent,
-                    border: Border.all(color: isAllSelected ? AppTheme.primary : AppTheme.border),
-                  ),
-                  child: Text(
-                    '${tr(widget.locale, ja: 'すべて', ko: '전체', en: 'All', zh: '全部', fr: 'Tous')}(${_hotels!.length})',
-                    style: TextStyle(fontSize: 10, fontWeight: isAllSelected ? FontWeight.w600 : FontWeight.normal,
-                      color: isAllSelected ? Colors.white : AppTheme.foreground),
-                  ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Budget range filter (multi-select)
+        if (_hotels!.length > 3) ...[
+          Row(
+            children: [
+              Text(
+                tr(
+                  widget.locale,
+                  ja: '予算',
+                  ko: '예산',
+                  en: 'Budget',
+                  zh: '预算',
+                  fr: 'Budget',
+                ),
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: AppTheme.mutedForeground,
                 ),
               ),
+              const SizedBox(width: 6),
+              Text(
+                tr(
+                  widget.locale,
+                  ja: '（複数選択可）',
+                  ko: '(복수 선택 가능)',
+                  en: '(multi-select)',
+                  zh: '（可多选）',
+                  fr: '(multi-sélection)',
+                ),
+                style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground),
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                // "All" chip
+                Padding(
+                  padding: const EdgeInsets.only(right: 6),
+                  child: GestureDetector(
+                    onTap: () => setState(() {
+                      _selectedBudgets = {};
+                      _expanded = false;
+                    }),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: isAllSelected
+                            ? AppTheme.primary
+                            : Colors.transparent,
+                        border: Border.all(
+                          color: isAllSelected
+                              ? AppTheme.primary
+                              : AppTheme.border,
+                        ),
+                      ),
+                      child: Text(
+                        '${tr(widget.locale, ja: 'すべて', ko: '전체', en: 'All', zh: '全部', fr: 'Tous')}(${_hotels!.length})',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: isAllSelected
+                              ? FontWeight.w600
+                              : FontWeight.normal,
+                          color: isAllSelected
+                              ? Colors.white
+                              : AppTheme.foreground,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                // Range chips
+                ...budgetTiers
+                    .asMap()
+                    .entries
+                    .where((e) => e.value != 'any')
+                    .map((entry) {
+                      final b = entry.value;
+                      final count = _countForBudget(b);
+                      if (count == 0) return const SizedBox.shrink();
+                      final isSelected = _selectedBudgets.contains(b);
+                      final label = _buildBudgetLabel(
+                        b,
+                        entry.key,
+                        budgetTiers,
+                        widget.locale,
+                      );
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 6),
+                        child: GestureDetector(
+                          onTap: () => setState(() {
+                            final newSet = Set<String>.from(_selectedBudgets);
+                            if (isSelected) {
+                              newSet.remove(b);
+                            } else {
+                              newSet.add(b);
+                            }
+                            _selectedBudgets = newSet;
+                            _expanded = false;
+                          }),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 5,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              color: isSelected
+                                  ? AppTheme.primary
+                                  : Colors.transparent,
+                              border: Border.all(
+                                color: isSelected
+                                    ? AppTheme.primary
+                                    : AppTheme.border,
+                              ),
+                            ),
+                            child: Text(
+                              '$label($count)',
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: isSelected
+                                    ? FontWeight.w600
+                                    : FontWeight.normal,
+                                color: isSelected
+                                    ? Colors.white
+                                    : AppTheme.foreground,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+              ],
             ),
-            // Range chips
-            ...budgetTiers.asMap().entries.where((e) => e.value != 'any').map((entry) {
-            final b = entry.value;
-            final count = _countForBudget(b);
-            if (count == 0) return const SizedBox.shrink();
-            final isSelected = _selectedBudgets.contains(b);
-            final label = _buildBudgetLabel(b, entry.key, budgetTiers, widget.locale);
-            return Padding(
-              padding: const EdgeInsets.only(right: 6),
-              child: GestureDetector(
-                onTap: () => setState(() {
-                  final newSet = Set<String>.from(_selectedBudgets);
-                  if (isSelected) { newSet.remove(b); } else { newSet.add(b); }
-                  _selectedBudgets = newSet;
-                  _expanded = false;
-                }),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    color: isSelected ? AppTheme.primary : Colors.transparent,
-                    border: Border.all(color: isSelected ? AppTheme.primary : AppTheme.border),
-                  ),
+          ),
+          const SizedBox(height: 10),
+        ],
+
+        // Header
+        Row(
+          children: [
+            Text(
+              tr(
+                widget.locale,
+                ja: '周辺ホテル',
+                ko: '주변 호텔',
+                en: 'Nearby Hotels',
+                zh: '周边酒店',
+                fr: 'Hôtels à proximité',
+              ),
+              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(width: 6),
+            Text(
+              tr(
+                widget.locale,
+                ja: '1泊2人基準',
+                ko: '1박 2인 기준',
+                en: 'Per night, 2 guests',
+                zh: '每晚2人',
+                fr: 'Par nuit, 2 pers.',
+              ),
+              style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+
+        // Hotel cards
+        // No results in selected budget range
+        if (noResultsInBudget)
+          Container(
+            padding: const EdgeInsets.all(16),
+            margin: const EdgeInsets.only(bottom: 8),
+            decoration: BoxDecoration(
+              color: Colors.amber.shade50,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.info_outline,
+                  size: 16,
+                  color: Colors.amber.shade700,
+                ),
+                const SizedBox(width: 8),
+                Expanded(
                   child: Text(
-                    '$label($count)',
-                    style: TextStyle(fontSize: 10, fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                      color: isSelected ? Colors.white : AppTheme.foreground),
+                    tr(
+                      widget.locale,
+                      ja: '選択した予算範囲のホテルが見つかりませんでした',
+                      ko: '선택한 예산 범위의 호텔이 없습니다',
+                      en: 'No hotels found in the selected budget range',
+                      zh: '所选预算范围内没有找到酒店',
+                      fr: 'Aucun hôtel dans cette gamme de prix',
+                    ),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.amber.shade800,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+        ...displayed.asMap().entries.map(
+          (e) => _HotelCard(
+            hotel: e.value,
+            index: e.key + 1,
+            l10n: widget.l10n,
+            locale: widget.locale,
+            stationId: widget.stationId,
+            onBookingTap: () => widget.onHotelBookingClick?.call(e.value),
+          ),
+        ),
+
+        // Show more / show less
+        if (hasMore)
+          TextButton(
+            onPressed: () => setState(() => _expanded = !_expanded),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  _expanded
+                      ? tr(
+                          widget.locale,
+                          ja: '閉じる',
+                          ko: '접기',
+                          en: 'Show less',
+                          zh: '收起',
+                          fr: 'Réduire',
+                        )
+                      : tr(
+                          widget.locale,
+                          ja: '他${_hotels!.length - _defaultVisible}件を表示',
+                          ko: '${_hotels!.length - _defaultVisible}개 더 보기',
+                          en: 'Show ${_hotels!.length - _defaultVisible} more',
+                          zh: '显示更多${_hotels!.length - _defaultVisible}个',
+                          fr: 'Show ${_hotels!.length - _defaultVisible} more',
+                        ),
+                  style: TextStyle(fontSize: 12, color: AppTheme.primary),
+                ),
+                Icon(
+                  _expanded ? Icons.expand_less : Icons.expand_more,
+                  size: 16,
+                  color: AppTheme.primary,
+                ),
+              ],
+            ),
+          ),
+
+        // Provider attribution + search link
+        Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Text(
+                    tr(
+                      widget.locale,
+                      ja: '提供: ',
+                      ko: '제공: ',
+                      en: 'Powered by ',
+                      zh: '由 ',
+                      fr: 'Fourni par ',
+                    ),
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: AppTheme.mutedForeground,
+                    ),
+                  ),
+                  Text(
+                    _hotelProviderName,
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      color: AppTheme.mutedForeground,
+                    ),
+                  ),
+                ],
+              ),
+              GestureDetector(
+                onTap: () {
+                  final url = _buildHotelProviderSearchUrl();
+                  launchUrl(
+                    Uri.parse(url),
+                    mode: LaunchMode.externalApplication,
+                  );
+                },
+                child: Text(
+                  tr(
+                    widget.locale,
+                    ja: '$_hotelProviderNameで検索 →',
+                    ko: '$_hotelProviderName에서 검색 →',
+                    en: 'Search on $_hotelProviderName →',
+                    zh: '在$_hotelProviderName上搜索 →',
+                    fr: 'Search on $_hotelProviderName →',
+                  ),
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: AppTheme.primary,
                   ),
                 ),
               ),
-            );
-          }),
-          ]),
+            ],
+          ),
         ),
-        const SizedBox(height: 10),
       ],
-
-      // Header
-      Row(children: [
-        Text(tr(widget.locale, ja: '周辺ホテル', ko: '주변 호텔', en: 'Nearby Hotels', zh: '周边酒店', fr: 'Hôtels à proximité'), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-        const SizedBox(width: 6),
-        Text(
-          tr(widget.locale, ja: '1泊2人基準', ko: '1박 2인 기준', en: 'Per night, 2 guests', zh: '每晚2人', fr: 'Par nuit, 2 pers.'),
-          style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground),
-        ),
-      ]),
-      const SizedBox(height: 8),
-
-      // Hotel cards
-      // No results in selected budget range
-      if (noResultsInBudget)
-        Container(
-          padding: const EdgeInsets.all(16),
-          margin: const EdgeInsets.only(bottom: 8),
-          decoration: BoxDecoration(
-            color: Colors.amber.shade50,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Row(children: [
-            Icon(Icons.info_outline, size: 16, color: Colors.amber.shade700),
-            const SizedBox(width: 8),
-            Expanded(child: Text(
-              tr(widget.locale, ja: '選択した予算範囲のホテルが見つかりませんでした',
-                ko: '선택한 예산 범위의 호텔이 없습니다',
-                en: 'No hotels found in the selected budget range',
-                zh: '所选预算范围内没有找到酒店', fr: 'Aucun hôtel dans cette gamme de prix'),
-              style: TextStyle(fontSize: 12, color: Colors.amber.shade800),
-            )),
-          ]),
-        ),
-
-      ...displayed.asMap().entries.map((e) => _HotelCard(
-        hotel: e.value,
-        index: e.key + 1,
-        l10n: widget.l10n,
-        locale: widget.locale,
-        onBookingTap: () => widget.onHotelBookingClick?.call(e.value),
-      )),
-
-      // Show more / show less
-      if (hasMore)
-        TextButton(
-          onPressed: () => setState(() => _expanded = !_expanded),
-          child: Row(mainAxisSize: MainAxisSize.min, children: [
-            Text(_expanded
-                ? tr(widget.locale, ja: '閉じる', ko: '접기', en: 'Show less', zh: '收起', fr: 'Réduire')
-                : tr(widget.locale, ja: '他${_hotels!.length - _defaultVisible}件を表示',
-                    ko: '${_hotels!.length - _defaultVisible}개 더 보기',
-                    en: 'Show ${_hotels!.length - _defaultVisible} more',
-                    zh: '显示更多${_hotels!.length - _defaultVisible}个', fr: 'Show ${_hotels!.length - _defaultVisible} more'),
-              style: TextStyle(fontSize: 12, color: AppTheme.primary)),
-            Icon(_expanded ? Icons.expand_less : Icons.expand_more, size: 16, color: AppTheme.primary),
-          ]),
-        ),
-
-      // Provider attribution + search link
-      Padding(
-        padding: const EdgeInsets.only(top: 8),
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Row(children: [
-            Text(tr(widget.locale, ja: '提供: ', ko: '제공: ', en: 'Powered by ', zh: '由 ', fr: 'Fourni par '), style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
-            Text(BookingProvider.providerName(widget.locale, widget.region), style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppTheme.mutedForeground)),
-          ]),
-          GestureDetector(
-            onTap: () {
-              final url = BookingProvider.buildSearchUrl(
-                locale: widget.locale,
-                region: widget.region,
-                stationName: widget.stationName,
-                stationId: widget.stationId,
-                lat: widget.lat,
-                lng: widget.lng,
-                checkIn: widget.checkIn,
-                checkOut: widget.checkOut,
-              );
-              launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-            },
-            child: Text(
-              tr(widget.locale,
-                ja: '${BookingProvider.providerName(widget.locale, widget.region)}で検索 →',
-                ko: '${BookingProvider.providerName(widget.locale, widget.region)}에서 검색 →',
-                en: 'Search on ${BookingProvider.providerName(widget.locale, widget.region)} →',
-                zh: '在${BookingProvider.providerName(widget.locale, widget.region)}上搜索 →', fr: 'Search on ${BookingProvider.providerName(widget.locale, widget.region)} →'),
-              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: AppTheme.primary),
-            ),
-          ),
-        ]),
-      ),
-    ]);
+    );
   }
 }
 
@@ -1525,90 +2917,229 @@ class _HotelCard extends StatelessWidget {
   final int index;
   final AppLocalizations l10n;
   final String locale;
+  final String stationId;
   final VoidCallback? onBookingTap;
 
-  const _HotelCard({required this.hotel, required this.index, required this.l10n, required this.locale, this.onBookingTap});
+  const _HotelCard({
+    required this.hotel,
+    required this.index,
+    required this.l10n,
+    required this.locale,
+    required this.stationId,
+    this.onBookingTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: AppTheme.border)),
-      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        // Index badge + Image
-        Column(children: [
-          Container(
-            width: 20, height: 20, margin: const EdgeInsets.only(bottom: 4),
-            decoration: BoxDecoration(color: Colors.teal, borderRadius: BorderRadius.circular(4)),
-            child: Center(child: Text('$index', style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold))),
-          ),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: hotel.imageUrl != null
-                ? CachedImage(hotel.imageUrl!, width: 80, height: 80,
-                    errorBuilder: (_, __, ___) => Container(width: 80, height: 80, color: AppTheme.muted, child: const Icon(Icons.hotel)))
-                : Container(width: 80, height: 80, color: AppTheme.muted, child: const Icon(Icons.hotel)),
-          ),
-        ]),
-        const SizedBox(width: 10),
-
-        // Info
-        Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(hotel.name, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600), maxLines: 2, overflow: TextOverflow.ellipsis),
-          const SizedBox(height: 4),
-
-          // Price row
-          Row(children: [
-            if (hotel.formattedCrossedOutPrice != null) ...[
-              Text(hotel.formattedCrossedOutPrice!, style: TextStyle(fontSize: 12, color: AppTheme.mutedForeground, decoration: TextDecoration.lineThrough)),
-              const SizedBox(width: 4),
-            ],
-            Text(hotel.formattedPrice, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.primary)),
-            Text(l10n.perNight, style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
-          ]),
-
-          const SizedBox(height: 4),
-
-          // Rating
-          Row(children: [
-            if (hotel.reviewScore != null)
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: AppTheme.border),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Index badge + Image
+          Column(
+            children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                decoration: BoxDecoration(color: Colors.blue.shade700, borderRadius: BorderRadius.circular(4)),
-                child: Text(hotel.formattedRating, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white)),
+                width: 20,
+                height: 20,
+                margin: const EdgeInsets.only(bottom: 4),
+                decoration: BoxDecoration(
+                  color: Colors.teal,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Center(
+                  child: Text(
+                    '$index',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
-            if (hotel.reviewScore != null) Text('/10', style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
-            if (hotel.reviewCount != null) ...[
-              const SizedBox(width: 4),
-              Text('(${_formatCount(hotel.reviewCount!)})', style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: hotel.imageUrl != null
+                    ? CachedImage(
+                        hotel.imageUrl!,
+                        width: 80,
+                        height: 80,
+                        errorBuilder: (_, __, ___) => Container(
+                          width: 80,
+                          height: 80,
+                          color: AppTheme.muted,
+                          child: const Icon(Icons.hotel),
+                        ),
+                      )
+                    : Container(
+                        width: 80,
+                        height: 80,
+                        color: AppTheme.muted,
+                        child: const Icon(Icons.hotel),
+                      ),
+              ),
             ],
-          ]),
+          ),
+          const SizedBox(width: 10),
 
-          // Amenities
-          if (hotel.includeBreakfast || hotel.freeWifi) ...[
-            const SizedBox(height: 4),
-            Wrap(spacing: 4, children: [
-              if (hotel.freeWifi) const _AmenityBadge(icon: Icons.wifi, label: 'Wi-Fi'),
-              if (hotel.includeBreakfast) _AmenityBadge(icon: Icons.restaurant, label: tr(locale, ja: '朝食', ko: '조식', en: 'Breakfast', zh: '早餐', fr: 'Petit-déj')),
-            ]),
-          ],
-        ])),
+          // Info
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  hotel.name,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 4),
 
-        // Book button
-        if (hotel.bookingUrl != null)
-          GestureDetector(
-            onTap: () {
-              onBookingTap?.call();
-              launchUrl(Uri.parse(hotel.bookingUrl!), mode: LaunchMode.externalApplication);
-            },
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              decoration: BoxDecoration(color: AppTheme.primary, borderRadius: BorderRadius.circular(6)),
-              child: Text(l10n.bookNow, style: const TextStyle(fontSize: 11, color: Colors.white, fontWeight: FontWeight.w600)),
+                // Price row
+                Row(
+                  children: [
+                    if (hotel.formattedCrossedOutPrice != null) ...[
+                      Text(
+                        hotel.formattedCrossedOutPrice!,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppTheme.mutedForeground,
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                    ],
+                    Text(
+                      hotel.formattedPrice,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.primary,
+                      ),
+                    ),
+                    Text(
+                      l10n.perNight,
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: AppTheme.mutedForeground,
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 4),
+
+                // Rating
+                Row(
+                  children: [
+                    if (hotel.reviewScore != null)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 5,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.blue.shade700,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          hotel.formattedRating,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    if (hotel.reviewScore != null)
+                      Text(
+                        '/10',
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: AppTheme.mutedForeground,
+                        ),
+                      ),
+                    if (hotel.reviewCount != null) ...[
+                      const SizedBox(width: 4),
+                      Text(
+                        '(${_formatCount(hotel.reviewCount!)})',
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: AppTheme.mutedForeground,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+
+                // Amenities
+                if (hotel.includeBreakfast || hotel.freeWifi) ...[
+                  const SizedBox(height: 4),
+                  Wrap(
+                    spacing: 4,
+                    children: [
+                      if (hotel.freeWifi)
+                        const _AmenityBadge(icon: Icons.wifi, label: 'Wi-Fi'),
+                      if (hotel.includeBreakfast)
+                        _AmenityBadge(
+                          icon: Icons.restaurant,
+                          label: tr(
+                            locale,
+                            ja: '朝食',
+                            ko: '조식',
+                            en: 'Breakfast',
+                            zh: '早餐',
+                            fr: 'Petit-déj',
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ],
             ),
           ),
-      ]),
+
+          // Book button
+          if (hotel.bookingUrl != null)
+            GestureDetector(
+              onTap: () {
+                onBookingTap?.call();
+                final url = BookingProvider.wrapHotelBookingUrl(
+                  hotel.bookingUrl!,
+                  stationId: stationId,
+                );
+                launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: AppTheme.primary,
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Text(
+                  l10n.bookNow,
+                  style: const TextStyle(
+                    fontSize: 11,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 
@@ -1627,17 +3158,26 @@ class _AmenityBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-      decoration: BoxDecoration(color: AppTheme.muted, borderRadius: BorderRadius.circular(4)),
-      child: Row(mainAxisSize: MainAxisSize.min, children: [
-        Icon(icon, size: 10, color: AppTheme.mutedForeground),
-        const SizedBox(width: 3),
-        Text(label, style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground)),
-      ]),
+      decoration: BoxDecoration(
+        color: AppTheme.muted,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 10, color: AppTheme.mutedForeground),
+          const SizedBox(width: 3),
+          Text(
+            label,
+            style: TextStyle(fontSize: 9, color: AppTheme.mutedForeground),
+          ),
+        ],
+      ),
     );
   }
 }
 
-/// External hotel link — ja+Japan=Jalan, en/zh=Booking.com
+/// External hotel link — ja+Japan=Jalan, ko/Korea=Agoda, en/fr/zh=multi-provider.
 class _ExternalHotelLinks extends StatelessWidget {
   final String stationName;
   final String stationId;
@@ -1649,102 +3189,193 @@ class _ExternalHotelLinks extends StatelessWidget {
   final String? checkOut;
   final String? maxBudget;
 
-  const _ExternalHotelLinks({required this.stationName, this.stationId = '', required this.locale, required this.region, required this.lat, required this.lng, this.checkIn, this.checkOut, this.maxBudget});
+  const _ExternalHotelLinks({
+    required this.stationName,
+    this.stationId = '',
+    required this.locale,
+    required this.region,
+    required this.lat,
+    required this.lng,
+    this.checkIn,
+    this.checkOut,
+    this.maxBudget,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final isJalan = locale == 'ja' && AppConstants.japanRegions.contains(region);
-    final title = tr(locale, ja: 'ホテルを探す', ko: '호텔 찾기', en: 'Find Hotels', zh: '查找酒店', fr: 'Trouver des hôtels');
+    final isJalan =
+        locale == 'ja' && AppConstants.japanRegions.contains(region);
+    final title = tr(
+      locale,
+      ja: 'ホテルを探す',
+      ko: '호텔 찾기',
+      en: 'Find Hotels',
+      zh: '查找酒店',
+      fr: 'Trouver des hôtels',
+    );
 
-    // EN/FR/ZH: 3 provider buttons (Expedia + Hotels.com + Booking.com)
+    // EN/FR/ZH: provider buttons matching the web result page.
     final multiProviders = BookingProvider.buildMultiProviderUrls(
-      locale: locale, region: region, stationName: stationName,
-      lat: lat, lng: lng, checkIn: checkIn, checkOut: checkOut,
+      locale: locale,
+      region: region,
+      stationName: stationName,
+      stationId: stationId,
+      lat: lat,
+      lng: lng,
+      checkIn: checkIn,
+      checkOut: checkOut,
       maxBudget: maxBudget,
     );
 
     if (multiProviders.isNotEmpty) {
       final parts = <String>[];
       if (checkIn != null && checkOut != null) {
-        parts.add('${checkIn!.substring(5).replaceAll('-', '/')} - ${checkOut!.substring(5).replaceAll('-', '/')}');
+        parts.add(
+          '${checkIn!.substring(5).replaceAll('-', '/')} - ${checkOut!.substring(5).replaceAll('-', '/')}',
+        );
       }
-      parts.add(tr(locale, ja: '2名', ko: '2명', en: '2 guests', zh: '2位', fr: '2 pers.'));
+      parts.add(
+        tr(locale, ja: '2名', ko: '2명', en: '2 guests', zh: '2位', fr: '2 pers.'),
+      );
       if (maxBudget != null && maxBudget != 'any') {
-        final budgetLabel = AppConstants.stayBudgetLabels[maxBudget]?[locale]
-            ?? AppConstants.stayBudgetLabels[maxBudget]?['en'] ?? maxBudget;
+        final budgetLabel =
+            AppConstants.stayBudgetLabels[maxBudget]?[locale] ??
+            AppConstants.stayBudgetLabels[maxBudget]?['en'] ??
+            maxBudget;
         parts.add(budgetLabel!);
       }
       final dateLabel = parts.join(' · ');
-      return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-        if (dateLabel.isNotEmpty)
-          Text(dateLabel, style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground)),
-        const SizedBox(height: 8),
-        Row(
-          children: multiProviders.map((p) => Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: ElevatedButton(
-                onPressed: () => launchUrl(Uri.parse(p.url), mode: LaunchMode.externalApplication),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: p.color,
-                  foregroundColor: p.textColor,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                ),
-                child: Text(p.name, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
-              ),
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+          ),
+          if (dateLabel.isNotEmpty)
+            Text(
+              dateLabel,
+              style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground),
             ),
-          )).toList(),
-        ),
-        const SizedBox(height: 6),
-        Center(child: Text(
-          tr(locale, ja: '提供: Expedia Group', ko: '제공: Expedia Group', en: 'Powered by Expedia Group', zh: '由 Expedia Group 提供', fr: 'Fourni par Expedia Group'),
-          style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground),
-        )),
-      ]);
+          const SizedBox(height: 8),
+          Row(
+            children: multiProviders
+                .map(
+                  (p) => Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 2),
+                      child: ElevatedButton(
+                        onPressed: () => launchUrl(
+                          Uri.parse(p.url),
+                          mode: LaunchMode.externalApplication,
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: p.color,
+                          foregroundColor: p.textColor,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text(
+                          p.name,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+          const SizedBox(height: 6),
+          Center(
+            child: Text(
+              tr(
+                locale,
+                ja: 'ホテル提携サービス',
+                ko: '호텔 파트너',
+                en: 'Hotel partners',
+                zh: '酒店合作伙伴',
+                fr: 'Partenaires hôteliers',
+              ),
+              style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground),
+            ),
+          ),
+        ],
+      );
     }
 
-    // JA: Jalan button
-    final providerName = isJalan ? 'じゃらん' : 'Booking.com';
-    final buttonColor = isJalan ? const Color(0xFFE4007F) : const Color(0xFF003580);
+    final providerName = BookingProvider.providerName(locale, region);
+    final displayName = isJalan ? 'じゃらん' : providerName;
+    final buttonColor = isJalan
+        ? const Color(0xFFE4007F)
+        : providerName == 'Agoda'
+        ? const Color(0xFF4E54C8)
+        : const Color(0xFF003580);
 
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
-      const SizedBox(height: 10),
-      SizedBox(
-        width: double.infinity,
-        child: ElevatedButton.icon(
-          onPressed: () {
-            final url = BookingProvider.buildSearchUrl(
-              locale: locale,
-              region: isJalan ? region : 'global',
-              stationName: stationName,
-              lat: lat, lng: lng,
-              checkIn: checkIn, checkOut: checkOut,
-              stationId: stationId,
-              maxBudget: maxBudget,
-            );
-            launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
-          },
-          icon: const Icon(Icons.open_in_new, size: 16),
-          label: Text(
-            tr(locale, ja: '$providerNameで検索', ko: '$providerName에서 검색', en: 'Search on $providerName', zh: '在$providerName上搜索', fr: 'Rechercher sur $providerName'),
-            style: const TextStyle(fontSize: 14),
-          ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: buttonColor,
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(vertical: 14),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+        ),
+        const SizedBox(height: 10),
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton.icon(
+            onPressed: () {
+              final url = BookingProvider.buildSearchUrl(
+                locale: locale,
+                region: region,
+                stationName: stationName,
+                lat: lat,
+                lng: lng,
+                checkIn: checkIn,
+                checkOut: checkOut,
+                stationId: stationId,
+                maxBudget: maxBudget,
+              );
+              launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+            },
+            icon: const Icon(Icons.open_in_new, size: 16),
+            label: Text(
+              tr(
+                locale,
+                ja: '$displayNameで検索',
+                ko: '$displayName에서 검색',
+                en: 'Search on $displayName',
+                zh: '在$displayName上搜索',
+                fr: 'Rechercher sur $displayName',
+              ),
+              style: const TextStyle(fontSize: 14),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: buttonColor,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 14),
+            ),
           ),
         ),
-      ),
-      const SizedBox(height: 6),
-      Center(child: Text(
-        tr(locale, ja: '提供: $providerName', ko: '제공: $providerName', en: 'Powered by $providerName', zh: '由 $providerName 提供', fr: 'Fourni par $providerName'),
-        style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground),
-      )),
-    ]);
+        const SizedBox(height: 6),
+        Center(
+          child: Text(
+            tr(
+              locale,
+              ja: '提供: $displayName',
+              ko: '제공: $displayName',
+              en: 'Powered by $displayName',
+              zh: '由 $displayName 提供',
+              fr: 'Fourni par $displayName',
+            ),
+            style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground),
+          ),
+        ),
+      ],
+    );
   }
 }
 
@@ -1754,12 +3385,26 @@ class _RankBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = [Colors.amber.shade700, Colors.grey.shade500, Colors.brown.shade400];
+    final colors = [
+      Colors.amber.shade700,
+      Colors.grey.shade500,
+      Colors.brown.shade400,
+    ];
     final color = rank <= 3 ? colors[rank - 1] : AppTheme.border;
     return Container(
-      width: 32, height: 32,
+      width: 32,
+      height: 32,
       decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-      child: Center(child: Text('$rank', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14))),
+      child: Center(
+        child: Text(
+          '$rank',
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+          ),
+        ),
+      ),
     );
   }
 }

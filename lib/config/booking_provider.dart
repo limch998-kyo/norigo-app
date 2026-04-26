@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -7,10 +6,11 @@ import 'package:flutter/services.dart';
 /// Matches web app logic:
 ///   - Japan region + ja locale → Jalan (via /api/out server redirect)
 ///   - Korea region OR ko locale → Agoda
-///   - Fallback → Booking.com
+///   - Fallback → Expedia Group providers
 class BookingProvider {
   /// Agoda area/poi IDs loaded from bundled data
   static Map<String, dynamic>? _agodaAreaIds;
+
   /// Jalan station codes loaded from bundled data
   static Map<String, dynamic>? _jalanCodes;
 
@@ -24,7 +24,9 @@ class BookingProvider {
   static Future<void> _doLoad() async {
     if (_agodaAreaIds != null) return;
     try {
-      final raw = await rootBundle.loadString('assets/data/agoda-area-ids.json');
+      final raw = await rootBundle.loadString(
+        'assets/data/agoda-area-ids.json',
+      );
       _agodaAreaIds = jsonDecode(raw) as Map<String, dynamic>;
       debugPrint('Agoda area IDs loaded: ${_agodaAreaIds!.length} entries');
     } catch (e) {
@@ -32,7 +34,9 @@ class BookingProvider {
       _agodaAreaIds = {};
     }
     try {
-      final raw = await rootBundle.loadString('assets/data/station-jalan-codes.json');
+      final raw = await rootBundle.loadString(
+        'assets/data/station-jalan-codes.json',
+      );
       _jalanCodes = jsonDecode(raw) as Map<String, dynamic>;
       debugPrint('Jalan codes loaded: ${_jalanCodes!.length} entries');
     } catch (e) {
@@ -61,8 +65,9 @@ class BookingProvider {
     return 'Expedia';
   }
 
-  /// EN/FR/ZH: returns 3 provider buttons (Expedia + Hotels.com + Booking.com)
-  static List<({String name, String url, Color color, Color textColor})> buildMultiProviderUrls({
+  /// EN/FR/ZH: returns provider buttons matching the web result page.
+  static List<({String name, String url, Color color, Color textColor})>
+  buildMultiProviderUrls({
     required String locale,
     required String region,
     required String stationName,
@@ -71,12 +76,49 @@ class BookingProvider {
     String? checkIn,
     String? checkOut,
     String? maxBudget,
+    String? stationId,
   }) {
     if (locale == 'ja' || locale == 'ko') return [];
 
-    final expediaUrl = _buildExpediaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, maxBudget: maxBudget);
-    final hotelsComUrl = _buildHotelsComUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, maxBudget: maxBudget);
-    final bookingUrl = _buildBookingUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, maxBudget: maxBudget);
+    final expediaUrl = _buildExpediaUrl(
+      stationName,
+      locale,
+      checkIn,
+      checkOut,
+      lat: lat,
+      lng: lng,
+      region: region,
+      maxBudget: maxBudget,
+    );
+    final hotelsComUrl = _buildHotelsComUrl(
+      stationName,
+      locale,
+      checkIn,
+      checkOut,
+      lat: lat,
+      lng: lng,
+      region: region,
+      maxBudget: maxBudget,
+    );
+    final bookingUrl = _buildBookingUrl(
+      stationName,
+      locale,
+      checkIn,
+      checkOut,
+      lat: lat,
+      lng: lng,
+      maxBudget: maxBudget,
+    );
+    final agodaUrl = _buildAgodaUrl(
+      stationName,
+      locale,
+      checkIn,
+      checkOut,
+      lat: lat,
+      lng: lng,
+      stationId: stationId,
+      region: region,
+    );
 
     return [
       (
@@ -89,6 +131,12 @@ class BookingProvider {
         name: 'Hotels.com',
         url: _wrapWithApiOut(hotelsComUrl, 'hotels_com'),
         color: const Color(0xFFD32F2F),
+        textColor: Colors.white,
+      ),
+      (
+        name: 'Agoda',
+        url: _wrapWithApiOut(agodaUrl, 'agoda', stationId: stationId),
+        color: const Color(0xFFF97316),
         textColor: Colors.white,
       ),
       (
@@ -108,7 +156,11 @@ class BookingProvider {
 
   /// Wrap URL via /api/out for server-side affiliate redirect (matching web)
   /// Uses Uri class to avoid double-encoding the url parameter
-  static String _wrapWithApiOut(String url, String provider, {String? stationId}) {
+  static String _wrapWithApiOut(
+    String url,
+    String provider, {
+    String? stationId,
+  }) {
     final params = <String, String>{
       'shopId': 'app',
       'url': url,
@@ -116,6 +168,65 @@ class BookingProvider {
     };
     if (stationId != null) params['stationId'] = stationId;
     return Uri.parse(_apiOutUrl).replace(queryParameters: params).toString();
+  }
+
+  /// Public wrapper for existing provider URLs returned by external APIs.
+  /// Returns an already wrapped URL unchanged to avoid nested /api/out redirects.
+  static String wrapOutboundUrl(
+    String url,
+    String provider, {
+    String? stationId,
+  }) {
+    final uri = Uri.tryParse(url);
+    if (uri != null && uri.host == 'norigo.app' && uri.path == '/api/out') {
+      return url;
+    }
+    return _wrapWithApiOut(url, provider, stationId: stationId);
+  }
+
+  /// Build and wrap an Agoda search URL for surfaces where Agoda is a
+  /// secondary option rather than the locale's primary provider.
+  static String buildAgodaSearchUrl({
+    required String locale,
+    required String region,
+    required String stationName,
+    double? lat,
+    double? lng,
+    String? checkIn,
+    String? checkOut,
+    String? stationId,
+  }) {
+    final agodaUrl = _buildAgodaUrl(
+      stationName,
+      locale,
+      checkIn,
+      checkOut,
+      lat: lat,
+      lng: lng,
+      stationId: stationId,
+      region: region,
+    );
+    return _wrapWithApiOut(agodaUrl, 'agoda', stationId: stationId);
+  }
+
+  /// Wrap a hotel-specific landing URL while preserving its source provider.
+  static String wrapHotelBookingUrl(String url, {String? stationId}) {
+    return wrapOutboundUrl(
+      url,
+      _providerForHotelUrl(url),
+      stationId: stationId,
+    );
+  }
+
+  static String _providerForHotelUrl(String url) {
+    final host = Uri.tryParse(url)?.host.toLowerCase() ?? '';
+    if (host.contains('agoda.')) return 'agoda';
+    if (host.contains('rakuten.')) return 'rakuten';
+    if (host.contains('jalan.net')) return 'jalan';
+    if (host.contains('booking.com')) return 'booking';
+    if (host.contains('hotels.com')) return 'hotels_com';
+    if (host.contains('expedia.')) return 'expedia';
+    return 'hotel';
   }
 
   /// Build a search URL for the booking provider
@@ -131,12 +242,38 @@ class BookingProvider {
     String? maxBudget,
   }) {
     if (_japanRegions.contains(region) && locale == 'ja') {
-      return _buildJalanUrl(stationName, checkIn, checkOut, stationId: stationId, maxBudget: maxBudget);
+      return _buildJalanUrl(
+        stationName,
+        checkIn,
+        checkOut,
+        stationId: stationId,
+        maxBudget: maxBudget,
+      );
     }
     if (_koreaRegions.contains(region) || locale == 'ko') {
-      return _buildAgodaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, stationId: stationId, region: region);
+      final agodaUrl = _buildAgodaUrl(
+        stationName,
+        locale,
+        checkIn,
+        checkOut,
+        lat: lat,
+        lng: lng,
+        stationId: stationId,
+        region: region,
+      );
+      return _wrapWithApiOut(agodaUrl, 'agoda', stationId: stationId);
     }
-    return _buildBookingUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
+    final expediaUrl = _buildExpediaUrl(
+      stationName,
+      locale,
+      checkIn,
+      checkOut,
+      lat: lat,
+      lng: lng,
+      region: region,
+      maxBudget: maxBudget,
+    );
+    return _wrapWithApiOut(expediaUrl, 'expedia', stationId: stationId);
   }
 
   /// Build a hotel-specific URL for the booking provider
@@ -156,30 +293,65 @@ class BookingProvider {
         final jalanUrl = '$_jalanBaseUrl/yad/stay/$hotelId.html';
         return _wrapWithApiOut(jalanUrl, 'jalan', stationId: stationId);
       }
-      return _buildJalanUrl(stationName, checkIn, checkOut, stationId: stationId);
+      return _buildJalanUrl(
+        stationName,
+        checkIn,
+        checkOut,
+        stationId: stationId,
+      );
     }
     if (_koreaRegions.contains(region) || locale == 'ko') {
       if (hotelId != null) {
-        return '$_agodaBaseUrl/hotel/$hotelId.html?cid=1922458';
+        final agodaUrl = '$_agodaBaseUrl/hotel/$hotelId.html?cid=1922458';
+        return _wrapWithApiOut(agodaUrl, 'agoda', stationId: stationId);
       }
-      return _buildAgodaUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng, region: region);
+      return buildSearchUrl(
+        locale: locale,
+        region: region,
+        stationName: stationName,
+        lat: lat,
+        lng: lng,
+        checkIn: checkIn,
+        checkOut: checkOut,
+        stationId: stationId,
+      );
     }
     if (hotelId != null) {
-      return '$_bookingBaseUrl/hotel/$hotelId.html?aid=2432111';
+      final bookingUrl = '$_bookingBaseUrl/hotel/$hotelId.html?aid=2432111';
+      return _wrapWithApiOut(bookingUrl, 'booking', stationId: stationId);
     }
-    return _buildBookingUrl(stationName, locale, checkIn, checkOut, lat: lat, lng: lng);
+    return buildSearchUrl(
+      locale: locale,
+      region: region,
+      stationName: stationName,
+      lat: lat,
+      lng: lng,
+      checkIn: checkIn,
+      checkOut: checkOut,
+      stationId: stationId,
+    );
   }
 
   /// Build a Tabelog URL for restaurant search
   static String buildTabelogUrl(String stationName, String locale) {
-    final domain = locale == 'ko' ? 'kr.tabelog.com' : locale == 'ja' ? 'tabelog.com' : 'en.tabelog.com';
+    final domain = locale == 'ko'
+        ? 'kr.tabelog.com'
+        : locale == 'ja'
+        ? 'tabelog.com'
+        : 'en.tabelog.com';
     final encoded = Uri.encodeComponent(stationName);
     final tabelogUrl = 'https://$domain/rstLst/?vs=1&sk=$encoded';
     return _wrapWithApiOut(tabelogUrl, 'tabelog');
   }
 
   /// Build Jalan URL — uses station-specific page if code available (matching web)
-  static String _buildJalanUrl(String query, String? checkIn, String? checkOut, {String? stationId, String? maxBudget}) {
+  static String _buildJalanUrl(
+    String query,
+    String? checkIn,
+    String? checkOut, {
+    String? stationId,
+    String? maxBudget,
+  }) {
     // Try station-specific URL (matching web's buildJalanSearchUrl)
     if (stationId != null && _jalanCodes != null) {
       final code = _jalanCodes![stationId];
@@ -198,7 +370,9 @@ class BookingProvider {
         if (checkIn != null) {
           final parts = checkIn.split('-');
           if (parts.length == 3) {
-            params.add('stayYear=${parts[0]}&stayMonth=${parts[1]}&stayDay=${parts[2]}');
+            params.add(
+              'stayYear=${parts[0]}&stayMonth=${parts[1]}&stayDay=${parts[2]}',
+            );
           }
         }
         if (checkIn != null && checkOut != null) {
@@ -216,26 +390,34 @@ class BookingProvider {
     }
 
     // Fallback: keyword search
-    final params = <String, String>{
-      'screenId': 'UWW3001',
-      'keyword': query,
-    };
+    final params = <String, String>{'screenId': 'UWW3001', 'keyword': query};
     if (checkIn != null) params['dateUndecided'] = '0';
     final jalanUrl = '$_jalanBaseUrl/yad/list.html?${_encodeParams(params)}';
     return _wrapWithApiOut(jalanUrl, 'jalan', stationId: stationId);
   }
 
-  static String _buildAgodaUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng, String? stationId, String? region}) {
+  static String _buildAgodaUrl(
+    String query,
+    String locale,
+    String? checkIn,
+    String? checkOut, {
+    double? lat,
+    double? lng,
+    String? stationId,
+    String? region,
+  }) {
     final langCode = switch (locale) {
       'ko' => 'ko-kr',
       'zh' => 'zh-cn',
       'ja' => 'ja-jp',
+      'fr' => 'fr-fr',
       _ => 'en-us',
     };
     const cid = '1922458';
 
     if (checkIn != null && checkOut != null) {
-      var base = '$_agodaBaseUrl/$langCode/search?cid=$cid&checkIn=$checkIn&checkOut=$checkOut&rooms=1&adults=2';
+      var base =
+          '$_agodaBaseUrl/$langCode/search?cid=$cid&checkIn=$checkIn&checkOut=$checkOut&rooms=1&adults=2';
 
       if (stationId != null && stationId.isNotEmpty && _agodaAreaIds != null) {
         final entry = _agodaAreaIds![stationId];
@@ -247,14 +429,23 @@ class BookingProvider {
         }
       }
 
-      if (lat != null && lng != null) return '$base&latitude=$lat&longitude=$lng';
+      if (lat != null && lng != null)
+        return '$base&latitude=$lat&longitude=$lng';
       return '$base&textToSearch=${Uri.encodeComponent(query)}';
     }
 
     return '$_agodaBaseUrl/$langCode/search?cid=$cid&textToSearch=${Uri.encodeComponent(query)}';
   }
 
-  static String _buildBookingUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng, String? maxBudget}) {
+  static String _buildBookingUrl(
+    String query,
+    String locale,
+    String? checkIn,
+    String? checkOut, {
+    double? lat,
+    double? lng,
+    String? maxBudget,
+  }) {
     final langCode = switch (locale) {
       'ko' => 'ko',
       'zh' => 'zh-cn',
@@ -283,12 +474,54 @@ class BookingProvider {
   }
 
   /// Build destination string for Expedia/Hotels.com
-  /// CJK characters → fallback to city name
-  static String _expediaDestination(String query, double? lng) {
-    final hasCjk = RegExp(r'[\u3000-\u9FFF\uF900-\uFAFF\uAC00-\uD7AF]').hasMatch(query);
-    final isKorea = lng != null && lng < 130;
-    final name = hasCjk ? (isKorea ? 'Seoul' : 'Tokyo') : query;
+  /// CJK station names are mapped to a city-level destination by region/coords.
+  static String _expediaDestination(
+    String query, {
+    double? lat,
+    double? lng,
+    String? region,
+  }) {
+    final hasCjk = RegExp(
+      r'[\u3000-\u9FFF\uF900-\uFAFF\uAC00-\uD7AF]',
+    ).hasMatch(query);
+    final isKorea =
+        _koreaRegions.contains(region) || (lng != null && lng < 130);
+    final name = hasCjk
+        ? _expediaFallbackCity(
+            region: region,
+            lat: lat,
+            lng: lng,
+            isKorea: isKorea,
+          )
+        : query;
     return '$name Station, ${isKorea ? "South Korea" : "Japan"}';
+  }
+
+  static String _expediaFallbackCity({
+    String? region,
+    double? lat,
+    double? lng,
+    required bool isKorea,
+  }) {
+    if (isKorea) {
+      if (region == 'busan' || (lat != null && lat < 36)) return 'Busan';
+      return 'Seoul';
+    }
+
+    switch (region) {
+      case 'kansai':
+        return 'Osaka';
+      case 'kyushu':
+        return 'Fukuoka';
+      case 'kanto':
+        return 'Tokyo';
+    }
+
+    if (lng != null) {
+      if (lng < 132.5) return 'Fukuoka';
+      if (lng < 137) return 'Osaka';
+    }
+    return 'Tokyo';
   }
 
   static const _jpyToUsd = 150;
@@ -302,7 +535,16 @@ class BookingProvider {
     return co.difference(ci).inDays.clamp(1, 30);
   }
 
-  static String _buildExpediaUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng, String? maxBudget}) {
+  static String _buildExpediaUrl(
+    String query,
+    String locale,
+    String? checkIn,
+    String? checkOut, {
+    double? lat,
+    double? lng,
+    String? region,
+    String? maxBudget,
+  }) {
     final domain = switch (locale) {
       'ko' => 'expedia.co.kr',
       'ja' => 'expedia.co.jp',
@@ -310,8 +552,14 @@ class BookingProvider {
       _ => 'expedia.com',
     };
     const affcid = 'US.DIRECT.PHG.1011l426920.1100l68075';
-    final destination = _expediaDestination(query, lng);
-    var url = 'https://www.$domain/Hotel-Search?destination=${Uri.encodeComponent(destination)}';
+    final destination = _expediaDestination(
+      query,
+      lat: lat,
+      lng: lng,
+      region: region,
+    );
+    var url =
+        'https://www.$domain/Hotel-Search?destination=${Uri.encodeComponent(destination)}';
     if (checkIn != null) url += '&startDate=$checkIn';
     if (checkOut != null) url += '&endDate=$checkOut';
     // Expedia price filter = total stay price (per-night × nights), JPY → USD
@@ -319,7 +567,9 @@ class BookingProvider {
       final range = parseBudgetRange(maxBudget);
       final nights = _calcNights(checkIn, checkOut);
       final minUsd = (range.min * nights / _jpyToUsd).round();
-      final maxUsd = range.max >= 999999999 ? 10000 : (range.max * nights / _jpyToUsd).round();
+      final maxUsd = range.max >= 999999999
+          ? 10000
+          : (range.max * nights / _jpyToUsd).round();
       if (minUsd > 0) url += '&price=$minUsd';
       url += '&price=$maxUsd';
     }
@@ -327,7 +577,16 @@ class BookingProvider {
     return url;
   }
 
-  static String _buildHotelsComUrl(String query, String locale, String? checkIn, String? checkOut, {double? lat, double? lng, String? maxBudget}) {
+  static String _buildHotelsComUrl(
+    String query,
+    String locale,
+    String? checkIn,
+    String? checkOut, {
+    double? lat,
+    double? lng,
+    String? region,
+    String? maxBudget,
+  }) {
     // Use locale subdomain + siteid + locale + currency=USD to force USD pricing
     // (matching web app's working URL pattern)
     // Always use www.hotels.com (matching web app)
@@ -339,15 +598,23 @@ class BookingProvider {
       _ => (domain: 'www.hotels.com', siteId: '300000034', loc: 'en_US'),
     };
     const affcid = 'US.DIRECT.PHG.1011l426920.1100l68075';
-    final destination = _expediaDestination(query, lng);
-    var url = 'https://${domainLocale.domain}/Hotel-Search?siteid=${domainLocale.siteId}&locale=${domainLocale.loc}&currency=USD&destination=${Uri.encodeComponent(destination)}';
+    final destination = _expediaDestination(
+      query,
+      lat: lat,
+      lng: lng,
+      region: region,
+    );
+    var url =
+        'https://${domainLocale.domain}/Hotel-Search?siteid=${domainLocale.siteId}&locale=${domainLocale.loc}&currency=USD&destination=${Uri.encodeComponent(destination)}';
     if (checkIn != null) url += '&startDate=$checkIn';
     if (checkOut != null) url += '&endDate=$checkOut';
     // Hotels.com price filter = per-night price, JPY → USD (nights=1)
     if (maxBudget != null && maxBudget != 'any') {
       final range = parseBudgetRange(maxBudget);
       final minUsd = (range.min / _jpyToUsd).round();
-      final maxUsd = range.max >= 999999999 ? 10000 : (range.max / _jpyToUsd).round();
+      final maxUsd = range.max >= 999999999
+          ? 10000
+          : (range.max / _jpyToUsd).round();
       if (minUsd > 0) url += '&price=$minUsd';
       url += '&price=$maxUsd';
     }
@@ -359,17 +626,26 @@ class BookingProvider {
   static ({int min, int max}) parseBudgetRange(String? key) {
     if (key == null || key == 'any') return (min: 0, max: 999999999);
     final underMatch = RegExp(r'^under(\d+)$').firstMatch(key);
-    if (underMatch != null) return (min: 0, max: int.parse(underMatch.group(1)!));
+    if (underMatch != null)
+      return (min: 0, max: int.parse(underMatch.group(1)!));
     final overMatch = RegExp(r'^over(\d+)$').firstMatch(key);
-    if (overMatch != null) return (min: int.parse(overMatch.group(1)!), max: 999999999);
+    if (overMatch != null)
+      return (min: int.parse(overMatch.group(1)!), max: 999999999);
     final rangeMatch = RegExp(r'^(\d+)-(\d+)$').firstMatch(key);
-    if (rangeMatch != null) return (min: int.parse(rangeMatch.group(1)!), max: int.parse(rangeMatch.group(2)!));
+    if (rangeMatch != null)
+      return (
+        min: int.parse(rangeMatch.group(1)!),
+        max: int.parse(rangeMatch.group(2)!),
+      );
     return (min: 0, max: 999999999);
   }
 
   static String _encodeParams(Map<String, String> params) {
     return params.entries
-        .map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+        .map(
+          (e) =>
+              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}',
+        )
         .join('&');
   }
 

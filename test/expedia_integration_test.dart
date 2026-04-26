@@ -7,7 +7,7 @@ String _innerUrl(String wrappedUrl) {
   return uri.queryParameters['url'] ?? wrappedUrl;
 }
 
-/// End-to-end tests for Expedia + Hotels.com + Booking.com integration.
+/// End-to-end tests for Expedia + Hotels.com + Agoda + Booking.com integration.
 /// Validates every item in PROMPT_EXPEDIA_INTEGRATION.md checklist.
 void main() {
   group('parseBudgetRange', () {
@@ -37,94 +37,195 @@ void main() {
   });
 
   group('Provider routing by locale', () {
-    test('EN → 3 providers (Expedia, Hotels.com, Booking.com)', () {
+    test('EN → 4 providers (Expedia, Hotels.com, Agoda, Booking.com)', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70, checkIn: '2026-04-01', checkOut: '2026-04-04',
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+        checkIn: '2026-04-01',
+        checkOut: '2026-04-04',
       );
-      expect(providers.length, 3);
+      expect(providers.length, 4);
       expect(providers[0].name, 'Expedia');
       expect(providers[1].name, 'Hotels.com');
-      expect(providers[2].name, 'Booking.com');
+      expect(providers[2].name, 'Agoda');
+      expect(providers[3].name, 'Booking.com');
     });
 
-    test('FR → 3 providers (same as EN)', () {
+    test('FR → 4 providers (same as EN)', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'fr', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70, checkIn: '2026-04-01', checkOut: '2026-04-04',
+        locale: 'fr',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+        checkIn: '2026-04-01',
+        checkOut: '2026-04-04',
       );
-      expect(providers.length, 3);
+      expect(providers.length, 4);
     });
 
-    test('ZH → 3 providers (same as EN)', () {
+    test('ZH → 4 providers (same as EN)', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'zh', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70, checkIn: '2026-04-01', checkOut: '2026-04-04',
+        locale: 'zh',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+        checkIn: '2026-04-01',
+        checkOut: '2026-04-04',
       );
-      expect(providers.length, 3);
+      expect(providers.length, 4);
     });
 
     test('JA → empty (uses Jalan)', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'ja', region: 'kanto', stationName: '新宿',
-        lat: 35.69, lng: 139.70, checkIn: '2026-04-01', checkOut: '2026-04-04',
+        locale: 'ja',
+        region: 'kanto',
+        stationName: '新宿',
+        lat: 35.69,
+        lng: 139.70,
+        checkIn: '2026-04-01',
+        checkOut: '2026-04-04',
       );
       expect(providers, isEmpty);
     });
 
     test('KO → empty (uses Agoda)', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'ko', region: 'seoul', stationName: '강남',
-        lat: 37.50, lng: 127.03, checkIn: '2026-04-01', checkOut: '2026-04-04',
+        locale: 'ko',
+        region: 'seoul',
+        stationName: '강남',
+        lat: 37.50,
+        lng: 127.03,
+        checkIn: '2026-04-01',
+        checkOut: '2026-04-04',
       );
       expect(providers, isEmpty);
     });
   });
 
   group('Brand colors', () {
-    test('Expedia yellow, Hotels.com red, Booking.com blue', () {
+    test('Expedia yellow, Hotels.com red, Agoda orange, Booking.com blue', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70,
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
       );
       expect(providers[0].color.value, 0xFFFEC84C); // Expedia yellow
       expect(providers[0].textColor.value, 0xFF202843); // navy text
       expect(providers[1].color.value, 0xFFD32F2F); // Hotels.com red
-      expect(providers[2].color.value, 0xFF003B95); // Booking.com blue
+      expect(providers[2].color.value, 0xFFF97316); // Agoda orange
+      expect(providers[3].color.value, 0xFF003B95); // Booking.com blue
+    });
+  });
+
+  group('Outbound URL wrapping', () {
+    test('Hotel landing URLs are wrapped through /api/out', () {
+      const landingUrl =
+          'https://www.agoda.com/partners/partnersearch.aspx?hid=123&cid=1922458';
+      final wrapped = BookingProvider.wrapHotelBookingUrl(
+        landingUrl,
+        stationId: 'shinjuku',
+      );
+      final uri = Uri.parse(wrapped);
+
+      expect(uri.host, 'norigo.app');
+      expect(uri.path, '/api/out');
+      expect(uri.queryParameters['shopId'], 'app');
+      expect(uri.queryParameters['provider'], 'agoda');
+      expect(uri.queryParameters['stationId'], 'shinjuku');
+      expect(uri.queryParameters['url'], landingUrl);
+    });
+
+    test('Already wrapped outbound URLs are not double-wrapped', () {
+      const wrappedUrl =
+          'https://norigo.app/api/out?shopId=app&provider=agoda&url=https%3A%2F%2Fwww.agoda.com%2Fhotel';
+
+      expect(
+        BookingProvider.wrapHotelBookingUrl(wrappedUrl, stationId: 'shinjuku'),
+        wrappedUrl,
+      );
     });
   });
 
   group('Affiliate parameters', () {
     test('Expedia URL contains affcid', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70,
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
       );
-      expect(_innerUrl(providers[0].url), contains('affcid=US.DIRECT.PHG.1011l426920.1100l68075'));
+      expect(
+        _innerUrl(providers[0].url),
+        contains('affcid=US.DIRECT.PHG.1011l426920.1100l68075'),
+      );
     });
 
     test('Hotels.com URL contains affcid', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70,
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
       );
-      expect(_innerUrl(providers[1].url), contains('affcid=US.DIRECT.PHG.1011l426920.1100l68075'));
+      expect(
+        _innerUrl(providers[1].url),
+        contains('affcid=US.DIRECT.PHG.1011l426920.1100l68075'),
+      );
     });
 
     test('Booking.com URL contains aid', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70,
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
       );
-      expect(_innerUrl(providers[2].url), contains('aid=2432111'));
+      expect(_innerUrl(providers[3].url), contains('aid=2432111'));
+    });
+
+    test('Agoda URL contains cid', () {
+      final providers = BookingProvider.buildMultiProviderUrls(
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+      );
+      final uri = Uri.parse(providers[2].url);
+      expect(uri.queryParameters['provider'], 'agoda');
+      expect(_innerUrl(providers[2].url), contains('cid=1922458'));
+    });
+
+    test('Agoda URL uses locale-specific language path', () {
+      final providers = BookingProvider.buildMultiProviderUrls(
+        locale: 'fr',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+      );
+      expect(_innerUrl(providers[2].url), contains('/fr-fr/search'));
     });
   });
 
   group('CJK station name fallback', () {
     test('Japanese name → Tokyo Station, Japan', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: '新宿',
-        lat: 35.69, lng: 139.70,
+        locale: 'en',
+        region: 'kanto',
+        stationName: '新宿',
+        lat: 35.69,
+        lng: 139.70,
       );
       expect(_innerUrl(providers[0].url), contains('Tokyo%20Station'));
       expect(_innerUrl(providers[0].url), contains('Japan'));
@@ -132,17 +233,59 @@ void main() {
 
     test('Korean name → Seoul Station, South Korea', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: '강남',
-        lat: 37.50, lng: 127.03,
+        locale: 'en',
+        region: 'kanto',
+        stationName: '강남',
+        lat: 37.50,
+        lng: 127.03,
       );
       expect(_innerUrl(providers[0].url), contains('Seoul%20Station'));
       expect(_innerUrl(providers[0].url), contains('South%20Korea'));
     });
 
+    test('Kansai Japanese name → Osaka Station, Japan', () {
+      final providers = BookingProvider.buildMultiProviderUrls(
+        locale: 'en',
+        region: 'kansai',
+        stationName: '大阪',
+        lat: 34.70,
+        lng: 135.50,
+      );
+      expect(_innerUrl(providers[0].url), contains('Osaka%20Station'));
+      expect(_innerUrl(providers[0].url), contains('Japan'));
+    });
+
+    test('Kyushu Japanese name → Fukuoka Station, Japan', () {
+      final providers = BookingProvider.buildMultiProviderUrls(
+        locale: 'en',
+        region: 'kyushu',
+        stationName: '博多',
+        lat: 33.59,
+        lng: 130.42,
+      );
+      expect(_innerUrl(providers[0].url), contains('Fukuoka%20Station'));
+      expect(_innerUrl(providers[0].url), contains('Japan'));
+    });
+
+    test('Busan Korean name → Busan Station, South Korea', () {
+      final providers = BookingProvider.buildMultiProviderUrls(
+        locale: 'en',
+        region: 'busan',
+        stationName: '부산',
+        lat: 35.18,
+        lng: 129.07,
+      );
+      expect(_innerUrl(providers[0].url), contains('Busan%20Station'));
+      expect(_innerUrl(providers[0].url), contains('South%20Korea'));
+    });
+
     test('English name → used as-is', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70,
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
       );
       expect(_innerUrl(providers[0].url), contains('Shinjuku%20Station'));
     });
@@ -151,8 +294,13 @@ void main() {
   group('Date parameters', () {
     test('Expedia: startDate/endDate', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70, checkIn: '2026-04-01', checkOut: '2026-04-04',
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+        checkIn: '2026-04-01',
+        checkOut: '2026-04-04',
       );
       expect(_innerUrl(providers[0].url), contains('startDate=2026-04-01'));
       expect(_innerUrl(providers[0].url), contains('endDate=2026-04-04'));
@@ -160,8 +308,13 @@ void main() {
 
     test('Hotels.com: startDate/endDate', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70, checkIn: '2026-04-01', checkOut: '2026-04-04',
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+        checkIn: '2026-04-01',
+        checkOut: '2026-04-04',
       );
       expect(_innerUrl(providers[1].url), contains('startDate=2026-04-01'));
       expect(_innerUrl(providers[1].url), contains('endDate=2026-04-04'));
@@ -169,19 +322,27 @@ void main() {
 
     test('Booking.com: checkin/checkout', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70, checkIn: '2026-04-01', checkOut: '2026-04-04',
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+        checkIn: '2026-04-01',
+        checkOut: '2026-04-04',
       );
-      expect(_innerUrl(providers[2].url), contains('checkin=2026-04-01'));
-      expect(_innerUrl(providers[2].url), contains('checkout=2026-04-04'));
+      expect(_innerUrl(providers[3].url), contains('checkin=2026-04-01'));
+      expect(_innerUrl(providers[3].url), contains('checkout=2026-04-04'));
     });
   });
 
   group('Hotels.com currency=USD', () {
     test('URL contains currency=USD', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70,
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
       );
       expect(_innerUrl(providers[1].url), contains('currency=USD'));
     });
@@ -192,9 +353,13 @@ void main() {
 
     test('under10000: Expedia price=200, Hotels price=67', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70,
-        checkIn: '2026-04-01', checkOut: '2026-04-04',
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+        checkIn: '2026-04-01',
+        checkOut: '2026-04-04',
         maxBudget: 'under10000',
       );
       final expediaUrl = _innerUrl(providers[0].url);
@@ -209,74 +374,99 @@ void main() {
       expect(hotelsUrl, contains('price=67'));
     });
 
-    test('10000-30000: Expedia price=200&price=600, Hotels price=67&price=200', () {
-      final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70,
-        checkIn: '2026-04-01', checkOut: '2026-04-04',
-        maxBudget: '10000-30000',
-      );
-      final expediaUrl = _innerUrl(providers[0].url);
-      final hotelsUrl = _innerUrl(providers[1].url);
+    test(
+      '10000-30000: Expedia price=200&price=600, Hotels price=67&price=200',
+      () {
+        final providers = BookingProvider.buildMultiProviderUrls(
+          locale: 'en',
+          region: 'kanto',
+          stationName: 'Shinjuku',
+          lat: 35.69,
+          lng: 139.70,
+          checkIn: '2026-04-01',
+          checkOut: '2026-04-04',
+          maxBudget: '10000-30000',
+        );
+        final expediaUrl = _innerUrl(providers[0].url);
+        final hotelsUrl = _innerUrl(providers[1].url);
 
-      // Expedia: min=10000*3/150=200, max=30000*3/150=600
-      expect(expediaUrl, contains('price=200'));
-      expect(expediaUrl, contains('price=600'));
+        // Expedia: min=10000*3/150=200, max=30000*3/150=600
+        expect(expediaUrl, contains('price=200'));
+        expect(expediaUrl, contains('price=600'));
 
-      // Hotels.com: min=10000/150=67, max=30000/150=200
-      expect(hotelsUrl, contains('price=67'));
-      expect(hotelsUrl, contains('price=200'));
+        // Hotels.com: min=10000/150=67, max=30000/150=200
+        expect(hotelsUrl, contains('price=67'));
+        expect(hotelsUrl, contains('price=200'));
 
-      print('✓ Expedia (total 3n): $expediaUrl');
-      print('✓ Hotels.com (per night): $hotelsUrl');
-    });
+        print('✓ Expedia (total 3n): $expediaUrl');
+        print('✓ Hotels.com (per night): $hotelsUrl');
+      },
+    );
 
-    test('30000-50000: Expedia price=600&price=1000, Hotels price=200&price=333', () {
-      final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70,
-        checkIn: '2026-04-01', checkOut: '2026-04-04',
-        maxBudget: '30000-50000',
-      );
-      final expediaUrl = _innerUrl(providers[0].url);
-      final hotelsUrl = _innerUrl(providers[1].url);
+    test(
+      '30000-50000: Expedia price=600&price=1000, Hotels price=200&price=333',
+      () {
+        final providers = BookingProvider.buildMultiProviderUrls(
+          locale: 'en',
+          region: 'kanto',
+          stationName: 'Shinjuku',
+          lat: 35.69,
+          lng: 139.70,
+          checkIn: '2026-04-01',
+          checkOut: '2026-04-04',
+          maxBudget: '30000-50000',
+        );
+        final expediaUrl = _innerUrl(providers[0].url);
+        final hotelsUrl = _innerUrl(providers[1].url);
 
-      // Expedia: min=30000*3/150=600, max=50000*3/150=1000
-      expect(expediaUrl, contains('price=600'));
-      expect(expediaUrl, contains('price=1000'));
+        // Expedia: min=30000*3/150=600, max=50000*3/150=1000
+        expect(expediaUrl, contains('price=600'));
+        expect(expediaUrl, contains('price=1000'));
 
-      // Hotels.com: min=30000/150=200, max=50000/150=333
-      expect(hotelsUrl, contains('price=200'));
-      expect(hotelsUrl, contains('price=333'));
-    });
+        // Hotels.com: min=30000/150=200, max=50000/150=333
+        expect(hotelsUrl, contains('price=200'));
+        expect(hotelsUrl, contains('price=333'));
+      },
+    );
 
-    test('over50000: Expedia price=1000&price=10000, Hotels price=333&price=10000', () {
-      final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70,
-        checkIn: '2026-04-01', checkOut: '2026-04-04',
-        maxBudget: 'over50000',
-      );
-      final expediaUrl = _innerUrl(providers[0].url);
-      final hotelsUrl = _innerUrl(providers[1].url);
+    test(
+      'over50000: Expedia price=1000&price=10000, Hotels price=333&price=10000',
+      () {
+        final providers = BookingProvider.buildMultiProviderUrls(
+          locale: 'en',
+          region: 'kanto',
+          stationName: 'Shinjuku',
+          lat: 35.69,
+          lng: 139.70,
+          checkIn: '2026-04-01',
+          checkOut: '2026-04-04',
+          maxBudget: 'over50000',
+        );
+        final expediaUrl = _innerUrl(providers[0].url);
+        final hotelsUrl = _innerUrl(providers[1].url);
 
-      // Expedia: min=50000*3/150=1000, max=Infinity→10000
-      expect(expediaUrl, contains('price=1000'));
-      expect(expediaUrl, contains('price=10000'));
+        // Expedia: min=50000*3/150=1000, max=Infinity→10000
+        expect(expediaUrl, contains('price=1000'));
+        expect(expediaUrl, contains('price=10000'));
 
-      // Hotels.com: min=50000/150=333, max=Infinity→10000
-      expect(hotelsUrl, contains('price=333'));
-      expect(hotelsUrl, contains('price=10000'));
+        // Hotels.com: min=50000/150=333, max=Infinity→10000
+        expect(hotelsUrl, contains('price=333'));
+        expect(hotelsUrl, contains('price=10000'));
 
-      print('✓ Expedia over50000: $expediaUrl');
-      print('✓ Hotels.com over50000: $hotelsUrl');
-    });
+        print('✓ Expedia over50000: $expediaUrl');
+        print('✓ Hotels.com over50000: $hotelsUrl');
+      },
+    );
 
     test('any budget → no price params', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70,
-        checkIn: '2026-04-01', checkOut: '2026-04-04',
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+        checkIn: '2026-04-01',
+        checkOut: '2026-04-04',
         maxBudget: 'any',
       );
       expect(_innerUrl(providers[0].url), isNot(contains('price=')));
@@ -285,9 +475,13 @@ void main() {
 
     test('null budget → no price params', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70,
-        checkIn: '2026-04-01', checkOut: '2026-04-04',
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+        checkIn: '2026-04-01',
+        checkOut: '2026-04-04',
       );
       expect(_innerUrl(providers[0].url), isNot(contains('price=')));
       expect(_innerUrl(providers[1].url), isNot(contains('price=')));
@@ -297,34 +491,60 @@ void main() {
   group('Budget: Booking.com (JPY nflt, per-room ×2)', () {
     test('10000-30000 → nflt=price=JPY-20000-60000-1', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70,
-        checkIn: '2026-04-01', checkOut: '2026-04-04',
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+        checkIn: '2026-04-01',
+        checkOut: '2026-04-04',
         maxBudget: '10000-30000',
       );
       // per-person×2: min=10000*2=20000, max=30000*2=60000
-      expect(_innerUrl(providers[2].url), contains('nflt=price%3DJPY-20000-60000-1'));
+      expect(
+        _innerUrl(providers[3].url),
+        contains('nflt=price%3DJPY-20000-60000-1'),
+      );
     });
 
     test('over50000 → nflt=price=JPY-100000-999999-1', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70,
-        checkIn: '2026-04-01', checkOut: '2026-04-04',
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+        checkIn: '2026-04-01',
+        checkOut: '2026-04-04',
         maxBudget: 'over50000',
       );
-      expect(_innerUrl(providers[2].url), contains('nflt=price%3DJPY-100000-999999-1'));
+      expect(
+        _innerUrl(providers[3].url),
+        contains('nflt=price%3DJPY-100000-999999-1'),
+      );
     });
   });
 
   group('Expedia domain per locale', () {
     test('EN → expedia.com', () {
-      final p = BookingProvider.buildMultiProviderUrls(locale: 'en', region: 'kanto', stationName: 'Shinjuku', lat: 35.69, lng: 139.70);
+      final p = BookingProvider.buildMultiProviderUrls(
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+      );
       expect(_innerUrl(p[0].url), contains('www.expedia.com'));
     });
 
     test('FR → expedia.fr', () {
-      final p = BookingProvider.buildMultiProviderUrls(locale: 'fr', region: 'kanto', stationName: 'Shinjuku', lat: 35.69, lng: 139.70);
+      final p = BookingProvider.buildMultiProviderUrls(
+        locale: 'fr',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+      );
       expect(_innerUrl(p[0].url), contains('www.expedia.fr'));
     });
   });
@@ -332,9 +552,13 @@ void main() {
   group('Budget: different night counts', () {
     test('1 night: 10000-30000 → Expedia price=67&price=200', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70,
-        checkIn: '2026-04-01', checkOut: '2026-04-02',
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+        checkIn: '2026-04-01',
+        checkOut: '2026-04-02',
         maxBudget: '10000-30000',
       );
       // 1 night: min=10000*1/150=67, max=30000*1/150=200
@@ -344,9 +568,13 @@ void main() {
 
     test('5 nights: 10000-30000 → Expedia price=333&price=1000', () {
       final providers = BookingProvider.buildMultiProviderUrls(
-        locale: 'en', region: 'kanto', stationName: 'Shinjuku',
-        lat: 35.69, lng: 139.70,
-        checkIn: '2026-04-01', checkOut: '2026-04-06',
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+        checkIn: '2026-04-01',
+        checkOut: '2026-04-06',
         maxBudget: '10000-30000',
       );
       // 5 nights: min=10000*5/150=333, max=30000*5/150=1000

@@ -179,7 +179,7 @@ void main() {
         maxBudget: state.maxBudget, // THIS is the key connection
       );
 
-      expect(providers.length, 3);
+      expect(providers.length, 4);
 
       // 4. Verify Expedia URL has total price (3 nights)
       final expediaUrl = _innerUrl(providers[0].url);
@@ -193,7 +193,7 @@ void main() {
       expect(hotelsUrl, contains('currency=USD'));
 
       // 6. Verify Booking.com URL has JPY price ×2
-      final bookingUrl = _innerUrl(providers[2].url);
+      final bookingUrl = _innerUrl(providers[3].url);
       expect(bookingUrl, contains('nflt=price%3DJPY-20000-60000-1'));
 
       print('✓ Full flow: maxBudget=${state.maxBudget}');

@@ -9,6 +9,9 @@ class AppTheme {
   /// Tracks current dark mode state. Updated by NorigoApp when theme changes.
   static bool isDark = false;
 
+  /// Disables splash effects for deterministic demo/integration captures.
+  static bool noSplash = false;
+
   // Light theme constants (used in lightTheme definition)
   static const Color _lightPrimaryBg = Color(0xFFEFF6FF);
   static const Color _lightBackground = Colors.white;
@@ -19,11 +22,13 @@ class AppTheme {
   static const Color _lightCard = Colors.white;
 
   // Dynamic getters — adapt to current theme mode
-  static Color get primaryBg => isDark ? const Color(0xFF1E3A5F) : _lightPrimaryBg;
+  static Color get primaryBg =>
+      isDark ? const Color(0xFF1E3A5F) : _lightPrimaryBg;
   static Color get background => isDark ? _darkBackground : _lightBackground;
   static Color get foreground => isDark ? _darkForeground : _lightForeground;
   static Color get muted => isDark ? _darkMuted : _lightMuted;
-  static Color get mutedForeground => isDark ? _darkMutedForeground : _lightMutedForeground;
+  static Color get mutedForeground =>
+      isDark ? _darkMutedForeground : _lightMutedForeground;
   static Color get border => isDark ? const Color(0xFF333333) : _lightBorder;
   static Color get card => isDark ? _darkCard : _lightCard;
   static const Color destructive = Color(0xFFEF4444);
@@ -85,7 +90,9 @@ class AppTheme {
           foregroundColor: primaryForeground,
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           textStyle: const TextStyle(
             fontFamily: _fontFamily,
             fontSize: 15,
@@ -98,7 +105,9 @@ class AppTheme {
           foregroundColor: _lightForeground,
           side: const BorderSide(color: _lightBorder),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           textStyle: const TextStyle(
             fontFamily: _fontFamily,
             fontSize: 15,
@@ -131,7 +140,10 @@ class AppTheme {
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: primary, width: 2),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: 12,
+        ),
         hintStyle: const TextStyle(
           fontFamily: _fontFamily,
           color: _lightMutedForeground,
@@ -142,8 +154,16 @@ class AppTheme {
         backgroundColor: _lightMuted,
         selectedColor: primary,
         secondarySelectedColor: primary,
-        labelStyle: const TextStyle(fontFamily: _fontFamily, fontSize: 13, color: _lightForeground),
-        secondaryLabelStyle: const TextStyle(fontFamily: _fontFamily, fontSize: 13, color: primaryForeground),
+        labelStyle: const TextStyle(
+          fontFamily: _fontFamily,
+          fontSize: 13,
+          color: _lightForeground,
+        ),
+        secondaryLabelStyle: const TextStyle(
+          fontFamily: _fontFamily,
+          fontSize: 13,
+          color: primaryForeground,
+        ),
         side: const BorderSide(color: _lightBorder),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
@@ -155,7 +175,11 @@ class AppTheme {
         unselectedItemColor: _lightMutedForeground,
         type: BottomNavigationBarType.fixed,
         elevation: 8,
-        selectedLabelStyle: TextStyle(fontFamily: _fontFamily, fontSize: 12, fontWeight: FontWeight.w500),
+        selectedLabelStyle: TextStyle(
+          fontFamily: _fontFamily,
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+        ),
         unselectedLabelStyle: TextStyle(fontFamily: _fontFamily, fontSize: 12),
       ),
       dividerTheme: const DividerThemeData(color: _lightBorder, thickness: 1),
@@ -235,7 +259,9 @@ class AppTheme {
           foregroundColor: primaryForeground,
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           textStyle: const TextStyle(
             fontFamily: _fontFamily,
             fontSize: 15,
@@ -248,7 +274,9 @@ class AppTheme {
           foregroundColor: _darkForeground,
           side: const BorderSide(color: _darkBorder),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           textStyle: const TextStyle(
             fontFamily: _fontFamily,
             fontSize: 15,
@@ -281,7 +309,10 @@ class AppTheme {
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: primary, width: 2),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: 12,
+        ),
         hintStyle: const TextStyle(
           fontFamily: _fontFamily,
           color: _darkMutedForeground,
@@ -292,8 +323,16 @@ class AppTheme {
         backgroundColor: _darkMuted,
         selectedColor: primary,
         secondarySelectedColor: primary,
-        labelStyle: const TextStyle(fontFamily: _fontFamily, fontSize: 13, color: _darkForeground),
-        secondaryLabelStyle: const TextStyle(fontFamily: _fontFamily, fontSize: 13, color: primaryForeground),
+        labelStyle: const TextStyle(
+          fontFamily: _fontFamily,
+          fontSize: 13,
+          color: _darkForeground,
+        ),
+        secondaryLabelStyle: const TextStyle(
+          fontFamily: _fontFamily,
+          fontSize: 13,
+          color: primaryForeground,
+        ),
         side: const BorderSide(color: _darkBorder),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 0),
@@ -305,7 +344,11 @@ class AppTheme {
         unselectedItemColor: _darkMutedForeground,
         type: BottomNavigationBarType.fixed,
         elevation: 8,
-        selectedLabelStyle: TextStyle(fontFamily: _fontFamily, fontSize: 12, fontWeight: FontWeight.w500),
+        selectedLabelStyle: TextStyle(
+          fontFamily: _fontFamily,
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+        ),
         unselectedLabelStyle: TextStyle(fontFamily: _fontFamily, fontSize: 12),
       ),
       dividerTheme: const DividerThemeData(color: _darkBorder, thickness: 1),
