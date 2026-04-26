@@ -135,18 +135,29 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
     final filled = state.filledStations;
     if (filled.length < 2) return;
 
-    state = state.copyWith(isLoading: true, clearError: true, clearResult: true);
+    state = state.copyWith(
+      isLoading: true,
+      clearError: true,
+      clearResult: true,
+    );
 
-    // Track search event (matches web search)
     final tracking = _ref.read(trackingServiceProvider);
-    tracking.trackEvent('search', payload: {
+    final searchPayload = <String, dynamic>{
       'participantCount': filled.length,
+      'stationIds': filled.map((s) => s.id).toList(),
       'stations': filled.map((s) => s.name).toList(),
       'mode': state.mode,
       'category': state.category,
       'budget': state.budget,
+      'options': state.options,
       'region': state.region,
-    }, path: '/search');
+    };
+    tracking.trackEvent(
+      'meetup_search_started',
+      payload: searchPayload,
+      path: '/search',
+    );
+    tracking.trackEvent('search', payload: searchPayload, path: '/search');
 
     try {
       final api = _ref.read(apiClientProvider);
@@ -161,11 +172,28 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
         locale: locale,
       );
       state = state.copyWith(result: result, isLoading: false);
+      tracking.trackEvent(
+        'meetup_search_completed',
+        payload: {
+          ...searchPayload,
+          'resultCount': result.stations.length,
+          'topStationId': result.stations.firstOrNull?.station.id,
+          'topStationName': result.stations.firstOrNull?.station.name,
+        },
+        path: '/result',
+      );
     } catch (e) {
-      final msg = e.toString().contains('SocketException') || e.toString().contains('ConnectionTimeout')
+      final msg =
+          e.toString().contains('SocketException') ||
+              e.toString().contains('ConnectionTimeout')
           ? 'network_error'
           : 'search_error';
       state = state.copyWith(error: msg, isLoading: false);
+      tracking.trackEvent(
+        'meetup_search_failed',
+        payload: {...searchPayload, 'error': msg},
+        path: '/search',
+      );
     }
   }
 
@@ -181,5 +209,5 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
 
 final meetupSearchProvider =
     StateNotifierProvider<MeetupSearchNotifier, MeetupSearchState>((ref) {
-  return MeetupSearchNotifier(ref);
-});
+      return MeetupSearchNotifier(ref);
+    });

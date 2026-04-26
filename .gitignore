@@ -54,5 +54,11 @@ PROMPT_*.md
 *.png
 
 # Fastlane secrets
+fastlane/api_key.json
 fastlane/play-store-key.json
 fastlane/report.xml
+
+# Local signing credentials
+android/key.properties
+android/app/upload-keystore.jks
+*.jks
