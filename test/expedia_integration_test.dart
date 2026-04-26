@@ -7,7 +7,7 @@ String _innerUrl(String wrappedUrl) {
   return uri.queryParameters['url'] ?? wrappedUrl;
 }
 
-/// End-to-end tests for Expedia + Hotels.com + Booking.com integration.
+/// End-to-end tests for Expedia + Hotels.com + Agoda + Booking.com integration.
 /// Validates every item in PROMPT_EXPEDIA_INTEGRATION.md checklist.
 void main() {
   group('parseBudgetRange', () {
@@ -37,7 +37,7 @@ void main() {
   });
 
   group('Provider routing by locale', () {
-    test('EN → 3 providers (Expedia, Hotels.com, Booking.com)', () {
+    test('EN → 4 providers (Expedia, Hotels.com, Agoda, Booking.com)', () {
       final providers = BookingProvider.buildMultiProviderUrls(
         locale: 'en',
         region: 'kanto',
@@ -47,13 +47,14 @@ void main() {
         checkIn: '2026-04-01',
         checkOut: '2026-04-04',
       );
-      expect(providers.length, 3);
+      expect(providers.length, 4);
       expect(providers[0].name, 'Expedia');
       expect(providers[1].name, 'Hotels.com');
-      expect(providers[2].name, 'Booking.com');
+      expect(providers[2].name, 'Agoda');
+      expect(providers[3].name, 'Booking.com');
     });
 
-    test('FR → 3 providers (same as EN)', () {
+    test('FR → 4 providers (same as EN)', () {
       final providers = BookingProvider.buildMultiProviderUrls(
         locale: 'fr',
         region: 'kanto',
@@ -63,10 +64,10 @@ void main() {
         checkIn: '2026-04-01',
         checkOut: '2026-04-04',
       );
-      expect(providers.length, 3);
+      expect(providers.length, 4);
     });
 
-    test('ZH → 3 providers (same as EN)', () {
+    test('ZH → 4 providers (same as EN)', () {
       final providers = BookingProvider.buildMultiProviderUrls(
         locale: 'zh',
         region: 'kanto',
@@ -76,7 +77,7 @@ void main() {
         checkIn: '2026-04-01',
         checkOut: '2026-04-04',
       );
-      expect(providers.length, 3);
+      expect(providers.length, 4);
     });
 
     test('JA → empty (uses Jalan)', () {
@@ -107,7 +108,7 @@ void main() {
   });
 
   group('Brand colors', () {
-    test('Expedia yellow, Hotels.com red, Booking.com blue', () {
+    test('Expedia yellow, Hotels.com red, Agoda orange, Booking.com blue', () {
       final providers = BookingProvider.buildMultiProviderUrls(
         locale: 'en',
         region: 'kanto',
@@ -118,7 +119,8 @@ void main() {
       expect(providers[0].color.value, 0xFFFEC84C); // Expedia yellow
       expect(providers[0].textColor.value, 0xFF202843); // navy text
       expect(providers[1].color.value, 0xFFD32F2F); // Hotels.com red
-      expect(providers[2].color.value, 0xFF003B95); // Booking.com blue
+      expect(providers[2].color.value, 0xFFF97316); // Agoda orange
+      expect(providers[3].color.value, 0xFF003B95); // Booking.com blue
     });
   });
 
@@ -188,7 +190,31 @@ void main() {
         lat: 35.69,
         lng: 139.70,
       );
-      expect(_innerUrl(providers[2].url), contains('aid=2432111'));
+      expect(_innerUrl(providers[3].url), contains('aid=2432111'));
+    });
+
+    test('Agoda URL contains cid', () {
+      final providers = BookingProvider.buildMultiProviderUrls(
+        locale: 'en',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+      );
+      final uri = Uri.parse(providers[2].url);
+      expect(uri.queryParameters['provider'], 'agoda');
+      expect(_innerUrl(providers[2].url), contains('cid=1922458'));
+    });
+
+    test('Agoda URL uses locale-specific language path', () {
+      final providers = BookingProvider.buildMultiProviderUrls(
+        locale: 'fr',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+      );
+      expect(_innerUrl(providers[2].url), contains('/fr-fr/search'));
     });
   });
 
@@ -304,8 +330,8 @@ void main() {
         checkIn: '2026-04-01',
         checkOut: '2026-04-04',
       );
-      expect(_innerUrl(providers[2].url), contains('checkin=2026-04-01'));
-      expect(_innerUrl(providers[2].url), contains('checkout=2026-04-04'));
+      expect(_innerUrl(providers[3].url), contains('checkin=2026-04-01'));
+      expect(_innerUrl(providers[3].url), contains('checkout=2026-04-04'));
     });
   });
 
@@ -476,7 +502,7 @@ void main() {
       );
       // per-person×2: min=10000*2=20000, max=30000*2=60000
       expect(
-        _innerUrl(providers[2].url),
+        _innerUrl(providers[3].url),
         contains('nflt=price%3DJPY-20000-60000-1'),
       );
     });
@@ -493,7 +519,7 @@ void main() {
         maxBudget: 'over50000',
       );
       expect(
-        _innerUrl(providers[2].url),
+        _innerUrl(providers[3].url),
         contains('nflt=price%3DJPY-100000-999999-1'),
       );
     });

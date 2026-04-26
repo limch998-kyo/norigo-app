@@ -65,7 +65,7 @@ class BookingProvider {
     return 'Expedia';
   }
 
-  /// EN/FR/ZH: returns 3 provider buttons (Expedia + Hotels.com + Booking.com)
+  /// EN/FR/ZH: returns provider buttons matching the web result page.
   static List<({String name, String url, Color color, Color textColor})>
   buildMultiProviderUrls({
     required String locale,
@@ -76,6 +76,7 @@ class BookingProvider {
     String? checkIn,
     String? checkOut,
     String? maxBudget,
+    String? stationId,
   }) {
     if (locale == 'ja' || locale == 'ko') return [];
 
@@ -108,6 +109,16 @@ class BookingProvider {
       lng: lng,
       maxBudget: maxBudget,
     );
+    final agodaUrl = _buildAgodaUrl(
+      stationName,
+      locale,
+      checkIn,
+      checkOut,
+      lat: lat,
+      lng: lng,
+      stationId: stationId,
+      region: region,
+    );
 
     return [
       (
@@ -120,6 +131,12 @@ class BookingProvider {
         name: 'Hotels.com',
         url: _wrapWithApiOut(hotelsComUrl, 'hotels_com'),
         color: const Color(0xFFD32F2F),
+        textColor: Colors.white,
+      ),
+      (
+        name: 'Agoda',
+        url: _wrapWithApiOut(agodaUrl, 'agoda', stationId: stationId),
+        color: const Color(0xFFF97316),
         textColor: Colors.white,
       ),
       (
@@ -165,6 +182,31 @@ class BookingProvider {
       return url;
     }
     return _wrapWithApiOut(url, provider, stationId: stationId);
+  }
+
+  /// Build and wrap an Agoda search URL for surfaces where Agoda is a
+  /// secondary option rather than the locale's primary provider.
+  static String buildAgodaSearchUrl({
+    required String locale,
+    required String region,
+    required String stationName,
+    double? lat,
+    double? lng,
+    String? checkIn,
+    String? checkOut,
+    String? stationId,
+  }) {
+    final agodaUrl = _buildAgodaUrl(
+      stationName,
+      locale,
+      checkIn,
+      checkOut,
+      lat: lat,
+      lng: lng,
+      stationId: stationId,
+      region: region,
+    );
+    return _wrapWithApiOut(agodaUrl, 'agoda', stationId: stationId);
   }
 
   /// Wrap a hotel-specific landing URL while preserving its source provider.
@@ -368,6 +410,7 @@ class BookingProvider {
       'ko' => 'ko-kr',
       'zh' => 'zh-cn',
       'ja' => 'ja-jp',
+      'fr' => 'fr-fr',
       _ => 'en-us',
     };
     const cid = '1922458';

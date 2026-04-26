@@ -84,12 +84,12 @@ void main() {
       });
 
       if (['en', 'fr', 'zh'].contains('en')) {
-        test('Returns 3 providers', () {
-          // EN/FR/ZH should get 3 providers, JA/KO get 0
+        test('Returns 4 providers', () {
+          // EN/FR/ZH should get 4 providers, JA/KO get 0
           if (tc.locale == 'ja' || tc.locale == 'ko') {
             expect(providers, isEmpty);
           } else {
-            expect(providers.length, 3);
+            expect(providers.length, 4);
           }
         });
       }
@@ -196,7 +196,7 @@ void main() {
         () async {
           if (providers.isEmpty) return;
 
-          final res = await dio.get(providers[2].url);
+          final res = await dio.get(providers[3].url);
           expect(
             res.statusCode,
             302,
@@ -285,7 +285,7 @@ void main() {
         checkIn: '2026-05-01',
         checkOut: '2026-05-04',
       );
-      final innerUrl = _innerUrl(providers[2].url);
+      final innerUrl = _innerUrl(providers[3].url);
       try {
         final res = await followDio.get(innerUrl);
         print('  Booking.com final: ${res.statusCode} ${res.realUri}');

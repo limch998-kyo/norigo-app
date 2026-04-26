@@ -36,13 +36,14 @@ void main() {
       expect(BookingProvider.providerName('ja', 'kyushu'), 'jalan.net');
     });
 
-    test('kyushu + en → Expedia (3 provider buttons)', () {
+    test('kyushu + en → Expedia plus Agoda (4 provider buttons)', () {
       final providers = BookingProvider.buildMultiProviderUrls(
         locale: 'en', region: 'kyushu', stationName: 'Hakata',
         lat: 33.59, lng: 130.42,
       );
-      expect(providers.length, 3);
+      expect(providers.length, 4);
       expect(providers[0].name, 'Expedia');
+      expect(providers[2].name, 'Agoda');
     });
 
     test('kyushu + ko → empty (uses Agoda)', () {

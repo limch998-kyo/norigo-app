@@ -1237,6 +1237,17 @@ class _AreaCardState extends State<_AreaCard> {
     if (mounted) setState(() => _hotelMarkers = hotels.take(3).toList());
   }
 
+  bool _shouldShowHotelCards(String locale, String region) {
+    if (locale != 'ja') return true;
+    if (['seoul', 'busan'].contains(region)) return true;
+    return AppConstants.japanRegions.contains(region);
+  }
+
+  bool _shouldShowExternalHotelLinks(String locale, String region) {
+    if (!_shouldShowHotelCards(locale, region)) return true;
+    return locale != 'ja' && locale != 'ko';
+  }
+
   @override
   Widget build(BuildContext context) {
     final area = widget.area;
@@ -1644,16 +1655,10 @@ class _AreaCardState extends State<_AreaCard> {
               ],
 
               // ── Hotels ──
-              // ko → Agoda cards (all regions)
-              // ja + Korea → Agoda cards
-              // ja + Japan → Jalan link only
-              // en/zh → Booking.com link only
+              // Web parity: non-JA locales show Agoda cards plus provider CTAs.
+              // JA + Japan keeps the Rakuten hotel-card fallback.
               const Divider(height: 24),
-              // Show hotel cards for: Korean locale, OR Japanese+Japan region (Rakuten), OR Korean region
-              if (locale == 'ko' ||
-                  ['seoul', 'busan'].contains(widget.searchRegion) ||
-                  (locale == 'ja' &&
-                      AppConstants.japanRegions.contains(widget.searchRegion)))
+              if (_shouldShowHotelCards(locale, widget.searchRegion))
                 _HotelSection(
                   stationId: area.station.id,
                   locale: locale,
@@ -1668,8 +1673,13 @@ class _AreaCardState extends State<_AreaCard> {
                   onLoaded: _onHotelsLoaded,
                   onHotelBookingClick: (hotel) => widget.onHotelBookingClick
                       ?.call(hotel, area.station.id, name),
-                )
-              else
+                ),
+              if (_shouldShowExternalHotelLinks(
+                locale,
+                widget.searchRegion,
+              )) ...[
+                if (_shouldShowHotelCards(locale, widget.searchRegion))
+                  const SizedBox(height: 16),
                 _ExternalHotelLinks(
                   stationName: name,
                   stationId: area.station.id,
@@ -1681,6 +1691,7 @@ class _AreaCardState extends State<_AreaCard> {
                   checkOut: widget.checkOut,
                   maxBudget: widget.maxBudget,
                 ),
+              ],
             ],
           ),
         ),
@@ -2437,6 +2448,39 @@ class _HotelSectionState extends State<_HotelSection> {
     return dlat * dlat + dlng * dlng;
   }
 
+  bool get _usesRakuten =>
+      widget.locale == 'ja' &&
+      AppConstants.japanRegions.contains(widget.region);
+
+  String get _hotelProviderName => _usesRakuten
+      ? BookingProvider.providerName(widget.locale, widget.region)
+      : 'Agoda';
+
+  String _buildHotelProviderSearchUrl() {
+    if (!_usesRakuten) {
+      return BookingProvider.buildAgodaSearchUrl(
+        locale: widget.locale,
+        region: widget.region,
+        stationName: widget.stationName,
+        stationId: widget.stationId,
+        lat: widget.lat,
+        lng: widget.lng,
+        checkIn: widget.checkIn,
+        checkOut: widget.checkOut,
+      );
+    }
+    return BookingProvider.buildSearchUrl(
+      locale: widget.locale,
+      region: widget.region,
+      stationName: widget.stationName,
+      stationId: widget.stationId,
+      lat: widget.lat,
+      lng: widget.lng,
+      checkIn: widget.checkIn,
+      checkOut: widget.checkOut,
+    );
+  }
+
   Future<void> _loadHotels() async {
     try {
       final api = ApiClient();
@@ -2453,10 +2497,8 @@ class _HotelSectionState extends State<_HotelSection> {
               .toIso8601String()
               .substring(0, 10);
       // Use Rakuten for Japanese users searching Japan regions only
-      final isJapanRegion = AppConstants.japanRegions.contains(widget.region);
-      final useRakuten = widget.locale == 'ja' && isJapanRegion;
       List<Hotel> hotels;
-      if (useRakuten && widget.lat != null && widget.lng != null) {
+      if (_usesRakuten && widget.lat != null && widget.lng != null) {
         // Direct Rakuten API call (requires Referer header, not server proxy)
         hotels = await RakutenClient.fetchHotels(
           lat: widget.lat!,
@@ -2829,7 +2871,7 @@ class _HotelSectionState extends State<_HotelSection> {
                     ),
                   ),
                   Text(
-                    BookingProvider.providerName(widget.locale, widget.region),
+                    _hotelProviderName,
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w600,
@@ -2840,16 +2882,7 @@ class _HotelSectionState extends State<_HotelSection> {
               ),
               GestureDetector(
                 onTap: () {
-                  final url = BookingProvider.buildSearchUrl(
-                    locale: widget.locale,
-                    region: widget.region,
-                    stationName: widget.stationName,
-                    stationId: widget.stationId,
-                    lat: widget.lat,
-                    lng: widget.lng,
-                    checkIn: widget.checkIn,
-                    checkOut: widget.checkOut,
-                  );
+                  final url = _buildHotelProviderSearchUrl();
                   launchUrl(
                     Uri.parse(url),
                     mode: LaunchMode.externalApplication,
@@ -2858,11 +2891,11 @@ class _HotelSectionState extends State<_HotelSection> {
                 child: Text(
                   tr(
                     widget.locale,
-                    ja: '${BookingProvider.providerName(widget.locale, widget.region)}で検索 →',
-                    ko: '${BookingProvider.providerName(widget.locale, widget.region)}에서 검색 →',
-                    en: 'Search on ${BookingProvider.providerName(widget.locale, widget.region)} →',
-                    zh: '在${BookingProvider.providerName(widget.locale, widget.region)}上搜索 →',
-                    fr: 'Search on ${BookingProvider.providerName(widget.locale, widget.region)} →',
+                    ja: '$_hotelProviderNameで検索 →',
+                    ko: '$_hotelProviderName에서 검색 →',
+                    en: 'Search on $_hotelProviderName →',
+                    zh: '在$_hotelProviderName上搜索 →',
+                    fr: 'Search on $_hotelProviderName →',
                   ),
                   style: TextStyle(
                     fontSize: 11,
@@ -3181,11 +3214,12 @@ class _ExternalHotelLinks extends StatelessWidget {
       fr: 'Trouver des hôtels',
     );
 
-    // EN/FR/ZH: 3 provider buttons (Expedia + Hotels.com + Booking.com)
+    // EN/FR/ZH: provider buttons matching the web result page.
     final multiProviders = BookingProvider.buildMultiProviderUrls(
       locale: locale,
       region: region,
       stationName: stationName,
+      stationId: stationId,
       lat: lat,
       lng: lng,
       checkIn: checkIn,
@@ -3261,11 +3295,11 @@ class _ExternalHotelLinks extends StatelessWidget {
             child: Text(
               tr(
                 locale,
-                ja: '提供: Expedia Group',
-                ko: '제공: Expedia Group',
-                en: 'Powered by Expedia Group',
-                zh: '由 Expedia Group 提供',
-                fr: 'Fourni par Expedia Group',
+                ja: 'ホテル提携サービス',
+                ko: '호텔 파트너',
+                en: 'Hotel partners',
+                zh: '酒店合作伙伴',
+                fr: 'Partenaires hôteliers',
               ),
               style: TextStyle(fontSize: 10, color: AppTheme.mutedForeground),
             ),
