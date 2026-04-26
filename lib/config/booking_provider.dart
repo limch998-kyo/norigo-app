@@ -153,6 +153,40 @@ class BookingProvider {
     return Uri.parse(_apiOutUrl).replace(queryParameters: params).toString();
   }
 
+  /// Public wrapper for existing provider URLs returned by external APIs.
+  /// Returns an already wrapped URL unchanged to avoid nested /api/out redirects.
+  static String wrapOutboundUrl(
+    String url,
+    String provider, {
+    String? stationId,
+  }) {
+    final uri = Uri.tryParse(url);
+    if (uri != null && uri.host == 'norigo.app' && uri.path == '/api/out') {
+      return url;
+    }
+    return _wrapWithApiOut(url, provider, stationId: stationId);
+  }
+
+  /// Wrap a hotel-specific landing URL while preserving its source provider.
+  static String wrapHotelBookingUrl(String url, {String? stationId}) {
+    return wrapOutboundUrl(
+      url,
+      _providerForHotelUrl(url),
+      stationId: stationId,
+    );
+  }
+
+  static String _providerForHotelUrl(String url) {
+    final host = Uri.tryParse(url)?.host.toLowerCase() ?? '';
+    if (host.contains('agoda.')) return 'agoda';
+    if (host.contains('rakuten.')) return 'rakuten';
+    if (host.contains('jalan.net')) return 'jalan';
+    if (host.contains('booking.com')) return 'booking';
+    if (host.contains('hotels.com')) return 'hotels_com';
+    if (host.contains('expedia.')) return 'expedia';
+    return 'hotel';
+  }
+
   /// Build a search URL for the booking provider
   static String buildSearchUrl({
     required String locale,

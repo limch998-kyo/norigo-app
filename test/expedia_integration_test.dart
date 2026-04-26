@@ -122,6 +122,35 @@ void main() {
     });
   });
 
+  group('Outbound URL wrapping', () {
+    test('Hotel landing URLs are wrapped through /api/out', () {
+      const landingUrl =
+          'https://www.agoda.com/partners/partnersearch.aspx?hid=123&cid=1922458';
+      final wrapped = BookingProvider.wrapHotelBookingUrl(
+        landingUrl,
+        stationId: 'shinjuku',
+      );
+      final uri = Uri.parse(wrapped);
+
+      expect(uri.host, 'norigo.app');
+      expect(uri.path, '/api/out');
+      expect(uri.queryParameters['shopId'], 'app');
+      expect(uri.queryParameters['provider'], 'agoda');
+      expect(uri.queryParameters['stationId'], 'shinjuku');
+      expect(uri.queryParameters['url'], landingUrl);
+    });
+
+    test('Already wrapped outbound URLs are not double-wrapped', () {
+      const wrappedUrl =
+          'https://norigo.app/api/out?shopId=app&provider=agoda&url=https%3A%2F%2Fwww.agoda.com%2Fhotel';
+
+      expect(
+        BookingProvider.wrapHotelBookingUrl(wrappedUrl, stationId: 'shinjuku'),
+        wrappedUrl,
+      );
+    });
+  });
+
   group('Affiliate parameters', () {
     test('Expedia URL contains affcid', () {
       final providers = BookingProvider.buildMultiProviderUrls(

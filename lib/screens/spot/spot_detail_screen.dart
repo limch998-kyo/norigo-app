@@ -261,8 +261,20 @@ class SpotDetailScreen extends ConsumerWidget {
                     width: double.infinity,
                     child: OutlinedButton.icon(
                       onPressed: () async {
+                        var targetTripId = _tripIdForExistingLandmark(
+                          tripState,
+                          landmark,
+                        );
+
                         // Add to trip if not already
                         if (!isInTrip) {
+                          final candidates = tripNotifier.findTripsForRegion(
+                            landmark.region,
+                          );
+                          if (candidates.length == 1) {
+                            targetTripId = candidates.first.id;
+                          }
+
                           tripNotifier.addItem(landmark, locale: locale);
                           if (tripNotifier.needsTripPicker) {
                             final picked = await showTripPickerDialog(
@@ -271,20 +283,36 @@ class SpotDetailScreen extends ConsumerWidget {
                               locale,
                             );
                             if (picked != null) {
+                              targetTripId = picked;
                               tripNotifier.completePendingAdd(picked);
                             } else {
                               tripNotifier.cancelPendingAdd();
                               return;
                             }
+                          } else {
+                            targetTripId ??= ref
+                                .read(tripProvider)
+                                .activeTripId;
                           }
                         }
 
                         if (!context.mounted) return;
 
-                        // Get all trip items for the same region
+                        // Keep the hotel search scoped to the trip the user
+                        // just selected instead of every trip in this region.
                         final latestTripState = ref.read(tripProvider);
+                        targetTripId ??= _tripIdForExistingLandmark(
+                          latestTripState,
+                          landmark,
+                        );
+                        targetTripId ??= latestTripState.activeTripId;
                         final regionItems = latestTripState.items
-                            .where((i) => i.region == landmark.region)
+                            .where(
+                              (i) =>
+                                  i.region == landmark.region &&
+                                  (targetTripId == null ||
+                                      i.tripId == targetTripId),
+                            )
                             .toList();
                         final landmarks = [
                           landmark,
@@ -382,6 +410,20 @@ class SpotDetailScreen extends ConsumerWidget {
       return '25000-35000';
     }
     return AppConstants.defaultStayBudgetJp;
+  }
+
+  String? _tripIdForExistingLandmark(TripState tripState, Landmark landmark) {
+    final matchingItems = tripState.items
+        .where((i) => i.slug == landmark.slug)
+        .toList();
+    if (matchingItems.isEmpty) return null;
+
+    final activeTripId = tripState.activeTripId;
+    if (activeTripId != null &&
+        matchingItems.any((i) => i.tripId == activeTripId)) {
+      return activeTripId;
+    }
+    return matchingItems.first.tripId;
   }
 
   String _regionLabel(String region, String locale) {

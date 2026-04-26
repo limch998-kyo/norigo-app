@@ -2765,6 +2765,7 @@ class _HotelSectionState extends State<_HotelSection> {
             index: e.key + 1,
             l10n: widget.l10n,
             locale: widget.locale,
+            stationId: widget.stationId,
             onBookingTap: () => widget.onHotelBookingClick?.call(e.value),
           ),
         ),
@@ -2883,6 +2884,7 @@ class _HotelCard extends StatelessWidget {
   final int index;
   final AppLocalizations l10n;
   final String locale;
+  final String stationId;
   final VoidCallback? onBookingTap;
 
   const _HotelCard({
@@ -2890,6 +2892,7 @@ class _HotelCard extends StatelessWidget {
     required this.index,
     required this.l10n,
     required this.locale,
+    required this.stationId,
     this.onBookingTap,
   });
 
@@ -3077,10 +3080,11 @@ class _HotelCard extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 onBookingTap?.call();
-                launchUrl(
-                  Uri.parse(hotel.bookingUrl!),
-                  mode: LaunchMode.externalApplication,
+                final url = BookingProvider.wrapHotelBookingUrl(
+                  hotel.bookingUrl!,
+                  stationId: stationId,
                 );
+                launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(
