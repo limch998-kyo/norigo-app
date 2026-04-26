@@ -32,6 +32,7 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
+/android/build/
 
 # Symbolication related
 app.*.symbols
@@ -45,6 +46,7 @@ app.*.map.json
 /android/app/release
 ScreenRecording_03-19-2026 13-16-34_1.MP4
 *.MP4
+*.mp4
 AuthKey_*.p8
 
 # Prompt documents (not part of app)
@@ -52,6 +54,12 @@ PROMPT_*.md
 
 # Screenshots
 *.png
+videos/
+
+# Local release drafts
+production_application.txt
+production_release_notes.txt
+tester_reply.txt
 
 # Fastlane secrets
 fastlane/api_key.json
