@@ -55,8 +55,10 @@ const quickPlans = <QuickPlan>[
         'subtitle': 'Shibuya · Harajuku · Shinjuku',
         'recommendedBase': 'Suggested base: Shinjuku · Yoyogi · Ikebukuro',
         'bestFor': 'First-time visitors who have not fixed every stop yet',
-        'why1': 'The west-side highlights sit close together, so travel times stay balanced.',
-        'why2': 'Hotel choice and late-evening transit options are broad for beginners.',
+        'why1':
+            'The west-side highlights sit close together, so travel times stay balanced.',
+        'why2':
+            'Hotel choice and late-evening transit options are broad for beginners.',
         'caveat': 'Central Shinjuku can be crowded and more expensive.',
       },
       'zh': {
@@ -73,17 +75,60 @@ const quickPlans = <QuickPlan>[
         'subtitle': 'Shibuya · Harajuku · Shinjuku',
         'recommendedBase': 'Base conseillée : Shinjuku · Yoyogi · Ikebukuro',
         'bestFor': "Un premier voyage dont l'itinéraire n'est pas encore fixé",
-        'why1': 'Les quartiers ouest restent proches, avec des temps de trajet équilibrés.',
-        'why2': "Le choix d'hôtels et les transports tardifs sont larges pour débuter.",
-        'caveat': 'Le centre de Shinjuku peut être plus cher et très fréquenté.',
+        'why1':
+            'Les quartiers ouest restent proches, avec des temps de trajet équilibrés.',
+        'why2':
+            "Le choix d'hôtels et les transports tardifs sont larges pour débuter.",
+        'caveat':
+            'Le centre de Shinjuku peut être plus cher et très fréquenté.',
       },
     },
     landmarks: [
-      {'slug': 'shibuya-crossing', 'name': '渋谷', 'nameEn': 'Shibuya', 'nameKo': '시부야', 'lat': 35.6595, 'lng': 139.7004, 'region': 'kanto'},
-      {'slug': 'harajuku', 'name': '原宿', 'nameEn': 'Harajuku', 'nameKo': '하라주쿠', 'lat': 35.6702, 'lng': 139.7026, 'region': 'kanto'},
-      {'slug': 'shinjuku', 'name': '新宿', 'nameEn': 'Shinjuku', 'nameKo': '신주쿠', 'lat': 35.6852, 'lng': 139.7100, 'region': 'kanto'},
-      {'slug': 'omotesando', 'name': '表参道', 'nameEn': 'Omotesando', 'nameKo': '오모테산도', 'lat': 35.6654, 'lng': 139.7121, 'region': 'kanto'},
-      {'slug': 'ikebukuro', 'name': '池袋', 'nameEn': 'Ikebukuro', 'nameKo': '이케부쿠로', 'lat': 35.7295, 'lng': 139.7109, 'region': 'kanto'},
+      {
+        'slug': 'shibuya-crossing',
+        'name': '渋谷',
+        'nameEn': 'Shibuya',
+        'nameKo': '시부야',
+        'lat': 35.6595,
+        'lng': 139.7004,
+        'region': 'kanto',
+      },
+      {
+        'slug': 'harajuku',
+        'name': '原宿',
+        'nameEn': 'Harajuku',
+        'nameKo': '하라주쿠',
+        'lat': 35.6702,
+        'lng': 139.7026,
+        'region': 'kanto',
+      },
+      {
+        'slug': 'shinjuku',
+        'name': '新宿',
+        'nameEn': 'Shinjuku',
+        'nameKo': '신주쿠',
+        'lat': 35.6852,
+        'lng': 139.7100,
+        'region': 'kanto',
+      },
+      {
+        'slug': 'omotesando',
+        'name': '表参道',
+        'nameEn': 'Omotesando',
+        'nameKo': '오모테산도',
+        'lat': 35.6654,
+        'lng': 139.7121,
+        'region': 'kanto',
+      },
+      {
+        'slug': 'ikebukuro',
+        'name': '池袋',
+        'nameEn': 'Ikebukuro',
+        'nameKo': '이케부쿠로',
+        'lat': 35.7295,
+        'lng': 139.7109,
+        'region': 'kanto',
+      },
     ],
   ),
   QuickPlan(
@@ -115,7 +160,8 @@ const quickPlans = <QuickPlan>[
         'recommendedBase': 'Suggested base: Ueno · Asakusabashi · Kuramae',
         'bestFor': 'Travelers who want classic sights with wider hotel options',
         'why1': 'East-side sights are close enough to bundle with short rides.',
-        'why2': 'Ueno/Asakusa has broad hotel supply and stable airport access.',
+        'why2':
+            'Ueno/Asakusa has broad hotel supply and stable airport access.',
         'caveat': 'Shibuya and Harajuku days will take longer from this side.',
       },
       'zh': {
@@ -131,18 +177,60 @@ const quickPlans = <QuickPlan>[
         'title': 'Tokyo classique et budget',
         'subtitle': 'Asakusa · Ueno · Gare de Tokyo',
         'recommendedBase': 'Base conseillée : Ueno · Asakusabashi · Kuramae',
-        'bestFor': "Voir les classiques avec plus d'options d'hôtels abordables",
+        'bestFor':
+            "Voir les classiques avec plus d'options d'hôtels abordables",
         'why1': "Les sites de l'est se combinent avec de courts trajets.",
-        'why2': "Ueno/Asakusa offre un bon choix d'hôtels et un accès aéroport stable.",
+        'why2':
+            "Ueno/Asakusa offre un bon choix d'hôtels et un accès aéroport stable.",
         'caveat': 'Les journées Shibuya et Harajuku seront plus longues.',
       },
     },
     landmarks: [
-      {'slug': 'asakusa-senso-ji', 'name': '浅草寺', 'nameEn': 'Asakusa (Senso-ji)', 'nameKo': '아사쿠사(센소지)', 'lat': 35.7148, 'lng': 139.7967, 'region': 'kanto'},
-      {'slug': 'ueno-park', 'name': '上野公園', 'nameEn': 'Ueno Park', 'nameKo': '우에노 공원', 'lat': 35.7146, 'lng': 139.7732, 'region': 'kanto'},
-      {'slug': 'tokyo-station', 'name': '東京駅', 'nameEn': 'Tokyo Station', 'nameKo': '도쿄역', 'lat': 35.6812, 'lng': 139.7671, 'region': 'kanto'},
-      {'slug': 'akihabara', 'name': '秋葉原', 'nameEn': 'Akihabara', 'nameKo': '아키하바라', 'lat': 35.6984, 'lng': 139.7731, 'region': 'kanto'},
-      {'slug': 'tokyo-skytree', 'name': 'スカイツリー', 'nameEn': 'Tokyo Skytree', 'nameKo': '스카이트리', 'lat': 35.7101, 'lng': 139.8107, 'region': 'kanto'},
+      {
+        'slug': 'asakusa-senso-ji',
+        'name': '浅草寺',
+        'nameEn': 'Asakusa (Senso-ji)',
+        'nameKo': '아사쿠사(센소지)',
+        'lat': 35.7148,
+        'lng': 139.7967,
+        'region': 'kanto',
+      },
+      {
+        'slug': 'ueno-park',
+        'name': '上野公園',
+        'nameEn': 'Ueno Park',
+        'nameKo': '우에노 공원',
+        'lat': 35.7146,
+        'lng': 139.7732,
+        'region': 'kanto',
+      },
+      {
+        'slug': 'tokyo-station',
+        'name': '東京駅',
+        'nameEn': 'Tokyo Station',
+        'nameKo': '도쿄역',
+        'lat': 35.6812,
+        'lng': 139.7671,
+        'region': 'kanto',
+      },
+      {
+        'slug': 'akihabara',
+        'name': '秋葉原',
+        'nameEn': 'Akihabara',
+        'nameKo': '아키하바라',
+        'lat': 35.6984,
+        'lng': 139.7731,
+        'region': 'kanto',
+      },
+      {
+        'slug': 'tokyo-skytree',
+        'name': 'スカイツリー',
+        'nameEn': 'Tokyo Skytree',
+        'nameKo': '스카이트리',
+        'lat': 35.7101,
+        'lng': 139.8107,
+        'region': 'kanto',
+      },
     ],
   ),
   QuickPlan(
@@ -173,8 +261,10 @@ const quickPlans = <QuickPlan>[
         'subtitle': 'Disneyland · Odaiba · Ginza',
         'recommendedBase': 'Suggested base: Shimbashi · Ginza · Toyosu',
         'bestFor': 'Families, parents, and trips where easy transfers matter',
-        'why1': 'It balances Disney-side travel with central Tokyo sightseeing.',
-        'why2': 'Ginza/Shimbashi also work well when taxi or elevator access matters.',
+        'why1':
+            'It balances Disney-side travel with central Tokyo sightseeing.',
+        'why2':
+            'Ginza/Shimbashi also work well when taxi or elevator access matters.',
         'caveat': 'For pure budget travel, compare Ueno or Asakusa too.',
       },
       'zh': {
@@ -190,18 +280,59 @@ const quickPlans = <QuickPlan>[
         'title': 'Tokyo avec Disney ou famille',
         'subtitle': 'Disneyland · Odaiba · Ginza',
         'recommendedBase': 'Base conseillée : Shimbashi · Ginza · Toyosu',
-        'bestFor': 'Familles et voyages où les correspondances simples comptent',
+        'bestFor':
+            'Familles et voyages où les correspondances simples comptent',
         'why1': 'Bon équilibre entre Disney et les visites du centre de Tokyo.',
         'why2': 'Ginza/Shimbashi facilite aussi les taxis et les ascenseurs.',
         'caveat': 'Pour le budget pur, comparez aussi Ueno ou Asakusa.',
       },
     },
     landmarks: [
-      {'slug': 'tokyo-disneyland', 'name': '東京ディズニーランド', 'nameEn': 'Tokyo Disneyland', 'nameKo': '도쿄 디즈니랜드', 'lat': 35.6329, 'lng': 139.8804, 'region': 'kanto'},
-      {'slug': 'odaiba', 'name': 'お台場', 'nameEn': 'Odaiba', 'nameKo': '오다이바', 'lat': 35.6267, 'lng': 139.7762, 'region': 'kanto'},
-      {'slug': 'ginza', 'name': '銀座', 'nameEn': 'Ginza', 'nameKo': '긴자', 'lat': 35.6717, 'lng': 139.7649, 'region': 'kanto'},
-      {'slug': 'tokyo-tower', 'name': '東京タワー', 'nameEn': 'Tokyo Tower', 'nameKo': '도쿄타워', 'lat': 35.6586, 'lng': 139.7454, 'region': 'kanto'},
-      {'slug': 'tsukiji', 'name': '築地', 'nameEn': 'Tsukiji', 'nameKo': '쓰키지', 'lat': 35.6654, 'lng': 139.7707, 'region': 'kanto'},
+      {
+        'slug': 'tokyo-disneyland',
+        'name': '東京ディズニーランド',
+        'nameEn': 'Tokyo Disneyland',
+        'nameKo': '도쿄 디즈니랜드',
+        'lat': 35.6329,
+        'lng': 139.8804,
+        'region': 'kanto',
+      },
+      {
+        'slug': 'odaiba',
+        'name': 'お台場',
+        'nameEn': 'Odaiba',
+        'nameKo': '오다이바',
+        'lat': 35.6267,
+        'lng': 139.7762,
+        'region': 'kanto',
+      },
+      {
+        'slug': 'ginza',
+        'name': '銀座',
+        'nameEn': 'Ginza',
+        'nameKo': '긴자',
+        'lat': 35.6717,
+        'lng': 139.7649,
+        'region': 'kanto',
+      },
+      {
+        'slug': 'tokyo-tower',
+        'name': '東京タワー',
+        'nameEn': 'Tokyo Tower',
+        'nameKo': '도쿄타워',
+        'lat': 35.6586,
+        'lng': 139.7454,
+        'region': 'kanto',
+      },
+      {
+        'slug': 'tsukiji',
+        'name': '築地',
+        'nameEn': 'Tsukiji',
+        'nameKo': '쓰키지',
+        'lat': 35.6654,
+        'lng': 139.7707,
+        'region': 'kanto',
+      },
     ],
   ),
   QuickPlan(
@@ -232,8 +363,10 @@ const quickPlans = <QuickPlan>[
         'subtitle': 'Dotonbori · Namba · Shinsaibashi',
         'recommendedBase': 'Suggested base: Namba · Shinsaibashi · Hommachi',
         'bestFor': 'Travelers focused on food, shopping, and easy city walks',
-        'why1': 'Food and shopping districts connect by foot or short subway rides.',
-        'why2': 'Osaka Castle still stays simple without crossing the whole city.',
+        'why1':
+            'Food and shopping districts connect by foot or short subway rides.',
+        'why2':
+            'Osaka Castle still stays simple without crossing the whole city.',
         'caveat': 'If Kyoto is the main focus, compare Umeda as well.',
       },
       'zh': {
@@ -250,17 +383,58 @@ const quickPlans = <QuickPlan>[
         'subtitle': 'Dotonbori · Namba · Shinsaibashi',
         'recommendedBase': 'Base conseillée : Namba · Shinsaibashi · Hommachi',
         'bestFor': 'Cuisine, shopping et quartiers faciles à parcourir',
-        'why1': 'Les zones de restaurants et de shopping se relient à pied ou en métro court.',
+        'why1':
+            'Les zones de restaurants et de shopping se relient à pied ou en métro court.',
         'why2': 'Osaka Castle reste simple sans traverser toute la ville.',
         'caveat': 'Si Kyoto domine le voyage, comparez aussi Umeda.',
       },
     },
     landmarks: [
-      {'slug': 'dotonbori', 'name': '道頓堀', 'nameEn': 'Dotonbori', 'nameKo': '도톤보리', 'lat': 34.6687, 'lng': 135.5021, 'region': 'kansai'},
-      {'slug': 'namba', 'name': 'なんば', 'nameEn': 'Namba', 'nameKo': '난바', 'lat': 34.6659, 'lng': 135.5013, 'region': 'kansai'},
-      {'slug': 'shinsaibashi', 'name': '心斎橋', 'nameEn': 'Shinsaibashi', 'nameKo': '신사이바시', 'lat': 34.6751, 'lng': 135.5014, 'region': 'kansai'},
-      {'slug': 'kuromon-market', 'name': '黒門市場', 'nameEn': 'Kuromon Market', 'nameKo': '구로몬시장', 'lat': 34.6681, 'lng': 135.5097, 'region': 'kansai'},
-      {'slug': 'osaka-castle', 'name': '大阪城', 'nameEn': 'Osaka Castle', 'nameKo': '오사카성', 'lat': 34.6873, 'lng': 135.5262, 'region': 'kansai'},
+      {
+        'slug': 'dotonbori',
+        'name': '道頓堀',
+        'nameEn': 'Dotonbori',
+        'nameKo': '도톤보리',
+        'lat': 34.6687,
+        'lng': 135.5021,
+        'region': 'kansai',
+      },
+      {
+        'slug': 'namba',
+        'name': 'なんば',
+        'nameEn': 'Namba',
+        'nameKo': '난바',
+        'lat': 34.6659,
+        'lng': 135.5013,
+        'region': 'kansai',
+      },
+      {
+        'slug': 'shinsaibashi',
+        'name': '心斎橋',
+        'nameEn': 'Shinsaibashi',
+        'nameKo': '신사이바시',
+        'lat': 34.6751,
+        'lng': 135.5014,
+        'region': 'kansai',
+      },
+      {
+        'slug': 'kuromon-market',
+        'name': '黒門市場',
+        'nameEn': 'Kuromon Market',
+        'nameKo': '구로몬시장',
+        'lat': 34.6681,
+        'lng': 135.5097,
+        'region': 'kansai',
+      },
+      {
+        'slug': 'osaka-castle',
+        'name': '大阪城',
+        'nameEn': 'Osaka Castle',
+        'nameKo': '오사카성',
+        'lat': 34.6873,
+        'lng': 135.5262,
+        'region': 'kansai',
+      },
     ],
   ),
   QuickPlan(
@@ -289,10 +463,14 @@ const quickPlans = <QuickPlan>[
       'en': {
         'title': 'Osaka Base + Kyoto Day Trip',
         'subtitle': 'Kiyomizu-dera · Fushimi Inari · Arashiyama',
-        'recommendedBase': 'Suggested base: Umeda · Osaka Station · Kyoto Station',
-        'bestFor': 'Travelers staying in Osaka but visiting Kyoto for one or two days',
-        'why1': "It compares Kyoto's east and west sides before you choose a base.",
-        'why2': 'It also shows whether moving hotels would save meaningful time.',
+        'recommendedBase':
+            'Suggested base: Umeda · Osaka Station · Kyoto Station',
+        'bestFor':
+            'Travelers staying in Osaka but visiting Kyoto for one or two days',
+        'why1':
+            "It compares Kyoto's east and west sides before you choose a base.",
+        'why2':
+            'It also shows whether moving hotels would save meaningful time.',
         'caveat': 'If Kyoto nights are important, consider one night in Kyoto.',
       },
       'zh': {
@@ -307,7 +485,8 @@ const quickPlans = <QuickPlan>[
       'fr': {
         'title': 'Base Osaka + excursion Kyoto',
         'subtitle': 'Kiyomizu-dera · Fushimi Inari · Arashiyama',
-        'recommendedBase': "Base conseillée : Umeda · Gare d'Osaka · Gare de Kyoto",
+        'recommendedBase':
+            "Base conseillée : Umeda · Gare d'Osaka · Gare de Kyoto",
         'bestFor': 'Dormir à Osaka tout en visitant Kyoto un ou deux jours',
         'why1': "Compare l'est et l'ouest de Kyoto avant de choisir la base.",
         'why2': "Montre aussi si changer d'hôtel économise vraiment du temps.",
@@ -315,11 +494,51 @@ const quickPlans = <QuickPlan>[
       },
     },
     landmarks: [
-      {'slug': 'kiyomizu-dera', 'name': '清水寺', 'nameEn': 'Kiyomizu-dera', 'nameKo': '기요미즈데라', 'lat': 34.9949, 'lng': 135.785, 'region': 'kansai'},
-      {'slug': 'fushimi-inari-taisha', 'name': '伏見稲荷大社', 'nameEn': 'Fushimi Inari', 'nameKo': '후시미이나리 타이샤', 'lat': 34.9671, 'lng': 135.7727, 'region': 'kansai'},
-      {'slug': 'arashiyama', 'name': '嵐山', 'nameEn': 'Arashiyama', 'nameKo': '아라시야마', 'lat': 35.0094, 'lng': 135.667, 'region': 'kansai'},
-      {'slug': 'kinkaku-ji', 'name': '金閣寺', 'nameEn': 'Kinkaku-ji', 'nameKo': '킨카쿠지', 'lat': 35.0394, 'lng': 135.7292, 'region': 'kansai'},
-      {'slug': 'nijo-castle', 'name': '二条城', 'nameEn': 'Nijo Castle', 'nameKo': '니조성', 'lat': 35.0142, 'lng': 135.7481, 'region': 'kansai'},
+      {
+        'slug': 'kiyomizu-dera',
+        'name': '清水寺',
+        'nameEn': 'Kiyomizu-dera',
+        'nameKo': '기요미즈데라',
+        'lat': 34.9949,
+        'lng': 135.785,
+        'region': 'kansai',
+      },
+      {
+        'slug': 'fushimi-inari-taisha',
+        'name': '伏見稲荷大社',
+        'nameEn': 'Fushimi Inari',
+        'nameKo': '후시미이나리 타이샤',
+        'lat': 34.9671,
+        'lng': 135.7727,
+        'region': 'kansai',
+      },
+      {
+        'slug': 'arashiyama',
+        'name': '嵐山',
+        'nameEn': 'Arashiyama',
+        'nameKo': '아라시야마',
+        'lat': 35.0094,
+        'lng': 135.667,
+        'region': 'kansai',
+      },
+      {
+        'slug': 'kinkaku-ji',
+        'name': '金閣寺',
+        'nameEn': 'Kinkaku-ji',
+        'nameKo': '킨카쿠지',
+        'lat': 35.0394,
+        'lng': 135.7292,
+        'region': 'kansai',
+      },
+      {
+        'slug': 'nijo-castle',
+        'name': '二条城',
+        'nameEn': 'Nijo Castle',
+        'nameKo': '니조성',
+        'lat': 35.0142,
+        'lng': 135.7481,
+        'region': 'kansai',
+      },
     ],
   ),
   QuickPlan(
@@ -351,8 +570,10 @@ const quickPlans = <QuickPlan>[
         'recommendedBase': 'Suggested base: Hakata · Tenjin · Nakasu',
         'bestFor': 'Travelers mixing Fukuoka city with a few side trips',
         'why1': 'Airport, Shinkansen, and city access all have clear hubs.',
-        'why2': 'Side trips in different directions are compared in the same result.',
-        'caveat': 'If hot springs are the main goal, city-only stays create long rides.',
+        'why2':
+            'Side trips in different directions are compared in the same result.',
+        'caveat':
+            'If hot springs are the main goal, city-only stays create long rides.',
       },
       'zh': {
         'title': '第一次福冈3晚',
@@ -369,16 +590,58 @@ const quickPlans = <QuickPlan>[
         'recommendedBase': 'Base conseillée : Hakata · Tenjin · Nakasu',
         'bestFor': 'Mixer Fukuoka ville et quelques excursions',
         'why1': "Aéroport, Shinkansen et ville ont des points d'accès clairs.",
-        'why2': 'Les excursions dans des directions différentes sont comparées ensemble.',
-        'caveat': "Si les onsens sont l'objectif principal, la ville seule rallonge les trajets.",
+        'why2':
+            'Les excursions dans des directions différentes sont comparées ensemble.',
+        'caveat':
+            "Si les onsens sont l'objectif principal, la ville seule rallonge les trajets.",
       },
     },
     landmarks: [
-      {'slug': 'tenjin', 'name': '天神', 'nameEn': 'Tenjin', 'nameKo': '텐진', 'lat': 33.5903, 'lng': 130.3990, 'region': 'kyushu'},
-      {'slug': 'canal-city-hakata', 'name': 'キャナルシティ博多', 'nameEn': 'Canal City Hakata', 'nameKo': '캐널시티 하카타', 'lat': 33.5895, 'lng': 130.4107, 'region': 'kyushu'},
-      {'slug': 'nakasu', 'name': '中洲', 'nameEn': 'Nakasu', 'nameKo': '나카스', 'lat': 33.5922, 'lng': 130.4042, 'region': 'kyushu'},
-      {'slug': 'dazaifu-tenmangu', 'name': '太宰府天満宮', 'nameEn': 'Dazaifu Tenmangu', 'nameKo': '다자이후 텐만구', 'lat': 33.5194, 'lng': 130.5350, 'region': 'kyushu'},
-      {'slug': 'hakata-station', 'name': '博多駅', 'nameEn': 'Hakata Station', 'nameKo': '하카타역', 'lat': 33.5898, 'lng': 130.4207, 'region': 'kyushu'},
+      {
+        'slug': 'tenjin',
+        'name': '天神',
+        'nameEn': 'Tenjin',
+        'nameKo': '텐진',
+        'lat': 33.5903,
+        'lng': 130.3990,
+        'region': 'kyushu',
+      },
+      {
+        'slug': 'canal-city-hakata',
+        'name': 'キャナルシティ博多',
+        'nameEn': 'Canal City Hakata',
+        'nameKo': '캐널시티 하카타',
+        'lat': 33.5895,
+        'lng': 130.4107,
+        'region': 'kyushu',
+      },
+      {
+        'slug': 'nakasu',
+        'name': '中洲',
+        'nameEn': 'Nakasu',
+        'nameKo': '나카스',
+        'lat': 33.5922,
+        'lng': 130.4042,
+        'region': 'kyushu',
+      },
+      {
+        'slug': 'dazaifu-tenmangu',
+        'name': '太宰府天満宮',
+        'nameEn': 'Dazaifu Tenmangu',
+        'nameKo': '다자이후 텐만구',
+        'lat': 33.5194,
+        'lng': 130.5350,
+        'region': 'kyushu',
+      },
+      {
+        'slug': 'hakata-station',
+        'name': '博多駅',
+        'nameEn': 'Hakata Station',
+        'nameKo': '하카타역',
+        'lat': 33.5898,
+        'lng': 130.4207,
+        'region': 'kyushu',
+      },
     ],
   ),
   QuickPlan(
@@ -407,9 +670,11 @@ const quickPlans = <QuickPlan>[
       'en': {
         'title': 'Kyushu Hot Spring Route',
         'subtitle': 'Yufuin · Beppu · Kurokawa',
-        'recommendedBase': 'Suggested base: compare Yufuin · Beppu · Fukuoka splits',
+        'recommendedBase':
+            'Suggested base: compare Yufuin · Beppu · Fukuoka splits',
         'bestFor': 'Travelers deciding between one base and split stays',
-        'why1': 'The hot spring towns are far apart, so base choice changes the trip.',
+        'why1':
+            'The hot spring towns are far apart, so base choice changes the trip.',
         'why2': 'The result helps avoid unrealistic day-trip routing.',
         'caveat': 'Some legs need bus or car checks beyond rail time.',
       },
@@ -425,25 +690,69 @@ const quickPlans = <QuickPlan>[
       'fr': {
         'title': 'Route onsens au Kyushu',
         'subtitle': 'Yufuin · Beppu · Kurokawa',
-        'recommendedBase': 'Base conseillée : comparer Yufuin · Beppu · Fukuoka',
+        'recommendedBase':
+            'Base conseillée : comparer Yufuin · Beppu · Fukuoka',
         'bestFor': 'Choisir entre une seule base et des nuits séparées',
-        'why1': 'Les villes thermales sont éloignées, donc la base change beaucoup le voyage.',
+        'why1':
+            'Les villes thermales sont éloignées, donc la base change beaucoup le voyage.',
         'why2': 'Le résultat aide à éviter des excursions trop ambitieuses.',
-        'caveat': 'Certaines étapes demandent aussi une vérification bus ou voiture.',
+        'caveat':
+            'Certaines étapes demandent aussi une vérification bus ou voiture.',
       },
     },
     landmarks: [
-      {'slug': 'dazaifu-tenmangu', 'name': '太宰府天満宮', 'nameEn': 'Dazaifu Tenmangu', 'nameKo': '다자이후 텐만구', 'lat': 33.5214, 'lng': 130.5353, 'region': 'kyushu'},
-      {'slug': 'yufuin', 'name': '由布院', 'nameEn': 'Yufuin', 'nameKo': '유후인', 'lat': 33.2667, 'lng': 131.3686, 'region': 'kyushu'},
-      {'slug': 'beppu-onsen', 'name': '別府温泉', 'nameEn': 'Beppu Onsen', 'nameKo': '벳푸 온천', 'lat': 33.2846, 'lng': 131.5004, 'region': 'kyushu'},
-      {'slug': 'beppu-hells', 'name': '別府地獄めぐり', 'nameEn': 'Beppu Hells', 'nameKo': '벳푸 지옥온천', 'lat': 33.3192, 'lng': 131.4564, 'region': 'kyushu'},
-      {'slug': 'kurokawa-onsen', 'name': '黒川温泉', 'nameEn': 'Kurokawa Onsen', 'nameKo': '구로카와 온천', 'lat': 33.1161, 'lng': 131.0914, 'region': 'kyushu'},
+      {
+        'slug': 'dazaifu-tenmangu',
+        'name': '太宰府天満宮',
+        'nameEn': 'Dazaifu Tenmangu',
+        'nameKo': '다자이후 텐만구',
+        'lat': 33.5214,
+        'lng': 130.5353,
+        'region': 'kyushu',
+      },
+      {
+        'slug': 'yufuin',
+        'name': '由布院',
+        'nameEn': 'Yufuin',
+        'nameKo': '유후인',
+        'lat': 33.2667,
+        'lng': 131.3686,
+        'region': 'kyushu',
+      },
+      {
+        'slug': 'beppu-onsen',
+        'name': '別府温泉',
+        'nameEn': 'Beppu Onsen',
+        'nameKo': '벳푸 온천',
+        'lat': 33.2846,
+        'lng': 131.5004,
+        'region': 'kyushu',
+      },
+      {
+        'slug': 'beppu-hells',
+        'name': '別府地獄めぐり',
+        'nameEn': 'Beppu Hells',
+        'nameKo': '벳푸 지옥온천',
+        'lat': 33.3192,
+        'lng': 131.4564,
+        'region': 'kyushu',
+      },
+      {
+        'slug': 'kurokawa-onsen',
+        'name': '黒川温泉',
+        'nameEn': 'Kurokawa Onsen',
+        'nameKo': '구로카와 온천',
+        'lat': 33.1161,
+        'lng': 131.0914,
+        'region': 'kyushu',
+      },
     ],
   ),
 ];
 
 class QuickPlanCards extends StatelessWidget {
-  final void Function(String planId, String region, List<Landmark> landmarks)? onPlanSelected;
+  final void Function(String planId, String region, List<Landmark> landmarks)?
+  onPlanSelected;
 
   const QuickPlanCards({super.key, this.onPlanSelected});
 
@@ -461,29 +770,33 @@ class QuickPlanCards extends StatelessWidget {
       children: [
         // Beginner framing: "no itinerary yet? start from a hotel base".
         Text(
-          tr(locale,
-              ja: '行きたい場所がまだ決まっていなくても大丈夫',
-              ko: '관광지를 몰라도 시작할 수 있어요',
-              en: 'No itinerary yet? Start here',
-              zh: '还不知道要去哪里也没关系',
-              fr: "Pas encore d'itinéraire ? Commencez ici"),
+          tr(
+            locale,
+            ja: '行きたい場所がまだ決まっていなくても大丈夫',
+            ko: '관광지를 몰라도 시작할 수 있어요',
+            en: 'No itinerary yet? Start here',
+            zh: '还不知道要去哪里也没关系',
+            fr: "Pas encore d'itinéraire ? Commencez ici",
+          ),
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: Theme.of(context).colorScheme.primary,
-                fontWeight: FontWeight.w600,
-              ),
+            color: Theme.of(context).colorScheme.primary,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         const SizedBox(height: 6),
         Text(
           l10n.quickPlanTitle,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 4),
         Text(
           l10n.quickPlanDesc,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.6),
           ),
         ),
         const SizedBox(height: 16),
@@ -510,7 +823,14 @@ class QuickPlanCards extends StatelessWidget {
 
         // Fukuoka / Kyushu
         _RegionSection(
-          title: tr(locale, ja: '福岡・九州', ko: '후쿠오카·큐슈', en: 'Fukuoka / Kyushu', zh: '福冈·九州', fr: 'Fukuoka / Kyushu'),
+          title: tr(
+            locale,
+            ja: '福岡・九州',
+            ko: '후쿠오카·큐슈',
+            en: 'Fukuoka / Kyushu',
+            zh: '福冈·九州',
+            fr: 'Fukuoka / Kyushu',
+          ),
           plans: kyushuPlans,
           locale: locale,
           ctaText: l10n.quickPlanCta,
@@ -543,9 +863,18 @@ class _RegionSection extends StatelessWidget {
       children: [
         Row(
           children: [
-            Icon(Icons.location_on, size: 16, color: Theme.of(context).colorScheme.primary),
+            Icon(
+              Icons.location_on,
+              size: 16,
+              color: Theme.of(context).colorScheme.primary,
+            ),
             const SizedBox(width: 6),
-            Text(title, style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+            Text(
+              title,
+              style: Theme.of(
+                context,
+              ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+            ),
           ],
         ),
         const SizedBox(height: 12),
@@ -592,10 +921,13 @@ class _QuickPlanCardState extends State<_QuickPlanCard> {
     final locale = widget.locale;
     final landmarks = widget.plan.landmarks.map((l) {
       final name = locale == 'ko'
-          ? (l['nameKo'] as String? ?? l['nameEn'] as String? ?? l['name'] as String)
+          ? (l['nameKo'] as String? ??
+                l['nameEn'] as String? ??
+                l['name'] as String)
           : locale == 'ja'
-              ? (l['name'] as String)
-              : (l['nameEn'] as String? ?? l['name'] as String); // en, zh, fr → English fallback
+          ? (l['name'] as String)
+          : (l['nameEn'] as String? ??
+                l['name'] as String); // en, zh, fr → English fallback
       return Landmark(
         slug: l['slug'] as String,
         name: name,
@@ -611,7 +943,8 @@ class _QuickPlanCardState extends State<_QuickPlanCard> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final labels = widget.plan.labels[widget.locale] ?? widget.plan.labels['en']!;
+    final labels =
+        widget.plan.labels[widget.locale] ?? widget.plan.labels['en']!;
     final imageUrl = 'https://norigo.app${widget.plan.image}';
     final muted = theme.colorScheme.onSurface.withValues(alpha: 0.6);
 
@@ -628,143 +961,184 @@ class _QuickPlanCardState extends State<_QuickPlanCard> {
         border: Border.all(color: theme.colorScheme.outline),
       ),
       clipBehavior: Clip.antiAlias,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Tapping the headline area starts the stay search.
-          GestureDetector(
-            onTap: _select,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      CachedImage(imageUrl, fit: BoxFit.cover),
-                      Container(
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.center,
-                            colors: [Colors.black54, Colors.transparent],
-                          ),
-                        ),
+      // The whole card starts the search; the why/caveat toggle below keeps its
+      // own InkWell, which wins taps within its own bounds.
+      child: GestureDetector(
+        onTap: _select,
+        behavior: HitTestBehavior.opaque,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  CachedImage(imageUrl, fit: BoxFit.cover),
+                  Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.center,
+                        colors: [Colors.black54, Colors.transparent],
                       ),
-                      Positioned(
-                        bottom: 10,
-                        left: 10,
-                        right: 10,
-                        child: Text(
-                          labels['title']!,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 10,
+                    left: 10,
+                    right: 10,
+                    child: Text(
+                      labels['title']!,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        shadows: [Shadow(blurRadius: 4, color: Colors.black45)],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 10, 12, 6),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Text(
+                      labels['subtitle']!,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: muted,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.primary,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.search, size: 12, color: Colors.white),
+                        const SizedBox(width: 3),
+                        Text(
+                          widget.ctaText,
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            shadows: [Shadow(blurRadius: 4, color: Colors.black45)],
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 10, 12, 6),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          labels['subtitle']!,
-                          style: theme.textTheme.bodySmall?.copyWith(color: muted, fontSize: 12),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.primary,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(Icons.search, size: 12, color: Colors.white),
-                            const SizedBox(width: 3),
-                            Text(
-                              widget.ctaText,
-                              style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Decision content — what turns this card into a planning aid.
-          if (recommendedBase.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 6),
-              child: _InfoLine(icon: Icons.hotel_outlined, text: recommendedBase, color: theme.colorScheme.primary),
-            ),
-          if (bestFor.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-              child: _InfoLine(icon: Icons.person_pin_circle_outlined, text: bestFor, color: muted),
-            ),
-
-          if (hasDetail) ...[
-            const Divider(height: 1),
-            InkWell(
-              onTap: () => setState(() => _expanded = !_expanded),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                child: Row(
-                  children: [
-                    Icon(Icons.lightbulb_outline, size: 14, color: muted),
-                    const SizedBox(width: 6),
-                    Text(
-                      tr(widget.locale, ja: '根拠と注意', ko: '근거 · 주의', en: 'Why & caveats', zh: '依据与注意', fr: 'Pourquoi & à noter'),
-                      style: theme.textTheme.labelMedium?.copyWith(color: muted, fontWeight: FontWeight.w600),
+                      ],
                     ),
-                    const Spacer(),
-                    Icon(_expanded ? Icons.expand_less : Icons.expand_more, size: 18, color: muted),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            if (_expanded)
+
+            // Decision content — what turns this card into a planning aid.
+            if (recommendedBase.isNotEmpty)
               Padding(
-                padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (why1.isNotEmpty) _ReasonLine(text: why1),
-                    if (why2.isNotEmpty) _ReasonLine(text: why2),
-                    if (caveat.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 6),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Icon(Icons.warning_amber_rounded, size: 15, color: Colors.orange.shade700),
-                            const SizedBox(width: 6),
-                            Expanded(
-                              child: Text(caveat, style: theme.textTheme.bodySmall?.copyWith(color: muted)),
-                            ),
-                          ],
-                        ),
-                      ),
-                  ],
+                padding: const EdgeInsets.fromLTRB(12, 0, 12, 6),
+                child: _InfoLine(
+                  icon: Icons.hotel_outlined,
+                  text: recommendedBase,
+                  color: theme.colorScheme.primary,
                 ),
               ),
+            if (bestFor.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+                child: _InfoLine(
+                  icon: Icons.person_pin_circle_outlined,
+                  text: bestFor,
+                  color: muted,
+                ),
+              ),
+
+            if (hasDetail) ...[
+              const Divider(height: 1),
+              InkWell(
+                onTap: () => setState(() => _expanded = !_expanded),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.lightbulb_outline, size: 14, color: muted),
+                      const SizedBox(width: 6),
+                      Text(
+                        tr(
+                          widget.locale,
+                          ja: '根拠と注意',
+                          ko: '근거 · 주의',
+                          en: 'Why & caveats',
+                          zh: '依据与注意',
+                          fr: 'Pourquoi & à noter',
+                        ),
+                        style: theme.textTheme.labelMedium?.copyWith(
+                          color: muted,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const Spacer(),
+                      Icon(
+                        _expanded ? Icons.expand_less : Icons.expand_more,
+                        size: 18,
+                        color: muted,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              if (_expanded)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (why1.isNotEmpty) _ReasonLine(text: why1),
+                      if (why2.isNotEmpty) _ReasonLine(text: why2),
+                      if (caveat.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 6),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.warning_amber_rounded,
+                                size: 15,
+                                color: Colors.orange.shade700,
+                              ),
+                              const SizedBox(width: 6),
+                              Expanded(
+                                child: Text(
+                                  caveat,
+                                  style: theme.textTheme.bodySmall?.copyWith(
+                                    color: muted,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
@@ -775,7 +1149,11 @@ class _InfoLine extends StatelessWidget {
   final String text;
   final Color color;
 
-  const _InfoLine({required this.icon, required this.text, required this.color});
+  const _InfoLine({
+    required this.icon,
+    required this.text,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -787,7 +1165,9 @@ class _InfoLine extends StatelessWidget {
         Expanded(
           child: Text(
             text,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: color, height: 1.3),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: color, height: 1.3),
           ),
         ),
       ],
@@ -802,16 +1182,27 @@ class _ReasonLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final muted = Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7);
+    final muted = Theme.of(
+      context,
+    ).colorScheme.onSurface.withValues(alpha: 0.7);
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.check_circle_outline, size: 15, color: Colors.green.shade600),
+          Icon(
+            Icons.check_circle_outline,
+            size: 15,
+            color: Colors.green.shade600,
+          ),
           const SizedBox(width: 6),
           Expanded(
-            child: Text(text, style: Theme.of(context).textTheme.bodySmall?.copyWith(color: muted, height: 1.3)),
+            child: Text(
+              text,
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: muted, height: 1.3),
+            ),
           ),
         ],
       ),
