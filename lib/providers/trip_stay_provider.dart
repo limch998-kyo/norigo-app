@@ -5,21 +5,41 @@ import '../models/stay_area.dart';
 import 'trip_provider.dart';
 import 'app_providers.dart';
 
+/// The inputs that should trigger a fresh stay recommendation for [tripId]:
+/// the trip's sorted spot slugs plus the search parameters that actually change
+/// the result (dates, budget, mode). Editing the trip name — or any *other*
+/// trip — must NOT change this string.
+///
+/// Returned from `select` as a plain String so it compares by value: the old
+/// selector returned a fresh `List` each call (identity-compared), which both
+/// failed to memoise and ignored date/budget/mode edits.
+String tripStaySignature(TripState state, String tripId) {
+  final slugs = state.items
+      .where((i) => i.tripId == tripId)
+      .map((i) => i.slug)
+      .toList()
+    ..sort();
+  final trip = state.trips.where((t) => t.id == tripId).firstOrNull;
+  return [
+    slugs.join(','),
+    trip?.checkIn ?? '',
+    trip?.checkOut ?? '',
+    trip?.maxBudget ?? '',
+    trip?.searchMode ?? '',
+  ].join('|');
+}
+
 /// Auto-fetches stay recommendation for a trip when it has 2+ spots.
-/// Uses keepAlive + select to avoid unnecessary re-fetches.
+/// Recomputes when the spots OR the trip's dates/budget/mode change.
 final tripStayProvider = FutureProvider.family<StayRecommendResult?, String>((ref, tripId) async {
-  // Only watch THIS trip's item slugs — not the entire tripProvider state
-  final itemSlugs = ref.watch(tripProvider.select((s) =>
-    s.items.where((i) => i.tripId == tripId).map((i) => i.slug).toList()..sort()
-  ));
-  if (itemSlugs.length < 2) return null;
+  ref.watch(tripProvider.select((s) => tripStaySignature(s, tripId)));
 
   final state = ref.read(tripProvider);
+  final items = state.items.where((i) => i.tripId == tripId).toList();
+  if (items.length < 2) return null;
+
   final trip = state.trips.where((t) => t.id == tripId).firstOrNull;
   if (trip == null) return null;
-
-  final items = state.items.where((i) => i.tripId == tripId).toList();
-  if (items.isEmpty) return null;
 
   final landmarks = items.map((i) => Landmark(
     slug: i.slug, name: i.name, lat: i.lat, lng: i.lng, region: i.region,
