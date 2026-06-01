@@ -17,6 +17,7 @@ import '../../services/station_codes.dart';
 import '../../widgets/share_buttons.dart';
 import '../../widgets/skeleton_loader.dart';
 import '../../utils/tr.dart';
+import '../../utils/color_utils.dart';
 import '../../widgets/cached_image.dart';
 
 Color _safeParseColor(String hex) {
@@ -1277,7 +1278,7 @@ class _RouteBar extends StatelessWidget {
             children: [
               // Start station dot
               _StationDot(
-                color: _parseColor(segments.first.color),
+                color: hexToColor(segments.first.color),
                 isFilled: true,
               ),
               ...segments.asMap().entries.expand((e) {
@@ -1294,18 +1295,18 @@ class _RouteBar extends StatelessWidget {
                       height: 5,
                       margin: const EdgeInsets.symmetric(horizontal: 1),
                       decoration: BoxDecoration(
-                        color: _parseColor(seg.color),
+                        color: hexToColor(seg.color),
                         borderRadius: BorderRadius.circular(3),
                       ),
                     ),
                   ),
                   // End station dot (transfer = ring, terminal = filled)
                   if (isLast)
-                    _StationDot(color: _parseColor(seg.color), isFilled: true)
+                    _StationDot(color: hexToColor(seg.color), isFilled: true)
                   else
                     _TransferDot(
-                      leftColor: _parseColor(seg.color),
-                      rightColor: _parseColor(segments[e.key + 1].color),
+                      leftColor: hexToColor(seg.color),
+                      rightColor: hexToColor(segments[e.key + 1].color),
                     ),
                 ];
               }),
@@ -1347,14 +1348,6 @@ class _RouteBar extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  Color _parseColor(String hex) {
-    try {
-      return Color(int.parse(hex.replaceFirst('#', '0xFF')));
-    } catch (_) {
-      return Colors.grey;
-    }
   }
 }
 
