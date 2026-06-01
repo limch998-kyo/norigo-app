@@ -7,7 +7,7 @@ import 'package:norigo_app/providers/trip_stay_provider.dart';
 /// Guards against the regression where dates/budget/mode changes were ignored
 /// (the old selector watched only spot slugs).
 void main() {
-  final _now = DateTime(2026, 1, 1);
+  final now = DateTime(2026, 1, 1);
 
   Trip trip({
     String id = 't1',
@@ -24,8 +24,8 @@ void main() {
         checkOut: checkOut,
         maxBudget: maxBudget,
         searchMode: searchMode,
-        createdAt: _now,
-        updatedAt: _now,
+        createdAt: now,
+        updatedAt: now,
       );
 
   TripItem item(String slug, {String tripId = 't1'}) => TripItem(
@@ -35,7 +35,7 @@ void main() {
         lng: 2,
         region: 'kanto',
         tripId: tripId,
-        addedAt: _now,
+        addedAt: now,
       );
 
   TripState state({List<Trip>? trips, List<TripItem>? items}) => TripState(
