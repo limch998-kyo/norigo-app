@@ -4,15 +4,14 @@ import 'package:integration_test/integration_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:norigo_app/app.dart';
 import 'package:norigo_app/providers/app_providers.dart';
+import 'package:norigo_app/screens/stay/stay_result_screen.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   Widget createApp({String locale = 'ko'}) {
     return ProviderScope(
-      overrides: [
-        localeProvider.overrideWith((ref) => locale),
-      ],
+      overrides: [localeProvider.overrideWith((ref) => locale)],
       child: const NorigoApp(),
     );
   }
@@ -117,7 +116,9 @@ void main() {
       expect(find.text('부산'), findsOneWidget);
     });
 
-    testWidgets('search button disabled with less than 2 landmarks', (tester) async {
+    testWidgets('search button disabled with less than 2 landmarks', (
+      tester,
+    ) async {
       await tester.pumpWidget(createApp());
       await tester.pumpAndSettle();
 
@@ -278,7 +279,9 @@ void main() {
       expect(find.text('전체'), findsOneWidget);
     });
 
-    testWidgets('guide detail opens natively with markdown content', (tester) async {
+    testWidgets('guide detail opens natively with markdown content', (
+      tester,
+    ) async {
       await tester.pumpWidget(createApp());
       await tester.pumpAndSettle();
 
@@ -300,23 +303,37 @@ void main() {
   });
 
   group('Quick plan cards', () {
-    testWidgets('quick plan adds 5 landmarks to search', (tester) async {
+    testWidgets('tapping a starter plan searches and jumps to the Hotel tab', (
+      tester,
+    ) async {
       await tester.pumpWidget(createApp());
       await tester.pumpAndSettle();
 
-      // Find and tap a quick plan card (e.g., "도쿄 핵심 코스")
-      final planSubtitle = find.text('도쿄 핵심 코스');
-      if (planSubtitle.evaluate().isNotEmpty) {
-        // Tap the plan card (tap on the subtitle area)
-        await tester.tap(planSubtitle);
-        await tester.pumpAndSettle();
+      // Quick plans sit below the fold — scroll the home view until the card
+      // (now titled by intent, e.g. "도쿄 처음 3박") becomes visible.
+      final planTitle = find.text('도쿄 처음 3박');
+      await tester.scrollUntilVisible(
+        planTitle,
+        300,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.pumpAndSettle();
+      expect(planTitle, findsWidgets);
 
-        // Should switch to Hotel tab with landmarks filled
-        // Check that more than 3 landmarks are shown (5 expected)
-        // The search screen shows landmark input fields
-        expect(find.text('시부야'), findsWidgets);
-        expect(find.text('이케부쿠로'), findsWidgets); // 5th landmark
-      }
+      // Tapping anywhere on the card now starts the search AND switches to the
+      // Hotel tab in one step — no second tap on a search button needed.
+      await tester.tap(planTitle.first);
+      await tester.pump();
+
+      final navBar = tester.widget<BottomNavigationBar>(
+        find.byType(BottomNavigationBar),
+      );
+      expect(navBar.currentIndex, 1); // Hotel tab
+
+      // search() flips isLoading, so the Hotel tab shows the result/loading
+      // screen — not the empty search form. This proves the search actually
+      // ran, not just that the tab switched.
+      expect(find.byType(StayResultScreen), findsOneWidget);
     });
   });
 }
