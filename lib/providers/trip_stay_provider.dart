@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/landmark.dart';
 import '../models/stay_area.dart';
@@ -38,7 +39,8 @@ final tripStayProvider = FutureProvider.family<StayRecommendResult?, String>((re
       checkOut: trip.checkOut,
       locale: locale,
     );
-  } catch (_) {
+  } catch (e) {
+    debugPrint('tripStayProvider: stay recommendation fetch failed: $e');
     return null;
   }
 });

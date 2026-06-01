@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
@@ -114,8 +115,9 @@ class TripNotifier extends StateNotifier<TripState> {
 
       // Migrate saved searches into trips (one-time)
       await _migrateSavedSearches(prefs);
-    } catch (_) {
+    } catch (e) {
       // Corrupted data, start fresh
+      debugPrint('TripNotifier: failed to load persisted trips, starting fresh: $e');
     }
   }
 
@@ -199,8 +201,9 @@ class TripNotifier extends StateNotifier<TripState> {
 
       // Remove old saved searches data
       await prefs.remove(savedKey);
-    } catch (_) {
+    } catch (e) {
       // Migration failed, keep old data
+      debugPrint('TripNotifier: saved-search migration failed, keeping old data: $e');
     }
   }
 

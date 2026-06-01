@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// Station code lookup (e.g., 新宿 on 山手線 → JY17)
@@ -12,13 +13,15 @@ class StationCodes {
     try {
       final raw = await rootBundle.loadString('assets/data/station-codes.json');
       _data = jsonDecode(raw) as Map<String, dynamic>;
-    } catch (_) {
+    } catch (e) {
+      debugPrint('StationCodes: failed to load station-codes.json: $e');
       _data = {};
     }
     try {
       final raw = await rootBundle.loadString('assets/data/line-colors.json');
       _lineColors = (jsonDecode(raw) as Map<String, dynamic>).map((k, v) => MapEntry(k, v.toString()));
-    } catch (_) {
+    } catch (e) {
+      debugPrint('StationCodes: failed to load line-colors.json: $e');
       _lineColors = {};
     }
   }
