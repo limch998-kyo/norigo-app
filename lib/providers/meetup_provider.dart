@@ -76,6 +76,17 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
     _regionSlots[state.region] = List.from(newSlots);
   }
 
+  /// Replace every slot with the given stations (used by deep-link restore).
+  /// Pads to the minimum of 2 slots so the search UI stays consistent.
+  void setStations(List<Station> stations) {
+    final newSlots = List<Station?>.from(stations);
+    while (newSlots.length < 2) {
+      newSlots.add(null);
+    }
+    state = state.copyWith(slots: newSlots);
+    _regionSlots[state.region] = List.from(newSlots);
+  }
+
   void removeSlot(int index) {
     if (state.slots.length <= 2) return; // min 2
     final newSlots = List<Station?>.from(state.slots);
@@ -129,6 +140,11 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
       opts.add(option);
     }
     state = state.copyWith(options: opts);
+  }
+
+  /// Replace all selected options at once (used by deep-link restore).
+  void setOptions(List<String> options) {
+    state = state.copyWith(options: List<String>.from(options));
   }
 
   Future<void> search() async {

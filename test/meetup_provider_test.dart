@@ -42,6 +42,50 @@ void main() {
     });
   });
 
+  group('setStations (deep-link restore)', () {
+    test('replaces all slots with the given stations', () {
+      notifier.setStations([shibuya, shinjuku, ikebukuro]);
+      final state = container.read(meetupSearchProvider);
+      expect(state.slots, [shibuya, shinjuku, ikebukuro]);
+      expect(state.filledStations.length, 3);
+    });
+
+    test('pads to a minimum of 2 slots for a single station', () {
+      notifier.setStations([shibuya]);
+      final state = container.read(meetupSearchProvider);
+      expect(state.slots.length, 2);
+      expect(state.slots[0], shibuya);
+      expect(state.slots[1], isNull);
+    });
+
+    test('overwrites any previously filled slots', () {
+      notifier.setStation(0, ikebukuro);
+      notifier.setStation(1, ikebukuro);
+      notifier.setStations([shibuya, shinjuku]);
+      final state = container.read(meetupSearchProvider);
+      expect(state.slots, [shibuya, shinjuku]);
+    });
+  });
+
+  group('setOptions (deep-link restore)', () {
+    test('replaces all options at once', () {
+      notifier.setOptions(['wifi', 'parking']);
+      expect(container.read(meetupSearchProvider).options, ['wifi', 'parking']);
+    });
+
+    test('overwrites previously toggled options', () {
+      notifier.toggleOption('smoking');
+      notifier.setOptions(['wifi']);
+      expect(container.read(meetupSearchProvider).options, ['wifi']);
+    });
+
+    test('empty list clears options', () {
+      notifier.toggleOption('wifi');
+      notifier.setOptions([]);
+      expect(container.read(meetupSearchProvider).options, isEmpty);
+    });
+  });
+
   group('removeSlot', () {
     test('does nothing when only 2 slots (minimum)', () {
       notifier.setStation(0, shibuya);

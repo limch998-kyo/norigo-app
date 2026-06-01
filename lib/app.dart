@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'l10n/app_localizations.dart';
 import 'config/theme.dart';
 import 'providers/app_providers.dart';
@@ -12,8 +13,17 @@ import 'screens/meetup/meetup_result_screen.dart';
 import 'screens/trip/trip_screen.dart';
 import 'screens/settings/settings_screen.dart';
 import 'screens/guide/guide_screen.dart';
+import 'screens/guide/native_guide_detail_screen.dart';
+import 'screens/spot/spot_detail_screen.dart';
+import 'screens/vote/vote_screen.dart';
 import 'providers/stay_provider.dart';
 import 'providers/meetup_provider.dart';
+import 'models/landmark.dart';
+import 'models/station.dart';
+import 'services/deep_link_parser.dart';
+import 'services/deep_link_service.dart';
+import 'services/landmark_localizer.dart';
+import 'services/station_localizer.dart';
 
 const _tabPages = ['/home', '/stay', '/meetup', '/trip', '/guide'];
 
@@ -60,6 +70,7 @@ class MainShell extends ConsumerStatefulWidget {
 class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserver {
   int _currentIndex = 0;
   final Set<int> _visitedTabs = {0};
+  final DeepLinkService _deepLinks = DeepLinkService();
 
   @override
   void initState() {
@@ -70,6 +81,8 @@ class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserv
       ref.read(trackingServiceProvider).trackEvent('page_view', payload: {
         'page': '/home',
       }, path: '/home');
+      // Begin listening for shared norigo.app links (cold start + runtime).
+      _deepLinks.start(_handleDeepLink);
     });
   }
 
@@ -77,7 +90,145 @@ class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserv
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     MainShell.globalSwitchTab = null;
+    _deepLinks.dispose();
     super.dispose();
+  }
+
+  // ── Deep link handling ──────────────────────────────────────────────
+
+  Future<void> _handleDeepLink(DeepLinkTarget target) async {
+    if (!mounted) return;
+    final locale = ref.read(localeProvider);
+    ref.read(trackingServiceProvider).trackEvent('deep_link_open', payload: {
+      'kind': target.kind.name,
+      'path': target.uri.path,
+    });
+    switch (target.kind) {
+      case DeepLinkKind.stay:
+        _restoreStaySearch(target);
+      case DeepLinkKind.meetup:
+        _restoreMeetupSearch(target, locale);
+      case DeepLinkKind.guide:
+        _pushRoot(NativeGuideDetailScreen(slug: target.slug!));
+      case DeepLinkKind.spot:
+        await _openSpot(target.slug!, locale, target.uri);
+      case DeepLinkKind.vote:
+        _pushRoot(VoteScreen(pollId: target.id!));
+      case DeepLinkKind.shortLink:
+        // Already expanded by the service; if it ever reaches here, open it.
+        _openExternally(target.uri);
+      case DeepLinkKind.external:
+        _openExternally(target.uri);
+    }
+  }
+
+  void _restoreStaySearch(DeepLinkTarget t) {
+    if (t.landmarks.length < 2) {
+      _openExternally(t.uri);
+      return;
+    }
+    final region = t.region ?? 'kanto';
+    final notifier = ref.read(staySearchProvider.notifier);
+    notifier.reset();
+    notifier.setRegion(region);
+    for (final lm in t.landmarks) {
+      notifier.addLandmark(Landmark(
+        // Coordinate-based slug keeps each landmark distinct (addLandmark
+        // de-dupes by slug, so a shared empty slug would collapse them).
+        slug: '${lm.lat},${lm.lng}',
+        name: lm.name,
+        lat: lm.lat,
+        lng: lm.lng,
+        region: region,
+      ));
+    }
+    if (t.mode != null) notifier.setMode(t.mode!);
+    if (t.budget != null) notifier.setBudget(t.budget);
+    if (t.checkIn != null || t.checkOut != null) {
+      notifier.setDates(t.checkIn, t.checkOut);
+    }
+    if (t.stayStyle != null) notifier.setStayStyle(t.stayStyle!);
+    _goToTab(1);
+    notifier.search();
+  }
+
+  void _restoreMeetupSearch(DeepLinkTarget t, String locale) {
+    final region = t.region ?? 'kanto';
+    final stations = <Station>[];
+    for (final id in t.stationIds) {
+      final coords = StationLocalizer.getCoordinates(id);
+      if (coords == null) {
+        // Can't resolve a station reliably — open in browser instead of
+        // running a search with bad coordinates.
+        _openExternally(t.uri);
+        return;
+      }
+      stations.add(Station(
+        id: id,
+        name: StationLocalizer.getLocalizedName(id, locale) ?? id,
+        lat: coords.$1,
+        lng: coords.$2,
+        region: region,
+      ));
+    }
+    if (stations.length < 2) {
+      _openExternally(t.uri);
+      return;
+    }
+    final notifier = ref.read(meetupSearchProvider.notifier);
+    notifier.reset();
+    notifier.setRegion(region);
+    notifier.setStations(stations);
+    if (t.mode != null) notifier.setMode(t.mode!);
+    if (t.category != null) notifier.setCategory(t.category);
+    if (t.budget != null) notifier.setBudget(t.budget);
+    if (t.options.isNotEmpty) notifier.setOptions(t.options);
+    _goToTab(2);
+    notifier.search();
+  }
+
+  Future<void> _openSpot(String slug, String locale, Uri fallback) async {
+    Landmark? lm;
+    final coords = LandmarkLocalizer.getCoordinates(slug: slug);
+    if (coords != null) {
+      lm = Landmark(
+        slug: slug,
+        name: LandmarkLocalizer.getLocalizedName(locale: locale, slug: slug) ?? slug,
+        lat: coords.$1,
+        lng: coords.$2,
+        region: LandmarkLocalizer.getRegion(slug: slug) ?? 'kanto',
+      );
+    } else {
+      // Not in the bundle — ask the API to resolve the slug.
+      final resolved = await ref
+          .read(apiClientProvider)
+          .resolveLandmarks([slug], locale: locale);
+      if (resolved.isNotEmpty) lm = resolved.first;
+    }
+    if (!mounted) return;
+    if (lm == null) {
+      _openExternally(fallback);
+      return;
+    }
+    _pushRoot(SpotDetailScreen(landmark: lm));
+  }
+
+  /// Pop any pushed routes, then switch the shell to [index].
+  void _goToTab(int index) {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    switchToTab(index);
+  }
+
+  void _pushRoot(Widget screen) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) => screen));
+  }
+
+  Future<void> _openExternally(Uri uri) async {
+    try {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (e) {
+      debugPrint('MainShell: failed to open $uri externally: $e');
+    }
   }
 
   @override

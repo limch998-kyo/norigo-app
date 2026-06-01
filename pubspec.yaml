@@ -23,6 +23,9 @@ dependencies:
   # URL launcher (affiliate links)
   url_launcher: ^6.3.1
 
+  # Deep links / universal links (open shared norigo.app URLs in-app)
+  app_links: ^6.4.0
+
   # Image caching
   cached_network_image: ^3.4.1
 
