@@ -185,7 +185,9 @@ class _GuideDetailScreenState extends ConsumerState<GuideDetailScreen> {
           ));
         }
       }
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('GuideDetail: add-to-trip from webview failed: $e');
+    }
   }
 
   String _guessRegion() {

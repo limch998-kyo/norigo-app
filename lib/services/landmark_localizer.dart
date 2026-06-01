@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// Offline landmark name localization using bundled static data.
@@ -23,7 +24,9 @@ class LandmarkLocalizer {
           final slug = map['slug'] as String?;
           if (slug != null) _slugToRegion[slug] = region;
         }
-      } catch (_) {}
+      } catch (e) {
+        debugPrint('LandmarkLocalizer: failed to load landmarks-$region.json: $e');
+      }
     }
   }
 

@@ -1,12 +1,12 @@
 import 'dart:io' show Platform;
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import '../config/constants.dart';
 import '../models/landmark.dart';
 import '../models/station.dart';
 import '../models/stay_area.dart';
 import '../models/meetup_result.dart';
 import '../models/hotel.dart';
-import '../models/meetup_result.dart' show Venue;
 
 String get _osName => Platform.isIOS ? 'iOS' : Platform.isAndroid ? 'Android' : Platform.operatingSystem;
 
@@ -211,7 +211,8 @@ class ApiClient {
       );
       final data = response.data as Map<String, dynamic>;
       return data['pollId'] as String?;
-    } catch (_) {
+    } catch (e) {
+      debugPrint('ApiClient.createVotePoll failed: $e');
       return null;
     }
   }
@@ -293,7 +294,8 @@ class ApiClient {
           region: json['region'] as String? ?? 'kanto',
         );
       }).toList();
-    } catch (_) {
+    } catch (e) {
+      debugPrint('ApiClient.resolveLandmarks failed: $e');
       return [];
     }
   }
@@ -344,7 +346,9 @@ class ApiClient {
       if (response.statusCode == 200 && response.data is Map) {
         return response.data['url'] as String?;
       }
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('ApiClient.createShareUrl failed: $e');
+    }
     return null;
   }
 }

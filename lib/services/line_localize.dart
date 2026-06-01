@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// Localizes Japanese train line names to ko/en/zh
@@ -13,7 +14,8 @@ class LineLocalizer {
       final raw = await rootBundle.loadString('assets/data/line-translations.json');
       final data = jsonDecode(raw) as Map<String, dynamic>;
       _translations = data.map((k, v) => MapEntry(k, Map<String, String>.from(v as Map)));
-    } catch (_) {
+    } catch (e) {
+      debugPrint('LineLocalizer: failed to load line-translations.json: $e');
       _translations = {};
     }
   }

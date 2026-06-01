@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// Offline station name localization using bundled data.
@@ -10,7 +11,8 @@ class StationLocalizer {
     try {
       final raw = await rootBundle.loadString('assets/data/station-names.json');
       _names = jsonDecode(raw) as Map<String, dynamic>;
-    } catch (_) {
+    } catch (e) {
+      debugPrint('StationLocalizer: failed to load station-names.json: $e');
       _names = {};
     }
   }

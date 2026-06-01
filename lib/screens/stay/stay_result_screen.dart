@@ -18,6 +18,7 @@ import '../../widgets/mode_tabs.dart';
 import '../../widgets/share_buttons.dart';
 import '../../widgets/skeleton_loader.dart';
 import '../../services/api_client.dart';
+import '../../utils/color_utils.dart';
 import '../../providers/trip_provider.dart';
 import '../../models/trip.dart';
 import 'package:uuid/uuid.dart';
@@ -1967,7 +1968,7 @@ class _RouteBar extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _StationDot(color: _parseColor(segments.first.color)),
+              _StationDot(color: hexToColor(segments.first.color)),
               ...segments.asMap().entries.expand((e) {
                 final seg = e.value;
                 final isLast = e.key == segments.length - 1;
@@ -1981,17 +1982,17 @@ class _RouteBar extends StatelessWidget {
                       height: 5,
                       margin: const EdgeInsets.symmetric(horizontal: 1),
                       decoration: BoxDecoration(
-                        color: _parseColor(seg.color),
+                        color: hexToColor(seg.color),
                         borderRadius: BorderRadius.circular(3),
                       ),
                     ),
                   ),
                   if (isLast)
-                    _StationDot(color: _parseColor(seg.color))
+                    _StationDot(color: hexToColor(seg.color))
                   else
                     _TransferDot(
-                      leftColor: _parseColor(seg.color),
-                      rightColor: _parseColor(segments[e.key + 1].color),
+                      leftColor: hexToColor(seg.color),
+                      rightColor: hexToColor(segments[e.key + 1].color),
                     ),
                 ];
               }),
@@ -2032,14 +2033,6 @@ class _RouteBar extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  Color _parseColor(String hex) {
-    try {
-      return Color(int.parse(hex.replaceFirst('#', '0xFF')));
-    } catch (_) {
-      return Colors.grey;
-    }
   }
 }
 
@@ -2123,14 +2116,6 @@ class _InlineMap extends StatelessWidget {
     this.hotels = const [],
   });
 
-  Color _parseColor(String hex) {
-    try {
-      return Color(int.parse(hex.replaceFirst('#', '0xFF')));
-    } catch (_) {
-      return Colors.grey;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final allPoints = [
@@ -2175,7 +2160,7 @@ class _InlineMap extends StatelessWidget {
           polylines.add(
             Polyline(
               points: points,
-              color: isTransfer ? Colors.grey : _parseColor(seg.color),
+              color: isTransfer ? Colors.grey : hexToColor(seg.color),
               strokeWidth: isTransfer ? 3.0 : 4.0,
               pattern: isTransfer
                   ? const StrokePattern.dotted()

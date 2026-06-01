@@ -60,6 +60,10 @@ videos/
 production_application.txt
 production_release_notes.txt
 tester_reply.txt
+*_reply.txt
+
+# Store screenshots (uploaded via fastlane metadata, not needed in repo)
+store/screenshots/
 
 # Fastlane secrets
 fastlane/api_key.json

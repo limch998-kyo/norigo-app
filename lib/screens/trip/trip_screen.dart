@@ -171,7 +171,9 @@ class TripScreen extends ConsumerWidget {
                   try {
                     final r = await api.searchLandmarks(q, region: tripRegion, locale: locale);
                     if (ctx.mounted) setDialogState(() => results = r);
-                  } catch (_) {}
+                  } catch (e) {
+                    debugPrint('TripScreen: landmark search failed: $e');
+                  }
                 },
               ),
               const SizedBox(height: 8),

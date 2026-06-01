@@ -5,6 +5,7 @@ import '../config/theme.dart';
 import '../models/stay_area.dart';
 import '../models/landmark.dart';
 import '../models/hotel.dart';
+import '../utils/color_utils.dart';
 
 /// Shared inline map widget showing stay recommendation:
 /// landmarks (indigo), recommended station (orange), hotels (green), route polylines.
@@ -16,10 +17,6 @@ class StayInlineMap extends StatelessWidget {
   final bool interactive;
 
   const StayInlineMap({super.key, required this.area, required this.landmarks, this.locale = 'en', this.hotels = const [], this.interactive = true});
-
-  Color _parseColor(String hex) {
-    try { return Color(int.parse(hex.replaceFirst('#', '0xFF'))); } catch (_) { return Colors.grey; }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +43,7 @@ class StayInlineMap extends StatelessWidget {
           final isTransfer = seg.line == 'transfer';
           polylines.add(Polyline(
             points: points,
-            color: isTransfer ? Colors.grey : _parseColor(seg.color),
+            color: isTransfer ? Colors.grey : hexToColor(seg.color),
             strokeWidth: isTransfer ? 3.0 : 4.0,
             pattern: isTransfer ? const StrokePattern.dotted() : const StrokePattern.solid(),
           ));
