@@ -278,6 +278,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       .trackEvent(
                         'quick_plan_section_view',
                         payload: {
+                          'section': 'japan',
                           'planIds': quickPlans.map((p) => p.id).toList(),
                           'planCount': quickPlans.length,
                         },
@@ -290,6 +291,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       .trackEvent(
                         'quick_plan_selected',
                         payload: {
+                          'section': 'japan',
                           'planId': planId,
                           'region': region,
                           'spotCount': landmarks.length,
@@ -326,6 +328,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       .trackEvent(
                         'quick_plan_selected',
                         payload: {
+                          'section': 'korea',
                           'planId': 'korea-$region',
                           'region': region,
                           'spotCount': landmarks.length,
@@ -375,7 +378,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: _KoreaBanner(
                 locale: locale,
-                onTap: () => setState(() => _koreaMode = true),
+                onTap: () {
+                  // Korea plans render only after this toggle, so fire the
+                  // section impression here (the denominator for korea-* clicks).
+                  ref
+                      .read(trackingServiceProvider)
+                      .trackEvent(
+                        'quick_plan_section_view',
+                        payload: {'section': 'korea'},
+                        path: '/home',
+                      );
+                  setState(() => _koreaMode = true);
+                },
               ),
             ),
           if (_koreaMode)
