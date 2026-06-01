@@ -79,20 +79,23 @@ void main() {
 
   // ── 3. Trip Stay Provider ──
   group('Trip stay provider logic', () {
-    test('Provider file has items.isEmpty check', () {
+    test('Guards on a minimum of 2 items', () {
       final content = File('lib/providers/trip_stay_provider.dart').readAsStringSync();
-      expect(content, contains('if (items.isEmpty) return null'));
+      expect(content, contains('if (items.length < 2) return null'));
     });
 
-    test('Provider watches itemSlugs with select()', () {
+    test('Watches a value-comparable signature via select()', () {
       final content = File('lib/providers/trip_stay_provider.dart').readAsStringSync();
       expect(content, contains('.select('));
-      expect(content, contains('itemSlugs'));
+      expect(content, contains('tripStaySignature('));
     });
 
-    test('Returns null for less than 2 items', () {
+    test('Signature includes dates/budget/mode so changes recompute', () {
       final content = File('lib/providers/trip_stay_provider.dart').readAsStringSync();
-      expect(content, contains('if (itemSlugs.length < 2) return null'));
+      for (final field in ['checkIn', 'checkOut', 'maxBudget', 'searchMode']) {
+        expect(content, contains('trip?.$field'),
+            reason: 'signature must fold in $field');
+      }
     });
   });
 
