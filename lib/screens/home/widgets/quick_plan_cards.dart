@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../models/landmark.dart';
-import '../../../services/landmark_localizer.dart';
 import '../../../utils/tr.dart';
 import '../../../widgets/cached_image.dart';
 
@@ -90,6 +89,7 @@ const quickPlans = <QuickPlan>[
         'name': '渋谷',
         'nameEn': 'Shibuya',
         'nameKo': '시부야',
+        'nameZh': '涩谷',
         'lat': 35.6595,
         'lng': 139.7004,
         'region': 'kanto',
@@ -99,6 +99,7 @@ const quickPlans = <QuickPlan>[
         'name': '原宿',
         'nameEn': 'Harajuku',
         'nameKo': '하라주쿠',
+        'nameZh': '原宿',
         'lat': 35.6702,
         'lng': 139.7026,
         'region': 'kanto',
@@ -108,6 +109,7 @@ const quickPlans = <QuickPlan>[
         'name': '新宿',
         'nameEn': 'Shinjuku',
         'nameKo': '신주쿠',
+        'nameZh': '新宿',
         'lat': 35.6852,
         'lng': 139.7100,
         'region': 'kanto',
@@ -117,6 +119,7 @@ const quickPlans = <QuickPlan>[
         'name': '表参道',
         'nameEn': 'Omotesando',
         'nameKo': '오모테산도',
+        'nameZh': '表参道',
         'lat': 35.6654,
         'lng': 139.7121,
         'region': 'kanto',
@@ -126,6 +129,7 @@ const quickPlans = <QuickPlan>[
         'name': '池袋',
         'nameEn': 'Ikebukuro',
         'nameKo': '이케부쿠로',
+        'nameZh': '池袋',
         'lat': 35.7295,
         'lng': 139.7109,
         'region': 'kanto',
@@ -192,6 +196,7 @@ const quickPlans = <QuickPlan>[
         'name': '浅草寺',
         'nameEn': 'Asakusa (Senso-ji)',
         'nameKo': '아사쿠사(센소지)',
+        'nameZh': '浅草寺',
         'lat': 35.7148,
         'lng': 139.7967,
         'region': 'kanto',
@@ -201,6 +206,7 @@ const quickPlans = <QuickPlan>[
         'name': '上野公園',
         'nameEn': 'Ueno Park',
         'nameKo': '우에노 공원',
+        'nameZh': '上野公园',
         'lat': 35.7146,
         'lng': 139.7732,
         'region': 'kanto',
@@ -210,6 +216,7 @@ const quickPlans = <QuickPlan>[
         'name': '東京駅',
         'nameEn': 'Tokyo Station',
         'nameKo': '도쿄역',
+        'nameZh': '东京站',
         'lat': 35.6812,
         'lng': 139.7671,
         'region': 'kanto',
@@ -219,6 +226,7 @@ const quickPlans = <QuickPlan>[
         'name': '秋葉原',
         'nameEn': 'Akihabara',
         'nameKo': '아키하바라',
+        'nameZh': '秋叶原',
         'lat': 35.6984,
         'lng': 139.7731,
         'region': 'kanto',
@@ -228,6 +236,7 @@ const quickPlans = <QuickPlan>[
         'name': 'スカイツリー',
         'nameEn': 'Tokyo Skytree',
         'nameKo': '스카이트리',
+        'nameZh': '晴空塔',
         'lat': 35.7101,
         'lng': 139.8107,
         'region': 'kanto',
@@ -294,6 +303,7 @@ const quickPlans = <QuickPlan>[
         'name': '東京ディズニーランド',
         'nameEn': 'Tokyo Disneyland',
         'nameKo': '도쿄 디즈니랜드',
+        'nameZh': '东京迪士尼乐园',
         'lat': 35.6329,
         'lng': 139.8804,
         'region': 'kanto',
@@ -303,6 +313,7 @@ const quickPlans = <QuickPlan>[
         'name': 'お台場',
         'nameEn': 'Odaiba',
         'nameKo': '오다이바',
+        'nameZh': '台场',
         'lat': 35.6267,
         'lng': 139.7762,
         'region': 'kanto',
@@ -312,6 +323,7 @@ const quickPlans = <QuickPlan>[
         'name': '銀座',
         'nameEn': 'Ginza',
         'nameKo': '긴자',
+        'nameZh': '银座',
         'lat': 35.6717,
         'lng': 139.7649,
         'region': 'kanto',
@@ -321,6 +333,7 @@ const quickPlans = <QuickPlan>[
         'name': '東京タワー',
         'nameEn': 'Tokyo Tower',
         'nameKo': '도쿄타워',
+        'nameZh': '东京塔',
         'lat': 35.6586,
         'lng': 139.7454,
         'region': 'kanto',
@@ -330,6 +343,7 @@ const quickPlans = <QuickPlan>[
         'name': '築地',
         'nameEn': 'Tsukiji',
         'nameKo': '쓰키지',
+        'nameZh': '筑地',
         'lat': 35.6654,
         'lng': 139.7707,
         'region': 'kanto',
@@ -396,6 +410,7 @@ const quickPlans = <QuickPlan>[
         'name': '道頓堀',
         'nameEn': 'Dotonbori',
         'nameKo': '도톤보리',
+        'nameZh': '道顿堀',
         'lat': 34.6687,
         'lng': 135.5021,
         'region': 'kansai',
@@ -405,6 +420,7 @@ const quickPlans = <QuickPlan>[
         'name': 'なんば',
         'nameEn': 'Namba',
         'nameKo': '난바',
+        'nameZh': '难波',
         'lat': 34.6659,
         'lng': 135.5013,
         'region': 'kansai',
@@ -414,6 +430,7 @@ const quickPlans = <QuickPlan>[
         'name': '心斎橋',
         'nameEn': 'Shinsaibashi',
         'nameKo': '신사이바시',
+        'nameZh': '心斋桥',
         'lat': 34.6751,
         'lng': 135.5014,
         'region': 'kansai',
@@ -423,6 +440,7 @@ const quickPlans = <QuickPlan>[
         'name': '黒門市場',
         'nameEn': 'Kuromon Market',
         'nameKo': '구로몬시장',
+        'nameZh': '黑门市场',
         'lat': 34.6681,
         'lng': 135.5097,
         'region': 'kansai',
@@ -432,6 +450,7 @@ const quickPlans = <QuickPlan>[
         'name': '大阪城',
         'nameEn': 'Osaka Castle',
         'nameKo': '오사카성',
+        'nameZh': '大阪城',
         'lat': 34.6873,
         'lng': 135.5262,
         'region': 'kansai',
@@ -500,6 +519,7 @@ const quickPlans = <QuickPlan>[
         'name': '清水寺',
         'nameEn': 'Kiyomizu-dera',
         'nameKo': '기요미즈데라',
+        'nameZh': '清水寺',
         'lat': 34.9949,
         'lng': 135.785,
         'region': 'kansai',
@@ -509,6 +529,7 @@ const quickPlans = <QuickPlan>[
         'name': '伏見稲荷大社',
         'nameEn': 'Fushimi Inari',
         'nameKo': '후시미이나리 타이샤',
+        'nameZh': '伏见稻荷大社',
         'lat': 34.9671,
         'lng': 135.7727,
         'region': 'kansai',
@@ -518,6 +539,7 @@ const quickPlans = <QuickPlan>[
         'name': '嵐山',
         'nameEn': 'Arashiyama',
         'nameKo': '아라시야마',
+        'nameZh': '岚山',
         'lat': 35.0094,
         'lng': 135.667,
         'region': 'kansai',
@@ -527,6 +549,7 @@ const quickPlans = <QuickPlan>[
         'name': '金閣寺',
         'nameEn': 'Kinkaku-ji',
         'nameKo': '킨카쿠지',
+        'nameZh': '金阁寺',
         'lat': 35.0394,
         'lng': 135.7292,
         'region': 'kansai',
@@ -536,6 +559,7 @@ const quickPlans = <QuickPlan>[
         'name': '二条城',
         'nameEn': 'Nijo Castle',
         'nameKo': '니조성',
+        'nameZh': '二条城',
         'lat': 35.0142,
         'lng': 135.7481,
         'region': 'kansai',
@@ -603,6 +627,7 @@ const quickPlans = <QuickPlan>[
         'name': '天神',
         'nameEn': 'Tenjin',
         'nameKo': '텐진',
+        'nameZh': '天神',
         'lat': 33.5903,
         'lng': 130.3990,
         'region': 'kyushu',
@@ -612,6 +637,7 @@ const quickPlans = <QuickPlan>[
         'name': 'キャナルシティ博多',
         'nameEn': 'Canal City Hakata',
         'nameKo': '캐널시티 하카타',
+        'nameZh': '博多运河城',
         'lat': 33.5895,
         'lng': 130.4107,
         'region': 'kyushu',
@@ -621,6 +647,7 @@ const quickPlans = <QuickPlan>[
         'name': '中洲',
         'nameEn': 'Nakasu',
         'nameKo': '나카스',
+        'nameZh': '中洲',
         'lat': 33.5922,
         'lng': 130.4042,
         'region': 'kyushu',
@@ -630,6 +657,7 @@ const quickPlans = <QuickPlan>[
         'name': '太宰府天満宮',
         'nameEn': 'Dazaifu Tenmangu',
         'nameKo': '다자이후 텐만구',
+        'nameZh': '太宰府天满宫',
         'lat': 33.5194,
         'lng': 130.5350,
         'region': 'kyushu',
@@ -639,6 +667,7 @@ const quickPlans = <QuickPlan>[
         'name': '博多駅',
         'nameEn': 'Hakata Station',
         'nameKo': '하카타역',
+        'nameZh': '博多站',
         'lat': 33.5898,
         'lng': 130.4207,
         'region': 'kyushu',
@@ -707,6 +736,7 @@ const quickPlans = <QuickPlan>[
         'name': '太宰府天満宮',
         'nameEn': 'Dazaifu Tenmangu',
         'nameKo': '다자이후 텐만구',
+        'nameZh': '太宰府天满宫',
         'lat': 33.5214,
         'lng': 130.5353,
         'region': 'kyushu',
@@ -716,6 +746,7 @@ const quickPlans = <QuickPlan>[
         'name': '由布院',
         'nameEn': 'Yufuin',
         'nameKo': '유후인',
+        'nameZh': '由布院',
         'lat': 33.2667,
         'lng': 131.3686,
         'region': 'kyushu',
@@ -725,6 +756,7 @@ const quickPlans = <QuickPlan>[
         'name': '別府温泉',
         'nameEn': 'Beppu Onsen',
         'nameKo': '벳푸 온천',
+        'nameZh': '别府温泉',
         'lat': 33.2846,
         'lng': 131.5004,
         'region': 'kyushu',
@@ -734,6 +766,7 @@ const quickPlans = <QuickPlan>[
         'name': '別府地獄めぐり',
         'nameEn': 'Beppu Hells',
         'nameKo': '벳푸 지옥온천',
+        'nameZh': '别府地狱温泉',
         'lat': 33.3192,
         'lng': 131.4564,
         'region': 'kyushu',
@@ -743,6 +776,7 @@ const quickPlans = <QuickPlan>[
         'name': '黒川温泉',
         'nameEn': 'Kurokawa Onsen',
         'nameKo': '구로카와 온천',
+        'nameZh': '黑川温泉',
         'lat': 33.1161,
         'lng': 131.0914,
         'region': 'kyushu',
@@ -943,36 +977,26 @@ class _QuickPlanCardState extends State<_QuickPlanCard> {
       final slug = l['slug'] as String;
       final ja = l['name'] as String;
       final nameEn = l['nameEn'] as String?;
-      final lat = l['lat'] as double;
-      final lng = l['lng'] as double;
-      // zh names live in the bundled landmark data, not in this card's map, so
-      // look them up — otherwise Chinese users see English place names. ja/ko
-      // keep the card's short names; fr uses English by app convention.
+      // Each language has an exact name in the card data (zh included), so the
+      // displayed/shared name matches the chosen intent precisely — no fuzzy
+      // coordinate lookup. fr uses English by app convention.
       final String name;
-      if (locale == 'ja') {
-        name = ja;
-      } else if (locale == 'ko') {
-        name = (l['nameKo'] as String?) ?? nameEn ?? ja;
-      } else if (locale == 'zh') {
-        name =
-            LandmarkLocalizer.getLocalizedName(
-              locale: 'zh',
-              slug: slug,
-              name: ja,
-              lat: lat,
-              lng: lng,
-            ) ??
-            nameEn ??
-            ja;
-      } else {
-        name = nameEn ?? ja; // en, fr
+      switch (locale) {
+        case 'ja':
+          name = ja;
+        case 'ko':
+          name = (l['nameKo'] as String?) ?? nameEn ?? ja;
+        case 'zh':
+          name = (l['nameZh'] as String?) ?? nameEn ?? ja;
+        default:
+          name = nameEn ?? ja; // en, fr
       }
       return Landmark(
         slug: slug,
         name: name,
         nameEn: nameEn,
-        lat: lat,
-        lng: lng,
+        lat: l['lat'] as double,
+        lng: l['lng'] as double,
         region: l['region'] as String,
       );
     }).toList();

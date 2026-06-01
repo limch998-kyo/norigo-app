@@ -77,6 +77,18 @@ void main() {
           expect((lm['slug'] as String).isNotEmpty, isTrue);
           expect(lm['name'], isA<String>());
           expect(lm['nameEn'], isA<String>());
+          // Exact per-language names (zh included) so non-ja/ko users see
+          // localized place names, not English fallbacks.
+          expect(
+            lm['nameKo'],
+            isA<String>(),
+            reason: '${plan.id} ${lm['slug']} nameKo',
+          );
+          expect(
+            lm['nameZh'],
+            isA<String>(),
+            reason: '${plan.id} ${lm['slug']} nameZh',
+          );
           expect(lm['region'], plan.region);
           final lat = lm['lat'] as double;
           final lng = lm['lng'] as double;
