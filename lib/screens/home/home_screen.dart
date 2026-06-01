@@ -272,6 +272,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: QuickPlanCards(
+                onImpression: () {
+                  ref
+                      .read(trackingServiceProvider)
+                      .trackEvent(
+                        'quick_plan_section_view',
+                        payload: {
+                          'planIds': quickPlans.map((p) => p.id).toList(),
+                          'planCount': quickPlans.length,
+                        },
+                        path: '/home',
+                      );
+                },
                 onPlanSelected: (planId, region, landmarks) {
                   ref
                       .read(trackingServiceProvider)
@@ -758,7 +770,7 @@ class _PopularSpots extends StatelessWidget {
                     Image.asset(
                       'assets/images/landmarks/$imageFile.webp',
                       fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => Container(
+                      errorBuilder: (_, _, _) => Container(
                         color: theme.colorScheme.surfaceContainerHighest,
                         child: const Icon(Icons.place, size: 32),
                       ),
@@ -810,8 +822,9 @@ class _KoreaBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (locale == 'ko')
+    if (locale == 'ko') {
       return const SizedBox.shrink(); // Don't show for Korean users
+    }
 
     return GestureDetector(
       onTap: onTap,
@@ -1796,7 +1809,7 @@ class _ContinuePlanningSection extends ConsumerWidget {
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: trips.length,
-              separatorBuilder: (_, __) => const SizedBox(width: 10),
+              separatorBuilder: (_, _) => const SizedBox(width: 10),
               itemBuilder: (context, index) {
                 final trip = trips[index];
                 final items = state.items

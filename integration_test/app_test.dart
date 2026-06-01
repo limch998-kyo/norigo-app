@@ -4,6 +4,7 @@ import 'package:integration_test/integration_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:norigo_app/app.dart';
 import 'package:norigo_app/providers/app_providers.dart';
+import 'package:norigo_app/screens/stay/stay_result_screen.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -328,6 +329,11 @@ void main() {
         find.byType(BottomNavigationBar),
       );
       expect(navBar.currentIndex, 1); // Hotel tab
+
+      // search() flips isLoading, so the Hotel tab shows the result/loading
+      // screen — not the empty search form. This proves the search actually
+      // ran, not just that the tab switched.
+      expect(find.byType(StayResultScreen), findsOneWidget);
     });
   });
 }

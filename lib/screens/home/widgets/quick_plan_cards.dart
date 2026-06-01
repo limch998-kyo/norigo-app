@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../models/landmark.dart';
+import '../../../services/landmark_localizer.dart';
 import '../../../utils/tr.dart';
 import '../../../widgets/cached_image.dart';
 
@@ -750,16 +751,35 @@ const quickPlans = <QuickPlan>[
   ),
 ];
 
-class QuickPlanCards extends StatelessWidget {
+class QuickPlanCards extends StatefulWidget {
   final void Function(String planId, String region, List<Landmark> landmarks)?
   onPlanSelected;
 
-  const QuickPlanCards({super.key, this.onPlanSelected});
+  /// Fired once when the section first renders — a section-level impression so
+  /// quick_plan_selected clicks have a denominator. This is a section render,
+  /// not a viewport-visibility impression.
+  final VoidCallback? onImpression;
+
+  const QuickPlanCards({super.key, this.onPlanSelected, this.onImpression});
+
+  @override
+  State<QuickPlanCards> createState() => _QuickPlanCardsState();
+}
+
+class _QuickPlanCardsState extends State<QuickPlanCards> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) widget.onImpression?.call();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final locale = Localizations.localeOf(context).languageCode;
+    final onPlanSelected = widget.onPlanSelected;
 
     final kantoPlans = quickPlans.where((p) => p.region == 'kanto').toList();
     final kansaiPlans = quickPlans.where((p) => p.region == 'kansai').toList();
@@ -920,20 +940,39 @@ class _QuickPlanCardState extends State<_QuickPlanCard> {
     if (onPlanSelected == null) return;
     final locale = widget.locale;
     final landmarks = widget.plan.landmarks.map((l) {
-      final name = locale == 'ko'
-          ? (l['nameKo'] as String? ??
-                l['nameEn'] as String? ??
-                l['name'] as String)
-          : locale == 'ja'
-          ? (l['name'] as String)
-          : (l['nameEn'] as String? ??
-                l['name'] as String); // en, zh, fr → English fallback
+      final slug = l['slug'] as String;
+      final ja = l['name'] as String;
+      final nameEn = l['nameEn'] as String?;
+      final lat = l['lat'] as double;
+      final lng = l['lng'] as double;
+      // zh names live in the bundled landmark data, not in this card's map, so
+      // look them up — otherwise Chinese users see English place names. ja/ko
+      // keep the card's short names; fr uses English by app convention.
+      final String name;
+      if (locale == 'ja') {
+        name = ja;
+      } else if (locale == 'ko') {
+        name = (l['nameKo'] as String?) ?? nameEn ?? ja;
+      } else if (locale == 'zh') {
+        name =
+            LandmarkLocalizer.getLocalizedName(
+              locale: 'zh',
+              slug: slug,
+              name: ja,
+              lat: lat,
+              lng: lng,
+            ) ??
+            nameEn ??
+            ja;
+      } else {
+        name = nameEn ?? ja; // en, fr
+      }
       return Landmark(
-        slug: l['slug'] as String,
+        slug: slug,
         name: name,
-        nameEn: l['nameEn'] as String?,
-        lat: l['lat'] as double,
-        lng: l['lng'] as double,
+        nameEn: nameEn,
+        lat: lat,
+        lng: lng,
         region: l['region'] as String,
       );
     }).toList();
@@ -963,181 +1002,191 @@ class _QuickPlanCardState extends State<_QuickPlanCard> {
       clipBehavior: Clip.antiAlias,
       // The whole card starts the search; the why/caveat toggle below keeps its
       // own InkWell, which wins taps within its own bounds.
-      child: GestureDetector(
-        onTap: _select,
-        behavior: HitTestBehavior.opaque,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            AspectRatio(
-              aspectRatio: 16 / 9,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  CachedImage(imageUrl, fit: BoxFit.cover),
-                  Container(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.center,
-                        colors: [Colors.black54, Colors.transparent],
+      child: Semantics(
+        button: true,
+        label: '${labels['title']}. ${widget.ctaText}',
+        child: GestureDetector(
+          onTap: _select,
+          behavior: HitTestBehavior.opaque,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    CachedImage(imageUrl, fit: BoxFit.cover),
+                    Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.center,
+                          colors: [Colors.black54, Colors.transparent],
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    bottom: 10,
-                    left: 10,
-                    right: 10,
-                    child: Text(
-                      labels['title']!,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        shadows: [Shadow(blurRadius: 4, color: Colors.black45)],
+                    Positioned(
+                      bottom: 10,
+                      left: 10,
+                      right: 10,
+                      child: Text(
+                        labels['title']!,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          shadows: [
+                            Shadow(blurRadius: 4, color: Colors.black45),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 10, 12, 6),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Text(
-                      labels['subtitle']!,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: muted,
-                        fontSize: 12,
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12, 10, 12, 6),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        labels['subtitle']!,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: muted,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 5,
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.primary,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.search,
+                            size: 12,
+                            color: Colors.white,
+                          ),
+                          const SizedBox(width: 3),
+                          Text(
+                            widget.ctaText,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.primary,
-                      borderRadius: BorderRadius.circular(6),
+                  ],
+                ),
+              ),
+
+              // Decision content — what turns this card into a planning aid.
+              if (recommendedBase.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 0, 12, 6),
+                  child: _InfoLine(
+                    icon: Icons.hotel_outlined,
+                    text: recommendedBase,
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
+              if (bestFor.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+                  child: _InfoLine(
+                    icon: Icons.person_pin_circle_outlined,
+                    text: bestFor,
+                    color: muted,
+                  ),
+                ),
+
+              if (hasDetail) ...[
+                const Divider(height: 1),
+                InkWell(
+                  onTap: () => setState(() => _expanded = !_expanded),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
                     ),
                     child: Row(
-                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.search, size: 12, color: Colors.white),
-                        const SizedBox(width: 3),
+                        Icon(Icons.lightbulb_outline, size: 14, color: muted),
+                        const SizedBox(width: 6),
                         Text(
-                          widget.ctaText,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 11,
+                          tr(
+                            widget.locale,
+                            ja: '根拠と注意',
+                            ko: '근거 · 주의',
+                            en: 'Why & caveats',
+                            zh: '依据与注意',
+                            fr: 'Pourquoi & à noter',
+                          ),
+                          style: theme.textTheme.labelMedium?.copyWith(
+                            color: muted,
                             fontWeight: FontWeight.w600,
                           ),
+                        ),
+                        const Spacer(),
+                        Icon(
+                          _expanded ? Icons.expand_less : Icons.expand_more,
+                          size: 18,
+                          color: muted,
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
-
-            // Decision content — what turns this card into a planning aid.
-            if (recommendedBase.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12, 0, 12, 6),
-                child: _InfoLine(
-                  icon: Icons.hotel_outlined,
-                  text: recommendedBase,
-                  color: theme.colorScheme.primary,
                 ),
-              ),
-            if (bestFor.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-                child: _InfoLine(
-                  icon: Icons.person_pin_circle_outlined,
-                  text: bestFor,
-                  color: muted,
-                ),
-              ),
-
-            if (hasDetail) ...[
-              const Divider(height: 1),
-              InkWell(
-                onTap: () => setState(() => _expanded = !_expanded),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(Icons.lightbulb_outline, size: 14, color: muted),
-                      const SizedBox(width: 6),
-                      Text(
-                        tr(
-                          widget.locale,
-                          ja: '根拠と注意',
-                          ko: '근거 · 주의',
-                          en: 'Why & caveats',
-                          zh: '依据与注意',
-                          fr: 'Pourquoi & à noter',
-                        ),
-                        style: theme.textTheme.labelMedium?.copyWith(
-                          color: muted,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const Spacer(),
-                      Icon(
-                        _expanded ? Icons.expand_less : Icons.expand_more,
-                        size: 18,
-                        color: muted,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              if (_expanded)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (why1.isNotEmpty) _ReasonLine(text: why1),
-                      if (why2.isNotEmpty) _ReasonLine(text: why2),
-                      if (caveat.isNotEmpty)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 6),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.warning_amber_rounded,
-                                size: 15,
-                                color: Colors.orange.shade700,
-                              ),
-                              const SizedBox(width: 6),
-                              Expanded(
-                                child: Text(
-                                  caveat,
-                                  style: theme.textTheme.bodySmall?.copyWith(
-                                    color: muted,
+                if (_expanded)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (why1.isNotEmpty) _ReasonLine(text: why1),
+                        if (why2.isNotEmpty) _ReasonLine(text: why2),
+                        if (caveat.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 6),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  Icons.warning_amber_rounded,
+                                  size: 15,
+                                  color: Colors.orange.shade700,
+                                ),
+                                const SizedBox(width: 6),
+                                Expanded(
+                                  child: Text(
+                                    caveat,
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: muted,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );

@@ -10,8 +10,9 @@ void main() {
 
     for (final file in Directory('lib').listSync(recursive: true)) {
       if (file is! File || !file.path.endsWith('.dart')) continue;
-      if (file.path.contains('.g.dart') || file.path.endsWith('tr.dart'))
+      if (file.path.contains('.g.dart') || file.path.endsWith('tr.dart')) {
         continue;
+      }
 
       final content = file.readAsStringSync();
       final lines = content.split('\n');
@@ -54,22 +55,16 @@ void main() {
       }
     }
 
-    if (violations.isNotEmpty) {
-      // Print all but only fail with count
-      for (final v in violations) {
-        // ignore desc maps (they fallback to en correctly via descMap?[locale] ?? descMap?['en'])
-        if (v.contains("'desc':")) continue;
-        print(v);
-      }
-      final nonDescViolations = violations
-          .where((v) => !v.contains("'desc':"))
-          .toList();
-      if (nonDescViolations.isNotEmpty) {
-        fail(
-          'Found ${nonDescViolations.length} locale map(s) without fr key.\n'
-          'Add fr: key or ensure en fallback for French users.',
-        );
-      }
+    // Ignore desc maps (they fall back to en via descMap?[locale] ?? descMap?['en']).
+    final nonDescViolations = violations
+        .where((v) => !v.contains("'desc':"))
+        .toList();
+    if (nonDescViolations.isNotEmpty) {
+      fail(
+        'Found ${nonDescViolations.length} locale map(s) without fr key.\n'
+        'Add fr: key or ensure en fallback for French users.\n'
+        '${nonDescViolations.join('\n')}',
+      );
     }
   });
 
@@ -82,8 +77,9 @@ void main() {
 
       final content = file.readAsStringSync();
       if (!content.contains('tr(locale,') &&
-          !content.contains('tr(widget.locale,'))
+          !content.contains('tr(widget.locale,')) {
         continue;
+      }
 
       // Multi-line aware tr() check
       final pattern = RegExp(
@@ -120,8 +116,9 @@ void main() {
 
     for (final file in Directory('lib').listSync(recursive: true)) {
       if (file is! File || !file.path.endsWith('.dart')) continue;
-      if (file.path.contains('.g.dart') || file.path.contains('l10n/'))
+      if (file.path.contains('.g.dart') || file.path.contains('l10n/')) {
         continue;
+      }
       // Non-UI switches localize via en/nameEn fallback, not an fr branch.
       if (file.path.contains('tr.dart') ||
           file.path.contains('models/') ||
