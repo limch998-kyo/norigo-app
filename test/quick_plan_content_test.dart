@@ -34,17 +34,30 @@ void main() {
   group('every plan has complete decision copy in all 5 languages', () {
     for (final plan in quickPlans) {
       test('${plan.id} labels', () {
-        expect(validRegions.contains(plan.region), isTrue,
-            reason: '${plan.id} has invalid region ${plan.region}');
+        expect(
+          validRegions.contains(plan.region),
+          isTrue,
+          reason: '${plan.id} has invalid region ${plan.region}',
+        );
         for (final locale in locales) {
           final labels = plan.labels[locale];
-          expect(labels, isNotNull, reason: '${plan.id} missing locale $locale');
+          expect(
+            labels,
+            isNotNull,
+            reason: '${plan.id} missing locale $locale',
+          );
           for (final key in requiredLabelKeys) {
             final value = labels![key];
-            expect(value, isNotNull,
-                reason: '${plan.id}/$locale missing "$key"');
-            expect(value!.trim(), isNotEmpty,
-                reason: '${plan.id}/$locale has blank "$key"');
+            expect(
+              value,
+              isNotNull,
+              reason: '${plan.id}/$locale missing "$key"',
+            );
+            expect(
+              value!.trim(),
+              isNotEmpty,
+              reason: '${plan.id}/$locale has blank "$key"',
+            );
           }
         }
       });
@@ -54,8 +67,11 @@ void main() {
   group('every plan has a valid 5-landmark set', () {
     for (final plan in quickPlans) {
       test('${plan.id} landmarks', () {
-        expect(plan.landmarks.length, 5,
-            reason: '${plan.id} should have 5 landmarks');
+        expect(
+          plan.landmarks.length,
+          5,
+          reason: '${plan.id} should have 5 landmarks',
+        );
         for (final lm in plan.landmarks) {
           expect(lm['slug'], isA<String>());
           expect((lm['slug'] as String).isNotEmpty, isTrue);
@@ -65,10 +81,16 @@ void main() {
           final lat = lm['lat'] as double;
           final lng = lm['lng'] as double;
           // Japan bounding box — catches swapped/zeroed coordinates.
-          expect(lat, inInclusiveRange(24.0, 46.0),
-              reason: '${plan.id} ${lm['slug']} lat out of range');
-          expect(lng, inInclusiveRange(122.0, 146.0),
-              reason: '${plan.id} ${lm['slug']} lng out of range');
+          expect(
+            lat,
+            inInclusiveRange(24.0, 46.0),
+            reason: '${plan.id} ${lm['slug']} lat out of range',
+          );
+          expect(
+            lng,
+            inInclusiveRange(122.0, 146.0),
+            reason: '${plan.id} ${lm['slug']} lng out of range',
+          );
         }
       });
     }
@@ -76,8 +98,11 @@ void main() {
 
   test('every plan points at a landmarks webp image', () {
     for (final plan in quickPlans) {
-      expect(plan.image, startsWith('/images/landmarks/'),
-          reason: '${plan.id} image path');
+      expect(
+        plan.image,
+        startsWith('/images/landmarks/'),
+        reason: '${plan.id} image path',
+      );
       expect(plan.image, endsWith('.webp'), reason: '${plan.id} image type');
     }
   });
