@@ -182,6 +182,7 @@ class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserv
     if (t.mode != null) notifier.setMode(t.mode!);
     if (t.category != null) notifier.setCategory(t.category);
     if (t.budget != null) notifier.setBudget(t.budget);
+    if (t.options.isNotEmpty) notifier.setOptions(t.options);
     _goToTab(2);
     notifier.search();
   }

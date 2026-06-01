@@ -142,6 +142,11 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
     state = state.copyWith(options: opts);
   }
 
+  /// Replace all selected options at once (used by deep-link restore).
+  void setOptions(List<String> options) {
+    state = state.copyWith(options: List<String>.from(options));
+  }
+
   Future<void> search() async {
     final filled = state.filledStations;
     if (filled.length < 2) return;

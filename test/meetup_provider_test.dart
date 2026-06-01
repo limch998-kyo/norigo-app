@@ -67,6 +67,25 @@ void main() {
     });
   });
 
+  group('setOptions (deep-link restore)', () {
+    test('replaces all options at once', () {
+      notifier.setOptions(['wifi', 'parking']);
+      expect(container.read(meetupSearchProvider).options, ['wifi', 'parking']);
+    });
+
+    test('overwrites previously toggled options', () {
+      notifier.toggleOption('smoking');
+      notifier.setOptions(['wifi']);
+      expect(container.read(meetupSearchProvider).options, ['wifi']);
+    });
+
+    test('empty list clears options', () {
+      notifier.toggleOption('wifi');
+      notifier.setOptions([]);
+      expect(container.read(meetupSearchProvider).options, isEmpty);
+    });
+  });
+
   group('removeSlot', () {
     test('does nothing when only 2 slots (minimum)', () {
       notifier.setStation(0, shibuya);
