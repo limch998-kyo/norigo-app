@@ -652,7 +652,7 @@ class _QuickSearchPlans extends StatelessWidget {
         const SizedBox(height: 8),
         ...plans.map((plan) {
           final titleMap = plan['title'] as Map<String, String>;
-          final title = titleMap[locale] ?? titleMap['en'] ?? '';
+          final title = titleMap[locale == 'zh-TW' ? 'zh' : locale] ?? titleMap['en'] ?? '';
           final landmarkData = plan['landmarks'] as List<Map<String, Object>>;
 
           return Padding(

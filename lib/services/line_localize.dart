@@ -70,6 +70,7 @@ class LineLocalizer {
 
   /// Synchronous version using cached data (call after preload)
   static String localizeSync(String lineName, String locale, {String? operator}) {
+    if (locale == 'zh-TW') locale = 'zh'; // Traditional uses Simplified line names
     final cacheKey = '$lineName|$locale';
     final cached = _cache[cacheKey];
     if (cached != null) return cached;

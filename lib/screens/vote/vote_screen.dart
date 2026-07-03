@@ -73,8 +73,18 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
         _totalVoters = (data['totalVoters'] as num?)?.toInt() ?? 0;
         _myVotes = ((data['myVenueIds'] as List<dynamic>?) ?? [])
             .map((e) => e.toString()).toSet();
+        // Server returns curated options as localized objects {ja, ko, en}
+        // (no 'name' key). Localize by the current locale; zh-TW → zh → en.
+        final loc = ref.read(localeProvider);
         _meetingSpotOptions = ((data['meetingSpotOptions'] as List<dynamic>?) ?? [])
-            .map((e) => e is Map ? (e['name']?.toString() ?? e.toString()) : e.toString())
+            .map((e) => e is Map
+                ? ((e[loc] ??
+                            (loc == 'zh-TW' ? e['zh'] : null) ??
+                            e['en'] ??
+                            e['ja'] ??
+                            '')
+                        .toString())
+                : e.toString())
             .where((s) => s.isNotEmpty)
             .toList();
         _loading = false;
@@ -132,6 +142,12 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
     if (!mounted) return;
     if (meta != null) {
       setState(() => _poll = {...?_poll, 'meta': meta});
+      // Restart the refresh timer so the next poll is issued AFTER this write
+      // persisted — otherwise an already-in-flight (pre-write) snapshot could
+      // land and briefly revert the just-applied plan edit.
+      _pollTimer?.cancel();
+      _pollTimer =
+          Timer.periodic(const Duration(seconds: 5), (_) => _fetchPoll());
     } else {
       await _fetchPoll(); // fall back to canonical state
     }
@@ -165,6 +181,7 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
   Future<void> _pickMeetingSpot(String locale) async {
     final controller =
         TextEditingController(text: _meta['meetingSpot'] as String? ?? '');
+    try {
     final result = await showDialog<String>(
       context: context,
       builder: (ctx) => AlertDialog(
@@ -209,6 +226,9 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
     );
     if (result != null && result.isNotEmpty) {
       await _patchPlan(meetingSpot: result);
+    }
+    } finally {
+      controller.dispose();
     }
   }
 

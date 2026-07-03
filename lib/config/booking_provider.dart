@@ -445,6 +445,7 @@ class BookingProvider {
     final langCode = switch (locale) {
       'ko' => 'ko-kr',
       'zh' => 'zh-cn',
+      'zh-TW' => 'zh-cn', // Traditional → Simplified page (zh-based fallback)
       'ja' => 'ja-jp',
       'fr' => 'fr-fr',
       _ => 'en-us',
@@ -631,6 +632,7 @@ class BookingProvider {
       'ja' => (domain: 'www.hotels.com', siteId: '300000034', loc: 'ja_JP'),
       'fr' => (domain: 'www.hotels.com', siteId: '300000034', loc: 'fr_FR'),
       'zh' => (domain: 'www.hotels.com', siteId: '300000034', loc: 'zh_CN'),
+      'zh-TW' => (domain: 'www.hotels.com', siteId: '300000034', loc: 'zh_CN'),
       _ => (domain: 'www.hotels.com', siteId: '300000034', loc: 'en_US'),
     };
     const affcid = 'US.DIRECT.PHG.1011l426920.1100l68075';

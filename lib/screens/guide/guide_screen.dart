@@ -24,6 +24,11 @@ class _GuideScreenState extends ConsumerState<GuideScreen> {
   /// image paths). Field shapes differ, so resolution is source-aware.
   bool _fromApi = false;
 
+  /// Monotonic load counter — guards against an older in-flight load
+  /// overwriting a newer one after a rapid locale switch (out-of-order
+  /// responses would otherwise leave the list in a stale locale).
+  int _loadSeq = 0;
+
   @override
   void initState() {
     super.initState();
@@ -31,20 +36,20 @@ class _GuideScreenState extends ConsumerState<GuideScreen> {
   }
 
   /// Load the live guide list from the API — new guides published on the web
-  /// appear automatically — falling back to the bundled snapshot when offline.
+  /// appear automatically — falling back to the bundled snapshot only when the
+  /// API call FAILS (offline). A successful (even empty) response is used as-is
+  /// so removed/unpublished guides don't reappear from the stale bundle.
   Future<void> _loadGuides(String locale) async {
+    final seq = ++_loadSeq;
     try {
       final api = ref.read(apiClientProvider);
       final guides = await api.getGuides(locale: locale);
-      if (guides.isNotEmpty) {
-        if (mounted) {
-          setState(() {
-            _guides = guides;
-            _fromApi = true;
-          });
-        }
-        return;
-      }
+      if (!mounted || seq != _loadSeq) return; // superseded by a newer load
+      setState(() {
+        _guides = guides;
+        _fromApi = true;
+      });
+      return;
     } catch (_) {
       // offline / API error — fall through to the bundled snapshot
     }
@@ -53,35 +58,41 @@ class _GuideScreenState extends ConsumerState<GuideScreen> {
         'assets/data/featured-guides.json',
       );
       final list = (jsonDecode(raw) as List).cast<Map<String, dynamic>>();
-      if (mounted) {
-        setState(() {
-          _guides = list;
-          _fromApi = false;
-        });
-      }
+      if (!mounted || seq != _loadSeq) return;
+      setState(() {
+        _guides = list;
+        _fromApi = false;
+      });
     } catch (_) {
       // bundle unreadable (shouldn't happen) — leave the list empty
     }
   }
 
-  // Field resolution unified across API and bundle shapes.
-  String _guideTitle(Map<String, dynamic> g, String locale) => _fromApi
-      ? (g['title'] as String? ?? '')
-      : ((g['title'] as Map<String, dynamic>?)?[locale] ??
-                (g['title'] as Map<String, dynamic>?)?['en'] ??
-                '')
-            as String;
+  // Field resolution unified across API (localized String) and bundle
+  // (per-locale Map) shapes. Infers shape from the value type so an
+  // unexpected type degrades to blank instead of throwing during build.
+  // zh-TW falls back to zh (Simplified), then en.
+  String _guideTitle(Map<String, dynamic> g, String locale) =>
+      _localizedField(g['title'], locale);
 
-  String _guideDesc(Map<String, dynamic> g, String locale) => _fromApi
-      ? (g['description'] as String? ?? '')
-      : ((g['description'] as Map<String, dynamic>?)?[locale] ??
-                (g['description'] as Map<String, dynamic>?)?['en'] ??
-                '')
-            as String;
+  String _guideDesc(Map<String, dynamic> g, String locale) =>
+      _localizedField(g['description'], locale);
+
+  String _localizedField(dynamic value, String locale) {
+    if (value is String) return value; // API: pre-localized string
+    if (value is Map) {
+      return (value[locale] ??
+              (locale == 'zh-TW' ? value['zh'] : null) ??
+              value['en'] ??
+              '')
+          .toString();
+    }
+    return '';
+  }
 
   String _guideImage(Map<String, dynamic> g) {
-    final hero = g['heroImage'] as String?;
-    if (hero == null || hero.isEmpty) return '';
+    final hero = g['heroImage'];
+    if (hero is! String || hero.isEmpty) return '';
     // API returns absolute URLs; the bundle stores site-relative paths.
     return _fromApi ? hero : 'https://norigo.app$hero';
   }
@@ -161,8 +172,10 @@ class _GuideScreenState extends ConsumerState<GuideScreen> {
                       final title = _guideTitle(guide, locale);
                       final desc = _guideDesc(guide, locale);
                       final imageUrl = _guideImage(guide);
-                      final regionLabel =
-                          regionLabels[guide['region'] as String?] ?? '';
+                      final regionRaw = guide['region'];
+                      final regionLabel = regionRaw is String
+                          ? (regionLabels[regionRaw] ?? '')
+                          : '';
                       final slug = guide['slug'] as String;
 
                       return Padding(

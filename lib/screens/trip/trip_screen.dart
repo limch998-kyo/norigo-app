@@ -229,7 +229,7 @@ class TripScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 12),
             ...regions.map((r) {
-              final label = (r['label'] as Map<String, String>)[locale] ?? (r['label'] as Map<String, String>)['en']!;
+              final label = (r['label'] as Map<String, String>)[locale == 'zh-TW' ? 'zh' : locale] ?? (r['label'] as Map<String, String>)['en']!;
               return Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: SizedBox(
@@ -726,7 +726,7 @@ String localizedTripName(String storedName, String locale) {
   };
 
   final mapped = tripNameMap[storedName];
-  if (mapped != null) return mapped[locale] ?? mapped['en'] ?? storedName;
+  if (mapped != null) return mapped[locale == 'zh-TW' ? 'zh' : locale] ?? mapped['en'] ?? storedName;
   return storedName;
 }
 

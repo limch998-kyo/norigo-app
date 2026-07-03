@@ -74,7 +74,8 @@ class ModeSelector extends StatelessWidget {
     return Row(
       children: activeModes.map((mode) {
         final isSelected = selected == mode;
-        final label = modeLabels[mode]?[locale] ?? modeLabels[mode]?['en'] ?? mode;
+        final l = locale == 'zh-TW' ? 'zh' : locale;
+        final label = modeLabels[mode]?[l] ?? modeLabels[mode]?['en'] ?? mode;
 
         return Expanded(
           child: Padding(

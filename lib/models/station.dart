@@ -60,8 +60,8 @@ class Station {
       };
 
   String localizedName(String locale) {
-    // Try model fields first, then bundled station names
-    switch (locale) {
+    // Try model fields first, then bundled station names (zh-TW → zh).
+    switch (locale == 'zh-TW' ? 'zh' : locale) {
       case 'en':
       case 'fr': // French uses English station names
         return nameEn ?? StationLocalizer.getLocalizedName(id, 'en') ?? name;

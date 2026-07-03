@@ -107,7 +107,7 @@ class _StationInputListState extends State<StationInputList> {
 
   String _personLabel(int index) {
     final n = index + 1;
-    switch (widget.locale) {
+    switch (widget.locale == 'zh-TW' ? 'zh' : widget.locale) {
       case 'ja':
         return '出発駅 $n';
       case 'ko':
@@ -120,7 +120,7 @@ class _StationInputListState extends State<StationInputList> {
   }
 
   String get _addLabel {
-    switch (widget.locale) {
+    switch (widget.locale == 'zh-TW' ? 'zh' : widget.locale) {
       case 'ja':
         return '人を追加';
       case 'ko':
@@ -135,7 +135,7 @@ class _StationInputListState extends State<StationInputList> {
   }
 
   String get _placeholder {
-    switch (widget.locale) {
+    switch (widget.locale == 'zh-TW' ? 'zh' : widget.locale) {
       case 'ja':
         return '駅名を入力...';
       case 'ko':

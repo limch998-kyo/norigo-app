@@ -122,6 +122,10 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
     state = state.copyWith(
       region: region,
       slots: savedSlots,
+      // Transfers are only computed for Japan regions and the "prefer fewer
+      // transfers" toggle is hidden for Korea — so drop the flag when moving to
+      // Korea, otherwise it stays stuck ON, invisible and unsettable.
+      preferDirect: ['seoul', 'busan'].contains(region) ? false : null,
       clearResult: true,
       clearError: true,
     );

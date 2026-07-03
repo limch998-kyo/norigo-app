@@ -98,7 +98,7 @@ class _LandmarkInputListState extends State<LandmarkInputList> {
 
   String _spotLabel(int index) {
     final n = index + 1;
-    switch (widget.locale) {
+    switch (widget.locale == 'zh-TW' ? 'zh' : widget.locale) {
       case 'ja': return 'スポット $n';
       case 'ko': return '관광지 $n';
       case 'zh': return '景点 $n';
@@ -108,7 +108,7 @@ class _LandmarkInputListState extends State<LandmarkInputList> {
   }
 
   String get _addLabel {
-    switch (widget.locale) {
+    switch (widget.locale == 'zh-TW' ? 'zh' : widget.locale) {
       case 'ja': return 'スポットを追加';
       case 'ko': return '관광지 추가';
       case 'zh': return '添加景点';
@@ -118,7 +118,7 @@ class _LandmarkInputListState extends State<LandmarkInputList> {
   }
 
   String get _placeholder {
-    switch (widget.locale) {
+    switch (widget.locale == 'zh-TW' ? 'zh' : widget.locale) {
       case 'ja': return '観光地名を入力...';
       case 'ko': return '관광지 이름 입력...';
       case 'zh': return '输入景点名...';

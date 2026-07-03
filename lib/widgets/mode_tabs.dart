@@ -59,7 +59,8 @@ class ModeTabs extends StatelessWidget {
         children: activeModes.map((mode) {
           final isSelected = selected == mode;
           final labels = isStay ? _stayLabels : _labels;
-          final label = labels[mode]?[locale] ?? _labels[mode]?[locale] ?? _labels[mode]?['en'] ?? mode;
+          final l = locale == 'zh-TW' ? 'zh' : locale;
+          final label = labels[mode]?[l] ?? _labels[mode]?[l] ?? _labels[mode]?['en'] ?? mode;
 
           return Expanded(
             child: GestureDetector(

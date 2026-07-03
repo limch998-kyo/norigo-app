@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:norigo_app/utils/tr.dart';
 import 'package:norigo_app/config/constants.dart';
+import 'package:norigo_app/models/station.dart';
 
 /// zh-TW (Traditional Chinese) support: the app renders in Simplified Chinese
 /// (zh) for zh-TW users unless a Traditional override is provided, and constant
@@ -53,6 +54,29 @@ void main() {
 
     test('unknown key returns the key itself', () {
       expect(AppConstants.stayBudgetLabel('nonexistent', 'zh-TW'), 'nonexistent');
+    });
+  });
+
+  group('Station.localizedName zh-TW', () {
+    const s = Station(
+      id: 's1',
+      name: '新宿',
+      nameEn: 'Shinjuku',
+      nameZh: '新宿站',
+      lat: 35.69,
+      lng: 139.70,
+      region: 'kanto',
+    );
+
+    test('zh-TW uses the Simplified (nameZh) name, not English', () {
+      expect(s.localizedName('zh-TW'), s.localizedName('zh'));
+      expect(s.localizedName('zh-TW'), '新宿站');
+      expect(s.localizedName('zh-TW'), isNot(s.localizedName('en')));
+    });
+
+    test('other locales unaffected', () {
+      expect(s.localizedName('en'), 'Shinjuku');
+      expect(s.localizedName('ja'), '新宿');
     });
   });
 }
