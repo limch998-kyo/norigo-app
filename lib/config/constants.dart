@@ -56,6 +56,17 @@ class AppConstants {
     return koreaRegions.contains(region) ? stayBudgetsKr : stayBudgetsJp;
   }
 
+  /// Localized stay-budget label. Traditional Chinese (zh-TW) falls back to
+  /// Simplified (zh) rather than English, then to the raw key.
+  static String stayBudgetLabel(String key, String locale) {
+    final m = stayBudgetLabels[key];
+    if (m == null) return key;
+    return m[locale] ??
+        (locale == 'zh-TW' ? m['zh'] : null) ??
+        m['en'] ??
+        key;
+  }
+
   /// Budget label with dual currency matching web's messages/*.json stayBudgets
   static const Map<String, Map<String, String>> stayBudgetLabels = {
     'any': {'ja': '指定なし', 'en': 'Any', 'ko': '지정 없음', 'zh': '不限', 'fr': 'Tout'},

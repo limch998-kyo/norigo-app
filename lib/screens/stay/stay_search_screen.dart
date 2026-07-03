@@ -256,8 +256,7 @@ class _StaySearchScreenState extends ConsumerState<StaySearchScreen> {
               runSpacing: 6,
               children: stayBudgets.map((budget) {
                 final isSelected = state.maxBudget == budget;
-                final label = AppConstants.stayBudgetLabels[budget]?[locale]
-                    ?? AppConstants.stayBudgetLabels[budget]?['en'] ?? budget;
+                final label = AppConstants.stayBudgetLabel(budget, locale);
                 return ChoiceChip(
                   label: Text(label, style: const TextStyle(fontSize: 11)),
                   selected: isSelected,

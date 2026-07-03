@@ -224,7 +224,7 @@ class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: budgets.map((b) {
-            final label = AppConstants.stayBudgetLabels[b]?[locale] ?? AppConstants.stayBudgetLabels[b]?['en'] ?? b;
+            final label = AppConstants.stayBudgetLabel(b, locale);
             final isSelected = current == b;
             return ListTile(
               dense: true,
@@ -264,7 +264,7 @@ class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
 
     // Budget label
     final budgetLabel = trip.maxBudget != null && trip.maxBudget != 'any'
-        ? (AppConstants.stayBudgetLabels[trip.maxBudget]?[locale] ?? trip.maxBudget!)
+        ? AppConstants.stayBudgetLabel(trip.maxBudget!, locale)
         : tr(locale, ja: '未設定', ko: '미설정', en: 'Not set', zh: '未设置', fr: 'Non défini');
 
     // Date label

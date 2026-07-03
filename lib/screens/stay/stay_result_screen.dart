@@ -665,9 +665,7 @@ class _StayResultScreenState extends ConsumerState<StayResultScreen> {
                       ) {
                         final isSelected = (state.maxBudget ?? 'any') == budget;
                         final label =
-                            AppConstants.stayBudgetLabels[budget]?[locale] ??
-                            AppConstants.stayBudgetLabels[budget]?['en'] ??
-                            budget;
+                            AppConstants.stayBudgetLabel(budget, locale);
                         return Padding(
                           padding: const EdgeInsets.only(right: 6),
                           child: GestureDetector(
@@ -2413,12 +2411,8 @@ class _HotelSectionState extends State<_HotelSection> {
     List<String> tiers,
     String locale,
   ) {
-    // Use pre-defined locale-aware labels from constants
-    final label =
-        AppConstants.stayBudgetLabels[budget]?[locale] ??
-        AppConstants.stayBudgetLabels[budget]?['en'];
-    if (label != null) return label;
-    return budget;
+    // Use pre-defined locale-aware labels from constants (zh-TW → zh → en)
+    return AppConstants.stayBudgetLabel(budget, locale);
   }
 
   int _countForBudget(String budget) {
@@ -3223,11 +3217,8 @@ class _ExternalHotelLinks extends StatelessWidget {
         tr(locale, ja: '2名', ko: '2명', en: '2 guests', zh: '2位', fr: '2 pers.'),
       );
       if (maxBudget != null && maxBudget != 'any') {
-        final budgetLabel =
-            AppConstants.stayBudgetLabels[maxBudget]?[locale] ??
-            AppConstants.stayBudgetLabels[maxBudget]?['en'] ??
-            maxBudget;
-        parts.add(budgetLabel!);
+        final budgetLabel = AppConstants.stayBudgetLabel(maxBudget!, locale);
+        parts.add(budgetLabel);
       }
       final dateLabel = parts.join(' · ');
       return Column(
