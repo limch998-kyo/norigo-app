@@ -237,6 +237,33 @@ class ApiClient {
     return data['action'] as String? ?? 'added';
   }
 
+  /// Update the collaborative meeting plan (schedule + confirmed venue) via
+  /// PATCH /api/vote/{id}/plan. Only the provided fields are sent; returns the
+  /// updated `meta` map, or null on failure. Non-null values only (the mobile
+  /// UI sets fields rather than clearing them).
+  Future<Map<String, dynamic>?> updateVotePlan(
+    String pollId, {
+    String? eventDate,
+    String? eventTime,
+    String? meetingSpot,
+    String? confirmedVenueId,
+  }) async {
+    final patch = <String, dynamic>{};
+    if (eventDate != null) patch['eventDate'] = eventDate;
+    if (eventTime != null) patch['eventTime'] = eventTime;
+    if (meetingSpot != null) patch['meetingSpot'] = meetingSpot;
+    if (confirmedVenueId != null) patch['confirmedVenueId'] = confirmedVenueId;
+    if (patch.isEmpty) return null;
+    try {
+      final response = await _dio.patch('/api/vote/$pollId/plan', data: patch);
+      final data = response.data as Map<String, dynamic>?;
+      return data?['meta'] as Map<String, dynamic>?;
+    } catch (e) {
+      debugPrint('ApiClient.updateVotePlan failed: $e');
+      return null;
+    }
+  }
+
   // ── Guide ──
 
   Future<List<Map<String, dynamic>>> getGuides({required String locale, String? region}) async {
