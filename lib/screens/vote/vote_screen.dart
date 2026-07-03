@@ -25,10 +25,15 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
   Map<String, int> _voteCounts = {};
   int _totalVoters = 0;
   Set<String> _myVotes = {};
+  List<String> _meetingSpotOptions = [];
   bool _loading = true;
   String? _error;
   String _voterId = '';
   Timer? _pollTimer;
+
+  /// Collaborative plan (schedule + confirmed venue), read from poll.meta.
+  Map<String, dynamic> get _meta =>
+      (_poll?['meta'] as Map<String, dynamic>?) ?? const {};
 
   @override
   void initState() {
@@ -68,6 +73,20 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
         _totalVoters = (data['totalVoters'] as num?)?.toInt() ?? 0;
         _myVotes = ((data['myVenueIds'] as List<dynamic>?) ?? [])
             .map((e) => e.toString()).toSet();
+        // Server returns curated options as localized objects {ja, ko, en}
+        // (no 'name' key). Localize by the current locale; zh-TW → zh → en.
+        final loc = ref.read(localeProvider);
+        _meetingSpotOptions = ((data['meetingSpotOptions'] as List<dynamic>?) ?? [])
+            .map((e) => e is Map
+                ? ((e[loc] ??
+                            (loc == 'zh-TW' ? e['zh'] : null) ??
+                            e['en'] ??
+                            e['ja'] ??
+                            '')
+                        .toString())
+                : e.toString())
+            .where((s) => s.isNotEmpty)
+            .toList();
         _loading = false;
         _error = null;
       });
@@ -105,6 +124,192 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
     }
   }
 
+  // ── Collaborative plan (schedule + confirmed venue) ──────────────────
+
+  Future<void> _patchPlan({
+    String? eventDate,
+    String? eventTime,
+    String? meetingSpot,
+    String? confirmedVenueId,
+  }) async {
+    final meta = await ref.read(apiClientProvider).updateVotePlan(
+          widget.pollId,
+          eventDate: eventDate,
+          eventTime: eventTime,
+          meetingSpot: meetingSpot,
+          confirmedVenueId: confirmedVenueId,
+        );
+    if (!mounted) return;
+    if (meta != null) {
+      setState(() => _poll = {...?_poll, 'meta': meta});
+      // Restart the refresh timer so the next poll is issued AFTER this write
+      // persisted — otherwise an already-in-flight (pre-write) snapshot could
+      // land and briefly revert the just-applied plan edit.
+      _pollTimer?.cancel();
+      _pollTimer =
+          Timer.periodic(const Duration(seconds: 5), (_) => _fetchPoll());
+    } else {
+      await _fetchPoll(); // fall back to canonical state
+    }
+  }
+
+  Future<void> _pickDate() async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: now,
+      firstDate: now.subtract(const Duration(days: 1)),
+      lastDate: now.add(const Duration(days: 365)),
+    );
+    if (picked != null) {
+      final d =
+          '${picked.year.toString().padLeft(4, '0')}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}';
+      await _patchPlan(eventDate: d);
+    }
+  }
+
+  Future<void> _pickTime() async {
+    final picked =
+        await showTimePicker(context: context, initialTime: TimeOfDay.now());
+    if (picked != null) {
+      final t =
+          '${picked.hour.toString().padLeft(2, '0')}:${picked.minute.toString().padLeft(2, '0')}';
+      await _patchPlan(eventTime: t);
+    }
+  }
+
+  Future<void> _pickMeetingSpot(String locale) async {
+    final controller =
+        TextEditingController(text: _meta['meetingSpot'] as String? ?? '');
+    try {
+    final result = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(tr(locale,
+            ja: '集合場所', ko: '만남 장소', en: 'Meeting spot', zh: '集合地点', fr: 'Point de rencontre')),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (final opt in _meetingSpotOptions)
+              ListTile(
+                dense: true,
+                contentPadding: EdgeInsets.zero,
+                leading: const Icon(Icons.place_outlined, size: 18),
+                title: Text(opt, style: const TextStyle(fontSize: 13)),
+                onTap: () => Navigator.pop(ctx, opt),
+              ),
+            if (_meetingSpotOptions.isNotEmpty) const Divider(),
+            TextField(
+              controller: controller,
+              maxLength: 80,
+              decoration: InputDecoration(
+                hintText: tr(locale,
+                    ja: '自由入力', ko: '직접 입력', en: 'Custom', zh: '自定义', fr: 'Personnalisé'),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(tr(locale,
+                ja: 'キャンセル', ko: '취소', en: 'Cancel', zh: '取消', fr: 'Annuler')),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, controller.text.trim()),
+            child: Text(
+                tr(locale, ja: '決定', ko: '확정', en: 'Set', zh: '确定', fr: 'OK')),
+          ),
+        ],
+      ),
+    );
+    if (result != null && result.isNotEmpty) {
+      await _patchPlan(meetingSpot: result);
+    }
+    } finally {
+      controller.dispose();
+    }
+  }
+
+  Widget _buildPlanCard(String locale, List<Map<String, dynamic>> venues) {
+    final date = _meta['eventDate'] as String?;
+    final time = _meta['eventTime'] as String?;
+    final spot = _meta['meetingSpot'] as String?;
+    final confirmedId = _meta['confirmedVenueId'] as String?;
+    final confirmedVenue = (confirmedId == null)
+        ? null
+        : venues
+            .where((v) => (v['id']?.toString() ?? '') == confirmedId)
+            .map((v) => v['name'] as String? ?? '')
+            .firstOrNull;
+    final unset =
+        tr(locale, ja: '未定', ko: '미정', en: 'TBD', zh: '待定', fr: 'À définir');
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: AppTheme.primaryBg,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: AppTheme.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            tr(locale,
+                ja: '待ち合わせ', ko: '약속 정하기', en: 'Meeting plan', zh: '约定', fr: 'Rendez-vous'),
+            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+          ),
+          const SizedBox(height: 4),
+          _planRow(Icons.calendar_today, date ?? unset, _pickDate),
+          _planRow(Icons.access_time, time ?? unset, _pickTime),
+          _planRow(Icons.place, spot ?? unset, () => _pickMeetingSpot(locale)),
+          if (confirmedVenue != null && confirmedVenue.isNotEmpty) ...[
+            const SizedBox(height: 6),
+            Row(
+              children: [
+                Icon(Icons.check_circle, size: 16, color: AppTheme.green),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    tr(locale,
+                        ja: '決定: $confirmedVenue',
+                        ko: '확정: $confirmedVenue',
+                        en: 'Confirmed: $confirmedVenue',
+                        zh: '已定: $confirmedVenue',
+                        fr: 'Confirmé : $confirmedVenue'),
+                    style: TextStyle(
+                        fontSize: 12,
+                        color: AppTheme.green,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _planRow(IconData icon, String value, VoidCallback onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6),
+        child: Row(
+          children: [
+            Icon(icon, size: 16, color: AppTheme.mutedForeground),
+            const SizedBox(width: 8),
+            Expanded(child: Text(value, style: const TextStyle(fontSize: 13))),
+            Icon(Icons.edit, size: 13, color: AppTheme.mutedForeground),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _sharePoll(String locale) {
     final url = 'https://norigo.app/$locale/vote/${widget.pollId}';
     SharePlus.instance.share(ShareParams(
@@ -116,7 +321,6 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
   @override
   Widget build(BuildContext context) {
     final locale = ref.watch(localeProvider);
-    final theme = Theme.of(context);
 
     if (_loading) {
       return Scaffold(
@@ -190,6 +394,8 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
             ),
           ),
 
+          _buildPlanCard(locale, sorted),
+
           // Venue list
           Expanded(
             child: ListView.builder(
@@ -208,6 +414,7 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
                 final venueUrl = venue['url'] as String? ?? '';
                 final couponUrl = venue['couponUrl'] as String? ?? '';
                 final catchText = venue['catch'] as String? ?? '';
+                final confirmedId = _meta['confirmedVenueId'] as String?;
 
                 return Card(
                   margin: const EdgeInsets.only(bottom: 12),
@@ -254,6 +461,18 @@ class _VoteScreenState extends ConsumerState<VoteScreen> {
                                   ),
                               ],
                             )),
+                            // Confirm-this-venue toggle (collaborative plan)
+                            IconButton(
+                              icon: Icon(
+                                confirmedId == venueId ? Icons.flag : Icons.outlined_flag,
+                                size: 18,
+                                color: confirmedId == venueId ? AppTheme.green : AppTheme.mutedForeground,
+                              ),
+                              visualDensity: VisualDensity.compact,
+                              tooltip: tr(locale, ja: 'この店に決定', ko: '이 가게로 확정',
+                                en: 'Confirm this venue', zh: '选定这家', fr: 'Confirmer ce lieu'),
+                              onPressed: () => _patchPlan(confirmedVenueId: venueId),
+                            ),
                           ],
                         ),
 

@@ -45,6 +45,14 @@ class TrackingService {
     _locale = locale;
   }
 
+  /// Current session id (GA4-style, 30-min window). Null before [init].
+  /// Used to attribute outbound affiliate clicks to the session, matching the
+  /// web app's click-time `sid` injection into `/api/out` links.
+  String? get sessionId => _sessionId;
+
+  /// Persistent anonymous user id (uuid). Null before [init].
+  String? get userId => _userId;
+
   Future<void> trackEvent(
     String eventType, {
     Map<String, dynamic> payload = const {},

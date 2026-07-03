@@ -25,8 +25,15 @@ void main() async {
   final platformLocale = ui.PlatformDispatcher.instance.locale;
   final langCode = platformLocale.languageCode; // e.g. 'ko', 'ja', 'en'
 
-  final supportedLocales = ['ja', 'ko', 'en', 'zh', 'fr'];
-  final initialLocale = supportedLocales.contains(langCode) ? langCode : 'en';
+  // Distinguish Traditional (Taiwan / Hong Kong / Macau) from Simplified
+  // Chinese so Taiwanese/HK users get the zh-TW experience.
+  final isTraditional = langCode == 'zh' &&
+      (platformLocale.scriptCode == 'Hant' ||
+          ['TW', 'HK', 'MO'].contains(platformLocale.countryCode));
+  final detected = isTraditional ? 'zh-TW' : langCode;
+
+  final supportedLocales = ['ja', 'ko', 'en', 'zh', 'zh-TW', 'fr'];
+  final initialLocale = supportedLocales.contains(detected) ? detected : 'en';
 
   // Preload all data before app starts
   await Future.wait([
@@ -42,6 +49,10 @@ void main() async {
   final tracking = TrackingService(apiClient);
   await tracking.init();
   tracking.setLocale(initialLocale);
+
+  // Attribute outbound affiliate clicks to this session (mobile has no
+  // cookies, so /api/out links carry sid/uid as query params).
+  BookingProvider.setSession(sid: tracking.sessionId, uid: tracking.userId);
 
   runApp(
     ProviderScope(

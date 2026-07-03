@@ -5,6 +5,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../config/theme.dart';
+import '../../config/booking_provider.dart';
 import '../../services/api_client.dart';
 import '../../services/line_localize.dart';
 import '../../providers/app_providers.dart';
@@ -447,30 +448,56 @@ class _StationCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppTheme.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      tr(
-                        locale,
-                        ja: '平均${rec.avgEstimatedMinutes}分',
-                        ko: '평균 ${rec.avgEstimatedMinutes}분',
-                        en: 'Avg ${rec.avgEstimatedMinutes}min',
-                        zh: '平均${rec.avgEstimatedMinutes}分钟',
-                        fr: 'Moy. ${rec.avgEstimatedMinutes}min',
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppTheme.primary.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          tr(
+                            locale,
+                            ja: '平均${rec.avgEstimatedMinutes}分',
+                            ko: '평균 ${rec.avgEstimatedMinutes}분',
+                            en: 'Avg ${rec.avgEstimatedMinutes}min',
+                            zh: '平均${rec.avgEstimatedMinutes}分钟',
+                            fr: 'Moy. ${rec.avgEstimatedMinutes}min',
+                          ),
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: AppTheme.primary,
+                          ),
+                        ),
                       ),
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: AppTheme.primary,
-                      ),
-                    ),
+                      // Transfer badge: 全員直通 (all direct) or fewest-transfers count.
+                      if (rec.allDirect) ...[
+                        const SizedBox(height: 4),
+                        _Badge(
+                          text: tr(locale, ja: '全員直通', ko: '전원 직통', en: 'All direct', zh: '全程直达', fr: 'Direct'),
+                          color: AppTheme.green,
+                        ),
+                      ] else if (rec.maxTransfers != null && rec.maxTransfers! > 0) ...[
+                        const SizedBox(height: 4),
+                        _Badge(
+                          text: tr(
+                            locale,
+                            ja: '乗換${rec.maxTransfers}回',
+                            ko: '환승 ${rec.maxTransfers}회',
+                            en: rec.maxTransfers == 1 ? '1 transfer' : '${rec.maxTransfers} transfers',
+                            zh: '换乘${rec.maxTransfers}次',
+                            fr: '${rec.maxTransfers} corresp.',
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
                 ],
               ),
@@ -859,6 +886,7 @@ class _StationCard extends StatelessWidget {
                           venue: e.value,
                           locale: locale,
                           index: e.key + 1,
+                          stationId: rec.station.id,
                           onOpen: (venue) =>
                               onVenueOutbound?.call('hotpepper', venue, rec),
                         ),
@@ -964,12 +992,14 @@ class _VenueCard extends StatelessWidget {
   final Venue venue;
   final String locale;
   final int index;
+  final String? stationId;
   final void Function(Venue venue)? onOpen;
 
   const _VenueCard({
     required this.venue,
     required this.locale,
     this.index = 0,
+    this.stationId,
     this.onOpen,
   });
 
@@ -1140,7 +1170,17 @@ class _VenueCard extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.open_in_new, size: 18),
               onPressed: () async {
-                final uri = Uri.parse(venue.url!);
+                // Route HotPepper venue links through /api/out so the click
+                // earns the ValueCommerce affiliate commission and is logged
+                // server-side (matching the web app). sid/uid are attached by
+                // BookingProvider for session attribution.
+                final uri = Uri.parse(
+                  BookingProvider.wrapOutboundUrl(
+                    venue.url!,
+                    'hotpepper',
+                    stationId: stationId,
+                  ),
+                );
                 if (await canLaunchUrl(uri)) {
                   onOpen?.call(venue);
                   await launchUrl(uri, mode: LaunchMode.externalApplication);

@@ -92,8 +92,8 @@ class LandmarkLocalizer {
     }
     if (entry == null) return null;
 
-    // Return locale-specific name
-    switch (locale) {
+    // Return locale-specific name (zh-TW uses the Simplified name).
+    switch (locale == 'zh-TW' ? 'zh' : locale) {
       case 'ko':
         return entry['nameKo'] as String? ?? entry['nameEn'] as String? ?? entry['name'] as String?;
       case 'en':

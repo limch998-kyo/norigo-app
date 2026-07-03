@@ -981,7 +981,7 @@ class _QuickPlanCardState extends State<_QuickPlanCard> {
       // displayed/shared name matches the chosen intent precisely — no fuzzy
       // coordinate lookup. fr uses English by app convention.
       final String name;
-      switch (locale) {
+      switch (locale == 'zh-TW' ? 'zh' : locale) {
         case 'ja':
           name = ja;
         case 'ko':

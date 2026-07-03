@@ -343,7 +343,8 @@ class TripNotifier extends StateNotifier<TripState> {
   };
 
   static String tripNameForRegion(String region, String locale) {
-    return _regionNames[region]?[locale] ?? _regionNames[region]?['en'] ?? region;
+    final l = locale == 'zh-TW' ? 'zh' : locale;
+    return _regionNames[region]?[l] ?? _regionNames[region]?['en'] ?? region;
   }
 
   static String regionCountry(String region) {

@@ -67,7 +67,7 @@ void main() {
       expect(providers.length, 4);
     });
 
-    test('ZH → 4 providers (same as EN)', () {
+    test('ZH → Agoda-first, drops Booking.com NA (Chinese routing)', () {
       final providers = BookingProvider.buildMultiProviderUrls(
         locale: 'zh',
         region: 'kanto',
@@ -77,7 +77,25 @@ void main() {
         checkIn: '2026-04-01',
         checkOut: '2026-04-04',
       );
-      expect(providers.length, 4);
+      // Chinese-language users lead with Agoda and drop Booking.com North
+      // America (US-IP redirect/geo issues for CJK searchers), matching the
+      // web app's "route zh/zh-TW to Agoda, not Booking.com NA" fix.
+      expect(providers.length, 3);
+      expect(providers[0].name, 'Agoda');
+      expect(providers.map((p) => p.name), isNot(contains('Booking.com')));
+    });
+
+    test('zh-TW → same Agoda-first routing as zh', () {
+      final providers = BookingProvider.buildMultiProviderUrls(
+        locale: 'zh-TW',
+        region: 'kanto',
+        stationName: 'Shinjuku',
+        lat: 35.69,
+        lng: 139.70,
+      );
+      expect(providers.length, 3);
+      expect(providers[0].name, 'Agoda');
+      expect(providers.map((p) => p.name), isNot(contains('Booking.com')));
     });
 
     test('JA → empty (uses Jalan)', () {

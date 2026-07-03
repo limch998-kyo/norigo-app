@@ -15,6 +15,10 @@ class MeetupSearchState {
   final bool isLoading;
   final String? error;
 
+  /// Prefer routes with the fewest transfers (乗り換え少なめ). When true, the
+  /// backend re-ranks candidates by fewest transfers before final score.
+  final bool preferDirect;
+
   const MeetupSearchState({
     this.slots = const [null, null],
     this.region = 'kanto',
@@ -25,6 +29,7 @@ class MeetupSearchState {
     this.result,
     this.isLoading = false,
     this.error,
+    this.preferDirect = false,
   });
 
   /// Only filled (non-null) stations
@@ -40,6 +45,7 @@ class MeetupSearchState {
     MeetupResult? result,
     bool? isLoading,
     String? error,
+    bool? preferDirect,
     bool clearCategory = false,
     bool clearBudget = false,
     bool clearError = false,
@@ -55,6 +61,7 @@ class MeetupSearchState {
       result: clearResult ? null : (result ?? this.result),
       isLoading: isLoading ?? this.isLoading,
       error: clearError ? null : (error ?? this.error),
+      preferDirect: preferDirect ?? this.preferDirect,
     );
   }
 }
@@ -115,6 +122,10 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
     state = state.copyWith(
       region: region,
       slots: savedSlots,
+      // Transfers are only computed for Japan regions and the "prefer fewer
+      // transfers" toggle is hidden for Korea — so drop the flag when moving to
+      // Korea, otherwise it stays stuck ON, invisible and unsettable.
+      preferDirect: ['seoul', 'busan'].contains(region) ? false : null,
       clearResult: true,
       clearError: true,
     );
@@ -147,6 +158,10 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
     state = state.copyWith(options: List<String>.from(options));
   }
 
+  void setPreferDirect(bool value) {
+    state = state.copyWith(preferDirect: value);
+  }
+
   Future<void> search() async {
     final filled = state.filledStations;
     if (filled.length < 2) return;
@@ -167,6 +182,7 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
       'budget': state.budget,
       'options': state.options,
       'region': state.region,
+      'preferDirect': state.preferDirect,
     };
     tracking.trackEvent(
       'meetup_search_started',
@@ -186,6 +202,7 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
         budget: state.budget,
         options: state.options.isNotEmpty ? state.options : null,
         locale: locale,
+        preferDirect: state.preferDirect,
       );
       state = state.copyWith(result: result, isLoading: false);
       tracking.trackEvent(

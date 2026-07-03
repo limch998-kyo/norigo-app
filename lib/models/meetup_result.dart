@@ -153,6 +153,14 @@ class RecommendedStation {
   final double finalScore;
   final List<Venue> venues;
 
+  /// Highest transfer count any participant needs to reach this station.
+  /// Null when the backend didn't compute routes (Korea regions).
+  final int? maxTransfers;
+
+  /// True when every participant reaches this station with no transfers
+  /// (全員直通). Enables the "direct for everyone" badge.
+  final bool allDirect;
+
   const RecommendedStation({
     required this.station,
     required this.rank,
@@ -165,6 +173,8 @@ class RecommendedStation {
     required this.funScore,
     required this.finalScore,
     required this.venues,
+    this.maxTransfers,
+    this.allDirect = false,
   });
 
   /// Get all route segments from all distances
@@ -191,6 +201,8 @@ class RecommendedStation {
               ?.map((e) => Venue.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
+      maxTransfers: (json['maxTransfers'] as num?)?.toInt(),
+      allDirect: json['allDirect'] as bool? ?? false,
     );
   }
 }

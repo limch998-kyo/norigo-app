@@ -4,6 +4,7 @@ import 'package:norigo_app/models/station.dart';
 import 'package:norigo_app/models/landmark.dart';
 import 'package:norigo_app/models/stay_area.dart';
 import 'package:norigo_app/models/meetup_result.dart';
+import 'package:norigo_app/models/itinerary.dart';
 
 /// Tests derived from web app's recommend.test.ts, stay-recommend.test.ts,
 /// hotel-scoring.test.ts, and search.test.ts — adapted for Flutter's API
@@ -191,6 +192,103 @@ void main() {
       expect(venue.privateRoom, true);
       expect(venue.noSmoking, true);
       expect(venue.freeDrink, false);
+    });
+
+    test('RecommendedStation parses transfer fields (allDirect / maxTransfers)', () {
+      final json = {
+        'results': [
+          {
+            'station': {'id': 'shinjuku', 'name': '新宿', 'lat': 35.69, 'lng': 139.70, 'lines': []},
+            'rank': 1,
+            'distances': [],
+            'avgEstimatedMinutes': 5,
+            'allDirect': true,
+            'maxTransfers': 0,
+          },
+        ],
+      };
+      final s = MeetupResult.fromJson(json).stations[0];
+      expect(s.allDirect, true);
+      expect(s.maxTransfers, 0);
+    });
+
+    test('RecommendedStation transfer fields default safely when absent', () {
+      final json = {
+        'results': [
+          {
+            'station': {'id': 's', 'name': '駅', 'lat': 0.0, 'lng': 0.0, 'lines': []},
+            'rank': 1,
+            'distances': [],
+            'avgEstimatedMinutes': 0,
+          },
+        ],
+      };
+      final s = MeetupResult.fromJson(json).stations[0];
+      expect(s.allDirect, false); // absent → not "all direct"
+      expect(s.maxTransfers, isNull); // absent (e.g. Korea) → null, no badge
+    });
+  });
+
+  group('API response parsing - Itinerary optimization', () {
+    test('ItineraryResult parses clusters, days and hotel base', () {
+      final json = {
+        'split': false,
+        'totalDays': 2,
+        'checkIn': '2026-05-01',
+        'checkOut': '2026-05-03',
+        'localNames': {'shinjuku': 'Shinjuku'},
+        'clusters': [
+          {
+            'nights': 2,
+            'landmarks': [
+              {'name': '渋谷', 'lat': 35.66, 'lng': 139.70, 'slug': 'shibuya'},
+              {'name': '浅草', 'lat': 35.71, 'lng': 139.79, 'slug': 'asakusa'},
+            ],
+            'days': [
+              {
+                'date': '2026-05-01',
+                'dayNumber': 1,
+                'landmarks': [
+                  {'name': '渋谷', 'lat': 35.66, 'lng': 139.70},
+                ],
+              },
+              {
+                'date': '2026-05-02',
+                'dayNumber': 2,
+                'landmarks': [
+                  {'name': '浅草', 'lat': 35.71, 'lng': 139.79},
+                ],
+              },
+            ],
+            'hotelRecommendations': [
+              {
+                'station': {'id': 'shinjuku', 'name': '新宿', 'lat': 35.69, 'lng': 139.70, 'lines': []},
+                'rank': 1,
+                'areaDescription': 'Central hub',
+              },
+            ],
+          },
+        ],
+      };
+
+      final result = ItineraryResult.fromJson(json);
+      expect(result.split, false);
+      expect(result.totalDays, 2);
+      expect(result.clusters.length, 1);
+      final c = result.clusters[0];
+      expect(c.days.length, 2);
+      expect(c.days[1].dayNumber, 2);
+      expect(c.days[0].landmarks.first.name, '渋谷');
+      expect(c.hotelBase?.station.name, '新宿');
+      expect(c.hotelBase?.areaDescription, 'Central hub');
+      expect(result.localNames['shinjuku'], 'Shinjuku');
+    });
+
+    test('ItineraryResult tolerates empty/absent fields', () {
+      final result = ItineraryResult.fromJson({});
+      expect(result.clusters, isEmpty);
+      expect(result.split, false);
+      expect(result.totalDays, 0);
     });
   });
 

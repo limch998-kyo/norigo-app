@@ -111,6 +111,26 @@ class MeetupSearchScreen extends ConsumerWidget {
 
             // Category / Budget / Options (Japan only — Korea has no restaurant API)
             if (!['seoul', 'busan'].contains(state.region)) ...[
+            // Prefer-direct toggle: re-rank by fewest transfers. Transfers are
+            // only computed for Japan regions, so this is gated with them.
+            Row(
+              children: [
+                Icon(Icons.trending_flat, size: 18, color: theme.colorScheme.primary),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    tr(locale, ja: '乗り換え少なめを優先', ko: '환승 적은 경로 우선', en: 'Prefer fewer transfers', zh: '优先少换乘', fr: 'Moins de correspondances'),
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                ),
+                Switch.adaptive(
+                  value: state.preferDirect,
+                  onChanged: notifier.setPreferDirect,
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+
             Text(
               tr(locale, ja: 'ジャンル（任意）', ko: '장르 (선택)', en: 'Category (optional)', zh: '类别（可选）', fr: 'Catégorie (facultatif)'),
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
@@ -120,7 +140,7 @@ class MeetupSearchScreen extends ConsumerWidget {
               spacing: 8, runSpacing: 8,
               children: AppConstants.categories.entries.map((entry) {
                 return ChoiceChip(
-                  label: Text(entry.value[locale] ?? entry.value['en']!, style: const TextStyle(fontSize: 12)),
+                  label: Text(pickLoc(entry.value, locale), style: const TextStyle(fontSize: 12)),
                   selected: state.category == entry.key,
                   onSelected: (s) => notifier.setCategory(s ? entry.key : null),
                   visualDensity: VisualDensity.compact,
@@ -138,7 +158,7 @@ class MeetupSearchScreen extends ConsumerWidget {
               spacing: 8, runSpacing: 8,
               children: AppConstants.budgets.entries.map((entry) {
                 return ChoiceChip(
-                  label: Text(entry.value[locale] ?? entry.value['en']!, style: const TextStyle(fontSize: 12)),
+                  label: Text(pickLoc(entry.value, locale), style: const TextStyle(fontSize: 12)),
                   selected: state.budget == entry.key,
                   onSelected: (s) => notifier.setBudget(s ? entry.key : null),
                   visualDensity: VisualDensity.compact,
@@ -156,7 +176,7 @@ class MeetupSearchScreen extends ConsumerWidget {
               spacing: 8, runSpacing: 8,
               children: AppConstants.filterOptions.entries.map((entry) {
                 return FilterChip(
-                  label: Text(entry.value[locale] ?? entry.value['en']!, style: const TextStyle(fontSize: 12)),
+                  label: Text(pickLoc(entry.value, locale), style: const TextStyle(fontSize: 12)),
                   selected: state.options.contains(entry.key),
                   onSelected: (_) => notifier.toggleOption(entry.key),
                   visualDensity: VisualDensity.compact,

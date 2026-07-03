@@ -15,6 +15,7 @@ class SettingsScreen extends ConsumerWidget {
     'en': 'English',
     'ko': '한국어',
     'zh': '中文（简体）',
+    'zh-TW': '中文（繁體）',
     'fr': 'Français',
   };
 

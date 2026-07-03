@@ -1625,8 +1625,9 @@ class _KoreaQuickPlans extends StatelessWidget {
   Widget _planCard(BuildContext context, Map<String, Object> plan) {
     final titleMap = plan['title'] as Map<String, String>;
     final subtitleMap = plan['subtitle'] as Map<String, String>;
-    final title = titleMap[locale] ?? titleMap['en'] ?? '';
-    final subtitle = subtitleMap[locale] ?? subtitleMap['en'] ?? '';
+    final l = locale == 'zh-TW' ? 'zh' : locale;
+    final title = titleMap[l] ?? titleMap['en'] ?? '';
+    final subtitle = subtitleMap[l] ?? subtitleMap['en'] ?? '';
     final landmarkData = plan['landmarks'] as List<Map<String, Object>>;
     final region = plan['region'] as String;
     final image = plan['image'] as String?;

@@ -19,22 +19,93 @@ class _GuideScreenState extends ConsumerState<GuideScreen> {
   List<Map<String, dynamic>> _guides = [];
   String _selectedRegion = 'all';
 
+  /// Whether the current list came from the live API (localized strings +
+  /// absolute image URLs) vs the bundled snapshot (per-locale maps + relative
+  /// image paths). Field shapes differ, so resolution is source-aware.
+  bool _fromApi = false;
+
+  /// Monotonic load counter — guards against an older in-flight load
+  /// overwriting a newer one after a rapid locale switch (out-of-order
+  /// responses would otherwise leave the list in a stale locale).
+  int _loadSeq = 0;
+
   @override
   void initState() {
     super.initState();
-    _loadGuides();
+    _loadGuides(ref.read(localeProvider));
   }
 
-  Future<void> _loadGuides() async {
-    final raw = await rootBundle.loadString('assets/data/featured-guides.json');
-    final list = (jsonDecode(raw) as List).cast<Map<String, dynamic>>();
-    if (mounted) setState(() => _guides = list);
+  /// Load the live guide list from the API — new guides published on the web
+  /// appear automatically — falling back to the bundled snapshot only when the
+  /// API call FAILS (offline). A successful (even empty) response is used as-is
+  /// so removed/unpublished guides don't reappear from the stale bundle.
+  Future<void> _loadGuides(String locale) async {
+    final seq = ++_loadSeq;
+    try {
+      final api = ref.read(apiClientProvider);
+      final guides = await api.getGuides(locale: locale);
+      if (!mounted || seq != _loadSeq) return; // superseded by a newer load
+      setState(() {
+        _guides = guides;
+        _fromApi = true;
+      });
+      return;
+    } catch (_) {
+      // offline / API error — fall through to the bundled snapshot
+    }
+    try {
+      final raw = await rootBundle.loadString(
+        'assets/data/featured-guides.json',
+      );
+      final list = (jsonDecode(raw) as List).cast<Map<String, dynamic>>();
+      if (!mounted || seq != _loadSeq) return;
+      setState(() {
+        _guides = list;
+        _fromApi = false;
+      });
+    } catch (_) {
+      // bundle unreadable (shouldn't happen) — leave the list empty
+    }
+  }
+
+  // Field resolution unified across API (localized String) and bundle
+  // (per-locale Map) shapes. Infers shape from the value type so an
+  // unexpected type degrades to blank instead of throwing during build.
+  // zh-TW falls back to zh (Simplified), then en.
+  String _guideTitle(Map<String, dynamic> g, String locale) =>
+      _localizedField(g['title'], locale);
+
+  String _guideDesc(Map<String, dynamic> g, String locale) =>
+      _localizedField(g['description'], locale);
+
+  String _localizedField(dynamic value, String locale) {
+    if (value is String) return value; // API: pre-localized string
+    if (value is Map) {
+      return (value[locale] ??
+              (locale == 'zh-TW' ? value['zh'] : null) ??
+              value['en'] ??
+              '')
+          .toString();
+    }
+    return '';
+  }
+
+  String _guideImage(Map<String, dynamic> g) {
+    final hero = g['heroImage'];
+    if (hero is! String || hero.isEmpty) return '';
+    // API returns absolute URLs; the bundle stores site-relative paths.
+    return _fromApi ? hero : 'https://norigo.app$hero';
   }
 
   @override
   Widget build(BuildContext context) {
     final locale = ref.watch(localeProvider);
-    final theme = Theme.of(context);
+
+    // Reload the live guide list when the language changes — the API returns
+    // titles/descriptions pre-localized for the requested locale.
+    ref.listen(localeProvider, (prev, next) {
+      if (prev != next) _loadGuides(next);
+    });
 
     final regions = ['all', 'kanto', 'kansai', 'kyushu', 'seoul', 'busan'];
     final regionLabels = {
@@ -98,11 +169,13 @@ class _GuideScreenState extends ConsumerState<GuideScreen> {
                     itemCount: filtered.length,
                     itemBuilder: (context, index) {
                       final guide = filtered[index];
-                      final title = (guide['title'] as Map<String, dynamic>?)?[locale] ??
-                          (guide['title'] as Map<String, dynamic>?)?['en'] ?? '';
-                      final desc = (guide['description'] as Map<String, dynamic>?)?[locale] ??
-                          (guide['description'] as Map<String, dynamic>?)?['en'] ?? '';
-                      final imageUrl = 'https://norigo.app${guide['heroImage']}';
+                      final title = _guideTitle(guide, locale);
+                      final desc = _guideDesc(guide, locale);
+                      final imageUrl = _guideImage(guide);
+                      final regionRaw = guide['region'];
+                      final regionLabel = regionRaw is String
+                          ? (regionLabels[regionRaw] ?? '')
+                          : '';
                       final slug = guide['slug'] as String;
 
                       return Padding(
@@ -125,13 +198,18 @@ class _GuideScreenState extends ConsumerState<GuideScreen> {
                                 // Image
                                 AspectRatio(
                                   aspectRatio: 16 / 9,
-                                  child: CachedImage(
-                                    imageUrl,
-                                    errorBuilder: (_, __, ___) => Container(
-                                      color: AppTheme.muted,
-                                      child: Center(child: Icon(Icons.menu_book, size: 32, color: AppTheme.mutedForeground)),
-                                    ),
-                                  ),
+                                  child: imageUrl.isEmpty
+                                      ? Container(
+                                          color: AppTheme.muted,
+                                          child: Center(child: Icon(Icons.menu_book, size: 32, color: AppTheme.mutedForeground)),
+                                        )
+                                      : CachedImage(
+                                          imageUrl,
+                                          errorBuilder: (_, __, ___) => Container(
+                                            color: AppTheme.muted,
+                                            child: Center(child: Icon(Icons.menu_book, size: 32, color: AppTheme.mutedForeground)),
+                                          ),
+                                        ),
                                 ),
                                 // Content
                                 Padding(
@@ -140,18 +218,19 @@ class _GuideScreenState extends ConsumerState<GuideScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       // Region badge
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                        margin: const EdgeInsets.only(bottom: 6),
-                                        decoration: BoxDecoration(
-                                          color: AppTheme.primaryBg,
-                                          borderRadius: BorderRadius.circular(4),
+                                      if (regionLabel.isNotEmpty)
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                          margin: const EdgeInsets.only(bottom: 6),
+                                          decoration: BoxDecoration(
+                                            color: AppTheme.primaryBg,
+                                            borderRadius: BorderRadius.circular(4),
+                                          ),
+                                          child: Text(
+                                            regionLabel,
+                                            style: TextStyle(fontSize: 10, color: AppTheme.primary, fontWeight: FontWeight.w500),
+                                          ),
                                         ),
-                                        child: Text(
-                                          regionLabels[guide['region']] ?? '',
-                                          style: TextStyle(fontSize: 10, color: AppTheme.primary, fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
                                       Text(
                                         title,
                                         style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, height: 1.3),

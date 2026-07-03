@@ -49,9 +49,17 @@ class NorigoApp extends ConsumerWidget {
       darkTheme: AppTheme.darkTheme,
       themeMode: themeMode,
       debugShowCheckedModeBanner: false,
-      locale: Locale(locale),
+      // zh-TW maps to zh-Hant so Flutter's Material/Cupertino localizations
+      // (date/time pickers, etc.) render in Traditional Chinese. Our own UI
+      // strings come from tr(locale) using the raw 'zh-TW' value.
+      locale: locale == 'zh-TW'
+          ? const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant')
+          : Locale(locale),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
+      supportedLocales: [
+        ...AppLocalizations.supportedLocales,
+        const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
+      ],
       home: const MainShell(),
     );
   }
