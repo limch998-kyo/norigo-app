@@ -17,6 +17,7 @@ import '../../providers/trip_stay_provider.dart';
 import '../../providers/stay_provider.dart';
 import '../../app.dart';
 import '../../widgets/stay_inline_map.dart';
+import 'itinerary_screen.dart';
 
 class TripDetailScreen extends ConsumerStatefulWidget {
   final String tripId;
@@ -472,6 +473,23 @@ class _TripDetailScreenState extends ConsumerState<TripDetailScreen> {
                 child: Text(trip.notes!, style: const TextStyle(fontSize: 13)),
               ),
             ),
+          // Optimized day-by-day itinerary (TSP order + hotel base per cluster)
+          if (items.length >= 2) ...[
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => ItineraryScreen(tripId: widget.tripId),
+                  ));
+                },
+                icon: const Icon(Icons.route, size: 18),
+                label: Text(tr(locale, ja: '日程を最適化', ko: '일정 최적화', en: 'Optimize itinerary', zh: '优化行程', fr: 'Optimiser l\'itinéraire')),
+                style: OutlinedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 12)),
+              ),
+            ),
+          ],
           const SizedBox(height: 24),
         ],
       ),

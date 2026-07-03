@@ -259,6 +259,8 @@ class ApiClient {
     required String region,
     String? checkIn,
     String? checkOut,
+    String? locale,
+    String? maxBudget,
   }) async {
     final response = await _dio.post(
       AppConstants.tripOptimizeEndpoint,
@@ -267,6 +269,8 @@ class ApiClient {
         'region': region,
         if (checkIn != null) 'checkIn': checkIn,
         if (checkOut != null) 'checkOut': checkOut,
+        if (locale != null) 'locale': locale,
+        if (maxBudget != null) 'maxBudget': maxBudget,
       },
     );
     return response.data as Map<String, dynamic>;
