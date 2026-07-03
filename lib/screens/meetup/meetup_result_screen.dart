@@ -5,6 +5,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../config/theme.dart';
+import '../../config/booking_provider.dart';
 import '../../services/api_client.dart';
 import '../../services/line_localize.dart';
 import '../../providers/app_providers.dart';
@@ -859,6 +860,7 @@ class _StationCard extends StatelessWidget {
                           venue: e.value,
                           locale: locale,
                           index: e.key + 1,
+                          stationId: rec.station.id,
                           onOpen: (venue) =>
                               onVenueOutbound?.call('hotpepper', venue, rec),
                         ),
@@ -964,12 +966,14 @@ class _VenueCard extends StatelessWidget {
   final Venue venue;
   final String locale;
   final int index;
+  final String? stationId;
   final void Function(Venue venue)? onOpen;
 
   const _VenueCard({
     required this.venue,
     required this.locale,
     this.index = 0,
+    this.stationId,
     this.onOpen,
   });
 
@@ -1140,7 +1144,17 @@ class _VenueCard extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.open_in_new, size: 18),
               onPressed: () async {
-                final uri = Uri.parse(venue.url!);
+                // Route HotPepper venue links through /api/out so the click
+                // earns the ValueCommerce affiliate commission and is logged
+                // server-side (matching the web app). sid/uid are attached by
+                // BookingProvider for session attribution.
+                final uri = Uri.parse(
+                  BookingProvider.wrapOutboundUrl(
+                    venue.url!,
+                    'hotpepper',
+                    stationId: stationId,
+                  ),
+                );
                 if (await canLaunchUrl(uri)) {
                   onOpen?.call(venue);
                   await launchUrl(uri, mode: LaunchMode.externalApplication);

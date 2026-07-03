@@ -58,10 +58,35 @@ class BookingProvider {
   static const _koreaRegions = ['seoul', 'busan'];
   static const _japanRegions = ['kanto', 'kansai', 'kyushu'];
 
+  /// Chinese-language locales. Routed to Agoda (strong in Asia) rather than
+  /// Booking.com North America, which redirects/blocks CJK searchers on US IPs.
+  static const _chineseLocales = ['zh', 'zh-TW'];
+
+  // ── Session attribution ─────────────────────────────────────────────
+  // The mobile client has no cookies, so the server cannot recover the
+  // session from a cookie the way the web does. We attach the tracking
+  // session/user id to every `/api/out` link as query params (`sid`/`uid`)
+  // so affiliate clicks are attributed to the session and the Awin
+  // `clickref` (session_stationId_provider) is complete. Matches the web's
+  // click-time `sid` injection (attachSessionIdToOutbound).
+  static String? _sessionId;
+  static String? _userId;
+
+  /// Set once at startup (from TrackingService) so outbound links carry
+  /// session attribution. Safe to call again if the session refreshes.
+  static void setSession({String? sid, String? uid}) {
+    _sessionId = sid;
+    _userId = uid;
+  }
+
   /// Get the primary provider name for display
   static String providerName(String locale, String region) {
     if (_japanRegions.contains(region) && locale == 'ja') return 'jalan.net';
-    if (_koreaRegions.contains(region) || locale == 'ko') return 'Agoda';
+    if (_koreaRegions.contains(region) ||
+        locale == 'ko' ||
+        _chineseLocales.contains(locale)) {
+      return 'Agoda';
+    }
     return 'Expedia';
   }
 
@@ -120,32 +145,38 @@ class BookingProvider {
       region: region,
     );
 
-    return [
-      (
-        name: 'Expedia',
-        url: _wrapWithApiOut(expediaUrl, 'expedia'),
-        color: const Color(0xFFFEC84C),
-        textColor: const Color(0xFF202843),
-      ),
-      (
-        name: 'Hotels.com',
-        url: _wrapWithApiOut(hotelsComUrl, 'hotels_com'),
-        color: const Color(0xFFD32F2F),
-        textColor: Colors.white,
-      ),
-      (
-        name: 'Agoda',
-        url: _wrapWithApiOut(agodaUrl, 'agoda', stationId: stationId),
-        color: const Color(0xFFF97316),
-        textColor: Colors.white,
-      ),
-      (
-        name: 'Booking.com',
-        url: _wrapWithApiOut(bookingUrl, 'booking'),
-        color: const Color(0xFF003B95),
-        textColor: Colors.white,
-      ),
-    ];
+    final expedia = (
+      name: 'Expedia',
+      url: _wrapWithApiOut(expediaUrl, 'expedia'),
+      color: const Color(0xFFFEC84C),
+      textColor: const Color(0xFF202843),
+    );
+    final hotelsCom = (
+      name: 'Hotels.com',
+      url: _wrapWithApiOut(hotelsComUrl, 'hotels_com'),
+      color: const Color(0xFFD32F2F),
+      textColor: Colors.white,
+    );
+    final agoda = (
+      name: 'Agoda',
+      url: _wrapWithApiOut(agodaUrl, 'agoda', stationId: stationId),
+      color: const Color(0xFFF97316),
+      textColor: Colors.white,
+    );
+    final booking = (
+      name: 'Booking.com',
+      url: _wrapWithApiOut(bookingUrl, 'booking'),
+      color: const Color(0xFF003B95),
+      textColor: Colors.white,
+    );
+
+    // Chinese-language users: lead with Agoda and drop Booking.com North
+    // America (US-IP redirect/geo issues for CJK searchers). Matches the
+    // web app's "route zh/zh-TW to Agoda, not Booking.com NA" fix.
+    if (_chineseLocales.contains(locale)) {
+      return [agoda, expedia, hotelsCom];
+    }
+    return [expedia, hotelsCom, agoda, booking];
   }
 
   /// Get the provider label for attribution
@@ -167,6 +198,9 @@ class BookingProvider {
       'provider': provider,
     };
     if (stationId != null) params['stationId'] = stationId;
+    // Session attribution (mobile has no cookies — pass sid/uid explicitly).
+    if (_sessionId != null) params['sid'] = _sessionId!;
+    if (_userId != null) params['uid'] = _userId!;
     return Uri.parse(_apiOutUrl).replace(queryParameters: params).toString();
   }
 
@@ -250,7 +284,9 @@ class BookingProvider {
         maxBudget: maxBudget,
       );
     }
-    if (_koreaRegions.contains(region) || locale == 'ko') {
+    if (_koreaRegions.contains(region) ||
+        locale == 'ko' ||
+        _chineseLocales.contains(locale)) {
       final agodaUrl = _buildAgodaUrl(
         stationName,
         locale,

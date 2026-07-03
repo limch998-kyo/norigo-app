@@ -43,6 +43,10 @@ void main() async {
   await tracking.init();
   tracking.setLocale(initialLocale);
 
+  // Attribute outbound affiliate clicks to this session (mobile has no
+  // cookies, so /api/out links carry sid/uid as query params).
+  BookingProvider.setSession(sid: tracking.sessionId, uid: tracking.userId);
+
   runApp(
     ProviderScope(
       overrides: [
