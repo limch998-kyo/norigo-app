@@ -169,6 +169,7 @@ class ApiClient {
     String? budget,
     List<String>? options,
     String? locale,
+    bool preferDirect = false,
   }) async {
     final response = await _dio.post(
       AppConstants.recommendEndpoint,
@@ -180,6 +181,7 @@ class ApiClient {
         if (budget != null) 'budget': budget,
         if (options != null && options.isNotEmpty) 'options': options,
         if (locale != null) 'locale': locale,
+        if (preferDirect) 'preferDirect': true,
       },
     );
     return MeetupResult.fromJson(response.data as Map<String, dynamic>);

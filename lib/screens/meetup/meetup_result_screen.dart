@@ -448,30 +448,56 @@ class _StationCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppTheme.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      tr(
-                        locale,
-                        ja: '平均${rec.avgEstimatedMinutes}分',
-                        ko: '평균 ${rec.avgEstimatedMinutes}분',
-                        en: 'Avg ${rec.avgEstimatedMinutes}min',
-                        zh: '平均${rec.avgEstimatedMinutes}分钟',
-                        fr: 'Moy. ${rec.avgEstimatedMinutes}min',
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppTheme.primary.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          tr(
+                            locale,
+                            ja: '平均${rec.avgEstimatedMinutes}分',
+                            ko: '평균 ${rec.avgEstimatedMinutes}분',
+                            en: 'Avg ${rec.avgEstimatedMinutes}min',
+                            zh: '平均${rec.avgEstimatedMinutes}分钟',
+                            fr: 'Moy. ${rec.avgEstimatedMinutes}min',
+                          ),
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: AppTheme.primary,
+                          ),
+                        ),
                       ),
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: AppTheme.primary,
-                      ),
-                    ),
+                      // Transfer badge: 全員直通 (all direct) or fewest-transfers count.
+                      if (rec.allDirect) ...[
+                        const SizedBox(height: 4),
+                        _Badge(
+                          text: tr(locale, ja: '全員直通', ko: '전원 직통', en: 'All direct', zh: '全程直达', fr: 'Direct'),
+                          color: AppTheme.green,
+                        ),
+                      ] else if (rec.maxTransfers != null && rec.maxTransfers! > 0) ...[
+                        const SizedBox(height: 4),
+                        _Badge(
+                          text: tr(
+                            locale,
+                            ja: '乗換${rec.maxTransfers}回',
+                            ko: '환승 ${rec.maxTransfers}회',
+                            en: rec.maxTransfers == 1 ? '1 transfer' : '${rec.maxTransfers} transfers',
+                            zh: '换乘${rec.maxTransfers}次',
+                            fr: '${rec.maxTransfers} corresp.',
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
                 ],
               ),

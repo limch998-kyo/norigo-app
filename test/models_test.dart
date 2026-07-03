@@ -192,6 +192,40 @@ void main() {
       expect(venue.noSmoking, true);
       expect(venue.freeDrink, false);
     });
+
+    test('RecommendedStation parses transfer fields (allDirect / maxTransfers)', () {
+      final json = {
+        'results': [
+          {
+            'station': {'id': 'shinjuku', 'name': '新宿', 'lat': 35.69, 'lng': 139.70, 'lines': []},
+            'rank': 1,
+            'distances': [],
+            'avgEstimatedMinutes': 5,
+            'allDirect': true,
+            'maxTransfers': 0,
+          },
+        ],
+      };
+      final s = MeetupResult.fromJson(json).stations[0];
+      expect(s.allDirect, true);
+      expect(s.maxTransfers, 0);
+    });
+
+    test('RecommendedStation transfer fields default safely when absent', () {
+      final json = {
+        'results': [
+          {
+            'station': {'id': 's', 'name': '駅', 'lat': 0.0, 'lng': 0.0, 'lines': []},
+            'rank': 1,
+            'distances': [],
+            'avgEstimatedMinutes': 0,
+          },
+        ],
+      };
+      final s = MeetupResult.fromJson(json).stations[0];
+      expect(s.allDirect, false); // absent → not "all direct"
+      expect(s.maxTransfers, isNull); // absent (e.g. Korea) → null, no badge
+    });
   });
 
   // ═══════════════════════════════════════════════════════════════

@@ -86,6 +86,19 @@ void main() {
     });
   });
 
+  group('setPreferDirect', () {
+    test('defaults to false', () {
+      expect(container.read(meetupSearchProvider).preferDirect, false);
+    });
+
+    test('toggles the prefer-direct flag', () {
+      notifier.setPreferDirect(true);
+      expect(container.read(meetupSearchProvider).preferDirect, true);
+      notifier.setPreferDirect(false);
+      expect(container.read(meetupSearchProvider).preferDirect, false);
+    });
+  });
+
   group('removeSlot', () {
     test('does nothing when only 2 slots (minimum)', () {
       notifier.setStation(0, shibuya);

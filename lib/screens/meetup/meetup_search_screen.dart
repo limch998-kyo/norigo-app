@@ -111,6 +111,26 @@ class MeetupSearchScreen extends ConsumerWidget {
 
             // Category / Budget / Options (Japan only — Korea has no restaurant API)
             if (!['seoul', 'busan'].contains(state.region)) ...[
+            // Prefer-direct toggle: re-rank by fewest transfers. Transfers are
+            // only computed for Japan regions, so this is gated with them.
+            Row(
+              children: [
+                Icon(Icons.trending_flat, size: 18, color: theme.colorScheme.primary),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    tr(locale, ja: '乗り換え少なめを優先', ko: '환승 적은 경로 우선', en: 'Prefer fewer transfers', zh: '优先少换乘', fr: 'Moins de correspondances'),
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                ),
+                Switch.adaptive(
+                  value: state.preferDirect,
+                  onChanged: notifier.setPreferDirect,
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+
             Text(
               tr(locale, ja: 'ジャンル（任意）', ko: '장르 (선택)', en: 'Category (optional)', zh: '类别（可选）', fr: 'Catégorie (facultatif)'),
               style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
