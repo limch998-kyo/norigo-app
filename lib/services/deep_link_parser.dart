@@ -87,11 +87,20 @@ class DeepLinkTarget {
       DeepLinkTarget._(kind: DeepLinkKind.external, uri: uri);
 }
 
-/// Locale segments the web prefixes onto paths (e.g. /ja/stay/result).
-/// Must mirror the web's locale list (src/i18n/routing.ts in project_meetup).
-const _localeSegments = {'ja', 'ko', 'en', 'zh', 'zh-TW', 'fr', 'ar'};
+/// Locale segments the web prefixes onto paths (e.g. /ja/stay/result), in the
+/// web's canonical casing. Must mirror the web's locale list
+/// (src/i18n/routing.ts in project_meetup); test/deep_link_manifest_test.dart
+/// derives the manifest expectations from this set.
+const localeSegments = {'ja', 'ko', 'en', 'zh', 'zh-TW', 'fr', 'ar'};
 
-const _norigoHosts = {'norigo.app', 'www.norigo.app'};
+/// Matching is case-insensitive: for norigo:// links the first path segment
+/// lands in the URI authority, which Dart lowercases (zh-TW → zh-tw).
+final _localeSegmentsLower =
+    localeSegments.map((l) => l.toLowerCase()).toSet();
+
+/// Hosts we own. Shared with the app shell so the "open our own URLs in an
+/// in-app browser view" rule can't drift from what the parser recognises.
+const norigoHosts = {'norigo.app', 'www.norigo.app'};
 
 /// Parse an incoming URI into a [DeepLinkTarget], or `null` if it isn't a
 /// norigo link at all (so the caller can ignore it).
@@ -103,7 +112,7 @@ const _norigoHosts = {'norigo.app', 'www.norigo.app'};
 DeepLinkTarget? parseNorigoUri(Uri uri) {
   final isNorigo = uri.scheme == 'norigo' ||
       ((uri.scheme == 'https' || uri.scheme == 'http') &&
-          _norigoHosts.contains(uri.host));
+          norigoHosts.contains(uri.host));
   if (!isNorigo) return null;
 
   final segments = _pathSegments(uri);
@@ -174,12 +183,12 @@ List<String> _pathSegments(Uri uri) {
   final raw = <String>[
     if (uri.scheme == 'norigo' &&
         uri.host.isNotEmpty &&
-        !_norigoHosts.contains(uri.host))
+        !norigoHosts.contains(uri.host))
       uri.host,
     ...uri.pathSegments,
   ].where((s) => s.isNotEmpty).toList();
 
-  if (raw.isNotEmpty && _localeSegments.contains(raw.first)) {
+  if (raw.isNotEmpty && _localeSegmentsLower.contains(raw.first.toLowerCase())) {
     return raw.sublist(1);
   }
   return raw;

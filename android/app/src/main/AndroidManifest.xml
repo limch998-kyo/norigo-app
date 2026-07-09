@@ -41,13 +41,18 @@
                  always reach a real browser, and an unclaimed path can never
                  bounce back into the app. Locale-prefixed variants mirror the
                  web's URL locales (src/i18n/routing.ts in project_meetup).
-                 Kept in sync with the parser by test/deep_link_manifest_test.dart. -->
+                 Kept in sync with the parser by test/deep_link_manifest_test.dart.
+
+                 Only the apex host is claimed: www.norigo.app 307-redirects
+                 everything to the apex, verifiers don't follow redirects, and
+                 on Android 11 and lower ONE unverifiable host disables App
+                 Links for ALL hosts. Re-add www only if it ever serves
+                 /.well-known/assetlinks.json directly with a 200. -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="https" android:host="norigo.app"/>
-                <data android:scheme="https" android:host="www.norigo.app"/>
                 <data android:pathPrefix="/s/"/>
                 <data android:path="/result"/>
                 <data android:path="/stay/result"/>

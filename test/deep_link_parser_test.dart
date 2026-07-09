@@ -61,6 +61,14 @@ void main() {
       );
     });
 
+    test('strips locale segments case-insensitively — norigo:// puts the '
+        'locale in the authority, which Dart lowercases (zh-TW → zh-tw)', () {
+      expect(parse('norigo://zh-TW/vote/abc')!.kind, DeepLinkKind.vote);
+      expect(parse('norigo://ja/guide/x')!.slug, 'x');
+      expect(parse('https://norigo.app/ZH-TW/vote/abc')!.kind,
+          DeepLinkKind.vote);
+    });
+
     test('bare home link resolves to external (nothing to route)', () {
       expect(parse('https://norigo.app/')!.kind, DeepLinkKind.external);
       expect(parse('https://norigo.app/ja')!.kind, DeepLinkKind.external);

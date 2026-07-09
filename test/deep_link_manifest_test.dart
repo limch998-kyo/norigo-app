@@ -37,8 +37,10 @@ void main() {
   bool claimed(String path) =>
       exactPaths.contains(path) || prefixPaths.any(path.startsWith);
 
-  // Mirrors src/i18n/routing.ts in project_meetup ('' = unprefixed).
-  const localePrefixes = ['', '/ja', '/ko', '/en', '/zh', '/zh-TW', '/fr', '/ar'];
+  // Derived from the parser's canonical set (which mirrors the web's
+  // src/i18n/routing.ts) so a locale added there is automatically probed
+  // here; '' = unprefixed (the web's default locale ja is served bare).
+  final localePrefixes = ['', ...localeSegments.map((l) => '/$l')];
 
   test('manifest declares scoped App Links paths at all', () {
     expect(exactPaths, isNotEmpty,
@@ -47,20 +49,26 @@ void main() {
         reason: 'expected android:pathPrefix entries in the App Links filter');
   });
 
+  test('claims only the apex host — www 307-redirects and cannot verify', () {
+    final hosts = RegExp(r'android:host="([^"]+)"')
+        .allMatches(manifest)
+        .map((m) => m.group(1)!)
+        .toSet();
+    expect(hosts, {'norigo.app'},
+        reason: 'www.norigo.app redirects to the apex, so its App Links '
+            'verification always fails — and on Android <=11 one failing '
+            'host disables App Links for every host');
+  });
+
   test('never claims /api/* — affiliate redirects must reach a browser', () {
     for (final locale in localePrefixes) {
       for (final api in ['/api/out', '/api/share', '/api/log', '/api/og']) {
         expect(claimed('$locale$api'), isFalse,
-            reason: '$locale$api must not be claimed by the app');
+            reason: '$locale$api must not be claimed — /api/out is the '
+                'affiliate redirect, and claiming it would bounce booking '
+                'clicks back into the app');
       }
     }
-    // The wrapped affiliate URL shape used by BookingProvider.
-    expect(
-      claimed('/api/out'),
-      isFalse,
-      reason: '/api/out is the affiliate redirect — claiming it would '
-          'bounce booking clicks back into the app',
-    );
   });
 
   test('every claimed path resolves to a native in-app route', () {
