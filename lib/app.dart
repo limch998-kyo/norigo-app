@@ -232,10 +232,40 @@ class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserv
   }
 
   Future<void> _openExternally(Uri uri) async {
+    var target = uri;
+    if (target.scheme == 'norigo') {
+      // A norigo:// URI can't load in a browser — map it onto the website
+      // (norigo://stay/result?x → https://norigo.app/stay/result?x). The
+      // custom scheme puts the first path segment in the authority.
+      final segments = [
+        if (target.host.isNotEmpty &&
+            target.host != 'norigo.app' &&
+            target.host != 'www.norigo.app')
+          target.host,
+        ...target.pathSegments,
+      ];
+      target = Uri(
+        scheme: 'https',
+        host: 'norigo.app',
+        path: '/${segments.join('/')}',
+        query: target.query.isEmpty ? null : target.query,
+      );
+    }
+    // Our own URLs open in an in-app browser view (Custom Tabs / Safari VC)
+    // instead of a plain VIEW intent: Android App Links would resolve a
+    // claimed norigo.app URL right back into this app and loop. Everything
+    // else keeps the external browser.
+    final isOurs =
+        target.host == 'norigo.app' || target.host == 'www.norigo.app';
     try {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
+      await launchUrl(
+        target,
+        mode: isOurs
+            ? LaunchMode.inAppBrowserView
+            : LaunchMode.externalApplication,
+      );
     } catch (e) {
-      debugPrint('MainShell: failed to open $uri externally: $e');
+      debugPrint('MainShell: failed to open $target externally: $e');
     }
   }
 

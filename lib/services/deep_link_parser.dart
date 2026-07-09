@@ -88,7 +88,8 @@ class DeepLinkTarget {
 }
 
 /// Locale segments the web prefixes onto paths (e.g. /ja/stay/result).
-const _localeSegments = {'ja', 'ko', 'en', 'zh', 'fr', 'ar'};
+/// Must mirror the web's locale list (src/i18n/routing.ts in project_meetup).
+const _localeSegments = {'ja', 'ko', 'en', 'zh', 'zh-TW', 'fr', 'ar'};
 
 const _norigoHosts = {'norigo.app', 'www.norigo.app'};
 

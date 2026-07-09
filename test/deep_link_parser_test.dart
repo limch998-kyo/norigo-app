@@ -46,6 +46,21 @@ void main() {
       expect(parse('https://norigo.app/fr/spot/y')!.slug, 'y');
     });
 
+    test('strips the zh-TW locale segment (web routing.ts includes zh-TW)', () {
+      expect(
+        parse('https://norigo.app/zh-TW/vote/abc')!.kind,
+        DeepLinkKind.vote,
+      );
+      expect(
+        parse('https://norigo.app/zh-TW/stay/result?r=kanto')!.kind,
+        DeepLinkKind.stay,
+      );
+      expect(
+        parse('https://norigo.app/zh-TW/result?p=a,b')!.kind,
+        DeepLinkKind.meetup,
+      );
+    });
+
     test('bare home link resolves to external (nothing to route)', () {
       expect(parse('https://norigo.app/')!.kind, DeepLinkKind.external);
       expect(parse('https://norigo.app/ja')!.kind, DeepLinkKind.external);
