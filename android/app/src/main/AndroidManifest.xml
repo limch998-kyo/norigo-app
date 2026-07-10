@@ -32,14 +32,75 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="norigo"/>
             </intent-filter>
-            <!-- App Links: https://norigo.app/* — autoVerify needs
-                 /.well-known/assetlinks.json on the domain. Harmless until then. -->
+            <!-- App Links: https://norigo.app — autoVerify needs
+                 /.well-known/assetlinks.json on the domain.
+
+                 Paths are scoped to the share/content routes the app renders
+                 natively (see lib/services/deep_link_parser.dart). /api/* is
+                 deliberately NOT claimed: affiliate redirects (/api/out) must
+                 always reach a real browser, and an unclaimed path can never
+                 bounce back into the app. Locale-prefixed variants mirror the
+                 web's URL locales (src/i18n/routing.ts in project_meetup).
+                 Kept in sync with the parser by test/deep_link_manifest_test.dart.
+
+                 Only the apex host is claimed: www.norigo.app 307-redirects
+                 everything to the apex, verifiers don't follow redirects, and
+                 on Android 11 and lower ONE unverifiable host disables App
+                 Links for ALL hosts. Re-add www only if it ever serves
+                 /.well-known/assetlinks.json directly with a 200. -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="https" android:host="norigo.app"/>
-                <data android:scheme="https" android:host="www.norigo.app"/>
+                <data android:pathPrefix="/s/"/>
+                <data android:path="/result"/>
+                <data android:path="/stay/result"/>
+                <data android:pathPrefix="/guide/"/>
+                <data android:pathPrefix="/spot/"/>
+                <data android:pathPrefix="/vote/"/>
+                <data android:pathPrefix="/ja/s/"/>
+                <data android:path="/ja/result"/>
+                <data android:path="/ja/stay/result"/>
+                <data android:pathPrefix="/ja/guide/"/>
+                <data android:pathPrefix="/ja/spot/"/>
+                <data android:pathPrefix="/ja/vote/"/>
+                <data android:pathPrefix="/ko/s/"/>
+                <data android:path="/ko/result"/>
+                <data android:path="/ko/stay/result"/>
+                <data android:pathPrefix="/ko/guide/"/>
+                <data android:pathPrefix="/ko/spot/"/>
+                <data android:pathPrefix="/ko/vote/"/>
+                <data android:pathPrefix="/en/s/"/>
+                <data android:path="/en/result"/>
+                <data android:path="/en/stay/result"/>
+                <data android:pathPrefix="/en/guide/"/>
+                <data android:pathPrefix="/en/spot/"/>
+                <data android:pathPrefix="/en/vote/"/>
+                <data android:pathPrefix="/zh/s/"/>
+                <data android:path="/zh/result"/>
+                <data android:path="/zh/stay/result"/>
+                <data android:pathPrefix="/zh/guide/"/>
+                <data android:pathPrefix="/zh/spot/"/>
+                <data android:pathPrefix="/zh/vote/"/>
+                <data android:pathPrefix="/zh-TW/s/"/>
+                <data android:path="/zh-TW/result"/>
+                <data android:path="/zh-TW/stay/result"/>
+                <data android:pathPrefix="/zh-TW/guide/"/>
+                <data android:pathPrefix="/zh-TW/spot/"/>
+                <data android:pathPrefix="/zh-TW/vote/"/>
+                <data android:pathPrefix="/fr/s/"/>
+                <data android:path="/fr/result"/>
+                <data android:path="/fr/stay/result"/>
+                <data android:pathPrefix="/fr/guide/"/>
+                <data android:pathPrefix="/fr/spot/"/>
+                <data android:pathPrefix="/fr/vote/"/>
+                <data android:pathPrefix="/ar/s/"/>
+                <data android:path="/ar/result"/>
+                <data android:path="/ar/stay/result"/>
+                <data android:pathPrefix="/ar/guide/"/>
+                <data android:pathPrefix="/ar/spot/"/>
+                <data android:pathPrefix="/ar/vote/"/>
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

@@ -232,10 +232,36 @@ class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserv
   }
 
   Future<void> _openExternally(Uri uri) async {
+    var target = uri;
+    if (target.scheme == 'norigo') {
+      // A norigo:// URI can't load in a browser — map it onto the website
+      // (norigo://stay/result?x → https://norigo.app/stay/result?x). The
+      // custom scheme puts the first path segment in the authority. Built as
+      // a string so the raw path/query/fragment survive verbatim — a Uri()
+      // constructor would decode-and-re-encode, corrupting %2F in slugs.
+      final buf = StringBuffer('https://norigo.app');
+      if (target.host.isNotEmpty && !norigoHosts.contains(target.host)) {
+        buf.write('/${target.host}');
+      }
+      buf.write(target.path);
+      if (target.query.isNotEmpty) buf.write('?${target.query}');
+      if (target.fragment.isNotEmpty) buf.write('#${target.fragment}');
+      target = Uri.parse(buf.toString());
+    }
+    // Our own URLs open in an in-app browser view (Custom Tabs / Safari VC)
+    // instead of a plain VIEW intent: Android App Links would resolve a
+    // claimed norigo.app URL right back into this app and loop. In practice
+    // every caller hands us a norigo URL; the external branch is kept for
+    // safety should a non-norigo URI ever reach here.
     try {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
+      await launchUrl(
+        target,
+        mode: norigoHosts.contains(target.host)
+            ? LaunchMode.inAppBrowserView
+            : LaunchMode.externalApplication,
+      );
     } catch (e) {
-      debugPrint('MainShell: failed to open $uri externally: $e');
+      debugPrint('MainShell: failed to open $target externally: $e');
     }
   }
 

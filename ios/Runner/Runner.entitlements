@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Apex only: www.norigo.app 307-redirects to the apex and Apple's AASA
+	     fetcher doesn't follow redirects, so a www association can never
+	     validate. Re-add www only if it ever serves the AASA directly. -->
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:norigo.app</string>
+	</array>
+</dict>
+</plist>
