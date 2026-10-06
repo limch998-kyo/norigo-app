@@ -8,6 +8,7 @@
     "lng": 135.7292,
     "slug": "kinkaku-ji",
     "nameZh": "金阁寺",
+    "nameZhTw": "金閣寺",
     "imageUrl": "/images/landmarks/kinkaku-ji.webp",
     "description": {
       "en": "Kinkaku-ji’s gleaming Golden Pavilion, its top two floors sheathed in thin gold leaf, appears to float above a mirror-like pond — an image that defines Kyoto’s timeless beauty. Stroll the peaceful paths, soak up the Zen atmosphere, and capture seasonal moments from cherry blossoms to fiery autumn leaves reflected in the water.",
@@ -25,6 +26,7 @@
     "lng": 135.7727,
     "slug": "fushimi-inari-taisha",
     "nameZh": "伏见稻荷大社",
+    "nameZhTw": "伏見稻荷大社",
     "imageUrl": "/images/landmarks/fushimi-inari-taisha.webp",
     "description": {
       "en": "Fushimi Inari Taisha in Kyoto is the chief shrine dedicated to the kami Inari, set at the foot of Mount Inari. Walk through its famous vermilion torii gates and follow the mountain trails that span about 4 km — a roughly two-hour route that leads to dozens of smaller shrines and an unforgettable, atmospheric hike.",
@@ -42,6 +44,7 @@
     "lng": 135.785,
     "slug": "kiyomizu-dera",
     "nameZh": "清水寺",
+    "nameZhTw": "清水寺",
     "imageUrl": "/images/landmarks/kiyomizu-dera.webp",
     "description": {
       "en": "Set on the eastern slopes of Kyoto, Kiyomizu-dera is a centuries-old Buddhist temple devoted to Jūichimen Kannon and one of the few temples that predate Heian‑kyō—now part of the Historic Monuments of Ancient Kyoto UNESCO site. Wander the atmospheric precincts with pilgrims, learn about its hibutsu (hidden) Kannon image, and if you visit in winter you can witness the annual Kanji of the Year ceremony held each December 12.",
@@ -59,6 +62,7 @@
     "lng": 135.667,
     "slug": "arashiyama",
     "nameZh": "岚山",
+    "nameZhTw": "嵐山",
     "imageUrl": "/images/landmarks/arashiyama.webp",
     "description": {
       "en": "Nestled on Kyoto’s western edge, Arashiyama pairs a dramatic mountain backdrop with riverside charm and nationally protected scenic beauty. Wander the famous bamboo groves, cross the iconic Togetsukyo Bridge and visit serene temples while soaking up cherry blossoms in spring and fiery maples in autumn.",
@@ -76,6 +80,7 @@
     "lng": 135.6713,
     "slug": "arashiyama-bamboo-grove",
     "nameZh": "岚山竹林小径",
+    "nameZhTw": "嵐山竹林小徑",
     "imageUrl": "/images/landmarks/arashiyama-bamboo-grove.webp",
     "description": {
       "en": "Stroll down the towering Arashiyama Bamboo Grove and listen as sunlight sifts through swaying stalks while a tranquil river and the forested mountain rise behind you. A nationally designated place of scenic beauty, it’s a peaceful, photogenic escape—ideal for morning walks, temple detours and seasonal color.",
@@ -93,6 +98,7 @@
     "lng": 135.748,
     "slug": "nijo-castle",
     "nameZh": "二条城",
+    "nameZhTw": "二條城",
     "imageUrl": "/images/landmarks/nijo-castle.webp",
     "description": {
       "en": "Nijō Castle in Kyoto is a sprawling flatland fortress with two concentric rings of fortifications surrounding the Ninomaru Palace, the ruins of the Honmaru Palace, and several gardens. Stroll the extensive grounds to explore the palatial spaces and ruins, admire seasonal garden views, and feel layers of Japan’s feudal history come alive.",
@@ -110,6 +116,7 @@
     "lng": 135.7478,
     "slug": "to-ji",
     "nameZh": "东寺",
+    "nameZhTw": "東寺",
     "imageUrl": "/images/landmarks/to-ji.webp",
     "description": {
       "en": "Tō-ji, founded by Kūkai and crowned by Kyoto’s iconic five‑story pagoda, offers a serene window into medieval Japanese Buddhism. Stroll the historic grounds, admire the towering wooden pagoda (especially beautiful at sunset), and time your visit for the lively monthly Kobo market to browse antiques and local snacks.",
@@ -127,6 +134,7 @@
     "lng": 135.7755,
     "slug": "gion",
     "nameZh": "祇园",
+    "nameZhTw": "祇園",
     "imageUrl": "/images/landmarks/gion.webp",
     "description": {
       "en": "Gion is Kyoto’s atmospheric geisha quarter beside Yasaka Shrine, born in the Sengoku era and famed for its wooden machiya, narrow lanes and elegant teahouses. Stroll at dusk to glimpse maiko in kimono, step into centuries of refined entertainment, or visit during the lively Gion Matsuri for an unforgettable taste of traditional Japan.",
@@ -144,6 +152,7 @@
     "lng": 135.7641,
     "slug": "nishiki-market",
     "nameZh": "锦市场",
+    "nameZhTw": "錦市場",
     "imageUrl": "/images/landmarks/nishiki-market.webp",
     "description": {
       "en": "Step into Nishiki Market, Kyoto’s bustling food arcade where centuries-old shops sell pickles, fresh seafood, sweets and kitchen tools. Sample tiny bites from stall to stall, watch artisans at work, and soak up the lively, authentic atmosphere of Kyoto’s culinary heart.",
@@ -161,6 +170,7 @@
     "lng": 135.7944,
     "slug": "philosophers-path",
     "nameZh": "哲学之道",
+    "nameZhTw": "哲學之道",
     "imageUrl": "/images/landmarks/philosophers-path.webp",
     "description": {
       "en": "Stroll the peaceful, cherry-tree-lined canal path between Ginkaku-ji and Nanzen-ji, where seasonal blossoms and quiet waters invite reflection; the walk follows a historic irrigation channel linked to the Lake Biwa Canal. Spend an hour or two wandering teahouses, photogenic bridges and benches that make perfect pauses for photos and contemplation.",
@@ -178,6 +188,7 @@
     "lng": 135.7932,
     "slug": "nanzen-ji",
     "nameZh": "南禅寺",
+    "nameZhTw": "南禪寺",
     "imageUrl": "/images/landmarks/nanzen-ji.webp",
     "description": {
       "en": "Set on the site of Emperor Kameyama’s former detached palace, Nanzen-ji is a serene Rinzai Zen temple founded in 1291 and still the headquarters of its branch. Wander the nationally designated historic precincts, linger in the Hōjō gardens — a recognized Place of Scenic Beauty — and soak up the tranquil, time‑worn atmosphere of buildings rebuilt after the 1895 fire.",
@@ -195,6 +206,7 @@
     "lng": 135.7834,
     "slug": "heian-shrine",
     "nameZh": "平安神宫",
+    "nameZhTw": "平安神宮",
     "imageUrl": "/images/landmarks/heian-shrine.webp",
     "description": {
       "en": "Heian Shrine in Kyoto’s Sakyō ward is a distinguished Shinto complex officially ranked as a Beppyō Jinja and protected as an important cultural property of Japan. Visitors can stroll its tranquil precincts, admire the traditional shrine architecture and seasonal scenery, and soak up a palpable sense of Kyoto’s living history.",
@@ -212,6 +224,7 @@
     "lng": 135.7593,
     "slug": "kyoto-tower",
     "nameZh": "京都塔",
+    "nameZhTw": "京都塔",
     "imageUrl": "/images/landmarks/kyoto-tower.webp",
     "description": {
       "en": "Rising directly across from Kyoto Station, Kyoto Tower is the city's tallest landmark and an ideal first stop for stunning panoramas — its 100-meter observation deck frames temples, the city grid and distant mountains. The steel spire sits atop a nine-story building with shops and a hotel, so you can browse local stores, grab a bite and watch Kyoto glow at night.",
@@ -229,6 +242,7 @@
     "lng": 135.762,
     "slug": "kyoto-imperial-palace",
     "nameZh": "京都御所",
+    "nameZhTw": "京都御所",
     "imageUrl": "/images/landmarks/kyoto-imperial-palace.webp",
     "description": {
       "en": "Step back into Japan's imperial past at the Kyoto Imperial Palace in Kamigyō-ku, the emperor's former residence until 1869. The carefully preserved grounds and ceremonial buildings are open to visitors, and the Imperial Household Agency runs multiple guided tours daily so you can explore grand halls and tranquil courtyards while sensing the atmosphere of the old court.",
@@ -246,6 +260,7 @@
     "lng": 135.7184,
     "slug": "ryoan-ji",
     "nameZh": "龙安寺",
+    "nameZhTw": "龍安寺",
     "imageUrl": "/images/landmarks/ryoan-ji.webp",
     "description": {
       "en": "Tucked into northwest Kyoto, Ryoan-ji is a Zen temple famed for its kare-sansui rock garden—15 carefully placed stones set in a sea of raked white pebbles. Pause, sit, or simply gaze; the spare, meditative composition draws you into quiet reflection and has earned the site UNESCO World Heritage recognition.",
@@ -263,6 +278,7 @@
     "lng": 135.7982,
     "slug": "ginkaku-ji",
     "nameZh": "银阁寺",
+    "nameZhTw": "銀閣寺",
     "imageUrl": "/images/landmarks/ginkaku-ji.webp",
     "description": {
       "en": "Perched on Kyoto’s eastern hills, Ginkaku-ji (Jishō-ji) is a quiet Muromachi-era Zen temple that helped define the refined Higashiyama culture. Stroll its mossy paths and raked-sand gardens, admire the understated Silver Pavilion, and soak in the calm views over Kyoto for a moment of contemplative beauty.",
@@ -280,6 +296,7 @@
     "lng": 135.774,
     "slug": "tofuku-ji",
     "nameZh": "东福寺",
+    "nameZhTw": "東福寺",
     "imageUrl": "/images/landmarks/tofuku-ji.webp",
     "description": {
       "en": "Tōfuku-ji is a major Zen temple in Kyoto’s Higashiyama, beloved for the sweeping views of maple foliage from its famous Tsutenkyo bridge and the serene, carefully crafted Zen gardens. Visitors can wander long wooden halls, pause for peaceful reflection, and enjoy striking seasonal scenery—especially the fiery colors of autumn.",
@@ -297,6 +314,7 @@
     "lng": 135.8076,
     "slug": "byodoin",
     "nameZh": "平等院",
+    "nameZhTw": "平等院",
     "imageUrl": "/images/landmarks/byodoin.webp",
     "description": {
       "en": "Byōdō-in in Uji, just outside Kyoto, is a late-Heian Buddhist temple prized for its graceful architecture and tranquil pond setting. Visitors can stroll the peaceful gardens, admire the historic halls maintained by both the Jōdo-shū and Tendai-shū traditions, and soak up a vivid sense of Japan’s classical past.",
@@ -314,6 +332,7 @@
     "lng": 135.7717,
     "slug": "sanjusangendo",
     "nameZh": "三十三间堂",
+    "nameZhTw": "三十三間堂",
     "imageUrl": "/images/landmarks/sanjusangendo.webp",
     "description": {
       "en": "Step into Sanjūsangen-dō in Kyoto’s Higashiyama and walk along its unusually long wooden hall, where 1,001 carved Kannon statues stand in serene rows. Marvel at the exquisite craftsmanship and hushed atmosphere—visit in season and you might also see the dramatic traditional archery event held on the grounds.",
@@ -331,6 +350,7 @@
     "lng": 135.7139,
     "slug": "ninna-ji",
     "nameZh": "仁和寺",
+    "nameZhTw": "仁和寺",
     "imageUrl": "/images/landmarks/ninna-ji.webp",
     "description": {
       "en": "Ninna-ji, the head temple of the Omuro school of Shingon Buddhism in western Kyoto, was founded in AD 888 by Emperor Uda and rebuilt in the 17th century. As part of the Historic Monuments of Ancient Kyoto (UNESCO), it invites visitors to wander its historic halls and tranquil grounds, experiencing imperial connections and traditional Buddhist architecture up close.",
@@ -348,6 +368,7 @@
     "lng": 135.6744,
     "slug": "tenryu-ji",
     "nameZh": "天龙寺",
+    "nameZhTw": "天龍寺",
     "imageUrl": "/images/landmarks/tenryu-ji.webp",
     "description": {
       "en": "Tenryu-ji is the chief temple of the Rinzai Tenryu-ji school, founded in 1339 by Ashikaga Takauji and steeped in imperial and shogunal history. Wander its tranquil halls and landscaped grounds to soak up a serene Zen atmosphere—this top-ranked Five Mountains temple is also a UNESCO World Heritage site, so every corner feels resonant with history.",
@@ -365,6 +386,7 @@
     "lng": 135.6573,
     "slug": "sagano-romantic-train",
     "nameZh": "嵯峨野观光小火车",
+    "nameZhTw": "嵯峨野觀光小火車",
     "imageUrl": "/images/landmarks/sagano-romantic-train.webp",
     "description": {
       "en": "Ride the Sagano Romantic Train in Kyoto for a leisurely, nostalgic trip along the Sagano Scenic Line—retro carriages and wide windows frame unforgettable seasonal views from riverside valleys to flowering cherry trees and fiery autumn leaves. It’s a slow, romantic way to escape the city and soak up Japan’s countryside scenery.",
@@ -382,6 +404,7 @@
     "lng": 135.6721,
     "slug": "arashiyama-monkey-park",
     "nameZh": "岚山猴子公园",
+    "nameZhTw": "嵐山猴子公園",
     "imageUrl": "/images/landmarks/arashiyama-monkey-park.webp",
     "description": {
       "en": "Perched atop Mount Arashiyama across the Ōi River, Iwatayama Monkey Park is home to a lively troop of some 120 wild Japanese macaques. Hike up for close-up encounters—you can feed the monkeys with corn and wheat sold on-site during scheduled feedings while enjoying sweeping views of Kyoto below.",
@@ -399,6 +422,7 @@
     "lng": 135.5262,
     "slug": "osaka-castle",
     "nameZh": "大阪城",
+    "nameZhTw": "大阪城",
     "imageUrl": "/images/landmarks/osaka-castle.webp",
     "description": {
       "en": "Osaka Castle rises in the heart of the city as one of Japan’s most iconic landmarks, famed for its role in the 16th‑century unification. Explore the restored main keep and its museum, climb to the observation deck for sweeping city views, and wander the moat, stone walls and seasonal cherry‑tree park surrounding the castle.",
@@ -416,6 +440,7 @@
     "lng": 135.5021,
     "slug": "dotonbori",
     "nameZh": "道顿堀",
+    "nameZhTw": "道頓堀",
     "imageUrl": "/images/landmarks/dotonbori.webp",
     "description": {
       "en": "Dotonbori is Osaka’s neon-soaked playground along the canal, famous for its giant illuminated signs, quirky storefronts and nonstop nightlife. Wander beneath the glowing Glico man, sample street-food classics like takoyaki and okonomiyaki, and soak up the theater-era eccentric energy that makes this stretch unforgettable.",
@@ -433,6 +458,7 @@
     "lng": 135.5063,
     "slug": "shinsekai",
     "nameZh": "新世界",
+    "nameZhTw": "新世界",
     "imageUrl": "/images/landmarks/shinsekai.webp",
     "description": {
       "en": "Shinsekai is Osaka’s gloriously gritty retro quarter centered on the towering Tsutenkaku — a living time capsule where early-20th-century city planning meets neon-soaked streets. Wander the narrow alleys for cheap, irresistible kushikatsu, old-school arcades and lively izakayas that feel like stepping back in time.",
@@ -450,6 +476,7 @@
     "lng": 135.5067,
     "slug": "tsutenkaku",
     "nameZh": "通天阁",
+    "nameZhTw": "通天閣",
     "imageUrl": "/images/landmarks/tsutenkaku.webp",
     "description": {
       "en": "Tsutenkaku rises above Shinsekai as Osaka’s retro landmark — head up to the 91‑meter observation deck for sweeping city views and a neon-lit panorama. Down below, bustling streets of kushikatsu stalls and old-school arcades offer local flavor, and the iconic Hitachi sign makes for a quintessential Osaka photo.",
@@ -467,6 +494,7 @@
     "lng": 135.4324,
     "slug": "universal-studios-japan",
     "nameZh": "日本环球影城",
+    "nameZhTw": "日本環球影城",
     "imageUrl": "/images/landmarks/universal-studios-japan.webp",
     "description": {
       "en": "Set on the waterfront in Osaka, Universal Studios Japan turns blockbuster movies into full-on experiences with a mix of beloved rides borrowed from Universal Orlando and Hollywood plus a handful of attractions you can only find here. Expect high-energy thrill rides, live shows and plenty of chances to meet iconic movie characters — perfect for families and film fans alike.",
@@ -484,6 +512,7 @@
     "lng": 135.5165,
     "slug": "shitennoji",
     "nameZh": "四天王寺",
+    "nameZhTw": "四天王寺",
     "imageUrl": "/images/landmarks/shitennoji.webp",
     "description": {
       "en": "Shitennoji in Osaka is one of Japan’s oldest officially administered Buddhist temples, where centuries of history meet a calm, living place of worship — its buildings have been rebuilt over time but the site still exudes traditional charm. Visitors can stroll the tranquil grounds, observe temple rituals, and soak up the history that led to its postwar independence as the Wa sect.",
@@ -501,6 +530,7 @@
     "lng": 135.4929,
     "slug": "sumiyoshi-taisha",
     "nameZh": "住吉大社",
+    "nameZhTw": "住吉大社",
     "imageUrl": "/images/landmarks/sumiyoshi-taisha.webp",
     "description": {
       "en": "Sumiyoshi Taisha is Osaka’s venerable coastal shrine and the head of all Sumiyoshi shrines, famed for its rare Sumiyoshi-zukuri style with simple, elegant lines. Wander cedar‑lined grounds, cross the photogenic arched bridge and catch traditional Shinto rituals that feel suspended in time.",
@@ -518,6 +548,7 @@
     "lng": 135.5013,
     "slug": "namba",
     "nameZh": "难波",
+    "nameZhTw": "難波",
     "imageUrl": "/images/landmarks/namba.webp",
     "description": {
       "en": "Namba is the buzzing heart of Osaka’s Minami, where neon-lit streets, lively shopping arcades and endless eateries cluster around one of the city’s biggest transport hubs. With JR, Kintetsu, Nankai, Hanshin and several subway lines all converging here, it’s the perfect launchpad for food hunts, nightlife and exploring the rest of Kansai.",
@@ -535,6 +566,7 @@
     "lng": 135.4906,
     "slug": "umeda-sky-building",
     "nameZh": "梅田蓝天大厦",
+    "nameZhTw": "梅田藍天大廈",
     "imageUrl": "/images/landmarks/umeda-sky-building.webp",
     "description": {
       "en": "Rising as two glass-clad towers joined by sky bridges, the Umeda Sky Building treats visitors to a thrill — ride the open-air escalators and cross an atrium high above the city to reach the Floating Garden Observatory. From there you get 360° views of Osaka, especially stunning at sunset and after dark, with cafés and photo spots on the rooftop for lingering.",
@@ -552,6 +584,7 @@
     "lng": 135.513,
     "slug": "abeno-harukas",
     "nameZh": "阿倍野HARUKAS",
+    "nameZhTw": "阿倍野HARUKAS",
     "imageUrl": "/images/landmarks/abeno-harukas.webp",
     "description": {
       "en": "Abeno Harukas soars 300 meters above southern Osaka, combining a supertall skyscraper with adjoining annexes full of shops, restaurants and cultural spaces. Visit the upper floors for sweeping panoramic views of the city and feel the scale of a building that was Japan’s tallest until 2023.",
@@ -569,6 +602,7 @@
     "lng": 135.507,
     "slug": "kuromon-market",
     "nameZh": "黑门市场",
+    "nameZhTw": "黑門市場",
     "imageUrl": "/images/landmarks/kuromon-market.webp",
     "description": {
       "en": "Kuromon Market is Osaka’s bustling food arcade where row after row of stalls sell the freshest seafood, produce and ready-to-eat treats. Wander the covered streets sampling sushi, grilled crab, takoyaki and other local bites while chatting with friendly vendors—it’s the perfect place to taste Osaka’s everyday flavors.",
@@ -586,6 +620,7 @@
     "lng": 135.5322,
     "slug": "expo-70-commemorative-park",
     "nameZh": "万博纪念公园",
+    "nameZhTw": "萬博紀念公園",
     "imageUrl": "/images/landmarks/expo-70-commemorative-park.webp",
     "description": {
       "en": "Set on the former site of Expo '70 just north of Osaka, this vast 264-hectare park blends open lawns and forested groves where you can stroll, picnic, and soak up a bit of history. Education centers and recreational facilities make it an easygoing day out for families, culture fans, and nature lovers alike.",
@@ -603,6 +638,7 @@
     "lng": 135.4694,
     "slug": "minoo-falls",
     "nameZh": "箕面瀑布",
+    "nameZhTw": "箕面瀑布",
     "imageUrl": "/images/landmarks/minoo-falls.webp",
     "description": {
       "en": "Minoo Falls is a peaceful, easy-to-reach waterfall tucked into a maple-lined park just outside Osaka. Walk the shaded trail to the cascade, enjoy the calming sound of falling water, and savor seasonal treats from the tea houses—especially spectacular during autumn foliage.",
@@ -620,6 +656,7 @@
     "lng": 135.429,
     "slug": "osaka-aquarium-kaiyukan",
     "nameZh": "海游馆",
+    "nameZhTw": "海遊館",
     "imageUrl": "/images/landmarks/osaka-aquarium-kaiyukan.webp",
     "description": {
       "en": "Set on Osaka Bay in Minato ward, Kaiyukan impresses with its sheer scale — when it opened it was the world's largest public aquarium. Wander past enormous tanks and immersive exhibits to see marine life up close, making it a memorable stop for families and ocean lovers.",
@@ -637,6 +674,7 @@
     "lng": 135.4309,
     "slug": "tempozan",
     "nameZh": "天保山",
+    "nameZhTw": "天保山",
     "imageUrl": "/images/landmarks/tempozan.webp",
     "description": {
       "en": "Ride the towering Tempozan Ferris Wheel at Tempozan Harbor Village — a 112.5‑meter landmark that frames sweeping views of Osaka Bay and the city skyline. Located next to the world‑class Osaka Aquarium Kaiyukan, it’s ideal for family afternoons, romantic sunsets and illuminated night panoramas.",
@@ -654,6 +692,7 @@
     "lng": 135.4988,
     "slug": "hep-five",
     "nameZh": "HEP FIVE",
+    "nameZhTw": "HEP FIVE",
     "imageUrl": "/images/landmarks/hep-five.webp",
     "description": {
       "en": "HEP Five is a lively shopping and entertainment complex in Umeda, Osaka, famous for its bright red rooftop Ferris wheel and bustling floors of trendy shops, cafes, and restaurants. Pop in for a mix of fashion, games and great city views—perfect for a shopping spree by day and a fun night out.",
@@ -671,6 +710,7 @@
     "lng": 135.5001,
     "slug": "amerikamura",
     "nameZh": "美国村",
+    "nameZhTw": "美國村",
     "imageUrl": "/images/landmarks/amerikamura.webp",
     "description": {
       "en": "Amerikamura, often called “Ame-mura,” is a lively shopping and entertainment quarter just west of Shinsaibashi, stretching from Nagahori Street toward Dotonbori. Wander colorful streets of indie boutiques, cafés and street art by day, and enjoy live music, bars and a playful nightlife after dark.",
@@ -688,6 +728,7 @@
     "lng": 135.4986,
     "slug": "nakanoshima",
     "nameZh": "中之岛",
+    "nameZhTw": "中之島",
     "imageUrl": "/images/landmarks/nakanoshima.webp",
     "description": {
       "en": "Nakanoshima is a leafy, 3‑km‑long sandbar at the heart of Osaka that splits the old Yodo into the Tosabori and Dōjima rivers. It’s a compact cultural corridor—museums, concert halls, government buildings and riverside cafés line pleasant promenades, perfect for museum‑hopping, architecture spotting and relaxed riverfront strolls.",
@@ -705,6 +746,7 @@
     "lng": 135.5084,
     "slug": "tennoji-zoo",
     "nameZh": "天王寺动物园",
+    "nameZhTw": "天王寺動物園",
     "imageUrl": "/images/landmarks/tennoji-zoo.webp",
     "description": {
       "en": "Tennoji Zoo is a compact, century-old city zoo tucked into Tennoji Park where families can meet animals from around the world and enjoy a shady stroll. Sitting just southwest of the historic Shitennō-ji temple, it’s an easy stop to combine lively exhibits with a touch of Osaka history.",
@@ -722,6 +764,7 @@
     "lng": 135.8427,
     "slug": "nara-park",
     "nameZh": "奈良公园",
+    "nameZhTw": "奈良公園",
     "imageUrl": "/images/landmarks/nara-park.webp",
     "description": {
       "en": "Nara Park is a serene, historic green space at the foot of Mount Wakakusa where over 1,200 free-roaming sika deer—designated a natural treasure—mingle with visitors amid ancient temples and shrines. Wander tree-lined paths, feed the friendly deer with special crackers, and soak up seasonal colors and world-class sights like Tōdai-ji, Kasuga Taisha and the Nara National Museum.",
@@ -739,6 +782,7 @@
     "lng": 135.8398,
     "slug": "todai-ji",
     "nameZh": "东大寺",
+    "nameZhTw": "東大寺",
     "imageUrl": "/images/landmarks/todai-ji.webp",
     "description": {
       "en": "Tōdai-ji in Nara is a UNESCO World Heritage temple famed for its colossal Great Buddha Hall, which houses the world's largest bronze Vairocana — the Daibutsu. Step inside the vast hall to marvel at the towering statue and Tang-inspired architecture, and stroll the historic complex to feel centuries of reconstruction and devotion up close.",
@@ -756,6 +800,7 @@
     "lng": 135.8497,
     "slug": "kasuga-taisha",
     "nameZh": "春日大社",
+    "nameZhTw": "春日大社",
     "imageUrl": "/images/landmarks/kasuga-taisha.webp",
     "description": {
       "en": "Kasuga Taisha in Nara is a centuries‑old Shinto shrine founded by the Fujiwara family in 768 CE, its buildings lovingly rebuilt over time. Inside, rows of hanging bronze lanterns and a long approach lined with stone lanterns create a quiet, almost otherworldly atmosphere perfect for slow wandering and photos.",
@@ -773,6 +818,7 @@
     "lng": 135.7347,
     "slug": "horyu-ji",
     "nameZh": "法隆寺",
+    "nameZhTw": "法隆寺",
     "imageUrl": "/images/landmarks/horyu-ji.webp",
     "description": {
       "en": "Step back into Japan’s early history at Hōryū-ji in Ikaruga, Nara — one of the country’s oldest Buddhist complexes and a former member of the Seven Great Temples. Wander among ancient wooden halls and pagodas that once served as both seminary and monastery, and soak up the serene atmosphere and living history.",
@@ -790,6 +836,7 @@
     "lng": 135.8583,
     "slug": "mount-yoshino",
     "nameZh": "吉野山",
+    "nameZhTw": "吉野山",
     "imageUrl": "/images/landmarks/mount-yoshino.webp",
     "description": {
       "en": "Mount Yoshino is an eight-kilometer mountain ridge in central Nara stretching from the Yoshino River to the Ōmine Mountains, with shrines and temples clustered around Kinpusen-ji. Visitors can wander historic paths, soak up the spiritual atmosphere around the temple, and enjoy panoramic mountain views and gentle hikes.",
@@ -807,6 +854,7 @@
     "lng": 135.186,
     "slug": "kobe-port-tower",
     "nameZh": "神户港塔",
+    "nameZhTw": "神戶港塔",
     "imageUrl": "/images/landmarks/kobe-port-tower.webp",
     "description": {
       "en": "Rising from Kobe’s harbor with its distinctive red lattice silhouette, Kobe Port Tower is an instantly recognizable symbol of the city. Take the elevator to the circular observation decks for sweeping 360° views of the port, Rokko Mountains and glittering city lights—especially spectacular after its recent renovation.",
@@ -824,6 +872,7 @@
     "lng": 135.186,
     "slug": "meriken-park",
     "nameZh": "美利坚公园",
+    "nameZhTw": "美利堅公園",
     "imageUrl": "/images/landmarks/meriken-park.webp",
     "description": {
       "en": "Meriken Park is Kobe’s compact waterfront playground, anchored by the iconic red Kobe Port Tower and the sleek Kobe Maritime Museum—ideal for sunset photos and leisurely harbor strolls. Visit the moving Great Hanshin earthquake memorial, then relax at nearby waterfront hotels and cafés while watching ships glide by.",
@@ -841,6 +890,7 @@
     "lng": 135.1969,
     "slug": "nunobiki-falls",
     "nameZh": "布引瀑布",
+    "nameZhTw": "布引瀑布",
     "imageUrl": "/images/landmarks/nunobiki-falls.webp",
     "description": {
       "en": "Just a short walk from downtown Kobe, Nunobiki Falls is a serene cascade beloved in Japanese art and literature and counted among the country’s three great “divine falls.” Follow the shaded trails for close-up views, cooling mist, and a peaceful escape from the city — perfect for photos and a nature break.",
@@ -858,6 +908,7 @@
     "lng": 135.1898,
     "slug": "kitano-ijinkan",
     "nameZh": "北野异人馆",
+    "nameZhTw": "北野異人館",
     "imageUrl": "/images/landmarks/kitano-ijinkan.webp",
     "description": {
       "en": "Kitano Ijinkan is a pocket of preserved late Meiji–Taishō foreign residences where you can wander tree-lined streets past colorful Western-style mansions. Inside are small museums, quirky shops and cozy cafés — perfect for history buffs, photographers and anyone wanting a taste of old Kobe’s international charm.",
@@ -875,6 +926,7 @@
     "lng": 135.2471,
     "slug": "arima-onsen",
     "nameZh": "有马温泉",
+    "nameZhTw": "有馬溫泉",
     "imageUrl": "/images/landmarks/arima-onsen.webp",
     "description": {
       "en": "Set at the foot of Mount Rokkō, Arima Onsen is one of Japan’s oldest and most celebrated hot-spring towns—named in The Pillow Book and revered throughout the Edo period. Today visitors can easily escape from Osaka or Kobe to soak in historic baths, stroll charming streets lined with traditional inns, and taste a slice of Japan’s bathing culture.",
@@ -892,6 +944,7 @@
     "lng": 135.2343,
     "slug": "mount-rokko",
     "nameZh": "六甲山",
+    "nameZhTw": "六甲山",
     "imageUrl": "/images/landmarks/mount-rokko.webp",
     "description": {
       "en": "Mount Rokko is a scenic mountain range overlooking Kobe and Osaka Bay, famous for sweeping daytime panoramas and one of Japan’s most celebrated night views. Visitors can hike forested trails, ride the cable car or funicular, and relax in alpine gardens and terraces that showcase seasonal flowers and glittering city lights.",
@@ -909,6 +962,7 @@
     "lng": 135.0215,
     "slug": "akashi-kaikyo-bridge",
     "nameZh": "明石海峡大桥",
+    "nameZhTw": "明石海峽大橋",
     "imageUrl": "/images/landmarks/akashi-kaikyo-bridge.webp",
     "description": {
       "en": "Spanning the turbulent Akashi Strait, the Akashi Kaikyo Bridge links Kobe on Honshu with Awaji Island and was the world’s longest suspension bridge central span when it opened in 1998. Visitors can drive the Kobe–Awaji–Naruto Expressway or admire the bridge from the shore, taking in the sheer scale of its nearly 2‑kilometre span and the steady stream of ships below.",
@@ -926,6 +980,7 @@
     "lng": 134.6939,
     "slug": "himeji-castle",
     "nameZh": "姬路城",
+    "nameZhTw": "姬路城",
     "imageUrl": "/images/landmarks/himeji-castle.webp",
     "description": {
       "en": "Perched on a hill in Hyogo Prefecture, Himeji Castle dazzles with its brilliant white walls and a graceful silhouette often likened to a bird taking flight. Explore a labyrinth of 83 historic buildings and clever feudal defenses to see why it’s hailed as the finest surviving example of traditional Japanese castle architecture.",
@@ -943,6 +998,7 @@
     "lng": 135.5803,
     "slug": "mount-koya",
     "nameZh": "高野山",
+    "nameZhTw": "高野山",
     "imageUrl": "/images/landmarks/mount-koya.webp",
     "description": {
       "en": "Perched in a cedar‑clad mountain south of Osaka, Mount Koya is a living temple town and the spiritual headquarters of Shingon Buddhism at Kongōbu‑ji. Wander ancient temple streets, follow the mossy path to Okunoin, sample temple cuisine and even spend the night in a monastery lodging to join morning prayers and meditate in silence.",
@@ -960,6 +1016,7 @@
     "lng": 136.726,
     "slug": "ise-grand-shrine",
     "nameZh": "伊势神宫",
+    "nameZhTw": "伊勢神宮",
     "imageUrl": "/images/landmarks/ise-grand-shrine.webp",
     "description": {
       "en": "Ise Grand Shrine in Mie Prefecture is a deeply sacred Shinto complex centered on the inner Naikū and outer Gekū, dedicated to the sun goddess Amaterasu and the grain goddess Toyouke. Visitors can wander cedar‑lined paths, admire serene wooden architecture, and soak up the quiet ritual atmosphere that makes it one of Japan’s spiritual heartlands.",
@@ -977,6 +1034,7 @@
     "lng": 135.8406,
     "slug": "nara-national-museum",
     "nameZh": "奈良国立博物馆",
+    "nameZhTw": "奈良國立博物館",
     "imageUrl": "/images/landmarks/nara-national-museum.webp",
     "description": {
       "en": "One of Japan’s leading national art museums, the Nara National Museum offers a peaceful, historic setting to explore exceptional Buddhist art and cultural treasures. Visitors can admire ancient sculptures, sacred scrolls and rotating exhibitions that bring Nara’s religious and artistic heritage to life.",
@@ -994,6 +1052,7 @@
     "lng": 135.8432,
     "slug": "isuien-garden",
     "nameZh": "依水园",
+    "nameZhTw": "依水園",
     "imageUrl": "/images/landmarks/isuien-garden.webp",
     "description": {
       "en": "Isuien Garden in Nara is a beautifully preserved Meiji‑era strolling garden and the only walking garden in the city. Originally two separate gardens, each section features its own pagoda, inviting quiet walks around ponds and framed views that evoke Nara’s timeless charm.",
@@ -1011,6 +1070,7 @@
     "lng": 135.1826,
     "slug": "kobe-harborland",
     "nameZh": "神户港乐园",
+    "nameZhTw": "神戶港樂園",
     "imageUrl": "/images/landmarks/kobe-harborland.webp",
     "description": {
       "en": "Kobe Harborland is a lively waterfront playground where a glowing Ferris wheel, stylish boutiques and waterside restaurants come together. Stroll the promenades, snap sunset photos, or hop on a harbor cruise to take in one of Japan’s most photogenic night views.",
@@ -1028,6 +1088,7 @@
     "lng": 135.7444,
     "slug": "daitoku-ji",
     "nameZh": "大德寺",
+    "nameZhTw": "大德寺",
     "imageUrl": "/images/landmarks/daitoku-ji.webp",
     "description": {
       "en": "Daitoku-ji is a sprawling Rinzai Zen complex in northern Kyoto where quiet moss gardens, intimate tea houses and over 20 sub-temples offer a concentrated taste of Japanese culture. Explore serene courtyards and historic screen paintings and tea utensils, but note that the main hall is closed to the public and many sub-temples only open at limited times — check schedules before you go.",
@@ -1045,6 +1106,7 @@
     "lng": 135.7629,
     "slug": "kifune-shrine",
     "nameZh": "贵船神社",
+    "nameZhTw": "貴船神社",
     "imageUrl": "/images/landmarks/kifune-shrine.webp",
     "description": {
       "en": "Kifune Shrine in Kyoto’s Sakyō-ku is a peaceful Shinto sanctuary where traditional architecture and quiet ritual life offer a calm escape from the city. Visit to stroll the atmospheric grounds, take in seasonal scenery, and experience a slice of timeless Japanese spiritual culture.",
@@ -1062,6 +1124,7 @@
     "lng": 135.7679,
     "slug": "kurama-dera",
     "nameZh": "鞍马寺",
+    "nameZhTw": "鞍馬寺",
     "imageUrl": "/images/landmarks/kurama-dera.webp",
     "description": {
       "en": "Tucked in the far north of Kyoto, Kurama-dera is a quietly powerful temple that houses several National Treasures and centers on a singular, esoteric object of worship found nowhere else. Visitors come to experience its rare spiritual atmosphere and to feel a living slice of Japan’s religious history—said to have been founded by a disciple of the Chinese monk Ganjin and long tied to the Tendai tradition.",
@@ -1079,6 +1142,7 @@
     "lng": 135.7723,
     "slug": "shimogamo-shrine",
     "nameZh": "下鸭神社",
+    "nameZhTw": "下鴨神社",
     "imageUrl": "/images/landmarks/shimogamo-shrine.webp",
     "description": {
       "en": "Step into Shimogamo Shrine (Kamo-mioya Shrine), one of Japan’s oldest Shinto sanctuaries and a UNESCO World Heritage site whose peaceful grounds have watched over Kyoto since the 6th century. Wander the tranquil precincts, admire classical shrine architecture, and feel the deep sense of history that ties this ancient Kamo complex to the life of the city.",
@@ -1096,6 +1160,7 @@
     "lng": 135.7527,
     "slug": "kamigamo-shrine",
     "nameZh": "上贺茂神社",
+    "nameZhTw": "上賀茂神社",
     "imageUrl": "/images/landmarks/kamigamo-shrine.webp",
     "description": {
       "en": "Perched on the banks of the Kamo River in north Kyoto, Kamigamo Shrine (formally Kamo-wakeikazuchi Shrine) has welcomed worshippers since 678. Stroll its peaceful, tree-lined grounds to admire ancient Shinto architecture and, if you time it right, glimpse traditional ceremonies and seasonal festivals that bring Japan’s past to life.",
@@ -1113,6 +1178,7 @@
     "lng": 135.7785,
     "slug": "yasaka-shrine",
     "nameZh": "八坂神社",
+    "nameZhTw": "八坂神社",
     "imageUrl": "/images/landmarks/yasaka-shrine.webp",
     "description": {
       "en": "Set at the east end of Shijō-dōri in Kyoto’s atmospheric Gion district, Yasaka Shrine (formerly Gion Shrine) welcomes visitors with its striking gates, main hall and open stage where ceremonies are held. Dedicated to Susanoo and surrounded by his consort and eight attendant deities, it’s a living center of Gion faith where you can watch rituals, admire traditional architecture, and soak up a timeless neighborhood atmosphere.",
@@ -1130,6 +1196,7 @@
     "lng": 135.7815,
     "slug": "maruyama-park",
     "nameZh": "圆山公园",
+    "nameZhTw": "圓山公園",
     "imageUrl": "/images/landmarks/maruyama-park.webp",
     "description": {
       "en": "Maruyama Park is Kyoto’s classic hanami spot, centered on a dramatic weeping cherry that’s lit up at night — perfect for glowing photos and a magical evening stroll. It gets very crowded in April, and the park also hums with activity during lively New Year’s Eve festivals.",
@@ -1147,6 +1214,7 @@
     "lng": 135.7706,
     "slug": "pontocho",
     "nameZh": "先斗町",
+    "nameZhTw": "先鬥町",
     "imageUrl": "/images/landmarks/pontocho.webp",
     "description": {
       "en": "Pontocho is Kyoto’s atmospheric hanamachi where okiya and traditional tea houses line narrow streets and preserved wooden architecture sets the scene for centuries-old entertainment. Visit at dusk for a chance to glimpse geiko and maiko and to enjoy intimate performances and classic Kyoto dining.",
@@ -1164,6 +1232,7 @@
     "lng": 135.7116,
     "slug": "katsura-imperial-villa",
     "nameZh": "桂离宫",
+    "nameZhTw": "桂離宮",
     "imageUrl": "/images/landmarks/katsura-imperial-villa.webp",
     "description": {
       "en": "Set beside the Katsura River in western Kyoto, the Katsura Imperial Villa is a pristine example of classical Japanese architecture and strolling gardens. Visitors can wander carefully arranged paths, admire refined shoin-style pavilions and tea houses, and experience an intimate harmony of buildings, water and seasonal foliage that earned it national cultural recognition.",
@@ -1181,6 +1250,7 @@
     "lng": 135.7963,
     "slug": "shugakuin-imperial-villa",
     "nameZh": "修学院离宫",
+    "nameZhTw": "修學院離宮",
     "imageUrl": "/images/landmarks/shugakuin-imperial-villa.webp",
     "description": {
       "en": "Perched in the eastern hills of Kyoto, the Shugakuin Imperial Villa is a sweeping hillside retreat where carefully composed ponds, pathways and outbuildings unfold like a living work of art. A visit lets you stroll masterpiece gardens and soak in the quiet, imperial atmosphere that shaped centuries of Japanese aesthetics.",
@@ -1198,6 +1268,7 @@
     "lng": 135.746,
     "slug": "kyoto-railway-museum",
     "nameZh": "京都铁道博物馆",
+    "nameZhTw": "京都鐵道博物館",
     "imageUrl": "/images/landmarks/kyoto-railway-museum.webp",
     "description": {
       "en": "Step into a living history of Japanese railways at the Kyoto Railway Museum, where restored steam giants meet sleek modern trains after a major 2016 revamp. Hands‑on exhibits, driving simulators and a working turntable let you see, touch and even feel how rail travel evolved — perfect for families and train fans alike.",
@@ -1215,6 +1286,7 @@
     "lng": 135.7596,
     "slug": "kyoto-international-manga-museum",
     "nameZh": "京都国际漫画博物馆",
+    "nameZhTw": "京都國際漫畫博物館",
     "imageUrl": "/images/landmarks/kyoto-international-manga-museum.webp",
     "description": {
       "en": "In the heart of Kyoto, the Kyoto International Manga Museum is a must for fans and curious travelers alike—browse and read from 50,000 manga volumes on open shelves and soak up a unique, book-filled atmosphere. Researchers and enthusiasts can also request access to another 250,000 items in the reference room, including Edo-period prints, pre-war magazines and post-war rental books alongside popular modern series from around the globe.",
@@ -1232,6 +1304,7 @@
     "lng": 135.7737,
     "slug": "kennin-ji",
     "nameZh": "建仁寺",
+    "nameZhTw": "建仁寺",
     "imageUrl": "/images/landmarks/kennin-ji.webp",
     "description": {
       "en": "Kennin-ji is one of Kyoto’s most important Zen temples and the head temple of its Rinzai lineage, with a history that anchors it among the city’s famed Gozan. Visitors can stroll tranquil grounds, take in traditional temple buildings and gardens, and soak up an authentic Zen atmosphere that feels timeless in the heart of Kyoto.",
@@ -1249,6 +1322,7 @@
     "lng": 135.505,
     "slug": "spa-world",
     "nameZh": "Spa World",
+    "nameZhTw": "Spa World",
     "imageUrl": "/images/landmarks/spa-world.webp",
     "description": {
       "en": "Spa World is a lively urban spa complex where you can soak in a variety of themed baths, sweat it out in saunas, and relax in resort-like facilities. It’s an easy, fun way to experience Japanese bathing culture and recharge between sightseeing adventures.",
@@ -1266,6 +1340,7 @@
     "lng": 135.1809,
     "slug": "amanohashidate",
     "nameZh": "天桥立",
+    "nameZhTw": "天橋立",
     "imageUrl": "/images/landmarks/amanohashidate.webp",
     "description": {
       "en": "Amanohashidate is a narrow, tree-lined sandbar that stretches across Miyazu Bay in northern Kyoto and is celebrated as one of Japan’s three greatest scenic views. You can stroll or bike the peaceful strip, take a boat around the bay, or climb a nearby viewpoint and try the traditional matanozoki—bend forward and look between your legs to see the sandbar appear like a bridge to the heavens.",
@@ -1283,6 +1358,7 @@
     "lng": 136.1,
     "slug": "lake-biwa",
     "nameZh": "琵琶湖",
+    "nameZhTw": "琵琶湖",
     "imageUrl": "/images/landmarks/lake-biwa.webp",
     "description": {
       "en": "Lake Biwa, just northeast of Kyoto, is Japan’s largest freshwater lake and an ancient natural landmark more than four million years old. Visitors can take peaceful boat cruises, cycle the scenic shoreline, taste lakeside specialties, and wander sites that have inspired poets and warriors for centuries.",
@@ -1300,6 +1376,7 @@
     "lng": 136.2517,
     "slug": "hikone-castle",
     "nameZh": "彦根城",
+    "nameZhTw": "彥根城",
     "imageUrl": "/images/landmarks/hikone-castle.webp",
     "description": {
       "en": "Hikone Castle is a rare, beautifully preserved Edo-period stronghold — one of only twelve castles in Japan with its original tenshu and among the handful whose buildings are National Treasures. Stroll the stone walls and moats, explore the authentically preserved keep and museum displays, and feel transported back to the age of samurai and feudal courts.",
@@ -1317,6 +1394,7 @@
     "lng": 135.841,
     "slug": "enryaku-ji",
     "nameZh": "延历寺",
+    "nameZhTw": "延歷寺",
     "imageUrl": "/images/landmarks/enryaku-ji.webp",
     "description": {
       "en": "Perched on Mount Hiei above Kyoto, Enryaku-ji is the ancient Tendai headquarters founded in 788 and part of the UNESCO-listed Historic Monuments of Ancient Kyoto. Wander cedar-shaded paths and centuries-old halls, enjoy sweeping views of the city below, and sense the deep Buddhist legacy here — from the rigorous kaihōgyō ascetic tradition to its role in shaping many Japanese sects.",
@@ -1334,6 +1412,7 @@
     "lng": 136.0373,
     "slug": "miho-museum",
     "nameZh": "美秀美术馆",
+    "nameZhTw": "美秀美術館",
     "imageUrl": "/images/landmarks/miho-museum.webp",
     "description": {
       "en": "The Miho Museum, located southeast of Kyoto in the Shigaraki neighborhood of Kōka, Shiga Prefecture, is an art museum set away from the city's bustle. Visitors can enjoy rotating exhibitions in a peaceful countryside setting, making it an ideal, easy day trip from Kyoto.",
@@ -1351,6 +1430,7 @@
     "lng": 135.171,
     "slug": "wakayama-castle",
     "nameZh": "和歌山城",
+    "nameZhTw": "和歌山城",
     "imageUrl": "/images/landmarks/wakayama-castle.webp",
     "description": {
       "en": "Perched above Wakayama city, Wakayama Castle showcases the grandeur of Tokugawa-era power with its stately keep, massive stone walls, and sweeping grounds. Visitors can climb to panoramic viewpoints, explore exhibits about the Kishū Domain, and stroll through seasonal gardens and cherry blossoms that bring the history to life.",
@@ -1368,6 +1448,7 @@
     "lng": 135.3454,
     "slug": "shirahama",
     "nameZh": "白浜",
+    "nameZhTw": "白浜",
     "imageUrl": "/images/landmarks/shirahama.webp",
     "description": {
       "en": "Shirahama is a charming coastal town in Wakayama Prefecture known for its powder‑white beaches and relaxing hot springs, offering a classic Japanese seaside getaway. Visitors can stroll the shoreline, soak in open‑air baths, sample fresh seafood, and unwind amid dramatic coastal scenery.",
@@ -1385,6 +1466,7 @@
     "lng": 135.5014,
     "slug": "shinsaibashi",
     "nameZh": "心斋桥",
+    "nameZhTw": "心齋橋",
     "imageUrl": "/images/landmarks/shinsaibashi.webp",
     "description": {
       "en": "Shinsaibashi is Osaka’s bustling shopping heart — stroll the covered Shinsaibashi-suji arcade to discover everything from flagship boutiques to quirky local shops, then pop into nearby Amerika-mura for youth-driven fashion and street culture. Minutes from Dōtonbori and easily reached by subway, it’s perfect for an afternoon of shopping, eating and people-watching.",
@@ -1402,6 +1484,7 @@
     "lng": 135.501,
     "slug": "namba-parks",
     "nameZh": "难波公园",
+    "nameZhTw": "難波公園",
     "imageUrl": "/images/landmarks/namba-parks.webp",
     "description": {
       "en": "Namba Parks is an unexpected urban oasis in the heart of Namba — a high-rise office tower and a 120-store shopping mall crowned by a stepped rooftop park. Wander its tree-lined terraces and paths, dine on outdoor terraces, and enjoy skyline views and green pockets built on the former Osaka Stadium site, just south of Nankai Namba Station.",
@@ -1419,6 +1502,7 @@
     "lng": 135.5135,
     "slug": "osaka-tenmangu",
     "nameZh": "大阪天满宫",
+    "nameZhTw": "大阪天滿宮",
     "imageUrl": "/images/landmarks/osaka-tenmangu.webp",
     "description": {
       "en": "Osaka Tenmangū is one of Japan’s oldest Tenmangū shrines, founded in AD 949 and rebuilt after repeated fires—the current entrance hall and gate date from 1845. Visit in late July (July 24–25) for the lively Tenjin Festival when the shrine fills with traditional ceremonies and celebrations, or come any time to soak up its long history and calm atmosphere.",
@@ -1436,6 +1520,7 @@
     "lng": 135.5069,
     "slug": "nakazakicho",
     "nameZh": "中崎町",
+    "nameZhTw": "中崎町",
     "imageUrl": "/images/landmarks/nakazakicho.webp",
     "description": {
       "en": "Nakazakicho is a compact, retro neighborhood in Osaka where narrow lanes hide cozy cafés, indie boutiques and small galleries—perfect for slow wandering and discovering unique local crafts and snacks. Expect a relaxed, bohemian vibe and plenty of picture-perfect corners around renovated old houses and colorful storefronts.",
@@ -1453,6 +1538,7 @@
     "lng": 135.4951,
     "slug": "grand-front-osaka",
     "nameZh": "Grand Front大阪",
+    "nameZhTw": "Grand Front大阪",
     "imageUrl": "/images/landmarks/grand-front-osaka.webp",
     "description": {
       "en": "Grand Front Osaka is a lively urban hub in the heart of Osaka where locals and visitors mingle. Explore stylish shops, sample diverse dining options, and join seasonal events that give a taste of the city’s modern energy.",
