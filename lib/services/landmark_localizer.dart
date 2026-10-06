@@ -92,8 +92,15 @@ class LandmarkLocalizer {
     }
     if (entry == null) return null;
 
-    // Return locale-specific name (zh-TW uses the Simplified name).
-    switch (locale == 'zh-TW' ? 'zh' : locale) {
+    // Return locale-specific name. Traditional Chinese has its own name
+    // (nameZhTw, since the web's 2026-10 data) and falls back to Simplified.
+    if (locale == 'zh-TW') {
+      return entry['nameZhTw'] as String? ??
+          entry['nameZh'] as String? ??
+          entry['nameEn'] as String? ??
+          entry['name'] as String?;
+    }
+    switch (locale) {
       case 'ko':
         return entry['nameKo'] as String? ?? entry['nameEn'] as String? ?? entry['name'] as String?;
       case 'en':

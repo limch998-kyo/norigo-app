@@ -8,6 +8,7 @@
     "lng": 130.4207,
     "slug": "hakata-station",
     "nameZh": "博多站",
+    "nameZhTw": "博多站",
     "imageUrl": "/images/landmarks/hakata-station.webp",
     "description": {
       "en": "",
@@ -25,6 +26,7 @@
     "lng": 130.399,
     "slug": "tenjin-underground",
     "nameZh": "天神地下街",
+    "nameZhTw": "天神地下街",
     "imageUrl": "/images/landmarks/tenjin-underground.webp",
     "description": {
       "en": "",
@@ -42,6 +44,7 @@
     "lng": 130.4111,
     "slug": "canal-city-hakata",
     "nameZh": "博多运河城",
+    "nameZhTw": "博多運河城",
     "imageUrl": "/images/landmarks/canal-city-hakata.webp",
     "description": {
       "en": "",
@@ -59,6 +62,7 @@
     "lng": 130.4068,
     "slug": "nakasu-yatai",
     "nameZh": "中洲屋台",
+    "nameZhTw": "中洲屋臺",
     "imageUrl": "/images/landmarks/nakasu-yatai.webp",
     "description": {
       "en": "",
@@ -76,6 +80,7 @@
     "lng": 130.5353,
     "slug": "dazaifu-tenmangu",
     "nameZh": "太宰府天满宫",
+    "nameZhTw": "太宰府天滿宮",
     "imageUrl": "/images/landmarks/dazaifu-tenmangu.webp",
     "description": {
       "en": "",
@@ -93,6 +98,7 @@
     "lng": 130.3514,
     "slug": "fukuoka-tower",
     "nameZh": "福冈塔",
+    "nameZhTw": "福岡塔",
     "imageUrl": "/images/landmarks/fukuoka-tower.webp",
     "description": {
       "en": "",
@@ -110,6 +116,7 @@
     "lng": 130.3779,
     "slug": "ohori-park",
     "nameZh": "大濠公园",
+    "nameZhTw": "大濠公園",
     "imageUrl": "/images/landmarks/ohori-park.webp",
     "description": {
       "en": "",
@@ -127,6 +134,7 @@
     "lng": 130.4101,
     "slug": "kushida-shrine",
     "nameZh": "櫛田神社",
+    "nameZhTw": "櫛田神社",
     "imageUrl": "/images/landmarks/kushida-shrine.webp",
     "description": {
       "en": "",
@@ -144,6 +152,7 @@
     "lng": 130.3651,
     "slug": "marine-world",
     "nameZh": "海洋世界海之中道",
+    "nameZhTw": "海洋世界海之中道",
     "imageUrl": "/images/landmarks/marine-world.webp",
     "description": {
       "en": "",
@@ -161,6 +170,7 @@
     "lng": 130.9614,
     "slug": "mojiko-retro",
     "nameZh": "门司港怀旧区",
+    "nameZhTw": "門司港懷舊區",
     "imageUrl": "/images/landmarks/mojiko-retro.webp",
     "description": {
       "en": "",
@@ -178,6 +188,7 @@
     "lng": 130.8742,
     "slug": "kokura-castle",
     "nameZh": "小仓城",
+    "nameZhTw": "小倉城",
     "imageUrl": "/images/landmarks/kokura-castle.webp",
     "description": {
       "en": "",
@@ -195,6 +206,7 @@
     "lng": 130.4091,
     "slug": "yanagawa-river",
     "nameZh": "柳川游船",
+    "nameZhTw": "柳川遊船",
     "imageUrl": "/images/landmarks/yanagawa-river.webp",
     "description": {
       "en": "",
@@ -212,6 +224,7 @@
     "lng": 130.2183,
     "slug": "itoshima",
     "nameZh": "系岛",
+    "nameZhTw": "系島",
     "imageUrl": "/images/landmarks/itoshima.webp",
     "description": {
       "en": "",
@@ -229,6 +242,7 @@
     "lng": 129.9724,
     "slug": "karatsu-castle",
     "nameZh": "唐津城",
+    "nameZhTw": "唐津城",
     "imageUrl": "/images/landmarks/karatsu-castle.webp",
     "description": {
       "en": "",
@@ -246,6 +260,7 @@
     "lng": 130.3882,
     "slug": "yoshinogari-ruins",
     "nameZh": "吉野里遗迹",
+    "nameZhTw": "吉野裡遺蹟",
     "imageUrl": "/images/landmarks/yoshinogari-ruins.webp",
     "description": {
       "en": "",
@@ -263,6 +278,7 @@
     "lng": 130.0661,
     "slug": "mifuneyama-rakuen",
     "nameZh": "御船山乐园",
+    "nameZhTw": "御船山樂園",
     "imageUrl": "/images/landmarks/mifuneyama-rakuen.webp",
     "description": {
       "en": "",
@@ -291,6 +307,7 @@
     "lng": 130.0367,
     "slug": "ureshino-onsen",
     "nameZh": "嬉野温泉",
+    "nameZhTw": "嬉野溫泉",
     "imageUrl": "/images/landmarks/ureshino-onsen.webp",
     "description": {
       "en": "",
@@ -319,6 +336,7 @@
     "lng": 129.872,
     "slug": "glover-garden",
     "nameZh": "哥拉巴园",
+    "nameZhTw": "哥拉巴園",
     "imageUrl": "/images/landmarks/glover-garden.webp",
     "description": {
       "en": "",
@@ -336,6 +354,7 @@
     "lng": 129.8647,
     "slug": "nagasaki-peace-park",
     "nameZh": "和平公园",
+    "nameZhTw": "和平公園",
     "imageUrl": "/images/landmarks/nagasaki-peace-park.webp",
     "description": {
       "en": "",
@@ -353,6 +372,7 @@
     "lng": 129.8643,
     "slug": "atomic-bomb-museum",
     "nameZh": "原爆资料馆",
+    "nameZhTw": "原爆資料館",
     "imageUrl": "/images/landmarks/atomic-bomb-museum.webp",
     "description": {
       "en": "",
@@ -370,6 +390,7 @@
     "lng": 129.7884,
     "slug": "huis-ten-bosch",
     "nameZh": "豪斯登堡",
+    "nameZhTw": "豪斯登堡",
     "imageUrl": "/images/landmarks/huis-ten-bosch.webp",
     "description": {
       "en": "",
@@ -387,6 +408,7 @@
     "lng": 129.8519,
     "slug": "mt-inasa",
     "nameZh": "稻佐山",
+    "nameZhTw": "稻佐山",
     "imageUrl": "/images/landmarks/mt-inasa.webp",
     "description": {
       "en": "",
@@ -404,6 +426,7 @@
     "lng": 129.8726,
     "slug": "oura-church",
     "nameZh": "大浦天主堂",
+    "nameZhTw": "大浦天主堂",
     "imageUrl": "/images/landmarks/oura-church.webp",
     "description": {
       "en": "",
@@ -421,6 +444,7 @@
     "lng": 129.6373,
     "slug": "kujukushima",
     "nameZh": "九十九岛",
+    "nameZhTw": "九十九島",
     "imageUrl": "/images/landmarks/kujukushima.webp",
     "description": {
       "en": "",
@@ -449,6 +473,7 @@
     "lng": 129.7386,
     "slug": "gunkanjima",
     "nameZh": "军舰岛",
+    "nameZhTw": "軍艦島",
     "imageUrl": "/images/landmarks/gunkanjima.webp",
     "description": {
       "en": "",
@@ -477,6 +502,7 @@
     "lng": 130.7059,
     "slug": "kumamoto-castle",
     "nameZh": "熊本城",
+    "nameZhTw": "熊本城",
     "imageUrl": "/images/landmarks/kumamoto-castle.webp",
     "description": {
       "en": "",
@@ -494,6 +520,7 @@
     "lng": 131.104,
     "slug": "mt-aso",
     "nameZh": "阿苏山",
+    "nameZhTw": "阿蘇山",
     "imageUrl": "/images/landmarks/mt-aso.webp",
     "description": {
       "en": "",
@@ -522,6 +549,7 @@
     "lng": 130.7307,
     "slug": "suizenji-garden",
     "nameZh": "水前寺成趣园",
+    "nameZhTw": "水前寺成趣園",
     "imageUrl": "/images/landmarks/suizenji-garden.webp",
     "description": {
       "en": "",
@@ -539,6 +567,7 @@
     "lng": 131.095,
     "slug": "kurokawa-onsen",
     "nameZh": "黑川温泉",
+    "nameZhTw": "黑川溫泉",
     "imageUrl": "/images/landmarks/kurokawa-onsen.webp",
     "description": {
       "en": "",
@@ -567,6 +596,7 @@
     "lng": 130.194,
     "slug": "amakusa",
     "nameZh": "天草",
+    "nameZhTw": "天草",
     "imageUrl": "/images/landmarks/amakusa.webp",
     "description": {
       "en": "",
@@ -595,6 +625,7 @@
     "lng": 131.5004,
     "slug": "beppu-onsen",
     "nameZh": "别府温泉",
+    "nameZhTw": "別府溫泉",
     "imageUrl": "/images/landmarks/beppu-onsen.webp",
     "description": {
       "en": "",
@@ -612,6 +643,7 @@
     "lng": 131.4584,
     "slug": "beppu-hells",
     "nameZh": "别府地狱巡游",
+    "nameZhTw": "別府地獄巡遊",
     "imageUrl": "/images/landmarks/beppu-hells.webp",
     "description": {
       "en": "",
@@ -640,6 +672,7 @@
     "lng": 131.3686,
     "slug": "yufuin",
     "nameZh": "由布院",
+    "nameZhTw": "由布院",
     "imageUrl": "/images/landmarks/yufuin.webp",
     "description": {
       "en": "",
@@ -657,6 +690,7 @@
     "lng": 131.1531,
     "slug": "kokonoe-bridge",
     "nameZh": "九重梦大吊桥",
+    "nameZhTw": "九重夢大吊橋",
     "imageUrl": "/images/landmarks/kokonoe-bridge.webp",
     "description": {
       "en": "",
@@ -685,6 +719,7 @@
     "lng": 131.6487,
     "slug": "umitamago",
     "nameZh": "海蛋水族馆",
+    "nameZhTw": "海蛋水族館",
     "imageUrl": "/images/landmarks/umitamago.webp",
     "description": {
       "en": "",
@@ -702,6 +737,7 @@
     "lng": 131.3053,
     "slug": "takachiho-gorge",
     "nameZh": "高千穗峡",
+    "nameZhTw": "高千穗峽",
     "imageUrl": "/images/landmarks/takachiho-gorge.webp",
     "description": {
       "en": "",
@@ -730,6 +766,7 @@
     "lng": 131.4722,
     "slug": "aoshima-shrine",
     "nameZh": "青岛神社",
+    "nameZhTw": "青島神社",
     "imageUrl": "/images/landmarks/aoshima-shrine.webp",
     "description": {
       "en": "",
@@ -747,6 +784,7 @@
     "lng": 131.4428,
     "slug": "udo-shrine",
     "nameZh": "鹈户神宫",
+    "nameZhTw": "鵜戶神宮",
     "imageUrl": "/images/landmarks/udo-shrine.webp",
     "description": {
       "en": "",
@@ -775,6 +813,7 @@
     "lng": 131.4553,
     "slug": "sun-messe-nichinan",
     "nameZh": "太阳广场日南",
+    "nameZhTw": "太陽廣場日南",
     "imageUrl": "/images/landmarks/sun-messe-nichinan.webp",
     "description": {
       "en": "",
@@ -792,6 +831,7 @@
     "lng": 130.6569,
     "slug": "sakurajima",
     "nameZh": "樱岛",
+    "nameZhTw": "櫻島",
     "imageUrl": "/images/landmarks/sakurajima.webp",
     "description": {
       "en": "",
@@ -820,6 +860,7 @@
     "lng": 130.5838,
     "slug": "sengan-en",
     "nameZh": "仙严园",
+    "nameZhTw": "仙嚴園",
     "imageUrl": "/images/landmarks/sengan-en.webp",
     "description": {
       "en": "",
@@ -848,6 +889,7 @@
     "lng": 130.505,
     "slug": "yakushima",
     "nameZh": "屋久岛",
+    "nameZhTw": "屋久島",
     "imageUrl": "/images/landmarks/yakushima.webp",
     "description": {
       "en": "",
@@ -876,6 +918,7 @@
     "lng": 130.6515,
     "slug": "ibusuki-onsen",
     "nameZh": "指宿温泉",
+    "nameZhTw": "指宿溫泉",
     "imageUrl": "/images/landmarks/ibusuki-onsen.webp",
     "description": {
       "en": "",
@@ -893,6 +936,7 @@
     "lng": 130.4433,
     "slug": "chiran-peace-museum",
     "nameZh": "知览特攻和平会馆",
+    "nameZhTw": "知覽特攻和平會館",
     "imageUrl": "/images/landmarks/chiran-peace-museum.webp",
     "description": {
       "en": "",
@@ -921,6 +965,7 @@
     "lng": 130.7208,
     "slug": "kirishima-shrine",
     "nameZh": "雾岛神宫",
+    "nameZhTw": "霧島神宮",
     "imageUrl": "/images/landmarks/kirishima-shrine.webp",
     "description": {
       "en": "",
@@ -949,6 +994,7 @@
     "lng": 130.5559,
     "slug": "tenmonkan",
     "nameZh": "天文馆",
+    "nameZhTw": "天文館",
     "imageUrl": "/images/landmarks/tenmonkan.webp",
     "description": {
       "en": "",
@@ -966,6 +1012,7 @@
     "lng": 130.5489,
     "slug": "shiroyama-observatory",
     "nameZh": "城山展望台",
+    "nameZhTw": "城山展望臺",
     "imageUrl": "/images/landmarks/shiroyama-observatory.webp",
     "description": {
       "en": "",

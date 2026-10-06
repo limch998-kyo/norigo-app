@@ -8,6 +8,7 @@
     "lng": 139.7454,
     "slug": "tokyo-tower",
     "nameZh": "东京塔",
+    "nameZhTw": "東京塔",
     "imageUrl": "/images/landmarks/tokyo-tower.webp",
     "description": {
       "en": "Rising above Minato since 1958 and inspired by the Eiffel Tower, Tokyo Tower’s white-and-orange lattice reaches 332.9 meters and offers sweeping city views from its observation decks. Visit for panoramic photo ops, seasonal illumination shows after dark, and the lively shops and cafés tucked beneath the iconic structure.",
@@ -25,6 +26,7 @@
     "lng": 139.8107,
     "slug": "tokyo-skytree",
     "nameZh": "东京晴空塔",
+    "nameZhTw": "東京晴空塔",
     "imageUrl": "/images/landmarks/tokyo-skytree.webp",
     "description": {
       "en": "Rising 634 meters above Sumida, Tokyo Skytree is Japan’s iconic, record-setting tower and a top spot for breathtaking city views. Ride the high-speed elevators to glass-floored observation decks, enjoy restaurants and the Solamachi shopping complex at its base, and stick around after dark for dramatic nighttime illuminations.",
@@ -42,6 +44,7 @@
     "lng": 139.7967,
     "slug": "asakusa-senso-ji",
     "nameZh": "浅草寺",
+    "nameZhTw": "淺草寺",
     "imageUrl": "/images/landmarks/asakusa-senso-ji.webp",
     "description": {
       "en": "Senso-ji in Asakusa is Tokyo’s oldest temple, a living slice of history centered on Kannon, the bodhisattva of compassion. Pass beneath its towering gates to explore a bustling complex of a gleaming main hall and five‑story pagoda, where incense, street stalls and centuries-old ritual draw over 30 million visitors a year.",
@@ -59,6 +62,7 @@
     "lng": 139.6993,
     "slug": "meiji-shrine",
     "nameZh": "明治神宫",
+    "nameZhTw": "明治神宮",
     "imageUrl": "/images/landmarks/meiji-shrine.webp",
     "description": {
       "en": "Nestled in a peaceful forest in bustling Shibuya, Meiji Shrine honors Emperor Meiji and Empress Shōken and offers a calm retreat from the city. Stroll beneath towering torii gates, admire rows of ceremonial sake barrels, glimpse Shinto rituals, and write your wishes on ema as seasonal festivals animate the grounds.",
@@ -76,6 +80,7 @@
     "lng": 139.7004,
     "slug": "shibuya-crossing",
     "nameZh": "涩谷十字路口",
+    "nameZhTw": "澀谷十字路口",
     "imageUrl": "/images/landmarks/shibuya-crossing.webp",
     "description": {
       "en": "Stand in the middle of Shibuya Crossing and feel Tokyo’s pulse as up to 3,000 people surge across the intersection on a single green light, framed by towering billboards and neon. It’s an iconic, must-see moment—perfect for people-watching, grabbing a photo from an overlooking café, or simply soaking in the city’s kinetic energy.",
@@ -93,6 +98,7 @@
     "lng": 139.71,
     "slug": "shinjuku-gyoen",
     "nameZh": "新宿御苑",
+    "nameZhTw": "新宿御苑",
     "imageUrl": "/images/landmarks/shinjuku-gyoen.webp",
     "description": {
       "en": "Shinjuku Gyoen is a peaceful green oasis in the heart of Tokyo where traditional Japanese landscaping meets English and French garden styles, born from an Edo-period residence. Wander beneath famous cherry-tree avenues in spring, picnic on wide lawns, and enjoy seasonal blossoms, tranquil ponds and skyline views any time of year.",
@@ -110,6 +116,7 @@
     "lng": 139.7528,
     "slug": "imperial-palace",
     "nameZh": "皇居",
+    "nameZhTw": "皇居",
     "imageUrl": "/images/landmarks/imperial-palace.webp",
     "description": {
       "en": "The Imperial Palace in Tokyo’s Chiyoda district is the emperor’s main residence set inside a peaceful, park-like enclave where stately buildings rise amid gardens and tree-lined paths. Visitors can stroll the grounds, visit on-site museums and archives, and admire the main palace and surrounding residences that host Japan’s imperial ceremonies.",
@@ -127,6 +134,7 @@
     "lng": 139.7745,
     "slug": "akihabara",
     "nameZh": "秋叶原",
+    "nameZhTw": "秋葉原",
     "imageUrl": "/images/landmarks/akihabara.webp",
     "description": {
       "en": "Akihabara is a lively Tokyo neighborhood centered on Akihabara Station where neon-lit “Electric Town” meets modern otaku culture. Explore multi-floor electronics stores, retro arcades and anime shops, and try a quirky maid café for a truly Tokyo experience.",
@@ -144,6 +152,7 @@
     "lng": 139.7762,
     "slug": "odaiba",
     "nameZh": "台场",
+    "nameZhTw": "臺場",
     "imageUrl": "/images/landmarks/odaiba.webp",
     "description": {
       "en": "Odaiba is a striking man-made island across the Rainbow Bridge that has been reborn from 19th‑century fortifications into a vibrant waterfront playground of shops, restaurants and leisure spots. Visitors come for wide promenades, open bay views and a rare stretch of accessible Tokyo waterfront away from industrial harbors.",
@@ -161,6 +170,7 @@
     "lng": 139.7292,
     "slug": "roppongi-hills",
     "nameZh": "六本木新城",
+    "nameZhTw": "六本木新城",
     "imageUrl": "/images/landmarks/roppongi-hills.webp",
     "description": {
       "en": "Roppongi Hills feels like a mini-city in the heart of Tokyo, where upscale shops, top restaurants, contemporary art spaces and vibrant nightlife all sit together. Pop in for designer stores and rotating exhibitions, grab a memorable meal, and head up to a high vantage point for sweeping views of the Tokyo skyline.",
@@ -178,6 +188,7 @@
     "lng": 139.7732,
     "slug": "ueno-park",
     "nameZh": "上野公园",
+    "nameZhTw": "上野公園",
     "imageUrl": "/images/landmarks/ueno-park.webp",
     "description": {
       "en": "Ueno Park is a leafy, historic green space in Tokyo where you can stroll former temple grounds turned public park, browse a cluster of major museums, and join lively hanami parties beneath spectacular cherry blossoms each spring. With over ten million visitors a year, it’s a cultural hub—perfect for museum-hopping by day and picnic-style sakura viewing by night.",
@@ -195,6 +206,7 @@
     "lng": 139.7707,
     "slug": "tsukiji-outer-market",
     "nameZh": "筑地场外市场",
+    "nameZhTw": "築地場外市場",
     "imageUrl": "/images/landmarks/tsukiji-outer-market.webp",
     "description": {
       "en": "Tsukiji Outer Market is a lively maze of narrow lanes where sushi counters, fresh‑fish stalls and traditional knife and cookware shops cluster together. Come for a breakfast of tuna and nigiri, browse unique culinary tools, and soak up the bustling, long-standing seafood culture of Tokyo.",
@@ -212,6 +224,7 @@
     "lng": 139.7649,
     "slug": "ginza",
     "nameZh": "银座",
+    "nameZhTw": "銀座",
     "imageUrl": "/images/landmarks/ginza.webp",
     "description": {
       "en": "Ginza is Tokyo’s sophisticated playground — a glossy stretch of flagship stores, designer boutiques and stylish cafés where modern fashion meets traditional craftsmanship. Spend the day shopping and gallery-hopping, then return at night to see the neon glow and sample world-class restaurants and bars.",
@@ -229,6 +242,7 @@
     "lng": 139.7026,
     "slug": "takeshita-street",
     "nameZh": "竹下通",
+    "nameZhTw": "竹下通",
     "imageUrl": "/images/landmarks/takeshita-street.webp",
     "description": {
       "en": "Takeshita Street in Harajuku is a tight, electric pedestrian lane packed with colorful youth-fashion boutiques, quirky accessory shops and endless crepe stands. It’s the place to people-watch, sample street snacks and soak up Tokyo’s bold, trend-setting youth culture — expect cosplay, crowds and constant energy.",
@@ -246,6 +260,7 @@
     "lng": 139.7026,
     "slug": "harajuku",
     "nameZh": "原宿",
+    "nameZhTw": "原宿",
     "imageUrl": "/images/landmarks/harajuku.webp",
     "description": {
       "en": "Harajuku is Tokyo’s playful hub of street fashion and quirky cafés—wander the colorful shops and crepe stands on Takeshita Street, then drift down Cat Street toward the chic boutiques of Omotesando. Expect bold looks, vintage finds, lively people-watching and endless photo ops around every corner.",
@@ -263,6 +278,7 @@
     "lng": 139.7123,
     "slug": "omotesando",
     "nameZh": "表参道",
+    "nameZhTw": "表參道",
     "imageUrl": "/images/landmarks/omotesando.webp",
     "description": {
       "en": "Omotesando is a wide, tree‑lined avenue running from the torii at Meiji Shrine to Aoyama‑dōri, known for its chic boutiques and striking contemporary architecture. Stroll the shaded boulevard to browse designer shops, linger in sidewalk cafés, and soak up one of Tokyo’s most stylish promenades.",
@@ -280,6 +296,7 @@
     "lng": 139.7187,
     "slug": "ikebukuro-sunshine-city",
     "nameZh": "池袋阳光城",
+    "nameZhTw": "池袋陽光城",
     "imageUrl": "/images/landmarks/ikebukuro-sunshine-city.webp",
     "description": {
       "en": "Sunshine City in Ikebukuro is a one-stop entertainment hub where shopping, dining and family attractions come together. Visit the Sunshine 60 observatory for sweeping Tokyo views, drop into the rooftop Sunshine Aquarium or planetarium, and wander themed shops and cozy cafés for a full-day outing.",
@@ -297,6 +314,7 @@
     "lng": 139.6987,
     "slug": "nakameguro",
     "nameZh": "中目黑",
+    "nameZhTw": "中目黑",
     "imageUrl": "/images/landmarks/nakameguro.webp",
     "description": {
       "en": "Nakameguro is a hip, laid-back Tokyo neighborhood where stylish boutiques and cozy cafés spill onto tree-lined streets. In mid-spring the Meguro River becomes a dreamy hanami spot—perfect for strolling under cherry blossoms after hopping off at Nakameguro Station to browse shops and sip coffee.",
@@ -314,6 +332,7 @@
     "lng": 139.668,
     "slug": "shimokitazawa",
     "nameZh": "下北泽",
+    "nameZhTw": "下北澤",
     "imageUrl": "/images/landmarks/shimokitazawa.webp",
     "description": {
       "en": "Shimokitazawa is a compact, bohemian Tokyo neighborhood where narrow streets brim with independent fashion boutiques, vintage shops, cozy cafés, small theaters and live-music bars. Spend an afternoon hunting for unique clothes and records, catch an intimate performance, and soak up the laid-back, creative vibe.",
@@ -331,6 +350,7 @@
     "lng": 139.5794,
     "slug": "kichijoji",
     "nameZh": "吉祥寺",
+    "nameZhTw": "吉祥寺",
     "imageUrl": "/images/landmarks/kichijoji.webp",
     "description": {
       "en": "Kichijoji in western Tokyo buzzes around a compact area north and south of the station, packed with shops, cafés, restaurants and lively bars. It’s an ideal spot for shopping and café-hopping by day and for slipping into nearby Inokashira Park and its zoo when you want a peaceful break from the city.",
@@ -348,6 +368,7 @@
     "lng": 139.7671,
     "slug": "tokyo-station",
     "nameZh": "东京站",
+    "nameZhTw": "東京站",
     "imageUrl": "/images/landmarks/tokyo-station.webp",
     "description": {
       "en": "Tokyo Station is the beating heart of Japan’s rail network — a striking red‑brick landmark in Marunouchi that sends Shinkansen bullet trains across the country and sits just steps from the Imperial Palace. Inside its sprawling concourses (divided into Marunouchi west and Yaesu east) you can shop in underground malls, sample famous ekiben, and slip straight into Ginza’s boutiques and restaurants.",
@@ -365,6 +386,7 @@
     "lng": 139.7519,
     "slug": "tokyo-dome",
     "nameZh": "东京巨蛋",
+    "nameZhTw": "東京巨蛋",
     "imageUrl": "/images/landmarks/tokyo-dome.webp",
     "description": {
       "en": "Tokyo Dome is a huge indoor stadium in Bunkyō where you can watch baseball, see mega concerts, and visit exhibitions all under one roof. Its iconic dome and buzzing event calendar make it a must-visit entertainment hub — locals even use “Tokyo Dome” as a casual way to describe size when something is enormous.",
@@ -382,6 +404,7 @@
     "lng": 139.7811,
     "slug": "toyosu-market",
     "nameZh": "丰洲市场",
+    "nameZhTw": "豐洲市場",
     "imageUrl": "/images/landmarks/toyosu-market.webp",
     "description": {
       "en": "Toyosu Market is Tokyo’s vast, modern wholesale hub for seafood and produce where you can watch the famous tuna auctions from a second-floor viewing deck and explore separate buildings for bidding, general wholesale, and fruits and vegetables. After watching the action, sample ultra‑fresh sushi and seafood at market restaurants, browse shops, or join tours and events—it’s the world’s largest wholesale fish market and a vivid slice of Tokyo’s food culture.",
@@ -399,6 +422,7 @@
     "lng": 139.7945,
     "slug": "tokyo-big-sight",
     "nameZh": "东京国际展示场",
+    "nameZhTw": "東京國際展示場",
     "imageUrl": "/images/landmarks/tokyo-big-sight.webp",
     "description": {
       "en": "Tokyo Big Sight is Tokyo’s colossal waterfront exhibition center, instantly recognizable for its futuristic inverted‑pyramid Conference Tower. Drop in for major trade shows, pop‑culture events or art fairs, or simply stroll the Tokyo Bay promenade and snap photos of the striking architecture.",
@@ -416,6 +440,7 @@
     "lng": 139.6425,
     "slug": "yokohama-chinatown",
     "nameZh": "横滨中华街",
+    "nameZhTw": "橫濱中華街",
     "imageUrl": "/images/landmarks/yokohama-chinatown.webp",
     "description": {
       "en": "Just south of Tokyo, Yokohama Chinatown—born in the late 19th century—bustles with ornate gates, red lanterns and a maze of food stalls. Sample authentic Chinese dishes, hunt down specialty shops, and soak up a lively neighborhood where some 3,000–4,000 residents keep traditions thriving.",
@@ -433,6 +458,7 @@
     "lng": 139.6316,
     "slug": "yokohama-minato-mirai",
     "nameZh": "横滨港未来",
+    "nameZhTw": "橫濱港未來",
     "imageUrl": "/images/landmarks/yokohama-minato-mirai.webp",
     "description": {
       "en": "Minato Mirai is Yokohama’s sleek waterfront district where futuristic skyscrapers, a giant Ferris wheel and seaside promenades meet bustling malls and cultural venues. Stroll the harbor at sunset, ride up to panoramic views from Landmark Tower, and sample shopping, dining and museums for a perfect blend of modern city life and seaside relaxation.",
@@ -450,6 +476,7 @@
     "lng": 139.6432,
     "slug": "yokohama-red-brick-warehouse",
     "nameZh": "横滨红砖仓库",
+    "nameZhTw": "橫濱紅磚倉庫",
     "imageUrl": "/images/landmarks/yokohama-red-brick-warehouse.webp",
     "description": {
       "en": "A striking pair of century-old red-brick warehouses on Yokohama’s waterfront, now reborn as a lively cultural and shopping complex. Browse boutiques and cafés, join seasonal markets or concerts in the preserved halls, and soak up the photogenic harbor views—especially magical at dusk.",
@@ -467,6 +494,7 @@
     "lng": 139.5357,
     "slug": "kamakura-great-buddha",
     "nameZh": "镰仓大佛",
+    "nameZhTw": "鎌倉大佛",
     "imageUrl": "/images/landmarks/kamakura-great-buddha.webp",
     "description": {
       "en": "Stand before the Kamakura Great Buddha at Kōtoku-in — a serene, centuries-old bronze Amida that now sits outdoors after its hall was swept away, creating a unique sense of history and calm. You can walk right up to the statue to appreciate its scale, then wander the quiet temple grounds and nearby streets of historic Kamakura.",
@@ -484,6 +512,7 @@
     "lng": 139.5565,
     "slug": "tsurugaoka-hachimangu",
     "nameZh": "鹤冈八幡宫",
+    "nameZhTw": "鶴岡八幡宮",
     "imageUrl": "/images/landmarks/tsurugaoka-hachimangu.webp",
     "description": {
       "en": "Tsurugaoka Hachimangu is Kamakura’s grand Shinto shrine and cultural heart, set at the end of a broad, tree-lined approach. Visitors can admire the dramatic torii and main hall, stroll peaceful ponds and gardens, and time their visit for lively seasonal festivals and the shrine’s two small museums that showcase Kamakura’s history.",
@@ -501,6 +530,7 @@
     "lng": 139.4797,
     "slug": "enoshima",
     "nameZh": "江之岛",
+    "nameZhTw": "江之島",
     "imageUrl": "/images/landmarks/enoshima.webp",
     "description": {
       "en": "Perched on a tiny island off Kanagawa, Enoshima is connected to Fujisawa’s Katase shore by a 389‑metre bridge and boasts some of the closest sandy beaches to Tokyo and Yokohama. Spend a breezy day strolling the waterfront, taking in Sagami Bay views, browsing seaside shops and enjoying fresh local seafood in a relaxed resort atmosphere.",
@@ -518,6 +548,7 @@
     "lng": 139.107,
     "slug": "hakone",
     "nameZh": "箱根",
+    "nameZhTw": "箱根",
     "imageUrl": "/images/landmarks/hakone.webp",
     "description": {
       "en": "Hakone is a scenic escape in Kanagawa where steaming onsen, misty volcanic valleys and lakeside views of Mount Fuji meet. Ride the mountain railway and ropeway, cruise Lake Ashi past a vermilion torii, visit quirky open-air museums, then relax in a traditional ryokan for the full restorative experience.",
@@ -535,6 +566,7 @@
     "lng": 139.0224,
     "slug": "hakone-shrine",
     "nameZh": "箱根神社",
+    "nameZhTw": "箱根神社",
     "imageUrl": "/images/landmarks/hakone-shrine.webp",
     "description": {
       "en": "Perched on the misty shores of Lake Ashi, Hakone Shrine is best known for its striking vermilion torii rising from the water and its centuries-old cedar-lined approach. Visitors can wander the tranquil paths, offer prayers at the historic shrine, and enjoy sweeping views of the lake and, on clear days, Mount Fuji.",
@@ -552,6 +584,7 @@
     "lng": 139.022,
     "slug": "lake-ashi",
     "nameZh": "芦之湖",
+    "nameZhTw": "蘆之湖",
     "imageUrl": "/images/landmarks/lake-ashi.webp",
     "description": {
       "en": "Framed by the forested caldera of Mount Hakone, Lake Ashi offers one of Japan’s most iconic views—clear days reveal Mount Fuji rising above mirror‑like waters. Glide across the lake on whimsical pirate‑style pleasure boats or ferries, soak in nearby hot springs, and stay in a traditional ryokan to soak up the area's historic charm along the old Tōkaidō route.",
@@ -569,6 +602,7 @@
     "lng": 139.0234,
     "slug": "owakudani",
     "nameZh": "大涌谷",
+    "nameZhTw": "大涌谷",
     "imageUrl": "/images/landmarks/owakudani.webp",
     "description": {
       "en": "Owakudani is a dramatic volcanic valley formed about 3,000 years ago when the Hakone volcano erupted; today its steaming sulphur vents and hot springs create an otherworldly landscape to explore. Visitors can smell the sulphur, watch clouds of steam rising from the ground, and snap striking photos of the rugged valley and surrounding peaks.",
@@ -586,6 +620,7 @@
     "lng": 138.7274,
     "slug": "mount-fuji",
     "nameZh": "富士山",
+    "nameZhTw": "富士山",
     "imageUrl": "/images/landmarks/mount-fuji.webp",
     "description": {
       "en": "Towering at 3,776 meters, Mount Fuji is Japan’s iconic peak — a must-see backdrop for photographers and a bucket-list climb for hikers who want to catch the famous sunrise (goraiko) from the summit. In addition to seasonal hikes, visitors can explore the Fuji Five Lakes and Hakone hot springs, or simply admire the mountain’s perfect cone from nearby towns and viewpoints.",
@@ -603,6 +638,7 @@
     "lng": 138.756,
     "slug": "lake-kawaguchiko",
     "nameZh": "河口湖",
+    "nameZhTw": "河口湖",
     "imageUrl": "/images/landmarks/lake-kawaguchiko.webp",
     "description": {
       "en": "Set at about 800 metres at the foot of Mount Fuji, Lake Kawaguchiko offers sweeping, postcard-perfect views and the longest shoreline among the Fuji Five Lakes. Stroll or cycle the lakeside paths, take a tranquil boat cruise or linger in a café to watch cool summer light or the often-icy, photogenic winters unfold.",
@@ -620,6 +656,7 @@
     "lng": 139.5988,
     "slug": "nikko-toshogu",
     "nameZh": "日光东照宫",
+    "nameZhTw": "日光東照宮",
     "imageUrl": "/images/landmarks/nikko-toshogu.webp",
     "description": {
       "en": "Nestled in the cedar forests of Nikkō, Tōshō-gū is a lavishly decorated Shinto shrine dedicated to Tokugawa Ieyasu; its gilded gates and intricate wood carvings showcase masterful Edo-period craftsmanship. Wander the atmospheric approach, spot famous carvings like the Three Wise Monkeys and the Sleeping Cat, and soak in the serene mountain setting.",
@@ -637,6 +674,7 @@
     "lng": 139.4756,
     "slug": "lake-chuzenji",
     "nameZh": "中禅寺湖",
+    "nameZhTw": "中禪寺湖",
     "imageUrl": "/images/landmarks/lake-chuzenji.webp",
     "description": {
       "en": "Lake Chūzenji, nicknamed the “Sea of Happiness,” sits beneath volcanic Mount Nantai in scenic Nikkō National Park. Born about 20,000 years ago when an eruption dammed the river, the lake now rewards visitors with mirror-like waters, sweeping mountain views and easy lakeside walks or boat rides—ideal for photography, seasonal foliage and quiet reflection.",
@@ -654,6 +692,7 @@
     "lng": 139.5,
     "slug": "kegon-falls",
     "nameZh": "华严瀑布",
+    "nameZhTw": "華嚴瀑布",
     "imageUrl": "/images/landmarks/kegon-falls.webp",
     "description": {
       "en": "Kegon Falls plunges about 97 meters from the rim of Lake Chūzenji in Nikkō National Park, creating a thunderous, photogenic centerpiece framed by forested cliffs. Around a dozen smaller streams seep from cracks in the lava-carved rock, so visitors can stroll viewpoints and trails to feel the spray, snap dramatic photos, and enjoy ever-changing seasonal colors.",
@@ -671,6 +710,7 @@
     "lng": 139.2435,
     "slug": "mount-takao",
     "nameZh": "高尾山",
+    "nameZhTw": "高尾山",
     "imageUrl": "/images/landmarks/mount-takao.webp",
     "description": {
       "en": "Just a short train ride from central Tokyo, Mount Takao is a green oasis inside Meiji no Mori Takao Quasi-National Park where you can hike easy forested trails, visit a mountain-top temple, and enjoy sweeping views — on clear days even of Mount Fuji. Well-marked paths, a cable car option, and vivid seasonal blooms and autumn colors make it an ideal half-day or full-day escape.",
@@ -688,6 +728,7 @@
     "lng": 139.8804,
     "slug": "tokyo-disneyland",
     "nameZh": "东京迪士尼乐园",
+    "nameZhTw": "東京迪士尼樂園",
     "imageUrl": "/images/landmarks/tokyo-disneyland.webp",
     "description": {
       "en": "Step into Tokyo Disneyland, a 126‑acre slice of classic Disney magic just outside Tokyo—conveniently adjacent to Maihama and Tokyo Disneyland stations—where Cinderella Castle, themed lands, parades and rides recreate the charm of Disneyland and Magic Kingdom with a uniquely Japanese polish. Opened in 1983 as the first Disney park outside the U.S., it combines timeless attractions with world‑class entertainment and warm local hospitality.",
@@ -705,6 +746,7 @@
     "lng": 139.885,
     "slug": "tokyo-disneysea",
     "nameZh": "东京迪士尼海洋",
+    "nameZhTw": "東京迪士尼海洋",
     "imageUrl": "/images/landmarks/tokyo-disneysea.webp",
     "description": {
       "en": "Tokyo DisneySea blends Disney storytelling with a spectacular waterfront setting — seven themed ports inspired by sea legends and global harbors. You can ride attractions you won’t find anywhere else, enjoy stunning live shows and nighttime illuminations, and dine in immersive, seaside-inspired restaurants for a uniquely magical day.",
@@ -722,6 +764,7 @@
     "lng": 139.5705,
     "slug": "ghibli-museum",
     "nameZh": "三鹰之森吉卜力美术馆",
+    "nameZhTw": "三鷹之森吉卜力美術館",
     "imageUrl": "/images/landmarks/ghibli-museum.webp",
     "description": {
       "en": "Step into the whimsical world of Studio Ghibli at the Ghibli Museum in Mitaka’s Inokashira Park, where original sketches, dioramas and technical exhibits reveal how the films are made. Climb aboard a life‑size Catbus, relax in the café or rooftop garden, browse the bookstore, and catch exclusive short films in the museum's cozy theater.",
@@ -739,6 +782,7 @@
     "lng": 139.44,
     "slug": "sanrio-puroland",
     "nameZh": "三丽鸥彩虹乐园",
+    "nameZhTw": "三麗鷗彩虹樂園",
     "imageUrl": "/images/landmarks/sanrio-puroland.webp",
     "description": {
       "en": "Step into Sanrio Puroland, a whimsical indoor theme park in Tokyo where Hello Kitty and her friends are the stars of colorful sets, live shows, and meet-and-greets. Browse adorable shops, dine in character-themed restaurants, and soak up a Disney-like atmosphere filled with photo ops and cute surprises.",
@@ -756,6 +800,7 @@
     "lng": 139.7964,
     "slug": "edo-tokyo-museum",
     "nameZh": "江户东京博物馆",
+    "nameZhTw": "江戶東京博物館",
     "imageUrl": "/images/landmarks/edo-tokyo-museum.webp",
     "description": {
       "en": "Step back in time at the Edo-Tokyo Museum in Ryogoku, where sprawling scale models and life-size reconstructions bring centuries of Tokyo’s past to life. Cross a full-scale replica of the famous Nihonbashi, wander reconstructed Edo, Meiji and Showa streets, and peek into a recreated Nakamuraza theatre to feel how the city once looked, worked and played.",
@@ -773,6 +818,7 @@
     "lng": 139.7765,
     "slug": "tokyo-national-museum",
     "nameZh": "东京国立博物馆",
+    "nameZhTw": "東京國立博物館",
     "imageUrl": "/images/landmarks/tokyo-national-museum.webp",
     "description": {
       "en": "Set in leafy Ueno Park, the Tokyo National Museum is Japan’s oldest and largest art museum, housing an extraordinary range of Japanese and Asian art—from ancient court treasures to Silk Road and Greco‑Buddhist masterpieces. With dozens of National Treasures on rotating display, plus hands-on exhibitions and scholarly programs, it’s the best place to trace Japan’s cultural history and Asia’s artistic exchanges.",
@@ -790,6 +836,7 @@
     "lng": 139.7761,
     "slug": "national-museum-of-western-art",
     "nameZh": "国立西洋美术馆",
+    "nameZhTw": "國立西洋美術館",
     "imageUrl": "/images/landmarks/national-museum-of-western-art.webp",
     "description": {
       "en": "Set in the leafy Ueno Park, the National Museum of Western Art is Japan’s premier public gallery for art from the Western tradition. Inside you can wander a world-class collection of Western masterpieces spanning centuries, a rare chance to experience European art history in the heart of Tokyo.",
@@ -807,6 +854,7 @@
     "lng": 139.6951,
     "slug": "yoyogi-park",
     "nameZh": "代代木公园",
+    "nameZhTw": "代代木公園",
     "imageUrl": "/images/landmarks/yoyogi-park.webp",
     "description": {
       "en": "Yoyogi Park sits beside Harajuku and Meiji Shrine and comes alive on weekends with live music, jugglers, cosplayers and other hobby groups—perfect for people-watching and spontaneous performances. In spring it’s a top hanami spot, and year-round you can picnic, rent bikes, play on public courts or let your dog run free.",
@@ -824,6 +872,7 @@
     "lng": 139.704,
     "slug": "shinjuku-golden-gai",
     "nameZh": "新宿黄金街",
+    "nameZhTw": "新宿黃金街",
     "imageUrl": "/images/landmarks/shinjuku-golden-gai.webp",
     "description": {
       "en": "Tucked behind Shinjuku’s neon, Golden Gai is a compact maze of six razor‑thin alleys crammed with over 200 tiny shanty‑style bars and eateries. Pop into intimate, characterful spots for a few drinks, lively conversation with locals, and a taste of Tokyo nightlife that feels delightfully stuck in time.",
@@ -841,6 +890,7 @@
     "lng": 139.7028,
     "slug": "kabukicho",
     "nameZh": "歌舞伎町",
+    "nameZhTw": "歌舞伎町",
     "imageUrl": "/images/landmarks/kabukicho.webp",
     "description": {
       "en": "Kabukichō in Shinjuku is Tokyo’s neon-drenched “Sleepless Town” — a buzzing, slightly wild patchwork of late-night restaurants, clubs, quirky shops and theatrical street life. Hop between Golden Gai’s tiny themed bars, grab late-night ramen or izakaya snacks, and soak in the electric atmosphere and colorful characters that make Kabukichō unforgettable.",
@@ -858,6 +908,7 @@
     "lng": 139.6917,
     "slug": "tokyo-metropolitan-government-building",
     "nameZh": "东京都厅",
+    "nameZhTw": "東京都廳",
     "imageUrl": "/images/landmarks/tokyo-metropolitan-government-building.webp",
     "description": {
       "en": "Perched in Shinjuku, the Tokyo Metropolitan Government Building (Tochō) is an architectural landmark with free observation decks that give sweeping views of Tokyo — and on clear days, Mount Fuji. Come for striking skyline photos, enjoy the twin-tower design, and learn a bit about how the metropolis is run.",
@@ -875,6 +926,7 @@
     "lng": 139.7479,
     "slug": "zojoji-temple",
     "nameZh": "增上寺",
+    "nameZhTw": "增上寺",
     "imageUrl": "/images/landmarks/zojoji-temple.webp",
     "description": {
       "en": "Nestled in Minato, Tokyo, Zōjō-ji is the main Jōdo-shū Chinzei temple for the Kantō region, known by its mountain name San'en-zan. Wander its historic halls and tranquil grounds to see traditional Buddhist architecture, observe rituals, and enjoy a surprising pocket of calm amid the city.",
@@ -892,6 +944,7 @@
     "lng": 139.7634,
     "slug": "hama-rikyu-gardens",
     "nameZh": "浜离宫恩赐庭园",
+    "nameZhTw": "浜離宮恩賜庭園",
     "imageUrl": "/images/landmarks/hama-rikyu-gardens.webp",
     "description": {
       "en": "Hama-rikyu Gardens is a tranquil historic oasis at the mouth of the Sumida River in central Tokyo, laid out on the former Tokugawa family villa grounds. Wander winding paths around Shioiri-no-ike and a seawater moat fed by Tokyo Bay, and soak in a rare mix of Edo-era history and waterfront scenery.",
@@ -909,6 +962,7 @@
     "lng": 139.7461,
     "slug": "rikugien-garden",
     "nameZh": "六义园",
+    "nameZhTw": "六義園",
     "imageUrl": "/images/landmarks/rikugien-garden.webp",
     "description": {
       "en": "Rikugien is a compact Edo‑period strolling garden whose name—“garden of six principles”—reflects its roots in classical waka poetry. Winding paths lead around a mirror-like pond, a sculpted hill and seasonal trees, inviting leisurely walks, photography and quiet moments of reflection amid cherry blossoms or autumn colours.",
@@ -926,6 +980,7 @@
     "lng": 139.7616,
     "slug": "rainbow-bridge",
     "nameZh": "彩虹大桥",
+    "nameZhTw": "彩虹大橋",
     "imageUrl": "/images/landmarks/rainbow-bridge.webp",
     "description": {
       "en": "The Rainbow Bridge soars across northern Tokyo Bay, linking Shibaura with the futuristic Odaiba waterfront and creating one of the city’s most recognizable skylines. Stroll the pedestrian deck or hop a train for sweeping daytime views, then stay for the bridge’s colorful nighttime illumination that transforms the bay into a glowing panorama.",
@@ -943,6 +998,7 @@
     "lng": 139.7509,
     "slug": "koishikawa-korakuen",
     "nameZh": "小石川后乐园",
+    "nameZhTw": "小石川后樂園",
     "imageUrl": "/images/landmarks/koishikawa-korakuen.webp",
     "description": {
       "en": "Step into Koishikawa Korakuen and you’ll find one of Tokyo’s few surviving daimyo gardens, a calm Edo-period landscape tucked into lively Bunkyō. Wander winding paths around ponds, teahouses and old trees to enjoy seasonal blooms and serene water views year-round.",
@@ -960,6 +1016,7 @@
     "lng": 139.761,
     "slug": "nezu-shrine",
     "nameZh": "根津神社",
+    "nameZhTw": "根津神社",
     "imageUrl": "/images/landmarks/nezu-shrine.webp",
     "description": {
       "en": "Tucked away in Tokyo’s Bunkyō ward, Nezu Shrine is a peaceful Shinto sanctuary where you can step out of the city’s rush and breathe in a traditional atmosphere. Wander the quiet grounds, admire the classic shrine architecture, and watch or participate in customary rituals that bring Japanese spirituality to life.",
@@ -977,6 +1034,7 @@
     "lng": 139.7681,
     "slug": "yanaka-ginza",
     "nameZh": "谷中银座",
+    "nameZhTw": "谷中銀座",
     "imageUrl": "/images/landmarks/yanaka-ginza.webp",
     "description": {
       "en": "Yanaka Ginza is a compact, nostalgic shopping street in Tokyo’s Yanaka neighborhood where the old Shitamachi atmosphere still lingers. About 70 family-run shops sell snacks, sweets, crafts and antiques, and you can stroll past low wooden storefronts, visit the nearby Yanaka Cemetery and the Daimyo Clock Museum, and soak up a slower, photogenic side of the city.",
@@ -994,6 +1052,7 @@
     "lng": 139.7876,
     "slug": "kappabashi-street",
     "nameZh": "合羽桥道具街",
+    "nameZhTw": "合羽橋道具街",
     "imageUrl": "/images/landmarks/kappabashi-street.webp",
     "description": {
       "en": "Kappabashi—Tokyo’s Kitchen Town between Ueno and Asakusa—is a lively strip where shop after shop stocks everything a restaurant could need, from pro knives and cookware to ovens, furniture and the iconic plastic display food. It’s both practical and delightfully quirky: chefs, home cooks and curious travelers can browse specialist stores, find unusual souvenirs, and snap great photos of hyper-realistic food models.",
@@ -1011,6 +1070,7 @@
     "lng": 139.7745,
     "slug": "ameyoko",
     "nameZh": "阿美横丁",
+    "nameZhTw": "阿美橫丁",
     "imageUrl": "/images/landmarks/ameyoko.webp",
     "description": {
       "en": "Right next to Ueno Station, Ameyoko is a bustling open-air market where you can haggle for everything from fresh seafood and dried goods to trendy streetwear and cheap cosmetics. It’s noisy, colorful and full of energy—perfect for sampling street food, hunting down bargains, and soaking up an authentic slice of Tokyo life.",
@@ -1028,6 +1088,7 @@
     "lng": 139.7829,
     "slug": "tsukishima",
     "nameZh": "月岛",
+    "nameZhTw": "月島",
     "imageUrl": "/images/landmarks/tsukishima.webp",
     "description": {
       "en": "Tsukishima is a small reclaimed island in Tokyo’s Sumida River estuary, created in 1892 from dredged earth and shaped by Japan’s industrial-era policies. Visitors can enjoy riverside walks, take in the neighborhood’s industrial heritage and unique streetscape, and easily hop over to nearby Tsukuda for more local flavor.",
@@ -1045,6 +1106,7 @@
     "lng": 139.6381,
     "slug": "cup-noodles-museum-yokohama",
     "nameZh": "杯面博物馆横滨",
+    "nameZhTw": "杯麵博物館橫濱",
     "imageUrl": "/images/landmarks/cup-noodles-museum-yokohama.webp",
     "description": {
       "en": "Visit the CupNoodles Museum in Yokohama to explore the playful history of instant ramen and the story of inventor Momofuku Ando through hands-on exhibits. The highlight is the My CupNoodles Factory, where you design, flavor and pack your own personalized cup — a must-do for families and food lovers.",
@@ -1062,6 +1124,7 @@
     "lng": 139.6308,
     "slug": "yokohama-landmark-tower",
     "nameZh": "横滨地标塔",
+    "nameZhTw": "橫濱地標塔",
     "imageUrl": "/images/landmarks/yokohama-landmark-tower.webp",
     "description": {
       "en": "Rising 296.3 m (972 ft), the Yokohama Landmark Tower is one of Japan’s tallest skyscrapers and a defining feature of the Minato Mirai skyline. Visitors can enjoy sweeping views over Yokohama and Tokyo Bay from its upper levels, then explore nearby attractions like the Yokohama Museum of Art and the waterfront promenades for a full day of culture, shopping and photos.",
@@ -1079,6 +1142,7 @@
     "lng": 140.5948,
     "slug": "hitachi-seaside-park",
     "nameZh": "日立海滨公园",
+    "nameZhTw": "日立海濱公園",
     "imageUrl": "/images/landmarks/hitachi-seaside-park.webp",
     "description": {
       "en": "Hitachi Seaside Park, on Ibaraki’s Pacific coast, is beloved for its sweeping seasonal flower displays—from a carpet of blue nemophila in spring to fiery red kochia in autumn. You can wander or rent a bike across rolling lawns, ride the Ferris wheel, and soak in wide ocean views framed by themed gardens.",
@@ -1096,6 +1160,7 @@
     "lng": 140.3181,
     "slug": "naritasan-shinshoji",
     "nameZh": "成田山新胜寺",
+    "nameZhTw": "成田山新勝寺",
     "imageUrl": "/images/landmarks/naritasan-shinshoji.webp",
     "description": {
       "en": "Naritasan Shinshoji is a dramatic, centuries-old Buddhist temple complex where solemn halls, tranquil gardens and a bustling approach of traditional shops meet. Wander the peaceful grounds, catch incense-filled rituals, and enjoy the lively street life and local snacks just outside the temple gates.",
@@ -1113,6 +1178,7 @@
     "lng": 139.5722,
     "slug": "inokashira-park",
     "nameZh": "井之头恩赐公园",
+    "nameZhTw": "井之頭恩賜公園",
     "imageUrl": "/images/landmarks/inokashira-park.webp",
     "description": {
       "en": "Inokashira Park straddles Musashino and Mitaka and centers on Inokashira Pond—the historic Edo-period source of the Kanda River. It’s a peaceful urban oasis where you can stroll the lakeside, watch waterfowl, and relax by the river’s source while enjoying changing seasonal scenery.",
@@ -1130,6 +1196,7 @@
     "lng": 139.4081,
     "slug": "showa-memorial-park",
     "nameZh": "昭和纪念公园",
+    "nameZhTw": "昭和紀念公園",
     "imageUrl": "/images/landmarks/showa-memorial-park.webp",
     "description": {
       "en": "Spread across Akishima and Tachikawa, Showa Memorial Park is Tokyo’s largest park at 165.3 hectares — a vast green lung where you can stroll, cycle, picnic and enjoy changing seasonal flower displays. It’s an ideal spot for families, photographers and anyone looking for wide-open space away from the city bustle.",
@@ -1147,6 +1214,7 @@
     "lng": 139.7948,
     "slug": "hanayashiki",
     "nameZh": "花屋敷",
+    "nameZhTw": "花屋敷",
     "imageUrl": "/images/landmarks/hanayashiki.webp",
     "description": {
       "en": "Hanayashiki in Asakusa is a compact, delightfully nostalgic amusement park that dates back to 1853 and is often called Japan’s oldest. Ride its retro attractions, soak up the old-Tokyo atmosphere, and spot the quirky Panda Car mascot for a charming, photo-ready stop between temple visits.",
@@ -1164,6 +1232,7 @@
     "lng": 139.7313,
     "slug": "teamlab-borderless",
     "nameZh": "teamLab无界",
+    "nameZhTw": "teamLab無界",
     "imageUrl": "/images/landmarks/teamlab-borderless.webp",
     "description": {
       "en": "teamLab Borderless is an immersive digital art museum in Azabudai Hills, Tokyo, where artworks flow freely across rooms with no boundaries. Over 50 interactive installations respond to your presence — colors shift, flowers scatter, and light cascades follow you through endless, ever-changing spaces.",
@@ -1181,6 +1250,7 @@
     "lng": 139.7801,
     "slug": "teamlab-planets",
     "nameZh": "teamLab行星",
+    "nameZhTw": "teamLab行星",
     "imageUrl": "/images/landmarks/teamlab-planets.webp",
     "description": {
       "en": "teamLab Planets in Tokyo is an immersive digital art museum where you literally walk through water and enter enormous, responsive lightscapes. Interactive installations change with your movement — koi swim around your feet and flowers bloom under your touch — turning a visit into a playful, unforgettable sensory adventure.",
@@ -1198,6 +1268,7 @@
     "lng": 139.7391,
     "slug": "maxell-aqua-park-shinagawa",
     "nameZh": "品川水族馆",
+    "nameZhTw": "品川水族館",
     "imageUrl": "/images/landmarks/maxell-aqua-park-shinagawa.webp",
     "description": {
       "en": "Located inside the Shinagawa Prince Hotel and just a short walk from Shinagawa Station, Maxell Aqua Park Shinagawa offers a compact, easy-to-reach taste of Tokyo’s marine life. Expect colorful tanks, immersive light-and-sound shows and family-friendly live performances that make the underwater world feel immediate and theatrical.",
@@ -1215,6 +1286,7 @@
     "lng": 139.6996,
     "slug": "omoide-yokocho",
     "nameZh": "回忆横丁",
+    "nameZhTw": "回憶橫丁",
     "imageUrl": "/images/landmarks/omoide-yokocho.webp",
     "description": {
       "en": "Step into Omoide Yokocho and you’ll discover a tangle of narrow alleys filled with tiny yakitori stalls and retro izakaya that hum with Showa-era charm. Pull up a stool, order skewers and a drink, and enjoy the smoky, convivial atmosphere that makes this Shinjuku pocket so memorable.",
@@ -1232,6 +1304,7 @@
     "lng": 139.6458,
     "slug": "gotokuji-temple",
     "nameZh": "豪德寺",
+    "nameZhTw": "豪德寺",
     "imageUrl": "/images/landmarks/gotokuji-temple.webp",
     "description": {
       "en": "Nestled in Setagaya’s Gōtokuji district, Gotoku-ji is a tranquil Sōtō Zen temple that served as the Bodai-ji (family temple) of the Ii clan during the Edo period. Stroll the peaceful grounds to soak up the temple’s serene Zen atmosphere, admire the traditional architecture and historic graves, and discover a quieter, more historic side of Tokyo.",
@@ -1249,6 +1322,7 @@
     "lng": 139.154,
     "slug": "mount-mitake",
     "nameZh": "御岳山",
+    "nameZhTw": "御嶽山",
     "imageUrl": "/images/landmarks/mount-mitake.webp",
     "description": {
       "en": "Mount Mitake, a 929‑metre peak tucked inside Chichibu‑Tama‑Kai National Park just outside Tokyo, blends refreshing mountain trails with deep spiritual history. At the summit a centuries‑old Shinto shrine still practices traditional rites such as futomani divination, so visitors can pair a brisk hike with a glimpse of living Japanese faith.",
@@ -1266,6 +1340,7 @@
     "lng": 139.0899,
     "slug": "okutama",
     "nameZh": "奥多摩",
+    "nameZhTw": "奧多摩",
     "imageUrl": "/images/landmarks/okutama.webp",
     "description": {
       "en": "Nestled about 60 km west of the Imperial Palace, Okutama feels worlds away from Tokyo—its small population and wide-open forests make it a true nature retreat. Hike riverside trails, soak up seasonal colors, and recharge with fresh mountain air on a peaceful weekend escape.",
@@ -1283,6 +1358,7 @@
     "lng": 139.6314,
     "slug": "saitama-super-arena",
     "nameZh": "埼玉超级竞技场",
+    "nameZhTw": "埼玉超級競技場",
     "imageUrl": "/images/landmarks/saitama-super-arena.webp",
     "description": {
       "en": "Saitama Super Arena is a striking, multi-purpose venue just outside Tokyo where you can catch huge concerts, thrilling sports or major events in a space that can hold up to 36,500 people. Its flexible main arena (19,000–22,500 capacity) means shows can feel intimate or epic depending on the setup — a must-visit for music fans and event-goers alike.",
@@ -1300,6 +1376,7 @@
     "lng": 139.6185,
     "slug": "railway-museum",
     "nameZh": "铁道博物馆",
+    "nameZhTw": "鐵道博物館",
     "imageUrl": "/images/landmarks/railway-museum.webp",
     "description": {
       "en": "The Railway Museum in Saitama is a spacious JR East–affiliated museum opened in 2007, featuring nearly 9,500 m² of indoor exhibition space that tells the story of Japan’s railways. Visitors can see full-size trains up close and explore informative displays that make the evolution of rail travel easy and engaging for all ages.",
@@ -1317,6 +1394,7 @@
     "lng": 139.087,
     "slug": "chichibu-shrine",
     "nameZh": "秩父神社",
+    "nameZhTw": "秩父神社",
     "imageUrl": "/images/landmarks/chichibu-shrine.webp",
     "description": {
       "en": "Nestled in Chichibu, Saitama, Chichibu Shrine is a serene Shinto sanctuary where traditional architecture and quiet grounds invite a peaceful pause. Stroll beneath its torii gates, enjoy the seasonal atmosphere, and soak up the local spiritual character of the town.",
@@ -1334,6 +1412,7 @@
     "lng": 139.7178,
     "slug": "meiji-jingu-gaien",
     "nameZh": "明治神宫外苑",
+    "nameZhTw": "明治神宮外苑",
     "imageUrl": "/images/landmarks/meiji-jingu-gaien.webp",
     "description": {
       "en": "Meiji Jingu Gaien is a leafy, welcoming green space beside Meiji Shrine that’s beloved for its wide tree-lined avenues and seasonal beauty — especially the golden ginkgo tunnel in autumn. It’s a great spot to stroll, picnic or visit nearby sports and cultural facilities while enjoying a calmer side of Tokyo.",
@@ -1351,6 +1430,7 @@
     "lng": 139.7189,
     "slug": "sunshine-aquarium",
     "nameZh": "阳光水族馆",
+    "nameZhTw": "陽光水族館",
     "imageUrl": "/images/landmarks/sunshine-aquarium.webp",
     "description": {
       "en": "Sunshine Aquarium perches atop the World Import Mart in Tokyo’s lively Sunshine City, offering a rare urban aquarium experience where marine life meets city skyline. Renovated and modern, it features intimate, up-close displays and a rooftop area with great views — a fun stop for families and city explorers alike.",
@@ -1368,6 +1448,7 @@
     "lng": 139.6988,
     "slug": "shibuya-109",
     "nameZh": "涩谷109",
+    "nameZhTw": "澀谷109",
     "imageUrl": "/images/landmarks/shibuya-109.webp",
     "description": {
       "en": "Shibuya 109 is a must-visit department store in the heart of Shibuya, known for its concentrated lineup of trendy boutiques and youth-focused fashion. Wander through multiple floors of cutting-edge styles and accessories, pick up something bold, and soak up the vibrant street-energy that defines Tokyo shopping culture.",
@@ -1385,6 +1466,7 @@
     "lng": 139.7454,
     "slug": "tokyo-tower-observatory",
     "nameZh": "东京塔观景台",
+    "nameZhTw": "東京塔觀景臺",
     "imageUrl": "/images/landmarks/tokyo-tower-observatory.webp",
     "description": {
       "en": "Perched in Minato, Tokyo Tower’s bright white-and-orange lattice silhouette—inspired by the Eiffel Tower—has been an iconic part of the skyline since 1958. Ride up to the main and special observatories for sweeping daytime panoramas and glittering nighttime views; the tower’s retro charm and citywide vistas make it a must-see for first-time visitors and photographers.",
@@ -1402,6 +1484,7 @@
     "lng": 139.8011,
     "slug": "sumida-river",
     "nameZh": "隅田川",
+    "nameZhTw": "隅田川",
     "imageUrl": "/images/landmarks/sumida-river.webp",
     "description": {
       "en": "The Sumida River cuts a scenic ribbon through central Tokyo, offering peaceful riverside walks beneath a string of historic bridges and dramatic skyline views. Hop on a leisurely cruise from Asakusa to Tokyo Bay, or visit in spring for cherry blossoms and in summer for the famous Sumida River fireworks to make your trip unforgettable.",
@@ -1419,6 +1502,7 @@
     "lng": 139.7929,
     "slug": "ryogoku-kokugikan",
     "nameZh": "两国国技馆",
+    "nameZhTw": "兩國國技館",
     "imageUrl": "/images/landmarks/ryogoku-kokugikan.webp",
     "description": {
       "en": "Ryōgoku Kokugikan is Tokyo’s iconic sumo arena with a two-part history: the first hall opened at Ekōin in 1909 and stayed in use in various roles until 1983, while the current Kokugikan opened in 1985 in Yokoami next to the Edo-Tokyo Museum. Visit to soak up the electric atmosphere of live sumo tournaments, witness the ritual ring-entering ceremonies, and combine the experience with a stroll through the nearby museum.",
@@ -1436,6 +1520,7 @@
     "lng": 139.6457,
     "slug": "hakkeijima-sea-paradise",
     "nameZh": "八景岛海岛乐园",
+    "nameZhTw": "八景島海島樂園",
     "imageUrl": "/images/landmarks/hakkeijima-sea-paradise.webp",
     "description": {
       "en": "Hakkeijima Sea Paradise is a one-stop ocean playground in Yokohama where a huge aquarium and dolphin shows sit alongside seaside amusement rides, shops, a hotel and a marina. It’s ideal for families and couples who want up-close marine encounters, fun attractions and waterfront views all in one day.",

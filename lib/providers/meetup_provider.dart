@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../config/constants.dart';
 import '../models/station.dart';
 import '../models/meetup_result.dart';
 import 'app_providers.dart';
@@ -136,10 +137,13 @@ class MeetupSearchNotifier extends StateNotifier<MeetupSearchState> {
   }
 
   void setCategory(String? category) {
+    // Keys must be ones the web accepts (see AppConstants.normalizeCategory).
+    category = AppConstants.normalizeCategory(category);
     state = state.copyWith(category: category, clearCategory: category == null);
   }
 
   void setBudget(String? budget) {
+    budget = AppConstants.normalizeBudget(budget);
     state = state.copyWith(budget: budget, clearBudget: budget == null);
   }
 

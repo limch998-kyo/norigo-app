@@ -25,7 +25,9 @@ class AppConstants {
   static const String modeMinTotal = 'minTotal';
   static const String modeBalanced = 'balanced';
 
-  // Restaurant categories
+  // Restaurant categories. Keys are the web's HotPepper genre keys
+  // (project_meetup src/lib/utils/constants.ts CATEGORIES); a key the web
+  // does not know is silently ignored by /api/recommend, so keep them equal.
   static const Map<String, Map<String, String>> categories = {
     'izakaya': {'ja': '居酒屋', 'en': 'Izakaya', 'ko': '이자카야', 'zh': '居酒屋', 'fr': 'Izakaya'},
     'japanese': {'ja': '和食', 'en': 'Japanese', 'ko': '일식', 'zh': '日料', 'fr': 'Japonais'},
@@ -33,19 +35,53 @@ class AppConstants {
     'chinese': {'ja': '中華', 'en': 'Chinese', 'ko': '중식', 'zh': '中餐', 'fr': 'Chinois'},
     'korean': {'ja': '韓国料理', 'en': 'Korean', 'ko': '한식', 'zh': '韩餐', 'fr': 'Coréen'},
     'yakiniku': {'ja': '焼肉', 'en': 'Yakiniku', 'ko': '야키니쿠', 'zh': '烤肉', 'fr': 'Yakiniku'},
-    'ramen': {'ja': 'ラーメン', 'en': 'Ramen', 'ko': '라멘', 'zh': '拉面', 'fr': 'Ramen'},
     'cafe': {'ja': 'カフェ', 'en': 'Cafe', 'ko': '카페', 'zh': '咖啡厅', 'fr': 'Café'},
+    'bar': {'ja': 'バー', 'en': 'Bar', 'ko': '바', 'zh': '酒吧', 'fr': 'Bar'},
   };
 
-  // Restaurant budgets
+  /// Category keys this app used before 2.0.1 that the web never had.
+  /// 'ramen' matched no HotPepper genre, so the search ran unfiltered.
+  static const Map<String, String?> _legacyCategories = {'ramen': null};
+
+  /// Maps a stored, shared or deep-linked category to a key the web accepts
+  /// (null = no category).
+  static String? normalizeCategory(String? key) {
+    if (key == null || key.isEmpty || key == 'any') return null;
+    if (categories.containsKey(key)) return key;
+    return _legacyCategories[key];
+  }
+
+  // Restaurant budgets (per person). Keys are the web's BUDGETS keys
+  // (project_meetup src/lib/utils/constants.ts); /api/recommend looks the
+  // key up in BUDGET_MAX_YEN and treats anything else as "no limit", so a
+  // key of our own would turn the choice into a no-op.
   static const Map<String, Map<String, String>> budgets = {
-    '2000': {'ja': '〜2,000円', 'en': '~¥2,000', 'ko': '~2,000엔 (약 ₩18,000)', 'zh': '~¥2,000', 'fr': '~¥2 000 (~15€)'},
-    '3000': {'ja': '〜3,000円', 'en': '~¥3,000', 'ko': '~3,000엔 (약 ₩27,000)', 'zh': '~¥3,000', 'fr': '~¥3 000 (~20€)'},
-    '4000': {'ja': '〜4,000円', 'en': '~¥4,000', 'ko': '~4,000엔 (약 ₩36,000)', 'zh': '~¥4,000', 'fr': '~¥4 000 (~25€)'},
-    '5000': {'ja': '〜5,000円', 'en': '~¥5,000', 'ko': '~5,000엔 (약 ₩45,000)', 'zh': '~¥5,000', 'fr': '~¥5 000 (~30€)'},
-    '8000': {'ja': '〜8,000円', 'en': '~¥8,000', 'ko': '~8,000엔 (약 ₩72,000)', 'zh': '~¥8,000', 'fr': '~¥8 000 (~50€)'},
-    '10000': {'ja': '10,000円〜', 'en': '¥10,000+', 'ko': '10,000엔~ (₩90,000~)', 'zh': '¥10,000+', 'fr': '¥10 000+ (65€+)'},
+    'under2000': {'ja': '〜2,000円', 'en': '~¥2,000', 'ko': '~2,000엔 (약 ₩18,000)', 'zh': '~¥2,000', 'zh-TW': '~2,000日圓', 'fr': '~¥2 000 (~15€)'},
+    'under3000': {'ja': '〜3,000円', 'en': '~¥3,000', 'ko': '~3,000엔 (약 ₩27,000)', 'zh': '~¥3,000', 'zh-TW': '~3,000日圓', 'fr': '~¥3 000 (~20€)'},
+    'under4000': {'ja': '〜4,000円', 'en': '~¥4,000', 'ko': '~4,000엔 (약 ₩36,000)', 'zh': '~¥4,000', 'zh-TW': '~4,000日圓', 'fr': '~¥4 000 (~25€)'},
+    'under5000': {'ja': '〜5,000円', 'en': '~¥5,000', 'ko': '~5,000엔 (약 ₩45,000)', 'zh': '~¥5,000', 'zh-TW': '~5,000日圓', 'fr': '~¥5 000 (~30€)'},
+    'over5000': {'ja': '5,000円〜', 'en': '¥5,000+', 'ko': '5,000엔~ (₩45,000~)', 'zh': '¥5,000+', 'zh-TW': '5,000日圓~', 'fr': '¥5 000+ (30€+)'},
   };
+
+  /// Budget keys this app used before 2.0.1 ('2000' … '10000'), mapped to
+  /// the web's keys so old saved searches, share links and deep links keep
+  /// their meaning.
+  static const Map<String, String> _legacyBudgets = {
+    '2000': 'under2000',
+    '3000': 'under3000',
+    '4000': 'under4000',
+    '5000': 'under5000',
+    '8000': 'over5000',
+    '10000': 'over5000',
+  };
+
+  /// Maps a stored, shared or deep-linked budget to a key the web accepts
+  /// (null = no budget).
+  static String? normalizeBudget(String? key) {
+    if (key == null || key.isEmpty || key == 'any') return null;
+    if (budgets.containsKey(key)) return key;
+    return _legacyBudgets[key];
+  }
 
   // Stay budgets (matching web STAY_BUDGETS_JP / STAY_BUDGETS_KR exactly)
   static const List<String> stayBudgetsJp = ['any', 'under10000', '10000-30000', '30000-50000', 'over50000'];

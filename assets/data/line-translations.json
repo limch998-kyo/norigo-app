@@ -732,72 +732,86 @@
   "1호선": {
     "en": "Seoul Metro Line 1",
     "ja": "ソウル1号線",
-    "ko": "1호선"
+    "ko": "1호선",
+    "zh": "首尔地铁1号线"
   },
   "2호선": {
     "en": "Seoul Metro Line 2",
     "ja": "ソウル2号線",
-    "ko": "2호선"
+    "ko": "2호선",
+    "zh": "首尔地铁2号线"
   },
   "3호선": {
     "en": "Seoul Metro Line 3",
     "ja": "ソウル3号線",
-    "ko": "3호선"
+    "ko": "3호선",
+    "zh": "首尔地铁3号线"
   },
   "4호선": {
     "en": "Seoul Metro Line 4",
     "ja": "ソウル4号線",
-    "ko": "4호선"
+    "ko": "4호선",
+    "zh": "首尔地铁4号线"
   },
   "5호선": {
     "en": "Seoul Metro Line 5",
     "ja": "ソウル5号線",
-    "ko": "5호선"
+    "ko": "5호선",
+    "zh": "首尔地铁5号线"
   },
   "6호선": {
     "en": "Seoul Metro Line 6",
     "ja": "ソウル6号線",
-    "ko": "6호선"
+    "ko": "6호선",
+    "zh": "首尔地铁6号线"
   },
   "7호선": {
     "en": "Seoul Metro Line 7",
     "ja": "ソウル7号線",
-    "ko": "7호선"
+    "ko": "7호선",
+    "zh": "首尔地铁7号线"
   },
   "8호선": {
     "en": "Seoul Metro Line 8",
     "ja": "ソウル8号線",
-    "ko": "8호선"
+    "ko": "8호선",
+    "zh": "首尔地铁8号线"
   },
   "9호선": {
     "en": "Seoul Metro Line 9",
     "ja": "ソウル9号線",
-    "ko": "9호선"
+    "ko": "9호선",
+    "zh": "首尔地铁9号线"
   },
   "신분당선": {
     "en": "Shinbundang Line",
     "ja": "新盆唐線",
-    "ko": "신분당선"
+    "ko": "신분당선",
+    "zh": "新盆唐线"
   },
   "경의중앙선": {
     "en": "Gyeongui-Jungang Line",
     "ja": "京義中央線",
-    "ko": "경의중앙선"
+    "ko": "경의중앙선",
+    "zh": "京义中央线"
   },
   "수인분당선": {
     "en": "Suin-Bundang Line",
     "ja": "水仁盆唐線",
-    "ko": "수인분당선"
+    "ko": "수인분당선",
+    "zh": "水仁盆唐线"
   },
   "공항철도": {
     "en": "Airport Railroad (AREX)",
-    "ja": "空港鉄道",
-    "ko": "공항철도"
+    "ja": "空港鉄道 (A'REX)",
+    "ko": "공항철도",
+    "zh": "机场铁路 (A'REX)"
   },
   "우이신설선": {
     "en": "Ui-Sinseol Line",
     "ja": "牛耳新設線",
-    "ko": "우이신설선"
+    "ko": "우이신설선",
+    "zh": "牛耳新设线"
   },
   "井の頭線": {
     "en": "Keio Inokashira Line",
@@ -891,8 +905,7 @@
   },
   "銚子電気鉄道線": {
     "en": "Choshi Electric Railway",
-    "ko": "초시 전기철도선",
-    "zh": "�的子电气铁道线"
+    "ko": "초시 전기철도선"
   },
   "大月線": {
     "en": "Fujikyu Line",
@@ -906,8 +919,7 @@
   },
   "駿豆線": {
     "en": "Sunzu Line",
-    "ko": "순즈선",
-    "zh": "�的�的线"
+    "ko": "순즈선"
   },
   "伊豆急行線": {
     "en": "Izukyu Line",
@@ -951,8 +963,7 @@
   },
   "大洗鹿島線": {
     "en": "Kashima Rinkai Railway",
-    "ko": "오아라이카시마선",
-    "zh": "大洗�的岛线"
+    "ko": "오아라이카시마선"
   },
   "小湊鐵道線": {
     "en": "Kominato Railway",
@@ -1006,8 +1017,7 @@
   },
   "日豊線": {
     "en": "JR Nippo Line",
-    "ko": "JR 닛포선",
-    "zh": "JR日�的线"
+    "ko": "JR 닛포선"
   },
   "長崎線": {
     "en": "JR Nagasaki Line",
@@ -1051,8 +1061,7 @@
   },
   "指宿枕崎線": {
     "en": "JR Ibusuki-Makurazaki Line",
-    "ko": "JR 이부스키마쿠라자키선",
-    "zh": "JR指宿�的崎线"
+    "ko": "JR 이부스키마쿠라자키선"
   },
   "筑肥線": {
     "en": "JR Chikuhi Line",
@@ -1081,8 +1090,7 @@
   },
   "篠栗線": {
     "en": "JR Sasaguri Line",
-    "ko": "JR 사사구리선",
-    "zh": "JR�的栗线"
+    "ko": "JR 사사구리선"
   },
   "三角線": {
     "en": "JR Misumi Line",
@@ -1156,8 +1164,7 @@
   },
   "甘木線": {
     "en": "Nishitetsu Amagi Line",
-    "ko": "니시테쓰 아마기선",
-    "zh": "西铁�的木线"
+    "ko": "니시테쓰 아마기선"
   },
   "貝塚線": {
     "en": "Nishitetsu Kaizuka Line",
@@ -1171,8 +1178,7 @@
   },
   "2号線(箱崎線)": {
     "en": "Fukuoka Subway Hakozaki Line",
-    "ko": "후쿠오카 지하철 하코자키선",
-    "zh": "福冈地铁�的崎线"
+    "ko": "후쿠오카 지하철 하코자키선"
   },
   "3号線(七隈線)": {
     "en": "Fukuoka Subway Nanakuma Line",
@@ -1311,7 +1317,72 @@
   },
   "帆柱ケーブル線": {
     "en": "Sarakura Cable Car",
-    "ko": "사라쿠라 케이블카",
-    "zh": "皿�,山缆车"
+    "ko": "사라쿠라 케이블카"
+  },
+  "부산교통공사|1호선": {
+    "en": "Busan Metro Line 1",
+    "ja": "釜山1号線",
+    "ko": "1호선",
+    "zh": "釜山地铁1号线"
+  },
+  "부산교통공사|2호선": {
+    "en": "Busan Metro Line 2",
+    "ja": "釜山2号線",
+    "ko": "2호선",
+    "zh": "釜山地铁2号线"
+  },
+  "부산교통공사|3호선": {
+    "en": "Busan Metro Line 3",
+    "ja": "釜山3号線",
+    "ko": "3호선",
+    "zh": "釜山地铁3号线"
+  },
+  "부산교통공사|4호선": {
+    "en": "Busan Metro Line 4",
+    "ja": "釜山4号線",
+    "ko": "4호선",
+    "zh": "釜山地铁4号线"
+  },
+  "인천1호선": {
+    "en": "Incheon Line 1",
+    "ja": "仁川1号線",
+    "ko": "인천1호선",
+    "zh": "仁川地铁1号线"
+  },
+  "인천2호선": {
+    "en": "Incheon Line 2",
+    "ja": "仁川2号線",
+    "ko": "인천2호선",
+    "zh": "仁川地铁2号线"
+  },
+  "경춘선": {
+    "en": "Gyeongchun Line",
+    "ja": "京春線",
+    "ko": "경춘선",
+    "zh": "京春线"
+  },
+  "9호선급행": {
+    "en": "Seoul Metro Line 9 Express",
+    "ja": "ソウル9号線 急行",
+    "ko": "9호선 급행",
+    "zh": "首尔地铁9号线 急行"
+  },
+  "2호선성수지선": {
+    "en": "Line 2 Seongsu Branch",
+    "ja": "2号線 聖水支線",
+    "ko": "2호선 성수지선",
+    "zh": "2号线 圣水支线"
+  },
+  "2호선신정지선": {
+    "en": "Line 2 Sinjeong Branch",
+    "ja": "2号線 新亭支線",
+    "ko": "2호선 신정지선",
+    "zh": "2号线 新亭支线"
+  },
+  "공항철도직통": {
+    "en": "AREX Express",
+    "ja": "空港鉄道 直通列車",
+    "ko": "공항철도 직통",
+    "zh": "机场铁路 直通列车"
   }
 }
